@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue: #0A2540;
+  --color-brand-teal: #00D4B2;
+  --color-brand-cyan: #00A3E0;
+  --color-brand-dark: #050f19;
+  --color-brand-gray-light: #F4F6F8;
+  --color-brand-gray-dark: #2A3644;
+  --color-brand-green: #379A35;
+  --color-brand-green-dark: #287526;
+  --color-brand-green-light: #EBF7EB;
+  
+  --font-sans: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.shadow-green-glow {
+  box-shadow: 0 0 16px rgba(55, 154, 53, 0.4), 0 2px 8px rgba(55, 154, 53, 0.2) !important;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0A2540;
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --border-color: #E2E8F0;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-panel-dark {
+  background: rgba(10, 37, 64, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Mega menu styles */
+.mega-menu-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.mega-menu-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* 
+  Enlarge sub-page content elements dynamically for premium readability.
+  This scales text inside all dynamic inner submenu layouts (e.g. .lg\:col-span-4 content containers).
+*/
+aside nav a, 
+aside h3, 
+aside h4,
+.lg\:col-span-4 h2,
+.lg\:col-span-4 h3,
+.lg\:col-span-4 h4,
+.lg\:col-span-4 h5,
+.lg\:col-span-4 p,
+.lg\:col-span-4 li,
+.lg\:col-span-4 td,
+.lg\:col-span-4 th,
+.lg\:col-span-4 table,
+.lg\:col-span-4 label,
+.lg\:col-span-4 input,
+.lg\:col-span-4 textarea,
+.lg\:col-span-4 button,
+.lg\:col-span-4 span:not(.font-sans) {
+  font-size: 0.93em;
+  line-height: 1.625;
+}
+
+/* Enforce title size proportions */
+.lg\:col-span-4 h2 {
+  font-size: 1.75rem !important;
+}
+
+.lg\:col-span-4 h3 {
+  font-size: 1.25rem !important;
+}
+
+.lg\:col-span-4 h4 {
+  font-size: 1.1rem !important;
+}
+
+.lg\:col-span-4 h5 {
+  font-size: 0.95rem !important;
+}
+
+/* Rich Text Editor Content Display Styles */
+.rich-text-content h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #0A2540;
+}
+.rich-text-content h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 0.8rem;
+  margin-bottom: 0.4rem;
+  color: #0A2540;
+}
+.rich-text-content h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 0.6rem;
+  margin-bottom: 0.3rem;
+  color: #0A2540;
+}
+.rich-text-content p {
+  margin-bottom: 0.6rem;
+  line-height: 1.625;
+}
+.rich-text-content strong {
+  font-weight: 700;
+}
+.rich-text-content em {
+  font-style: italic;
+}
+.rich-text-content u {
+  text-decoration: underline;
+}
+.rich-text-content s {
+  text-decoration: line-through;
+}
+.rich-text-content ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 0.6rem;
+}
+.rich-text-content ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  margin-bottom: 0.6rem;
+}
+.rich-text-content a {
+  color: #00A3E0;
+  text-decoration: underline;
+  font-weight: 700;
+  word-break: break-all;
+}
+.rich-text-content a:hover {
+  color: #379A35;
+}
+
+/* Alignments inside Rich Text Content */
+.rich-text-content .ql-align-center {
+  text-align: center;
+}
+.rich-text-content .ql-align-right {
+  text-align: right;
+}
+.rich-text-content .ql-align-justify {
+  text-align: justify;
+}
+.rich-text-content .ql-align-left {
+  text-align: left;
+}
+
+/* Custom Fonts for Rich Text content rendering */
+.ql-font-notosanskr, .rich-text-content .ql-font-notosanskr { font-family: 'Noto Sans KR', sans-serif; }
+.ql-font-nanumgothic, .rich-text-content .ql-font-nanumgothic { font-family: 'Nanum Gothic', sans-serif; }
+.ql-font-nanummyeongjo, .rich-text-content .ql-font-nanummyeongjo { font-family: 'Nanum Myeongjo', serif; }
+.ql-font-gowunbatang, .rich-text-content .ql-font-gowunbatang { font-family: 'Gowun Batang', serif; }
+.ql-font-gowundodum, .rich-text-content .ql-font-gowundodum { font-family: 'Gowun Dodum', sans-serif; }
+.ql-font-blackhansans, .rich-text-content .ql-font-blackhansans { font-family: 'Black Han Sans', sans-serif; }
+.ql-font-jua, .rich-text-content .ql-font-jua { font-family: 'Jua', sans-serif; }
+.ql-font-nanumpenscript, .rich-text-content .ql-font-nanumpenscript { font-family: 'Nanum Pen Script', cursive; }
+
+/* Custom Font Labels in Quill Dropdown */
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="notosanskr"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="notosanskr"]::before {
+  content: 'Noto Sans KR' !important;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="nanumgothic"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="nanumgothic"]::before {
+  content: '나눔고딕' !important;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="nanummyeongjo"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="nanummyeongjo"]::before {
+  content: '나눔명조' !important;
+  font-family: 'Nanum Myeongjo', serif;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="gowunbatang"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="gowunbatang"]::before {
+  content: '고운바탕' !important;
+  font-family: 'Gowun Batang', serif;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="gowundodum"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="gowundodum"]::before {
+  content: '고운돋움' !important;
+  font-family: 'Gowun Dodum', sans-serif;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="blackhansans"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="blackhansans"]::before {
+  content: '검은고딕' !important;
+  font-family: 'Black Han Sans', sans-serif;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="jua"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="jua"]::before {
+  content: '주아체' !important;
+  font-family: 'Jua', sans-serif;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="nanumpenscript"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="nanumpenscript"]::before {
+  content: '나눔손글씨' !important;
+  font-family: 'Nanum Pen Script', cursive;
+}
+
+@keyframes ken-burns {
+  0% {
+    transform: scale(1.02) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(1%, -0.5%);
+  }
+  100% {
+    transform: scale(1.02) translate(0, 0);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 40s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-25px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes float-medium {
+  0% {
+    transform: translateY(0px) scale(1) translateX(0);
+  }
+  50% {
+    transform: translateY(-20px) scale(0.95) translateX(15px);
+  }
+  100% {
+    transform: translateY(0px) scale(1) translateX(0);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 15s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float-medium 12s ease-in-out infinite;
+}
+
+
+

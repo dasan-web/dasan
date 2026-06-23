@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>다산제약 | 의약품 CDMO 기업</title>
+  <!-- Google Fonts & Tailwind CSS CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandGreen: '#379A35',
+            brandGreenDark: '#2E872D',
+            brandCyan: '#00A896',
+            brandBlue: '#0E2038',
+            samsungBlue: '#0A2540',
+            samsungBlueLight: '#00D4B2',
+          },
+          fontFamily: {
+            sans: ['Noto Sans KR', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .transition-all-custom {
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    /* 5D Optical Prism Flare effects */
+    @keyframes colorWarp {
+      0% { filter: hue-rotate(0deg) saturate(1.1); }
+      50% { filter: hue-rotate(15deg) saturate(1.35) contrast(1.05); }
+      100% { filter: hue-rotate(0deg) saturate(1.1); }
+    }
+    
+    .premium-video-wrapper {
+      animation: colorWarp 8s ease-in-out infinite;
+      will-change: filter;
+    }
+
+    /* Soft ambient glowing lights for depth layer */
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.35; transform: scale(1) translate3d(0,0,0); }
+      50% { opacity: 0.65; transform: scale(1.15) translate3d(20px, -10px, 0); }
+    }
+    .ambient-glow-1 {
+      animation: glowPulse 10s ease-in-out infinite;
+    }
+    .ambient-glow-2 {
+      animation: glowPulse 14s ease-in-out infinite;
+      animation-delay: 2.5s;
+    }
+
+    /* Dual video layout styles */
+    .video-split-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .video-pane {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Elegant diagonal split overlay line */
+    .split-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1.5px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.4), transparent);
+      z-index: 25;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans bg-white antialiased overflow-x-hidden text-slate-800">
+
+  <!-- Header GNB (Clean Modern Style matching Samsung Biologics) -->
+  <header class="w-full bg-white/90 border-b border-slate-100/60 shadow-none z-50 sticky top-0 backdrop-blur-xl transition-all duration-300">
+    <div class="w-full px-6 md:px-16 lg:px-24">
+      <div class="flex items-center justify-between h-24">
+        <div class="flex-shrink-0">
+          <a class="flex items-center" href="/">
+            <img src="public/dasan_logo_raw.png" alt="다산제약" class="h-12 lg:h-14 w-auto" style="image-rendering:-webkit-optimize-contrast" onerror="this.src='dasan_logo_raw.png'"/>
+          </a>
+        </div>
+        
+        <nav class="hidden lg:flex space-x-12 h-full items-center text-[15px] font-bold text-slate-650">
+          <a class="relative py-2 text-slate-900 hover:text-[#379A35] transition-colors duration-300 group" href="#">
+            About Us
+            <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#379A35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+          </a>
+          <a class="relative py-2 hover:text-[#379A35] transition-colors duration-300 group" href="#">
+            Our Services
+            <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#379A35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+          </a>
+          <a class="relative py-2 hover:text-[#379A35] transition-colors duration-300 group" href="#">
+            Careers
+            <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#379A35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+          </a>
+          <a class="relative py-2 hover:text-[#379A35] transition-colors duration-300 group" href="#">
+            Sustainability
+            <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#379A35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+          </a>
+          <a class="relative py-2 hover:text-[#379A35] transition-colors duration-300 group" href="#">
+            Investors
+            <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#379A35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+          </a>
+          <a class="relative py-2 hover:text-[#379A35] transition-colors duration-300 group" href="#">
+            Newsroom
+            <span class="absolute bottom-0 left-0 w-full h-[2px] bg-[#379A35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+          </a>
+        </nav>
+
+        <div class="hidden lg:flex items-center space-x-6 text-xs font-bold text-slate-500">
+          <div class="flex items-center space-x-2">
+            <span class="text-slate-800 cursor-pointer">KOR</span>
+            <span class="text-slate-300">|</span>
+            <a href="#" class="hover:text-[#379A35] transition-colors">ENG</a>
+          </div>
+          <a href="#" class="border border-[#379A35] hover:bg-[#379A35] hover:text-white text-[#379A35] font-bold px-6 py-2.5 rounded-full transition-all duration-300 text-xs">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section with Dual Video Split Layout -->
+  <section id="hero" class="relative w-full h-[90vh] md:h-[calc(100vh-80px)] overflow-hidden flex items-center bg-white">
+    
+    <!-- Fullscreen Custom Video Background (20260619.mp4) -->
+    <div class="absolute inset-0 z-0 overflow-hidden bg-slate-950">
+      <video 
+        autoplay 
+        loop 
+        muted 
+        playsinline 
+        class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-90"
+      >
+        <source src="public/20260619.mp4" type="video/mp4">
+        <source src="./public/20260619.mp4" type="video/mp4">
+      </video>
+      <!-- Premium clean overlay matching Dasan style (gradient from white for text contrast) -->
+      <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-10"></div>
+    </div>
+
+    <!-- Content Container (Samsung Biologics Typography and Layout Style) -->
+    <div class="relative z-30 w-full px-6 md:px-16 lg:px-24">
+      <div class="w-full text-left space-y-8 max-w-4xl">
+        
+        <!-- Main Headline -->
+        <div class="space-y-4">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-outfit text-samsungBlue tracking-tight leading-none">
+            Driven. For Life.
+          </h1>
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#74b816] tracking-tight leading-snug">
+            고품질의 바이오의약품으로<br>인류의 더 건강한 내일을 만들어 갑니다.
+          </h2>
+        </div>
+
+        <!-- Korean Paragraph Description -->
+        <p class="text-sm sm:text-base md:text-lg leading-relaxed text-slate-600 max-w-2xl font-medium pt-1">
+          다산제약은 세계 수준 of 고품질 원료 및 완제의약품 생산 능력을 기반으로 후보 물질 연구부터 상업 생산까지 
+          엔드 투 엔드(End-to-end) CDMO 서비스를 제공합니다. 끊임없는 혁신과 도전으로 고품질의 의약품을 
+          안정적으로 공급하며 생명을 향한 의지를 더해 나갑니다.
+        </p>
+
+        <!-- Dynamic Landing Buttons -->
+        <div class="pt-4 flex flex-wrap gap-4 font-bold text-sm">
+          <a href="#" class="inline-block bg-white/85 hover:bg-white border border-slate-250 text-slate-800 px-8 py-3.5 rounded-full transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+            About Us
+          </a>
+          <a href="#" class="inline-block bg-white/85 hover:bg-white border border-slate-250 text-slate-800 px-8 py-3.5 rounded-full transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+            Newsroom
+          </a>
+          <a href="#" class="inline-block bg-[#00A896] hover:bg-[#008f80] text-white px-8 py-3.5 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="w-full border-t border-slate-100 bg-slate-50/50 py-6 text-center text-[11px] font-semibold text-slate-400">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span>다산제약 맞춤 비디오인 20260619.mp4 영상이 풀스크린 전체 배경화면으로 적용된 프리미엄 시안.</span>
+      </div>
+      <div>
+        <span>© 2026 DASAN PHARMACEUTICAL CO., LTD. ALL RIGHTS RESERVED.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Force Play Script for Local file:/// Autoplay Block Bypass -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        video.muted = true;
+        video.autoplay = true;
+        
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            console.log("Video playing");
+          }).catch(error => {
+            const forcePlayOnInteraction = () => {
+              video.play();
+              document.removeEventListener('click', forcePlayOnInteraction);
+              document.removeEventListener('touchstart', forcePlayOnInteraction);
+            };
+            document.addEventListener('click', forcePlayOnInteraction);
+            document.addEventListener('touchstart', forcePlayOnInteraction);
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
