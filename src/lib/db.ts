@@ -4,6 +4,8 @@ const globalForDb = global as unknown as { pool: mysql.Pool };
 
 export function getDbPool() {
   if (!globalForDb.pool) {
+    const isLocal = !process.env.DB_HOST || process.env.DB_HOST === 'localhost' || process.env.DB_HOST === '127.0.0.1';
+    
     globalForDb.pool = mysql.createPool({
       host: process.env.DB_HOST || 'localhost',
       port: parseInt(process.env.DB_PORT || '3306'),
@@ -13,6 +15,7 @@ export function getDbPool() {
       waitForConnections: true,
       connectionLimit: 5,
       queueLimit: 0,
+      ssl: isLocal ? undefined : { rejectUnauthorized: false }
     });
   }
   return globalForDb.pool;

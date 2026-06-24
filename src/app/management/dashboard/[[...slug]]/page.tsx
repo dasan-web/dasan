@@ -85,6 +85,7 @@ export default function AdminDashboardPage() {
   const [newsList, setNewsList] = useState<any[]>([]);
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [dashboardStats, setDashboardStats] = useState<any>(null);
+  const [showVisitorModal, setShowVisitorModal] = useState(false);
 
   // Static content state
   const [staticContent, setStaticContent] = useState('');
@@ -4853,15 +4854,18 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       </div>
                       <p className="text-[10px] text-gray-400">어제 ({dashboardStats?.yesterdayCount ?? 0}명) 대비</p>
                     </div>
-                    <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-5 shadow-sm space-y-2">
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">누적 방문자수 (IP 기준)</span>
+                    <div 
+                      onClick={() => setShowVisitorModal(true)}
+                      className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-5 shadow-sm space-y-2 hover:border-brand-cyan hover:shadow-xs transition-all cursor-pointer group"
+                    >
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block group-hover:text-brand-cyan transition-colors">누적 방문자수 (IP 기준)</span>
                       <div className="flex items-baseline space-x-2">
                         <span className="text-3xl font-black text-brand-cyan drop-shadow-[0_0_8px_rgba(0,163,224,0.3)]">
                           {Number(dashboardStats?.totalCount ?? 0).toLocaleString()}
                         </span>
                         <span className="text-[10px] text-brand-teal font-extrabold uppercase">전체 누적</span>
                       </div>
-                      <p className="text-[10px] text-gray-400">개설 이후 누적 유니크 IP 수</p>
+                      <p className="text-[10px] text-gray-400 group-hover:underline">개설 이후 누적 유니크 IP 수 (클릭 시 세부내역)</p>
                     </div>
                     <div 
                       onClick={() => router.push('/management/dashboard/contact/inquiry/check')}
@@ -5604,6 +5608,62 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
               </div>
 
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* 누적 방문자 상세 모달 */}
+      {showVisitorModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-[#0a1120] border border-white/10 w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 className="text-sm font-black text-white">누적 방문자 상세 내역 (IP 기준)</h3>
+              <button 
+                onClick={() => setShowVisitorModal(false)}
+                className="text-gray-400 hover:text-white transition-colors cursor-pointer text-xs"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="max-h-80 overflow-y-auto space-y-2 pr-1">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-white/5 text-gray-400 font-bold">
+                    <th className="py-2.5">방문일 (년월일)</th>
+                    <th className="py-2.5 text-center">방문 인원수</th>
+                    <th className="py-2.5 pl-4">방문 IP 목록</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {(dashboardStats?.uniqueVisitors || []).map((v: any, idx: number) => (
+                    <tr key={idx} className="text-gray-300 hover:bg-white/5 transition-colors">
+                      <td className="py-3 font-mono font-bold text-brand-cyan">{v.visit_date}</td>
+                      <td className="py-3 font-mono font-bold text-emerald-400 text-center">{v.visitor_count}명</td>
+                      <td className="py-3 font-mono text-[10px] text-gray-400 truncate max-w-[220px] pl-4" title={v.ips}>
+                        {v.ips}
+                      </td>
+                    </tr>
+                  ))}
+                  {(!dashboardStats?.uniqueVisitors || dashboardStats.uniqueVisitors.length === 0) && (
+                    <tr>
+                      <td colSpan={3} className="py-8 text-center text-gray-500">
+                        방문 기록이 없습니다.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="flex justify-end pt-2 border-t border-white/10">
+              <button 
+                onClick={() => setShowVisitorModal(false)}
+                className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-xl border border-white/10 transition-all cursor-pointer"
+              >
+                닫기
+              </button>
+            </div>
           </div>
         </div>
       )}

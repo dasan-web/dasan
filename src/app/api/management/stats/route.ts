@@ -67,6 +67,17 @@ export async function GET() {
       LIMIT 5
     `);
 
+    // 7. Unique visitors list (grouped by date, showing count of unique visitors and list of IPs)
+    const uniqueVisitors = await query(`
+      SELECT 
+        DATE_FORMAT(created_at, '%Y-%m-%d') as visit_date, 
+        COUNT(DISTINCT ip) as visitor_count,
+        GROUP_CONCAT(DISTINCT ip ORDER BY created_at DESC SEPARATOR ', ') as ips
+      FROM visitor_logs
+      GROUP BY DATE(created_at)
+      ORDER BY DATE(created_at) DESC
+    `);
+
     return NextResponse.json({
       todayCount,
       yesterdayCount,
@@ -79,7 +90,8 @@ export async function GET() {
         contact: { pv: contactPv, share: `${Math.round((contactPv / totalPv) * 100)}%` },
         main: { pv: mainPv, share: `${Math.round((mainPv / totalPv) * 100)}%` }
       },
-      recentLogs
+      recentLogs,
+      uniqueVisitors
     });
   } catch (err: any) {
     console.error('API Admin Stats Error:', err);
