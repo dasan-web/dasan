@@ -4960,10 +4960,10 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       
                       <div className="space-y-3 pt-2">
                         {[
+                          { name: 'Company (회사소개/IR/ESG)', share: dashboardStats?.categoryStats?.about?.share ?? '0%', count: dashboardStats?.categoryStats?.about?.pv ?? 0, color: 'bg-brand-cyan' },
+                          { name: 'Innovation (연구분야/파이프라인)', share: dashboardStats?.categoryStats?.rd?.share ?? '0%', count: dashboardStats?.categoryStats?.rd?.pv ?? 0, color: 'bg-amber-500' },
                           { name: 'Business (제품/원료/CDMO)', share: dashboardStats?.categoryStats?.business?.share ?? '0%', count: dashboardStats?.categoryStats?.business?.pv ?? 0, color: 'bg-brand-green' },
-                          { name: 'About us (회사소개/IR/ESG)', share: dashboardStats?.categoryStats?.about?.share ?? '0%', count: dashboardStats?.categoryStats?.about?.pv ?? 0, color: 'bg-brand-cyan' },
-                          { name: 'R&D (연구분야/파이프라인)', share: dashboardStats?.categoryStats?.rd?.share ?? '0%', count: dashboardStats?.categoryStats?.rd?.pv ?? 0, color: 'bg-amber-500' },
-                          { name: 'Contact (문의/뉴스룸/채용)', share: dashboardStats?.categoryStats?.contact?.share ?? '0%', count: dashboardStats?.categoryStats?.contact?.pv ?? 0, color: 'bg-brand-teal' },
+                          { name: 'Connect (문의/뉴스룸/채용)', share: dashboardStats?.categoryStats?.contact?.share ?? '0%', count: dashboardStats?.categoryStats?.contact?.pv ?? 0, color: 'bg-brand-teal' },
                           { name: '메인화면 (/)', share: dashboardStats?.categoryStats?.main?.share ?? '0%', count: dashboardStats?.categoryStats?.main?.pv ?? 0, color: 'bg-gray-400' },
                         ].map((c, idx) => (
                           <div key={idx} className="space-y-1">
@@ -5640,8 +5640,22 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                     <tr key={idx} className="text-gray-300 hover:bg-white/5 transition-colors">
                       <td className="py-3 font-mono font-bold text-brand-cyan">{v.visit_date}</td>
                       <td className="py-3 font-mono font-bold text-emerald-400 text-center">{v.visitor_count}명</td>
-                      <td className="py-3 font-mono text-[10px] text-gray-400 truncate max-w-[220px] pl-4" title={v.ips}>
-                        {v.ips}
+                      <td className="py-3 font-mono text-[10px] pl-4 space-y-1.5 max-w-[260px]">
+                        {v.pc_ips && (
+                          <div className="flex items-center space-x-1.5">
+                            <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1 py-0.5 rounded-[4px] text-[8px] font-black shrink-0">PC</span>
+                            <span className="text-gray-400 truncate w-full" title={v.pc_ips}>{v.pc_ips}</span>
+                          </div>
+                        )}
+                        {v.mobile_ips && (
+                          <div className="flex items-center space-x-1.5">
+                            <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1 py-0.5 rounded-[4px] text-[8px] font-black shrink-0">MOBILE</span>
+                            <span className="text-gray-400 truncate w-full" title={v.mobile_ips}>{v.mobile_ips}</span>
+                          </div>
+                        )}
+                        {!v.pc_ips && !v.mobile_ips && (
+                          <span className="text-gray-500">-</span>
+                        )}
                       </td>
                     </tr>
                   ))}

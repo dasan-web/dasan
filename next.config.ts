@@ -7,7 +7,10 @@ const nextConfig: NextConfig = {
     'procreate-elk-nibble.ngrok-free.dev',
     '*.ngrok-free.dev',
     'localhost:3000',
-    'localhost:3001'
+    'localhost:3001',
+    '192.168.20.17:3000',
+    '192.168.20.17:3001',
+    '192.168.20.17'
   ]
 };
 

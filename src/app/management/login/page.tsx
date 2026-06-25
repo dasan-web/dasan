@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        router.push('/management/dashboard');
+        window.location.replace('/management/dashboard');
       } else {
         setError(data.error || '로그인에 실패했습니다.');
       }

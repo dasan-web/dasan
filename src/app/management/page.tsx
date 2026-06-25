@@ -1,31 +1,18 @@
-'use client';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { decryptSession } from '@/lib/auth';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+export default async function AdminPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('dasan-admin-session')?.value;
 
-export default function AdminPage() {
-  const router = useRouter();
+  if (token) {
+    const payload = decryptSession(token);
+    if (payload && payload.expiresAt && Date.now() < payload.expiresAt) {
+      redirect('/management/dashboard');
+    }
+  }
 
-  useEffect(() => {
-    fetch('/api/management/auth')
-      .then(res => res.json())
-      .then(data => {
-        if (data.authenticated) {
-          router.push('/management/dashboard');
-        } else {
-          router.push('/management/login');
-        }
-      })
-      .catch(() => {
-        router.push('/management/login');
-      });
-  }, [router]);
-
-  return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50/50">
-      <div className="text-center text-xs md:text-sm text-gray-400 font-semibold">
-        관리자 세션을 확인 중입니다...
-      </div>
-    </div>
-  );
+  redirect('/management/login');
 }
+

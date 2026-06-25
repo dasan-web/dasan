@@ -34,7 +34,7 @@ export async function GET() {
 
     // 4. Weekly stats (last 7 days unique visitor count per day)
     const weeklyRes = await query(`
-      SELECT DATE_FORMAT(created_at, '%m/%d') as visit_date, COUNT(DISTINCT ip) as count
+      SELECT DATE_FORMAT(MIN(created_at), '%m/%d') as visit_date, COUNT(DISTINCT ip) as count
       FROM visitor_logs
       WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
       GROUP BY DATE(created_at)
@@ -70,9 +70,11 @@ export async function GET() {
     // 7. Unique visitors list (grouped by date, showing count of unique visitors and list of IPs)
     const uniqueVisitors = await query(`
       SELECT 
-        DATE_FORMAT(created_at, '%Y-%m-%d') as visit_date, 
+        DATE_FORMAT(MIN(created_at), '%Y-%m-%d') as visit_date, 
         COUNT(DISTINCT ip) as visitor_count,
-        GROUP_CONCAT(DISTINCT ip ORDER BY created_at DESC SEPARATOR ', ') as ips
+        GROUP_CONCAT(DISTINCT ip ORDER BY created_at DESC SEPARATOR ', ') as ips,
+        GROUP_CONCAT(DISTINCT CASE WHEN device LIKE '%Mobile%' OR device LIKE '%iPhone%' OR device LIKE '%Android%' THEN ip ELSE NULL END ORDER BY created_at DESC SEPARATOR ', ') as mobile_ips,
+        GROUP_CONCAT(DISTINCT CASE WHEN NOT (device LIKE '%Mobile%' OR device LIKE '%iPhone%' OR device LIKE '%Android%') THEN ip ELSE NULL END ORDER BY created_at DESC SEPARATOR ', ') as pc_ips
       FROM visitor_logs
       GROUP BY DATE(created_at)
       ORDER BY DATE(created_at) DESC

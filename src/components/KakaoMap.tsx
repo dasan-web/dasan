@@ -97,9 +97,16 @@ export default function KakaoMap({
     }
   }, [scriptLoaded, apiKey]);
 
-  // Google Map Links
-  const googleMapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
-  const googleSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+  // Clean address up to building number for reliable map search in Korea
+  const getBaseAddress = (addr: string) => {
+    const match = addr.match(/^(.*?\s\d+(?:-\d+)?)/);
+    return match ? match[1] : addr;
+  };
+  const baseAddress = getBaseAddress(address);
+
+  // Google Map Links (combining placeName and baseAddress for precise labeling and pin location)
+  const googleMapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(placeName + ' ' + baseAddress)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+  const googleSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeName + ' ' + baseAddress)}`;
   const googleRouteUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
 
   if (useGoogleMap) {
