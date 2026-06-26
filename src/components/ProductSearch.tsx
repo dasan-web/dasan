@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Search, Download } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 interface Product {
   id: number;
@@ -221,7 +221,7 @@ export default function ProductSearch() {
                   <img 
                     src={product.file_url} 
                     alt={product.name} 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-fill"
                   />
                 ) : (
                   <span className="text-[10px] tracking-wider text-gray-300 font-extrabold uppercase select-none">
@@ -251,19 +251,7 @@ export default function ProductSearch() {
                   <div className="bg-gray-50 text-gray-500 text-[10px] md:text-xs font-semibold py-1 px-2.5 rounded text-center">
                     {product.efficacy}
                   </div>
-                  {product.file_url && (
-                    <a
-                      href={product.file_url}
-                      download={product.file_name || '제품정보'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center justify-center space-x-1 text-[9px] md:text-[10px] text-gray-400 hover:text-brand-green bg-gray-50 hover:bg-gray-100 py-1.5 border border-gray-200/60 rounded transition-colors font-bold"
-                    >
-                      <Download size={10} />
-                      <span>설명서 다운로드</span>
-                    </a>
-                  )}
+
                 </div>
               </div>
             </div>
@@ -335,20 +323,7 @@ export default function ProductSearch() {
                   </div>
                 </div>
 
-                {selectedProduct.file_url && (
-                  <div className="pt-1">
-                    <a
-                      href={selectedProduct.file_url}
-                      download={selectedProduct.file_name || '제품정보'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center space-x-1.5 text-xs text-white hover:bg-brand-green-dark bg-brand-green py-2.5 rounded-xl transition-all font-bold shadow-md shadow-brand-green/10"
-                    >
-                      <Download size={12} />
-                      <span>설명서 다운로드</span>
-                    </a>
-                  </div>
-                )}
+
               </div>
             </div>
           </div>

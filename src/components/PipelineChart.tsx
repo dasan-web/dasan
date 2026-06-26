@@ -144,22 +144,25 @@ export default function PipelineChart() {
                   {/* Progress Bar spanned across the 6 phases (Draggable Interactive Track) */}
                   <td className="border border-gray-200 p-0 relative" colSpan={6}>
                     <div className="absolute inset-0 flex items-center px-4">
-                      {/* Read-only progress bar track */}
-                      <div
-                        className="relative w-full h-3 bg-gray-100 rounded-full border border-gray-200/80 select-none overflow-hidden shadow-inner cursor-default"
-                      >
-                        {/* Active progress bar (Green with spring-bouncy transition) */}
+                      {/* Aligned relative wrapper to match coordinates of progress bar and circle handle */}
+                      <div className="relative w-full h-full flex items-center">
+                        {/* Read-only progress bar track */}
                         <div
-                          className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#379A35] to-[#4eb34c] rounded-full transition-all duration-[1200ms] cubic-bezier(0.34, 1.56, 0.64, 1) pointer-events-none"
-                          style={{ width: animate ? widthStr : '0%' }}
+                          className="relative w-full h-3 bg-gray-100 rounded-full border border-gray-200/80 select-none overflow-hidden shadow-inner cursor-default"
+                        >
+                          {/* Active progress bar (Green with spring-bouncy transition) */}
+                          <div
+                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#379A35] to-[#4eb34c] rounded-full transition-all duration-[1200ms] cubic-bezier(0.34, 1.56, 0.64, 1) pointer-events-none"
+                            style={{ width: animate ? widthStr : '0%' }}
+                          />
+                        </div>
+                        
+                        {/* End circle handle inside the progress bar (spring-bounce + sliding cursor, pointer-events disabled) */}
+                        <div
+                          className="absolute top-1/2 -translate-y-1/2 w-4.5 h-4.5 bg-white border-[3.5px] border-[#379A35] rounded-full shadow-md transition-all duration-[1200ms] cubic-bezier(0.34, 1.56, 0.64, 1) z-10 pointer-events-none"
+                          style={{ left: `calc(${animate ? widthStr : '0%'} - 9px)` }}
                         />
                       </div>
-                      
-                      {/* End circle handle inside the progress bar (spring-bounce + sliding cursor, pointer-events disabled) */}
-                      <div
-                        className="absolute top-1/2 -translate-y-1/2 w-4.5 h-4.5 bg-white border-[3.5px] border-[#379A35] rounded-full shadow-md transition-all duration-[1200ms] cubic-bezier(0.34, 1.56, 0.64, 1) z-10 pointer-events-none"
-                        style={{ left: `calc(${animate ? widthStr : '0%'} - 9px)` }}
-                      />
                     </div>
                   </td>
 
