@@ -50,10 +50,27 @@ export default function FinancialChart({
     return { label, values };
   });
 
-  // Calculate maximum value for chart scale
-  const allValues = chartSeries.flatMap(s => s.values);
-  const maxValue = Math.max(...allValues, 1);
-  const gridCount = 4;
+  const isBS = category === 'bs';
+  const maxScaleValue = isBS ? 250000 : 125000;
+  
+  // Custom Ticks representing Korean '억' units
+  const ticks = isBS
+    ? [
+        { val: 250000, label: '2,500' },
+        { val: 200000, label: '2,000' },
+        { val: 150000, label: '1,500' },
+        { val: 100000, label: '1,000' },
+        { val: 50000, label: '500' },
+        { val: 0, label: '0' }
+      ]
+    : [
+        { val: 125000, label: '1,250' },
+        { val: 100000, label: '1,000' },
+        { val: 75000, label: '750' },
+        { val: 50000, label: '500' },
+        { val: 25000, label: '250' },
+        { val: 0, label: '0' }
+      ];
 
   return (
     <div className="bg-gradient-to-br from-white to-gray-50/50 p-5 rounded-2xl border border-gray-150 shadow-sm print:hidden space-y-4 animate-fade-in-up">
@@ -79,16 +96,17 @@ export default function FinancialChart({
 
       {/* SVG Bar Chart Area */}
       <div className="relative pt-4 pl-12 pr-4 pb-2">
+        {/* Y Axis Unit Label */}
+        <span className="absolute left-1 top-[20px] text-[8px] text-gray-400 font-semibold font-sans">(단위: 억원)</span>
         {/* Groups of Bars */}
         <div className="h-[200px] flex items-end justify-around relative z-10 pt-4">
           {/* Y Axis Grid Lines - Positioned to align perfectly with the h-[130px] bar wrappers */}
           <div className="absolute top-[41px] bottom-[29px] left-0 right-0 flex flex-col justify-between pointer-events-none z-0">
-            {Array.from({ length: gridCount }).map((_, i) => {
-              const gridVal = (maxValue * (gridCount - 1 - i)) / (gridCount - 1);
+            {ticks.map((tick, i) => {
               return (
-                <div key={i} className="w-full flex items-center border-t border-dashed border-gray-100 h-0 relative">
-                  <span className="absolute -left-2 -translate-x-full -translate-y-1/2 text-[8px] text-gray-400 font-mono bg-white/90 px-1 py-0.5 rounded shadow-sm border border-gray-100">
-                    {formatNumber(Math.round(gridVal))}
+                <div key={i} className="w-full flex items-center border-t border-solid border-gray-200 h-0 relative">
+                  <span className="absolute -left-2 -translate-x-full -translate-y-1/2 text-[8px] text-gray-600 font-mono font-bold">
+                    {tick.label}
                   </span>
                 </div>
               );
@@ -109,25 +127,12 @@ export default function FinancialChart({
                 <div className="flex items-end space-x-1 sm:space-x-2.5 h-[160px]">
                   {chartSeries.map(series => {
                     const val = series.values[yearIdx] || 0;
-                    const pct = Math.max((val / maxValue) * 100, 2); // At least 2% height so it is visible
+                    const pct = Math.max((val / maxScaleValue) * 100, 2); // At least 2% height so it is visible
 
                     return (
                       <div key={series.label} className="group relative flex flex-col items-center justify-end h-[160px]">
-                        {/* Tooltip on Hover */}
-                        <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-20">
-                          <div className="bg-gray-850/95 text-white text-[9px] font-bold py-1 px-2.5 rounded-lg shadow-md whitespace-nowrap border border-white/5 backdrop-blur-sm">
-                            <span className="text-gray-300 font-medium mr-1">{series.label}:</span>
-                            {formatNumber(val)} 백만원
-                          </div>
-                        </div>
-
-                        {/* Short text value above the bar */}
-                        <span className="text-[8px] sm:text-[9px] font-mono font-medium text-gray-500 mb-1 scale-90 sm:scale-100">
-                          {formatNumber(val)}
-                        </span>
-
                         {/* Animated Bar wrapper to trigger height */}
-                        <div className="w-4 sm:w-5.5 h-[130px] flex items-end">
+                        <div className="w-4 sm:w-5.5 h-[130px] flex items-end relative">
                           <motion.div
                             initial={{ height: 0 }}
                             animate={{ height: `${pct}%` }}
@@ -136,6 +141,14 @@ export default function FinancialChart({
                               colors[series.label]?.bg || ''
                             } hover:brightness-105 hover:shadow-md hover:shadow-brand-green/5`}
                           />
+
+                          {/* Short text value above the bar */}
+                          <span 
+                            style={{ bottom: `calc(${pct}% + 2px)` }}
+                            className="absolute left-1/2 -translate-x-1/2 text-[8px] sm:text-[9px] font-mono font-bold text-gray-800 whitespace-nowrap scale-90 sm:scale-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                          >
+                            {formatNumber(val)}
+                          </span>
                         </div>
                       </div>
                     );

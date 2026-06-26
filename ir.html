@@ -324,6 +324,8 @@
 
                   <!-- SVG Bar Chart Area -->
                   <div class="relative pt-4 pl-12 pr-4 pb-2">
+                    <!-- Y Axis Unit Label -->
+                    <span class="absolute left-1 top-[20px] text-[8px] text-gray-400 font-semibold font-sans">(단위: 억원)</span>
                     <!-- Y Axis Grid Lines & Labels -->
                     <div id="y-axis-grids" class="absolute top-[41px] bottom-[29px] left-0 right-0 flex flex-col justify-between pointer-events-none z-0">
                       <!-- Dynamic Grid Lines -->
@@ -764,35 +766,41 @@
         legendElement.appendChild(item);
       });
 
-      // 3. Find Max Value for scaling
-      let maxValue = 1;
-      labels.forEach(label => {
-        const vals = seriesData[label];
-        vals.forEach(v => {
-          if (v > maxValue) maxValue = v;
-        });
-      });
+      // 3. Define scale ticks and max value for scaling
+      const isBS = activeCategory === 'bs';
+      const maxScaleValue = isBS ? 250000 : 125000;
       
-      // Round up max value nicely
-      const order = Math.pow(10, Math.floor(Math.log10(maxValue)));
-      const roundedMax = Math.ceil(maxValue / (order / 2)) * (order / 2);
-      maxValue = roundedMax;
+      const ticks = isBS
+        ? [
+            { val: 250000, label: '2,500' },
+            { val: 200000, label: '2,000' },
+            { val: 150000, label: '1,500' },
+            { val: 100000, label: '1,000' },
+            { val: 50000, label: '500' },
+            { val: 0, label: '0' }
+          ]
+        : [
+            { val: 125000, label: '1,250' },
+            { val: 100000, label: '1,000' },
+            { val: 75000, label: '750' },
+            { val: 50000, label: '500' },
+            { val: 25000, label: '250' },
+            { val: 0, label: '0' }
+          ];
 
-      // 4. Draw Y Axis Grids
-      const gridCount = 4;
+      // 4. Draw Y Axis Grids (Solid Lines)
       const gridsElement = document.getElementById('y-axis-grids');
       gridsElement.innerHTML = '';
-      for (let i = 0; i < gridCount; i++) {
-        const gridVal = (maxValue * (gridCount - 1 - i)) / (gridCount - 1);
+      ticks.forEach(tick => {
         const gridLine = document.createElement('div');
-        gridLine.className = "w-full flex items-center border-t border-dashed border-gray-100 h-0 relative";
+        gridLine.className = "w-full flex items-center border-t border-solid border-gray-200 h-0 relative";
         gridLine.innerHTML = `
-          <span class="absolute -left-2 -translate-x-full -translate-y-1/2 text-[8px] text-gray-400 font-mono bg-white/90 px-1 py-0.5 rounded shadow-sm border border-gray-100">
-            ${formatNumber(Math.round(gridVal))}
+          <span class="absolute -left-2 -translate-x-full -translate-y-1/2 text-[8px] text-gray-600 font-mono font-bold">
+            ${tick.label}
           </span>
         `;
         gridsElement.appendChild(gridLine);
-      }
+      });
 
       // 5. Draw Bars
       const barsContainer = document.getElementById('bars-container');
@@ -807,31 +815,27 @@
         
         labels.forEach(label => {
           const val = seriesData[label][yearIdx];
-          const pct = Math.max((val / maxValue) * 100, 2);
+          const pct = Math.max((val / maxScaleValue) * 100, 2);
           const colorObj = config.colors[label];
           
           barsHtml += `
             <div class="group relative flex flex-col items-center justify-end h-[160px]">
-              <!-- Tooltip -->
-              <div class="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-20">
-                <div class="bg-gray-800 text-white text-[9px] font-bold py-1 px-2.5 rounded-lg shadow-md whitespace-nowrap border border-white/5">
-                  <span class="text-gray-300 font-medium mr-1">${label}:</span>
-                  ${formatNumber(val)} 백만원
-                </div>
-              </div>
-              
-              <!-- Value Text above bar -->
-              <span class="text-[8px] sm:text-[9px] font-mono font-medium text-gray-500 mb-1 scale-90 sm:scale-100">
-                ${formatNumber(val)}
-              </span>
-              
-              <!-- Bar -->
-              <div class="w-4 sm:w-5.5 h-[130px] flex items-end">
+              <!-- Bar & Label Wrapper -->
+              <div class="w-4 sm:w-5.5 h-[130px] flex items-end relative">
+                <!-- Bar -->
                 <div 
                   class="w-full rounded-t-md shadow-sm cursor-pointer bar-transition ${colorObj.bg} hover:brightness-105"
                   style="height: 0%;"
                   id="bar-${yearIdx}-${label.replace(/\s+/g, '')}"
                 ></div>
+
+                <!-- Value Text above bar -->
+                <span 
+                  style="bottom: calc(${pct}% + 2px);"
+                  class="absolute left-1/2 -translate-x-1/2 text-[8px] sm:text-[9px] font-mono font-bold text-gray-800 whitespace-nowrap scale-90 sm:scale-100 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                >
+                  ${formatNumber(val)}
+                </span>
               </div>
             </div>
           `;
@@ -852,7 +856,7 @@
         // Trigger smooth CSS animation
         labels.forEach(label => {
           const val = seriesData[label][yearIdx];
-          const pct = Math.max((val / maxValue) * 100, 2);
+          const pct = Math.max((val / maxScaleValue) * 100, 2);
           setTimeout(() => {
             const bar = document.getElementById(`bar-${yearIdx}-${label.replace(/\s+/g, '')}`);
             if (bar) bar.style.height = `${pct}%`;
