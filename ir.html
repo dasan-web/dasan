@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>다산제약 | 혁신적 바이오 헬스케어 리더</title>
+  <!-- Tailwind CSS via Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#0A2540',
+              green: '#379A35',
+              'green-dark': '#287526',
+              'green-light': '#EBF7EB',
+              cyan: '#00A3E0',
+              teal: '#00D4B2',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans KR', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      background-color: #ffffff;
+      color: #0A2540;
+    }
+    /* Smooth transitions */
+    .bar-transition {
+      transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .underline-transition {
+      transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1), width 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s;
+    }
+    /* Print styles */
+    @media print {
+      .print-hidden {
+        display: none !important;
+      }
+      .print-block {
+        display: block !important;
+      }
+      body {
+        background-color: #ffffff;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans bg-white antialiased">
+
+  <!-- GLOBAL GNB HEADER -->
+  <header class="w-full bg-white border-b border-gray-100 shadow-sm z-50 sticky top-0 print-hidden">
+    <div class="w-full px-6 md:px-16 lg:px-24">
+      <div class="flex items-center justify-between h-24">
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+          <a href="/" class="flex items-center">
+            <img src="./public/dasan_logo_raw.png" onerror="this.src='/dasan_logo_raw.png'" alt="다산제약" class="h-14 lg:h-16 w-auto" style="image-rendering: -webkit-optimize-contrast" />
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex space-x-14 h-full">
+          <!-- Company (Active / Dropdown) -->
+          <div class="relative flex items-center h-full group">
+            <a href="/about/intro" class="text-[17px] lg:text-[19px] xl:text-[20px] font-extrabold tracking-tight transition-colors py-2 relative hover:text-brand-green text-brand-green">
+              Company
+              <span class="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green transform scale-x-100"></span>
+            </a>
+            <!-- Dropdown -->
+            <div class="absolute top-20 -left-6 pt-4 z-50 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 translate-y-2 transition-all duration-300 ease-out" style="width: 700px;">
+              <div class="w-full bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-2xl p-6 text-gray-900 shadow-xl grid grid-cols-3 gap-6">
+                <!-- 회사소개 -->
+                <div class="flex flex-col space-y-2">
+                  <a href="/about/intro" class="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 hover:text-brand-green">회사소개</a>
+                  <ul class="space-y-1.5 text-left text-gray-500 font-semibold text-[13px] lg:text-[14px]">
+                    <li><a href="/about/intro" class="hover:text-brand-green transition-colors block py-0.5">기업개요</a></li>
+                    <li><a href="/about/business-area" class="hover:text-brand-green transition-colors block py-0.5">사업영역</a></li>
+                    <li><a href="/about/history" class="hover:text-brand-green transition-colors block py-0.5">연혁</a></li>
+                    <li><a href="/about/ci" class="hover:text-brand-green transition-colors block py-0.5">CI</a></li>
+                    <li><a href="/about/facilities" class="hover:text-brand-green transition-colors block py-0.5">공장 및 연구소</a></li>
+                    <li><a href="/about/location" class="hover:text-brand-green transition-colors block py-0.5">찾아오시는 길</a></li>
+                  </ul>
+                </div>
+                <!-- ESG -->
+                <div class="flex flex-col space-y-2">
+                  <a href="/about/esg/ethics" class="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 hover:text-brand-green">ESG</a>
+                  <ul class="space-y-1.5 text-left text-gray-500 font-semibold text-[13px] lg:text-[14px]">
+                    <li><a href="/about/esg/ethics" class="hover:text-brand-green transition-colors block py-0.5">윤리경영</a></li>
+                    <li><a href="/about/esg/environment" class="hover:text-brand-green transition-colors block py-0.5">환경경영</a></li>
+                    <li><a href="/about/esg/safety" class="hover:text-brand-green transition-colors block py-0.5">안전보건경영</a></li>
+                  </ul>
+                </div>
+                <!-- IR -->
+                <div class="flex flex-col space-y-2">
+                  <a href="/about/ir/announcement" class="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 hover:text-brand-green">IR</a>
+                  <ul class="space-y-1.5 text-left text-gray-500 font-semibold text-[13px] lg:text-[14px]">
+                    <li><a href="/about/ir/announcement" class="hover:text-brand-green transition-colors block py-0.5">공시정보</a></li>
+                    <li><a href="/about/ir/financial" class="text-brand-green font-bold block py-0.5">재무정보</a></li>
+                    <li><a href="/about/ir/news" class="hover:text-brand-green transition-colors block py-0.5">IR News</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Innovation -->
+          <div class="relative flex items-center h-full group">
+            <a href="/rd/intro" class="text-[17px] lg:text-[19px] xl:text-[20px] font-extrabold tracking-tight transition-colors py-2 relative hover:text-brand-green text-gray-800">
+              Innovation
+              <span class="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+            </a>
+            <!-- Dropdown -->
+            <div class="absolute top-20 -left-6 pt-4 z-50 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 translate-y-2 transition-all duration-300 ease-out" style="width: 240px;">
+              <div class="w-full bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-2xl p-6 text-gray-900 shadow-xl flex flex-col space-y-2">
+                <a href="/rd/intro" class="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 hover:text-brand-green">Innovation</a>
+                <ul class="space-y-1.5 text-left text-gray-500 font-semibold text-[13px] lg:text-[14px]">
+                  <li><a href="/rd/intro" class="hover:text-brand-green transition-colors block py-0.5">연구소 소개</a></li>
+                  <li><a href="/rd/activities" class="hover:text-brand-green transition-colors block py-0.5">연구 활동</a></li>
+                  <li><a href="/rd/pipeline" class="hover:text-brand-green transition-colors block py-0.5">파이프라인</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Business -->
+          <div class="relative flex items-center h-full group">
+            <a href="/business/finished/search" class="text-[17px] lg:text-[19px] xl:text-[20px] font-extrabold tracking-tight transition-colors py-2 relative hover:text-brand-green text-gray-800">
+              Business
+              <span class="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+            </a>
+            <!-- Dropdown -->
+            <div class="absolute top-20 -left-6 pt-4 z-50 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 translate-y-2 transition-all duration-300 ease-out" style="width: 480px;">
+              <div class="w-full bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-2xl p-6 text-gray-900 shadow-xl grid grid-cols-2 gap-6">
+                <div class="flex flex-col space-y-2">
+                  <a href="/business/finished/search" class="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 hover:text-brand-green">완제의약품</a>
+                  <ul class="space-y-1.5 text-left text-gray-500 font-semibold text-[13px] lg:text-[14px]">
+                    <li><a href="/business/finished/search" class="hover:text-brand-green transition-colors block py-0.5">제품검색</a></li>
+                    <li><a href="/business/finished/news" class="hover:text-brand-green transition-colors block py-0.5">제품소식</a></li>
+                  </ul>
+                </div>
+                <div class="flex flex-col space-y-2">
+                  <a href="/business/api/raw" class="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 hover:text-brand-green">API & CDMO</a>
+                  <ul class="space-y-1.5 text-left text-gray-500 font-semibold text-[13px] lg:text-[14px]">
+                    <li><a href="/business/api/raw" class="hover:text-brand-green transition-colors block py-0.5">원료의약품(API)</a></li>
+                    <li><a href="/business/api/intermediates" class="hover:text-brand-green transition-colors block py-0.5">원료의약품 중간체</a></li>
+                    <li><a href="/business/cdmo/quality" class="hover:text-brand-green transition-colors block py-0.5">CDMO 서비스</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connect -->
+          <div class="relative flex items-center h-full group">
+            <a href="/contact/newsroom/press" class="text-[17px] lg:text-[19px] xl:text-[20px] font-extrabold tracking-tight transition-colors py-2 relative hover:text-brand-green text-gray-800">
+              Connect
+              <span class="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+            </a>
+            <!-- Dropdown -->
+            <div class="absolute top-20 -left-6 pt-4 z-50 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 translate-y-2 transition-all duration-300 ease-out" style="width: 240px;">
+              <div class="w-full bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-2xl p-6 text-gray-900 shadow-xl flex flex-col space-y-2">
+                <a href="/contact/newsroom/press" class="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 hover:text-brand-green">Connect</a>
+                <ul class="space-y-1.5 text-left text-gray-500 font-semibold text-[13px] lg:text-[14px]">
+                  <li><a href="/contact/newsroom/press" class="hover:text-brand-green transition-colors block py-0.5">보도자료</a></li>
+                  <li><a href="/contact/inquiry" class="hover:text-brand-green transition-colors block py-0.5">문의하기</a></li>
+                  <li><a href="/contact/career" class="hover:text-brand-green transition-colors block py-0.5">채용정보</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Utility -->
+        <div class="hidden lg:flex items-center space-x-6 text-sm lg:text-[15px] font-semibold text-gray-500">
+          <div class="flex items-center space-x-1.5">
+            <span class="text-gray-800 cursor-pointer">KOR</span>
+            <span class="text-gray-300">|</span>
+            <a href="#" onclick="alert('영문 홈페이지 준비 중입니다.')" class="hover:text-brand-green transition-colors">ENG</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN PAGE WRAPPER -->
+  <main class="flex-grow">
+    <div class="relative bg-white py-16 md:py-24 min-h-screen">
+      <div class="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+          <!-- Main Content (col-span-5 to match Sidebar-removed layout) -->
+          <div class="lg:col-span-5 space-y-8 flex flex-col items-center w-full">
+            
+            <!-- Breadcrumbs Header -->
+            <div class="pb-8 border-b border-gray-100 w-full text-center flex flex-col items-center">
+              <div class="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
+                <span>Company</span>
+                <span class="text-gray-300">/</span>
+                <span class="text-gray-400">IR</span>
+              </div>
+              
+              <h2 class="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">재무정보</h2>
+
+              <!-- Submenu Tab Bar (공시정보 / 재무정보 / IR News) -->
+              <div id="submenu-container" class="relative flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-4 max-w-full border-b border-gray-100 pb-3 select-none px-4 w-full">
+                <!-- Sliding Underline Indicator -->
+                <div id="submenu-indicator" class="absolute bottom-[8px] h-[3px] bg-brand-green rounded-full underline-transition" style="left: 0px; width: 0px; opacity: 0;"></div>
+                
+                <a href="/about/ir/announcement" onmouseenter="moveSubmenuIndicator(this)" onmouseleave="resetSubmenuIndicator()" class="text-gray-500 hover:text-brand-green font-semibold py-2 text-[15px] transition-colors relative block">
+                  공시정보
+                </a>
+                <a id="submenu-active" href="/about/ir/financial" onmouseenter="moveSubmenuIndicator(this)" onmouseleave="resetSubmenuIndicator()" class="text-brand-green font-black py-2 text-[15px] transition-colors relative block">
+                  재무정보
+                </a>
+                <a href="/about/ir/news" onmouseenter="moveSubmenuIndicator(this)" onmouseleave="resetSubmenuIndicator()" class="text-gray-500 hover:text-brand-green font-semibold py-2 text-[15px] transition-colors relative block">
+                  IR News
+                </a>
+              </div>
+            </div>
+
+            <!-- DYNAMIC IR CONTENT AREA -->
+            <div class="min-h-[550px] w-full max-w-5xl space-y-6">
+              
+              <!-- 1. 경영 실적 요약 테이블 (그림1) -->
+              <section class="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-6">
+                <div class="flex items-center justify-between flex-wrap gap-4 pb-2 border-b border-gray-100">
+                  <div class="flex items-center space-x-3 text-brand-green">
+                    <i data-lucide="line-chart" class="w-5 h-5"></i>
+                    <h4 class="text-lg font-bold">주요 경영 실적 요약</h4>
+                  </div>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                  다산제약의 최근 3개년 주요 재무 성과 요약입니다. 매출액 성장 및 연구개발(R&D) 투자 지표를 실시간으로 확인하실 수 있습니다.
+                </p>
+
+                <div class="overflow-x-auto border border-gray-400 rounded-lg shadow-none">
+                  <table class="w-full text-xs text-left border-collapse">
+                    <thead class="bg-brand-green text-white uppercase">
+                      <tr>
+                        <th class="p-3 border-b border-r border-gray-400 font-bold">재무 항목 (단위: 백만원)</th>
+                        <th class="p-3 border-b border-r border-gray-400 font-bold text-center">2023년 (개별)</th>
+                        <th class="p-3 border-b border-r border-gray-400 font-bold text-center">2024년 (개별)</th>
+                        <th class="p-3 border-b border-gray-400 font-bold text-center">2025년 (연결)</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-gray-700 bg-white">
+                      <tr class="hover:bg-brand-green-light/20">
+                        <td class="p-3 border-b border-r border-gray-400 font-bold text-brand-green-dark">매출액</td>
+                        <td class="p-3 border-b border-r border-gray-400 text-center font-medium">79,300</td>
+                        <td class="p-3 border-b border-r border-gray-400 text-center font-medium">93,800</td>
+                        <td class="p-3 border-b border-gray-400 text-center font-medium">106,900</td>
+                      </tr>
+                      <tr class="hover:bg-brand-green-light/20">
+                        <td class="p-3 border-r border-gray-400 font-bold text-brand-green-dark">영업이익</td>
+                        <td class="p-3 border-r border-gray-400 text-center font-medium">2,400</td>
+                        <td class="p-3 border-r border-gray-400 text-center font-medium">6,200</td>
+                        <td class="p-3 text-center font-medium">1,400</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <!-- Interactive Detailed Sheets & Charts Wrapper -->
+              <div class="space-y-6 pt-6 border-t border-gray-150 animate-fade-in-up">
+                
+                <!-- Category Tabs Switcher (BS vs IS) - Hidden when printing -->
+                <div class="flex space-x-1 border-b border-gray-200 print-hidden">
+                  <button id="tab-bs" onclick="setCategory('bs')" class="px-6 py-3 text-xs sm:text-sm font-bold rounded-t-xl transition-all duration-200 border-b-2 -mb-px cursor-pointer text-brand-green border-brand-green bg-brand-green/5 font-extrabold shadow-sm">
+                    재무상태표 (Balance Sheet)
+                  </button>
+                  <button id="tab-is" onclick="setCategory('is')" class="px-6 py-3 text-xs sm:text-sm font-bold rounded-t-xl transition-all duration-200 border-b-2 -mb-px cursor-pointer text-gray-400 border-transparent hover:text-gray-650 hover:bg-gray-50">
+                    손익계산서 (Income Statement)
+                  </button>
+                </div>
+
+                <!-- Sub-tabs Selector (Consolidated vs Separate) - Hidden when printing -->
+                <div class="flex justify-start items-center print-hidden pt-2">
+                  <div class="inline-flex p-1 bg-white rounded-xl relative shadow-xs">
+                    <!-- Active sliding pill -->
+                    <div id="subtab-pill" class="absolute top-1 bottom-1 bg-brand-green-light rounded-lg border border-brand-green/20 transition-all duration-300 ease-out" style="left: 4px; width: 176px; z-index: 1;"></div>
+                    
+                    <button onclick="setSubCategory('consolidated')" class="relative px-5 py-2 text-xs font-bold rounded-lg transition-colors duration-200 cursor-pointer flex items-center space-x-1.5" style="z-index: 2; width: 176px;">
+                      <i data-lucide="layers" id="icon-consolidated" class="w-3.5 h-3.5 text-brand-green-dark"></i>
+                      <span id="text-consolidated" class="text-brand-green-dark font-extrabold">연결 재무제표 (Consolidated)</span>
+                    </button>
+                    
+                    <button onclick="setSubCategory('separate')" class="relative px-5 py-2 text-xs font-bold rounded-lg transition-colors duration-200 cursor-pointer flex items-center space-x-1.5" style="z-index: 2; width: 176px;">
+                      <i data-lucide="file-text" id="icon-separate" class="w-3.5 h-3.5 text-gray-450"></i>
+                      <span id="text-separate" class="text-gray-500 hover:text-gray-700">별도 재무제표 (Separate)</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Premium Chart Card -->
+                <section class="bg-gradient-to-br from-white to-gray-50/50 p-5 rounded-2xl border border-gray-150 shadow-sm print-hidden space-y-4">
+                  <div class="flex items-center justify-between flex-wrap gap-2">
+                    <h5 class="text-xs sm:text-sm font-bold text-gray-800 flex items-center space-x-1.5 flex-wrap">
+                      <span class="w-1.5 h-3 bg-brand-green rounded-full animate-pulse"></span>
+                      <span id="chart-title">재무구조 (연결)</span>
+                      <span class="text-[10px] text-gray-500 font-medium ml-1 sm:ml-1.5">(단위: 백만원)</span>
+                    </h5>
+                    <!-- Legend -->
+                    <div id="chart-legend" class="flex space-x-3 text-[10px] font-bold text-gray-500">
+                      <!-- Dynamic Legend -->
+                    </div>
+                  </div>
+
+                  <!-- SVG Bar Chart Area -->
+                  <div class="relative pt-4 pl-12 pr-4 pb-2">
+                    <!-- Y Axis Grid Lines & Labels -->
+                    <div id="y-axis-grids" class="absolute top-[41px] bottom-[29px] left-0 right-0 flex flex-col justify-between pointer-events-none z-0">
+                      <!-- Dynamic Grid Lines -->
+                    </div>
+
+                    <!-- Groups of Bars -->
+                    <div id="bars-container" class="h-[200px] flex items-end justify-around relative z-10 pt-4">
+                      <!-- Dynamic Bars -->
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Detailed Tables -->
+                <div id="tables-container">
+                  
+                  <!-- [Consolidated BS] -->
+                  <div id="table-bs-consolidated" class="space-y-6 table-panel">
+                    <div class="flex items-end justify-between px-1">
+                      <span class="text-xs sm:text-sm font-bold text-gray-800">[연결 재무상태표]</span>
+                      <span class="text-[10px] text-gray-500 font-medium">(단위: 백만원)</span>
+                    </div>
+                    <div class="overflow-x-auto border border-gray-400 rounded-lg shadow-none">
+                      <table class="w-full text-xs min-w-[500px] border-collapse">
+                        <thead class="bg-brand-green text-white uppercase">
+                          <tr>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">구분</th>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">2023</th>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">2024</th>
+                            <th class="p-2 font-bold text-center border-b border-gray-400 w-1/4">2025</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-gray-750 bg-white">
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">유동자산</td><td class="p-2 text-center border-r border-b border-gray-400">46,300</td><td class="p-2 text-center border-r border-b border-gray-400">52,524</td><td class="p-2 text-center border-b border-gray-400">61,500</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">비유동자산</td><td class="p-2 text-center border-r border-b border-gray-400">108,300</td><td class="p-2 text-center border-r border-b border-gray-400">130,015</td><td class="p-2 text-center border-b border-gray-400">140,300</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-b border-gray-400 font-bold">자산총계</td><td class="p-2 text-center border-r border-b border-gray-400">154,600</td><td class="p-2 text-center border-r border-b border-gray-400">182,539</td><td class="p-2 text-center border-b border-gray-400">201,800</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">유동부채</td><td class="p-2 text-center border-r border-b border-gray-400">78,200</td><td class="p-2 text-center border-r border-b border-gray-400">92,400</td><td class="p-2 text-center border-b border-gray-400">101,400</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">비유동부채</td><td class="p-2 text-center border-r border-b border-gray-400">45,300</td><td class="p-2 text-center border-r border-b border-gray-400">53,800</td><td class="p-2 text-center border-b border-gray-400">57,800</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-b border-gray-400 font-bold">부채총계</td><td class="p-2 text-center border-r border-b border-gray-400">123,500</td><td class="p-2 text-center border-r border-b border-gray-400">146,200</td><td class="p-2 text-center border-b border-gray-400">159,200</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">자본금</td><td class="p-2 text-center border-r border-b border-gray-400">10,000</td><td class="p-2 text-center border-r border-b border-gray-400">10,000</td><td class="p-2 text-center border-b border-gray-400">10,000</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">자본잉여금</td><td class="p-2 text-center border-r border-b border-gray-400">8,200</td><td class="p-2 text-center border-r border-b border-gray-400">8,200</td><td class="p-2 text-center border-b border-gray-400">8,200</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">기타자본</td><td class="p-2 text-center border-r border-b border-gray-400">-500</td><td class="p-2 text-center border-r border-b border-gray-400">-500</td><td class="p-2 text-center border-b border-gray-400">-500</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">이익잉여금</td><td class="p-2 text-center border-r border-b border-gray-400">13,100</td><td class="p-2 text-center border-r border-b border-gray-400">18,339</td><td class="p-2 text-center border-b border-gray-400">24,600</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">비지배지분</td><td class="p-2 text-center border-r border-b border-gray-400">300</td><td class="p-2 text-center border-r border-b border-gray-400">300</td><td class="p-2 text-center border-b border-gray-400">300</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-gray-400 font-bold">자본총계</td><td class="p-2 text-center border-r border-gray-400">31,100</td><td class="p-2 text-center border-r border-gray-400">36,339</td><td class="p-2 text-center">42,600</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- [Separate BS] -->
+                  <div id="table-bs-separate" class="space-y-6 table-panel hidden">
+                    <div class="flex items-end justify-between px-1">
+                      <span class="text-xs sm:text-sm font-bold text-gray-800">[별도 재무상태표]</span>
+                      <span class="text-[10px] text-gray-500 font-medium">(단위: 백만원)</span>
+                    </div>
+                    <div class="overflow-x-auto border border-gray-400 rounded-lg shadow-none">
+                      <table class="w-full text-xs min-w-[500px] border-collapse">
+                        <thead class="bg-brand-green text-white uppercase">
+                          <tr>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">구분</th>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">2023</th>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">2024</th>
+                            <th class="p-2 font-bold text-center border-b border-gray-400 w-1/4">2025</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-gray-750 bg-white">
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">유동자산</td><td class="p-2 text-center border-r border-b border-gray-400">44,500</td><td class="p-2 text-center border-r border-b border-gray-400">50,200</td><td class="p-2 text-center border-b border-gray-400">59,200</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">비유동자산</td><td class="p-2 text-center border-r border-b border-gray-400">106,700</td><td class="p-2 text-center border-r border-b border-gray-400">128,200</td><td class="p-2 text-center border-b border-gray-400">139,300</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-b border-gray-400 font-bold">자산총계</td><td class="p-2 text-center border-r border-b border-gray-400">151,200</td><td class="p-2 text-center border-r border-b border-gray-400">178,400</td><td class="p-2 text-center border-b border-gray-400">198,500</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">유동부채</td><td class="p-2 text-center border-r border-b border-gray-400">76,800</td><td class="p-2 text-center border-r border-b border-gray-400">89,500</td><td class="p-2 text-center border-b border-gray-400">99,400</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">비유동부채</td><td class="p-2 text-center border-r border-b border-gray-400">43,600</td><td class="p-2 text-center border-r border-b border-gray-400">52,860</td><td class="p-2 text-center border-b border-gray-400">56,800</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-b border-gray-400 font-bold">부채총계</td><td class="p-2 text-center border-r border-b border-gray-400">120,400</td><td class="p-2 text-center border-r border-b border-gray-400">142,360</td><td class="p-2 text-center border-b border-gray-400">156,200</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">자본금</td><td class="p-2 text-center border-r border-b border-gray-400">10,000</td><td class="p-2 text-center border-r border-b border-gray-400">10,000</td><td class="p-2 text-center border-b border-gray-400">10,000</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">자본잉여금</td><td class="p-2 text-center border-r border-b border-gray-400">8,200</td><td class="p-2 text-center border-r border-b border-gray-400">8,200</td><td class="p-2 text-center border-b border-gray-400">8,200</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">기타자본</td><td class="p-2 text-center border-r border-b border-gray-400">-500</td><td class="p-2 text-center border-r border-b border-gray-400">-500</td><td class="p-2 text-center border-b border-gray-400">-500</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">이익잉여금</td><td class="p-2 text-center border-r border-b border-gray-400">13,100</td><td class="p-2 text-center border-r border-b border-gray-400">18,340</td><td class="p-2 text-center border-b border-gray-400">24,600</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-gray-400 font-bold">자본총계</td><td class="p-2 text-center border-r border-gray-400">30,800</td><td class="p-2 text-center border-r border-gray-400">36,040</td><td class="p-2 text-center">42,300</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- [Consolidated IS] -->
+                  <div id="table-is-consolidated" class="space-y-6 table-panel hidden">
+                    <div class="flex items-end justify-between px-1">
+                      <span class="text-xs sm:text-sm font-bold text-gray-800">[연결 손익계산서]</span>
+                      <span class="text-[10px] text-gray-500 font-medium">(단위: 백만원)</span>
+                    </div>
+                    <div class="overflow-x-auto border border-gray-400 rounded-lg shadow-none">
+                      <table class="w-full text-xs min-w-[500px] border-collapse">
+                        <thead class="bg-brand-green text-white uppercase">
+                          <tr>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">구분</th>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">2023</th>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">2024</th>
+                            <th class="p-2 font-bold text-center border-b border-gray-400 w-1/4">2025</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-gray-750 bg-white">
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">매출액</td><td class="p-2 text-center border-r border-b border-gray-400">79,300</td><td class="p-2 text-center border-r border-b border-gray-400">93,800</td><td class="p-2 text-center border-b border-gray-400">106,900</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-b border-gray-400 font-bold">영업이익</td><td class="p-2 text-center border-r border-b border-gray-400">2,400</td><td class="p-2 text-center border-r border-b border-gray-400">6,200</td><td class="p-2 text-center border-b border-gray-400">1,400</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">법인세차감전순이익</td><td class="p-2 text-center border-r border-b border-gray-400">2,800</td><td class="p-2 text-center border-r border-b border-gray-400">8,600</td><td class="p-2 text-center border-b border-gray-400">1,300</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-gray-400 font-bold">당기순이익</td><td class="p-2 text-center border-r border-gray-400">2,300</td><td class="p-2 text-center border-r border-gray-400">7,900</td><td class="p-2 text-center">1,100</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- [Separate IS] -->
+                  <div id="table-is-separate" class="space-y-6 table-panel hidden">
+                    <div class="flex items-end justify-between px-1">
+                      <span class="text-xs sm:text-sm font-bold text-gray-800">[별도 손익계산서]</span>
+                      <span class="text-[10px] text-gray-500 font-medium">(단위: 백만원)</span>
+                    </div>
+                    <div class="overflow-x-auto border border-gray-400 rounded-lg shadow-none">
+                      <table class="w-full text-xs min-w-[500px] border-collapse">
+                        <thead class="bg-brand-green text-white uppercase">
+                          <tr>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">구분</th>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">2023</th>
+                            <th class="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">2024</th>
+                            <th class="p-2 font-bold text-center border-b border-gray-400 w-1/4">2025</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-gray-750 bg-white">
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">매출액</td><td class="p-2 text-center border-r border-b border-gray-400">78,500</td><td class="p-2 text-center border-r border-b border-gray-400">92,700</td><td class="p-2 text-center border-b border-gray-400">105,200</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-b border-gray-400 font-bold">영업이익</td><td class="p-2 text-center border-r border-b border-gray-400">2,300</td><td class="p-2 text-center border-r border-b border-gray-400">6,100</td><td class="p-2 text-center border-b border-gray-400">1,300</td></tr>
+                          <tr class="hover:bg-brand-green-light/20"><td class="p-2 border-r border-b border-gray-400 font-semibold text-gray-800">법인세차감전순이익</td><td class="p-2 text-center border-r border-b border-gray-400">2,700</td><td class="p-2 text-center border-r border-b border-gray-400">8,400</td><td class="p-2 text-center border-b border-gray-400">1,200</td></tr>
+                          <tr class="bg-brand-green-light font-bold text-brand-green-dark"><td class="p-2 border-r border-gray-400 font-bold">당기순이익</td><td class="p-2 text-center border-r border-gray-400">2,200</td><td class="p-2 text-center border-r border-gray-400">7,700</td><td class="p-2 text-center">1,000</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+              
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- GLOBAL FOOTER -->
+  <footer class="bg-[#050f19] text-white border-t border-white/10 select-none relative overflow-hidden antialiased print-hidden">
+    <!-- ambient glow -->
+    <div class="absolute top-0 right-0 w-[40%] h-[40%] rounded-full bg-brand-green/5 blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-[-10%] w-[35%] h-[35%] rounded-full bg-brand-cyan/5 blur-[100px] pointer-events-none"></div>
+
+    <div class="w-full px-6 md:px-16 lg:px-24 py-8 md:py-10 relative z-10">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-8 justify-between">
+        
+        <!-- Brand Column -->
+        <div class="lg:w-[490px] xl:w-[540px] space-y-5 shrink-0">
+          <div class="space-y-3">
+            <span class="text-xl font-black tracking-wider text-white relative">
+              DASAN<span class="text-brand-teal font-medium">PHARM</span>
+              <span class="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-brand-green to-brand-cyan/50"></span>
+            </span>
+            <p class="text-[12px] text-white max-w-sm leading-relaxed pt-2 font-semibold">
+              다산제약은 끊임없는 R&D 혁신과 품질 제고를 통해 인류의 건강한 삶과<br />행복을 만들어가는 글로벌 바이오 헬스케어 기업입니다.
+            </p>
+          </div>
+          
+          <!-- Locations Table -->
+          <div class="pt-2 w-full overflow-x-auto border border-white/10 rounded-xl bg-white/[0.01] shadow-2xl backdrop-blur-xs">
+            <table class="w-full text-left border-collapse text-[12px] min-w-[340px]">
+              <tbody class="divide-y divide-white/10">
+                <tr class="hover:bg-white/[0.02] transition-colors duration-150">
+                  <td class="py-2 px-3 bg-white/5 font-black text-brand-green whitespace-nowrap w-[55px] border-r border-white/10 text-center">본사</td>
+                  <td class="py-2 px-3 text-white font-bold whitespace-nowrap">서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호</td>
+                  <td class="py-2 px-3 text-white font-bold whitespace-nowrap border-l border-white/10 text-right">02-2679-5206</td>
+                </tr>
+                <tr class="hover:bg-white/[0.02] transition-colors duration-150">
+                  <td class="py-2 px-3 bg-white/5 font-black text-brand-green whitespace-nowrap w-[55px] border-r border-white/10 text-center">연구소</td>
+                  <td class="py-2 px-3 text-white font-bold whitespace-nowrap">경기 수원시 영통구 신원로 304 이노플렉스 3동 306호</td>
+                  <td class="py-2 px-3 text-white font-bold whitespace-nowrap border-l border-white/10 text-right">031-546-8200</td>
+                </tr>
+                <tr class="hover:bg-white/[0.02] transition-colors duration-150">
+                  <td class="py-2 px-3 bg-white/5 font-black text-brand-green whitespace-nowrap w-[55px] border-r border-white/10 text-center">1공장</td>
+                  <td class="py-2 px-3 text-white font-bold whitespace-nowrap">충청남도 아산시 도고면 덕암산로 342</td>
+                  <td class="py-2 px-3 text-white font-bold whitespace-nowrap border-l border-white/10 text-right">041-543-5311</td>
+                </tr>
+                <tr class="hover:bg-white/[0.02] transition-colors duration-150">
+                  <td class="py-2 px-3 bg-white/5 font-black text-brand-green whitespace-nowrap w-[55px] border-r border-white/10 text-center">2공장</td>
+                  <td class="py-2 px-3 text-white font-bold whitespace-nowrap">충청남도 아산시 도고면 덕암산로 381</td>
+                  <td class="py-2 px-3 text-white font-bold whitespace-nowrap border-l border-white/10 text-right">041-428-9484</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sitemap Grid -->
+        <div class="flex-1 w-full border border-white/10 rounded-xl overflow-hidden grid grid-cols-2 md:grid-cols-5 divide-x divide-white/10 divide-y md:divide-y-0 divide-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-xs">
+          
+          <!-- About Us -->
+          <div class="flex flex-col divide-y divide-white/10">
+            <div class="p-3 pl-3.5 bg-white/5 font-black text-white text-[12px] uppercase tracking-widest text-left">About Us</div>
+            <div class="p-3.5 flex-1 space-y-2.5">
+              <span class="text-[12px] font-extrabold text-brand-green uppercase tracking-wider block">회사소개</span>
+              <ul class="space-y-2 text-[12px] text-white font-bold">
+                <li><a href="/about/intro" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">기업개요</a></li>
+                <li><a href="/about/business-area" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">사업영역</a></li>
+                <li><a href="/about/history" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">연혁</a></li>
+                <li><a href="/about/facilities" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">공장 및 연구소</a></li>
+                <li><a href="/about/location" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">찾아오시는 길</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ESG & IR -->
+          <div class="flex flex-col divide-y divide-white/10">
+            <div class="p-3 pl-3.5 bg-white/5 font-black text-white text-[12px] uppercase tracking-widest text-left">ESG & IR</div>
+            <div class="p-3.5 flex-1 space-y-3.5">
+              <div class="space-y-2">
+                <span class="text-[12px] font-extrabold text-brand-green uppercase tracking-wider block">ESG 경영</span>
+                <ul class="space-y-2 text-[12px] text-white font-bold">
+                  <li><a href="/about/esg/ethics" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">윤리경영</a></li>
+                  <li><a href="/about/esg/environment" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">환경경영</a></li>
+                  <li><a href="/about/esg/safety" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">안전보건경영</a></li>
+                </ul>
+              </div>
+              <div class="space-y-2 pt-3 border-t border-white/5">
+                <span class="text-[12px] font-extrabold text-brand-green uppercase tracking-wider block">IR 정보</span>
+                <ul class="space-y-2 text-[12px] text-white font-bold">
+                  <li><a href="/about/ir/announcement" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">공시정보</a></li>
+                  <li><a href="/about/ir/financial" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">재무정보</a></li>
+                  <li><a href="/about/ir/news" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">IR News</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Innovation -->
+          <div class="flex flex-col divide-y divide-white/10">
+            <div class="p-3 pl-3.5 bg-white/5 font-black text-white text-[12px] uppercase tracking-widest text-left">Innovation</div>
+            <div class="p-3.5 flex-1 space-y-2.5">
+              <span class="text-[12px] font-extrabold text-brand-green uppercase tracking-wider block">연구개발</span>
+              <ul class="space-y-2 text-[12px] text-white font-bold">
+                <li><a href="/rd/intro" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">연구소 소개</a></li>
+                <li><a href="/rd/activities" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">연구 활동</a></li>
+                <li><a href="/rd/pipeline" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">파이프라인</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Business -->
+          <div class="flex flex-col divide-y divide-white/10">
+            <div class="p-3 pl-3.5 bg-white/5 font-black text-white text-[12px] uppercase tracking-widest text-left">Business</div>
+            <div class="p-3.5 flex-1 space-y-3.5">
+              <div class="space-y-2">
+                <span class="text-[12px] font-extrabold text-brand-green uppercase tracking-wider block">완제의약품</span>
+                <ul class="space-y-2 text-[12px] text-white font-bold">
+                  <li><a href="/business/finished/search" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">제품검색</a></li>
+                  <li><a href="/business/finished/news" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">제품소식</a></li>
+                </ul>
+              </div>
+              <div class="space-y-2 pt-3 border-t border-white/5">
+                <span class="text-[12px] font-extrabold text-brand-green uppercase tracking-wider block">API & CDMO</span>
+                <ul class="space-y-2 text-[12px] text-white font-bold">
+                  <li><a href="/business/api/raw" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">원료의약품(API)</a></li>
+                  <li><a href="/business/api/intermediates" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">원료의약품 중간체</a></li>
+                  <li><a href="/business/cdmo/quality" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">CDMO 서비스</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connect -->
+          <div class="flex flex-col divide-y divide-white/10">
+            <div class="p-3 pl-3.5 bg-white/5 font-black text-white text-[12px] uppercase tracking-widest text-left">Connect</div>
+            <div class="p-3.5 flex-1 space-y-2.5">
+              <span class="text-[12px] font-extrabold text-brand-green uppercase tracking-wider block">소식 & 문의</span>
+              <ul class="space-y-2 text-[12px] text-white font-bold">
+                <li><a href="/contact/newsroom/press" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">보도자료</a></li>
+                <li><a href="/contact/inquiry" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">온라인 문의</a></li>
+                <li><a href="/contact/career" class="hover:text-brand-green hover:translate-x-0.5 transition-all duration-200 block">인재채용</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="w-full px-6 md:px-16 lg:px-24 pt-6 mt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-white/40 font-semibold">
+        <span>© DASAN PHARMACEUTICAL CO., LTD. ALL RIGHTS RESERVED.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // State
+    let activeCategory = 'bs';
+    let subCategory = 'consolidated';
+
+    const years = ['2023', '2024', '2025'];
+    
+    // Financial Data Model
+    const chartConfig = {
+      bs: {
+        title: '재무구조',
+        labels: ['자산총계', '부채총계', '자본총계'],
+        colors: {
+          '자산총계': { bg: 'bg-brand-green', hex: '#379A35', text: 'text-brand-green-dark' },
+          '부채총계': { bg: 'bg-amber-500', hex: '#F59E0B', text: 'text-amber-600' },
+          '자본총계': { bg: 'bg-red-500', hex: '#EF4444', text: 'text-red-600' }
+        },
+        data: {
+          consolidated: {
+            '자산총계': [154600, 182539, 201800],
+            '부채총계': [123500, 146200, 159200],
+            '자본총계': [31100, 36339, 42600]
+          },
+          separate: {
+            '자산총계': [151200, 178400, 198500],
+            '부채총계': [120400, 142360, 156200],
+            '자본총계': [30800, 36040, 42300]
+          }
+        }
+      },
+      is: {
+        title: '당기순이익 추이',
+        labels: ['매출액', '영업이익', '당기순이익'],
+        colors: {
+          '매출액': { bg: 'bg-brand-green', hex: '#379A35', text: 'text-brand-green-dark' },
+          '영업이익': { bg: 'bg-amber-500', hex: '#F59E0B', text: 'text-amber-600' },
+          '당기순이익': { bg: 'bg-red-500', hex: '#EF4444', text: 'text-red-600' }
+        },
+        data: {
+          consolidated: {
+            '매출액': [79300, 93800, 106900],
+            '영업이익': [2400, 6200, 1400],
+            '당기순이익': [2300, 7900, 1100]
+          },
+          separate: {
+            '매출액': [78500, 92700, 105200],
+            '영업이익': [2300, 6100, 1300],
+            '당기순이익': [2200, 7700, 1000]
+          }
+        }
+      }
+    };
+
+    // Format utility
+    function formatNumber(num) {
+      return new Intl.NumberFormat('ko-KR').format(num);
+    }
+
+    // Category Tabs Switching
+    function setCategory(cat) {
+      activeCategory = cat;
+      
+      // Update UI Tabs
+      const bsBtn = document.getElementById('tab-bs');
+      const isBtn = document.getElementById('tab-is');
+      
+      if (cat === 'bs') {
+        bsBtn.className = "px-6 py-3 text-xs sm:text-sm font-bold rounded-t-xl transition-all duration-200 border-b-2 -mb-px cursor-pointer text-brand-green border-brand-green bg-brand-green/5 font-extrabold shadow-sm";
+        isBtn.className = "px-6 py-3 text-xs sm:text-sm font-bold rounded-t-xl transition-all duration-200 border-b-2 -mb-px cursor-pointer text-gray-400 border-transparent hover:text-gray-650 hover:bg-gray-50";
+      } else {
+        isBtn.className = "px-6 py-3 text-xs sm:text-sm font-bold rounded-t-xl transition-all duration-200 border-b-2 -mb-px cursor-pointer text-brand-green border-brand-green bg-brand-green/5 font-extrabold shadow-sm";
+        bsBtn.className = "px-6 py-3 text-xs sm:text-sm font-bold rounded-t-xl transition-all duration-200 border-b-2 -mb-px cursor-pointer text-gray-400 border-transparent hover:text-gray-650 hover:bg-gray-50";
+      }
+
+      renderChart();
+      toggleTables();
+    }
+
+    // Sub Category Slider Switching
+    function setSubCategory(sub) {
+      subCategory = sub;
+      
+      // Move Active Pill
+      const pill = document.getElementById('subtab-pill');
+      const textCons = document.getElementById('text-consolidated');
+      const textSep = document.getElementById('text-separate');
+      const iconCons = document.getElementById('icon-consolidated');
+      const iconSep = document.getElementById('icon-separate');
+
+      if (sub === 'consolidated') {
+        pill.style.left = '4px';
+        
+        textCons.className = "text-brand-green-dark font-extrabold";
+        iconCons.className = "w-3.5 h-3.5 text-brand-green-dark";
+        
+        textSep.className = "text-gray-500 hover:text-gray-700";
+        iconSep.className = "w-3.5 h-3.5 text-gray-450";
+      } else {
+        pill.style.left = '180px';
+        
+        textSep.className = "text-brand-green-dark font-extrabold";
+        iconSep.className = "w-3.5 h-3.5 text-brand-green-dark";
+        
+        textCons.className = "text-gray-500 hover:text-gray-700";
+        iconCons.className = "w-3.5 h-3.5 text-gray-450";
+      }
+
+      renderChart();
+      toggleTables();
+    }
+
+    // Toggle Detailed Tables Visibility
+    function toggleTables() {
+      const panels = document.querySelectorAll('.table-panel');
+      panels.forEach(p => p.classList.add('hidden'));
+
+      const targetId = `table-${activeCategory}-${subCategory}`;
+      document.getElementById(targetId).classList.remove('hidden');
+    }
+
+    // Render Premium Chart
+    function renderChart() {
+      const config = chartConfig[activeCategory];
+      const seriesData = config.data[subCategory];
+      const labels = config.labels;
+      
+      // 1. Update Title Text
+      const titleElement = document.getElementById('chart-title');
+      const suffix = subCategory === 'consolidated' ? ' (연결)' : ' (별도)';
+      titleElement.textContent = config.title + suffix;
+
+      // 2. Render Legend
+      const legendElement = document.getElementById('chart-legend');
+      legendElement.innerHTML = '';
+      labels.forEach(label => {
+        const item = document.createElement('div');
+        item.className = "flex items-center space-x-1.5";
+        item.innerHTML = `
+          <span class="w-2 h-2 rounded-full ${config.colors[label].bg}"></span>
+          <span>${label}</span>
+        `;
+        legendElement.appendChild(item);
+      });
+
+      // 3. Find Max Value for scaling
+      let maxValue = 1;
+      labels.forEach(label => {
+        const vals = seriesData[label];
+        vals.forEach(v => {
+          if (v > maxValue) maxValue = v;
+        });
+      });
+      
+      // Round up max value nicely
+      const order = Math.pow(10, Math.floor(Math.log10(maxValue)));
+      const roundedMax = Math.ceil(maxValue / (order / 2)) * (order / 2);
+      maxValue = roundedMax;
+
+      // 4. Draw Y Axis Grids
+      const gridCount = 4;
+      const gridsElement = document.getElementById('y-axis-grids');
+      gridsElement.innerHTML = '';
+      for (let i = 0; i < gridCount; i++) {
+        const gridVal = (maxValue * (gridCount - 1 - i)) / (gridCount - 1);
+        const gridLine = document.createElement('div');
+        gridLine.className = "w-full flex items-center border-t border-dashed border-gray-100 h-0 relative";
+        gridLine.innerHTML = `
+          <span class="absolute -left-2 -translate-x-full -translate-y-1/2 text-[8px] text-gray-400 font-mono bg-white/90 px-1 py-0.5 rounded shadow-sm border border-gray-100">
+            ${formatNumber(Math.round(gridVal))}
+          </span>
+        `;
+        gridsElement.appendChild(gridLine);
+      }
+
+      // 5. Draw Bars
+      const barsContainer = document.getElementById('bars-container');
+      barsContainer.innerHTML = '';
+      
+      years.forEach((year, yearIdx) => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = "flex flex-col items-center space-y-2 w-1/3 relative";
+        
+        // Bars Group Wrapper
+        let barsHtml = `<div class="flex items-end space-x-1 sm:space-x-2.5 h-[160px]">`;
+        
+        labels.forEach(label => {
+          const val = seriesData[label][yearIdx];
+          const pct = Math.max((val / maxValue) * 100, 2);
+          const colorObj = config.colors[label];
+          
+          barsHtml += `
+            <div class="group relative flex flex-col items-center justify-end h-[160px]">
+              <!-- Tooltip -->
+              <div class="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-20">
+                <div class="bg-gray-800 text-white text-[9px] font-bold py-1 px-2.5 rounded-lg shadow-md whitespace-nowrap border border-white/5">
+                  <span class="text-gray-300 font-medium mr-1">${label}:</span>
+                  ${formatNumber(val)} 백만원
+                </div>
+              </div>
+              
+              <!-- Value Text above bar -->
+              <span class="text-[8px] sm:text-[9px] font-mono font-medium text-gray-500 mb-1 scale-90 sm:scale-100">
+                ${formatNumber(val)}
+              </span>
+              
+              <!-- Bar -->
+              <div class="w-4 sm:w-5.5 h-[130px] flex items-end">
+                <div 
+                  class="w-full rounded-t-md shadow-sm cursor-pointer bar-transition ${colorObj.bg} hover:brightness-105"
+                  style="height: 0%;"
+                  id="bar-${yearIdx}-${label.replace(/\s+/g, '')}"
+                ></div>
+              </div>
+            </div>
+          `;
+        });
+        
+        barsHtml += `</div>`;
+        
+        groupDiv.innerHTML = `
+          ${barsHtml}
+          <!-- Year Label -->
+          <span class="text-[10px] font-bold text-gray-600 bg-gray-100/60 px-3 py-0.5 rounded-full border border-gray-150/40">
+            ${year}년
+          </span>
+        `;
+        
+        barsContainer.appendChild(groupDiv);
+        
+        // Trigger smooth CSS animation
+        labels.forEach(label => {
+          const val = seriesData[label][yearIdx];
+          const pct = Math.max((val / maxValue) * 100, 2);
+          setTimeout(() => {
+            const bar = document.getElementById(`bar-${yearIdx}-${label.replace(/\s+/g, '')}`);
+            if (bar) bar.style.height = `${pct}%`;
+          }, 50);
+        });
+      });
+    }
+
+    // Submenu tab indicator animations
+    function moveSubmenuIndicator(el) {
+      const indicator = document.getElementById('submenu-indicator');
+      indicator.style.left = el.offsetLeft + 'px';
+      indicator.style.width = el.offsetWidth + 'px';
+      indicator.style.opacity = '1';
+    }
+
+    function resetSubmenuIndicator() {
+      const activeEl = document.getElementById('submenu-active');
+      const indicator = document.getElementById('submenu-indicator');
+      if (activeEl) {
+        indicator.style.left = activeEl.offsetLeft + 'px';
+        indicator.style.width = activeEl.offsetWidth + 'px';
+        indicator.style.opacity = '1';
+      } else {
+        indicator.style.opacity = '0';
+      }
+    }
+
+    // Initialize Page
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      renderChart();
+      resetSubmenuIndicator();
+    });
+  </script>
+</body>
+</html>

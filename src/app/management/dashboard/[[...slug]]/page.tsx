@@ -2918,7 +2918,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
                             {/* Table Inputs Grid */}
                             <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
-                              <span className="text-[10px] font-bold text-brand-cyan uppercase">재무제표 데이터 테이블 설정 (단위: 억 원)</span>
+                              <span className="text-[10px] font-bold text-brand-cyan uppercase">재무제표 데이터 테이블 설정 (단위: 백만원)</span>
                               <div className="overflow-x-auto">
                                 <table className="w-full text-xs text-left min-w-[500px]">
                                   <thead>

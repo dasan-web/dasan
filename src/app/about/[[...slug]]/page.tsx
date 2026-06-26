@@ -8,6 +8,7 @@ import { Building2, Award, Users, Landmark, MapPin, Calendar, Heart, ShieldAlert
 import KakaoMap from '@/components/KakaoMap';
 import LocationMapSection from '@/components/LocationMapSection';
 import PressList from '@/components/PressList';
+import DetailedFinancialTables from '@/components/DetailedFinancialTables';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -929,10 +930,54 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let desc = '다산제약의 경영 실적 및 투자 공시 자료는 관련 법령에 의거하여 명확하고 성실하게 공개되고 있습니다. 주주 및 투자자 여러분의 이해를 돕기 위해 실시간 재무 핵심 지표를 제공합니다.';
         let dartUrl = 'https://dart.fss.or.kr/html/search/SearchCompanyIR3_M.html?textCrpNM=%EB%8B%A4%EC%82%B0%EC%A0%9C%EC%95%BD';
         
-        let financialHeaders = ['2023년 (개별)', '2024년 (개별)', '2025년 (연결)', '2026년 (목표)'];
-        let salesRow = ['매출액', '793', '938', '1,069', '1,400'];
-        let profitRow = ['영업이익', '24', '62', '14', '85'];
-        let rdRow = ['R&D 투자액', '95', '120', '135', '160'];
+        let financialHeaders = ['2023년 (개별)', '2024년 (개별)', '2025년 (연결)'];
+        let salesRow = ['매출액', '79,300', '93,800', '106,900'];
+        let profitRow = ['영업이익', '2,400', '6,200', '1,400'];
+        let rdRow = ['R&D 투자액', '9,500', '12,000', '13,500'];
+
+        // Detailed tables mock data
+        let consolidatedBS = [
+          ['유동자산', '46,300', '52,524', '61,500'],
+          ['비유동자산', '108,300', '130,015', '140,300'],
+          ['자산총계', '154,600', '182,539', '201,800'],
+          ['유동부채', '78,200', '92,400', '101,400'],
+          ['비유동부채', '45,300', '53,800', '57,800'],
+          ['부채총계', '123,500', '146,200', '159,200'],
+          ['자본금', '10,000', '10,000', '10,000'],
+          ['자본잉여금', '8,200', '8,200', '8,200'],
+          ['기타자본', '-500', '-500', '-500'],
+          ['이익잉여금', '13,100', '18,339', '24,600'],
+          ['비지배지분', '300', '300', '300'],
+          ['자본총계', '31,100', '36,339', '42,600']
+        ];
+
+        let separateBS = [
+          ['유동자산', '44,500', '50,200', '59,200'],
+          ['비유동자산', '106,700', '128,200', '139,300'],
+          ['자산총계', '151,200', '178,400', '198,500'],
+          ['유동부채', '76,800', '89,500', '99,400'],
+          ['비유동부채', '43,600', '52,860', '56,800'],
+          ['부채총계', '120,400', '142,360', '156,200'],
+          ['자본금', '10,000', '10,000', '10,000'],
+          ['자본잉여금', '8,200', '8,200', '8,200'],
+          ['기타자본', '-500', '-500', '-500'],
+          ['이익잉여금', '13,100', '18,340', '24,600'],
+          ['자본총계', '30,800', '36,040', '42,300']
+        ];
+
+        let consolidatedIS = [
+          ['매출액', '79,300', '93,800', '106,900'],
+          ['영업이익', '2,400', '6,200', '1,400'],
+          ['법인세차감전순이익', '2,800', '8,600', '1,300'],
+          ['당기순이익', '2,300', '7,900', '1,100']
+        ];
+
+        let separateIS = [
+          ['매출액', '78,500', '92,700', '105,200'],
+          ['영업이익', '2,300', '6,100', '1,300'],
+          ['법인세차감전순이익', '2,700', '8,400', '1,200'],
+          ['당기순이익', '2,200', '7,700', '1,000']
+        ];
 
         if (currentPath === '/about/ir/announcement' && dbContent) {
           const parts = dbContent.split('|');
@@ -947,12 +992,37 @@ export default async function AboutCatchAllPage({ params }: Params) {
           if (lines[3]) salesRow = lines[3].split('|').map(s => s.trim());
           if (lines[4]) profitRow = lines[4].split('|').map(s => s.trim());
           if (lines[5]) rdRow = lines[5].split('|').map(s => s.trim());
+
+          // Parse 연결 재무상태표 (12 rows: lines[6] to lines[17])
+          for (let i = 0; i < 12; i++) {
+            if (lines[6 + i]) {
+              consolidatedBS[i] = lines[6 + i].split('|').map(s => s.trim());
+            }
+          }
+          // Parse 별도 재무상태표 (11 rows: lines[18] to lines[28])
+          for (let i = 0; i < 11; i++) {
+            if (lines[18 + i]) {
+              separateBS[i] = lines[18 + i].split('|').map(s => s.trim());
+            }
+          }
+          // Parse 연결 손익계산서 (4 rows: lines[29] to lines[32])
+          for (let i = 0; i < 4; i++) {
+            if (lines[29 + i]) {
+              consolidatedIS[i] = lines[29 + i].split('|').map(s => s.trim());
+            }
+          }
+          // Parse 별도 손익계산서 (4 rows: lines[33] to lines[36])
+          for (let i = 0; i < 4; i++) {
+            if (lines[33 + i]) {
+              separateIS[i] = lines[33 + i].split('|').map(s => s.trim());
+            }
+          }
         }
 
         return (
           <div className="space-y-6 animate-fade-in-up bg-white p-6 rounded-xl shadow-none">
             <div className="flex items-center justify-between flex-wrap gap-4 pb-2 border-b border-gray-100">
-              <div className="flex items-center space-x-3 text-brand-cyan">
+              <div className="flex items-center space-x-3 text-brand-green">
                 <LineChart size={24} />
                 <h4 className="text-lg font-bold">{title}</h4>
               </div>
@@ -976,40 +1046,50 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 </div>
               </div>
             ) : (
-              <div className="overflow-x-auto rounded-lg shadow-none">
-                <table className="w-full text-xs text-left">
-                  <thead className="bg-brand-gray-light text-brand-blue uppercase">
-                    <tr>
-                      <th className="p-3">재무 항목 (단위: 억 원)</th>
-                      {financialHeaders.map((header, idx) => (
-                        <th key={idx} className="p-3">{header}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100 text-gray-600">
-                    <tr className="hover:bg-brand-gray-light/30">
-                      <td className="p-3 font-semibold text-brand-blue">{salesRow[0] || '매출액'}</td>
-                      <td className="p-3">{salesRow[1] || ''}</td>
-                      <td className="p-3">{salesRow[2] || ''}</td>
-                      <td className="p-3">{salesRow[3] || ''}</td>
-                      <td className="p-3">{salesRow[4] || ''}</td>
-                    </tr>
-                    <tr className="hover:bg-brand-gray-light/30">
-                      <td className="p-3 font-semibold text-brand-blue">{profitRow[0] || '영업이익'}</td>
-                      <td className="p-3">{profitRow[1] || ''}</td>
-                      <td className="p-3">{profitRow[2] || ''}</td>
-                      <td className="p-3">{profitRow[3] || ''}</td>
-                      <td className="p-3">{profitRow[4] || ''}</td>
-                    </tr>
-                    <tr className="hover:bg-brand-gray-light/30">
-                      <td className="p-3 font-semibold text-brand-blue">{rdRow[0] || 'R&D 투자액'}</td>
-                      <td className="p-3">{rdRow[1] || ''}</td>
-                      <td className="p-3">{rdRow[2] || ''}</td>
-                      <td className="p-3">{rdRow[3] || ''}</td>
-                      <td className="p-3">{rdRow[4] || ''}</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="space-y-6">
+                <div className="overflow-x-auto border border-gray-400 rounded-lg shadow-none">
+                  <table className="w-full text-xs text-left border-collapse">
+                    <thead className="bg-brand-green text-white uppercase">
+                      <tr>
+                        <th className="p-3 border-b border-r border-gray-400 font-bold">재무 항목 (단위: 백만원)</th>
+                        {financialHeaders.map((header, idx) => {
+                          const isLastCol = idx === financialHeaders.length - 1;
+                          return (
+                            <th key={idx} className={`p-3 border-b ${isLastCol ? '' : 'border-r'} border-gray-400 font-bold text-center`}>{header}</th>
+                          );
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody className="text-gray-700 bg-white">
+                      <tr className="hover:bg-brand-green-light/20">
+                        <td className="p-3 border-b border-r border-gray-400 font-bold text-brand-green-dark">{salesRow[0] || '매출액'}</td>
+                        {financialHeaders.map((_, colIdx) => {
+                          const isLastCol = colIdx === financialHeaders.length - 1;
+                          return (
+                            <td key={colIdx} className={`p-3 border-b ${isLastCol ? '' : 'border-r'} border-gray-400 text-center font-medium`}>{salesRow[colIdx + 1] || ''}</td>
+                          );
+                        })}
+                      </tr>
+                      <tr className="hover:bg-brand-green-light/20">
+                        <td className="p-3 border-r border-gray-400 font-bold text-brand-green-dark">{profitRow[0] || '영업이익'}</td>
+                        {financialHeaders.map((_, colIdx) => {
+                          const isLastCol = colIdx === financialHeaders.length - 1;
+                          return (
+                            <td key={colIdx} className={`p-3 ${isLastCol ? '' : 'border-r'} border-gray-400 text-center font-medium`}>{profitRow[colIdx + 1] || ''}</td>
+                          );
+                        })}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <DetailedFinancialTables
+                  consolidatedBS={consolidatedBS}
+                  separateBS={separateBS}
+                  consolidatedIS={consolidatedIS}
+                  separateIS={separateIS}
+                  years={financialHeaders}
+                />
               </div>
             )}
           </div>
