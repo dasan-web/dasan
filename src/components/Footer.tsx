@@ -38,7 +38,7 @@ export default function Footer() {
         
         {/* Unified Premium Section */}
         <div className="w-full flex flex-col">
-          <h3 className="text-white font-black text-[15px] uppercase tracking-[0.2em] mb-4 pl-1">
+          <h3 className="text-white font-black text-[15px] uppercase tracking-[0.2em] mb-4">
             Site Map
           </h3>
           
@@ -48,10 +48,10 @@ export default function Footer() {
             <div className="w-full grid grid-cols-2 md:grid-cols-5 divide-x divide-white/10 divide-y md:divide-y-0 divide-white/10">
               {footerColumns.map((grand, gIdx) => (
               <div key={gIdx} className="flex flex-col divide-y divide-white/10">
-                <div className="p-3 pl-3.5 bg-white/5 font-black text-white text-[14px] uppercase tracking-widest text-left">
+                <div className={`p-3 bg-white/5 font-black text-white text-[14px] uppercase tracking-widest text-left ${gIdx === 0 ? 'pl-0' : 'pl-3.5'}`}>
                   {grand.name}
                 </div>
-                <div className="p-3.5 flex-1 space-y-3.5">
+                <div className={`p-3.5 flex-1 space-y-3.5 ${gIdx === 0 ? 'pl-0' : ''}`}>
                   {grand.majors.map((major, mIdx) => (
                     <div key={mIdx} className={`space-y-2 ${mIdx > 0 ? 'pt-3 border-t border-white/5' : ''}`}>
                       <span className="text-[13px] font-extrabold text-brand-green uppercase tracking-wider block">
@@ -74,7 +74,7 @@ export default function Footer() {
             </div>
 
             {/* BOTTOM: Brand & Address (Connected) */}
-            <div className="w-full flex flex-col gap-6 p-6 lg:p-8 border-t border-white/10">
+            <div className="w-full flex flex-col gap-6 p-6 lg:p-8 pl-0 lg:pl-0 border-t border-white/10">
               <div className="shrink-0 space-y-3">
                 <span className="text-xl font-black tracking-wider text-white relative">
                   DASAN<span className="text-brand-teal font-medium">PHARM</span>
