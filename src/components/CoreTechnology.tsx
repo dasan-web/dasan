@@ -205,7 +205,7 @@ export default function CoreTechnology() {
                   {/* Hexagon Border Outline */}
                   <motion.polygon 
                     points="220,161 380,161 460,300 380,439 220,439 140,300" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth="3" 
                     fill="none" 
                     initial={{ pathLength: 0, opacity: 0 }}
@@ -217,7 +217,7 @@ export default function CoreTechnology() {
                   {/* Horizontal line under title */}
                   <motion.line 
                     x1="12" y1="45" x2="162" y2="45" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth={hoveredSection === '01' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
                     initial={{ pathLength: 0 }}
@@ -228,7 +228,7 @@ export default function CoreTechnology() {
                   {/* Diagonal line to hexagon */}
                   <motion.line 
                     x1="162" y1="45" x2="220" y2="161" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth={hoveredSection === '01' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
                     initial={{ pathLength: 0 }}
@@ -241,7 +241,7 @@ export default function CoreTechnology() {
                   {/* Horizontal line under title */}
                   <motion.line 
                     x1="438" y1="45" x2="588" y2="45" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth={hoveredSection === '02' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
                     initial={{ pathLength: 0 }}
@@ -252,7 +252,7 @@ export default function CoreTechnology() {
                   {/* Diagonal line to hexagon */}
                   <motion.line 
                     x1="438" y1="45" x2="380" y2="161" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth={hoveredSection === '02' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
                     initial={{ pathLength: 0 }}
@@ -265,7 +265,7 @@ export default function CoreTechnology() {
                   {/* Horizontal line under title */}
                   <motion.line 
                     x1="12" y1="510" x2="162" y2="510" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth={hoveredSection === '03' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
                     initial={{ pathLength: 0 }}
@@ -276,7 +276,7 @@ export default function CoreTechnology() {
                   {/* Diagonal line to hexagon */}
                   <motion.line 
                     x1="162" y1="510" x2="220" y2="439" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth={hoveredSection === '03' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
                     initial={{ pathLength: 0 }}
@@ -289,7 +289,7 @@ export default function CoreTechnology() {
                   {/* Horizontal line under title */}
                   <motion.line 
                     x1="438" y1="510" x2="588" y2="510" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth={hoveredSection === '04' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
                     initial={{ pathLength: 0 }}
@@ -300,7 +300,7 @@ export default function CoreTechnology() {
                   {/* Diagonal line to hexagon */}
                   <motion.line 
                     x1="438" y1="510" x2="380" y2="439" 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth={hoveredSection === '04' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
                     initial={{ pathLength: 0 }}
@@ -313,7 +313,7 @@ export default function CoreTechnology() {
                   <motion.circle 
                     cx="162" cy="45" 
                     r={hoveredSection === '01' ? '5.5' : '3.5'} 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth="2" 
                     fill="white" 
                     className="transition-all duration-300"
@@ -325,7 +325,7 @@ export default function CoreTechnology() {
                   <motion.circle 
                     cx="438" cy="45" 
                     r={hoveredSection === '02' ? '5.5' : '3.5'} 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth="2" 
                     fill="white" 
                     className="transition-all duration-300"
@@ -337,7 +337,7 @@ export default function CoreTechnology() {
                   <motion.circle 
                     cx="162" cy="510" 
                     r={hoveredSection === '03' ? '5.5' : '3.5'} 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth="2" 
                     fill="white" 
                     className="transition-all duration-300"
@@ -349,7 +349,7 @@ export default function CoreTechnology() {
                   <motion.circle 
                     cx="438" cy="510" 
                     r={hoveredSection === '04' ? '5.5' : '3.5'} 
-                    stroke="#22C55E" 
+                    stroke="#008953" 
                     strokeWidth="2" 
                     fill="white" 
                     className="transition-all duration-300"

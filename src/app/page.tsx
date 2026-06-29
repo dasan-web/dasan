@@ -53,20 +53,20 @@ export default async function Home() {
           <div className="w-full text-left space-y-6 md:space-y-8">
             {/* Main Headline */}
             <div className="space-y-2 md:space-y-3">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#008953] tracking-tight leading-tight lg:whitespace-nowrap">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-brand-green tracking-tight leading-tight lg:whitespace-nowrap">
                 <span className="font-paperlogy font-[800]">Global CDMO company</span><br className="md:hidden" />
                 <span className="font-paperlogy font-[900]"> through DDS.</span>
               </h1>
             </div>
 
             {/* Slogan */}
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-pretendard font-semibold text-[#74b816] tracking-tight leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-pretendard font-semibold text-brand-green tracking-tight leading-tight">
               Happy people make the healthy world.
             </h2>
 
             {/* Korean Paragraph Description */}
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-[#343434] leading-relaxed max-w-5xl font-paperlogy font-[500] pt-2 md:pt-4">
-              다산제약은 한국 최고의 실학자이자 과학자였던 정약용 선생의 <span className="text-[#008953] font-[800]">愛民정신</span>을 창업이념으로 삼아<br />인류의 건강과 행복한 삶을 위해 필요한 <span className="text-[#008953] font-[800]">제제기술 및 합성기술 연구</span>와 우수한 의약품 생산을 위해<br />끊임없이 노력하고 있습니다.
+              다산제약은 한국 최고의 실학자이자 과학자였던 정약용 선생의 愛民정신을 창업이념으로 삼아<br />인류의 건강과 행복한 삶을 위해 필요한 제제기술 및 합성기술 연구와 우수한 의약품 생산을 위해<br />끊임없이 노력하고 있습니다.
             </p>
 
             {/* Learn More Button */}
@@ -99,7 +99,7 @@ export default async function Home() {
 
       {/* 4. Inquiry Bottom Banner */}
       <ScrollReveal>
-        <div className="w-full bg-gradient-to-r from-brand-green to-[#2E872D] py-8 md:py-10 px-6 md:px-16 lg:px-24 z-10">
+        <div className="w-full bg-gradient-to-r from-brand-green to-brand-green-dark py-8 md:py-10 px-6 md:px-16 lg:px-24 z-10">
           <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-8">
             {/* Left Column: Title & Sub */}
             <div className="text-left space-y-1.5 font-pretendard">

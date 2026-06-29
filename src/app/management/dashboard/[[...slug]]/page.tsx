@@ -2357,7 +2357,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                   />
                                 </div>
                                 <div className="space-y-1">
-                                  <label className="text-[11px] text-gray-400 block">HEX 코드 (예: #74B816)</label>
+                                  <label className="text-[11px] text-gray-400 block">HEX 코드 (예: #008953)</label>
                                   <input
                                     type="text"
                                     value={(staticContent || '').split('\n')[4] || ''}
@@ -2368,12 +2368,12 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                       setStaticContent(lines.join('\n'));
                                     }}
                                     className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                    placeholder="#74B816"
+                                    placeholder="#008953"
                                   />
                                 </div>
                               </div>
                               <div className="space-y-1">
-                                <label className="text-[11px] text-gray-400 block">RGB 및 HEX 전체 표기 (예: RGB: 116, 184, 22 | HEX: #74B816)</label>
+                                <label className="text-[11px] text-gray-400 block">RGB 및 HEX 전체 표기 (예: RGB: 0, 137, 83 | HEX: #008953)</label>
                                 <input
                                   type="text"
                                   value={(staticContent || '').split('\n')[3] || ''}
@@ -2384,7 +2384,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                     setStaticContent(lines.join('\n'));
                                   }}
                                   className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                  placeholder="RGB: 116, 184, 22 | HEX: #74B816"
+                                  placeholder="RGB: 0, 137, 83 | HEX: #008953"
                                 />
                               </div>
                               <div className="space-y-1">
@@ -4004,8 +4004,8 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                               const ciIntro = lines[0] || '다산제약의 CI는...';
                               const ciSymbol = lines[1] || '다산제약의 심볼은 과학과 생명의...';
                               const greenName = lines[2] || 'DASAN GREEN';
-                              const greenCode = lines[3] || 'RGB: 116, 184, 22 | HEX: #74B816';
-                              const greenHex = lines[4] || '#74B816';
+                              const greenCode = lines[3] || 'RGB: 0, 137, 83 | HEX: #008953';
+                              const greenHex = lines[4] || '#008953';
                               const greenDesc = lines[5] || '생명력, 인류의 건강, 지속가능한 경영 가치 상징';
                               const charcoalName = lines[6] || 'DASAN CHARCOAL';
                               const charcoalCode = lines[7] || 'RGB: 43, 43, 43 | HEX: #2B2B2B';

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Globe, Search, ChevronDown, ChevronRight } from 'lucide-react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { navigationData } from '@/lib/navigation';
 
 export default function Header() {
@@ -12,6 +13,13 @@ export default function Header() {
   if (pathname.startsWith('/management')) {
     return null;
   }
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeMobileGrand, setActiveMobileGrand] = useState<string | null>(null);
@@ -78,8 +86,12 @@ export default function Header() {
   return (
     <>
       <header
-        className="w-full bg-white border-b border-gray-100 shadow-sm z-50 sticky top-0"
+        className="w-full bg-white border-b border-gray-100 shadow-sm z-50 sticky top-0 relative"
       >
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 h-1 bg-brand-green origin-left z-50"
+          style={{ scaleX }}
+        />
         <div className="w-full px-6 md:px-16 lg:px-24">
           <div className="flex items-center justify-between h-24">
             {/* Logo: Hexagon Icon + DASAN | PHARMACEUTICAL */}

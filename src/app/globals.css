@@ -23,14 +23,14 @@
 
 @theme {
   --color-brand-blue: #0A2540;
-  --color-brand-teal: #00D4B2;
+  --color-brand-teal: #008953;
   --color-brand-cyan: #00A3E0;
   --color-brand-dark: #050f19;
   --color-brand-gray-light: #F4F6F8;
   --color-brand-gray-dark: #2A3644;
-  --color-brand-green: #379A35;
-  --color-brand-green-dark: #287526;
-  --color-brand-green-light: #EBF7EB;
+  --color-brand-green: #008953;
+  --color-brand-green-dark: #006c42;
+  --color-brand-green-light: #e6f3ee;
   
   --font-sans: 'Pretendard', 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-paperlogy: 'Paperlogy', sans-serif;
@@ -38,7 +38,7 @@
 }
 
 .shadow-green-glow {
-  box-shadow: 0 0 16px rgba(55, 154, 53, 0.4), 0 2px 8px rgba(55, 154, 53, 0.2) !important;
+  box-shadow: 0 0 16px rgba(0, 137, 83, 0.4), 0 2px 8px rgba(0, 137, 83, 0.2) !important;
 }
 
 :root {

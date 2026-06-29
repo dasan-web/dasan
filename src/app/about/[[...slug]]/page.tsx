@@ -632,8 +632,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let ciIntro = '다산제약의 CI는 독자적인 연구 플랫폼과 신약 파이프라인 개발을 향한 끝없는 도전, 그리고 인류의 건강을 최우선으로 생각하는 핵심 이념을 시각적으로 형상화하고 있습니다.';
         let ciSymbol = '다산제약의 심볼은 과학과 생명의 조화로운 결합을 나타냅니다. 육각형 구조는 신약 개발 및 연구의 정밀한 화학적 결합과 견고한 기술력을 의미하며, 내부에 배치된 초록 나뭇잎은 인류의 생명 건강 증진과 친환경 미래 생명공학 리더로 성장하겠다는 비전을 상징합니다.';
         let greenName = 'DASAN GREEN';
-        let greenCode = 'RGB: 116, 184, 22 | HEX: #74B816';
-        let greenHex = '#74B816';
+        let greenCode = 'RGB: 0, 137, 83 | HEX: #008953';
+        let greenHex = '#008953';
         let greenDesc = '생명력, 인류의 건강, 지속가능한 경영 가치 상징';
         let charcoalName = 'DASAN CHARCOAL';
         let charcoalCode = 'RGB: 43, 43, 43 | HEX: #2B2B2B';
