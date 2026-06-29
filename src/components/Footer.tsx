@@ -23,16 +23,6 @@ export default function Footer() {
         name: 'ESG & IR', // 명칭 분리
         majors: [grand.majors[1], grand.majors[2]] // ESG, IR
       });
-    } else if (grand.name === 'Business' && grand.majors.length >= 3) {
-      footerColumns.push({
-        ...grand,
-        majors: [grand.majors[0], grand.majors[1]] // 완제의약품, API
-      });
-      footerColumns.push({
-        ...grand,
-        name: 'CDMO', // CDMO 독립 기둥
-        majors: [grand.majors[2]] // CDMO
-      });
     } else {
       footerColumns.push(grand);
     }
@@ -52,7 +42,7 @@ export default function Footer() {
             <h3 className="text-white font-black text-[15px] uppercase tracking-[0.2em] mb-4 pl-1">
               Site Map
             </h3>
-            <div className="w-full border border-white/10 rounded-xl overflow-hidden grid grid-cols-2 md:grid-cols-6 divide-x divide-white/10 divide-y md:divide-y-0 divide-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-xs">
+            <div className="w-full border border-white/10 rounded-xl overflow-hidden grid grid-cols-2 md:grid-cols-5 divide-x divide-white/10 divide-y md:divide-y-0 divide-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-xs">
               {footerColumns.map((grand, gIdx) => (
               <div key={gIdx} className="flex flex-col divide-y divide-white/10">
                 <div className="p-3 pl-3.5 bg-white/5 font-black text-white text-[14px] uppercase tracking-widest text-left">
