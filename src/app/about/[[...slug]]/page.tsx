@@ -639,7 +639,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let charcoalCode = 'RGB: 43, 43, 43 | HEX: #2B2B2B';
         let charcoalHex = '#2B2B2B';
         let charcoalDesc = '기술적인 전문성, 정직한 기업 경영 and 신뢰성 상징';
-        let logoUrl = '/dasan_logo_raw.png';
+        let logoUrl = '/dasan_logo_new_1.png';
 
         if (dbContent) {
           const lines = dbContent.split('\n');

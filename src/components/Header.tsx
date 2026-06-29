@@ -98,9 +98,9 @@ export default function Header() {
             <div className="flex-shrink-0">
               <Link href="/" className="flex items-center">
                 <img
-                  src="/dasan_logo_raw.png"
+                  src="/dasan_logo_new_1.png"
                   alt="다산제약"
-                  className="h-14 lg:h-16 w-auto"
+                  className="h-14 lg:h-16 w-auto bg-white"
                   style={{ imageRendering: '-webkit-optimize-contrast' }}
                 />
               </Link>
