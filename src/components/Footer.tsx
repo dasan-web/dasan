@@ -35,14 +35,17 @@ export default function Footer() {
       <div className="absolute bottom-0 left-[-10%] w-[35%] h-[35%] rounded-full bg-brand-cyan/5 blur-[100px] pointer-events-none" />
 
       <div className="w-full px-6 md:px-16 lg:px-24 py-8 md:py-10 relative z-10">
-        <div className="flex flex-col gap-4">
+        
+        {/* Unified Premium Section */}
+        <div className="w-full flex flex-col">
+          <h3 className="text-white font-black text-[15px] uppercase tracking-[0.2em] mb-4 pl-1">
+            Site Map
+          </h3>
           
-          {/* TOP: Premium Sitemap Section */}
-          <div className="w-full flex flex-col">
-            <h3 className="text-white font-black text-[15px] uppercase tracking-[0.2em] mb-4 pl-1">
-              Site Map
-            </h3>
-            <div className="w-full border border-white/10 rounded-xl overflow-hidden grid grid-cols-2 md:grid-cols-5 divide-x divide-white/10 divide-y md:divide-y-0 divide-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-xs">
+          <div className="w-full border border-white/10 rounded-xl overflow-hidden bg-white/[0.01] shadow-2xl backdrop-blur-xs flex flex-col">
+            
+            {/* TOP: Sitemap Grid */}
+            <div className="w-full grid grid-cols-2 md:grid-cols-5 divide-x divide-white/10 divide-y md:divide-y-0 divide-white/10">
               {footerColumns.map((grand, gIdx) => (
               <div key={gIdx} className="flex flex-col divide-y divide-white/10">
                 <div className="p-3 pl-3.5 bg-white/5 font-black text-white text-[14px] uppercase tracking-widest text-left">
@@ -69,18 +72,17 @@ export default function Footer() {
               </div>
             ))}
             </div>
-          </div>
 
-          {/* BOTTOM: Brand & Address */}
-          <div className="w-full flex flex-col gap-3 pt-4 border-t border-white/10">
-            <div className="shrink-0 space-y-3">
-              <span className="text-xl font-black tracking-wider text-white relative">
-                DASAN<span className="text-brand-teal font-medium">PHARM</span>
-                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-brand-green to-brand-cyan/50" />
-              </span>
-            </div>
-            
-            <div className="w-fit overflow-x-auto border border-white/10 rounded-xl bg-white/[0.01] shadow-2xl backdrop-blur-xs">
+            {/* BOTTOM: Brand & Address (Connected) */}
+            <div className="w-full flex flex-col gap-6 p-6 lg:p-8 border-t border-white/10">
+              <div className="shrink-0 space-y-3">
+                <span className="text-xl font-black tracking-wider text-white relative">
+                  DASAN<span className="text-brand-teal font-medium">PHARM</span>
+                  <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-brand-green to-brand-cyan/50" />
+                </span>
+              </div>
+              
+              <div className="w-fit overflow-x-auto">
               <table className="w-full text-left border-collapse text-[12px] min-w-[340px]">
                 <tbody className="divide-y divide-white/10">
                   <tr className="hover:bg-white/[0.02] transition-colors duration-150">
@@ -108,6 +110,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
+      </div>
 
         {/* Bottom copyright row */}
         <div className="border-t border-white/10 mt-6 md:mt-8 pt-4 text-[12px] text-white font-semibold text-center">
