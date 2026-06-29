@@ -33,7 +33,7 @@ export default function CoreTechnology() {
               <div className="relative w-full aspect-square max-w-[340px] md:max-w-[480px] lg:max-w-[640px] xl:max-w-[740px] 2xl:max-w-none flex items-center justify-center">
                 {/* Central Hexagon - using clean image and CSS clip-path to avoid embedded lines/circles */}
                 <motion.div 
-                  className="absolute left-[23.33%] top-[26.83%] w-[53.33%] h-[46.33%] z-10 overflow-hidden"
+                  className="absolute left-[18%] top-[22.17%] w-[64%] h-[55.67%] z-10 overflow-hidden"
                   style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }}
                   initial={{ scale: 0.6, opacity: 0, rotate: -8 }}
                   whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
@@ -42,7 +42,7 @@ export default function CoreTechnology() {
                 >
                   <div className="w-full h-full relative">
                     <Image
-                      src="/clear_white_pills.png"
+                      src="/clear_white_pills_mixed_sharp.png"
                       alt="Dasan Core Technology"
                       fill
                       sizes="(max-w-768px) 180px, (max-w-1200px) 280px, 350px"
@@ -127,11 +127,11 @@ export default function CoreTechnology() {
                 </motion.div>
  
                 {/* Quadrant 03: Bottom-Left */}
-                {/* Title Box (Above line at y=510) */}
+                {/* Title Box (Above line at y=555) */}
                 <motion.div 
                   onMouseEnter={() => setHoveredSection('03')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[70%] left-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none ${
+                  className={`absolute top-[77.5%] left-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none ${
                     hoveredSection === '03' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -146,11 +146,11 @@ export default function CoreTechnology() {
                     개량신약(약물방출)
                   </h4>
                 </motion.div>
-                {/* Content Box (Below line at y=510) */}
+                {/* Content Box (Below line at y=555) */}
                 <motion.div
                   onMouseEnter={() => setHoveredSection('03')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[85%] left-[2%] w-[28%] pt-2 transition-all duration-300 select-none ${
+                  className={`absolute top-[92.5%] left-[2%] w-[28%] pt-2 transition-all duration-300 select-none ${
                     hoveredSection === '03' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -164,11 +164,11 @@ export default function CoreTechnology() {
                 </motion.div>
  
                 {/* Quadrant 04: Bottom-Right */}
-                {/* Title Box (Above line at y=510) */}
+                {/* Title Box (Above line at y=555) */}
                 <motion.div 
                   onMouseEnter={() => setHoveredSection('04')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[70%] right-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none ${
+                  className={`absolute top-[77.5%] right-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none ${
                     hoveredSection === '04' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -183,11 +183,11 @@ export default function CoreTechnology() {
                     개량신약(복합제 & 기타)
                   </h4>
                 </motion.div>
-                {/* Content Box (Below line at y=510) */}
+                {/* Content Box (Below line at y=555) */}
                 <motion.div
                   onMouseEnter={() => setHoveredSection('04')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[85%] right-[2%] w-[28%] pt-2 text-right transition-all duration-300 select-none ${
+                  className={`absolute top-[92.5%] right-[2%] w-[28%] pt-2 text-right transition-all duration-300 select-none ${
                     hoveredSection === '04' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -204,7 +204,7 @@ export default function CoreTechnology() {
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 600 600">
                   {/* Hexagon Border Outline */}
                   <motion.polygon 
-                    points="220,161 380,161 460,300 380,439 220,439 140,300" 
+                    points="204,133 396,133 492,300 396,467 204,467 108,300" 
                     stroke="#008953" 
                     strokeWidth="3" 
                     fill="none" 
@@ -227,7 +227,7 @@ export default function CoreTechnology() {
                   />
                   {/* Diagonal line to hexagon */}
                   <motion.line 
-                    x1="162" y1="45" x2="220" y2="161" 
+                    x1="162" y1="45" x2="204" y2="133" 
                     stroke="#008953" 
                     strokeWidth={hoveredSection === '01' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
@@ -251,7 +251,7 @@ export default function CoreTechnology() {
                   />
                   {/* Diagonal line to hexagon */}
                   <motion.line 
-                    x1="438" y1="45" x2="380" y2="161" 
+                    x1="438" y1="45" x2="396" y2="133" 
                     stroke="#008953" 
                     strokeWidth={hoveredSection === '02' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
@@ -264,7 +264,7 @@ export default function CoreTechnology() {
                   {/* ==================== 03 (Bottom-Left) ==================== */}
                   {/* Horizontal line under title */}
                   <motion.line 
-                    x1="12" y1="510" x2="162" y2="510" 
+                    x1="12" y1="555" x2="162" y2="555" 
                     stroke="#008953" 
                     strokeWidth={hoveredSection === '03' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
@@ -275,7 +275,7 @@ export default function CoreTechnology() {
                   />
                   {/* Diagonal line to hexagon */}
                   <motion.line 
-                    x1="162" y1="510" x2="220" y2="439" 
+                    x1="162" y1="555" x2="204" y2="467" 
                     stroke="#008953" 
                     strokeWidth={hoveredSection === '03' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
@@ -288,7 +288,7 @@ export default function CoreTechnology() {
                   {/* ==================== 04 (Bottom-Right) ==================== */}
                   {/* Horizontal line under title */}
                   <motion.line 
-                    x1="438" y1="510" x2="588" y2="510" 
+                    x1="438" y1="555" x2="588" y2="555" 
                     stroke="#008953" 
                     strokeWidth={hoveredSection === '04' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
@@ -299,7 +299,7 @@ export default function CoreTechnology() {
                   />
                   {/* Diagonal line to hexagon */}
                   <motion.line 
-                    x1="438" y1="510" x2="380" y2="439" 
+                    x1="438" y1="555" x2="396" y2="467" 
                     stroke="#008953" 
                     strokeWidth={hoveredSection === '04' ? '2.5' : '1.5'} 
                     className="transition-all duration-300"
@@ -335,7 +335,7 @@ export default function CoreTechnology() {
                     transition={{ duration: 0.4, ease: "backOut", delay: 1.8 }}
                   />
                   <motion.circle 
-                    cx="162" cy="510" 
+                    cx="162" cy="555" 
                     r={hoveredSection === '03' ? '5.5' : '3.5'} 
                     stroke="#008953" 
                     strokeWidth="2" 
@@ -347,7 +347,7 @@ export default function CoreTechnology() {
                     transition={{ duration: 0.4, ease: "backOut", delay: 2.0 }}
                   />
                   <motion.circle 
-                    cx="438" cy="510" 
+                    cx="438" cy="555" 
                     r={hoveredSection === '04' ? '5.5' : '3.5'} 
                     stroke="#008953" 
                     strokeWidth="2" 
