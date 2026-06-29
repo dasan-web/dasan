@@ -173,10 +173,10 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
             {/* Left Arrow */}
             <button
               onClick={handlePrev}
-              className="absolute -left-6 md:-left-12 lg:-left-16 xl:-left-20 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-gray-50 border border-gray-150 rounded-full flex items-center justify-center text-gray-400 hover:text-brand-green hover:bg-white transition-all duration-200 cursor-pointer"
+              className="absolute -left-4 md:-left-8 lg:-left-12 xl:-left-12 z-20 w-10 h-10 lg:w-11 lg:h-11 bg-gray-50 border border-gray-150 rounded-full flex items-center justify-center text-gray-400 hover:text-brand-green hover:bg-white transition-all duration-200 cursor-pointer"
               aria-label="Previous slide"
             >
-              <ChevronLeft size={24} strokeWidth={2.5} />
+              <ChevronLeft size={20} strokeWidth={2.5} />
             </button>
 
             {/* Cards Grid */}
@@ -185,7 +185,7 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
                 <div
                   key={`${card.id}-${idx}`}
                   onClick={() => setSelectedCard(card)}
-                  className="bg-[#F8F9FA] rounded-3xl overflow-hidden border border-gray-150/60 transition-all duration-300 flex flex-col h-full group cursor-pointer hover:shadow-md hover:-translate-y-0.5 border-t-4 border-t-brand-green/80"
+                  className="bg-[#F8F9FA] rounded-3xl overflow-hidden border border-gray-150/60 transition-all duration-300 flex flex-col h-full group cursor-pointer hover:shadow-md hover:-translate-y-0.5 border-b-4 border-b-brand-green/80 border-r-4 border-r-brand-green/80"
                 >
                   {/* Text Content Area */}
                   <div className="p-8 flex-grow flex flex-col justify-between min-h-[220px] lg:min-h-[260px]">
@@ -208,10 +208,10 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
             {/* Right Arrow */}
             <button
               onClick={handleNext}
-              className="absolute -right-6 md:-right-12 lg:-right-16 xl:-right-20 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-gray-50 border border-gray-150 rounded-full flex items-center justify-center text-gray-400 hover:text-brand-green hover:bg-white transition-all duration-200 cursor-pointer"
+              className="absolute -right-4 md:-right-8 lg:-right-12 xl:-right-12 z-20 w-10 h-10 lg:w-11 lg:h-11 bg-gray-50 border border-gray-150 rounded-full flex items-center justify-center text-gray-400 hover:text-brand-green hover:bg-white transition-all duration-200 cursor-pointer"
               aria-label="Next slide"
             >
-              <ChevronRight size={24} strokeWidth={2.5} />
+              <ChevronRight size={20} strokeWidth={2.5} />
             </button>
           </div>
         </ScrollReveal>

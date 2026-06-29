@@ -287,12 +287,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
             {/* Key Competencies Summary Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {compList.map((item, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-2xl text-center shadow-none">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 ${competenciesColors[idx % competenciesColors.length]}`}>
+                <div key={idx} className="bg-white p-8 md:p-12 rounded-3xl text-left shadow-none flex flex-col items-start">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-6 ${competenciesColors[idx % competenciesColors.length]}`}>
                     {competenciesIcons[idx % competenciesIcons.length]}
                   </div>
-                  <h5 className="font-bold text-brand-blue mb-2">{item.title}</h5>
-                  <p className="text-xs text-gray-500">{item.desc}</p>
+                  <h5 className="font-bold text-brand-blue mb-3 text-lg">{item.title}</h5>
+                  <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -300,7 +300,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             {/* 2. Vision & Mission */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
               {/* Mission Card */}
-              <div className="bg-white rounded-3xl p-8 md:p-10 flex flex-col justify-between relative overflow-hidden shadow-none">
+              <div className="bg-white rounded-3xl pl-8 md:pl-12 pr-6 md:pr-10 py-8 md:py-10 flex flex-col justify-between relative overflow-hidden shadow-none">
                 <div>
                   <div className="inline-flex items-center space-x-2 text-brand-blue text-xs font-bold tracking-widest uppercase mb-6 bg-brand-blue/5 px-3 py-1.5 rounded-full border border-brand-blue/10">
                     <Target size={12} />
@@ -319,7 +319,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
               </div>
 
               {/* Vision Card */}
-              <div className="bg-white rounded-3xl p-8 md:p-10 flex flex-col justify-between relative overflow-hidden shadow-none">
+              <div className="bg-white rounded-3xl pl-8 md:pl-12 pr-6 md:pr-10 py-8 md:py-10 flex flex-col justify-between relative overflow-hidden shadow-none">
                 <div>
                   <div className="inline-flex items-center space-x-2 text-brand-blue text-xs font-bold tracking-widest uppercase mb-6 bg-brand-blue/5 px-3 py-1.5 rounded-full border border-brand-blue/5">
                     <Sparkles size={12} />
@@ -340,7 +340,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
             {/* 3. Core Values */}
             <div className="space-y-8 pt-4">
-              <div className="text-center md:text-left">
+              <div className="text-center md:text-left pl-8 md:pl-12 pr-6">
                 <span className="text-brand-teal text-xs font-bold tracking-widest uppercase block mb-2">Core Values</span>
                 <h4 className="text-2xl md:text-3xl font-black text-brand-blue">다산의 5대 핵심 가치</h4>
                 <p className="text-gray-500 text-sm mt-2">우리가 일하는 방식이자 지켜나가는 원칙입니다.</p>
@@ -356,7 +356,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     'bg-brand-teal/10 text-brand-teal hover:bg-brand-teal'
                   ];
                   return (
-                    <div key={idx} className="bg-white p-6 rounded-2xl shadow-none flex flex-col justify-between group">
+                    <div key={idx} className="bg-white pl-8 md:pl-12 pr-6 py-8 rounded-3xl shadow-none flex flex-col justify-between group">
                       <div>
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-6 font-black text-lg group-hover:text-white transition-colors ${colors[idx % colors.length]}`}>
                           {val.letter}
@@ -414,7 +414,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
             {/* 5. Corporate Culture */}
             <div className="space-y-8 pt-4">
-              <div className="text-center md:text-left">
+              <div className="text-center md:text-left pl-8 md:pl-12 pr-6">
                 <span className="text-brand-cyan text-xs font-bold tracking-widest uppercase block mb-2">Corporate Culture</span>
                 <h4 className="text-2xl md:text-3xl font-black text-brand-blue">{cultureData.title}</h4>
                 <p className="text-gray-500 text-sm mt-2">{cultureData.sub}</p>
@@ -433,7 +433,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     'bg-brand-blue/10 text-brand-blue'
                   ];
                   return (
-                    <div key={idx} className="bg-white rounded-2xl p-6 shadow-none group">
+                    <div key={idx} className="bg-white rounded-3xl pl-8 md:pl-12 pr-6 py-8 shadow-none group">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${bgs[idx % bgs.length]}`}>
                         {icons[idx % icons.length]}
                       </div>
