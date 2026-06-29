@@ -100,7 +100,7 @@ export default function Header() {
                 <img
                   src="/dasan_logo_new_1.png"
                   alt="다산제약"
-                  className="h-14 lg:h-16 w-auto bg-white"
+                  className="h-9 lg:h-11 w-auto bg-white"
                   style={{ imageRendering: '-webkit-optimize-contrast' }}
                 />
               </Link>
