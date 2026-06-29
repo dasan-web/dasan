@@ -61,7 +61,7 @@ export async function GET() {
 
     // 6. Recent visitor logs (latest 5 logs)
     const recentLogs = await query(`
-      SELECT ip, device, page, DATE_FORMAT(created_at, '%H:%i:%s') as time
+      SELECT ip, device, page, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as time
       FROM visitor_logs
       ORDER BY created_at DESC
       LIMIT 5

@@ -47,13 +47,22 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const auth = await checkAuth(['super_admin', 'editor']);
+  const auth = await checkAuth(['super_admin', 'editor', 'connect_editor']);
   if (auth.error) {
     return NextResponse.json({ error: auth.error }, { status: auth.status });
   }
 
   try {
     const { category, title, content, file_url, file_name } = await request.json();
+
+    if (auth.session && auth.session.role === 'connect_editor') {
+      if (category !== 'press' && category !== 'media') {
+        return NextResponse.json(
+          { error: '뉴스룸(보도자료/홍보자료실) 글만 등록할 수 있는 권한입니다.' },
+          { status: 403 }
+        );
+      }
+    }
 
     if (!category || !title || !content) {
       return NextResponse.json(
@@ -88,13 +97,22 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
-  const auth = await checkAuth(['super_admin', 'editor']);
+  const auth = await checkAuth(['super_admin', 'editor', 'connect_editor']);
   if (auth.error) {
     return NextResponse.json({ error: auth.error }, { status: auth.status });
   }
 
   try {
     const { id, category, title, content, views, file_url, file_name } = await request.json();
+
+    if (auth.session && auth.session.role === 'connect_editor') {
+      if (category !== 'press' && category !== 'media') {
+        return NextResponse.json(
+          { error: '뉴스룸(보도자료/홍보자료실) 글만 수정할 수 있는 권한입니다.' },
+          { status: 403 }
+        );
+      }
+    }
 
     if (!id || !category || !title || !content) {
       return NextResponse.json(

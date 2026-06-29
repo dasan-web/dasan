@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(50) NOT NULL,
-    role VARCHAR(30) NOT NULL DEFAULT 'editor', -- 'super_admin', 'editor', 'viewer'
+    role VARCHAR(30) NOT NULL DEFAULT 'editor', -- 'super_admin', 'editor', 'connect_editor', 'viewer'
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -143,7 +143,6 @@ CREATE TABLE IF NOT EXISTS admin_users (
 INSERT INTO admin_users (username, password, name, role) VALUES
 ('admin', 'c522284b97b08d4447a41aba564bd86546dfd3427c625370c80344f733610eb3', '최고관리자', 'super_admin'),
 ('editor1', 'c522284b97b08d4447a41aba564bd86546dfd3427c625370c80344f733610eb3', '콘텐츠관리자', 'editor'),
+('editor2', 'c522284b97b08d4447a41aba564bd86546dfd3427c625370c80344f733610eb3', '뉴스룸관리자', 'connect_editor'),
 ('viewer1', 'c522284b97b08d4447a41aba564bd86546dfd3427c625370c80344f733610eb3', '조회권한자', 'viewer')
 ON DUPLICATE KEY UPDATE name = VALUES(name), role = VALUES(role);
-
-

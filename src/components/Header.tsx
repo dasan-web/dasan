@@ -114,11 +114,11 @@ export default function Header() {
                      className="relative flex items-center h-full group"
                      onMouseEnter={() => setHoveredGrand(grand.name)}
                   >
-                    <Link
-                      href={grand.link}
-                      onClick={() => setActiveGrand(activeGrand === grand.name ? null : grand.name)}
-                      className={`text-[17px] lg:text-[19px] xl:text-[20px] font-extrabold tracking-tight transition-colors py-2 relative hover:text-brand-green ${isHighlighted ? 'text-brand-green' : 'text-gray-800'}`}
-                    >
+                      <Link
+                        href={grand.link}
+                        onClick={() => setActiveGrand(activeGrand === grand.name ? null : grand.name)}
+                        className={`text-[17px] lg:text-[19px] xl:text-[20px] font-pretendard font-medium tracking-tight transition-colors py-2 relative hover:text-brand-green ${isHighlighted ? 'text-brand-green' : 'text-[#221d1e]'}`}
+                      >
                       {grand.name}
                       <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 group-hover:scale-x-100 ${
                         isHighlighted ? 'scale-x-100' : 'scale-x-0'
@@ -199,8 +199,8 @@ export default function Header() {
               className="hidden lg:flex items-center space-x-6 text-sm lg:text-[15px] font-semibold text-gray-500"
             >
               {/* KOR | ENG */}
-              <div className="flex items-center space-x-1.5">
-                <span className="text-gray-800 cursor-pointer">KOR</span>
+              <div className="flex items-center space-x-1.5 font-pretendard font-medium text-[#221d1e]">
+                <span className="cursor-pointer">KOR</span>
                 <span className="text-gray-300">|</span>
                 <a href="#" onClick={handleEnglishClick} className="hover:text-brand-green transition-colors">ENG</a>
               </div>

@@ -53,26 +53,27 @@ export default async function Home() {
           <div className="w-full text-left space-y-6 md:space-y-8">
             {/* Main Headline */}
             <div className="space-y-2 md:space-y-3">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-brand-green tracking-tight leading-tight lg:whitespace-nowrap">
-                Global CDMO company through DDS.
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#008953] tracking-tight leading-tight lg:whitespace-nowrap">
+                <span className="font-paperlogy font-[800]">Global CDMO company</span><br className="md:hidden" />
+                <span className="font-paperlogy font-[900]"> through DDS.</span>
               </h1>
             </div>
 
             {/* Slogan */}
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-[#74b816] tracking-tight leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-pretendard font-semibold text-[#74b816] tracking-tight leading-tight">
               Happy people make the healthy world.
             </h2>
 
             {/* Korean Paragraph Description */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 leading-relaxed max-w-5xl font-bold pt-2 md:pt-4">
-              다산제약은 한국 최고의 실학자이자 과학자였던 정약용 선생의 <span className="text-brand-green font-black">愛民정신</span>을 창업이념으로 삼아<br />인류의 건강과 행복한 삶을 위해 필요한 <span className="text-brand-green font-black">제제기술 및 합성기술 연구</span>와 우수한 의약품 생산을 위해<br />끊임없이 노력하고 있습니다.
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-[#343434] leading-relaxed max-w-5xl font-paperlogy font-[500] pt-2 md:pt-4">
+              다산제약은 한국 최고의 실학자이자 과학자였던 정약용 선생의 <span className="text-[#008953] font-[800]">愛民정신</span>을 창업이념으로 삼아<br />인류의 건강과 행복한 삶을 위해 필요한 <span className="text-[#008953] font-[800]">제제기술 및 합성기술 연구</span>와 우수한 의약품 생산을 위해<br />끊임없이 노력하고 있습니다.
             </p>
 
             {/* Learn More Button */}
             <div className="pt-4 md:pt-6">
               <Link
                 href="/about/intro"
-                className="inline-flex items-center gap-2.5 bg-white text-brand-green border-2 border-brand-green hover:bg-brand-green hover:text-white font-extrabold px-9 py-4 lg:px-11 lg:py-4.5 rounded-full transition-all duration-300 text-sm lg:text-base hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
+                className="inline-flex items-center gap-2.5 bg-white text-brand-green border-2 border-brand-green hover:bg-brand-green hover:text-white font-pretendard font-semibold px-9 py-4 lg:px-11 lg:py-4.5 rounded-full transition-all duration-300 text-sm lg:text-base hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
               >
                 <span>Learn More</span>
                 <ArrowRight className="w-4.5 h-4.5 lg:w-5 lg:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
@@ -101,11 +102,11 @@ export default async function Home() {
         <div className="w-full bg-gradient-to-r from-brand-green to-[#2E872D] py-8 md:py-10 px-6 md:px-16 lg:px-24 z-10">
           <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-8">
             {/* Left Column: Title & Sub */}
-            <div className="text-left space-y-1.5">
-              <h3 className="text-white font-extrabold text-xl md:text-2xl tracking-tight leading-tight">
+            <div className="text-left space-y-1.5 font-pretendard">
+              <h3 className="text-white font-semibold text-xl md:text-2xl tracking-tight leading-tight">
                 문의하기
               </h3>
-              <p className="text-white/90 text-xs md:text-sm font-medium">
+              <p className="text-white/90 text-xs md:text-sm font-semibold">
                 다산제약에 대해 궁금한 점이 있으시면 언제든지 문의해 주세요.
               </p>
             </div>
@@ -119,7 +120,7 @@ export default async function Home() {
               <div>
                 <Link
                   href="/contact/inquiry"
-                  className="inline-block bg-white hover:bg-gray-50 text-brand-green font-bold px-8 py-2.5 md:px-10 md:py-3 rounded-full transition-all duration-200 text-xs md:text-sm shadow-sm hover:shadow-md cursor-pointer"
+                  className="inline-block bg-white hover:bg-gray-50 text-brand-green font-pretendard font-semibold px-8 py-2.5 md:px-10 md:py-3 rounded-full transition-all duration-200 text-xs md:text-sm shadow-sm hover:shadow-md cursor-pointer"
                 >
                   Contact Us
                 </Link>

@@ -199,6 +199,19 @@ export default function AdminDashboardPage() {
       });
   }, [router]);
 
+  // Redirection guard for connect_editor role
+  useEffect(() => {
+    if (checkingAuth || !currentUser) return;
+    if (currentUser.role === 'connect_editor') {
+      if (
+        currentSubPath !== 'contact/newsroom/press' &&
+        currentSubPath !== 'contact/newsroom/media'
+      ) {
+        router.replace('/management/dashboard/contact/newsroom/press');
+      }
+    }
+  }, [currentSubPath, currentUser, checkingAuth, router]);
+
   // 2. Fetch data based on the active path
   useEffect(() => {
     if (checkingAuth) return;
@@ -1060,7 +1073,13 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
           {currentUser && (
             <span className="text-[11px] text-gray-300 font-extrabold bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
               <span className="text-brand-green uppercase mr-1.5">
-                {currentUser.role === 'super_admin' ? '최고관리자' : currentUser.role === 'editor' ? '콘텐츠관리자' : '조회권한자'}
+                {currentUser.role === 'super_admin'
+                  ? '최고관리자'
+                  : currentUser.role === 'editor'
+                  ? '콘텐츠관리자'
+                  : currentUser.role === 'connect_editor'
+                  ? '뉴스룸관리자'
+                  : '조회권한자'}
               </span>
               {currentUser.name}님
             </span>
@@ -1090,7 +1109,26 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
         {/* Left Sidebar */}
         <aside className="w-64 border-r border-white/10 bg-[#0a1120]/40 backdrop-blur-sm min-h-[calc(100vh-80px)] shrink-0 hidden md:block select-none">
           <nav className="p-4 space-y-3">
-            {navigationData.map((grand) => {
+            {navigationData
+              .map((grand) => {
+                if (currentUser?.role === 'connect_editor') {
+                  if (grand.name !== 'Connect') return null;
+                  const filteredMajors = grand.majors
+                    .filter((major) => major.name === '뉴스룸')
+                    .map((major) => ({
+                      ...major,
+                      subMenus: major.subMenus.filter(
+                        (sub) =>
+                          sub.link === '/contact/newsroom/press' ||
+                          sub.link === '/contact/newsroom/media'
+                      ),
+                    }));
+                  return { ...grand, majors: filteredMajors };
+                }
+                return grand;
+              })
+              .filter((grand): grand is GrandMenu => grand !== null)
+              .map((grand) => {
               // Skip the dummy ENG menu
               if (grand.name === 'Connect' && grand.majors[grand.majors.length - 1].name === '상단메뉴') {
                 grand.majors = grand.majors.filter(m => m.name !== '상단메뉴');
@@ -1149,32 +1187,34 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
             })}
 
             {/* Custom SEO Settings Accordion */}
-            <div className="pt-2.5 mt-2.5 border-t border-white/5 space-y-1">
-              <button
-                onClick={() => router.push('/management/dashboard/seo-settings')}
-                className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
-                  currentSubPath === 'seo-settings'
-                    ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent pl-3.5'
-                }`}
-              >
-                <span>SEO 설정 관리</span>
-              </button>
-
-              {/* Admin Users management (Super admin only) */}
-              {currentUser?.role === 'super_admin' && (
+            {currentUser?.role !== 'connect_editor' && (
+              <div className="pt-2.5 mt-2.5 border-t border-white/5 space-y-1">
                 <button
-                  onClick={() => router.push('/management/dashboard/admin-users')}
+                  onClick={() => router.push('/management/dashboard/seo-settings')}
                   className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
-                    currentSubPath === 'admin-users'
+                    currentSubPath === 'seo-settings'
                       ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
                       : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent pl-3.5'
                   }`}
                 >
-                  <span>관리자 계정 관리</span>
+                  <span>SEO 설정 관리</span>
                 </button>
-              )}
-            </div>
+
+                {/* Admin Users management (Super admin only) */}
+                {currentUser?.role === 'super_admin' && (
+                  <button
+                    onClick={() => router.push('/management/dashboard/admin-users')}
+                    className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
+                      currentSubPath === 'admin-users'
+                        ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent pl-3.5'
+                    }`}
+                  >
+                    <span>관리자 계정 관리</span>
+                  </button>
+                )}
+              </div>
+            )}
           </nav>
         </aside>
 
@@ -4794,9 +4834,17 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                       ? 'bg-rose-500/10 text-rose-450 border-rose-500/20'
                                       : user.role === 'editor'
                                       ? 'bg-brand-green/20 text-brand-green border-brand-green/30'
+                                      : user.role === 'connect_editor'
+                                      ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
                                       : 'bg-gray-400/10 text-gray-400 border-gray-400/20'
                                   }`}>
-                                    {user.role === 'super_admin' ? '최고관리자' : user.role === 'editor' ? '콘텐츠관리자' : '조회권한자'}
+                                    {user.role === 'super_admin'
+                                      ? '최고관리자'
+                                      : user.role === 'editor'
+                                      ? '콘텐츠관리자'
+                                      : user.role === 'connect_editor'
+                                      ? '뉴스룸관리자'
+                                      : '조회권한자'}
                                   </span>
                                 </td>
                                 <td className="px-5 py-4 text-xs text-gray-500" onClick={() => openEditAdminModal(user)}>
@@ -5581,6 +5629,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                 >
                   <option value="super_admin" className="bg-[#0a1120] text-white">최고관리자 (전체 권한)</option>
                   <option value="editor" className="bg-[#0a1120] text-white">콘텐츠관리자 (등록/수정 권한)</option>
+                  <option value="connect_editor" className="bg-[#0a1120] text-white">뉴스룸관리자 (보도자료/홍보자료실 권한)</option>
                   <option value="viewer" className="bg-[#0a1120] text-white">조회권한자 (조회만 가능)</option>
                 </select>
               </div>

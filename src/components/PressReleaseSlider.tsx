@@ -153,14 +153,14 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
         <ScrollReveal y={50} duration={1.2}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex flex-col">
-              <h2 className="text-2xl lg:text-3xl xl:text-4xl font-black text-brand-green tracking-tight font-sans">
+              <h2 className="text-2xl lg:text-3xl xl:text-4xl font-pretendard font-semibold text-brand-green tracking-tight">
                 Press Release
               </h2>
               <div className="w-full h-1.5 bg-brand-green mt-2" />
             </div>
             <Link
               href="/contact/newsroom/press"
-              className="inline-flex items-center gap-2 px-7 py-3 border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white text-xs lg:text-sm font-bold rounded-full transition-all duration-300 hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
+              className="inline-flex items-center gap-2 px-7 py-3 border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white text-xs lg:text-sm font-pretendard font-semibold rounded-full transition-all duration-300 hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
             >
               <span>Learn More</span>
               <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />

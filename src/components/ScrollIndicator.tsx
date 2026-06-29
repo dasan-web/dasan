@@ -88,7 +88,7 @@ export default function ScrollIndicator() {
           </div>
 
           {/* Dynamic Scroll Text */}
-          <span className="text-[9.5px] tracking-widest font-black text-gray-650 group-hover:text-brand-green uppercase transition-colors">
+          <span className="text-[9.5px] tracking-widest font-pretendard font-normal text-gray-650 group-hover:text-brand-green uppercase transition-colors">
             {scrollDir === 'down' ? 'SCROLL DOWN' : 'SCROLL UP'}
           </span>
         </motion.a>

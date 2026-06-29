@@ -16,9 +16,9 @@ export default function CoreTechnology() {
         {/* Section Heading */}
         <ScrollReveal y={50} duration={1.2}>
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-extrabold text-gray-900 tracking-tight leading-snug md:whitespace-nowrap">
-              다산제약은 <span className="text-brand-green font-black">핵심 기술</span>을 통하여{' '}
-              <span className="text-brand-green font-black">글로벌 DDS</span> 기업으로 성장하고 있습니다.
+            <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-pretendard font-extrabold text-gray-900 tracking-tight leading-snug md:whitespace-nowrap">
+              다산제약은 <span className="text-brand-green font-extrabold">핵심 기술</span>을 통하여{' '}
+              <span className="text-brand-green font-extrabold">글로벌 DDS</span> 기업으로 성장하고 있습니다.
             </h2>
           </div>
         </ScrollReveal>
