@@ -42,7 +42,7 @@ export default function CoreTechnology() {
                 >
                   <div className="w-full h-full relative">
                     <Image
-                      src="/hexagon_pills.png"
+                      src="/clear_white_pills.png"
                       alt="Dasan Core Technology"
                       fill
                       sizes="(max-w-768px) 180px, (max-w-1200px) 280px, 350px"
