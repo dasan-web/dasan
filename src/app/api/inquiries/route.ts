@@ -23,7 +23,7 @@ async function checkAuth(allowedRoles: string[]) {
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, subject, content, inquiryType } = await request.json();
+    const { name, email, phone, subject, content, inquiryType, password } = await request.json();
 
     if (!name || !email || !subject || !content) {
       return NextResponse.json(
@@ -43,11 +43,24 @@ export async function POST(request: Request) {
 
     const prefixedSubject = `${typePrefix} ${subject}`;
 
+    if (inquiryType === 'corruption' && !password) {
+      return NextResponse.json(
+        { error: '비밀번호는 필수 입력 사항입니다.' },
+        { status: 400 }
+      );
+    }
+
+    let hashedPassword = null;
+    if (password) {
+      const crypto = require('crypto');
+      hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    }
+
     const insertSql = `
-      INSERT INTO inquiries (name, email, phone, subject, content)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO inquiries (name, email, phone, subject, content, password)
+      VALUES (?, ?, ?, ?, ?, ?)
     `;
-    const result = await query(insertSql, [name, email, phone || null, prefixedSubject, content]);
+    const result = await query(insertSql, [name, email, phone || null, prefixedSubject, content, hashedPassword]);
 
     // Send email notification dynamically based on SMTP configurations
     try {
@@ -121,6 +134,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email');
     const admin = searchParams.get('admin');
+    const password = searchParams.get('password');
 
     if (admin === 'true') {
       const auth = await checkAuth(['super_admin', 'editor', 'viewer']);
@@ -145,13 +159,34 @@ export async function GET(request: Request) {
       );
     }
 
-    const selectSql = `
-      SELECT id, name, email, phone, subject, created_at
-      FROM inquiries
-      WHERE email = ?
-      ORDER BY created_at DESC
-    `;
-    const inquiries = await query(selectSql, [email]);
+    if (email === 'anonymous@dspharm.com') {
+      if (!password) {
+        return NextResponse.json(
+          { error: '익명 문의 조회를 위해 비밀번호를 입력해 주세요.' },
+          { status: 400 }
+        );
+      }
+      const crypto = require('crypto');
+      const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+      
+      const selectSql = `
+        SELECT id, name, email, phone, subject, content, created_at
+        FROM inquiries
+        WHERE email = ? AND password = ?
+        ORDER BY created_at DESC
+      `;
+      const inquiries = await query(selectSql, [email, hashedPassword]);
+      return NextResponse.json(inquiries);
+    } else {
+      const selectSql = `
+        SELECT id, name, email, phone, subject, content, created_at
+        FROM inquiries
+        WHERE email = ?
+        ORDER BY created_at DESC
+      `;
+      const inquiries = await query(selectSql, [email]);
+      return NextResponse.json(inquiries);
+    }
 
     return NextResponse.json(inquiries);
   } catch (err: any) {

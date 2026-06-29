@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS inquiries (
     phone VARCHAR(20),
     subject VARCHAR(200) NOT NULL,
     content TEXT NOT NULL,
+    password VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

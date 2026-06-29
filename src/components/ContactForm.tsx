@@ -14,6 +14,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
     phone: '',
     subject: '',
     content: '',
+    password: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -92,7 +93,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
     const isNameValid = isCorruption ? true : !!formData.name;
     const isEmailValid = isCorruption ? true : !!formData.email;
 
-    if (!isNameValid || !isEmailValid || !formData.subject || !formData.content) {
+    if (!isNameValid || !isEmailValid || !formData.subject || !formData.content || (isCorruption && !formData.password)) {
       setStatus('error');
       setMessage('필수 항목을 모두 작성해주세요.');
       setLoading(false);
@@ -124,6 +125,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
           phone: '',
           subject: '',
           content: '',
+          password: '',
         });
       } else {
         throw new Error(result.error || '등록 중 오류가 발생했습니다.');
@@ -241,6 +243,30 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                     required
                     className="w-full px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-gray-50/30 focus:bg-white"
                   />
+                </div>
+              </div>
+            )}
+
+            {/* Anonymous Password Row */}
+            {inquiryType === 'corruption' && (
+              <div className="grid grid-cols-1 gap-6">
+                <div>
+                  <label htmlFor="password" className="block text-xs font-black text-brand-blue uppercase tracking-wider mb-2">
+                    조회용 비밀번호 <span className="text-brand-green font-black">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="비밀번호 입력 (추후 조회 시 필요)"
+                    required
+                    className="w-full px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-gray-50/30 focus:bg-white"
+                  />
+                  <p className="text-[11px] font-bold text-brand-green mt-1.5 ml-1">
+                    * 익명 문의 조회를 위해 반드시 기억해 주세요.
+                  </p>
                 </div>
               </div>
             )}

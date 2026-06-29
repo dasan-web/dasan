@@ -18,6 +18,7 @@ interface InquiryItem {
 
 export default function InquiryCheckPage() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [inquiries, setInquiries] = useState<InquiryItem[]>([]);
   const [searched, setSearched] = useState(false);
@@ -34,7 +35,17 @@ export default function InquiryCheckPage() {
     setExpandedId(null);
 
     try {
-      const res = await fetch(`/api/inquiries?email=${encodeURIComponent(email)}`);
+      let url = `/api/inquiries?email=${encodeURIComponent(email)}`;
+      if (email === 'anonymous@dspharm.com') {
+        if (!password) {
+          setError('익명 문의 조회를 위해 비밀번호를 입력해 주세요.');
+          setLoading(false);
+          return;
+        }
+        url += `&password=${encodeURIComponent(password)}`;
+      }
+
+      const res = await fetch(url);
       const data = await res.json();
 
       if (res.ok) {
@@ -132,32 +143,66 @@ export default function InquiryCheckPage() {
               </div>
 
               {/* Search Form */}
-              <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3 max-w-xl">
-                <div className="relative flex-1">
-                  <Mail className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="example@dasan.com"
-                    required
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20 text-sm text-brand-blue outline-none transition-all placeholder:text-gray-400"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-6 py-3 bg-brand-green hover:bg-brand-green/90 text-white font-bold rounded-lg text-sm shadow-sm hover:shadow transition-all flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
-                >
-                  {loading ? (
-                    <RefreshCw size={16} className="animate-spin" />
-                  ) : (
-                    <>
-                      <Search size={16} />
-                      <span>조회하기</span>
-                    </>
+              <form onSubmit={handleSearch} className="flex flex-col gap-3 max-w-xl">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative flex-1">
+                    <Mail className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => { setEmail(e.target.value); setSearched(false); }}
+                      placeholder="example@dasan.com"
+                      required
+                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20 text-sm text-brand-blue outline-none transition-all placeholder:text-gray-400"
+                    />
+                  </div>
+                  {email !== 'anonymous@dspharm.com' && (
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="px-6 py-3 bg-brand-green hover:bg-brand-green/90 text-white font-bold rounded-lg text-sm shadow-sm hover:shadow transition-all flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
+                    >
+                      {loading ? (
+                        <RefreshCw size={16} className="animate-spin" />
+                      ) : (
+                        <>
+                          <Search size={16} />
+                          <span>조회하기</span>
+                        </>
+                      )}
+                    </button>
                   )}
-                </button>
+                </div>
+
+                {/* Password input for anonymous queries */}
+                {email === 'anonymous@dspharm.com' && (
+                  <div className="flex flex-col sm:flex-row gap-3 mt-1">
+                    <div className="relative flex-1">
+                      <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value); setSearched(false); }}
+                        placeholder="익명 문의 조회용 비밀번호 입력"
+                        required
+                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20 text-sm text-brand-blue outline-none transition-all placeholder:text-gray-400"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="px-6 py-3 bg-brand-green hover:bg-brand-green/90 text-white font-bold rounded-lg text-sm shadow-sm hover:shadow transition-all flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
+                    >
+                      {loading ? (
+                        <RefreshCw size={16} className="animate-spin" />
+                      ) : (
+                        <>
+                          <Search size={16} />
+                          <span>조회하기</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
               </form>
 
               {/* Results Area */}
