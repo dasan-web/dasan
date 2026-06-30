@@ -67,6 +67,17 @@ export default function RichTextEditor({ value, onChange, placeholder = '본문 
         },
       });
 
+      // 클립보드 붙여넣기 시 외부 배경색 및 텍스트 색상 속성 제거
+      q.clipboard.addMatcher(Node.ELEMENT_NODE, (node: any, delta: any) => {
+        delta.ops.forEach((op: any) => {
+          if (op.attributes) {
+            delete op.attributes.background;
+            delete op.attributes.color;
+          }
+        });
+        return delta;
+      });
+
       quillRef.current = q;
 
       // Set initial content

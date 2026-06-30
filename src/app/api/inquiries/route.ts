@@ -187,8 +187,6 @@ export async function GET(request: Request) {
       const inquiries = await query(selectSql, [email]);
       return NextResponse.json(inquiries);
     }
-
-    return NextResponse.json(inquiries);
   } catch (err: any) {
     console.error('API Inquiry fetch error:', err);
     return NextResponse.json(

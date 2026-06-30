@@ -6,6 +6,7 @@ import ScrollIndicator from '@/components/ScrollIndicator';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroBackground from '@/components/HeroBackground';
 import ScrollNav from '@/components/ScrollNav';
+import PopupWrapper from '@/components/PopupWrapper';
 import { query } from '@/lib/db';
 import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -43,6 +44,7 @@ export default async function Home() {
 
   return (
     <div className="w-full bg-white flex flex-col">
+      <PopupWrapper />
       {/* 1. Hero Banner Section */}
       <section id="hero" className="relative w-full h-[90vh] md:h-[calc(100vh-80px)] overflow-hidden flex items-center bg-white">
         {/* Background DNA Helix Image - Spring Mouse Parallax & Ken Burns Zoom */}
