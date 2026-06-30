@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 interface ContactFormProps {
   inquiryType?: 'product' | 'sales' | 'corruption';
@@ -20,6 +21,93 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+
+  // Email Verification States
+  const [verificationCode, setVerificationCode] = useState('');
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [verificationError, setVerificationError] = useState('');
+  const [timer, setTimer] = useState(0);
+
+  // ReCAPTCHA state
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer === 0 && verificationSent && !isEmailVerified) {
+      setVerificationSent(false);
+      setVerificationError('인증 시간이 만료되었습니다. 다시 시도해주세요.');
+    }
+    return () => clearInterval(interval);
+  }, [timer, verificationSent, isEmailVerified]);
+
+  const formatTimer = () => {
+    const m = Math.floor(timer / 60);
+    const s = timer % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
+  const handleSendVerification = async () => {
+    if (!formData.email) {
+      setVerificationError('이메일 주소를 입력해주세요.');
+      return;
+    }
+    if (!formData.email.includes('@') || !formData.email.includes('.')) {
+      setVerificationError('유효한 이메일 형식이 아닙니다.');
+      return;
+    }
+    setVerifying(true);
+    setVerificationError('');
+    try {
+      const res = await fetch('/api/auth/send-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setVerificationSent(true);
+        setTimer(300); // 5 minutes
+      } else {
+        setVerificationError(data.error || '인증번호 발송에 실패했습니다.');
+      }
+    } catch (e) {
+      setVerificationError('네트워크 오류가 발생했습니다.');
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    if (!verificationCode) return;
+    setVerifying(true);
+    setVerificationError('');
+    try {
+      const res = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, code: verificationCode })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setIsEmailVerified(true);
+        setTimer(0);
+        setVerificationError('');
+      } else {
+        setVerificationError(data.error || '인증번호가 올바르지 않습니다.');
+      }
+    } catch (e) {
+      setVerificationError('네트워크 오류가 발생했습니다.');
+    } finally {
+      setVerifying(false);
+    }
+  };
 
   const config = {
     product: {
@@ -50,10 +138,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
     const { name, value } = e.target;
     
     if (name === 'phone') {
-      // Numbers only
       const numOnly = value.replace(/[^0-9]/g, '');
-      
-      // Auto format for typical Korean phone numbers (e.g. 010-1111-2222 or 02-111-2222)
       let formatted = numOnly;
       if (numOnly.length > 3) {
         if (numOnly.startsWith('02')) {
@@ -65,7 +150,6 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
             formatted = `${numOnly.slice(0, 2)}-${numOnly.slice(2, 6)}-${numOnly.slice(6, 10)}`;
           }
         } else {
-          // 3-digit prefix (010, 031, etc.)
           if (numOnly.length <= 6) {
             formatted = `${numOnly.slice(0, 3)}-${numOnly.slice(3)}`;
           } else if (numOnly.length <= 10) {
@@ -75,7 +159,6 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
           }
         }
       }
-      
       setFormData((prev) => ({ ...prev, [name]: formatted.slice(0, 13) }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -88,7 +171,6 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
     setStatus('idle');
     setMessage('');
 
-    // Basic Validation - Name and Email are optional for corruption reports
     const isCorruption = inquiryType === 'corruption';
     const isNameValid = isCorruption ? true : !!formData.name;
     const isEmailValid = isCorruption ? true : !!formData.email;
@@ -96,6 +178,18 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
     if (!isNameValid || !isEmailValid || !formData.subject || !formData.content || (isCorruption && !formData.password)) {
       setStatus('error');
       setMessage('필수 항목을 모두 작성해주세요.');
+      setLoading(false);
+      return;
+    }
+
+    if (!isCorruption && !isEmailVerified) {
+      alert('이메일주소 인증이 안되었으니, 확인해주세요.');
+      setLoading(false);
+      return;
+    }
+
+    if (!recaptchaToken) {
+      alert('로봇인지 아닌지 체크해 주세요.');
       setLoading(false);
       return;
     }
@@ -111,6 +205,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
           name: isCorruption && !formData.name ? '익명' : formData.name,
           email: isCorruption && !formData.email ? 'anonymous@dspharm.com' : formData.email,
           inquiryType,
+          recaptchaToken,
         }),
       });
 
@@ -127,6 +222,13 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
           content: '',
           password: '',
         });
+        setIsEmailVerified(false);
+        setVerificationCode('');
+        setVerificationSent(false);
+        if (recaptchaRef.current) {
+          recaptchaRef.current.reset();
+        }
+        setRecaptchaToken(null);
       } else {
         throw new Error(result.error || '등록 중 오류가 발생했습니다.');
       }
@@ -233,16 +335,58 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                   <label htmlFor="email" className="block text-xs font-black text-brand-blue uppercase tracking-wider mb-2">
                     이메일 주소 <span className="text-brand-green font-black">*</span>
                   </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="example@gmail.com"
-                    required
-                    className="w-full px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-gray-50/30 focus:bg-white"
-                  />
+                  <div className="flex space-x-2">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={(e) => {
+                        handleChange(e);
+                        if (isEmailVerified) setIsEmailVerified(false);
+                        if (verificationSent) setVerificationSent(false);
+                      }}
+                      disabled={isEmailVerified}
+                      placeholder="example@gmail.com"
+                      required
+                      className="flex-1 px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-gray-50/30 focus:bg-white disabled:bg-gray-100 disabled:text-gray-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSendVerification}
+                      disabled={isEmailVerified || verifying || !formData.email}
+                      className="px-4 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap border border-gray-200 cursor-pointer"
+                    >
+                      {isEmailVerified ? '인증완료' : (verifying && !verificationSent ? '발송중...' : (verificationSent ? '재발송' : '인증번호 발송'))}
+                    </button>
+                  </div>
+
+                  {/* Verification Code Input */}
+                  {verificationSent && !isEmailVerified && (
+                    <div className="mt-3 flex space-x-2 animate-fade-in-up">
+                      <div className="relative flex-1">
+                        <input
+                          type="text"
+                          value={verificationCode}
+                          onChange={(e) => setVerificationCode(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
+                          placeholder="인증번호 6자리"
+                          className="w-full px-4.5 py-3.5 rounded-xl border border-brand-green/50 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-white"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-rose-500">
+                          {formatTimer()}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleVerifyCode}
+                        disabled={verifying || verificationCode.length < 6}
+                        className="px-4 py-3.5 bg-brand-green hover:bg-brand-green-dark text-white text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap shadow-sm cursor-pointer"
+                      >
+                        {verifying ? '확인중' : '확인'}
+                      </button>
+                    </div>
+                  )}
+                  {verificationError && <p className="mt-2 text-xs font-bold text-rose-500">{verificationError}</p>}
                 </div>
               </div>
             )}
@@ -304,6 +448,16 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
               </label>
             </div>
           )}
+
+          {/* ReCAPTCHA */}
+          <div className="flex justify-start">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey="6LdRVT0tAAAAAD5Ug_N3IhbggKeT1vj5jwVlki88"
+              onChange={(token) => setRecaptchaToken(token)}
+              hl="ko"
+            />
+          </div>
 
           {/* Submit Button */}
           <button

@@ -23,7 +23,32 @@ async function checkAuth(allowedRoles: string[]) {
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, subject, content, inquiryType, password } = await request.json();
+    const { name, email, phone, subject, content, inquiryType, password, recaptchaToken } = await request.json();
+
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { error: '자동가입 방지 체크(reCAPTCHA)가 누락되었습니다.' },
+        { status: 400 }
+      );
+    }
+
+    // Verify reCAPTCHA token with Google
+    const secretKey = '6LdRVT0tAAAAAIydIJLhsveG1wiGGncrpetxPN7z';
+    const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${secretKey}&response=${recaptchaToken}`,
+    });
+    const verifyData = await verifyRes.json();
+    
+    if (!verifyData.success) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA 인증에 실패했습니다. 다시 시도해주세요.' },
+        { status: 400 }
+      );
+    }
 
     if (!name || !email || !subject || !content) {
       return NextResponse.json(
