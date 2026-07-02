@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>육각형 분자 애니메이션 비디오 생성기</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0d1117;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        #canvas-container {
+            position: relative;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            background-color: #000;
+        }
+        canvas {
+            display: block;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #00FF41;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background-color: #00cc33;
+            transform: scale(1.05);
+        }
+        button:disabled {
+            background-color: #555;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #status {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #00FF41;
+        }
+    </style>
+</head>
+<body>
+    <h1>분자 구조 영상 생성기 (10초)</h1>
+    <p>아래 버튼을 누르면 애니메이션이 10초간 재생되며, 완료 후 자동으로 동영상(.webm) 파일이 다운로드됩니다.</p>
+    
+    <div id="canvas-container">
+        <canvas id="animationCanvas" width="1920" height="1080" style="width: 960px; height: 540px;"></canvas>
+    </div>
+    
+    <button id="startBtn">▶ 영상 생성 시작</button>
+    <div id="status">대기 중...</div>
+
+    <script>
+        const canvas = document.getElementById('animationCanvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const statusEl = document.getElementById('status');
+
+        // Hexagon configuration
+        const R = 40; 
+        const RINGS = 12; // Controls total number of hexagons (12 rings = hundreds of hexagons)
+
+        // Generate centers
+        const centers = [];
+        for (let q = -RINGS; q <= RINGS; q++) {
+            for (let r = -RINGS; r <= RINGS; r++) {
+                if (Math.abs(q + r) <= RINGS) {
+                    let cx = R * Math.sqrt(3) * (r + q / 2);
+                    let cy = R * 1.5 * q;
+                    centers.push({ x: cx, y: cy });
+                }
+            }
+        }
+
+        // Generate edges and nodes
+        const edgesMap = new Map();
+        const nodesMap = new Map();
+
+        centers.forEach(c => {
+            for (let i = 0; i < 6; i++) {
+                // start at 30 degrees for pointy-topped hexagons
+                let a1 = i * Math.PI / 3 + Math.PI / 6;
+                let a2 = ((i + 1) % 6) * Math.PI / 3 + Math.PI / 6;
+                let p1 = { x: c.x + R * Math.cos(a1), y: c.y + R * Math.sin(a1) };
+                let p2 = { x: c.x + R * Math.cos(a2), y: c.y + R * Math.sin(a2) };
+
+                // Add to nodes map
+                let k1 = Math.round(p1.x*10) + "," + Math.round(p1.y*10);
+                if (!nodesMap.has(k1)) nodesMap.set(k1, { x: p1.x, y: p1.y, dist: Math.sqrt(p1.x*p1.x + p1.y*p1.y) });
+                let k2 = Math.round(p2.x*10) + "," + Math.round(p2.y*10);
+                if (!nodesMap.has(k2)) nodesMap.set(k2, { x: p2.x, y: p2.y, dist: Math.sqrt(p2.x*p2.x + p2.y*p2.y) });
+
+                // Add to edges map
+                let midX = (p1.x + p2.x) / 2;
+                let midY = (p1.y + p2.y) / 2;
+                let key = Math.round(midX*10) + "," + Math.round(midY*10);
+                if (!edgesMap.has(key)) {
+                    edgesMap.set(key, { 
+                        p1, p2, 
+                        dist: Math.sqrt(midX*midX + midY*midY),
+                        angle: Math.atan2(midY, midX),
+                        count: 1
+                    });
+                } else {
+                    edgesMap.get(key).count++;
+                }
+            }
+        });
+
+        const edges = Array.from(edgesMap.values());
+        edges.sort((a, b) => {
+            if (Math.abs(a.dist - b.dist) > 0.1) return a.dist - b.dist;
+            return a.angle - b.angle;
+        });
+
+        const nodes = Array.from(nodesMap.values());
+        nodes.sort((a, b) => {
+            if (Math.abs(a.dist - b.dist) > 0.1) return a.dist - b.dist;
+            return Math.atan2(a.y, a.x) - Math.atan2(b.y, b.x);
+        });
+
+        // Identify outer nodes
+        nodes.forEach(n => {
+            n.isOuter = false;
+        });
+        edges.forEach(e => {
+            if (e.count === 1) {
+                let k1 = Math.round(e.p1.x*10) + "," + Math.round(e.p1.y*10);
+                let k2 = Math.round(e.p2.x*10) + "," + Math.round(e.p2.y*10);
+                if (nodesMap.has(k1)) nodesMap.get(k1).isOuter = true;
+                if (nodesMap.has(k2)) nodesMap.get(k2).isOuter = true;
+            }
+        });
+
+        // Animation Settings
+        const FPS = 60;
+        const DURATION = 10;
+        const TOTAL_FRAMES = FPS * DURATION;
+        
+        let mediaRecorder;
+        let recordedChunks = [];
+        
+        // Initial drawing (Static)
+        ctx.fillStyle = '#050a05';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        startBtn.addEventListener('click', () => {
+            startBtn.disabled = true;
+            statusEl.textContent = '영상 생성 중... (잠시만 기다려주세요)';
+            
+            // Setup MediaRecorder
+            const stream = canvas.captureStream(FPS);
+            const options = { mimeType: 'video/webm; codecs=vp9' };
+            
+            try {
+                mediaRecorder = new MediaRecorder(stream, options);
+            } catch (e) {
+                mediaRecorder = new MediaRecorder(stream);
+            }
+
+            recordedChunks = [];
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) {
+                    recordedChunks.push(e.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'molecular_hexagon_animation.webm';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+                statusEl.textContent = '영상 다운로드 완료! (.webm 형식)';
+                startBtn.disabled = false;
+                startBtn.textContent = '다시 생성하기';
+            };
+
+            mediaRecorder.start();
+
+            // Start Animation Loop
+            let frame = 0;
+            function draw() {
+                // Background
+                ctx.fillStyle = '#050a05';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                let p = frame / TOTAL_FRAMES; // 0 to 1
+
+                ctx.save();
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+
+                // --- 1. Rotation (Bicycle wheel effect) ---
+                // Starts at 7.5s (p = 0.75)
+                if (p > 0.75) {
+                    let rotP = (p - 0.75) / 0.25;
+                    // Ease-in-out rotation for smooth wheel effect
+                    let easedRot = rotP < 0.5 ? 2 * rotP * rotP : 1 - Math.pow(-2 * rotP + 2, 2) / 2;
+                    ctx.rotate(easedRot * Math.PI); // Rotate 180 degrees
+                }
+
+                // --- 2. Zoom out ---
+                let scale = 2.5; // Start zoomed in
+                if (p > 0.1 && p < 0.6) {
+                    let zp = (p - 0.1) / 0.5;
+                    // Smooth zoom out
+                    let easedZp = zp < 0.5 ? 2 * zp * zp : 1 - Math.pow(-2 * zp + 2, 2) / 2;
+                    scale = 2.5 - (easedZp * 2.1); // zoom out to 0.4
+                } else if (p >= 0.6) {
+                    scale = 0.4;
+                }
+                ctx.scale(scale, scale);
+
+                // --- 3. Growth ---
+                // Draw edges progressively until p = 0.6
+                let drawP = Math.min(p / 0.6, 1.0);
+                let easeP = Math.pow(drawP, 3);
+                let numEdges = Math.floor(easeP * edges.length);
+
+                // --- 4. Fade transition from honeycomb to smooth hexagon ---
+                // Fade out honeycomb and fade in smooth hexagon between p=0.6 and p=0.75
+                let gridAlpha = 1.0;
+                let smoothAlpha = 0.0;
+                if (p > 0.6 && p <= 0.75) {
+                    gridAlpha = 1.0 - ((p - 0.6) / 0.15);
+                    smoothAlpha = ((p - 0.6) / 0.15);
+                } else if (p > 0.75) {
+                    gridAlpha = 0;
+                    smoothAlpha = 1.0;
+                }
+
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#00FF41';
+
+                // Draw Honeycomb Grid
+                if (gridAlpha > 0) {
+                    ctx.strokeStyle = `rgba(0, 255, 65, ${gridAlpha})`;
+                    ctx.beginPath();
+                    for (let i = 0; i < numEdges; i++) {
+                        ctx.moveTo(edges[i].p1.x, edges[i].p1.y);
+                        ctx.lineTo(edges[i].p2.x, edges[i].p2.y);
+                    }
+                    ctx.stroke();
+
+                    // Draw Nodes
+                    let currentMaxDist = numEdges > 0 ? edges[numEdges - 1].dist + 0.1 : 0;
+                    let numNodes = nodes.filter(n => n.dist <= currentMaxDist).length;
+                    if (numEdges === edges.length) numNodes = nodes.length;
+
+                    ctx.shadowBlur = 20;
+                    ctx.fillStyle = `rgba(204, 255, 204, ${gridAlpha})`;
+                    for (let i = 0; i < numNodes; i++) {
+                        ctx.beginPath();
+                        ctx.arc(nodes[i].x, nodes[i].y, 4, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                // Draw Smooth Bounding Hexagon
+                if (smoothAlpha > 0) {
+                    // Find max radius of the grid for the smooth hexagon
+                    let maxR = 0;
+                    if (nodes.length > 0) {
+                        maxR = nodes[nodes.length - 1].dist; 
+                    }
+                    
+                    ctx.strokeStyle = `rgba(0, 255, 65, ${smoothAlpha})`;
+                    ctx.shadowBlur = 15;
+                    ctx.beginPath();
+                    for (let i = 0; i < 6; i++) {
+                        // Pointy sides (flat top/bottom) matches Image 2
+                        let a = i * Math.PI / 3; 
+                        let hx = maxR * Math.cos(a);
+                        let hy = maxR * Math.sin(a);
+                        if (i === 0) ctx.moveTo(hx, hy);
+                        else ctx.lineTo(hx, hy);
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+
+                frame++;
+                if (frame <= TOTAL_FRAMES) {
+                    requestAnimationFrame(draw);
+                } else {
+                    // Give a moment for the final frame then stop
+                    setTimeout(() => mediaRecorder.stop(), 500);
+                }
+            }
+            
+            draw();
+        });
+    </script>
+</body>
+</html>
