@@ -78,6 +78,27 @@ export default function Header() {
     }
   }, [pathname]);
 
+  // Close menu on scroll or click outside
+  useEffect(() => {
+    const handleScroll = () => {
+      if (activeGrand) setActiveGrand(null);
+    };
+    const handleClickOutside = (e: MouseEvent) => {
+      const header = document.getElementById('main-header');
+      if (header && !header.contains(e.target as Node)) {
+        if (activeGrand) setActiveGrand(null);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [activeGrand]);
+
   const handleEnglishClick = (e: React.MouseEvent) => {
     e.preventDefault();
     alert('영문 홈페이지 준비 중입니다. / English website is under preparation.');
@@ -86,6 +107,7 @@ export default function Header() {
   return (
     <>
       <header
+        id="main-header"
         className="w-full bg-white border-b border-gray-100 shadow-sm z-50 sticky top-0 relative"
       >
         <motion.div
