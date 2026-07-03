@@ -628,109 +628,578 @@ export default async function AboutCatchAllPage({ params }: Params) {
         );
 
       case '/about/ci':
-        // Parse CI content from DB or fallback to default
-        let ciIntro = '다산제약의 CI는 독자적인 연구 플랫폼과 신약 파이프라인 개발을 향한 끝없는 도전, 그리고 인류의 건강을 최우선으로 생각하는 핵심 이념을 시각적으로 형상화하고 있습니다.';
-        let ciSymbol = '다산제약의 심볼은 과학과 생명의 조화로운 결합을 나타냅니다. 육각형 구조는 신약 개발 및 연구의 정밀한 화학적 결합과 견고한 기술력을 의미하며, 내부에 배치된 초록 나뭇잎은 인류의 생명 건강 증진과 친환경 미래 생명공학 리더로 성장하겠다는 비전을 상징합니다.';
-        let greenName = 'DASAN GREEN';
-        let greenCode = 'RGB: 0, 137, 83 | HEX: #008953';
-        let greenHex = '#008953';
-        let greenDesc = '생명력, 인류의 건강, 지속가능한 경영 가치 상징';
-        let charcoalName = 'DASAN CHARCOAL';
-        let charcoalCode = 'RGB: 43, 43, 43 | HEX: #2B2B2B';
-        let charcoalHex = '#2B2B2B';
-        let charcoalDesc = '기술적인 전문성, 정직한 기업 경영 and 신뢰성 상징';
-        let logoUrl = '/dasan_logo_new_1.png';
+        // Data variables for CI page (준비된 데이터 변수 - 순서대로 데이터가 들어갈 수 있도록 구성)
+        let ciTitle = 'CI 소개';
+        let ciSubtitle = 'Corporate Identity';
+        let ciIntro = '육각형 심볼은 분자 구조와 함께 안정성과 신뢰를 상징하며, 대각선으로 절제된 워드마크는 혁신성과 기술적 진보를 표현합니다. 내부의 흐름형 그래픽(그라데이션-잎)은 생명과 기술의 연결을 의미하고,\n그린 컬러는 생명·친환경·신뢰의 가치를 담고 있습니다.';
+        
+        let primaryLogoTitle = 'Primary Logo';
+        let primaryLogoDesc = '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다, 대내외 다양한 커뮤니케이션에 최우선으로 사용합니다.\n다산제약의 메인 로고는 각 형태에 따라 비례를 조정한 것이므로, 글자와 도형의 형태, 굵기, 비례 등을 임의로 변경할 수 없습니다.';
+        let primaryLogoPrint = '인쇄용: 가로기준 권장: 30mm이상, 최소: 25mm';
+        let primaryLogoDigital = '디지털: 가로기준 권장: 130px이상, 최소 120px';
+        let primaryLogoFooter = '로고 활용 시 규정된 최소 사이즈 미만의 사용을 금합니다. 모바일 애플리케이션 등 작게 적용될 수 밖에 없는 매체에서는\n주어진 공간에서 최대한 크게 보일 수 있게 적용합니다.';
+        
+        let secondaryLogoTitle = 'Secondary Logo';
+        let secondaryLogoDesc = '시그니처 조합형(가로 , 세로, 워드마크)';
+        let secondaryLogoPrint1 = '인쇄용: 가로기준 권장: 70mm이상, 최소: 66mm';
+        let secondaryLogoDigital1 = '디지털: 가로기준 권장: 240px이상, 최소 220px';
+        let secondaryLogoPrint2 = '인쇄용: 가로기준 권장: 30mm이상, 최소: 25mm';
+        let secondaryLogoDigital2 = '디지털: 가로기준 권장: 130px이상, 최소 120px';
+        let secondaryLogoPrint3 = '인쇄용: 가로기준 권장: 30mm이상, 최소: 25mm';
+        let secondaryLogoDigital3 = '디지털: 가로기준 권장: 100px이상, 최소 80px';
 
+        let primaryColorTitle = 'Primary Color';
+        let primaryColorDesc = '색상은 브랜드 아이덴티티를 전달하는 핵심적인 요소로 일관성 있는 이미지 구축을 위하여 지정된 색상 값을 참고하여\n사용하는 것을 권장합니다.';
+        
+        let colors = [
+          { name: 'Dasan Green', desc: '정밀성과 신뢰를 기반으로 한 다산제약의 핵심\n컬러로, 안정감 있는 그린 톤을 통해 친환경적\n가치와 브랜드 아이덴티티를 상징하는\n시그니처 컬러', cmyk: '90,30,90,0', rgb: '0, 137, 83', pantone: '3425 C', hex: '#008953' },
+          { name: 'Dasan Light Green', desc: '생동감과 확장성을 담은 컬러로,\n브랜드에 유연한 흐름과 밝은 에너지를\n더해주는 보조 컬러', cmyk: '50,0,100,0', rgb: '141, 198, 63', pantone: '376 C', hex: '#8dc63f' },
+          { name: 'Dasan Gray', desc: '전체적인 균형과 질서를 유지하는 컬러로,\n정보 전달의 명확성을 높이고 시각 요소를\n정돈하는 보조 컬러', cmyk: '0,0,0,70', rgb: '109, 110, 113', pantone: 'Cool Gray 10 C', hex: '#6d6e71' }
+        ];
+
+        let logoColorUsageTitle = 'Logo Color Usage Guideline';
+        let logoColorUsageDesc = '필수 사용 (3컬러)';
+        let logoColorFooter = '배경 명도에 따라 가독성을 우선 고려합니다. 기본은 오리지널 컬러를 사용하며, 필요 시 White 또는 Soft Black 로고로 대체합니다.\n색상 변경은 사전 승인 후 적용합니다.';
+
+        let clearSpaceTitle = 'Clear Space';
+        let clearSpaceDesc = '로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해\n단독 적용 시 최소 사용 여백을 유지해야 합니다.';
+        let clearSpaceTipTitle = '외부 사용자 Tip';
+        let clearSpaceTip1 = '1. 심볼(육각형) 높이를 잽니다.';
+        let clearSpaceTip2 = '2. 그 절반 위치에 가상의 수평선을 긋습니다.';
+        let clearSpaceTip3 = '3. 그 선부터 DASAN 상단까지 거리 = X';
+
+        let incorrectUsageTitle = 'Incorrect Logo Usage';
+        let incorrectUsageDesc = '다산제약 로고를 임의로 변형하거나 왜곡하는 것을 금지하며, 표준 형태와 색상을 준수해야 합니다.';
+        let incorrectShapes = [
+          '로고의 형태를 변경하는 경우',
+          '심볼과 로고타입 조합의 비례를\n임의로 변경한 경우',
+          '로고의 서체를 다르게 적용하는 경우',
+          '로고 비율 규정\n기존 비율 2048px, 776px [2.64:1(2.6:1)]'
+        ];
+        let incorrectColors = [
+          '지정색 이외의 색상을 적용하는 경우',
+          '로고의 테두리에 색 또는 효과를\n적용하는 경우',
+          '로고에 그라데이션을 적용하는 경우',
+          ''
+        ];
+        let incorrectBgs = [
+          '복잡한 패턴 위에 로고를 적용하는 경우',
+          '채도가 유사한 배경색에 로고를\n적용하는 경우',
+          '복잡한 이미지 위에 로고를 적용하는 경우',
+          '로고에 그림자를 적용하는경우'
+        ];
+
+        // DB Data Overrides (추후 DB 연동 시 아래 주석 해제 및 적용 가능)
+        /*
         if (dbContent) {
-          const lines = dbContent.split('\n');
-          if (lines[0]) ciIntro = lines[0];
-          if (lines[1]) ciSymbol = lines[1];
-          if (lines[2]) greenName = lines[2];
-          if (lines[3]) greenCode = lines[3];
-          if (lines[4]) greenHex = lines[4];
-          if (lines[5]) greenDesc = lines[5];
-          if (lines[6]) charcoalName = lines[6];
-          if (lines[7]) charcoalCode = lines[7];
-          if (lines[8]) charcoalHex = lines[8];
-          if (lines[9]) charcoalDesc = lines[9];
-          if (lines[10]) logoUrl = lines[10];
+           // Parse structured db content here
         }
+        */
 
         return (
-          <div className="space-y-12 animate-fade-in-up">
-            <p className="text-gray-650 text-sm md:text-base leading-relaxed font-medium">
-              {ciIntro}
-            </p>
-
-            {/* Logo Display Card */}
-            <div className="bg-[#F8F9FA] rounded-3xl p-8 md:p-12 border border-gray-150 flex flex-col items-center justify-center space-y-8">
-              <div className="relative bg-white border border-gray-100 rounded-2xl p-8 shadow-sm flex items-center justify-center min-h-[160px] w-full max-w-md">
-                <Image
-                  src={logoUrl}
-                  alt="Dasan Corporate Identity Logo"
-                  width={280}
-                  height={80}
-                  priority
-                  className="object-contain"
-                />
+          <div className="space-y-16 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl">
+            {/* Section 1: Corporate Identity & Primary Logo */}
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">{ciTitle}</h2>
+              
+              <div className="pt-8">
+                <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{ciSubtitle}</h3>
+                <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line text-[15px]">{ciIntro}</p>
               </div>
 
-              {/* Download Buttons */}
-              <div className="flex flex-wrap gap-4 justify-center">
-                <a
-                  href={logoUrl}
-                  download="dasan_logo.png"
-                  className="inline-flex items-center space-x-2 bg-brand-green hover:bg-brand-green-dark text-white font-bold px-6 py-3 rounded-full text-xs md:text-sm shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
-                >
-                  <Download size={16} />
-                  <span>CI 로고 다운로드 (PNG)</span>
-                </a>
+              <div className="pt-12">
+                <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{primaryLogoTitle}</h3>
+                <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line mb-8 text-[15px]">{primaryLogoDesc}</p>
+                
+                <div className="flex flex-col lg:flex-row gap-8 items-start">
+                  <div className="border border-gray-200 rounded-[2rem] p-8 flex flex-col items-center justify-center bg-white flex-1 w-full shadow-sm">
+                     <div className="w-full h-48 bg-white flex items-center justify-center text-gray-400 mb-6 rounded-2xl border border-gray-100 overflow-hidden relative p-8">
+                        <Image
+                          src="/dasan_logo_new_1.png"
+                          alt="Dasan Primary Logo"
+                          fill
+                          className="object-contain p-8"
+                          priority
+                        />
+                     </div>
+                     <div className="text-sm text-[#50A5D6] text-center border-t border-[#50A5D6]/30 pt-4 w-full max-w-sm">
+                        <p className="mb-1">{primaryLogoPrint}</p>
+                        <p>{primaryLogoDigital}</p>
+                     </div>
+                  </div>
+                  <div className="flex-shrink-0 lg:pt-8 w-full lg:w-auto flex justify-center">
+                     <a href="/dasan_logo_new_1.png" download="dasan_logo.png" className="flex items-center space-x-3 border border-gray-300 rounded-xl px-8 py-4 hover:bg-gray-50 font-bold text-gray-800 transition-colors shadow-sm">
+                        <span>CI 다운로드</span>
+                        <div className="bg-gray-800 text-white rounded p-1">
+                          <Download size={14} strokeWidth={3} />
+                        </div>
+                     </a>
+                  </div>
+                </div>
+                <p className="text-gray-500 mt-6 text-sm whitespace-pre-line leading-relaxed">{primaryLogoFooter}</p>
               </div>
             </div>
 
-            {/* CI Meaning & Color System Info Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Symbol Meaning */}
-              <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-150 shadow-[0_10px_30px_rgba(0,0,0,0.015)] space-y-4">
-                <h4 className="font-black text-brand-blue text-base md:text-lg border-b border-gray-100 pb-3">심볼마크의 의미</h4>
-                <p className="text-gray-600 text-xs md:text-sm leading-relaxed font-semibold">
-                  {ciSymbol}
-                </p>
+            {/* Section 2: Secondary Logo */}
+            <div className="pt-16 border-t border-gray-100">
+              <h3 className="text-[28px] font-bold text-[#356149] mb-4 tracking-tight">{secondaryLogoTitle}</h3>
+              <p className="text-gray-900 font-bold mb-10 text-[16px] tracking-tight">{secondaryLogoDesc}</p>
+              
+              <div className="bg-white space-y-16 border border-gray-300 p-12 rounded-2xl">
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center justify-between w-full max-w-2xl h-[120px] mb-6 pr-2">
+                    <div className="relative w-[340px] h-full">
+                      <Image
+                        src="/dasan_logo_new_1.png"
+                        alt="Dasan Secondary Logo 1"
+                        fill
+                        className="object-contain object-left"
+                      />
+                    </div>
+                    <span className="text-[64px] font-bold text-[#555] tracking-tighter pb-4">(주) 다산제약</span>
+                  </div>
+                  {/* Blue Bracket */}
+                  <div className="w-full max-w-2xl mb-4">
+                     <div className="h-[8px] border-l border-r border-b border-[#589BD1]"></div>
+                  </div>
+                  {/* Text */}
+                  <div className="text-[14px] text-[#589BD1] text-center w-full max-w-md tracking-tight font-medium">
+                     <p className="mb-0.5">{secondaryLogoPrint1}</p>
+                     <p>{secondaryLogoDigital1}</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+                   {/* Secondary Logo 2 */}
+                   <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center w-[320px] h-full">
+                        <div className="flex flex-col items-center justify-end flex-1 mb-6 w-full">
+                          <div className="relative w-full aspect-[1024/388]">
+                            <Image
+                              src="/dasan_logo_new_1.png"
+                              alt="Dasan Secondary Logo 2"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                          <div className="w-full flex justify-between items-center text-[42px] font-extrabold text-[#222] tracking-tighter mt-2 whitespace-nowrap">
+                            <span>주</span>
+                            <span>식</span>
+                            <span>회</span>
+                            <span>사</span>
+                            <span className="px-1"></span>
+                            <span>다</span>
+                            <span>산</span>
+                            <span>제</span>
+                            <span>약</span>
+                          </div>
+                        </div>
+                        {/* Blue Bracket */}
+                        <div className="w-full mb-4">
+                           <div className="h-[8px] border-l border-r border-b border-[#589BD1]"></div>
+                        </div>
+                        {/* Text */}
+                        <div className="text-[14px] text-[#589BD1] text-center w-[120%] tracking-tight font-medium">
+                           <p className="mb-0.5">{secondaryLogoPrint2}</p>
+                           <p>{secondaryLogoDigital2}</p>
+                        </div>
+                      </div>
+                   </div>
+                   
+                   {/* Secondary Logo 3 */}
+                   <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center w-max h-full">
+                        <div className="flex flex-col justify-end items-start flex-1 mb-6 w-full">
+                           <span className="text-[54px] font-black text-[#398055] leading-none tracking-tighter">DASAN</span>
+                           <span className="text-[44px] font-bold text-[#398055] leading-tight tracking-tight mt-1">Pharmaceutical</span>
+                           <div className="w-full h-[6px] bg-[#398055] mt-4"></div>
+                        </div>
+                        {/* Blue Bracket */}
+                        <div className="w-full mb-4">
+                           <div className="h-[8px] border-l border-r border-b border-[#589BD1]"></div>
+                        </div>
+                        {/* Text */}
+                        <div className="text-[14px] text-[#589BD1] text-center w-full tracking-tight font-medium">
+                           <p className="mb-0.5">{secondaryLogoPrint3}</p>
+                           <p>{secondaryLogoDigital3}</p>
+                        </div>
+                      </div>
+                   </div>
+                </div>
               </div>
+            </div>
 
-              {/* Color System */}
-              <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-150 shadow-[0_10px_30px_rgba(0,0,0,0.015)] space-y-4">
-                <h4 className="font-black text-brand-blue text-base md:text-lg border-b border-gray-100 pb-3">전용 색상 (Color System)</h4>
-                <div className="space-y-4">
-                  {/* Green */}
-                  <div className="flex items-center space-x-4">
-                    <div 
-                      className="w-12 h-12 rounded-2xl border border-gray-200/50 shadow-inner flex-shrink-0"
-                      style={{ backgroundColor: greenHex }}
-                    />
+            {/* Section 3: Primary Color & Logo Color Usage Guideline */}
+            <div className="pt-16 border-t border-gray-100">
+              <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{primaryColorTitle}</h3>
+              <p className="text-gray-600 leading-relaxed break-keep mb-10 text-[15px] whitespace-pre-line">{primaryColorDesc}</p>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-20">
+                {colors.map((c, i) => (
+                  <div key={i} className="rounded-3xl p-8 text-white flex flex-col justify-between shadow-md" style={{backgroundColor: c.hex}}>
                     <div>
-                      <span className="font-extrabold text-xs text-gray-800 block">{greenName}</span>
-                      <span className="text-[10px] text-gray-400 font-mono block">{greenCode}</span>
-                      <span className="text-[11px] text-gray-500 font-bold mt-0.5 block">{greenDesc}</span>
+                      <h4 className="text-2xl font-bold mb-4">{c.name}</h4>
+                      <p className="text-[13px] opacity-90 leading-relaxed mb-8 break-keep whitespace-pre-line font-medium">{c.desc}</p>
+                    </div>
+                    <div className="flex justify-between text-xs font-mono bg-black/10 p-4 rounded-2xl gap-2">
+                      <div className="flex-1">
+                         <span className="inline-block border border-white/40 rounded-full px-3 py-1 text-[10px] mb-3 text-center w-full bg-white/5">인쇄 기준용</span>
+                         <p className="mb-1 text-[11px]">CMYK: {c.cmyk}</p>
+                         <p className="text-[11px]">Pantone: {c.pantone}</p>
+                      </div>
+                      <div className="flex-1">
+                         <span className="inline-block border border-white/40 rounded-full px-3 py-1 text-[10px] mb-3 text-center w-full bg-white/5">디지털 화면용</span>
+                         <p className="mb-1 text-[11px]">RGB: {c.rgb}</p>
+                         <p className="text-[11px]">HEX: {c.hex}</p>
+                      </div>
                     </div>
                   </div>
-                  {/* Charcoal */}
-                  <div className="flex items-center space-x-4">
-                    <div 
-                      className="w-12 h-12 rounded-2xl border border-gray-200/50 shadow-inner flex-shrink-0"
-                      style={{ backgroundColor: charcoalHex }}
-                    />
+                ))}
+              </div>
+
+              <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{logoColorUsageTitle}</h3>
+              <p className="text-gray-900 font-bold mb-6">{logoColorUsageDesc}</p>
+              
+              <div className="flex flex-wrap gap-6 mb-8">
+                <div className="flex flex-col items-center">
+                   <div className="border border-gray-200 rounded-2xl w-48 h-24 flex items-center justify-center bg-white mb-4 shadow-sm relative p-4">
+                     <Image src="/dasan_logo_new_1.png" alt="Full Color Logo" fill className="object-contain p-4" />
+                   </div>
+                   <span className="text-sm font-bold text-gray-700">Full Color(Original)</span>
+                </div>
+                <div className="flex flex-col items-center">
+                   <div className="border border-gray-200 rounded-2xl w-48 h-24 flex items-center justify-center bg-white mb-4 shadow-sm relative p-4">
+                     <Image src="/dasan_logo_new_1.png" alt="Soft Black Logo" fill className="object-contain p-4 grayscale" />
+                   </div>
+                   <span className="text-sm font-bold text-gray-700">Soft Black</span>
+                </div>
+                <div className="flex flex-col items-center">
+                   <div className="border border-gray-200 rounded-2xl w-48 h-24 flex items-center justify-center bg-black text-white mb-4 shadow-sm relative p-4">
+                     <Image src="/dasan_logo_new_1.png" alt="White Logo" fill className="object-contain p-4 brightness-0 invert" />
+                   </div>
+                   <span className="text-sm font-bold text-gray-700">White</span>
+                </div>
+              </div>
+              <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line text-[15px]">{logoColorFooter}</p>
+            </div>
+
+            {/* Section 4: Clear Space */}
+            <div className="pt-16 border-t border-gray-100">
+              <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start">
+                {/* Left: Diagram */}
+                <div className="w-full lg:w-[55%]">
+                  <div className="relative bg-[#f8f9fa] p-8 pt-12 pb-14 pr-12 pl-16 flex items-center justify-center rounded-sm">
+                    {/* The main diagram box */}
+                    <div className="relative border border-gray-400 bg-[#e5e7eb] p-[24px] flex items-center justify-center shadow-sm w-full">
+                       
+                       {/* Corner dark gray boxes for 'x' */}
+                       <div className="absolute top-0 left-0 w-[24px] h-[24px] bg-[#d1d5db] z-10 border-b border-r border-gray-400"></div>
+                       <div className="absolute top-0 right-0 w-[24px] h-[24px] bg-[#d1d5db] z-10 border-b border-l border-gray-400"></div>
+                       <div className="absolute bottom-0 left-0 w-[24px] h-[24px] bg-[#d1d5db] z-10 border-t border-r border-gray-400"></div>
+                       <div className="absolute bottom-0 right-0 w-[24px] h-[24px] bg-[#d1d5db] z-10 border-t border-l border-gray-400"></div>
+                       
+                       {/* Gray lines extending inner box to outer box */}
+                       <div className="absolute left-[24px] top-0 bottom-0 w-[1px] bg-gray-400 z-10"></div>
+                       <div className="absolute right-[24px] top-0 bottom-0 w-[1px] bg-gray-400 z-10"></div>
+                       <div className="absolute top-[24px] left-0 right-0 h-[1px] bg-gray-400 z-10"></div>
+                       <div className="absolute bottom-[24px] left-0 right-0 h-[1px] bg-gray-400 z-10"></div>
+
+                       {/* Inner white box with the logo */}
+                       <div className="relative bg-white z-10 w-full flex items-center justify-center">
+                          {/* Use the correct logo */}
+                          <Image src="/dasan_logo_new_1.png" alt="Clear Space Logo" width={1024} height={388} className="w-full h-auto" />
+                          
+                          {/* Guidelines */}
+                          {/* Horizontal blue line through middle */}
+                          <div className="absolute top-[49%] left-0 right-0 h-[1px] bg-[#4294D0] z-20"></div>
+                          {/* Horizontal green dotted lines (top and middle of D) */}
+                          <div className="absolute top-[49%] left-[-29px] right-[20%] h-[1px] border-t-2 border-dotted border-[#549E69] z-20"></div>
+                          
+
+
+                          {/* Brackets (Moved completely outside the gray padding box for exact proportional alignment) */}
+                          {/* Left top bracket for X (height of D) */}
+                          <div className="absolute left-[-29px] top-[19.5%] bottom-[51%] w-[5px] border-l border-t border-b border-[#333] z-20"></div>
+                          <span className="absolute left-[-39px] top-[34%] text-[11px] text-[#333] font-normal -translate-y-1/2 z-20">x</span>
+                          
+                          {/* Bottom-left bracket for X (width of padding) */}
+                          <div className="absolute left-[-24px] bottom-[-29px] w-[24px] h-[5px] border-l border-r border-b border-[#333] z-20"></div>
+                          <span className="absolute left-[-12px] bottom-[-43px] text-[11px] text-[#333] font-normal -translate-x-1/2 z-20">x</span>
+
+                          {/* Bottom-right bracket for X (width of padding) */}
+                          <div className="absolute right-[-24px] bottom-[-29px] w-[24px] h-[5px] border-l border-r border-b border-[#333] z-20"></div>
+                          <span className="absolute right-[-12px] bottom-[-43px] text-[11px] text-[#333] font-normal -translate-x-1/2 z-20">x</span>
+                          
+                          {/* Left bottom bracket for X (height of padding) */}
+                          <div className="absolute left-[-29px] bottom-[-24px] h-[24px] w-[5px] border-l border-t border-b border-[#333] z-20"></div>
+                          <span className="absolute left-[-39px] bottom-[-12px] text-[11px] text-[#333] font-normal -translate-y-1/2 z-20">x</span>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Right: Text and Tip */}
+                <div className="w-full lg:w-[45%] flex flex-col justify-center pl-2 lg:pl-4">
+                  <h3 className="text-[32px] font-bold text-[#2A5C43] mb-4 tracking-tight">Clear Space</h3>
+                  <p className="text-gray-700 leading-relaxed font-medium mb-8 text-[16px] break-keep">
+                    로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해<br className="hidden lg:block"/>단독 적용 시 최소 사용 여백을 유지해야 합니다.
+                  </p>
+                  
+                  <div className="bg-[#f8f9fa] rounded-xl p-6 border border-gray-100 flex items-start gap-3 shadow-sm">
+                    <div className="text-[#2A5C43] mt-0.5">
+                       {/* Info icon */}
+                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    </div>
                     <div>
-                      <span className="font-extrabold text-xs text-gray-800 block">{charcoalName}</span>
-                      <span className="text-[10px] text-gray-400 font-mono block">{charcoalCode}</span>
-                      <span className="text-[11px] text-gray-500 font-bold mt-0.5 block">{charcoalDesc}</span>
+                      <h5 className="font-bold text-gray-900 mb-3 text-[16px] tracking-tight">외부 사용자 Tip</h5>
+                      <ol className="text-gray-700 space-y-2.5 text-[15px] font-medium tracking-tight list-none">
+                        <li>1. 심볼(육각형) 높이를 잽니다.</li>
+                        <li>2. 그 절반 위치에 가상의 수평선을 긋습니다.</li>
+                        <li>3. 그 선부터 DASAN 상단까지 거리 = X</li>
+                      </ol>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Section 5: Incorrect Logo Usage */}
+            <div className="pt-16 border-t border-gray-100">
+              <h3 className="text-3xl font-bold text-[#2A5C43] mb-4">{incorrectUsageTitle}</h3>
+              <p className="text-gray-600 leading-relaxed break-keep mb-12 text-[15px]">{incorrectUsageDesc}</p>
+              
+              <div className="space-y-12">
+                <div>
+                  <h4 className="text-xl font-bold text-[#2A5C43] mb-6">Shape</h4>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* Shape 1: squished horizontally, stretched vertically */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-white mb-3 relative overflow-hidden">
+                        <div className="relative w-full h-full flex items-center justify-center">
+                           {/* SVG Filter for wave effect */}
+                           <svg width="0" height="0" className="absolute">
+                             <filter id="wave-distortion">
+                               <feTurbulence type="fractalNoise" baseFrequency="0.08 0.01" numOctaves="1" result="noise" />
+                               <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" />
+                             </filter>
+                           </svg>
+                           <div className="w-full h-full relative" style={{ filter: 'url(#wave-distortion)' }}>
+                              <Image src="/dasan_logo_new_1.png" alt="Incorrect Shape 1" fill className="object-contain p-6" />
+                           </div>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectShapes[0]}</p>
+                      </div>
+                    </div>
+                    {/* Shape 2: Huge symbol, small text (using clip-path to separate them) */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-white mb-3 relative overflow-hidden">
+                        <div className="relative w-full h-full flex items-center justify-center -translate-x-[17%]">
+                           {/* Text part (left side), scaled DOWN */}
+                           <div className="absolute inset-0 scale-[0.7] origin-[60%_50%]" style={{ clipPath: 'inset(0 40% 0 0)' }}>
+                              <Image src="/dasan_logo_new_1.png" alt="Text Part" fill className="object-contain p-6" />
+                           </div>
+                           {/* Symbol part (right side), scaled UP */}
+                           <div className="absolute inset-0 scale-[1.4] origin-[60%_50%]" style={{ clipPath: 'inset(0 0 0 60%)' }}>
+                              <Image src="/dasan_logo_new_1.png" alt="Symbol Part" fill className="object-contain p-6" />
+                           </div>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectShapes[1]}</p>
+                      </div>
+                    </div>
+                    {/* Shape 3: Wrong font -> Hide real text, inject HTML text */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-white mb-3 relative overflow-hidden">
+                        <div className="relative w-full h-full flex items-center justify-center">
+                           {/* Symbol part only */}
+                           <div className="absolute inset-0" style={{ clipPath: 'inset(0 0 0 60%)' }}>
+                              <Image src="/dasan_logo_new_1.png" alt="Symbol Part" fill className="object-contain p-6" />
+                           </div>
+                           {/* Fake generic text for both */}
+                           <div className="absolute left-[15%] top-1/2 -translate-y-1/2 flex flex-col items-center justify-center mt-1">
+                              <span className="text-[28px] font-sans font-bold text-[#398055] tracking-tight leading-none" style={{ transform: 'scaleY(1.1)' }}>DASAN</span>
+                              <span className="text-[10px] text-[#666] font-sans tracking-wide leading-none mt-1">Pharmaceutical</span>
+                           </div>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectShapes[2]}</p>
+                      </div>
+                    </div>
+                    {/* Shape 4: Proportions / lines */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-white mb-3 relative overflow-hidden">
+                        <div className="relative w-[75%] h-[40%] flex items-center justify-center mt-[-10px] ml-[-10px]">
+                           <Image src="/dasan_logo_new_1.png" alt="Proportions" fill className="object-contain" />
+
+                        </div>
+                      </div>
+                      <div className="flex items-start flex-col">
+                         <div className="flex items-start">
+                           <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                           </span>
+                           <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">로고 비율 규정</p>
+                         </div>
+                         <p className="text-[11px] text-gray-500 tracking-tight font-normal mt-0.5 ml-5">기존 비율 2048px, 776px [2.64:1(2.6:1)]</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="text-xl font-bold text-[#2A5C43] mb-6">Color</h4>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* Color 1: Hue rotated (wrong color) -> using mask with horizontal gradient */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-white mb-3 relative overflow-hidden p-6">
+                        <div className="w-full h-full" style={{
+                          WebkitMaskImage: 'url(/dasan_logo_new_1.png)',
+                          WebkitMaskSize: 'contain',
+                          WebkitMaskRepeat: 'no-repeat',
+                          WebkitMaskPosition: 'center',
+                          maskImage: 'url(/dasan_logo_new_1.png)',
+                          maskSize: 'contain',
+                          maskRepeat: 'no-repeat',
+                          maskPosition: 'center',
+                          background: 'linear-gradient(to right, #2E3192 45%, #4294D0 80%)'
+                        }}></div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectColors[0]}</p>
+                      </div>
+                    </div>
+                    {/* Color 2: Stroke/Outline -> White logo + multiple blue drop shadows */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-white mb-3 relative overflow-hidden p-6">
+                        <div className="relative w-full h-full flex items-center justify-center">
+                           <Image 
+                             src="/dasan_logo_new_1.png" 
+                             alt="Incorrect Color 2" 
+                             fill 
+                             className="object-contain"
+                             style={{
+                               filter: 'brightness(0) invert(1) drop-shadow(1px 0 0 #2E3192) drop-shadow(-1px 0 0 #2E3192) drop-shadow(0 1px 0 #2E3192) drop-shadow(0 -1px 0 #2E3192)'
+                             }} 
+                           />
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectColors[1]}</p>
+                      </div>
+                    </div>
+                    {/* Color 3: gradient/saturation -> using mask with vertical gradient */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-white mb-3 relative overflow-hidden p-6">
+                        <div className="w-full h-full" style={{
+                          WebkitMaskImage: 'url(/dasan_logo_new_1.png)',
+                          WebkitMaskSize: 'contain',
+                          WebkitMaskRepeat: 'no-repeat',
+                          WebkitMaskPosition: 'center',
+                          maskImage: 'url(/dasan_logo_new_1.png)',
+                          maskSize: 'contain',
+                          maskRepeat: 'no-repeat',
+                          maskPosition: 'center',
+                          background: 'linear-gradient(to bottom, #9ECA52, #2A5C43)'
+                        }}></div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectColors[2]}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xl font-bold text-[#2A5C43] mb-6">Background</h4>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* BG 1: Pattern */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center mb-3 relative overflow-hidden bg-white" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0l3.5 8.5L24 12l-8.5 3.5L12 24l-3.5-8.5L0 12l8.5-3.5L12 0z' fill='none' stroke='%23333' stroke-width='0.5'/%3E%3C/svg%3E\")", backgroundSize: "24px 24px", backgroundRepeat: "repeat" }}>
+                        <div className="relative w-full h-full flex items-center justify-center mix-blend-multiply opacity-90">
+                           <Image src="/dasan_logo_new_1.png" alt="Incorrect BG 1" fill className="object-contain p-6" />
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectBgs[0]}</p>
+                      </div>
+                    </div>
+                    {/* BG 2: Similar green color */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-[#67A97A] mb-3 relative overflow-hidden">
+                        <div className="relative w-full h-full flex items-center justify-center mix-blend-multiply opacity-70">
+                           <Image src="/dasan_logo_new_1.png" alt="Incorrect BG 2" fill className="object-contain p-6" />
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectBgs[1]}</p>
+                      </div>
+                    </div>
+                    {/* BG 3: Complex photo background */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center mb-3 relative overflow-hidden bg-[#222]">
+                        {/* Use local complex photo to avoid broken external links, filtered to look like the dark steel structure */}
+                        <Image src="/press_factory.png" alt="Complex Structure" fill className="object-cover" style={{ filter: 'brightness(0.5) sepia(0.6) hue-rotate(-20deg) saturate(1.5)' }} />
+                        <div className="relative w-full h-full flex items-center justify-center z-10">
+                           <Image src="/dasan_logo_new_1.png" alt="Incorrect BG 3" fill className="object-contain p-6 drop-shadow-md" style={{ filter: 'sepia(1) hue-rotate(50deg) saturate(3) brightness(0.8)' }} />
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectBgs[2]}</p>
+                      </div>
+                    </div>
+                    {/* BG 4: Shadow applied */}
+                    <div className="flex flex-col">
+                      <div className="border border-gray-300 rounded-none h-32 flex items-center justify-center bg-white mb-3 relative overflow-hidden">
+                        <div className="relative w-full h-full drop-shadow-[4px_4px_4px_rgba(0,0,0,0.5)] flex items-center justify-center">
+                           <Image src="/dasan_logo_new_1.png" alt="Incorrect BG 4" fill className="object-contain p-6" />
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                         <span className="text-[#A71C20] mr-1 mt-0.5 flex-shrink-0">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                         </span>
+                         <p className="text-[12px] text-gray-700 whitespace-pre-line leading-snug tracking-tight font-medium">{incorrectBgs[3]}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         );
+
 
       case '/about/facilities':
         // Default static texts

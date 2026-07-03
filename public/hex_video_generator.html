@@ -159,6 +159,9 @@
         ctx.fillStyle = '#050a05';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        const logoImg = new Image();
+        logoImg.src = 'dasan_logo_new.png';
+
         startBtn.addEventListener('click', () => {
             startBtn.disabled = true;
             statusEl.textContent = '영상 생성 중... (잠시만 기다려주세요)';
@@ -304,7 +307,29 @@
                     ctx.stroke();
                 }
 
-                ctx.restore();
+                ctx.restore(); // Restore global context for logo
+
+                // --- 5. Logo fade in at the end ---
+                if (p > 0.8) {
+                    let logoAlpha = Math.min((p - 0.8) / 0.15, 1.0);
+                    ctx.save();
+                    ctx.globalAlpha = logoAlpha;
+                    
+                    if (logoImg.complete && logoImg.naturalWidth > 0) {
+                        // Draw logo in the center
+                        let imgW = logoImg.width;
+                        let imgH = logoImg.height;
+                        let targetW = 400; // Desired logo width
+                        let targetH = imgH * (targetW / imgW);
+                        
+                        // Adding a subtle white glow behind the dark logo so it is visible on black background
+                        ctx.shadowBlur = 30;
+                        ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+                        
+                        ctx.drawImage(logoImg, (canvas.width - targetW) / 2, (canvas.height - targetH) / 2, targetW, targetH);
+                    }
+                    ctx.restore();
+                }
 
                 frame++;
                 if (frame <= TOTAL_FRAMES) {

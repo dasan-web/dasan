@@ -5337,8 +5337,8 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       onChange={(e) => setProdType(e.target.value)}
                       className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold"
                     >
-                      <option value="전문의약품">전문의약품</option>
-                      <option value="일반의약품">일반의약품</option>
+                      <option value="전문의약품" className="bg-[#0a1120] text-white">전문의약품</option>
+                      <option value="일반의약품" className="bg-[#0a1120] text-white">일반의약품</option>
                     </select>
                   </div>
                   <div className="space-y-1">
@@ -5381,7 +5381,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold"
                     >
                       {consonants.map(c => (
-                        <option key={c} value={c}>{c}</option>
+                        <option key={c} value={c} className="bg-[#0a1120] text-white">{c}</option>
                       ))}
                     </select>
                   </div>
@@ -5401,7 +5401,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                           formData.append('file', file);
                           
                           try {
-                            const res = await fetch('/api/upload', {
+                            const res = await fetch('/api/upload?removeBg=true', {
                               method: 'POST',
                               body: formData,
                             });
@@ -5430,9 +5430,9 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       {prodFileName && (
                         <div className="flex flex-col space-y-2">
                           {prodFileUrl && /\.(jpg|jpeg|png|gif|webp|svg)($|\?)/i.test(prodFileUrl) && (
-                            <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-white/5">
+                            <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-white">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={prodFileUrl} alt="Preview" className="w-full h-full object-cover" />
+                              <img src={prodFileUrl} alt="Preview" className="w-full h-full object-contain p-1" />
                             </div>
                           )}
                           <div className="flex items-center space-x-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
@@ -5465,9 +5465,9 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       onChange={(e) => setPipeCategory(e.target.value)}
                       className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold"
                     >
-                      <option value="개량신약">개량신약</option>
-                      <option value="자료 제출 의약품">자료 제출 의약품</option>
-                      <option value="퍼스트 제네릭">퍼스트 제네릭</option>
+                      <option value="개량신약" className="bg-[#0a1120] text-white">개량신약</option>
+                      <option value="자료 제출 의약품" className="bg-[#0a1120] text-white">자료 제출 의약품</option>
+                      <option value="퍼스트 제네릭" className="bg-[#0a1120] text-white">퍼스트 제네릭</option>
                     </select>
                   </div>
                   <div className="space-y-1">
@@ -5500,7 +5500,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold"
                     >
                       {PHASES.map(ph => (
-                        <option key={ph} value={ph}>{ph}</option>
+                        <option key={ph} value={ph} className="bg-[#0a1120] text-white">{ph}</option>
                       ))}
                     </select>
                   </div>
@@ -5588,9 +5588,9 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       {newsFileName && (
                         <div className="flex flex-col space-y-2">
                           {newsFileUrl && /\.(jpg|jpeg|png|gif|webp|svg)($|\?)/i.test(newsFileUrl) && (
-                            <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-white/5">
+                            <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-white">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={newsFileUrl} alt="Preview" className="w-full h-full object-cover" />
+                              <img src={newsFileUrl} alt="Preview" className="w-full h-full object-contain p-1" />
                             </div>
                           )}
                           <div className="flex items-center space-x-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
@@ -5717,9 +5717,9 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       {newsFileName && (
                         <div className="flex flex-col space-y-2">
                           {newsFileUrl && /\.(jpg|jpeg|png|gif|webp|svg)($|\?)/i.test(newsFileUrl) && (
-                            <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-white/5">
+                            <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-white">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={newsFileUrl} alt="Preview" className="w-full h-full object-cover" />
+                              <img src={newsFileUrl} alt="Preview" className="w-full h-full object-contain p-1" />
                             </div>
                           )}
                           <div className="flex items-center space-x-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
