@@ -631,7 +631,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
         // Data variables for CI page (준비된 데이터 변수 - 순서대로 데이터가 들어갈 수 있도록 구성)
         let ciTitle = 'CI 소개';
         let ciSubtitle = 'Corporate Identity';
-        let ciIntro = '육각형 심볼은 분자 구조와 함께 안정성과 신뢰를 상징하며, 대각선으로 절제된 워드마크는 혁신성과 기술적 진보를 표현합니다. 내부의 흐름형 그래픽(그라데이션-잎)은 생명과 기술의 연결을 의미하고,\n그린 컬러는 생명·친환경·신뢰의 가치를 담고 있습니다.';
+        let ciIntro = '육각형 심볼은 분자 구조와 함께 안정성과 신뢰를 상징하며, 대각선으로 절제된 워드마크는 혁신성과 기술적 진보를 표현합니다. 내부의 흐름형 그래픽(그라데이션-잎)은 생명과 기술의 연결을 의미하고, 그린 컬러는 생명·친환경·신뢰의 가치를 담고 있습니다.';
         
         let primaryLogoTitle = 'Primary Logo';
         let primaryLogoDesc = '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다, 대내외 다양한 커뮤니케이션에 최우선으로 사용합니다.\n다산제약의 메인 로고는 각 형태에 따라 비례를 조정한 것이므로, 글자와 도형의 형태, 굵기, 비례 등을 임의로 변경할 수 없습니다.';
@@ -649,7 +649,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let secondaryLogoDigital3 = '디지털: 가로기준 권장: 100px이상, 최소 80px';
 
         let primaryColorTitle = 'Primary Color';
-        let primaryColorDesc = '색상은 브랜드 아이덴티티를 전달하는 핵심적인 요소로 일관성 있는 이미지 구축을 위하여 지정된 색상 값을 참고하여\n사용하는 것을 권장합니다.';
+        let primaryColorDesc = '색상은 브랜드 아이덴티티를 전달하는 핵심적인 요소로 일관성 있는 이미지 구축을 위하여 지정된 색상 값을 참고하여 사용하는 것을 권장합니다.';
         
         let colors = [
           { name: 'Dasan Green', desc: '정밀성과 신뢰를 기반으로 한 다산제약의 핵심\n컬러로, 안정감 있는 그린 톤을 통해 친환경적\n가치와 브랜드 아이덴티티를 상징하는\n시그니처 컬러', cmyk: '90,30,90,0', rgb: '0, 137, 83', pantone: '3425 C', hex: '#008953' },
@@ -711,29 +711,43 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{primaryLogoTitle}</h3>
                 <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line mb-8 text-[15px]">{primaryLogoDesc}</p>
                 
-                <div className="flex flex-col lg:flex-row gap-8 items-start">
-                  <div className="border border-gray-200 rounded-[2rem] p-8 flex flex-col items-center justify-center bg-white flex-1 w-full shadow-sm">
-                     <div className="w-full h-48 bg-white flex items-center justify-center text-gray-400 mb-6 rounded-2xl border border-gray-100 overflow-hidden relative p-8">
+                <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+                  <div className="p-10 lg:p-12 flex flex-col items-center">
+                     {/* Logo Display Area */}
+                     <div className="w-full max-w-4xl h-56 md:h-72 bg-gradient-to-b from-gray-50/50 to-white flex items-center justify-center rounded-[2rem] relative group mb-10">
+                        <div className="absolute inset-0 border border-gray-100 rounded-[2rem] transition-colors duration-500 group-hover:border-green-100/60"></div>
                         <Image
                           src="/dasan_logo_new_1.png"
                           alt="Dasan Primary Logo"
                           fill
-                          className="object-contain p-8"
+                          className="object-contain p-8 md:p-12 drop-shadow-sm transition-transform duration-700 group-hover:scale-[1.03]"
                           priority
                         />
                      </div>
-                     <div className="text-sm text-[#50A5D6] text-center border-t border-[#50A5D6]/30 pt-4 w-full max-w-sm">
-                        <p className="mb-1">{primaryLogoPrint}</p>
-                        <p>{primaryLogoDigital}</p>
-                     </div>
-                  </div>
-                  <div className="flex-shrink-0 lg:pt-8 w-full lg:w-auto flex justify-center">
-                     <a href="/dasan_logo_new_1.png" download="dasan_logo.png" className="flex items-center space-x-3 border border-gray-300 rounded-xl px-8 py-4 hover:bg-gray-50 font-bold text-gray-800 transition-colors shadow-sm">
-                        <span>CI 다운로드</span>
-                        <div className="bg-gray-800 text-white rounded p-1">
-                          <Download size={14} strokeWidth={3} />
+                     
+                     {/* Specifications & Download Action */}
+                     <div className="w-full flex flex-col md:flex-row items-center justify-between gap-8 border-t border-gray-100 pt-8 px-2 md:px-6">
+                        <div className="flex flex-col gap-3 w-full md:w-auto">
+                           <div className="flex items-center space-x-3 text-[13px] bg-white px-4 py-2.5 rounded-2xl">
+                              <span className="font-bold text-white bg-[#2A5C43] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">인쇄용</span>
+                              <span className="text-gray-700 font-medium tracking-tight">{primaryLogoPrint.replace('인쇄용: ', '')}</span>
+                           </div>
+                           <div className="flex items-center space-x-3 text-[13px] bg-white px-4 py-2.5 rounded-2xl">
+                              <span className="font-bold text-white bg-[#50A5D6] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">디지털</span>
+                              <span className="text-gray-700 font-medium tracking-tight">{primaryLogoDigital.replace('디지털: ', '')}</span>
+                           </div>
                         </div>
-                     </a>
+                        
+                        <a href="/dasan_logo_new_1.png" download="dasan_logo.png" className="group w-full md:w-auto relative inline-flex items-center justify-center px-8 py-5 font-bold text-white transition-all duration-300 bg-[#2A5C43] rounded-2xl hover:bg-[#1f4532] hover:-translate-y-1 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2A5C43] overflow-hidden">
+
+                           <span className="relative flex items-center space-x-3 tracking-wide text-[15px]">
+                              <span>CI 다운로드</span>
+                              <div className="bg-white/20 rounded-full p-1.5 group-hover:bg-white/30 transition-colors duration-300">
+                                 <Download size={18} strokeWidth={2.5} />
+                              </div>
+                           </span>
+                        </a>
+                     </div>
                   </div>
                 </div>
                 <p className="text-gray-500 mt-6 text-sm whitespace-pre-line leading-relaxed">{primaryLogoFooter}</p>
@@ -758,14 +772,16 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     </div>
                     <span className="text-[64px] font-bold text-[#555] tracking-tighter pb-4">(주) 다산제약</span>
                   </div>
-                  {/* Blue Bracket */}
-                  <div className="w-full max-w-2xl mb-4">
-                     <div className="h-[8px] border-l border-r border-b border-[#589BD1]"></div>
-                  </div>
-                  {/* Text */}
-                  <div className="text-[14px] text-[#589BD1] text-center w-full max-w-md tracking-tight font-medium">
-                     <p className="mb-0.5">{secondaryLogoPrint1}</p>
-                     <p>{secondaryLogoDigital1}</p>
+                  {/* Specifications */}
+                  <div className="flex flex-col gap-3 w-max mx-auto mt-6">
+                     <div className="flex items-center justify-start space-x-3 text-[13px] bg-white px-4 py-2.5 rounded-2xl">
+                        <span className="font-bold text-white bg-[#2A5C43] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">인쇄용</span>
+                        <span className="text-gray-700 font-medium tracking-tight">{secondaryLogoPrint1.replace('인쇄용: ', '')}</span>
+                     </div>
+                     <div className="flex items-center justify-start space-x-3 text-[13px] bg-white px-4 py-2.5 rounded-2xl">
+                        <span className="font-bold text-white bg-[#50A5D6] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">디지털</span>
+                        <span className="text-gray-700 font-medium tracking-tight">{secondaryLogoDigital1.replace('디지털: ', '')}</span>
+                     </div>
                   </div>
                 </div>
                 
@@ -794,14 +810,16 @@ export default async function AboutCatchAllPage({ params }: Params) {
                             <span>약</span>
                           </div>
                         </div>
-                        {/* Blue Bracket */}
-                        <div className="w-full mb-4">
-                           <div className="h-[8px] border-l border-r border-b border-[#589BD1]"></div>
-                        </div>
-                        {/* Text */}
-                        <div className="text-[14px] text-[#589BD1] text-center w-[120%] tracking-tight font-medium">
-                           <p className="mb-0.5">{secondaryLogoPrint2}</p>
-                           <p>{secondaryLogoDigital2}</p>
+                        {/* Specifications */}
+                        <div className="flex flex-col gap-3 w-max mx-auto mt-6">
+                           <div className="flex items-center justify-start space-x-3 text-[13px] bg-white px-4 py-2.5 rounded-2xl">
+                              <span className="font-bold text-white bg-[#2A5C43] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">인쇄용</span>
+                              <span className="text-gray-700 font-medium tracking-tight">{secondaryLogoPrint2.replace('인쇄용: ', '')}</span>
+                           </div>
+                           <div className="flex items-center justify-start space-x-3 text-[13px] bg-white px-4 py-2.5 rounded-2xl">
+                              <span className="font-bold text-white bg-[#50A5D6] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">디지털</span>
+                              <span className="text-gray-700 font-medium tracking-tight">{secondaryLogoDigital2.replace('디지털: ', '')}</span>
+                           </div>
                         </div>
                       </div>
                    </div>
@@ -814,14 +832,16 @@ export default async function AboutCatchAllPage({ params }: Params) {
                            <span className="text-[44px] font-bold text-[#398055] leading-tight tracking-tight mt-1">Pharmaceutical</span>
                            <div className="w-full h-[6px] bg-[#398055] mt-4"></div>
                         </div>
-                        {/* Blue Bracket */}
-                        <div className="w-full mb-4">
-                           <div className="h-[8px] border-l border-r border-b border-[#589BD1]"></div>
-                        </div>
-                        {/* Text */}
-                        <div className="text-[14px] text-[#589BD1] text-center w-full tracking-tight font-medium">
-                           <p className="mb-0.5">{secondaryLogoPrint3}</p>
-                           <p>{secondaryLogoDigital3}</p>
+                        {/* Specifications */}
+                        <div className="flex flex-col gap-3 w-max mx-auto mt-6">
+                           <div className="flex items-center justify-start space-x-3 text-[13px] bg-white px-4 py-2.5 rounded-2xl">
+                              <span className="font-bold text-white bg-[#2A5C43] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">인쇄용</span>
+                              <span className="text-gray-700 font-medium tracking-tight">{secondaryLogoPrint3.replace('인쇄용: ', '')}</span>
+                           </div>
+                           <div className="flex items-center justify-start space-x-3 text-[13px] bg-white px-4 py-2.5 rounded-2xl">
+                              <span className="font-bold text-white bg-[#50A5D6] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">디지털</span>
+                              <span className="text-gray-700 font-medium tracking-tight">{secondaryLogoDigital3.replace('디지털: ', '')}</span>
+                           </div>
                         </div>
                       </div>
                    </div>
