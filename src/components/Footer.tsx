@@ -29,7 +29,7 @@ export default function Footer() {
   });
 
   return (
-    <footer className="bg-[#050f19] text-white border-t border-white/10 select-none relative overflow-hidden antialiased">
+    <footer className="bg-[#050f19] text-white select-none relative overflow-hidden antialiased">
       {/* Premium ambient glow in footer background */}
       <div className="absolute top-0 right-0 w-[40%] h-[40%] rounded-full bg-brand-green/5 blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-[-10%] w-[35%] h-[35%] rounded-full bg-brand-cyan/5 blur-[100px] pointer-events-none" />

@@ -108,7 +108,7 @@ export default function Header() {
     <>
       <header
         id="main-header"
-        className="w-full bg-white border-b border-gray-100 shadow-sm z-50 sticky top-0 relative"
+        className="w-full bg-white shadow-sm z-50 sticky top-0 relative"
       >
         <motion.div
           className="absolute bottom-0 left-0 right-0 h-1 bg-brand-green origin-left z-50"
