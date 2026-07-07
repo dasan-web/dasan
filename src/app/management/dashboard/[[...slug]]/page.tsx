@@ -88,6 +88,7 @@ export default function AdminDashboardPage() {
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [dashboardStats, setDashboardStats] = useState<any>(null);
   const [showVisitorModal, setShowVisitorModal] = useState(false);
+  const [selectedVisitorDate, setSelectedVisitorDate] = useState<string | null>(null);
 
   // Static content state
   const [staticContent, setStaticContent] = useState('');
@@ -5101,7 +5102,10 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       <p className="text-[10px] text-gray-400">어제 ({dashboardStats?.yesterdayCount ?? 0}명) 대비</p>
                     </div>
                     <div 
-                      onClick={() => setShowVisitorModal(true)}
+                      onClick={() => {
+                        setSelectedVisitorDate(null);
+                        setShowVisitorModal(true);
+                      }}
                       className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-5 shadow-sm space-y-2 hover:border-brand-cyan hover:shadow-xs transition-all cursor-pointer group"
                     >
                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block group-hover:text-brand-cyan transition-colors">누적 방문자수 (IP 기준)</span>
@@ -5181,6 +5185,10 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                     {d.count}명
                                   </span>
                                   <div 
+                                    onClick={() => {
+                                      setSelectedVisitorDate(d.visit_date);
+                                      setShowVisitorModal(true);
+                                    }}
                                     className={`w-8 rounded-t-md transition-all duration-500 cursor-pointer ${
                                       active ? 'bg-gradient-to-t from-brand-green to-brand-teal shadow-md shadow-brand-green/20' : 'bg-brand-green/20 hover:bg-brand-green/40'
                                     }`}
@@ -5985,42 +5993,71 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                 <thead>
                   <tr className="border-b border-white/5 text-gray-400 font-bold">
                     <th className="py-2.5">방문일 (년월일)</th>
-                    <th className="py-2.5 text-center">방문 인원수</th>
                     <th className="py-2.5 pl-4">방문 IP 목록</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
-                  {(dashboardStats?.uniqueVisitors || []).map((v: any, idx: number) => (
+                  {(dashboardStats?.uniqueVisitors || [])
+                    .filter((v: any) => !selectedVisitorDate || v.visit_date.endsWith(selectedVisitorDate.replace('/', '-')))
+                    .map((v: any, idx: number) => (
                     <tr key={idx} className="text-gray-300 hover:bg-white/5 transition-colors">
-                      <td className="py-3 font-mono font-bold text-brand-cyan">{v.visit_date}</td>
-                      <td className="py-3 font-mono font-bold text-emerald-400 text-center">{v.visitor_count}명</td>
+                      <td className="py-3 font-mono font-bold text-brand-cyan align-top">{v.visit_date}</td>
                       <td className="py-3 font-mono text-[10px] pl-4 space-y-1.5 max-w-[260px]">
-                        {v.pc_ips && (
-                          <div className="flex items-center space-x-1.5">
-                            <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1 py-0.5 rounded-[4px] text-[8px] font-black shrink-0">PC</span>
-                            <span className="text-gray-400 truncate w-full" title={v.pc_ips}>{v.pc_ips}</span>
-                          </div>
-                        )}
-                        {v.mobile_ips && (
-                          <div className="flex items-center space-x-1.5">
-                            <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1 py-0.5 rounded-[4px] text-[8px] font-black shrink-0">MOBILE</span>
-                            <span className="text-gray-400 truncate w-full" title={v.mobile_ips}>{v.mobile_ips}</span>
-                          </div>
-                        )}
-                        {!v.pc_ips && !v.mobile_ips && (
-                          <span className="text-gray-500">-</span>
-                        )}
+                        <div className="space-y-1.5 flex flex-col">
+                          {v.pc_ips && v.pc_ips.split(',').map((ip: string, i: number) => (
+                            <div key={`pc-${i}`} className="flex items-center space-x-1.5">
+                              <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1.5 py-0.5 rounded-[4px] text-[8px] font-black shrink-0 w-[46px] text-center">PC</span>
+                              <span className="text-gray-300 w-28">{ip.trim()}</span>
+                              <span className="text-gray-500 font-bold ml-1 text-right w-16">1명</span>
+                            </div>
+                          ))}
+                          {v.mobile_ips && v.mobile_ips.split(',').map((ip: string, i: number) => (
+                            <div key={`mob-${i}`} className="flex items-center space-x-1.5">
+                              <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded-[4px] text-[8px] font-black shrink-0 w-[46px] text-center">모바일</span>
+                              <span className="text-gray-300 w-28">{ip.trim()}</span>
+                              <span className="text-gray-500 font-bold ml-1 text-right w-16">1명</span>
+                            </div>
+                          ))}
+                          {!v.pc_ips && !v.mobile_ips && (
+                            <span className="text-gray-500">-</span>
+                          )}
+                        </div>
+                        <div className="mt-2 pt-2 border-t border-white/10 flex items-center space-x-1.5">
+                          <span className="w-[46px] shrink-0"></span>
+                          <span className="w-28"></span>
+                          <span className="text-white font-bold ml-1 text-right w-16 whitespace-nowrap">
+                            총 {v.visitor_count}명
+                          </span>
+                        </div>
                       </td>
                     </tr>
                   ))}
                   {(!dashboardStats?.uniqueVisitors || dashboardStats.uniqueVisitors.length === 0) && (
                     <tr>
-                      <td colSpan={3} className="py-8 text-center text-gray-500">
+                      <td colSpan={2} className="py-8 text-center text-gray-500">
                         방문 기록이 없습니다.
                       </td>
                     </tr>
                   )}
                 </tbody>
+                <tfoot>
+                  <tr className="border-t border-white/20 bg-white/5">
+                    <td className="py-4 font-bold text-gray-300 text-center">전체 합계</td>
+                    <td className="py-4 pl-4">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="w-[46px] shrink-0"></span>
+                        <span className="w-28"></span>
+                        <span className="text-emerald-400 font-bold ml-1 text-right w-16 whitespace-nowrap">
+                          총 {selectedVisitorDate
+                            ? (dashboardStats?.uniqueVisitors || [])
+                                .filter((v: any) => v.visit_date.endsWith(selectedVisitorDate.replace('/', '-')))
+                                .reduce((sum: number, v: any) => sum + Number(v.visitor_count || 0), 0)
+                            : (dashboardStats?.totalCount || 0)}명
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
 

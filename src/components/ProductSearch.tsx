@@ -227,7 +227,7 @@ export default function ProductSearch() {
                   <img 
                     src={product.file_url} 
                     alt={product.name} 
-                    className="w-full h-full object-contain p-2"
+                    className="w-full h-full object-contain p-4 pt-10"
                   />
                 ) : (
                   <span className="text-[10px] tracking-wider text-gray-300 font-extrabold uppercase select-none">
@@ -298,7 +298,7 @@ export default function ProductSearch() {
                   <img 
                     src={selectedProduct.file_url} 
                     alt={selectedProduct.name} 
-                    className="w-full h-full object-contain p-2"
+                    className="w-full h-full object-contain p-6 pt-12"
                   />
                 ) : (
                   <span className="text-sm tracking-wider text-gray-300 font-extrabold uppercase select-none">
