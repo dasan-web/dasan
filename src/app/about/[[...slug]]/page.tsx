@@ -8,6 +8,7 @@ import { Building2, Award, Users, Landmark, MapPin, Calendar, Heart, ShieldAlert
 import KakaoMap from '@/components/KakaoMap';
 import LocationMapSection from '@/components/LocationMapSection';
 import PressList from '@/components/PressList';
+import HistoryAccordion from '@/components/HistoryAccordion';
 import DetailedFinancialTables from '@/components/DetailedFinancialTables';
 import CIDownloadButton from '@/components/CIDownloadButton';
 import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
@@ -527,64 +528,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
             <div className="text-center mb-16 relative z-10">
               <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
               <h3 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
-                다산제약의 발자취
+                성장 연혁 (History)
               </h3>
             </div>
 
             {/* Timeline Container */}
-            <div className="relative max-w-4xl mx-auto z-10">
-              {/* Vertical Line */}
-              <div className="absolute left-[30px] md:left-[120px] top-4 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 via-gray-200 to-transparent"></div>
-
-              {[...timelineData].reverse().map((era, eraIndex) => (
-                <div key={eraIndex} className="mb-20 last:mb-0 relative">
-                  
-                  {/* Era Header */}
-                  <div className="flex items-center mb-10 group">
-                    {/* Circle on line */}
-                    <div className="absolute left-[30px] md:left-[120px] w-5 h-5 rounded-full bg-brand-green border-[4px] border-white shadow-sm -translate-x-[9.5px] z-10 group-hover:scale-125 transition-transform duration-300"></div>
-                    
-                    <div className="ml-[60px] md:ml-[160px] bg-brand-green/5 border border-brand-green/20 px-5 py-3 rounded-2xl animate-fade-in-up" style={{animationDelay: (eraIndex * 150 + 300) + 'ms'}}>
-                      <h4 className="text-xl md:text-2xl font-black text-brand-green">
-                        {era.eraTitle} <span className="font-medium text-gray-600 text-base md:text-lg ml-2">| {era.eraSubtitle}</span>
-                      </h4>
-                    </div>
-                  </div>
-
-                  {/* Era Events */}
-                  <div className="space-y-8">
-                    {[...era.events].reverse().map((event, eventIndex) => (
-                      <div key={eventIndex} className="relative flex flex-col md:flex-row items-start group hover:-translate-y-1 transition-transform duration-300 animate-fade-in-up" style={{animationDelay: (eraIndex * 150 + eventIndex * 100 + 400) + 'ms'}}>
-                        
-                        {/* Year */}
-                        <div className="ml-[60px] md:ml-0 md:absolute md:left-0 md:w-[90px] md:text-right pt-1.5">
-                          <span className="text-xl md:text-2xl font-extrabold text-gray-400 group-hover:text-brand-blue transition-colors duration-300 tracking-tight">{event.year}</span>
-                        </div>
-
-                        {/* Dot on line */}
-                        <div className="absolute left-[30px] md:left-[120px] top-4 w-3 h-3 rounded-full bg-gray-300 border-[2px] border-white -translate-x-[5px] z-10 group-hover:bg-brand-blue group-hover:scale-[1.5] transition-all duration-300 shadow-sm"></div>
-
-                        {/* Details */}
-                        <div className="ml-[60px] md:ml-[160px] flex-1 bg-white border border-gray-100 p-5 md:p-6 rounded-2xl shadow-sm group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] group-hover:border-brand-blue/20 transition-all duration-300 mt-2 md:mt-0">
-                          <ul className="space-y-3">
-                            {event.details.map((detail, dIndex) => {
-                              const cleanDetail = detail.replace(/^•\s*/, '');
-                              return (
-                                <li key={dIndex} className="text-gray-600 leading-relaxed text-[15px] flex items-start">
-                                  <span className="text-brand-blue/40 mr-3 mt-1 font-bold text-lg leading-none">•</span>
-                                  <span className="font-medium">{cleanDetail}</span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                </div>
-              ))}
-            </div>
+            <HistoryAccordion timelineData={timelineData} />
           </div>
         );
 
@@ -803,9 +752,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
               
               {/* 본사 (HQ) */}
               <div className={cardClass}>
-                <div className="absolute -top-6 -right-6 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-300 transform group-hover:scale-110">
-                  <Building2 size={140} />
-                </div>
                 <div className="flex items-center space-x-4 relative z-10 mb-6">
                   <div className={iconContainerClass}>
                     <Building2 size={28} />
@@ -830,9 +776,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
               {/* R&D 네트워크 */}
               <div className={cardClass}>
-                <div className="absolute -top-6 -right-6 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-300 transform group-hover:scale-110">
-                  <Zap size={140} />
-                </div>
                 <div className="flex items-center space-x-4 relative z-10 mb-6">
                   <div className={iconContainerClass}>
                     <Zap size={28} />
@@ -867,9 +810,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
               {/* 글로벌 생산 기지 */}
               <div className={cardClass}>
-                <div className="absolute -top-6 -right-6 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-300 transform group-hover:scale-110">
-                  <Factory size={140} />
-                </div>
                 <div className="flex items-center space-x-4 relative z-10 mb-6">
                   <div className={iconContainerClass}>
                     <Factory size={28} />
@@ -887,7 +827,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     </span>
                     <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-3">
                       원료 및 완제의약품, 내용고형제 대량 생산 체계 구축
-                      <span className="block text-brand-blue font-bold text-[11px] mt-1.5 bg-brand-blue/5 px-2.5 py-1 rounded inline-block">MHLW, GMP 인증 완료</span>
+                      <span className="inline-block text-brand-blue font-bold text-[11px] ml-2 bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP 인증 완료</span>
                     </p>
                     <div className="flex space-x-2 w-full mt-4">
                       <a href="/about/location?loc=asan1" className={buttonClass + " px-2"}>
@@ -1273,10 +1213,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 <span className="text-gray-400">{activeMajor}</span>
               </div>
               
-              <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight text-center mb-6">{activeTitle}</h2>
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
-              <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath} />
+              <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath === '/about/location' ? '/about/facilities' : currentPath} />
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
