@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import KakaoMap from './KakaoMap';
 import { Landmark, Building2, Factory, Train, BusFront } from 'lucide-react';
 
@@ -94,6 +94,14 @@ const locations: LocationInfo[] = [
 
 export default function LocationMapSection({ dbContent }: { dbContent?: string | null }) {
   const [activeTab, setActiveTab] = useState<string>('seoul');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const loc = params.get('loc');
+    if (loc && ['seoul', 'suwon', 'asan1', 'asan2'].includes(loc)) {
+      setActiveTab(loc);
+    }
+  }, []);
 
   let displayLocations = locations;
 

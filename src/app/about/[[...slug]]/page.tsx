@@ -103,6 +103,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   // Find active menu item details
   let activeTitle = 'About us';
   let activeMajor = '회사소개';
+  let activeMajorObj = null;
   
   const grandAbout = navigationData.find(g => g.name === 'Company');
   if (grandAbout) {
@@ -111,8 +112,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
       if (sub) {
         activeTitle = sub.name;
         activeMajor = major.name;
+        activeMajorObj = major;
         break;
       }
+    }
+    if (!activeMajorObj && grandAbout.majors.length > 0) {
+      activeMajorObj = grandAbout.majors[0];
     }
   }
 
@@ -278,187 +283,86 @@ export default async function AboutCatchAllPage({ params }: Params) {
             {/* 1. Intro Summary */}
             <div className="relative overflow-hidden bg-white rounded-3xl p-8 md:p-12 shadow-none">
               <span className="text-brand-teal text-xs font-bold tracking-widest uppercase block mb-3">Company Overview</span>
-              <h4 className="text-2xl md:text-3xl font-black text-brand-blue mb-6 leading-tight whitespace-pre-wrap">
-                {introTitle.replace(/\\n/g, '\n')}
-              </h4>
-              <div className="space-y-4 text-gray-600 text-sm md:text-base leading-relaxed max-w-4xl">
-                <p className="whitespace-pre-wrap">{introBody}</p>
-              </div>
-            </div>
-
-            {/* Key Competencies Summary Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {compList.map((item, idx) => (
-                <div key={idx} className="bg-white p-8 md:p-12 rounded-3xl text-left shadow-none flex flex-col items-start">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-6 ${competenciesColors[idx % competenciesColors.length]}`}>
-                    {competenciesIcons[idx % competenciesIcons.length]}
-                  </div>
-                  <h5 className="font-bold text-brand-blue mb-3 text-lg">{item.title}</h5>
-                  <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* 2. Vision & Mission */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-              {/* Mission Card */}
-              <div className="bg-white rounded-3xl pl-8 md:pl-12 pr-6 md:pr-10 py-8 md:py-10 flex flex-col justify-between relative overflow-hidden shadow-none">
-                <div>
-                  <div className="inline-flex items-center space-x-2 text-brand-blue text-xs font-bold tracking-widest uppercase mb-6 bg-brand-blue/5 px-3 py-1.5 rounded-full border border-brand-blue/10">
-                    <Target size={12} />
-                    <span>Our Mission</span>
-                  </div>
-                  <h5 className="text-2xl font-black text-brand-blue mb-4 leading-snug">
-                    {visMission.missionTitle}
-                  </h5>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {visMission.missionDesc}
-                  </p>
-                </div>
-                <div className="mt-8 border-t border-brand-blue/10 pt-4 text-xs text-brand-blue/60 font-semibold">
-                  Contribution to Human Health
-                </div>
-              </div>
-
-              {/* Vision Card */}
-              <div className="bg-white rounded-3xl pl-8 md:pl-12 pr-6 md:pr-10 py-8 md:py-10 flex flex-col justify-between relative overflow-hidden shadow-none">
-                <div>
-                  <div className="inline-flex items-center space-x-2 text-brand-blue text-xs font-bold tracking-widest uppercase mb-6 bg-brand-blue/5 px-3 py-1.5 rounded-full border border-brand-blue/5">
-                    <Sparkles size={12} />
-                    <span>Our Vision</span>
-                  </div>
-                  <h5 className="text-2xl font-black text-brand-blue mb-4 leading-snug">
-                    {visMission.visionTitle}
-                  </h5>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {visMission.visionDesc}
-                  </p>
-                </div>
-                <div className="mt-8 border-t border-brand-blue/10 pt-4 text-xs text-brand-cyan font-bold">
-                  Global Healthcare Leader
-                </div>
-              </div>
-            </div>
-
-            {/* 3. Core Values */}
-            <div className="space-y-8 pt-4">
-              <div className="text-center md:text-left pl-8 md:pl-12 pr-6">
-                <span className="text-brand-teal text-xs font-bold tracking-widest uppercase block mb-2">Core Values</span>
-                <h4 className="text-2xl md:text-3xl font-black text-brand-blue">다산의 5대 핵심 가치</h4>
-                <p className="text-gray-500 text-sm mt-2">우리가 일하는 방식이자 지켜나가는 원칙입니다.</p>
-              </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                {valList.map((val, idx) => {
-                  const colors = [
-                    'bg-brand-blue/5 text-brand-blue hover:bg-brand-blue',
-                    'bg-brand-teal/10 text-brand-teal hover:bg-brand-teal',
-                    'bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan',
-                    'bg-brand-blue/5 text-brand-blue hover:bg-brand-blue',
-                    'bg-brand-teal/10 text-brand-teal hover:bg-brand-teal'
-                  ];
-                  return (
-                    <div key={idx} className="bg-white pl-8 md:pl-12 pr-6 py-8 rounded-3xl shadow-none flex flex-col justify-between group">
-                      <div>
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-6 font-black text-lg group-hover:text-white transition-colors ${colors[idx % colors.length]}`}>
-                          {val.letter}
-                        </div>
-                        <h5 className="font-bold text-brand-blue text-sm mb-1">{val.name}</h5>
-                        <p className="text-[10px] text-brand-teal font-semibold mb-2">{val.subtitle}</p>
-                        <p className="text-[11px] text-gray-500 leading-relaxed">
-                          {val.desc}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
+                {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
+                  <div 
+                    className="
+                      [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
+                      [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3]:mt-12
+                      [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
+                      [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
+                      [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
+                      [&_strong]:text-gray-900 [&_strong]:font-bold
+                    "
+                    dangerouslySetInnerHTML={{ __html: `<h3 class="text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-12">${introTitle}</h3>` + introBody }} 
+                  />
+                ) : (
+                  (introTitle + '\n' + introBody).split('\n').map((line, i) => {
+                    const trimmed = line.trim();
+                    if (!trimmed) return null;
+
+                    // 1. 기업 이념 및 핵심가치, 2. CEO 메시지 등 메인 타이틀
+                    if (trimmed.match(/^[1-9]\.\s/)) {
+                      const titleText = trimmed.replace(/^[1-9]\.\s/, '');
+                      return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
+                    }
+                    
+                    // 서브 타이틀 (다산의 정신으로..., 신뢰와 혁신으로..., 4대 경영 철학)
+                    if (
+                      trimmed.startsWith('다산(茶山)의 정신으로') || 
+                      trimmed.startsWith('신뢰와 혁신으로') ||
+                      trimmed.includes('4대 경영 철학') ||
+                      trimmed.includes('핵심 가치')
+                    ) {
+                      return <h4 key={i} className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>;
+                    }
+
+                    // 불릿 리스트
+                    if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('·')) {
+                      const content = trimmed.substring(1).trim();
+                      const splitIdx = content.indexOf(':');
+                      
+                      if (splitIdx !== -1 && splitIdx < 15) {
+                        const title = content.substring(0, splitIdx).trim();
+                        const desc = content.substring(splitIdx + 1).trim();
+                        return (
+                          <div key={i} className="flex items-start mb-3 ml-2">
+                            <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
+                            <p className="text-gray-600 leading-[1.8] text-[15px]"><strong className="text-gray-900">{title}</strong> : {desc}</p>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div key={i} className="flex items-start mb-3 ml-2">
+                            <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
+                            <p className="text-gray-600 leading-[1.8] text-[15px]">{content}</p>
+                          </div>
+                        );
+                      }
+                    }
+
+                    // 일반 단락
+                    return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px]">{trimmed}</p>;
+                  })
+                )}
               </div>
             </div>
 
-            {/* 4. CEO Philosophy */}
-            <div className="bg-white text-brand-blue rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-none">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
-                {/* Left col: Philosophy Quote */}
-                <div className="lg:col-span-1 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-gray-150 pb-6 lg:pb-0 lg:pr-8">
-                  <div>
-                    <span className="text-brand-cyan text-xs font-bold tracking-widest uppercase block mb-3">CEO Philosophy</span>
-                    <h4 className="text-2xl font-black text-brand-blue mb-6">CEO 경영 철학</h4>
-                  </div>
-                  <div className="space-y-4">
-                    <Quote size={40} className="text-brand-cyan/40" />
-                    <p className="text-lg md:text-xl font-bold leading-snug text-brand-blue">
-                      &quot;{philData.quote}&quot;
-                    </p>
-                  </div>
-                </div>
 
-                {/* Right col: 3 Pillars */}
-                <div className="lg:col-span-2 space-y-6 lg:pl-4">
-                  {philData.pillars.map((p, idx) => {
-                    const bgs = ['bg-brand-cyan/10', 'bg-brand-teal/15', 'bg-brand-cyan/10'];
-                    return (
-                      <div key={idx} className="flex items-start space-x-4">
-                        <span className={`flex-shrink-0 w-8 h-8 rounded-full text-brand-blue flex items-center justify-center font-extrabold text-xs mt-1 ${bgs[idx % bgs.length]}`}>
-                          {p.id}
-                        </span>
-                        <div>
-                          <h5 className="font-bold text-base text-brand-blue mb-1">{p.title}</h5>
-                          <p className="text-xs text-gray-600 leading-relaxed">
-                            {p.desc}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
 
-            {/* 5. Corporate Culture */}
-            <div className="space-y-8 pt-4">
-              <div className="text-center md:text-left pl-8 md:pl-12 pr-6">
-                <span className="text-brand-cyan text-xs font-bold tracking-widest uppercase block mb-2">Corporate Culture</span>
-                <h4 className="text-2xl md:text-3xl font-black text-brand-blue">{cultureData.title}</h4>
-                <p className="text-gray-500 text-sm mt-2">{cultureData.sub}</p>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {cultureData.items.map((item, idx) => {
-                  const icons = [
-                    <Heart size={20} key="heart" />,
-                    <BookOpen size={20} key="book" />,
-                    <MessageSquare size={20} key="msg" />
-                  ];
-                  const bgs = [
-                    'bg-brand-teal/10 text-brand-teal',
-                    'bg-brand-cyan/10 text-brand-cyan',
-                    'bg-brand-blue/10 text-brand-blue'
-                  ];
-                  return (
-                    <div key={idx} className="bg-white rounded-3xl pl-8 md:pl-12 pr-6 py-8 shadow-none group">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${bgs[idx % bgs.length]}`}>
-                        {icons[idx % icons.length]}
-                      </div>
-                      <h5 className="font-bold text-brand-blue text-sm mb-2">{item.title}</h5>
-                      <p className="text-xs text-gray-500 leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
           </div>
         );
 
       case '/about/business-area':
         // Parse business-area data
         let bizData = {
-          intro: '완제의약품 R&D 및 마케팅, 글로벌 원료의약품(API) 공급, 그리고 약물방출조절(DDS) 기반 고품격 위탁생산개발(CDMO) 서비스를 바탕으로 세계인의 삶의 질을 높입니다.',
+          intro: '연구개발(R&D)부터 판매까지 의약품 전 주기의 Key Value Chain 인프라를 구축하여 고부가가치 사업 성장성을 확보하고 있습니다',
           items: [
-            { title: '1. 원료의약품(API) 개발 및 공급', desc: '고난도 유기합성 기술을 기반으로 자체 원료 합성 연구소를 구축하여 고품질의 API를 전 세계 시장에 직접 유통하며 중간체 정밀 화학 사업도 전개합니다.' },
-            { title: '2. 완제의약품 생산 및 판매', desc: '순환기계(혈압, 고지혈증), 대사계(당뇨), 소화기계 및 일반의약품(OTC)에 이르는 폭넓은 스펙트럼의 고부가가치 완제의약품 파이프라인을 공급합니다.' },
-            { title: '3. CDMO (위탁 개발 및 생산)', desc: '마이크로캡슐화, 서방성 제형 특화 플랫폼 등 자사 고유의 DDS(약물전달시스템) 기술을 결합하여 복합제 개발 및 차별화 완제의약품의 수탁 개발/생산 서비스를 제공합니다.' }
+            { title: '1) 자사 완제 의약품 사업', desc: '순환기, 호흡기, 비뇨기 중심의 우수한 제품 라인업 구축 및 생산·판매' },
+            { title: '2) 수탁 완제 의약품 (CMO) 사업', desc: '독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산' },
+            { title: '3) 의약품 핵심 원료 및 중간체 사업', desc: '의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF 등록·관리' }
           ]
         };
         if (dbContent) {
@@ -477,13 +381,43 @@ export default async function AboutCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-8 animate-fade-in-up">
-            <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{bizData.intro}</p>
-            <div className="grid grid-cols-1 gap-6">
+          <div className="space-y-4 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
+            <h3 className="text-xl md:text-2xl font-black text-gray-900 mt-4 mb-4 pb-2 border-b border-gray-100">
+              주요 사업 영역 (Core Business)
+            </h3>
+            <p className="mb-12 text-gray-600 leading-[1.8] text-[15px]">
+              연구개발(R&D)부터 판매까지 의약품 전 주기의 <strong className="font-bold text-gray-900">Key Value Chain</strong> 인프라를 구축하여 고부가가치 사업 성장성을 확보하고 있습니다
+            </p>
+            
+            <div className="space-y-12">
               {bizData.items.map((item, idx) => (
-                <div key={idx} className="p-6 rounded-xl bg-white shadow-none">
-                  <h4 className="font-bold text-brand-blue text-base mb-2">{item.title}</h4>
-                  <p className="text-xs text-gray-500 leading-normal">{item.desc}</p>
+                <div key={idx} className="flex items-start gap-2">
+                  {item.title.includes(') ') ? (
+                    <>
+                      <div className="text-lg md:text-xl font-bold text-gray-900 shrink-0">
+                        {item.title.split(') ')[0]})
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-4">
+                          {item.title.substring(item.title.indexOf(') ') + 2)}
+                        </h4>
+                      {(typeof item.desc === 'string' && (item.desc.includes('<p') || item.desc.includes('<h'))) ? (
+                        <div dangerouslySetInnerHTML={{ __html: item.desc }} className="[&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:text-[15px] [&_h4]:font-bold [&_strong]:font-bold" />
+                      ) : (
+                        <p className="text-gray-600 leading-[1.8] text-[15px]">{item.desc}</p>
+                      )}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex-1">
+                      <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-4">{item.title}</h4>
+                      {(typeof item.desc === 'string' && (item.desc.includes('<p') || item.desc.includes('<h'))) ? (
+                        <div dangerouslySetInnerHTML={{ __html: item.desc }} className="[&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:text-[15px] [&_h4]:font-bold [&_strong]:font-bold" />
+                      ) : (
+                        <p className="text-gray-600 leading-[1.8] text-[15px]">{item.desc}</p>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -508,35 +442,39 @@ export default async function AboutCatchAllPage({ params }: Params) {
         // Define default timeline
         const defaultTimelineData: TimelineEra[] = [
           {
-            eraTitle: '2020 ~ Present',
-            eraSubtitle: '글로벌 도약과 기술 혁신',
+            eraTitle: '2022 ~ Present',
+            eraSubtitle: '도약기 (고성장/고수익 창출)',
             events: [
-              { year: '2025년', details: ['• 130억 원 규모 프리IPO(상장 전 지분투자) 유치 성공 및 코스닥 상장 채비 완료'] },
-              { year: '2022년', details: ['• 제59회 무역의 날 700만불 수출의 탑 수상', '• 혁신성장 유공 중소벤처기업부 장관 표창 수상', '• 고용노동부 주관 \'청년친화강소기업\' 선정'] },
-              { year: '2021년', details: ['• 충청남도 \'우수기업인상\' 수상', '• 충남경제진흥원 \'글로벌 강소기업\' 선정'] },
-              { year: '2020년', details: ['• 고용노동부 \'청년친화 강소기업\' 선정', '• 충청남도 \'유망중소기업\' 선정'] }
+              { year: '2025', details: ['• 환경부 한국환경공단 스마트생태공장 구축 사업 선정'] },
+              { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정', '• 식약처 공급망 안정화 선도 사업자 선정', '• 안전보건경영시스템(ISO 45001) 인증 획득', '• 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
+              { year: '2023', details: ['• 부패방지경영시스템(ISO 37001) 인증 획득'] },
+              { year: '2022', details: ['• 무역의날 산자부 장관표창 및 700만불 수출탑 수상', '• 혁신성장 유공중소기업 장관상 수상', '• 의약품수출분야 보건복지부 장관상 수상', '• 4년 연속 청년친화 강소기업 선정'] }
             ]
           },
           {
-            eraTitle: '2010 ~ 2019',
-            eraSubtitle: '사업 다각화 및 R&D 성장기',
+            eraTitle: '2013 ~ 2021',
+            eraSubtitle: '성장기 (R&D 고도화 및 생산 인프라 확장)',
             events: [
-              { year: '2019년', details: ['• 아산 제2공장 준공 (최첨단 스마트 패키징 및 대량 생산 라인)', '• 대한상공회의소 \'일하기 좋은 중소기업\' 선정'] },
-              { year: '2018년', details: ['• 수원 중앙연구소 이노플렉스 통합 이전 및 R&D 플랫폼 고도화', '• 보건복지부장관 표창 수상'] },
-              { year: '2017년', details: ['• 사명 변경: (주)다산메디켐 ➔ (주)다산제약 (제약 전문 브랜드 도약)', '• KOTRA 수출혁신 기업상 수상'] },
-              { year: '2016년', details: ['• 중앙연구소 확장 이전'] },
-              { year: '2014년', details: ['• 중국 심양 연구소 설립 및 한중 공동 연구 인프라 확보'] },
-              { year: '2011년', details: ['• 벤처활성화 유공포상 중소기업청장상 수상', '• 기술보증기금(KIBO) 성공기업 선정', '• 아산공장 내 완제의약품 물류센터 완공'] },
-              { year: '2010년', details: ['• 한국을 빛낸 이달의 무역인상 수상'] }
+              { year: '2021', details: ['• 충청남도 우수기업인상 수상', '• 좋은 일자리 기업 선정', '• 글로벌 강소기업 선정'] },
+              { year: '2020', details: ['• 충청남도 유망 중소기업 선정'] },
+              { year: '2019', details: ['• 매출 500억 원 달성', '• 아산 제2공장 완공', '• 심양연구소(중국 랴오닝성) 확장'] },
+              { year: '2018', details: ['• 중앙연구소 통합 개소'] },
+              { year: '2017', details: ['• 사명 변경 ("주식회사 다산제약")'] },
+              { year: '2016', details: ['• 중앙연구소 확장 이전'] },
+              { year: '2013', details: ['• 완제의약품 물류센터 완공', '• 벤처기업 중소기업청장상 표창', '• 합성연구소 확장 이전'] }
             ]
           },
           {
-            eraTitle: '1996 ~ 2009',
-            eraSubtitle: '창업 및 성장 기반 확립',
+            eraTitle: '1996 ~ 2011',
+            eraSubtitle: '설립기 (원천기술 확보)',
             events: [
-              { year: '2007년', details: ['• \'INNO-BIZ\' 기술혁신형 중소기업 인증 획득', '• 아산 제1공장 KGMP 인증 획득 및 상용화 생산 가동', '• 의약품 수출의 날 수출유공자 표창 수상'] },
-              { year: '2001년', details: ['• 아산 원료의약품 공장 준공 및 제조업 허가 취득', '• 기업부설 중앙연구소 설립 인가'] },
-              { year: '1996년', details: ['• 12월: (주)다산메디켐 설립'] }
+              { year: '2011', details: ['• \'KIBO 성공기업\' 선정'] },
+              { year: '2009', details: ['• 300만불 수출탑 수상'] },
+              { year: '2008', details: ['• 매출 100억 원 달성', '• KGMP 인증'] },
+              { year: '2007', details: ['• 기술혁신형중소기업(INNO-BIZ) 인증', '• 3D Clean 사업장 인증'] },
+              { year: '2002', details: ['• BGMP 인증'] },
+              { year: '2001', details: ['• 원료의약품 공장 준공 및 제조업 허가 취득', '• 기업부설연구소 인가'] },
+              { year: '1996', details: ['• 주식회사 다산메디켐 설립'] }
             ]
           }
         ];
@@ -579,52 +517,73 @@ export default async function AboutCatchAllPage({ params }: Params) {
           }
         }
         
-        if (timelineData.length === 0) {
+                if (timelineData.length === 0) {
           timelineData = defaultTimelineData;
         }
 
         return (
-          <div className="space-y-12 animate-fade-in-up">
-            {/* Intro banner */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-none border border-gray-100">
-              <span className="text-brand-green text-xs font-bold tracking-widest uppercase block mb-2">History</span>
-              <h4 className="text-xl md:text-2xl font-black text-brand-blue leading-snug whitespace-pre-wrap">
-                {historyIntroTitle.replace(/\\n/g, '\n')}
-              </h4>
-              <p className="text-gray-500 text-xs md:text-sm mt-2 leading-relaxed whitespace-pre-wrap">
-                {historyIntroBody}
-              </p>
+          <div className="space-y-12 animate-fade-in-up bg-white p-6 md:p-16 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 relative overflow-hidden">
+            {/* Header */}
+            <div className="text-center mb-16 relative z-10">
+              <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
+              <h3 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
+                다산제약의 발자취
+              </h3>
             </div>
 
-            {/* Timeline Wrapper */}
-            <div className="relative border-l border-gray-200 ml-4 md:ml-8 pl-6 md:pl-10 space-y-12">
-              
-              {timelineData.map((era, eraIdx) => (
-                <div key={eraIdx} className="relative">
-                  {/* Era indicator pin */}
-                  <div className="absolute -left-[31px] md:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-brand-green border-[3px] border-white shadow-sm" />
-                  <h4 className="text-lg md:text-xl font-extrabold text-brand-green mb-6">
-                    {era.eraTitle} {era.eraSubtitle && <span className="text-gray-400 text-xs font-semibold ml-2">{era.eraSubtitle}</span>}
-                  </h4>
+            {/* Timeline Container */}
+            <div className="relative max-w-4xl mx-auto z-10">
+              {/* Vertical Line */}
+              <div className="absolute left-[30px] md:left-[120px] top-4 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 via-gray-200 to-transparent"></div>
+
+              {[...timelineData].reverse().map((era, eraIndex) => (
+                <div key={eraIndex} className="mb-20 last:mb-0 relative">
                   
-                  <div className="space-y-6">
-                    {era.events.map((evt, evtIdx) => (
-                      <div key={evtIdx} className="flex flex-col md:flex-row md:items-start gap-1 md:gap-8">
-                        <div className="text-base font-black text-brand-green min-w-[70px]">{evt.year}</div>
-                        <div className="text-gray-600 text-xs md:text-sm leading-relaxed">
-                          {evt.details.map((detail, dIdx) => (
-                            <React.Fragment key={dIdx}>
-                              {detail}
-                              {dIdx < evt.details.length - 1 && <br />}
-                            </React.Fragment>
-                          ))}
+                  {/* Era Header */}
+                  <div className="flex items-center mb-10 group">
+                    {/* Circle on line */}
+                    <div className="absolute left-[30px] md:left-[120px] w-5 h-5 rounded-full bg-brand-green border-[4px] border-white shadow-sm -translate-x-[9.5px] z-10 group-hover:scale-125 transition-transform duration-300"></div>
+                    
+                    <div className="ml-[60px] md:ml-[160px] bg-brand-green/5 border border-brand-green/20 px-5 py-3 rounded-2xl animate-fade-in-up" style={{animationDelay: (eraIndex * 150 + 300) + 'ms'}}>
+                      <h4 className="text-xl md:text-2xl font-black text-brand-green">
+                        {era.eraTitle} <span className="font-medium text-gray-600 text-base md:text-lg ml-2">| {era.eraSubtitle}</span>
+                      </h4>
+                    </div>
+                  </div>
+
+                  {/* Era Events */}
+                  <div className="space-y-8">
+                    {[...era.events].reverse().map((event, eventIndex) => (
+                      <div key={eventIndex} className="relative flex flex-col md:flex-row items-start group hover:-translate-y-1 transition-transform duration-300 animate-fade-in-up" style={{animationDelay: (eraIndex * 150 + eventIndex * 100 + 400) + 'ms'}}>
+                        
+                        {/* Year */}
+                        <div className="ml-[60px] md:ml-0 md:absolute md:left-0 md:w-[90px] md:text-right pt-1.5">
+                          <span className="text-xl md:text-2xl font-extrabold text-gray-400 group-hover:text-brand-blue transition-colors duration-300 tracking-tight">{event.year}</span>
+                        </div>
+
+                        {/* Dot on line */}
+                        <div className="absolute left-[30px] md:left-[120px] top-4 w-3 h-3 rounded-full bg-gray-300 border-[2px] border-white -translate-x-[5px] z-10 group-hover:bg-brand-blue group-hover:scale-[1.5] transition-all duration-300 shadow-sm"></div>
+
+                        {/* Details */}
+                        <div className="ml-[60px] md:ml-[160px] flex-1 bg-white border border-gray-100 p-5 md:p-6 rounded-2xl shadow-sm group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] group-hover:border-brand-blue/20 transition-all duration-300 mt-2 md:mt-0">
+                          <ul className="space-y-3">
+                            {event.details.map((detail, dIndex) => {
+                              const cleanDetail = detail.replace(/^•\s*/, '');
+                              return (
+                                <li key={dIndex} className="text-gray-600 leading-relaxed text-[15px] flex items-start">
+                                  <span className="text-brand-blue/40 mr-3 mt-1 font-bold text-lg leading-none">•</span>
+                                  <span className="font-medium">{cleanDetail}</span>
+                                </li>
+                              );
+                            })}
+                          </ul>
                         </div>
                       </div>
                     ))}
                   </div>
+
                 </div>
               ))}
-
             </div>
           </div>
         );
@@ -706,12 +665,20 @@ export default async function AboutCatchAllPage({ params }: Params) {
               
               <div className="pt-8">
                 <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{ciSubtitle}</h3>
-                <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line text-[15px]">{ciIntro}</p>
+                {(typeof ciIntro === 'string' && (ciIntro.includes('<p') || ciIntro.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: ciIntro }} className="[&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:break-keep [&_p]:whitespace-pre-line [&_p]:text-[15px] [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line text-[15px]">{ciIntro}</p>
+                )}
               </div>
 
               <div className="pt-12">
                 <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{primaryLogoTitle}</h3>
-                <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line mb-8 text-[15px]">{primaryLogoDesc}</p>
+                {(typeof primaryLogoDesc === 'string' && (primaryLogoDesc.includes('<p') || primaryLogoDesc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: primaryLogoDesc }} className="[&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:break-keep [&_p]:whitespace-pre-line [&_p]:mb-8 [&_p]:text-[15px] [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line mb-8 text-[15px]">{primaryLogoDesc}</p>
+                )}
                 
                 <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
                   <div className="p-10 lg:p-12 flex flex-col items-center">
@@ -744,7 +711,11 @@ export default async function AboutCatchAllPage({ params }: Params) {
                      </div>
                   </div>
                 </div>
-                <p className="text-gray-500 mt-6 text-sm whitespace-pre-line leading-relaxed">{primaryLogoFooter}</p>
+                {(typeof primaryLogoFooter === 'string' && (primaryLogoFooter.includes('<p') || primaryLogoFooter.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: primaryLogoFooter }} className="[&_p]:text-gray-500 [&_p]:mt-6 [&_p]:text-sm [&_p]:whitespace-pre-line [&_p]:leading-relaxed [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-gray-500 mt-6 text-sm whitespace-pre-line leading-relaxed">{primaryLogoFooter}</p>
+                )}
               </div>
             </div>
 
@@ -752,14 +723,22 @@ export default async function AboutCatchAllPage({ params }: Params) {
             {/* Section 3: Primary Color & Logo Color Usage Guideline */}
             <div className="pt-16 border-t border-gray-100">
               <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{primaryColorTitle}</h3>
-              <p className="text-gray-600 leading-relaxed break-keep mb-10 text-[15px] whitespace-pre-line">{primaryColorDesc}</p>
+              {(typeof primaryColorDesc === 'string' && (primaryColorDesc.includes('<p') || primaryColorDesc.includes('<h'))) ? (
+                <div dangerouslySetInnerHTML={{ __html: primaryColorDesc }} className="[&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:break-keep [&_p]:mb-10 [&_p]:text-[15px] [&_p]:whitespace-pre-line [&_h4]:font-bold [&_strong]:font-bold" />
+              ) : (
+                <p className="text-gray-600 leading-relaxed break-keep mb-10 text-[15px] whitespace-pre-line">{primaryColorDesc}</p>
+              )}
               
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-20">
                 {colors.map((c, i) => (
                   <div key={i} className="rounded-3xl p-8 text-white flex flex-col justify-between shadow-md" style={{backgroundColor: c.hex}}>
                     <div>
                       <h4 className="text-2xl font-bold mb-4">{c.name}</h4>
-                      <p className="text-[13px] opacity-90 leading-relaxed mb-8 break-keep whitespace-pre-line font-medium">{c.desc}</p>
+                      {(typeof c.desc === 'string' && (c.desc.includes('<p') || c.desc.includes('<h'))) ? (
+                        <div dangerouslySetInnerHTML={{ __html: c.desc }} className="[&_p]:text-[13px] [&_p]:opacity-90 [&_p]:leading-relaxed [&_p]:mb-8 [&_p]:break-keep [&_p]:whitespace-pre-line [&_p]:font-medium [&_h4]:font-bold [&_strong]:font-bold" />
+                      ) : (
+                        <p className="text-[13px] opacity-90 leading-relaxed mb-8 break-keep whitespace-pre-line font-medium">{c.desc}</p>
+                      )}
                     </div>
                     <div className="flex justify-between text-xs font-mono bg-black/10 p-4 rounded-2xl gap-2">
                       <div className="flex-1">
@@ -788,139 +767,147 @@ export default async function AboutCatchAllPage({ params }: Params) {
         );
 
 
+
+
+
       case '/about/facilities':
         // Default static texts
-        let facIntro = '다산제약은 고난도 제형 연구를 선도하는 수원 R&D 중앙연구소와 선진 GMP(KGMP) 규격에 부합하는 아산 제1, 2공장을 가동하여 연구개발에서 생산에 이르는 완성도 높은 제약 솔루션을 제공합니다.';
-        let resName = '수원 중앙연구소';
-        let resLoc = '경기 수원시 영통구 신원로 304(원천동) 이노플렉스 3동 306호';
-        let resField = '약물전달시스템(DDS) 플랫폼 설계, 복합 개량신약 제제 연구, 원료의약품(API) 고효율 합성 공정 개발';
-        let resInfra = '고해상도 분광광도계, 초고성능 액체크로마토그래피(UPLC), 나노 입자 입도분석기 등 최첨단 제제 분석 설비 보유';
+        let facIntro = '연구개발에서 생산, 글로벌 시장 진출까지 유기적으로 연결된 다산제약의 핵심 거점입니다.';
 
-        let f1Name = '아산 제1공장';
-        let f1Loc = '충청남도 아산시 도고면 덕암산로 342';
-        let f1Item = '완제의약품 (정제, 캡슐제, 유동층 과립제품 등)';
-        let f1Facility = '독일 Glatt社 최첨단 유동층 코팅기 (GPCG-300, GPCG-120), 초고속 이중정 타정기, 중앙 자동화 컨트롤 모니터링 시스템';
-        let f1Capacity = '연간 최대 9억 정 규모 고형제 생산 라인';
-
-        let f2Name = '아산 제2공장';
-        let f2Loc = '충청남도 아산시 도고면 덕암산로 381';
-        let f2Function = '의약품 포장 공정 자동화 및 스마트 물류창고';
-        let f2Facility = '독일 및 이탈리아산 고속 블리스터(Alu-Alu, PVC/PVDC) 포장기, 카토너 카운터 일원화 라인, 실시간 온습도 조절 항온물류창고';
-        let f2Green = '정제 선별 고해상도 인쇄 선별 장치, 고성능 스마트 집진 시스템';
-
-        if (dbContent) {
-          const lines = dbContent.split('\n');
-          if (lines[0]) facIntro = lines[0];
-          if (lines[1]) resName = lines[1];
-          if (lines[2]) resLoc = lines[2];
-          if (lines[3]) resField = lines[3];
-          if (lines[4]) resInfra = lines[4];
-          if (lines[5]) f1Name = lines[5];
-          if (lines[6]) f1Loc = lines[6];
-          if (lines[7]) f1Item = lines[7];
-          if (lines[8]) f1Facility = lines[8];
-          if (lines[9]) f1Capacity = lines[9];
-          if (lines[10]) f2Name = lines[10];
-          if (lines[11]) f2Loc = lines[11];
-          if (lines[12]) f2Function = lines[12];
-          if (lines[13]) f2Facility = lines[13];
-          if (lines[14]) f2Green = lines[14];
+        // Use Rich Text Editor content if available, otherwise use beautifully designed static layout
+        if (dbContent && (dbContent.includes('<p') || dbContent.includes('<h'))) {
+          return (
+             <div className="space-y-10 animate-fade-in-up">
+              <div dangerouslySetInnerHTML={{ __html: dbContent }} className="[&_p]:text-gray-650 [&_p]:text-sm [&_p]:leading-relaxed [&_h4]:font-bold [&_strong]:font-bold" />
+            </div>
+          );
         }
+
+        const MapIconSVG = (
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        );
+
+        const cardClass = "bg-white rounded-3xl p-6 md:p-8 border border-gray-200 hover:border-brand-green/50 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden flex flex-col group";
+        const iconContainerClass = "p-3 bg-gray-50 group-hover:bg-brand-green/10 rounded-2xl transition-colors duration-300 text-gray-400 group-hover:text-brand-green";
+        const buttonClass = "inline-flex flex-1 items-center justify-center text-[12px] font-bold text-gray-500 group-hover:text-brand-green bg-gray-50 group-hover:bg-brand-green/5 px-4 py-2.5 rounded-xl transition-all duration-300 border border-gray-200 group-hover:border-brand-green/30 hover:!bg-brand-green hover:!text-white";
 
         return (
           <div className="space-y-10 animate-fade-in-up">
-            <p className="text-gray-650 text-sm leading-relaxed">
+            <p className="text-gray-500 text-[15px] leading-relaxed max-w-3xl text-center mx-auto mb-10 font-medium">
               {facIntro}
             </p>
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-              {/* 수원 R&D 중앙연구소 */}
-              <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-150 shadow-[0_10px_30px_rgba(0,0,0,0.015)] space-y-5">
-                <div className="flex items-center space-x-3 text-brand-blue">
-                  <div className="p-2.5 bg-brand-blue/5 rounded-2xl">
-                    <Building2 size={26} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+              
+              {/* 본사 (HQ) */}
+              <div className={cardClass}>
+                <div className="absolute -top-6 -right-6 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-300 transform group-hover:scale-110">
+                  <Building2 size={140} />
+                </div>
+                <div className="flex items-center space-x-4 relative z-10 mb-6">
+                  <div className={iconContainerClass}>
+                    <Building2 size={28} />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider block">Research Center</span>
-                    <h4 className="font-black text-brand-blue text-lg">{resName}</h4>
+                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Headquarters</span>
+                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">본사</h4>
                   </div>
                 </div>
-                <div className="border-t border-gray-100 pt-4 space-y-3.5 text-xs text-gray-600 font-medium">
+                <div className="border-t border-gray-100 pt-6 space-y-4 flex-grow relative z-10">
                   <div>
-                    <span className="text-gray-400 block mb-0.5">소재지</span>
-                    <p className="text-brand-blue font-bold">{resLoc}</p>
+                    <span className="text-sm text-brand-green font-bold block mb-2">서울 영등포구 선유로 70</span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">경영, 영업, 구매, 사업개발 등 지속 가능한 미래 성장 전략 수립</p>
+                  </div>
+                </div>
+                <div className="pt-6 mt-auto relative z-10 flex w-full">
+                  <a href="/about/location?loc=seoul" className={buttonClass}>
+                    {MapIconSVG} 찾아오시는 길
+                  </a>
+                </div>
+              </div>
+
+              {/* R&D 네트워크 */}
+              <div className={cardClass}>
+                <div className="absolute -top-6 -right-6 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-300 transform group-hover:scale-110">
+                  <Zap size={140} />
+                </div>
+                <div className="flex items-center space-x-4 relative z-10 mb-6">
+                  <div className={iconContainerClass}>
+                    <Zap size={28} />
                   </div>
                   <div>
-                    <span className="text-gray-400 block mb-0.5">주요 연구 분야</span>
-                    <p className="text-brand-blue font-bold">{resField}</p>
+                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">R&D Network</span>
+                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">R&D 네트워크</h4>
                   </div>
+                </div>
+                <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
                   <div>
-                    <span className="text-gray-400 block mb-0.5">연구 인프라</span>
-                    <p className="text-brand-blue font-bold">{resInfra}</p>
+                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
+                      다산 중앙연구소 
+                      <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">경기 수원시</span>
+                    </span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-4">제제 및 합성 관련 연구시설을 갖추고 연구개발 총괄</p>
+                    <div className="flex w-full">
+                      <a href="/about/location?loc=suwon" className={buttonClass}>
+                        {MapIconSVG} 찾아오시는 길
+                      </a>
+                    </div>
+                  </div>
+                  <div className="pt-6 border-t border-dashed border-gray-200">
+                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
+                      중국 심양연구소
+                      <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-bold">중국 심양시</span>
+                    </span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">중국 내 연구, 허가, 사업개발을 담당하는 글로벌 영토 확장의 전초기지</p>
                   </div>
                 </div>
               </div>
 
-              {/* 아산 제1공장 */}
-              <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-150 shadow-[0_10px_30px_rgba(0,0,0,0.015)] space-y-5">
-                <div className="flex items-center space-x-3 text-brand-green">
-                  <div className="p-2.5 bg-brand-green/10 rounded-2xl">
-                    <Factory size={26} />
+              {/* 글로벌 생산 기지 */}
+              <div className={cardClass}>
+                <div className="absolute -top-6 -right-6 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-300 transform group-hover:scale-110">
+                  <Factory size={140} />
+                </div>
+                <div className="flex items-center space-x-4 relative z-10 mb-6">
+                  <div className={iconContainerClass}>
+                    <Factory size={28} />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider block">Production Base 01</span>
-                    <h4 className="font-black text-brand-blue text-lg">{f1Name}</h4>
+                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Production Base</span>
+                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">글로벌 생산 기지</h4>
                   </div>
                 </div>
-                <div className="border-t border-gray-100 pt-4 space-y-3.5 text-xs text-gray-600 font-medium">
+                <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
                   <div>
-                    <span className="text-gray-400 block mb-0.5">소재지</span>
-                    <p className="text-brand-blue font-bold">{f1Loc}</p>
+                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
+                      아산 제1공장 / 제2공장
+                      <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">충남 아산시</span>
+                    </span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-3">
+                      원료 및 완제의약품, 내용고형제 대량 생산 체계 구축
+                      <span className="block text-brand-blue font-bold text-[11px] mt-1.5 bg-brand-blue/5 px-2.5 py-1 rounded inline-block">MHLW, GMP 인증 완료</span>
+                    </p>
+                    <div className="flex space-x-2 w-full mt-4">
+                      <a href="/about/location?loc=asan1" className={buttonClass + " px-2"}>
+                        {MapIconSVG} 제1공장
+                      </a>
+                      <a href="/about/location?loc=asan2" className={buttonClass + " px-2"}>
+                        {MapIconSVG} 제2공장
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-gray-400 block mb-0.5">주요 생산 품목</span>
-                    <p className="text-brand-blue font-bold">{f1Item}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 block mb-0.5">핵심 생산 설비</span>
-                    <p className="text-brand-blue font-bold">{f1Facility}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 block mb-0.5">연간 생산 능력</span>
-                    <p className="text-brand-blue font-bold">{f1Capacity}</p>
+                  <div className="pt-6 border-t border-dashed border-gray-200">
+                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
+                      Anhui Heryi Dasan
+                      <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-bold">중국 안휘성</span>
+                    </span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">연간 약 40억 정의 생산 능력을 갖춘 중국 현지 전진 생산 기지</p>
                   </div>
                 </div>
               </div>
 
-              {/* 아산 제2공장 */}
-              <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-150 shadow-[0_10px_30px_rgba(0,0,0,0.015)] space-y-5">
-                <div className="flex items-center space-x-3 text-brand-cyan">
-                  <div className="p-2.5 bg-brand-cyan/10 rounded-2xl">
-                    <Factory size={26} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider block">Production Base 02</span>
-                    <h4 className="font-black text-brand-blue text-lg">{f2Name}</h4>
-                  </div>
-                </div>
-                <div className="border-t border-gray-100 pt-4 space-y-3.5 text-xs text-gray-600 font-medium">
-                  <div>
-                    <span className="text-gray-400 block mb-0.5">소재지</span>
-                    <p className="text-brand-blue font-bold">{f2Loc}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 block mb-0.5">주요 생산 기능</span>
-                    <p className="text-brand-blue font-bold">{f2Function}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 block mb-0.5">핵심 생산 설비</span>
-                    <p className="text-brand-blue font-bold">{f2Facility}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 block mb-0.5">친환경 스마트 설비</span>
-                    <p className="text-brand-blue font-bold">{f2Green}</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         );
@@ -930,7 +917,34 @@ export default async function AboutCatchAllPage({ params }: Params) {
           <LocationMapSection dbContent={dbContent} />
         );
 
-      case '/about/esg/ethics':
+                  case '/about/esg/ethics':
+        return (
+          <div className="space-y-6 animate-fade-in-up bg-white p-6 md:p-12 rounded-3xl shadow-none">
+            {dbContent ? (
+              (() => {
+                const parts = dbContent.split('|');
+                const title = parts[0] || '지속 가능한 비즈니스를 위한 ESG 선언';
+                const body = parts.slice(1).join('|') || '';
+                return (
+                  <>
+                    <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
+                      {title}
+                    </h3>
+                    {String(body).includes('<p') || String(body).includes('<h') ? (
+                      <div dangerouslySetInnerHTML={{__html: body}} className="[&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4 [&_h4]:text-lg [&_h4]:text-brand-blue [&_h4]:mb-4" />
+                    ) : (
+                      <p className="text-gray-600 text-[15px] leading-[1.8] whitespace-pre-wrap">{body}</p>
+                    )}
+                  </>
+                );
+              })()
+            ) : (
+              <div className="text-center text-gray-500 py-12">
+                (입력된 문구가 여기에 표시됩니다)
+              </div>
+            )}
+          </div>
+        );
       case '/about/esg/environment':
       case '/about/esg/safety':
         return (
@@ -945,7 +959,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                         <Heart size={24} />
                         <h4 className="text-lg font-bold">{parts[0]}</h4>
                       </div>
-                      <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{parts[1]}</p>
+                      {String(parts[1]).includes('<') ? <div dangerouslySetInnerHTML={{__html: parts[1]}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{parts[1]}</p>}
                     </>
                   );
                 }
@@ -955,7 +969,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       <Heart size={24} />
                       <h4 className="text-lg font-bold">지속 가능한 비즈니스를 위한 ESG 선언</h4>
                     </div>
-                    <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{dbContent}</p>
+                    {String(dbContent).includes('<') ? <div dangerouslySetInnerHTML={{__html: dbContent}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{dbContent}</p>}
                   </>
                 );
               })()
@@ -1252,7 +1266,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           {/* Right Main Content - Expanded to full width (col-span-5) to remove sidebar frame space */}
           <div className="lg:col-span-5 space-y-8 flex flex-col items-center w-full">
             {/* Header - Centered for symmetry */}
-            <div className="pb-8 border-b border-gray-100 w-full text-center flex flex-col items-center">
+            <div className="pb-8 w-full text-center flex flex-col items-center">
               <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
                 <span>{grandAbout?.name}</span>
                 <span className="text-gray-300">/</span>
@@ -1262,7 +1276,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
-              <SubmenuTabBar subMenus={grandAbout?.majors.flatMap(m => m.subMenus) || []} currentPath={currentPath} />
+              <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath} />
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}

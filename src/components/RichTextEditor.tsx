@@ -82,7 +82,45 @@ export default function RichTextEditor({ value, onChange, placeholder = '본문 
 
       // Set initial content
       if (value) {
-        q.clipboard.dangerouslyPasteHTML(value);
+        let htmlToPaste = value;
+        if (!value.includes('<p') && !value.includes('<br') && !value.includes('<h')) {
+          let htmlLines: string[] = [];
+          let inList = false;
+
+          value.split('\n').forEach(line => {
+            const trimmed = line.trim();
+            if (!trimmed) {
+              if (inList) { htmlLines.push('</ul>'); inList = false; }
+              htmlLines.push('<p><br></p>');
+              return;
+            }
+            
+            // Remove 1., 2. prefix
+            let text = trimmed.replace(/^[1-9]\.\s/, '');
+            
+            if (text.includes('다산(茶山)의 정신으로') || text.includes('신뢰와 혁신으로') || text.includes('4대 경영 철학') || text.includes('CEO 메시지')) {
+              if (inList) { htmlLines.push('</ul>'); inList = false; }
+              htmlLines.push(`<h4><strong>${text}</strong></h4>`);
+            } else if (text.startsWith('•') || text.startsWith('-') || text.startsWith('·')) {
+              if (!inList) { htmlLines.push('<ul>'); inList = true; }
+              let content = text.substring(1).trim();
+              const splitIdx = content.indexOf(':');
+              if (splitIdx !== -1 && splitIdx < 15) {
+                const title = content.substring(0, splitIdx).trim();
+                const desc = content.substring(splitIdx + 1).trim();
+                htmlLines.push(`<li><strong>${title}</strong> : ${desc}</li>`);
+              } else {
+                htmlLines.push(`<li>${content}</li>`);
+              }
+            } else {
+              if (inList) { htmlLines.push('</ul>'); inList = false; }
+              htmlLines.push(`<p>${text}</p>`);
+            }
+          });
+          if (inList) htmlLines.push('</ul>');
+          htmlToPaste = htmlLines.join('');
+        }
+        q.clipboard.dangerouslyPasteHTML(htmlToPaste);
       }
 
       // Handle text change
@@ -119,7 +157,45 @@ export default function RichTextEditor({ value, onChange, placeholder = '본문 
         if (!value || value === '<p><br></p>') {
           quillRef.current.setText('');
         } else {
-          quillRef.current.clipboard.dangerouslyPasteHTML(value);
+          let htmlToPaste = value;
+          // Convert plain text newlines to HTML paragraphs if no HTML tags are present
+          if (value && !value.includes('<p') && !value.includes('<br') && !value.includes('<h')) {
+            let htmlLines: string[] = [];
+            let inList = false;
+  
+            value.split('\n').forEach(line => {
+              const trimmed = line.trim();
+              if (!trimmed) {
+                if (inList) { htmlLines.push('</ul>'); inList = false; }
+                htmlLines.push('<p><br></p>');
+                return;
+              }
+              
+              let text = trimmed.replace(/^[1-9]\.\s/, '');
+              
+              if (text.includes('다산(茶山)의 정신으로') || text.includes('신뢰와 혁신으로') || text.includes('4대 경영 철학') || text.includes('CEO 메시지')) {
+                if (inList) { htmlLines.push('</ul>'); inList = false; }
+                htmlLines.push(`<h4><strong>${text}</strong></h4>`);
+              } else if (text.startsWith('•') || text.startsWith('-') || text.startsWith('·')) {
+                if (!inList) { htmlLines.push('<ul>'); inList = true; }
+                let content = text.substring(1).trim();
+                const splitIdx = content.indexOf(':');
+                if (splitIdx !== -1 && splitIdx < 15) {
+                  const title = content.substring(0, splitIdx).trim();
+                  const desc = content.substring(splitIdx + 1).trim();
+                  htmlLines.push(`<li><strong>${title}</strong> : ${desc}</li>`);
+                } else {
+                  htmlLines.push(`<li>${content}</li>`);
+                }
+              } else {
+                if (inList) { htmlLines.push('</ul>'); inList = false; }
+                htmlLines.push(`<p>${text}</p>`);
+              }
+            });
+            if (inList) htmlLines.push('</ul>');
+            htmlToPaste = htmlLines.join('');
+          }
+          quillRef.current.clipboard.dangerouslyPasteHTML(htmlToPaste);
         }
         
         isUpdatingRef.current = false;
@@ -146,6 +222,21 @@ export default function RichTextEditor({ value, onChange, placeholder = '본문 
         .ql-dark-editor .ql-editor {
           color: #f3f4f6 !important;
           font-family: inherit;
+        }
+        .ql-dark-editor .ql-editor p {
+          margin-bottom: 1.25rem;
+          line-height: 1.8;
+        }
+        .ql-dark-editor .ql-editor p:last-child {
+          margin-bottom: 0;
+        }
+        .ql-dark-editor .ql-editor h3, .ql-dark-editor .ql-editor h4 {
+          margin-top: 2rem;
+          margin-bottom: 0.75rem;
+        }
+        .ql-dark-editor .ql-editor li {
+          margin-bottom: 0.75rem;
+          line-height: 1.8;
         }
         .ql-dark-editor .ql-editor.ql-blank::before {
           color: rgba(255, 255, 255, 0.35) !important;

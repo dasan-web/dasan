@@ -68,11 +68,11 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
   return (
     <div 
       ref={containerRef}
-      className="relative flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-4 max-w-full border-b border-gray-100 pb-3 select-none animate-fade-in px-4 w-full"
+      className="relative flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-4 max-w-full  pb-0 select-none animate-fade-in px-4 w-full"
     >
       {/* Sliding Underline Indicator */}
       <div
-        className="absolute bottom-[8px] h-[3px] bg-brand-green rounded-full transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+        className="absolute bottom-[-1px] h-[3px] bg-brand-green transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
         style={{
           left: `${currentCoords.left}px`,
           width: `${currentCoords.width}px`,
@@ -102,7 +102,7 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
                 e.preventDefault();
                 alert('영문 홈페이지 준비 중입니다.');
               }}
-              className="relative pb-3 text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 text-gray-400 hover:text-brand-blue cursor-pointer focus:outline-none"
+              className="relative pb-2 text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 text-gray-400 hover:text-brand-blue cursor-pointer focus:outline-none"
             >
               {sub.name}
             </button>
@@ -116,7 +116,7 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
             ref={isActive ? activeRef : null}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`relative pb-3 text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 ${
+            className={`relative pb-2 text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 ${
               isActive
                 ? 'text-brand-green'
                 : 'text-gray-400 hover:text-brand-blue'

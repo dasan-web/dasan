@@ -1842,11 +1842,8 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                 value={staticContent.split('|')[0] || ''}
                                 onChange={(e) => {
                                   const parts = staticContent.split('|');
-                                  if (parts.length < 2) {
-                                    parts.push('');
-                                  }
-                                  parts[0] = e.target.value;
-                                  setStaticContent(parts.join('|'));
+                                  const body = parts.slice(1).join('|');
+                                  setStaticContent(e.target.value + '|' + body);
                                 }}
                                 className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 focus:border-brand-green focus:bg-white/[0.07] focus:shadow-md focus:shadow-brand-green/5 transition-all"
                                 placeholder="기업개요 제목을 입력하세요 (줄바꿈이 필요한 경우 \n 입력)."
@@ -2318,19 +2315,16 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                             </div>
                             <div className="space-y-1">
                               <label className="text-[11px] font-bold text-gray-400 block">내용 (Content)</label>
-                              <textarea
-                                value={staticContent.split('|')[1] || ''}
-                                onChange={(e) => {
-                                  const parts = staticContent.split('|');
-                                  if (parts.length < 2) {
-                                    parts.unshift('');
-                                  }
-                                  parts[1] = e.target.value;
-                                  setStaticContent(parts.join('|'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-4 text-xs md:text-sm text-white placeholder-gray-500 min-h-[250px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] focus:shadow-md focus:shadow-brand-green/5 transition-all"
-                                placeholder="내용을 입력하세요."
-                              />
+                              <div className="min-h-[150px] bg-white text-gray-900 rounded-xl overflow-hidden border border-white/10">
+                                <RichTextEditor
+                                  value={staticContent.split('|').slice(1).join('|') || ''}
+                                  onChange={(value) => {
+                                    const parts = staticContent.split('|');
+                                    setStaticContent((parts[0] || '') + '|' + value);
+                                  }}
+                                  placeholder="내용을 입력하세요."
+                                />
+                              </div>
                             </div>
                           </div>
                         )}
@@ -4329,7 +4323,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                             {(() => {
                               const parts = (staticContent || '').split('|');
                               const title = parts[0] || '지속 가능한 비즈니스를 위한 ESG 선언';
-                              const body = parts[1] || parts[0] || '(입력된 문구가 여기에 표시됩니다)';
+                              const body = parts.slice(1).join('|') || parts[0] || '(입력된 문구가 여기에 표시됩니다)';
                               return (
                                 <>
                                   <div className="flex items-center space-x-3 text-emerald-600 border-b border-gray-100 pb-2">

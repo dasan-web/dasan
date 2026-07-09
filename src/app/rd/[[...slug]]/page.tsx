@@ -76,6 +76,7 @@ export default async function RdCatchAllPage({ params }: Params) {
 
   let activeTitle = 'R&D';
   let activeMajor = 'R&D';
+  let activeMajorObj = null;
   
   const grandRd = navigationData.find(g => g.name === 'Innovation');
   if (grandRd) {
@@ -84,11 +85,15 @@ export default async function RdCatchAllPage({ params }: Params) {
       if (sub) {
         activeTitle = sub.name;
         activeMajor = major.name;
+        activeMajorObj = major;
         break;
       }
     }
+    if (!activeMajorObj && grandRd.majors.length > 0) { // Replace grandRd later
+      activeMajorObj = grandRd.majors[0];
+    }
   }
-
+    
   const renderContent = () => {
     switch (currentPath) {
       case '/rd/intro': {
@@ -113,19 +118,31 @@ export default async function RdCatchAllPage({ params }: Params) {
           <div className="space-y-8 animate-fade-in-up">
             <div className="bg-white p-6 rounded-xl shadow-none">
               <h4 className="text-base font-bold text-brand-blue mb-2">{title}</h4>
-              <p className="text-xs text-gray-500 leading-relaxed whitespace-pre-wrap">{desc}</p>
+              {(typeof desc === 'string' && (desc.includes('<p') || desc.includes('<h'))) ? (
+                <div dangerouslySetInnerHTML={{ __html: desc }} className="[&_p]:text-xs [&_p]:text-gray-500 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+              ) : (
+                <p className="text-xs text-gray-500 leading-relaxed whitespace-pre-wrap">{desc}</p>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-5 rounded-xl bg-white space-y-2 shadow-none">
                 <div className="w-10 h-10 bg-brand-teal/10 rounded-lg flex items-center justify-center text-brand-teal"><Search size={18} /></div>
                 <h5 className="font-bold text-brand-blue text-sm">{part1Name}</h5>
-                <p className="text-xs text-gray-400 whitespace-pre-wrap">{part1Desc}</p>
+                {(typeof part1Desc === 'string' && (part1Desc.includes('<p') || part1Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: part1Desc }} className="[&_p]:text-xs [&_p]:text-gray-400 [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs text-gray-400 whitespace-pre-wrap">{part1Desc}</p>
+                )}
               </div>
               <div className="p-5 rounded-xl bg-white space-y-2 shadow-none">
                 <div className="w-10 h-10 bg-brand-cyan/10 rounded-lg flex items-center justify-center text-brand-cyan"><Layers size={18} /></div>
                 <h5 className="font-bold text-brand-blue text-sm">{part2Name}</h5>
-                <p className="text-xs text-gray-400 whitespace-pre-wrap">{part2Desc}</p>
+                {(typeof part2Desc === 'string' && (part2Desc.includes('<p') || part2Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: part2Desc }} className="[&_p]:text-xs [&_p]:text-gray-400 [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs text-gray-400 whitespace-pre-wrap">{part2Desc}</p>
+                )}
               </div>
             </div>
           </div>
@@ -150,21 +167,33 @@ export default async function RdCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-8 animate-fade-in-up">
-            <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{desc}</p>
+            {(typeof desc === 'string' && (desc.includes('<p') || desc.includes('<h'))) ? (
+              <div dangerouslySetInnerHTML={{ __html: desc }} className="[&_p]:text-gray-600 [&_p]:text-sm [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+            ) : (
+              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{desc}</p>
+            )}
             
             <div className="space-y-4">
               <div className="p-5 bg-white rounded-xl flex items-start space-x-4 shadow-none">
                 <span className="p-2 bg-brand-teal/10 rounded text-brand-teal"><Zap size={16} /></span>
                 <div>
                   <h5 className="font-bold text-brand-blue text-sm">{tech1Name}</h5>
-                  <p className="text-xs text-gray-500 mt-1 whitespace-pre-wrap">{tech1Desc}</p>
+                  {(typeof tech1Desc === 'string' && (tech1Desc.includes('<p') || tech1Desc.includes('<h'))) ? (
+                    <div dangerouslySetInnerHTML={{ __html: tech1Desc }} className="[&_p]:text-xs [&_p]:text-gray-500 [&_p]:mt-1 [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                  ) : (
+                    <p className="text-xs text-gray-500 mt-1 whitespace-pre-wrap">{tech1Desc}</p>
+                  )}
                 </div>
               </div>
               <div className="p-5 bg-white rounded-xl flex items-start space-x-4 shadow-none">
                 <span className="p-2 bg-brand-cyan/10 rounded text-brand-cyan"><Beaker size={16} /></span>
                 <div>
                   <h5 className="font-bold text-brand-blue text-sm">{tech2Name}</h5>
-                  <p className="text-xs text-gray-500 mt-1 whitespace-pre-wrap">{tech2Desc}</p>
+                  {(typeof tech2Desc === 'string' && (tech2Desc.includes('<p') || tech2Desc.includes('<h'))) ? (
+                    <div dangerouslySetInnerHTML={{ __html: tech2Desc }} className="[&_p]:text-xs [&_p]:text-gray-500 [&_p]:mt-1 [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                  ) : (
+                    <p className="text-xs text-gray-500 mt-1 whitespace-pre-wrap">{tech2Desc}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -241,7 +270,7 @@ export default async function RdCatchAllPage({ params }: Params) {
           {/* Right Main Content - Expanded to full width (col-span-5) to remove sidebar frame space */}
           <div className="lg:col-span-5 space-y-8 flex flex-col items-center w-full">
             {/* Header - Centered for symmetry */}
-            <div className="pb-8 border-b border-gray-100 w-full text-center flex flex-col items-center">
+            <div className="pb-8 w-full text-center flex flex-col items-center">
               <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
                 <span>{grandRd?.name}</span>
                 <span className="text-gray-300">/</span>
@@ -251,7 +280,7 @@ export default async function RdCatchAllPage({ params }: Params) {
               <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
-              <SubmenuTabBar subMenus={grandRd?.majors.flatMap(m => m.subMenus) || []} currentPath={currentPath} />
+              <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath} />
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}

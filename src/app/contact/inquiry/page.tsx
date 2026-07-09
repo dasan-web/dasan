@@ -37,6 +37,7 @@ export default function ContactInquiryPage() {
   const activeMajor = '고객센터';
   
   const grandContact = navigationData.find(g => g.name === 'Connect');
+  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor) || null;
 
   return (
     <div className="relative bg-white py-16 md:py-24 min-h-screen">
@@ -91,7 +92,7 @@ export default function ContactInquiryPage() {
           {/* Right Main Content - Expanded to full width (col-span-5) to remove sidebar frame space */}
           <div className="lg:col-span-5 space-y-8 flex flex-col items-center w-full">
             {/* Header - Centered for symmetry */}
-            <div className="pb-8 border-b border-gray-100 w-full text-center flex flex-col items-center">
+            <div className="pb-8 w-full text-center flex flex-col items-center">
               <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
                 <span>{grandContact?.name}</span>
                 <span className="text-gray-300">/</span>
@@ -101,7 +102,7 @@ export default function ContactInquiryPage() {
               <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
-              <SubmenuTabBar subMenus={grandContact?.majors.flatMap(m => m.subMenus) || []} currentPath={currentPath} />
+              <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath} />
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}

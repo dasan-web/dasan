@@ -82,6 +82,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
 
   let activeTitle = 'Contact';
   let activeMajor = '뉴스룸';
+  let activeMajorObj = null;
   
   const grandContact = navigationData.find(g => g.name === 'Connect');
   if (grandContact) {
@@ -90,6 +91,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
       if (sub) {
         activeTitle = sub.name;
         activeMajor = major.name;
+        activeMajorObj = major;
         break;
       }
     }
@@ -174,9 +176,13 @@ export default async function ContactCatchAllPage({ params }: Params) {
           <div className="space-y-12 animate-fade-in-up">
             <div className="border-b border-gray-100 pb-5 text-center md:text-left">
               <h4 className="text-xl md:text-2xl font-black text-brand-blue mb-3 whitespace-pre-wrap">{mainTitle}</h4>
-              <p className="text-sm md:text-base text-gray-500 max-w-2xl leading-relaxed whitespace-pre-wrap">
-                {intro}
-              </p>
+              {(typeof intro === 'string' && (intro.includes('<p') || intro.includes('<h'))) ? (
+                <div dangerouslySetInnerHTML={{ __html: intro }} className="[&_p]:text-sm md:[&_p]:text-base [&_p]:text-gray-500 [&_p]:max-w-2xl [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold mx-auto" />
+              ) : (
+                <p className="text-sm md:text-base text-gray-500 max-w-2xl leading-relaxed whitespace-pre-wrap mx-auto">
+                  {intro}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -186,9 +192,13 @@ export default async function ContactCatchAllPage({ params }: Params) {
                   <UserCheck size={28} />
                 </div>
                 <h5 className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{card1Title}</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
-                  {card1Desc}
-                </p>
+                {(typeof card1Desc === 'string' && (card1Desc.includes('<p') || card1Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: card1Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-500 [&_p]:leading-relaxed [&_p]:font-semibold [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
+                    {card1Desc}
+                  </p>
+                )}
               </div>
 
               {/* 혁신 지향 */}
@@ -197,9 +207,13 @@ export default async function ContactCatchAllPage({ params }: Params) {
                   <Briefcase size={28} />
                 </div>
                 <h5 className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{card2Title}</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
-                  {card2Desc}
-                </p>
+                {(typeof card2Desc === 'string' && (card2Desc.includes('<p') || card2Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: card2Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-500 [&_p]:leading-relaxed [&_p]:font-semibold [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
+                    {card2Desc}
+                  </p>
+                )}
               </div>
 
               {/* 신뢰와 협동 */}
@@ -208,9 +222,13 @@ export default async function ContactCatchAllPage({ params }: Params) {
                   <CheckCircle2 size={28} />
                 </div>
                 <h5 className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{card3Title}</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
-                  {card3Desc}
-                </p>
+                {(typeof card3Desc === 'string' && (card3Desc.includes('<p') || card3Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: card3Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-500 [&_p]:leading-relaxed [&_p]:font-semibold [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
+                    {card3Desc}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -234,7 +252,11 @@ export default async function ContactCatchAllPage({ params }: Params) {
           <div className="space-y-10 animate-fade-in-up">
             <div className="border-b border-gray-100 pb-5">
               <h4 className="font-black text-brand-blue text-xl md:text-2xl mb-2 whitespace-pre-wrap">{mainTitle}</h4>
-              <p className="text-gray-500 text-sm md:text-base whitespace-pre-wrap">{intro}</p>
+              {(typeof intro === 'string' && (intro.includes('<p') || intro.includes('<h'))) ? (
+                <div dangerouslySetInnerHTML={{ __html: intro }} className="[&_p]:text-gray-500 [&_p]:text-sm md:[&_p]:text-base [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+              ) : (
+                <p className="text-gray-500 text-sm md:text-base whitespace-pre-wrap">{intro}</p>
+              )}
             </div>
             
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 text-center">
@@ -242,7 +264,11 @@ export default async function ContactCatchAllPage({ params }: Params) {
               <div className="flex-grow p-6 md:p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300">
                 <span className="font-black text-brand-teal text-base md:text-lg block mb-2">STEP 1</span>
                 <p className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{step1Title}</p>
-                <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step1Desc}</p>
+                {(typeof step1Desc === 'string' && (step1Desc.includes('<p') || step1Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: step1Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-400 [&_p]:mt-2 [&_p]:font-medium [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step1Desc}</p>
+                )}
               </div>
               
               {/* Arrow 1 */}
@@ -255,7 +281,11 @@ export default async function ContactCatchAllPage({ params }: Params) {
               <div className="flex-grow p-6 md:p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300">
                 <span className="font-black text-brand-cyan text-base md:text-lg block mb-2">STEP 2</span>
                 <p className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{step2Title}</p>
-                <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step2Desc}</p>
+                {(typeof step2Desc === 'string' && (step2Desc.includes('<p') || step2Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: step2Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-400 [&_p]:mt-2 [&_p]:font-medium [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step2Desc}</p>
+                )}
               </div>
 
               {/* Arrow 2 */}
@@ -268,7 +298,11 @@ export default async function ContactCatchAllPage({ params }: Params) {
               <div className="flex-grow p-6 md:p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300">
                 <span className="font-black text-brand-blue text-base md:text-lg block mb-2">STEP 3</span>
                 <p className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{step3Title}</p>
-                <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step3Desc}</p>
+                {(typeof step3Desc === 'string' && (step3Desc.includes('<p') || step3Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: step3Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-400 [&_p]:mt-2 [&_p]:font-medium [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step3Desc}</p>
+                )}
               </div>
 
               {/* Arrow 3 */}
@@ -281,7 +315,11 @@ export default async function ContactCatchAllPage({ params }: Params) {
               <div className="flex-grow p-6 md:p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300">
                 <span className="font-black text-emerald-600 text-base md:text-lg block mb-2">STEP 4</span>
                 <p className="font-extrabold text-emerald-800 text-base md:text-lg whitespace-pre-wrap">{step4Title}</p>
-                <p className="text-xs md:text-sm text-emerald-700 mt-2 font-medium whitespace-pre-wrap">{step4Desc}</p>
+                {(typeof step4Desc === 'string' && (step4Desc.includes('<p') || step4Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: step4Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-emerald-700 [&_p]:mt-2 [&_p]:font-medium [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-xs md:text-sm text-emerald-700 mt-2 font-medium whitespace-pre-wrap">{step4Desc}</p>
+                )}
               </div>
             </div>
           </div>
@@ -359,7 +397,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
           {/* Right Main Content - Expanded to full width (col-span-5) to remove sidebar frame space */}
           <div className="lg:col-span-5 space-y-8 flex flex-col items-center w-full">
             {/* Header - Centered for symmetry */}
-            <div className="pb-8 border-b border-gray-100 w-full text-center flex flex-col items-center">
+            <div className="pb-8 w-full text-center flex flex-col items-center">
               <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
                 <span>{grandContact?.name}</span>
                 <span className="text-gray-300">/</span>
@@ -369,7 +407,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
               <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
-              <SubmenuTabBar subMenus={grandContact?.majors.flatMap(m => m.subMenus) || []} currentPath={currentPath} />
+              <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath} />
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}

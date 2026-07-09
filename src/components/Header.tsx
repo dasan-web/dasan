@@ -166,8 +166,8 @@ export default function Header() {
                         width: colCount === 1 ? '240px' : colCount === 2 ? '480px' : '700px'
                       }}
                     >
-                      <div
-                        className="w-full bg-white/40 backdrop-blur-md border border-gray-200/50 rounded-2xl p-6 text-gray-900 shadow-xl shadow-slate-900/5"
+                      <div 
+                        className="w-full bg-white/5 backdrop-blur-md border border-gray-200/50 rounded-2xl p-6 text-gray-900 shadow-xl shadow-slate-900/5"
                         style={{
                           display: 'grid',
                           gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
@@ -210,7 +210,7 @@ export default function Header() {
                                         setHoveredGrand(null);
                                       }}
                                       className={`text-gray-550 hover:text-brand-green text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform ${
-                                        pathname === sub.link ? 'text-brand-green font-bold' : ''
+                                        pathname === sub.link ? 'text-gray-900 font-bold' : ''
                                       }`}
                                     >
                                       {sub.name}

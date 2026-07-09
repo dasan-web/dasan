@@ -76,6 +76,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
 
   let activeTitle = 'Business';
   let activeMajor = '완제의약품';
+  let activeMajorObj = null;
   
   const grandBiz = navigationData.find(g => g.name === 'Business');
   if (grandBiz) {
@@ -84,11 +85,15 @@ export default async function BusinessCatchAllPage({ params }: Params) {
       if (sub) {
         activeTitle = sub.name;
         activeMajor = major.name;
+        activeMajorObj = major;
         break;
       }
     }
+    if (!activeMajorObj && grandBiz.majors.length > 0) { // Replace grandBiz later
+      activeMajorObj = grandBiz.majors[0];
+    }
   }
-
+    
   const renderContent = () => {
     switch (currentPath) {
       case '/business/finished/search':
@@ -113,7 +118,11 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             <div className="p-6 rounded-xl bg-white space-y-2 shadow-none">
               <span className="text-[10px] bg-brand-teal/10 text-brand-teal px-2 py-0.5 rounded font-bold uppercase">{tag}</span>
               <h4 className="font-bold text-brand-blue text-sm">{title}</h4>
-              <p className="text-xs text-gray-400 whitespace-pre-wrap">{desc}</p>
+              {(typeof desc === 'string' && (desc.includes('<p') || desc.includes('<h'))) ? (
+                <div dangerouslySetInnerHTML={{ __html: desc }} className="[&_p]:text-xs [&_p]:text-gray-400 [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+              ) : (
+                <p className="text-xs text-gray-400 whitespace-pre-wrap">{desc}</p>
+              )}
             </div>
           </div>
         );
@@ -138,17 +147,29 @@ export default async function BusinessCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-6 animate-fade-in-up">
-            <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">
-              {desc}
-            </p>
+            {(typeof desc === 'string' && (desc.includes('<p') || desc.includes('<h'))) ? (
+              <div dangerouslySetInnerHTML={{ __html: desc }} className="[&_p]:text-gray-600 [&_p]:text-sm [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+            ) : (
+              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">
+                {desc}
+              </p>
+            )}
             <div className="grid grid-cols-1 gap-6 text-xs">
               <div className="p-5 rounded-xl bg-white space-y-2 shadow-none">
                 <h5 className="font-bold text-brand-blue text-sm">{card1Title}</h5>
-                <p className="text-gray-455 leading-normal whitespace-pre-wrap">{card1Desc}</p>
+                {(typeof card1Desc === 'string' && (card1Desc.includes('<p') || card1Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: card1Desc }} className="[&_p]:text-gray-455 [&_p]:leading-normal [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-gray-455 leading-normal whitespace-pre-wrap">{card1Desc}</p>
+                )}
               </div>
               <div className="p-5 rounded-xl bg-white space-y-2 shadow-none">
                 <h5 className="font-bold text-brand-blue text-sm">{card2Title}</h5>
-                <p className="text-gray-455 leading-normal whitespace-pre-wrap">{card2Desc}</p>
+                {(typeof card2Desc === 'string' && (card2Desc.includes('<p') || card2Desc.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: card2Desc }} className="[&_p]:text-gray-455 [&_p]:leading-normal [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+                ) : (
+                  <p className="text-gray-455 leading-normal whitespace-pre-wrap">{card2Desc}</p>
+                )}
               </div>
             </div>
           </div>
@@ -185,9 +206,13 @@ export default async function BusinessCatchAllPage({ params }: Params) {
               <ShieldCheck size={22} className="text-brand-teal" />
               <span>{platformTitle}</span>
             </h4>
-            <p className="text-gray-650 text-sm leading-relaxed whitespace-pre-wrap">
-              {intro}
-            </p>
+            {(typeof intro === 'string' && (intro.includes('<p') || intro.includes('<h'))) ? (
+              <div dangerouslySetInnerHTML={{ __html: intro }} className="[&_p]:text-gray-650 [&_p]:text-sm [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
+            ) : (
+              <p className="text-gray-650 text-sm leading-relaxed whitespace-pre-wrap">
+                {intro}
+              </p>
+            )}
             <div className="space-y-3 pt-2">
               <div className="flex items-start space-x-3 text-xs text-gray-500">
                 <CheckCircle size={16} className="text-brand-cyan flex-shrink-0 mt-0.5" />
@@ -268,7 +293,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
           {/* Right Main Content - Expanded to full width (col-span-5) to remove sidebar frame space */}
           <div className="lg:col-span-5 space-y-8 flex flex-col items-center w-full">
             {/* Header - Centered for symmetry */}
-            <div className="pb-8 border-b border-gray-100 w-full text-center flex flex-col items-center">
+            <div className="pb-8 w-full text-center flex flex-col items-center">
               <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
                 <span>{grandBiz?.name}</span>
                 <span className="text-gray-300">/</span>
@@ -278,7 +303,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
               <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
-              <SubmenuTabBar subMenus={grandBiz?.majors.flatMap(m => m.subMenus) || []} currentPath={currentPath} />
+              <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath} />
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
