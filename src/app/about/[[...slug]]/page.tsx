@@ -632,13 +632,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
                   <div className="p-10 lg:p-12 flex flex-col items-center">
                      {/* Logo Display Area */}
-                     <div className="w-full max-w-4xl h-56 md:h-72 bg-gradient-to-b from-gray-50/50 to-white flex items-center justify-center rounded-[2rem] relative group mb-10">
-                        <div className="absolute inset-0 border border-gray-100 rounded-[2rem] transition-colors duration-500 group-hover:border-green-100/60"></div>
+                     <div className="w-full max-w-5xl h-80 md:h-[500px] bg-white flex items-center justify-center rounded-[2rem] relative group mb-10">
                         <Image
                           src="/clear_space_grid.png"
                           alt="Dasan Primary Logo"
                           fill
-                          className="object-contain p-8 md:p-12 drop-shadow-sm transition-transform duration-700 group-hover:scale-[1.03]"
+                          className="object-contain p-4 md:p-8 drop-shadow-sm transition-transform duration-700 group-hover:scale-[1.03]"
                           priority
                         />
                      </div>
@@ -668,6 +667,25 @@ export default async function AboutCatchAllPage({ params }: Params) {
               </div>
             </div>
 
+
+            {/* Section: Clear Space */}
+            <div className="pt-16 border-t border-gray-100">
+              <h3 className="text-3xl font-bold text-[#2A5C43] mb-6">Clear Space</h3>
+              <p className="text-gray-600 leading-relaxed break-keep mb-4 text-[15px]">
+                로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해 단독 적용 시 최소 사용 여백을 유지해야 합니다. 표시된 심볼 주변 공간은 최소 여백을 나타내며 이 공간에는 다른 요소가 나타나지 않도록 적용하여야 합니다.<br/>
+                <strong>(서브 로고형도 동일하게 적용합니다.)</strong>
+              </p>
+              <p className="text-gray-600 leading-relaxed break-keep mb-8 text-[15px]">
+                최소 공간 규정의 기준 단위(X)는 심볼(육각형)의 절반 높이를 기준으로 설정한 가상선과 워드마크(DASAN) 상단 간의 거리에서 도출하였습니다. 이는 심볼과 워드마크간의 구조적 비례 관계를 반영한 값으로, 로고의 일체감과 시각적 균형을 유지하기 위한 기준입니다.
+              </p>
+              
+              <div className="bg-[#2A5C43] text-white inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-4">외부 사용자 Tip</div>
+              <ol className="list-decimal list-inside text-gray-700 space-y-2 text-[15px] font-medium mb-4">
+                <li>심볼(육각형) 높이를 잽니다.</li>
+                <li>그 절반 위치에 가상의 수평선을 긋습니다.</li>
+                <li>그 선부터 DASAN 상단까지 거리 = X</li>
+              </ol>
+            </div>
 
             {/* Section 3: Primary Color & Logo Color Usage Guideline */}
             <div className="pt-16 border-t border-gray-100">
