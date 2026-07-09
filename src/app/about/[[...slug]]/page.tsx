@@ -1234,7 +1234,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight text-center mb-6">{activeTitle}</h2>
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
-              <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath === '/about/location' ? '/about/facilities' : currentPath} />
+              <SubmenuTabBar 
+                subMenus={(activeMajorObj?.subMenus || []).filter(sub => sub.link !== '/about/location')} 
+                currentPath={currentPath === '/about/location' ? '/about/facilities' : currentPath} 
+              />
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
