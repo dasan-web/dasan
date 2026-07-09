@@ -635,7 +635,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                      <div className="w-full max-w-4xl h-56 md:h-72 bg-gradient-to-b from-gray-50/50 to-white flex items-center justify-center rounded-[2rem] relative group mb-10">
                         <div className="absolute inset-0 border border-gray-100 rounded-[2rem] transition-colors duration-500 group-hover:border-green-100/60"></div>
                         <Image
-                          src="/dasan_logo_new_1.png"
+                          src="/clear_space_grid.png"
                           alt="Dasan Primary Logo"
                           fill
                           className="object-contain p-8 md:p-12 drop-shadow-sm transition-transform duration-700 group-hover:scale-[1.03]"
