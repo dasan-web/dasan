@@ -34,6 +34,10 @@ export const navigationData: GrandMenu[] = [
         name: 'ESG',
         subMenus: [
           { name: '지속가능경영', link: '/about/esg/ethics' },
+          { name: '환경경영방침', link: '/about/esg/environment' },
+          { name: '안전보건경영방침', link: '/about/esg/safety' },
+          { name: '부패방지방침', link: '/about/esg/anti-corruption' },
+          { name: '윤리강령', link: '/about/esg/code-of-ethics' },
         ],
       },
       {
