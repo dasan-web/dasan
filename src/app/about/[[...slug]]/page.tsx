@@ -881,7 +881,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       {title}
                     </h3>
                     {String(body).includes('<p') || String(body).includes('<h') ? (
-                      <div dangerouslySetInnerHTML={{__html: body}} className="[&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4 [&_h4]:text-lg [&_h4]:text-brand-blue [&_h4]:mb-4" />
+                      <div dangerouslySetInnerHTML={{__html: body}} className="[&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4 [&_h4]:text-lg [&_h4]:text-brand-blue [&_h4]:mb-4 [&_h3]:mt-20 [&_h3]:mb-6 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900" />
                     ) : (
                       <p className="text-gray-600 text-[15px] leading-[1.8] whitespace-pre-wrap">{body}</p>
                     )}
