@@ -347,6 +347,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px]">{trimmed}</p>;
                   })
                 )}
+                
+                {/* CEO Signature */}
+                <div className="flex justify-end items-end mt-16 gap-4">
+                  <span className="text-gray-500 font-medium text-[15px] pb-1">다산제약 대표이사</span>
+                  <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">류형선</span>
+                </div>
               </div>
             </div>
 
@@ -443,39 +449,39 @@ export default async function AboutCatchAllPage({ params }: Params) {
         // Define default timeline
         const defaultTimelineData: TimelineEra[] = [
           {
-            eraTitle: '2022 ~ Present',
-            eraSubtitle: '도약기 (고성장/고수익 창출)',
+            eraTitle: '1996 ~ 2011',
+            eraSubtitle: '설립기 (원천기술 확보)',
             events: [
-              { year: '2025', details: ['• 환경부 한국환경공단 스마트생태공장 구축 사업 선정'] },
-              { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정', '• 식약처 공급망 안정화 선도 사업자 선정', '• 안전보건경영시스템(ISO 45001) 인증 획득', '• 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
-              { year: '2023', details: ['• 부패방지경영시스템(ISO 37001) 인증 획득'] },
-              { year: '2022', details: ['• 무역의날 산자부 장관표창 및 700만불 수출탑 수상', '• 혁신성장 유공중소기업 장관상 수상', '• 의약품수출분야 보건복지부 장관상 수상', '• 4년 연속 청년친화 강소기업 선정'] }
+              { year: '1996', details: ['• 주식회사 다산메디켐 설립'] },
+              { year: '2001', details: ['• 원료의약품 공장 준공 및 제조업 허가 취득', '• 기업부설연구소 인가'] },
+              { year: '2002', details: ['• BGMP 인증'] },
+              { year: '2007', details: ['• 기술혁신형중소기업(INNO-BIZ) 인증', '• 3D Clean 사업장 인증'] },
+              { year: '2008', details: ['• 매출 100억 원 달성', '• KGMP 인증'] },
+              { year: '2009', details: ['• 300만불 수출탑 수상'] },
+              { year: '2011', details: ['• \'KIBO 성공기업\' 선정'] }
             ]
           },
           {
             eraTitle: '2013 ~ 2021',
             eraSubtitle: '성장기 (R&D 고도화 및 생산 인프라 확장)',
             events: [
-              { year: '2021', details: ['• 충청남도 우수기업인상 수상', '• 좋은 일자리 기업 선정', '• 글로벌 강소기업 선정'] },
-              { year: '2020', details: ['• 충청남도 유망 중소기업 선정'] },
-              { year: '2019', details: ['• 매출 500억 원 달성', '• 아산 제2공장 완공', '• 심양연구소(중국 랴오닝성) 확장'] },
-              { year: '2018', details: ['• 중앙연구소 통합 개소'] },
-              { year: '2017', details: ['• 사명 변경 ("주식회사 다산제약")'] },
+              { year: '2013', details: ['• 완제의약품 물류센터 완공', '• 벤처기업 중소기업청장상 표창', '• 합성연구소 확장 이전'] },
               { year: '2016', details: ['• 중앙연구소 확장 이전'] },
-              { year: '2013', details: ['• 완제의약품 물류센터 완공', '• 벤처기업 중소기업청장상 표창', '• 합성연구소 확장 이전'] }
+              { year: '2017', details: ['• 사명 변경 ("주식회사 다산제약")'] },
+              { year: '2018', details: ['• 중앙연구소 통합 개소'] },
+              { year: '2019', details: ['• 매출 500억 원 달성', '• 아산 제2공장 완공', '• 심양연구소(중국 랴오닝성) 확장'] },
+              { year: '2020', details: ['• 충청남도 유망 중소기업 선정'] },
+              { year: '2021', details: ['• 충청남도 우수기업인상 수상', '• 좋은 일자리 기업 선정', '• 글로벌 강소기업 선정'] }
             ]
           },
           {
-            eraTitle: '1996 ~ 2011',
-            eraSubtitle: '설립기 (원천기술 확보)',
+            eraTitle: '2022 ~ Present',
+            eraSubtitle: '도약기 (고성장/고수익 창출)',
             events: [
-              { year: '2011', details: ['• \'KIBO 성공기업\' 선정'] },
-              { year: '2009', details: ['• 300만불 수출탑 수상'] },
-              { year: '2008', details: ['• 매출 100억 원 달성', '• KGMP 인증'] },
-              { year: '2007', details: ['• 기술혁신형중소기업(INNO-BIZ) 인증', '• 3D Clean 사업장 인증'] },
-              { year: '2002', details: ['• BGMP 인증'] },
-              { year: '2001', details: ['• 원료의약품 공장 준공 및 제조업 허가 취득', '• 기업부설연구소 인가'] },
-              { year: '1996', details: ['• 주식회사 다산메디켐 설립'] }
+              { year: '2022', details: ['• 무역의날 산자부 장관표창 및 700만불 수출탑 수상', '• 혁신성장 유공중소기업 장관상 수상', '• 의약품수출분야 보건복지부 장관상 수상', '• 4년 연속 청년친화 강소기업 선정'] },
+              { year: '2023', details: ['• 부패방지경영시스템(ISO 37001) 인증 획득'] },
+              { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정', '• 식약처 공급망 안정화 선도 사업자 선정', '• 안전보건경영시스템(ISO 45001) 인증 획득', '• 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
+              { year: '2025', details: ['• 환경부 한국환경공단 스마트생태공장 구축 사업 선정'] }
             ]
           }
         ];
@@ -528,8 +534,15 @@ export default async function AboutCatchAllPage({ params }: Params) {
             <div className="text-left mb-16 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
               <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
               <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
-                성장 연혁 (History)
+                {historyIntroTitle || '성장 연혁 (History)'}
               </h3>
+              {(typeof historyIntroBody === 'string' && (historyIntroBody.includes('<p') || historyIntroBody.includes('<h'))) ? (
+                <div dangerouslySetInnerHTML={{ __html: historyIntroBody }} className="mt-4 animate-fade-in-up max-w-2xl [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:text-sm [&_p]:md:text-base [&_strong]:font-bold" style={{animationDelay: '300ms'}} />
+              ) : (
+                <p className="text-gray-600 mt-4 text-sm md:text-base leading-relaxed animate-fade-in-up max-w-2xl" style={{animationDelay: '300ms'}}>
+                  {historyIntroBody}
+                </p>
+              )}
             </div>
 
             {/* Timeline Container */}
@@ -599,12 +612,31 @@ export default async function AboutCatchAllPage({ params }: Params) {
           '로고에 그림자를 적용하는경우'
         ];
 
-        // DB Data Overrides (추후 DB 연동 시 아래 주석 해제 및 적용 가능)
-        /*
+        // DB Data Overrides
+        let ciSymbol = '';
         if (dbContent) {
-           // Parse structured db content here
+          const lines = dbContent.split('\n');
+          if (lines[0]) ciIntro = lines[0];
+          if (lines[1]) ciSymbol = lines[1];
+          if (lines[2]) colors[0].name = lines[2];
+          if (lines[3] && lines[3].includes('|')) { colors[0].rgb = lines[3].split('|')[0]?.replace('RGB:', '').trim() || ''; colors[0].hex = lines[3].split('|')[1]?.replace('HEX:', '').trim() || ''; }
+          if (lines[4]) colors[0].hex = lines[4];
+          if (lines[5]) colors[0].desc = lines[5];
+          
+          if (lines[6]) colors[2].name = lines[6];
+          if (lines[7] && lines[7].includes('|')) { colors[2].rgb = lines[7].split('|')[0]?.replace('RGB:', '').trim() || ''; colors[2].hex = lines[7].split('|')[1]?.replace('HEX:', '').trim() || ''; }
+          if (lines[8]) colors[2].hex = lines[8];
+          if (lines[9]) colors[2].desc = lines[9];
+
+          if (lines[14]) colors[1].name = lines[14];
+          if (lines[15] && lines[15].includes('|')) { colors[1].rgb = lines[15].split('|')[0]?.replace('RGB:', '').trim() || ''; colors[1].hex = lines[15].split('|')[1]?.replace('HEX:', '').trim() || ''; }
+          if (lines[16]) colors[1].hex = lines[16];
+          if (lines[17]) colors[1].desc = lines[17];
+          
+          if (lines[11]) primaryLogoDesc = lines[11];
+          if (lines[12]) secondaryLogoDesc = lines[12];
+          if (lines[13]) clearSpaceDesc = lines[13];
         }
-        */
 
         return (
           <div className="space-y-16 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl">
@@ -618,6 +650,17 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   <div dangerouslySetInnerHTML={{ __html: ciIntro }} className="[&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:break-keep [&_p]:whitespace-pre-line [&_p]:text-[15px] [&_h4]:font-bold [&_strong]:font-bold" />
                 ) : (
                   <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line text-[15px]">{ciIntro}</p>
+                )}
+                
+                {ciSymbol && (
+                  <div className="mt-8 bg-gray-50 p-6 rounded-2xl">
+                    <h4 className="text-lg font-bold text-[#2A5C43] mb-3">심볼마크의 의미</h4>
+                    {(typeof ciSymbol === 'string' && (ciSymbol.includes('<p') || ciSymbol.includes('<h'))) ? (
+                      <div dangerouslySetInnerHTML={{ __html: ciSymbol }} className="[&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:break-keep [&_p]:whitespace-pre-line [&_p]:text-[14px] [&_h4]:font-bold [&_strong]:font-bold" />
+                    ) : (
+                      <p className="text-gray-600 leading-relaxed break-keep whitespace-pre-line text-[14px]">{ciSymbol}</p>
+                    )}
+                  </div>
                 )}
               </div>
 

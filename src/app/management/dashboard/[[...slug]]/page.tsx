@@ -1796,7 +1796,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                   { key: 'about/intro/culture', label: '건강한 문화' }
                                 ].find(t => t.key === activeIntroTab)?.label || '회사소개 본문'
                               })`
-                            : '문구 에디터'}
+                            : currentSubPath === 'about/ci' ? 'CI 소개' : '문구 에디터'}
                         </h3>
                         {currentUser?.role !== 'viewer' && (
                           <button
@@ -1851,19 +1851,16 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                             </div>
                             <div className="space-y-1">
                               <label className="text-[11px] font-bold text-gray-400 block">소개글 본문 내용 (Content)</label>
-                              <textarea
-                                value={staticContent.split('|')[1] || ''}
-                                onChange={(e) => {
-                                  const parts = staticContent.split('|');
-                                  if (parts.length < 2) {
-                                    parts.unshift('');
-                                  }
-                                  parts[1] = e.target.value;
-                                  setStaticContent(parts.join('|'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-4 text-xs md:text-sm text-white placeholder-gray-500 min-h-[250px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] focus:shadow-md focus:shadow-brand-green/5 transition-all"
-                                placeholder="기업개요 본문 내용을 입력하세요."
-                              />
+                              <div className="bg-white rounded-xl overflow-hidden text-gray-900">
+                                <RichTextEditor
+                                  value={staticContent.split('|').slice(1).join('|') || ''}
+                                  onChange={(val) => {
+                                    const parts = staticContent.split('|');
+                                    const title = parts[0] || '';
+                                    setStaticContent(title + '|' + val);
+                                  }}
+                                />
+                              </div>
                             </div>
                           </div>
                         )}
@@ -2333,32 +2330,32 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                         {currentSubPath === 'about/ci' && (
                           <div className="space-y-4">
                             <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">CI 소개글 설명 (Intro)</label>
-                              <textarea
-                                value={(staticContent || '').split('\n')[0] || ''}
-                                onChange={(e) => {
-                                  const lines = (staticContent || '').split('\n');
-                                  while (lines.length <= 0) lines.push('');
-                                  lines[0] = e.target.value;
-                                  setStaticContent(lines.join('\n'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3.5 text-xs md:text-sm text-white placeholder-gray-500 min-h-[80px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                placeholder="CI 소개 문구를 입력하세요."
-                              />
+                              <label className="text-[11px] font-bold text-gray-400 block">Corporate Identity</label>
+                              <div className="bg-white rounded-xl overflow-hidden text-gray-900">
+                                <RichTextEditor
+                                  value={(staticContent || '').split('\n')[0] || ''}
+                                  onChange={(val) => {
+                                    const lines = (staticContent || '').split('\n');
+                                    while (lines.length <= 0) lines.push('');
+                                    lines[0] = val.replace(/\n/g, ''); // Replace newlines in HTML to prevent breaking DB structure
+                                    setStaticContent(lines.join('\n'));
+                                  }}
+                                />
+                              </div>
                             </div>
                             <div className="space-y-1">
                               <label className="text-[11px] font-bold text-gray-400 block">심볼마크의 의미</label>
-                              <textarea
-                                value={(staticContent || '').split('\n')[1] || ''}
-                                onChange={(e) => {
-                                  const lines = (staticContent || '').split('\n');
-                                  while (lines.length <= 1) lines.push('');
-                                  lines[1] = e.target.value;
-                                  setStaticContent(lines.join('\n'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3.5 text-xs md:text-sm text-white placeholder-gray-500 min-h-[80px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                placeholder="심볼마크의 의미 설명을 입력하세요."
-                              />
+                              <div className="bg-white rounded-xl overflow-hidden text-gray-900">
+                                <RichTextEditor
+                                  value={(staticContent || '').split('\n')[1] || ''}
+                                  onChange={(val) => {
+                                    const lines = (staticContent || '').split('\n');
+                                    while (lines.length <= 1) lines.push('');
+                                    lines[1] = val.replace(/\n/g, ''); // Replace newlines in HTML to prevent breaking DB structure
+                                    setStaticContent(lines.join('\n'));
+                                  }}
+                                />
+                              </div>
                             </div>
 
                             {/* CI 로고 업로드 */}
@@ -2416,6 +2413,36 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                     권장 크기: 가로 280px / 세로 80px (배경이 투명한 PNG 권장)
                                   </p>
                                 </div>
+                              </div>
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-gray-400 block">Primary Logo 설명</label>
+                              <div className="bg-white rounded-xl overflow-hidden text-gray-900">
+                                <RichTextEditor
+                                  value={(staticContent || '').split('\n')[11] || '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다.<br/>다산제약의 기업 이미지를 일관되게 표현하는 가장 핵심적인 요소이므로, 적용 시 본 매뉴얼의 규정을 엄격하게 준수해야 합니다.'}
+                                  onChange={(val) => {
+                                    const lines = (staticContent || '').split('\n');
+                                    while (lines.length <= 11) lines.push('');
+                                    lines[11] = val.replace(/\n/g, '');
+                                    setStaticContent(lines.join('\n'));
+                                  }}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-gray-400 block">Clear Space 설명</label>
+                              <div className="bg-white rounded-xl overflow-hidden text-gray-900">
+                                <RichTextEditor
+                                  value={(staticContent || '').split('\n')[13] || '로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해 단독 적용 시 최소 사용 여백을 유지해야 합니다. 표시된 심볼 주변 공간은 최소 여백을 나타내며 이 공간에는 다른 요소가 나타나지 않도록 적용하여야 합니다.<br/>(서브 로고형도 동일하게 적용합니다.)<br/><br/>최소 공간 규정의 기준 단위(X)는 심볼(육각형)의 절반 높이를 기준으로 설정한 가상선과 워드마크(DASAN) 상단 간의 거리에서 도출하였습니다. 이는 심볼과 워드마크간의 구조적 비례 관계를 반영한 값으로, 로고의 일체감과 시각적 균형을 유지하기 위한 기준입니다.'}
+                                  onChange={(val) => {
+                                    const lines = (staticContent || '').split('\n');
+                                    while (lines.length <= 13) lines.push('');
+                                    lines[13] = val.replace(/\n/g, '');
+                                    setStaticContent(lines.join('\n'));
+                                  }}
+                                />
                               </div>
                             </div>
 
@@ -2482,6 +2509,73 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                   }}
                                   className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
                                   placeholder="생명력, 인류의 건강, 지속가능한 경영 가치 상징"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Light Green Color System */}
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
+                              <span className="text-[10px] font-bold text-brand-green uppercase">DASAN LIGHT GREEN 색상 설정</span>
+                              <div className="grid grid-cols-2 gap-3">
+                                <div className="space-y-1">
+                                  <label className="text-[11px] text-gray-400 block">색상명</label>
+                                  <input
+                                    type="text"
+                                    value={(staticContent || '').split('\n')[14] || ''}
+                                    onChange={(e) => {
+                                      const lines = (staticContent || '').split('\n');
+                                      while (lines.length <= 14) lines.push('');
+                                      lines[14] = e.target.value;
+                                      setStaticContent(lines.join('\n'));
+                                    }}
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
+                                    placeholder="Dasan Light Green"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-[11px] text-gray-400 block">HEX 코드 (예: #8dc63f)</label>
+                                  <input
+                                    type="text"
+                                    value={(staticContent || '').split('\n')[16] || ''}
+                                    onChange={(e) => {
+                                      const lines = (staticContent || '').split('\n');
+                                      while (lines.length <= 16) lines.push('');
+                                      lines[16] = e.target.value;
+                                      setStaticContent(lines.join('\n'));
+                                    }}
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
+                                    placeholder="#8dc63f"
+                                  />
+                                </div>
+                              </div>
+                              <div className="space-y-1">
+                                <label className="text-[11px] text-gray-400 block">RGB 및 HEX 전체 표기 (예: RGB: 141, 198, 63 | HEX: #8dc63f)</label>
+                                <input
+                                  type="text"
+                                  value={(staticContent || '').split('\n')[15] || ''}
+                                  onChange={(e) => {
+                                    const lines = (staticContent || '').split('\n');
+                                    while (lines.length <= 15) lines.push('');
+                                    lines[15] = e.target.value;
+                                    setStaticContent(lines.join('\n'));
+                                  }}
+                                  className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
+                                  placeholder="RGB: 141, 198, 63 | HEX: #8dc63f"
+                                />
+                              </div>
+                              <div className="space-y-1">
+                                <label className="text-[11px] text-gray-400 block">색상 설명</label>
+                                <input
+                                  type="text"
+                                  value={(staticContent || '').split('\n')[17] || ''}
+                                  onChange={(e) => {
+                                    const lines = (staticContent || '').split('\n');
+                                    while (lines.length <= 17) lines.push('');
+                                    lines[17] = e.target.value;
+                                    setStaticContent(lines.join('\n'));
+                                  }}
+                                  className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
+                                  placeholder="자연, 치유, 역동적인 에너지 상징"
                                 />
                               </div>
                             </div>
@@ -3692,17 +3786,36 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                         {currentSubPath === 'about/history' && (
                           <div className="space-y-4">
                             <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">메인 타이틀 및 소개글</label>
-                              <textarea
-                                value={(staticContent || '').split('\n')[0] || ''}
+                              <label className="text-[11px] font-bold text-gray-400 block">메인 타이틀 (Title)</label>
+                              <input
+                                type="text"
+                                value={(staticContent || '').split('\n')[0]?.split('|')[0] || ''}
                                 onChange={(e) => {
                                   const lines = (staticContent || '').split('\n');
-                                  lines[0] = e.target.value;
+                                  const parts = (lines[0] || '').split('|');
+                                  parts[0] = e.target.value;
+                                  if (parts.length < 2) parts.push('');
+                                  lines[0] = parts.join('|');
                                   setStaticContent(lines.join('\n'));
                                 }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3.5 text-xs md:text-sm text-white placeholder-gray-500 min-h-[60px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                placeholder="타이틀|소개글 (예: 도전과 신뢰의 역사|다산제약은...)"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3.5 text-xs md:text-sm text-white placeholder-gray-500 focus:border-brand-green focus:bg-white/[0.07] transition-all"
+                                placeholder="예: 성장 연혁 (History)"
                               />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-gray-400 block">소개글 설명 (Intro)</label>
+                              <div className="bg-white rounded-xl overflow-hidden text-gray-900">
+                                <RichTextEditor
+                                  value={(staticContent || '').split('\n')[0]?.split('|').slice(1).join('|') || ''}
+                                  onChange={(val) => {
+                                    const lines = (staticContent || '').split('\n');
+                                    const parts = (lines[0] || '').split('|');
+                                    const title = parts[0] || '';
+                                    lines[0] = title + '|' + val;
+                                    setStaticContent(lines.join('\n'));
+                                  }}
+                                />
+                              </div>
                             </div>
                             <div className="space-y-1">
                               <label className="text-[11px] font-bold text-gray-400 block">연혁 상세 데이터 (ERA 및 YEAR)</label>
@@ -3715,10 +3828,55 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                 className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3.5 text-xs text-gray-300 placeholder-gray-500 min-h-[350px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all font-mono"
                                 placeholder="ERA:시대명|서브타이틀&#10;YEAR:연도|내용1<br />내용2"
                               />
-                              <p className="text-[10px] text-gray-400 mt-1">
-                                <strong className="text-brand-green">ERA:2020 ~ Present|글로벌 도약과 기술 혁신</strong> 형식으로 시대를 구분하고,<br/>
-                                <strong className="text-brand-green">YEAR:2025년|프리IPO 유치 성공&lt;br /&gt;코스닥 상장 채비 완료</strong> 형식으로 연도별 내용을 입력하세요.
-                              </p>
+                              <div className="flex items-center justify-between mt-1">
+                                <p className="text-[10px] text-gray-400">
+                                  <strong className="text-brand-green">ERA:2020 ~ Present|글로벌 도약과 기술 혁신</strong> 형식으로 시대를 구분하고,<br/>
+                                  <strong className="text-brand-green">YEAR:2025년|프리IPO 유치 성공&lt;br /&gt;코스닥 상장 채비 완료</strong> 형식으로 연도별 내용을 입력하세요.
+                                </p>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const lines = (staticContent || '').split('\n');
+                                    if (lines.length <= 1) return;
+                                    const intro = lines[0] || '';
+                                    const dataLines = lines.slice(1);
+                                    
+                                    const eras: { titleLine: string; yearStart: number; years: { line: string; yearNum: number }[] }[] = [];
+                                    let currentEra = null;
+                                    
+                                    for (let line of dataLines) {
+                                      const trimmed = line.trim();
+                                      if (!trimmed) continue;
+                                      
+                                      if (trimmed.startsWith('ERA:')) {
+                                        const match = trimmed.match(/\d{4}/);
+                                        const yearStart = match ? parseInt(match[0], 10) : 9999;
+                                        currentEra = { titleLine: trimmed, yearStart, years: [] };
+                                        eras.push(currentEra);
+                                      } else if (trimmed.startsWith('YEAR:') && currentEra) {
+                                        const match = trimmed.match(/\d{4}/);
+                                        const yearNum = match ? parseInt(match[0], 10) : 9999;
+                                        currentEra.years.push({ line: trimmed, yearNum });
+                                      }
+                                    }
+                                    
+                                    eras.sort((a, b) => a.yearStart - b.yearStart);
+                                    eras.forEach(era => era.years.sort((a, b) => a.yearNum - b.yearNum));
+                                    
+                                    let newContent = intro;
+                                    eras.forEach(era => {
+                                      newContent += '\n' + era.titleLine;
+                                      era.years.forEach(y => newContent += '\n' + y.line);
+                                    });
+                                    
+                                    setStaticContent(newContent);
+                                    alert('과거순(1996년~)으로 정렬되었습니다. 우측 상단의 저장 버튼을 눌러주세요.');
+                                  }}
+                                  className="text-[11px] bg-brand-green/20 text-brand-green hover:bg-brand-green hover:text-white px-3 py-1.5 rounded transition-colors"
+                                >
+                                  과거순(1996년~) 자동 정렬
+                                </button>
+                              </div>
                             </div>
                           </div>
                         )}
@@ -3894,15 +4052,63 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                         </h4>
                         
                         {currentSubPath === 'about/intro' && activeIntroTab === 'about/intro' ? (
-                          <div className="space-y-4">
+                          <div className="space-y-4 font-pretendard">
                             {(() => {
                               const parts = (staticContent || '').split('|');
                               const title = parts[0] || '인류의 건강을 위한 혁신,다산제약';
-                              const body = parts[1] || parts[0] || '(입력된 문구가 여기에 표시됩니다)';
+                              const body = parts.slice(1).join('|') || '(입력된 문구가 여기에 표시됩니다)';
+                              
+                              if (body.includes('<p') || body.includes('<h')) {
+                                return (
+                                  <>
+                                    <h5 className="font-bold text-white text-xs mb-2 whitespace-pre-wrap">{title.replace(/\\n/g, '\n')}</h5>
+                                    <div dangerouslySetInnerHTML={{ __html: body }} className="text-gray-300 text-xs leading-relaxed space-y-2 [&_h3]:font-bold [&_h3]:text-white [&_h3]:text-sm [&_h4]:font-bold [&_h4]:text-white [&_h4]:text-sm [&_strong]:font-bold [&_strong]:text-white" />
+                                    {/* CEO Signature Preview */}
+                                    <div className="flex justify-end items-end mt-12 gap-3">
+                                      <span className="text-gray-400 font-medium text-[11px] pb-0.5">다산제약 대표이사</span>
+                                      <span className="text-white font-black text-2xl tracking-widest font-serif">류형선</span>
+                                    </div>
+                                  </>
+                                );
+                              }
+
                               return (
                                 <>
                                   <h5 className="font-bold text-white text-xs mb-2 whitespace-pre-wrap">{title.replace(/\\n/g, '\n')}</h5>
-                                  <p className="text-[11px] text-gray-400 leading-relaxed whitespace-pre-wrap">{body}</p>
+                                  <div className="space-y-2">
+                                    {body.split('\n').map((line, i) => {
+                                      const trimmed = line.trim();
+                                      if (!trimmed) return null;
+                                      
+                                      if (trimmed.match(/^[1-9]\.\s/)) {
+                                        return <h3 key={i} className="font-bold text-white text-[13px] mt-4 mb-2">{trimmed.replace(/^[1-9]\.\s/, '')}</h3>;
+                                      }
+                                      
+                                      if (trimmed.startsWith('다산(茶山)의 정신으로') || trimmed.startsWith('신뢰와 혁신으로') || trimmed.includes('4대 경영 철학') || trimmed.includes('핵심 가치')) {
+                                        return <h4 key={i} className="font-bold text-white text-[12px] mt-3 mb-1">{trimmed}</h4>;
+                                      }
+
+                                      if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('·')) {
+                                        const content = trimmed.substring(1).trim();
+                                        const splitIdx = content.indexOf(':');
+                                        if (splitIdx !== -1 && splitIdx < 15) {
+                                          const t = content.substring(0, splitIdx).trim();
+                                          const d = content.substring(splitIdx + 1).trim();
+                                          return <div key={i} className="flex items-start text-gray-400 text-[11px] leading-relaxed"><span className="mr-1">•</span><p><strong className="text-white">{t}</strong> : {d}</p></div>;
+                                        } else {
+                                          return <div key={i} className="flex items-start text-gray-400 text-[11px] leading-relaxed"><span className="mr-1">•</span><p>{content}</p></div>;
+                                        }
+                                      }
+
+                                      return <p key={i} className="text-gray-400 text-[11px] leading-relaxed">{trimmed}</p>;
+                                    })}
+                                  </div>
+                                  
+                                  {/* CEO Signature Preview */}
+                                  <div className="flex justify-end items-end mt-12 gap-3">
+                                    <span className="text-gray-400 font-medium text-[11px] pb-0.5">다산제약 대표이사</span>
+                                    <span className="text-white font-black text-2xl tracking-widest font-serif">류형선</span>
+                                  </div>
                                 </>
                               );
                             })()}
@@ -4089,6 +4295,10 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                               const greenCode = lines[3] || 'RGB: 0, 137, 83 | HEX: #008953';
                               const greenHex = lines[4] || '#008953';
                               const greenDesc = lines[5] || '생명력, 인류의 건강, 지속가능한 경영 가치 상징';
+                              const lGreenName = lines[14] || 'Dasan Light Green';
+                              const lGreenCode = lines[15] || 'RGB: 141, 198, 63 | HEX: #8dc63f';
+                              const lGreenHex = lines[16] || '#8dc63f';
+                              const lGreenDesc = lines[17] || '자연, 치유, 역동적인 에너지 상징';
                               const charcoalName = lines[6] || 'DASAN CHARCOAL';
                               const charcoalCode = lines[7] || 'RGB: 43, 43, 43 | HEX: #2B2B2B';
                               const charcoalHex = lines[8] || '#2B2B2B';
@@ -4096,27 +4306,49 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
                               return (
                                 <div className="space-y-6 text-xs text-gray-300">
-                                  <p className="leading-relaxed font-medium text-gray-200">
-                                    {ciIntro}
-                                  </p>
+                                  {(typeof ciIntro === 'string' && (ciIntro.includes('<p') || ciIntro.includes('<h'))) ? (
+                                    <div dangerouslySetInnerHTML={{ __html: ciIntro }} className="text-gray-200 text-xs leading-relaxed space-y-2 [&_h3]:font-bold [&_h3]:text-white [&_h3]:text-sm [&_h4]:font-bold [&_h4]:text-white [&_h4]:text-sm [&_strong]:font-bold [&_strong]:text-white" />
+                                  ) : (
+                                    <p className="leading-relaxed font-medium text-gray-200">
+                                      {ciIntro}
+                                    </p>
+                                  )}
 
-                                  <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col items-center justify-center space-y-4">
-                                    <div className="relative bg-white rounded-lg p-4 flex items-center justify-center min-h-[100px] w-full max-w-xs">
-                                      <img
-                                        src={lines[10] || '/dasan_logo_raw.png'}
-                                        alt="Dasan Corporate Identity Logo"
-                                        className="object-contain max-h-[60px]"
-                                      />
-                                    </div>
-                                    <span className="text-[10px] text-gray-400">CI 로고 다운로드 (PNG)</span>
-                                  </div>
 
                                   <div className="grid grid-cols-1 gap-4">
                                     <div className="bg-white/5 p-4 rounded-xl border border-white/5">
                                       <h5 className="font-bold text-brand-green text-xs mb-1">심볼마크의 의미</h5>
-                                      <p className="leading-relaxed">{ciSymbol}</p>
+                                      {(typeof ciSymbol === 'string' && (ciSymbol.includes('<p') || ciSymbol.includes('<h'))) ? (
+                                        <div dangerouslySetInnerHTML={{ __html: ciSymbol }} className="text-gray-300 text-xs leading-relaxed space-y-2 [&_h3]:font-bold [&_h3]:text-white [&_h3]:text-sm [&_h4]:font-bold [&_h4]:text-white [&_h4]:text-sm [&_strong]:font-bold [&_strong]:text-white" />
+                                      ) : (
+                                        <p className="leading-relaxed">{ciSymbol}</p>
+                                      )}
                                     </div>
 
+                                    {/* Primary Logo Preview */}
+                                    <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-3">
+                                      <h5 className="font-bold text-brand-green text-xs mb-1">Primary Logo</h5>
+                                      {(typeof (lines[11] || '') === 'string' && ((lines[11] || '').includes('<p') || (lines[11] || '').includes('<h'))) ? (
+                                        <div dangerouslySetInnerHTML={{ __html: lines[11] || '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다.<br/>다산제약의 기업 이미지를 일관되게 표현하는 가장 핵심적인 요소이므로, 적용 시 본 매뉴얼의 규정을 엄격하게 준수해야 합니다.' }} className="text-gray-300 text-xs leading-relaxed space-y-2 [&_h3]:font-bold [&_h3]:text-white [&_h3]:text-sm [&_h4]:font-bold [&_h4]:text-white [&_h4]:text-sm [&_strong]:font-bold [&_strong]:text-white" />
+                                      ) : (
+                                        <p className="leading-relaxed">{lines[11] || '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다.\n다산제약의 기업 이미지를 일관되게 표현하는 가장 핵심적인 요소이므로, 적용 시 본 매뉴얼의 규정을 엄격하게 준수해야 합니다.'}</p>
+                                      )}
+                                      <div className="bg-white rounded-lg p-4 flex items-center justify-center min-h-[100px] w-full max-w-xs mx-auto">
+                                        <img src="/clear_space_grid.png" alt="Primary Logo" className="object-contain max-h-[60px]" />
+                                      </div>
+                                    </div>
+
+                                    {/* Clear Space Preview */}
+                                    <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-3">
+                                      <h5 className="font-bold text-brand-green text-xs mb-1">Clear Space</h5>
+                                      {(typeof (lines[13] || '') === 'string' && ((lines[13] || '').includes('<p') || (lines[13] || '').includes('<h'))) ? (
+                                        <div dangerouslySetInnerHTML={{ __html: lines[13] || '로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해 단독 적용 시 최소 사용 여백을 유지해야 합니다. 표시된 심볼 주변 공간은 최소 여백을 나타내며 이 공간에는 다른 요소가 나타나지 않도록 적용하여야 합니다.<br/>(서브 로고형도 동일하게 적용합니다.)<br/><br/>최소 공간 규정의 기준 단위(X)는 심볼(육각형)의 절반 높이를 기준으로 설정한 가상선과 워드마크(DASAN) 상단 간의 거리에서 도출하였습니다. 이는 심볼과 워드마크간의 구조적 비례 관계를 반영한 값으로, 로고의 일체감과 시각적 균형을 유지하기 위한 기준입니다.' }} className="text-gray-300 text-xs leading-relaxed space-y-2 [&_h3]:font-bold [&_h3]:text-white [&_h3]:text-sm [&_h4]:font-bold [&_h4]:text-white [&_h4]:text-sm [&_strong]:font-bold [&_strong]:text-white" />
+                                      ) : (
+                                        <p className="leading-relaxed">{lines[13] || '로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해 단독 적용 시 최소 사용 여백을 유지해야 합니다. 표시된 심볼 주변 공간은 최소 여백을 나타내며 이 공간에는 다른 요소가 나타나지 않도록 적용하여야 합니다.\n(서브 로고형도 동일하게 적용합니다.)\n\n최소 공간 규정의 기준 단위(X)는 심볼(육각형)의 절반 높이를 기준으로 설정한 가상선과 워드마크(DASAN) 상단 간의 거리에서 도출하였습니다. 이는 심볼과 워드마크간의 구조적 비례 관계를 반영한 값으로, 로고의 일체감과 시각적 균형을 유지하기 위한 기준입니다.'}</p>
+                                      )}
+                                    </div>
+
+                                    {/* 6. Color System Preview */}
                                     <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-3">
                                       <h5 className="font-bold text-brand-green text-xs mb-1">전용 색상 (Color System)</h5>
                                       <div className="space-y-3">
@@ -4134,6 +4366,17 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                         <div className="flex items-center space-x-3">
                                           <div 
                                             className="w-10 h-10 rounded-xl border border-white/10 shadow-inner flex-shrink-0"
+                                            style={{ backgroundColor: lGreenHex }}
+                                          />
+                                          <div>
+                                            <span className="font-bold text-xs text-white block">{lGreenName}</span>
+                                            <span className="text-[9px] text-gray-400 font-mono block">{lGreenCode}</span>
+                                            <span className="text-[10px] text-gray-300 mt-0.5 block">{lGreenDesc}</span>
+                                          </div>
+                                        </div>
+                                        <div className="flex items-center space-x-3">
+                                          <div 
+                                            className="w-10 h-10 rounded-xl border border-white/10 shadow-inner flex-shrink-0"
                                             style={{ backgroundColor: charcoalHex }}
                                           />
                                           <div>
@@ -4144,6 +4387,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                         </div>
                                       </div>
                                     </div>
+
                                   </div>
                                 </div>
                               );
@@ -4326,11 +4570,15 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                               const body = parts.slice(1).join('|') || parts[0] || '(입력된 문구가 여기에 표시됩니다)';
                               return (
                                 <>
-                                  <div className="flex items-center space-x-3 text-emerald-600 border-b border-gray-100 pb-2">
+                                  <div className="flex items-center space-x-3 text-emerald-600 border-b border-gray-100 pb-2 mb-3">
                                     <Heart size={20} className="text-emerald-600 flex-shrink-0" />
                                     <h4 className="text-sm font-bold">{title}</h4>
                                   </div>
-                                  <p className="text-[11px] text-gray-600 leading-relaxed whitespace-pre-wrap">{body}</p>
+                                  {(typeof body === 'string' && (body.includes('<p') || body.includes('<h') || body.includes('<div') || body.includes('<ul') || body.includes('<ol') || body.includes('<span'))) ? (
+                                    <div dangerouslySetInnerHTML={{ __html: body }} className="text-gray-600 text-[11px] leading-relaxed [&_h3]:font-bold [&_h3]:text-gray-800 [&_h3]:text-sm [&_h3]:mt-4 [&_h3]:mb-2 [&_h4]:font-bold [&_h4]:text-gray-800 [&_h4]:text-xs [&_h4]:mt-3 [&_h4]:mb-1 [&_strong]:font-bold [&_strong]:text-gray-800 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_p]:mb-2" />
+                                  ) : (
+                                    <p className="text-[11px] text-gray-600 leading-relaxed whitespace-pre-wrap">{body}</p>
+                                  )}
                                 </>
                               );
                             })()}

@@ -31,7 +31,7 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
       {/* Vertical Line */}
       <div className="absolute left-[30px] md:left-[120px] top-4 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 via-gray-200 to-transparent"></div>
 
-      {[...timelineData].reverse().map((era, reversedIndex) => {
+      {timelineData.map((era, reversedIndex) => {
         const isOpen = openEras[reversedIndex];
 
         return (
@@ -63,7 +63,7 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
             >
               <div className="overflow-hidden">
                 <div className="space-y-8 pt-2 pb-4">
-                  {[...era.events].reverse().map((event, eventIndex) => (
+                  {era.events.map((event, eventIndex) => (
                     <div key={eventIndex} className="relative flex flex-col md:flex-row items-start group/event hover:-translate-y-1 transition-transform duration-300">
                       
                       {/* Year */}
