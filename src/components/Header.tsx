@@ -149,7 +149,7 @@ export default function Header() {
                      onMouseEnter={() => setHoveredGrand(grand.name)}
                   >
                       <Link
-                        href={grand.link}
+                        href={grand.majors[0]?.subMenus[0]?.link || grand.link}
                         onClick={() => setActiveGrand(activeGrand === grand.name ? null : grand.name)}
                         className={`text-[17px] lg:text-[19px] xl:text-[20px] font-pretendard font-medium tracking-tight transition-colors py-2 relative hover:text-brand-green ${isHighlighted ? 'text-brand-green' : 'text-[#221d1e]'}`}
                       >
