@@ -763,9 +763,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-10 animate-fade-in-up">
-            <p className="text-gray-500 text-[15px] leading-relaxed max-w-3xl text-center mx-auto mb-10 font-medium">
-              {facIntro}
-            </p>
+            <div className="text-left mb-10">
+              <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4">
+                글로벌 인프라 현황 (Global Infrastructure)
+              </h3>
+              <p className="text-gray-500 text-[15px] leading-relaxed max-w-3xl font-medium">
+                {facIntro}
+              </p>
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
               
               {/* 본사 (HQ) */}
