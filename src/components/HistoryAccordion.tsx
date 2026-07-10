@@ -48,10 +48,10 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
                 className="ml-[60px] md:ml-[160px] bg-brand-green/5 border border-brand-green/20 px-5 py-3 rounded-2xl flex items-center flex-wrap animate-fade-in-up" 
                 style={{animationDelay: (reversedIndex * 150 + 300) + 'ms'}}
               >
-                <h4 className="text-xl md:text-2xl font-black text-brand-green select-none flex items-center">
-                  {era.eraTitle} <span className="font-medium text-gray-600 text-base md:text-lg ml-2 mr-4">| {era.eraSubtitle}</span>
+                <h4 className="text-lg md:text-xl font-black text-brand-green select-none flex items-center">
+                  {era.eraTitle} <span className="font-medium text-gray-600 text-sm md:text-base ml-2 mr-4">| {era.eraSubtitle}</span>
                   <ChevronDown 
-                    className={`w-6 h-6 text-brand-green transition-transform duration-500 ease-in-out ${isOpen ? '' : '-rotate-90'}`} 
+                    className={`w-5 h-5 text-brand-green transition-transform duration-500 ease-in-out ${isOpen ? '' : '-rotate-90'}`} 
                   />
                 </h4>
               </div>
@@ -67,12 +67,12 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
                     <div key={eventIndex} className="relative flex flex-col md:flex-row items-start group/event hover:-translate-y-1 transition-transform duration-300">
                       
                       {/* Year */}
-                      <div className="ml-[60px] md:ml-0 md:absolute md:left-0 md:w-[90px] md:text-right pt-1.5">
+                      <div className="ml-[60px] md:ml-0 md:absolute md:left-0 md:w-[90px] md:text-right pt-[18px] md:pt-[22px]">
                         <span className="text-xl md:text-2xl font-extrabold text-gray-400 group-hover/event:text-brand-blue transition-colors duration-300 tracking-tight">{event.year}</span>
                       </div>
 
                       {/* Dot on line */}
-                      <div className="absolute left-[30px] md:left-[120px] top-4 w-3 h-3 rounded-full bg-gray-300 border-[2px] border-white -translate-x-[5px] z-10 group-hover/event:bg-brand-blue group-hover/event:scale-[1.5] transition-all duration-300 shadow-sm"></div>
+                      <div className="absolute left-[30px] md:left-[120px] top-[26px] md:top-[30px] w-3 h-3 rounded-full bg-gray-300 border-[2px] border-white -translate-x-[5px] z-10 group-hover/event:bg-brand-blue group-hover/event:scale-[1.5] transition-all duration-300 shadow-sm"></div>
 
                       {/* Details */}
                       <div className="ml-[60px] md:ml-[160px] flex-1 bg-white border border-gray-100 p-5 md:p-6 rounded-2xl shadow-sm group-hover/event:shadow-[0_8px_30px_rgba(0,0,0,0.06)] group-hover/event:border-brand-blue/20 transition-all duration-300 mt-2 md:mt-0">

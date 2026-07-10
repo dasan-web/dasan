@@ -525,9 +525,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
         return (
           <div className="space-y-12 animate-fade-in-up bg-white p-6 md:p-16 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 relative overflow-hidden">
             {/* Header */}
-            <div className="text-center mb-16 relative z-10">
+            <div className="text-left mb-16 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
               <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
-              <h3 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
+              <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
                 성장 연혁 (History)
               </h3>
             </div>
