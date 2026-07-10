@@ -785,12 +785,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">경영, 영업, 구매, 사업개발 등 지속 가능한 미래 성장 전략 수립</p>
                   </div>
                 </div>
-                <div className="pt-6 mt-auto relative z-10 flex w-full">
-                  <a href="/about/location?loc=seoul" className={buttonClass}>
-                    {MapIconSVG} 찾아오시는 길
-                  </a>
                 </div>
-              </div>
 
               {/* R&D 네트워크 */}
               <div className={cardClass}>
@@ -810,11 +805,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">경기 수원시</span>
                     </span>
                     <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-4">제제 및 합성 관련 연구시설을 갖추고 연구개발 총괄</p>
-                    <div className="flex w-full">
-                      <a href="/about/location?loc=suwon" className={buttonClass}>
-                        {MapIconSVG} 찾아오시는 길
-                      </a>
-                    </div>
                   </div>
                   <div className="pt-6 border-t border-dashed border-gray-200">
                     <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
@@ -847,14 +837,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       원료 및 완제의약품, 내용고형제 대량 생산 체계 구축
                       <span className="inline-block text-brand-blue font-bold text-[11px] ml-2 bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP 인증 완료</span>
                     </p>
-                    <div className="flex space-x-2 w-full mt-4">
-                      <a href="/about/location?loc=asan1" className={buttonClass + " px-2"}>
-                        {MapIconSVG} 제1공장
-                      </a>
-                      <a href="/about/location?loc=asan2" className={buttonClass + " px-2"}>
-                        {MapIconSVG} 제2공장
-                      </a>
-                    </div>
                   </div>
                   <div className="pt-6 border-t border-dashed border-gray-200">
                     <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
@@ -866,6 +848,11 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 </div>
               </div>
 
+            </div>
+            {/* 찾아오시는 길 & 지도 */}
+            <div className="mt-20 pt-16 border-t border-gray-150 w-full">
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-8">찾아오시는 길</h3>
+              <LocationMapSection hideBackButton={true} />
             </div>
           </div>
         );

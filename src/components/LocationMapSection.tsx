@@ -93,7 +93,7 @@ const locations: LocationInfo[] = [
   }
 ];
 
-export default function LocationMapSection({ dbContent }: { dbContent?: string | null }) {
+export default function LocationMapSection({ dbContent, hideBackButton = false }: { dbContent?: string | null, hideBackButton?: boolean }) {
   const [activeTab, setActiveTab] = useState<string>('seoul');
 
   useEffect(() => {
@@ -196,15 +196,17 @@ export default function LocationMapSection({ dbContent }: { dbContent?: string |
           );
         })}
         </div>
-        <Link 
-          href="/about/facilities"
-          className="flex items-center justify-center space-x-2 px-5 py-2.5 rounded-full text-sm font-bold text-gray-500 hover:text-white hover:bg-brand-green transition-all border border-gray-200 hover:border-brand-green group whitespace-nowrap"
-        >
-          <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          <span>이전페이지로 가기</span>
-        </Link>
+        {!hideBackButton && (
+          <Link 
+            href="/about/facilities"
+            className="flex items-center justify-center space-x-2 px-5 py-2.5 rounded-full text-sm font-bold text-gray-500 hover:text-white hover:bg-brand-green transition-all border border-gray-200 hover:border-brand-green group whitespace-nowrap"
+          >
+            <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>이전페이지로 가기</span>
+          </Link>
+        )}
       </div>
 
       {/* Main Map Card for the Active Location */}
