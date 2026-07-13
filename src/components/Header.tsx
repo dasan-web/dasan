@@ -9,6 +9,8 @@ import { navigationData } from '@/lib/navigation';
 
 export default function Header() {
   const pathname = usePathname();
+  const isEnglish = pathname.startsWith('/en');
+  const basePath = isEnglish ? '/en' : '';
   
   if (pathname.startsWith('/management')) {
     return null;
@@ -101,7 +103,16 @@ export default function Header() {
 
   const handleEnglishClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    alert('영문 홈페이지 준비 중입니다. / English website is under preparation.');
+    if (!isEnglish) {
+      window.location.href = `/en${pathname === '/' ? '' : pathname}`;
+    }
+  };
+
+  const handleKoreanClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isEnglish) {
+      window.location.href = pathname.replace(/^\/en/, '') || '/';
+    }
   };
 
   return (
@@ -118,7 +129,7 @@ export default function Header() {
           <div className="flex items-center justify-between h-24">
             {/* Logo: Hexagon Icon + DASAN | PHARMACEUTICAL */}
             <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center">
+              <Link href={`${basePath}/`} className="flex items-center">
                 <img
                   src="/dasan_logo_new_1.png"
                   alt="다산제약"
@@ -144,16 +155,16 @@ export default function Header() {
 
                 return (
                   <div
-                     key={grand.name}
+                     key={isEnglish ? (grand.enName || grand.name) : grand.name}
                      className="relative flex items-center h-full group"
                      onMouseEnter={() => setHoveredGrand(grand.name)}
                   >
                       <Link
-                        href={grand.majors[0]?.subMenus[0]?.link || grand.link}
+                        href={`${basePath}${grand.majors[0]?.subMenus[0]?.link || grand.link}`}
                         onClick={() => setActiveGrand(activeGrand === grand.name ? null : grand.name)}
                         className={`text-[17px] lg:text-[19px] xl:text-[20px] font-pretendard font-medium tracking-tight transition-colors py-2 relative hover:text-brand-green ${isHighlighted ? 'text-brand-green' : 'text-[#221d1e]'}`}
                       >
-                      {grand.name}
+                      {isEnglish ? (grand.enName || grand.name) : grand.name}
                       <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 group-hover:scale-x-100 ${
                         isHighlighted ? 'scale-x-100' : 'scale-x-0'
                       }`} />
@@ -175,24 +186,24 @@ export default function Header() {
                         }}
                       >
                         {grand.majors.map((major) => (
-                          <div key={major.name} className="flex flex-col space-y-2 group">
+                          <div key={isEnglish ? (major.enName || major.name) : major.name} className="flex flex-col space-y-2 group">
                             <Link
-                              href={major.subMenus[0]?.link || '#'}
+                              href={`${basePath}${major.subMenus[0]?.link || '#'}`}
                               onClick={() => {
                                 setActiveGrand(null);
                                 setHoveredGrand(null);
                               }}
                             >
                               <h3 className="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 text-left hover:text-brand-green group-hover:text-brand-green cursor-pointer">
-                                {major.name}
+                                {isEnglish ? (major.enName || major.name) : major.name}
                               </h3>
                             </Link>
                             <ul className="space-y-1.5 text-left">
                               {major.subMenus.map((sub) => (
-                                <li key={sub.name}>
+                                <li key={isEnglish ? (sub.enName || sub.name) : sub.name}>
                                   {sub.link.startsWith('#') ? (
                                     <a
-                                      href={sub.link}
+                                      href={`${basePath}${sub.link}`}
                                       onClick={(e) => {
                                         handleEnglishClick(e);
                                         setActiveGrand(null);
@@ -200,11 +211,11 @@ export default function Header() {
                                       }}
                                       className="text-gray-550 hover:text-brand-green text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform"
                                     >
-                                      {sub.name}
+                                      {isEnglish ? (sub.enName || sub.name) : sub.name}
                                     </a>
                                   ) : (
                                     <Link
-                                      href={sub.link}
+                                      href={`${basePath}${sub.link}`}
                                       onClick={() => {
                                         setActiveGrand(null);
                                         setHoveredGrand(null);
@@ -213,7 +224,7 @@ export default function Header() {
                                         pathname === sub.link ? 'text-gray-900 font-bold' : ''
                                       }`}
                                     >
-                                      {sub.name}
+                                      {isEnglish ? (sub.enName || sub.name) : sub.name}
                                     </Link>
                                   )}
                                 </li>
@@ -234,9 +245,9 @@ export default function Header() {
             >
               {/* KOR | ENG */}
               <div className="flex items-center space-x-1.5 font-pretendard font-medium text-[#221d1e]">
-                <span className="cursor-pointer">KOR</span>
+                <a href="#" onClick={handleKoreanClick} className={`cursor-pointer transition-colors ${!isEnglish ? 'text-brand-green font-bold' : 'hover:text-brand-green'}`}>KOR</a>
                 <span className="text-gray-300">|</span>
-                <a href="#" onClick={handleEnglishClick} className="hover:text-brand-green transition-colors">ENG</a>
+                <a href="#" onClick={handleEnglishClick} className={`cursor-pointer transition-colors ${isEnglish ? 'text-brand-green font-bold' : 'hover:text-brand-green'}`}>ENG</a>
               </div>
 
 
@@ -291,7 +302,7 @@ export default function Header() {
             {filteredNavigation.map((grand) => {
               const isGrandActive = activeMobileGrand === grand.name;
               return (
-                <div key={grand.name} className="border-b border-gray-50 pb-2">
+                <div key={isEnglish ? (grand.enName || grand.name) : grand.name} className="border-b border-gray-50 pb-2">
                   {/* Level 0 Menu Button */}
                   <button
                     onClick={() =>
@@ -299,7 +310,7 @@ export default function Header() {
                     }
                     className="flex items-center justify-between w-full py-3 px-2 text-gray-800 font-bold hover:text-brand-green text-left rounded-md transition-colors"
                   >
-                    <span>{grand.name}</span>
+                    <span>{isEnglish ? (grand.enName || grand.name) : grand.name}</span>
                     <ChevronDown
                       size={18}
                       className={`transition-transform duration-300 ${
@@ -317,14 +328,14 @@ export default function Header() {
                     {grand.majors.map((major) => {
                       const isMajorActive = activeMobileMajor === major.name;
                       return (
-                        <div key={major.name} className="py-1">
+                        <div key={isEnglish ? (major.enName || major.name) : major.name} className="py-1">
                           <button
                             onClick={() =>
                               setActiveMobileMajor(isMajorActive ? null : major.name)
                             }
                             className="flex items-center justify-between w-full py-2 px-2 text-gray-600 text-sm font-semibold hover:text-brand-green text-left"
                           >
-                            <span>{major.name}</span>
+                            <span>{isEnglish ? (major.enName || major.name) : major.name}</span>
                             <ChevronDown
                               size={14}
                               className={`transition-transform duration-300 ${
@@ -340,10 +351,10 @@ export default function Header() {
                             }`}
                           >
                             {major.subMenus.map((sub) => (
-                              <React.Fragment key={sub.name}>
+                              <React.Fragment key={isEnglish ? (sub.enName || sub.name) : sub.name}>
                                 {sub.link.startsWith('#') ? (
                                   <a
-                                    href={sub.link}
+                                    href={`${basePath}${sub.link}`}
                                     onClick={(e) => {
                                       handleEnglishClick(e);
                                       setIsMobileMenuOpen(false);
@@ -351,18 +362,18 @@ export default function Header() {
                                     className="flex items-center space-x-1.5 py-2 px-2 text-gray-500 hover:text-brand-green text-xs transition-colors"
                                   >
                                     <ChevronRight size={10} />
-                                    <span>{sub.name}</span>
+                                    <span>{isEnglish ? (sub.enName || sub.name) : sub.name}</span>
                                   </a>
                                 ) : (
                                   <Link
-                                    href={sub.link}
+                                    href={`${basePath}${sub.link}`}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={`flex items-center space-x-1.5 py-2 px-2 text-gray-500 hover:text-brand-green text-xs transition-colors ${
                                       pathname === sub.link ? 'text-brand-green font-bold' : ''
                                     }`}
                                   >
                                     <ChevronRight size={10} />
-                                    <span>{sub.name}</span>
+                                    <span>{isEnglish ? (sub.enName || sub.name) : sub.name}</span>
                                   </Link>
                                 )}
                               </React.Fragment>

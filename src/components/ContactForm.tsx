@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 interface ContactFormProps {
@@ -9,6 +10,8 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ inquiryType = 'product' }: ContactFormProps) {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,7 +45,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
       }, 1000);
     } else if (timer === 0 && verificationSent && !isEmailVerified) {
       setVerificationSent(false);
-      setVerificationError('인증 시간이 만료되었습니다. 다시 시도해주세요.');
+      setVerificationError(isEnglish ? 'Verification time expired. Please try again.' : '인증 시간이 만료되었습니다. 다시 시도해주세요.');
     }
     return () => clearInterval(interval);
   }, [timer, verificationSent, isEmailVerified]);
@@ -55,7 +58,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
 
   const handleSendVerification = async () => {
     if (!formData.email) {
-      setVerificationError('이메일 주소를 입력해주세요.');
+      setVerificationError(isEnglish ? 'Please enter your email address.' : '이메일 주소를 입력해주세요.');
       return;
     }
     if (!formData.email.includes('@') || !formData.email.includes('.')) {
@@ -112,23 +115,23 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
   const config = {
     product: {
       badge: 'PRODUCT INQUIRY',
-      desc: '다산제약의 제품에 대해 궁금한 사항을 남겨주시면, 담당자가 신속히 확인하여 연락 드리겠습니다.',
-      subjectPlaceholder: '제품명 또는 제품 제휴 관련 문의 제목을 입력해주세요.',
+      desc: isEnglish ? 'If you leave any questions about Dasan Pharmaceutical\'s products, the person in charge will quickly check and contact you.' : '다산제약의 제품에 대해 궁금한 사항을 남겨주시면, 담당자가 신속히 확인하여 연락 드리겠습니다.',
+      subjectPlaceholder: isEnglish ? 'Please enter the title for product or partnership inquiry.' : '제품명 또는 제품 제휴 관련 문의 제목을 입력해주세요.',
     },
     sales: {
       badge: 'SALES INQUIRY',
-      desc: '다산제약의 영업/구매 제휴 및 비즈니스 관련 문의를 남겨주시면, 담당 부서에서 신속히 안내 드리겠습니다.',
-      subjectPlaceholder: '비즈니스 협력 또는 영업 관련 문의 제목을 입력해주세요.',
+      desc: isEnglish ? 'If you leave an inquiry regarding Dasan Pharmaceutical\'s sales/purchase partnership and business, the relevant department will guide you promptly.' : '다산제약의 영업/구매 제휴 및 비즈니스 관련 문의를 남겨주시면, 담당 부서에서 신속히 안내 드리겠습니다.',
+      subjectPlaceholder: isEnglish ? 'Please enter the title for business cooperation or sales inquiry.' : '비즈니스 협력 또는 영업 관련 문의 제목을 입력해주세요.',
     },
     corruption: {
       badge: 'ETHICS & COMPLIANCE (ANONYMOUS)',
       desc: (
         <>
-          다산제약은 윤리경영을 실천하고 있습니다. 업무수행과 관련하여 부패 행위나 부조리한 사실이 있는 경우 익명으로 안전하게 제보해 주시기 바랍니다.<br />
-          제보자의 신원 및 인적사항은 관련 법령에 따라 철저히 비밀이 보장됩니다.
+          {isEnglish ? 'Dasan Pharmaceutical practices ethical management. If there is any corruption or absurdity related to work performance, please report it safely and anonymously.' : '다산제약은 윤리경영을 실천하고 있습니다. 업무수행과 관련하여 부패 행위나 부조리한 사실이 있는 경우 익명으로 안전하게 제보해 주시기 바랍니다.'}<br />
+          {isEnglish ? 'The identity and personal information of the informant will be kept strictly confidential in accordance with relevant laws.' : '제보자의 신원 및 인적사항은 관련 법령에 따라 철저히 비밀이 보장됩니다.'}
         </>
       ),
-      subjectPlaceholder: '부패 행위 제보 또는 부조리 신고 제목을 입력해주세요.',
+      subjectPlaceholder: isEnglish ? 'Please enter the title for corruption or absurdity report.' : '부패 행위 제보 또는 부조리 신고 제목을 입력해주세요.',
     },
   };
 
@@ -279,7 +282,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
             {inquiryType !== 'corruption' && (
               <div>
                 <label htmlFor="name" className="block text-xs font-black text-brand-blue uppercase tracking-wider mb-2">
-                  이름 <span className="text-brand-green font-black">*</span>
+                  {isEnglish ? 'Name' : '이름'} <span className="text-brand-green font-black">*</span>
                 </label>
                 <input
                   type="text"
@@ -287,7 +290,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="홍길동"
+                  placeholder={isEnglish ? "John Doe" : "홍길동"}
                   required
                   className="w-full px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-gray-50/30 focus:bg-white"
                 />
@@ -297,7 +300,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
             {/* Subject */}
             <div>
               <label htmlFor="subject" className="block text-xs font-black text-brand-blue uppercase tracking-wider mb-2">
-                문의 제목 <span className="text-brand-green font-black">*</span>
+                {isEnglish ? 'Inquiry Subject' : '문의 제목'} <span className="text-brand-green font-black">*</span>
               </label>
               <input
                 type="text"
@@ -317,7 +320,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                 {/* Phone */}
                 <div>
                   <label htmlFor="phone" className="block text-xs font-black text-brand-blue uppercase tracking-wider mb-2">
-                    연락처
+                    {isEnglish ? 'Contact Number' : '연락처'}
                   </label>
                   <input
                     type="tel"
@@ -333,7 +336,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                 {/* Email */}
                 <div>
                   <label htmlFor="email" className="block text-xs font-black text-brand-blue uppercase tracking-wider mb-2">
-                    이메일 주소 <span className="text-brand-green font-black">*</span>
+                    {isEnglish ? 'Email Address' : '이메일 주소'} <span className="text-brand-green font-black">*</span>
                   </label>
                   <div className="flex space-x-2">
                     <input
@@ -349,22 +352,22 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                       disabled={isEmailVerified}
                       placeholder="example@gmail.com"
                       required
-                      className="flex-1 px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-gray-50/30 focus:bg-white disabled:bg-gray-100 disabled:text-gray-500"
+                      className="flex-1 min-w-0 px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-gray-50/30 focus:bg-white disabled:bg-gray-100 disabled:text-gray-500"
                     />
                     <button
                       type="button"
                       onClick={handleSendVerification}
                       disabled={isEmailVerified || verifying || !formData.email}
-                      className="px-4 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap border border-gray-200 cursor-pointer"
+                      className="px-4 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap border border-gray-200 cursor-pointer shrink-0"
                     >
-                      {isEmailVerified ? '인증완료' : (verifying && !verificationSent ? '발송중...' : (verificationSent ? '재발송' : '인증번호 발송'))}
+                      {isEmailVerified ? (isEnglish ? 'Verified' : '인증완료') : (verifying && !verificationSent ? (isEnglish ? 'Sending...' : '발송중...') : (verificationSent ? (isEnglish ? 'Resend' : '재발송') : (isEnglish ? 'Send Code' : '인증번호 발송')))}
                     </button>
                   </div>
 
                   {/* Verification Code Input */}
                   {verificationSent && !isEmailVerified && (
                     <div className="mt-3 flex space-x-2 animate-fade-in-up">
-                      <div className="relative flex-1">
+                      <div className="relative flex-1 min-w-0">
                         <input
                           type="text"
                           value={verificationCode}
@@ -380,7 +383,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                         type="button"
                         onClick={handleVerifyCode}
                         disabled={verifying || verificationCode.length < 6}
-                        className="px-4 py-3.5 bg-brand-green hover:bg-brand-green-dark text-white text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap shadow-sm cursor-pointer"
+                        className="px-4 py-3.5 bg-brand-green hover:bg-brand-green-dark text-white text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap shadow-sm cursor-pointer shrink-0"
                       >
                         {verifying ? '확인중' : '확인'}
                       </button>
@@ -396,7 +399,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
               <div className="grid grid-cols-1 gap-6">
                 <div>
                   <label htmlFor="password" className="block text-xs font-black text-brand-blue uppercase tracking-wider mb-2">
-                    조회용 비밀번호 <span className="text-brand-green font-black">*</span>
+                    {isEnglish ? 'Password for lookup' : '조회용 비밀번호'} <span className="text-brand-green font-black">*</span>
                   </label>
                   <input
                     type="password"
@@ -404,12 +407,12 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="비밀번호 입력 (추후 조회 시 필요)"
+                    placeholder={isEnglish ? "Enter password (required for future lookup)" : "비밀번호 입력 (추후 조회 시 필요)"}
                     required
                     className="w-full px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-gray-50/30 focus:bg-white"
                   />
                   <p className="text-[11px] font-bold text-brand-green mt-1.5 ml-1">
-                    * 익명 문의 조회를 위해 반드시 기억해 주세요.
+                    {isEnglish ? "* Please remember this to check your anonymous inquiry." : "* 익명 문의 조회를 위해 반드시 기억해 주세요."}
                   </p>
                 </div>
               </div>
@@ -419,7 +422,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
           {/* Content */}
           <div>
             <label htmlFor="content" className="block text-xs font-black text-brand-blue uppercase tracking-wider mb-2">
-              문의 내용 <span className="text-brand-green font-black">*</span>
+              {isEnglish ? 'Inquiry Content' : '문의 내용'} <span className="text-brand-green font-black">*</span>
             </label>
             <textarea
               id="content"
@@ -427,7 +430,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
               rows={6}
               value={formData.content}
               onChange={handleChange}
-              placeholder="상세한 문의 사항을 남겨주시면 정성껏 답변 드리겠습니다."
+              placeholder={isEnglish ? "Please leave detailed inquiries and we will answer you sincerely." : "상세한 문의 사항을 남겨주시면 정성껏 답변 드리겠습니다."}
               required
               className="w-full px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all resize-none placeholder:text-gray-400 bg-gray-50/30 focus:bg-white"
             />
@@ -444,7 +447,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                 className="mt-1 w-4 h-4 border-gray-300 rounded text-brand-green focus:ring-brand-green cursor-pointer accent-brand-green"
               />
               <label htmlFor="privacy" className="text-xs text-gray-500 leading-normal font-semibold cursor-pointer select-none">
-                개인정보 수집 및 이용에 동의합니다.<br />(필수) 다산제약은 문의 접수 및 답변 처리를 목적으로 이름, 이메일, 연락처 정보를 수집합니다.
+                {isEnglish ? 'I agree to the collection and use of personal information' : '개인정보 수집 및 이용에 동의합니다'}.<br />{isEnglish ? "(Required) Dasan Pharmaceutical collects name, email, and contact information for the purpose of receiving inquiries and processing answers." : "(필수) 다산제약은 문의 접수 및 답변 처리를 목적으로 이름, 이메일, 연락처 정보를 수집합니다."}
               </label>
             </div>
           )}
@@ -452,10 +455,10 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
           {/* ReCAPTCHA */}
           <div className="flex justify-start">
             <ReCAPTCHA
-              ref={recaptchaRef}
+                        hl={isEnglish ? "en" : "ko"}
+                        ref={recaptchaRef}
               sitekey="6LdRVT0tAAAAAD5Ug_N3IhbggKeT1vj5jwVlki88"
               onChange={(token) => setRecaptchaToken(token)}
-              hl="ko"
             />
           </div>
 
@@ -469,7 +472,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
               <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
             ) : (
               <>
-                <span>문의 접수하기</span>
+                <span>{isEnglish ? 'Submit Inquiry' : '문의 접수하기'}</span>
                 <Send size={16} />
               </>
             )}

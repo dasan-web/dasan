@@ -2,9 +2,11 @@
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface SubMenu {
   name: string;
+  enName?: string;
   link: string;
 }
 
@@ -19,6 +21,9 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
   const containerRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<HTMLAnchorElement>(null);
   const [hiddenSlugs, setHiddenSlugs] = useState<string[]>([]);
+  const pathname = usePathname();
+  const isEnglish = pathname ? pathname.startsWith('/en') : false;
+  const basePath = isEnglish ? '/en' : '';
 
   useEffect(() => {
     fetch('/api/navigation/hidden', { cache: 'no-store' })
@@ -66,28 +71,29 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
   const currentCoords = hoverCoords || coords;
 
   return (
-    <div 
-      ref={containerRef}
-      className="relative flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-4 max-w-full  pb-0 select-none animate-fade-in px-4 w-full"
-    >
-      {/* Sliding Underline Indicator */}
-      <div
-        className="absolute bottom-[-1px] h-[3px] bg-brand-green transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
-        style={{
-          left: `${currentCoords.left}px`,
-          width: `${currentCoords.width}px`,
-          opacity: currentCoords.opacity,
-        }}
-      />
+    <div className="w-full overflow-x-auto pb-3 mt-4 scroll-smooth">
+      <div 
+        ref={containerRef}
+        className="relative flex flex-nowrap items-center md:justify-center gap-x-8 min-w-max mx-auto px-4 select-none animate-fade-in whitespace-nowrap"
+      >
+        {/* Sliding Underline Indicator */}
+        <div
+          className="absolute bottom-[-1px] h-[3px] bg-brand-green transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+          style={{
+            left: `${currentCoords.left}px`,
+            width: `${currentCoords.width}px`,
+            opacity: currentCoords.opacity,
+          }}
+        />
 
       {filteredSubMenus.map((sub) => {
         const isActive = currentPath === sub.link;
-        const isEnglish = sub.link === '#english' || sub.name === '영문';
+        const isEnglishBtn = sub.link === '#english' || sub.name === '영문';
 
-        if (isEnglish) {
+        if (isEnglishBtn) {
           return (
             <button
-              key={sub.name}
+              key={sub.enName || sub.name}
               onMouseEnter={(e) => {
                 // Mimic Link ref behavior for the hover indicator
                 const el = e.currentTarget;
@@ -104,15 +110,15 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
               }}
               className="relative pb-2 text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 text-gray-400 hover:text-brand-blue cursor-pointer focus:outline-none"
             >
-              {sub.name}
+              {sub.enName || sub.name}
             </button>
           );
         }
 
         return (
           <Link
-            key={sub.name}
-            href={sub.link}
+            key={isEnglish ? (sub.enName || sub.name) : sub.name}
+            href={`${basePath}${sub.link}`}
             ref={isActive ? activeRef : null}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -122,10 +128,11 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
                 : 'text-gray-400 hover:text-brand-blue'
             }`}
           >
-            {sub.name}
+            {isEnglish ? (sub.enName || sub.name) : sub.name}
           </Link>
         );
       })}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,12 @@
 "use client";
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { Download } from 'lucide-react';
 
 export default function CIDownloadButton() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
   const handleDownload = (e: React.MouseEvent) => {
     e.preventDefault();
     const link = document.createElement('a');
@@ -22,11 +25,11 @@ export default function CIDownloadButton() {
           <div className="flex flex-col text-center sm:text-left z-10">
             <span className="text-[13px] font-extrabold text-[#777] tracking-[0.2em] mb-1">BRAND IDENTITY</span>
             <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-4">
-              <span className="text-[22px] sm:text-[24px] font-extrabold text-gray-900 tracking-tight group-hover:text-[#2A5C43] transition-colors duration-300">다산제약 CI 가이드라인 파일 받기</span>
+              <span className="text-[22px] sm:text-[24px] font-extrabold text-gray-900 tracking-tight group-hover:text-[#2A5C43] transition-colors duration-300">{isEnglish ? "Download Dasan Pharmaceutical CI Guideline File" : "다산제약 CI 가이드라인 파일 받기"}</span>
               <button 
                 onClick={handleDownload}
                 className="group/btn flex-shrink-0 w-14 h-14 bg-[#f0f5f2] hover:bg-[#2A5C43] active:bg-[#1a3a2a] rounded-2xl flex items-center justify-center transition-colors duration-300 shadow-inner cursor-pointer z-20 relative focus:outline-none focus:ring-2 focus:ring-[#2A5C43] focus:ring-offset-2"
-                aria-label="CI 가이드라인 다운로드"
+                aria-label={isEnglish ? "Download CI Guideline" : "CI 가이드라인 다운로드"}
               >
                 <Download className="text-[#2A5C43] group-hover/btn:text-white transition-colors duration-300" size={26} strokeWidth={2.5} />
               </button>

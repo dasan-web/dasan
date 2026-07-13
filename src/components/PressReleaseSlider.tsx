@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ChevronLeft, ChevronRight, ArrowUp, ArrowRight, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -59,6 +60,8 @@ interface PressReleaseSliderProps {
 }
 
 export default function PressReleaseSlider({ initialNews }: PressReleaseSliderProps) {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
   const [startIndex, setStartIndex] = useState(0);
   const [selectedCard, setSelectedCard] = useState<any | null>(null);
 
@@ -256,9 +259,9 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
 
               {/* Meta Info Row */}
               <div className="px-8 flex items-center justify-between text-xs text-gray-400 pb-3 border-b border-gray-100 font-semibold font-mono flex-shrink-0">
-                <span>등록일: {selectedCard.date}</span>
+                <span>{isEnglish ? "Date: " : "등록일: "}{selectedCard.date}</span>
                 {selectedCard.views !== undefined && (
-                  <span>조회수: {selectedCard.views}</span>
+                  <span>{isEnglish ? "Views: " : "조회수: "}{selectedCard.views}</span>
                 )}
               </div>
 

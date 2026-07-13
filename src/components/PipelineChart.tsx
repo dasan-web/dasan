@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface PipelineItem {
   id: number;
@@ -16,6 +17,8 @@ interface PipelineItem {
 const PHASES = ['기초연구', '전임상', '임상 1상', '임상 2상', '임상 3상', '허가'];
 
 export default function PipelineChart() {
+  const pathname = usePathname();
+  const isEnglish = pathname ? pathname.startsWith('/en') : false;
   const [pipelineList, setPipelineList] = useState<PipelineItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [animate, setAnimate] = useState(false);
@@ -55,6 +58,36 @@ export default function PipelineChart() {
   // Interactive sliding removed by user request (Read-only view)
 
   // Dynamically calculate rowSpan and isFirst based on category ordering
+  
+  const t = (ko: string) => {
+    if (!isEnglish) return ko;
+    const dict: Record<string, string> = {
+      '구분': 'Category',
+      '프로젝트명': 'Project Name',
+      '질환군': 'Indication',
+      '개발단계': 'Development Phase',
+      '협력기관': 'Partners',
+      '기초연구': 'Basic Research',
+      '전임상': 'Pre-Clinical',
+      '임상 1상': 'Phase 1',
+      '임상 2상': 'Phase 2',
+      '임상 3상': 'Phase 3',
+      '허가': 'Approval',
+      '개량신약': 'IMD',
+      '자료 제출 의약품': 'Data Submission Drug',
+      '퍼스트 제네릭': 'First Generic',
+      '비만치료제': 'Obesity Treatment',
+      '항암·면역보조치료제': 'Anti-cancer / Immune Adjuvant',
+      '류마티스관절염치료제': 'Rheumatoid Arthritis Treatment',
+      '고혈압(최초복합제) 치료제': 'Hypertension Treatment',
+      '위식도역류(P-CAB) 치료제': 'GERD (P-CAB) Treatment',
+      '고지혈증 치료제': 'Hyperlipidemia Treatment',
+      '파이프라인 데이터를 불러오는 중입니다...': 'Loading pipeline data...',
+      '등록된 파이프라인 항목이 없습니다.': 'No pipeline data available.'
+    };
+    return dict[ko] || ko;
+  };
+
   const processedData = React.useMemo(() => {
     const data: PipelineItem[] = [];
     const categoryCounts: { [key: string]: number } = {};
@@ -88,23 +121,23 @@ export default function PipelineChart() {
         {/* Table Head */}
         <thead>
           <tr className="bg-brand-green text-white">
-            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[15%]">구분</th>
-            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[12%]">프로젝트명</th>
-            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[23%]">질환군</th>
+            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[15%]">{t('구분')}</th>
+            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[12%]">{t('프로젝트명')}</th>
+            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[23%]">{t('질환군')}</th>
             
             {/* 개발단계 (Nested Columns) */}
             <th className="border border-gray-300 p-0 w-[38%]" colSpan={6}>
-              <div className="text-center font-bold py-3.5 border-b border-gray-300">개발단계</div>
+              <div className="text-center font-bold py-3.5 border-b border-gray-300">{t('개발단계')}</div>
               <div className="grid grid-cols-6 text-[11px] font-semibold bg-brand-green-dark">
                 {PHASES.map((phase) => (
-                  <div key={phase} className="py-2.5 text-center border-r last:border-r-0 border-gray-300">
-                    {phase}
+                  <div key={t(phase)} className="py-2.5 text-center border-r last:border-r-0 border-gray-300">
+                    {t(phase)}
                   </div>
                 ))}
               </div>
             </th>
             
-            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[12%]">협력기관</th>
+            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[12%]">{t('협력기관')}</th>
           </tr>
         </thead>
 
@@ -112,9 +145,7 @@ export default function PipelineChart() {
         <tbody className="bg-white">
           {loading ? (
             <tr>
-              <td colSpan={10} className="border border-gray-200 py-16 text-center text-gray-400 font-medium">
-                파이프라인 데이터를 불러오는 중입니다...
-              </td>
+              <td colSpan={10} className="border border-gray-200 py-16 text-center text-gray-400 font-medium">{t('파이프라인 데이터를 불러오는 중입니다...')}</td>
             </tr>
           ) : processedData.length > 0 ? (
             processedData.map((item, index) => {
@@ -126,9 +157,7 @@ export default function PipelineChart() {
                     <td
                       rowSpan={item.rowSpan}
                       className="border border-gray-200 px-4 py-6 text-center font-bold text-gray-700 bg-white"
-                    >
-                      {item.category}
-                    </td>
+                    >{t(item.category)}</td>
                   )}
 
                   {/* Project Name */}
@@ -137,9 +166,7 @@ export default function PipelineChart() {
                   </td>
 
                   {/* Indication / Disease */}
-                  <td className="border border-gray-200 px-4 py-6 text-center text-gray-700 font-medium">
-                    {item.disease}
-                  </td>
+                  <td className="border border-gray-200 px-4 py-6 text-center text-gray-700 font-medium">{t(item.disease)}</td>
 
                   {/* Progress Bar spanned across the 6 phases (Draggable Interactive Track) */}
                   <td className="border border-gray-200 p-0 relative" colSpan={6}>
@@ -175,9 +202,7 @@ export default function PipelineChart() {
             })
           ) : (
             <tr>
-              <td colSpan={10} className="border border-gray-200 py-16 text-center text-gray-400 font-medium">
-                등록된 파이프라인 항목이 없습니다.
-              </td>
+              <td colSpan={10} className="border border-gray-200 py-16 text-center text-gray-400 font-medium">{t('등록된 파이프라인 항목이 없습니다.')}</td>
             </tr>
           )}
         </tbody>

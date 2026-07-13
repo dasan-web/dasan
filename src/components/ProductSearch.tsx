@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 interface Product {
   id: number;
@@ -17,7 +18,48 @@ interface Product {
 
 const consonants = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 
+
+const efficacyDict: Record<string, string> = {
+  "동맥경화용제": "Anti-arteriosclerotic",
+  "기타의화학요법제": "Other Chemotherapeutics",
+  "해열,진통,소염제": "Antipyretic, Analgesic, Anti-inflammatory",
+  "혈압강하제": "Antihypertensive",
+  "소화성궤양용제": "Peptic Ulcer Agents",
+  "기타의순환계용약": "Other Cardiovascular Agents",
+  "당뇨병용제": "Antidiabetics",
+  "혈관확장제": "Vasodilators",
+  "정신신경용제": "Psychotropics",
+  "기타의중추신경용약": "Other Central Nervous System Agents",
+  "주로그람양성,음성균,리케치아,비루스에작용하는것": "Antibiotics (Gram+/-, Rickettsia, Virus)",
+  "주로그람양성,음성균에작용하는것": "Antibiotics (Gram+/-)",
+  "최면진정제": "Hypnotics & Sedatives",
+  "해열.진통.소염제": "Antipyretic, Analgesic, Anti-inflammatory",
+  "항히스타민제": "Antihistamines",
+  "간장질환용제": "Hepatic Protectants",
+  "소화기관용약": "Gastrointestinal Agents",
+  "진해거담제": "Antitussives & Expectorants",
+  "이비과용제": "Otorhinolaryngologicals",
+  "기타의소화기관용약": "Other Gastrointestinal Agents",
+  "항악성종양제": "Antineoplastics",
+  "혈액응고저지제": "Anticoagulants",
+  "안과용제": "Ophthalmics",
+  "호흡기관용약": "Respiratory Agents",
+  "치과구강용약": "Dental & Oral Agents",
+  "비타민제": "Vitamins",
+  "기타의비타민제": "Other Vitamins",
+  "혼합비타민제(비타민AD혼합제제제외)": "Mixed Vitamins",
+  "따로분류되지않는대사성의약품": "Other Metabolic Agents"
+};
+
+const translateEfficacy = (koText: string, isEng: boolean) => {
+  if (!isEng || !koText) return koText;
+  return efficacyDict[koText.trim()] || koText;
+};
+
 export default function ProductSearch() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
+
   const [productsList, setProductsList] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'all' | 'prescription' | 'otc'>('all');
@@ -85,9 +127,7 @@ export default function ProductSearch() {
               ? 'text-brand-green border-b-2 border-brand-green'
               : 'text-gray-400 hover:text-brand-green'
           }`}
-        >
-          전체
-        </button>
+        >{isEnglish ? 'All' : '전체'}</button>
         <button
           type="button"
           onClick={() => {
@@ -101,9 +141,7 @@ export default function ProductSearch() {
               ? 'text-brand-green border-b-2 border-brand-green'
               : 'text-gray-400 hover:text-brand-green'
           }`}
-        >
-          전문의약품
-        </button>
+        >{isEnglish ? 'ETC' : '전문의약품'}</button>
         <button
           type="button"
           onClick={() => {
@@ -117,9 +155,7 @@ export default function ProductSearch() {
               ? 'text-brand-green border-b-2 border-brand-green'
               : 'text-gray-400 hover:text-brand-green'
           }`}
-        >
-          일반의약품
-        </button>
+        >{isEnglish ? 'OTC' : '일반의약품'}</button>
       </div>
 
       {/* 2. Main Search Area (Flat & Sleek) */}
@@ -138,9 +174,7 @@ export default function ProductSearch() {
                 ? 'text-brand-green border-b-2 border-brand-green' 
                 : 'text-gray-400 hover:text-brand-green'
             }`}
-          >
-            제품명 검색
-          </button>
+          >{isEnglish ? 'Search by Name' : '제품명 검색'}</button>
           <button
             type="button"
             onClick={() => {
@@ -154,13 +188,11 @@ export default function ProductSearch() {
                 ? 'text-brand-green border-b-2 border-brand-green' 
                 : 'text-gray-400 hover:text-brand-green'
             }`}
-          >
-            효능별 검색
-          </button>
+          >{isEnglish ? 'Search by Efficacy' : '효능별 검색'}</button>
         </div>
 
         {/* Consonant Filter */}
-        {searchMode === 'name' && (
+        {searchMode === 'name' && !isEnglish && (
           <div className="space-y-2.5">
             <div className="flex flex-wrap gap-1.5 justify-center md:justify-start">
               {consonants.map(con => (
@@ -188,8 +220,8 @@ export default function ProductSearch() {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={
               searchMode === 'name'
-                ? '검색하실 제품명을 입력해 주세요'
-                : '검색하실 효능/효과를 입력해 주세요 (예: 고혈압, 당뇨 등)'
+                ? isEnglish ? 'Please enter the product name to search' : '검색하실 제품명을 입력해 주세요'
+                : isEnglish ? 'Please enter the efficacy/effect to search (e.g., hypertension, diabetes, etc.)' : '검색하실 효능/효과를 입력해 주세요 (예: 고혈압, 당뇨 등)'
             }
             className="flex-1 bg-transparent border-none outline-none px-4 py-2.5 text-xs md:text-sm text-gray-700 placeholder-gray-400"
           />
@@ -206,7 +238,7 @@ export default function ProductSearch() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 pt-2">
         {loading ? (
           <div className="col-span-full text-center py-16 text-gray-400 text-sm">
-            데이터를 불러오는 중입니다...
+            {isEnglish ? 'Loading data...' : '데이터를 불러오는 중입니다...'}
           </div>
         ) : filteredProducts.length > 0 ? (
           filteredProducts.map(product => (
@@ -220,7 +252,7 @@ export default function ProductSearch() {
                 <div className="absolute top-0 left-0 z-10">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-br-2xl text-[9px] font-bold tracking-widest bg-white/95 backdrop-blur-md border-b border-r border-gray-100 shadow-[2px_2px_8px_rgba(0,0,0,0.04)] text-gray-600 transition-all hover:shadow-[2px_4px_12px_rgba(0,0,0,0.08)] cursor-default">
                     <span className={`w-1.5 h-1.5 rounded-full ${product.type === '전문의약품' ? 'bg-blue-500 shadow-[0_0_6px_rgba(59,130,246,0.4)]' : 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.4)]'}`} />
-                    {product.type}
+                    {product.type === '전문의약품' ? (isEnglish ? 'ETC' : '전문의약품') : (isEnglish ? 'OTC' : '일반의약품')}
                   </div>
                 </div>
                 {product.file_url && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(product.file_url) ? (
@@ -249,9 +281,7 @@ export default function ProductSearch() {
 
                 {/* Efficacy Box */}
                 <div className="space-y-2">
-                  <div className="bg-gray-50 text-gray-500 text-[10px] md:text-xs font-semibold py-1 px-2.5 rounded text-center">
-                    {product.efficacy}
-                  </div>
+                  <div className="bg-gray-50 text-gray-500 text-[10px] md:text-xs font-semibold py-1 px-2.5 rounded text-center">{translateEfficacy(product.efficacy, isEnglish)}</div>
 
                 </div>
               </div>
@@ -259,7 +289,7 @@ export default function ProductSearch() {
           ))
         ) : (
           <div className="col-span-full text-center py-16 text-gray-400 text-sm">
-            검색 결과와 일치하는 제품이 없습니다.
+            {isEnglish ? 'No products match your search.' : '검색 결과와 일치하는 제품이 없습니다.'}
           </div>
         )}
       </div>
@@ -291,7 +321,7 @@ export default function ProductSearch() {
                 <div className="absolute top-0 left-0 z-10">
                   <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-br-2xl text-[10px] font-bold tracking-widest bg-white/95 backdrop-blur-md border-b border-r border-gray-100 shadow-[2px_2px_12px_rgba(0,0,0,0.06)] text-gray-700 cursor-default">
                     <span className={`w-1.5 h-1.5 rounded-full ${selectedProduct.type === '전문의약품' ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]'}`} />
-                    {selectedProduct.type}
+                    {selectedProduct.type === '전문의약품' ? (isEnglish ? 'ETC' : '전문의약품') : (isEnglish ? 'OTC' : '일반의약품')}
                   </div>
                 </div>
                 {selectedProduct.file_url && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(selectedProduct.file_url) ? (
@@ -321,10 +351,10 @@ export default function ProductSearch() {
                 <div className="border-t border-slate-100/80 pt-6 space-y-3">
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-3.5 bg-brand-green rounded-full"></div>
-                    <h4 className="text-[11px] font-extrabold text-slate-800 tracking-widest">효능 및 효과</h4>
+                    <h4 className="text-[11px] font-extrabold text-slate-800 tracking-widest">{isEnglish ? 'Efficacy & Effects' : '효능 및 효과'}</h4>
                   </div>
                   <div className="bg-slate-50/80 text-sm font-medium text-slate-700 leading-relaxed p-4 rounded-xl border border-slate-200/50 whitespace-pre-wrap shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-                    {selectedProduct.efficacy || '등록된 정보가 없습니다.'}
+                    {selectedProduct.efficacy || isEnglish ? 'No information registered.' : '등록된 정보가 없습니다.'}
                   </div>
                 </div>
               </div>

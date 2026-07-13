@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import KakaoMap from './KakaoMap';
 import { Landmark, Building2, Factory, Train, BusFront } from 'lucide-react';
 
@@ -94,6 +95,8 @@ const locations: LocationInfo[] = [
 ];
 
 export default function LocationMapSection({ dbContent, hideBackButton = false }: { dbContent?: string | null, hideBackButton?: boolean }) {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
   const [activeTab, setActiveTab] = useState<string>('seoul');
 
   useEffect(() => {
@@ -104,7 +107,83 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
     }
   }, []);
 
-  let displayLocations = locations;
+  
+  const enLocations = [
+    {
+      id: 'seoul',
+      name: 'Seoul Headquarters',
+      subName: 'Management, Overseas Sales, Marketing Strategy Dept.',
+      lat: 37.5186,
+      lng: 126.8906,
+      placeName: 'Dasan Pharmaceutical Seoul Headquarters',
+      address: '#1302, Woori Venture Town II, 70 Seonyu-ro, Yeongdeungpo-gu, Seoul',
+      tel: '02-2627-5300',
+      subway: [
+        '8 mins walk from Exit 3, Mullae Stn, Line 2',
+        '10 mins walk from Exit 6, Yeongdeungpo-gu Office Stn, Lines 2/5'
+      ],
+      bus: [
+        'Get off at Woori Venture Town stop',
+        'Branch 6625, 6640A / Village Yeongdeungpo05'
+      ]
+    },
+    {
+      id: 'suwon',
+      name: 'Suwon R&D Center',
+      subName: 'DDS Formulation R&D, Organic Synthesis R&D',
+      lat: 37.266205,
+      lng: 127.054366,
+      placeName: 'Dasan Pharmaceutical Suwon R&D Center',
+      address: '#306, Innoplex Bldg 3, 304 Sinwon-ro, Yeongtong-gu, Suwon-si, Gyeonggi-do',
+      tel: '031-546-8200',
+      subway: [
+        'Transfer to city bus after getting off at Yeongtong Stn or Cheongmyeong Stn (Suin-Bundang Line)',
+        '15 mins walk from Exit 4, Mangpo Stn (Suin-Bundang Line) (or transfer to bus)'
+      ],
+      bus: [
+        'Get off at Innoplex stop',
+        'General 62-1, 82-1, 99 / Village 55'
+      ]
+    },
+    {
+      id: 'asan1',
+      name: 'Asan Plant 1',
+      subName: 'Finished Products Production Center',
+      lat: 36.7589,
+      lng: 126.8687,
+      placeName: 'Dasan Pharmaceutical Asan Plant 1',
+      address: '342 Deogam-sanro, Dogo-myeon, Asan-si, Chungcheongnam-do',
+      tel: '041-543-5311',
+      subway: [
+        'Take a taxi after getting off at Sinchang Stn (Line 1) (approx. 10 mins)',
+        'Take a taxi after getting off at Dogo Oncheon Stn (Janghang Line)'
+      ],
+      bus: [
+        '2 mins walk after getting off at Wasan 1-ri stop',
+        'Use Asan city bus 400 series routes'
+      ]
+    },
+    {
+      id: 'asan2',
+      name: 'Asan Plant 2',
+      subName: 'State-of-the-art Smart Packaging & Mass Production Line',
+      lat: 36.7621,
+      lng: 126.8698,
+      placeName: 'Dasan Pharmaceutical Asan Plant 2',
+      address: '381 Deogam-sanro, Dogo-myeon, Asan-si, Chungcheongnam-do',
+      tel: '041-428-9484',
+      subway: [
+        'Take a taxi after getting off at Sinchang Stn (Line 1) (approx. 10 mins)',
+        'Take a taxi after getting off at Dogo Oncheon Stn (Janghang Line)'
+      ],
+      bus: [
+        '2 mins walk after getting off at Wasan 1-ri stop',
+        'Use Asan city bus 400 series routes'
+      ]
+    }
+  ];
+
+  let displayLocations = isEnglish ? enLocations : locations;
 
   if (dbContent) {
     const lines = dbContent.split('\n');
@@ -204,7 +283,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
             <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            <span>이전페이지로 가기</span>
+            <span>{isEnglish ? "Go back" : "이전페이지로 가기"}</span>
           </Link>
         )}
       </div>
@@ -217,7 +296,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
             <div className="flex items-center space-x-2.5 text-brand-green">
               {getIcon(activeLoc.id, 20)}
               <h4 className="font-extrabold text-brand-blue text-lg md:text-xl">
-                {activeLoc.placeName} 오시는 길
+                {activeLoc.placeName} {isEnglish ? "Directions" : "오시는 길"}
               </h4>
             </div>
             <p className="text-xs text-gray-500 font-bold pl-7">
@@ -226,7 +305,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
           </div>
           <div className="text-right text-xs pl-7 md:pl-0">
             <p className="text-gray-700 font-semibold">{activeLoc.address}</p>
-            <p className="text-gray-500 font-bold mt-1">대표번호: {activeLoc.tel}</p>
+            <p className="text-gray-500 font-bold mt-1">{isEnglish ? "Main Number" : "대표번호"}: {activeLoc.tel}</p>
           </div>
         </div>
 
@@ -248,7 +327,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
           <div className="p-5 bg-[#FAFBFB] border border-gray-150 rounded-2xl space-y-3">
             <div className="flex items-center space-x-2 text-brand-green font-bold">
               <Train size={18} />
-              <h5 className="text-brand-blue text-sm font-extrabold">지하철/철도 이용 시</h5>
+              <h5 className="text-brand-blue text-sm font-extrabold">{isEnglish ? "By Subway/Train" : "지하철/철도 이용 시"}</h5>
             </div>
             <ul className="space-y-1.5 pl-6 list-disc text-gray-600 font-semibold">
               {activeLoc.subway.map((item, idx) => (
@@ -261,7 +340,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
           <div className="p-5 bg-[#FAFBFB] border border-gray-150 rounded-2xl space-y-3">
             <div className="flex items-center space-x-2 text-brand-green font-bold">
               <BusFront size={18} />
-              <h5 className="text-brand-blue text-sm font-extrabold">버스 이용 시</h5>
+              <h5 className="text-brand-blue text-sm font-extrabold">{isEnglish ? "By Bus" : "버스 이용 시"}</h5>
             </div>
             <ul className="space-y-1.5 pl-6 list-disc text-gray-600 font-semibold">
               {activeLoc.bus.map((item, idx) => (

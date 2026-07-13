@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Eye, Download } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 interface NewsItem {
   id: number;
@@ -35,14 +36,14 @@ const isHtml = (str: string) => {
   return /<[a-z][\s\S]*>/i.test(str);
 };
 
-const parseJobContent = (item: NewsItem): JobParsed => {
+const parseJobContent = (item: NewsItem, isEnglish: boolean = false): JobParsed => {
   if (!item.content || !item.content.includes('|')) {
     return {
       id: item.id,
-      type: '공통',
+      type: isEnglish ? 'Common' : '공통',
       title: item.title,
-      qualifications: '상세내용 참조',
-      deadline: '상시채용',
+      qualifications: isEnglish ? 'See Details' : '상세내용 참조',
+      deadline: isEnglish ? 'Continuous Hiring' : '상시채용',
       description: item.content || '',
       created_at: item.created_at,
       views: item.views,
@@ -70,6 +71,9 @@ const parseJobContent = (item: NewsItem): JobParsed => {
 };
 
 export default function JobList({ initialJobs }: JobListProps) {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
+
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [jobs, setJobs] = useState<NewsItem[]>(initialJobs);
 
@@ -119,16 +123,16 @@ export default function JobList({ initialJobs }: JobListProps) {
 
   return (
     <div className="w-full space-y-6">
-      <h4 className="font-bold text-brand-blue text-base">진행 중인 상시/정기 공고 ({jobs.length})</h4>
+      <h4 className="font-bold text-brand-blue text-base">{isEnglish ? `Ongoing Regular/Permanent Openings (${jobs.length})` : `진행 중인 상시/정기 공고 (${jobs.length})`}</h4>
       <div className="w-full overflow-x-auto">
         <table className="w-full min-w-[650px] border-collapse border-t-2 border-t-brand-green text-sm text-left">
           <thead>
             <tr className="border-b border-gray-200 bg-gray-50 text-gray-700 text-xs md:text-sm font-bold">
-              <th className="py-4 px-4 text-center w-[12%]">채용구분</th>
-              <th className="py-4 px-4 text-left w-[45%]">공고명</th>
-              <th className="py-4 px-4 text-left w-[25%]">자격요건</th>
-              <th className="py-4 px-4 text-center w-[10%]">마감일</th>
-              <th className="py-4 px-4 text-center w-[8%]">조회수</th>
+              <th className="py-4 px-4 text-center w-[12%]">{isEnglish ? "Type" : "채용구분"}</th>
+              <th className="py-4 px-4 text-left w-[45%]">{isEnglish ? "Title" : "공고명"}</th>
+              <th className="py-4 px-4 text-left w-[25%]">{isEnglish ? "Requirements" : "자격요건"}</th>
+              <th className="py-4 px-4 text-center w-[10%]">{isEnglish ? "Deadline" : "마감일"}</th>
+              <th className="py-4 px-4 text-center w-[8%]">{isEnglish ? "Views" : "조회수"}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 bg-white">
@@ -198,14 +202,14 @@ export default function JobList({ initialJobs }: JobListProps) {
                               <div className="pt-4 border-t border-gray-100 flex justify-start">
                                 <a
                                   href={parsed.file_url}
-                                  download={parsed.file_name || '첨부파일'}
+                                  download={parsed.file_name || (isEnglish ? 'Attachment' : '첨부파일')}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="flex items-center space-x-2 text-xs md:text-sm text-gray-500 hover:text-brand-green bg-gray-50 hover:bg-gray-100 px-3.5 py-2 rounded-lg border border-gray-200 transition-colors font-bold"
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   <Download size={14} />
-                                  <span className="truncate max-w-[250px]">{parsed.file_name || '채용 공고문 다운로드'}</span>
+                                  <span className="truncate max-w-[250px]">{parsed.file_name || (isEnglish ? 'Download Job Posting' : '채용 공고문 다운로드')}</span>
                                 </a>
                               </div>
                             )}
@@ -219,7 +223,7 @@ export default function JobList({ initialJobs }: JobListProps) {
             ) : (
               <tr>
                 <td colSpan={5} className="text-center py-16 text-gray-400 bg-gray-50/50 rounded-2xl">
-                  진행 중인 채용공고가 없습니다.
+                  {isEnglish ? "No ongoing job openings." : "진행 중인 채용공고가 없습니다."}
                 </td>
               </tr>
             )}

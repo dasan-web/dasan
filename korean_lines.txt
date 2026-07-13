@@ -1,0 +1,104 @@
+135: // Parse competencies (그림1)
+149: // Parse vision (그림2)
+170: // Parse values (그림3)
+191: // Parse philosophy (그림4)
+219: // Parse culture (그림5)
+305: // 1. Corporate Philosophy and Core Values, 2. CEO Message 등 Main Title
+311: // Sub Title (다산의 정신으로..., With trust and innovation..., 4 Major Management Philosophies)
+395: 연구개발(R&D)부터 판매까지 의약품 전 주기의 <strong className="font-bold text-gray-900">Key Value Chain</strong> 인프라를 구축하여 고부가가치 사업 성장성을 확보하고 있습니다
+608: '복잡한 패턴 위에 로고를 적용하는 경우',
+609: '채도가 유사한 배경색에 로고를\n적용하는 경우',
+610: '복잡한 이미지 위에 로고를 적용하는 경우',
+611: '로고에 그림자를 적용하는경우'
+656: <h4 className="text-lg font-bold text-[#2A5C43] mb-3">심볼마크의 의미</h4>
+691: <span className="font-bold text-white bg-[#2A5C43] px-3 py-1 rounded-full shadow-sm text-[11px] tracking-wider">인쇄용</span>
+717: 로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해 단독 적용 시 Min 사용 여백을 유지해야 합니다. 표시된 심볼 주변 공간은 Min 여백을 나타내며 이 공간에는 다른 요소가 나타나지 않도록 적용하여야 합니다.<br/>
+718: <strong>(서브 로고형도 동일하게 적용합니다.)</strong>
+721: Min 공간 규정의 기준 단위(X)는 심볼(육각형)의 절반 높이를 기준으로 설정한 가상선과 워드마크(DASAN) 상단 간의 거리에서 도출하였습니다. 이는 심볼과 워드마크간의 구조적 비례 관계를 반영한 값으로, 로고의 일체감과 시각적 균형을 유지하기 위한 기준입니다.
+726: <li>심볼(육각형) 높이를 잽니다.</li>
+727: <li>그 절반 위치에 가상의 수평선을 긋습니다.</li>
+728: <li>그 선부터 DASAN 상단까지 거리 = X</li>
+754: <span className="inline-block border border-white/40 rounded-full px-3 py-1 text-[10px] mb-3 text-center w-full bg-white/5">인쇄 기준용</span>
+759: <span className="inline-block border border-white/40 rounded-full px-3 py-1 text-[10px] mb-3 text-center w-full bg-white/5">Digital 화면용</span>
+784: let facIntro = '연구개발에서 생산, 글로벌 시장 진출까지 유기적으로 연결된 다산제약의 핵심 거점입니다.';
+810: 글로벌 인프라 현황 (Global Infrastructure)
+818: {/* 본사 (HQ) */}
+826: <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">본사</h4>
+831: <span className="text-sm text-brand-green font-bold block mb-2">서울 영등포구 선유로 70</span>
+832: <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">경영, 영업, 구매, 사업개발 등 지속 가능한 미래 성장 전략 수립</p>
+837: {/* R&D 네트워크 */}
+845: <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">R&D 네트워크</h4>
+851: 다산 중앙연구소
+852: <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">경기 수원시</span>
+854: <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-4">제제 및 합성 관련 연구시설을 갖추고 연구개발 총괄</p>
+858: 중국 심양연구소
+859: <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-bold">중국 심양시</span>
+861: <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">중국 내 연구, 허가, 사업개발을 담당하는 글로벌 영토 확장의 전초기지</p>
+866: {/* 글로벌 생산 기지 */}
+874: <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">글로벌 생산 기지</h4>
+880: 아산 제1공장 / 제2공장
+881: <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">충남 아산시</span>
+884: 원료 및 완제의약품, 내용고형제 대량 생산 체계 구축
+885: <span className="inline-block text-brand-blue font-bold text-[11px] ml-2 bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP 인증 완료</span>
+891: <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-bold">중국 안휘성</span>
+893: <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">연간 약 40억 정의 생산 능력을 갖춘 중국 현지 전진 생산 기지</p>
+899: {/* 찾아오시는 길 & 지도 */}
+901: <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-8">찾아오시는 길</h3>
+918: const title = parts[0] || '지속 가능한 비즈니스를 위한 ESG 선언';
+935: (입력된 문구가 여기에 표시됩니다)
+962: <h4 className="text-lg font-bold">지속 가능한 비즈니스를 위한 ESG 선언</h4>
+972: <h4 className="text-lg font-bold">지속 가능한 비즈니스를 위한 ESG 선언</h4>
+975: 다산제약은 신약 개발을 통한 보건 기여뿐만 아니라 미래 세대를 위한 친환경 공정 도입, 철저한 안전 보건 관리, 투명하고 정의로운 윤리경영 실현을 약속합니다.
+978: <p><strong>E (Environment)</strong>: 친환경 고효율 정화 시스템 가동 및 에너지 사용 절감 목표 수립</p>
+979: <p><strong>S (Social)</strong>: 임직원 안전을 위한 ISO45001(안전보건경영) 시스템 정밀 준수 및 정기 검진</p>
+980: <p><strong>G (Governance)</strong>: 부패 방지 가이드라인 실천과 임직원 자율적 공정거래 자율준수 프로그램(CP) 교육 의무화</p>
+991: let title = '주주 중심 경영과 공정한 기업 가치 평가';
+992: let desc = '다산제약의 경영 실적 및 투자 공시 자료는 관련 법령에 의거하여 명확하고 성실하게 공개되고 있습니다. 주주 및 투자자 여러분의 이해를 돕기 위해 실시간 재무 핵심 지표를 제공합니다.';
+995: let financialHeaders = ['2023년 (개별)', '2024년 (개별)', '2025년 (연결)'];
+996: let salesRow = ['매출액', '79,300', '93,800', '106,900'];
+997: let profitRow = ['영업이익', '2,400', '6,200', '1,400'];
+998: let rdRow = ['R&D 투자액', '9,500', '12,000', '13,500'];
+1002: ['유동자산', '46,300', '52,524', '61,500'],
+1003: ['비유동자산', '108,300', '130,015', '140,300'],
+1004: ['자산총계', '154,600', '182,539', '201,800'],
+1005: ['유동부채', '78,200', '92,400', '101,400'],
+1006: ['비유동부채', '45,300', '53,800', '57,800'],
+1007: ['부채총계', '123,500', '146,200', '159,200'],
+1008: ['자본금', '10,000', '10,000', '10,000'],
+1009: ['자본잉여금', '8,200', '8,200', '8,200'],
+1010: ['기타자본', '-500', '-500', '-500'],
+1011: ['이익잉여금', '13,100', '18,339', '24,600'],
+1012: ['비지배지분', '300', '300', '300'],
+1013: ['자본총계', '31,100', '36,339', '42,600']
+1017: ['유동자산', '44,500', '50,200', '59,200'],
+1018: ['비유동자산', '106,700', '128,200', '139,300'],
+1019: ['자산총계', '151,200', '178,400', '198,500'],
+1020: ['유동부채', '76,800', '89,500', '99,400'],
+1021: ['비유동부채', '43,600', '52,860', '56,800'],
+1022: ['부채총계', '120,400', '142,360', '156,200'],
+1023: ['자본금', '10,000', '10,000', '10,000'],
+1024: ['자본잉여금', '8,200', '8,200', '8,200'],
+1025: ['기타자본', '-500', '-500', '-500'],
+1026: ['이익잉여금', '13,100', '18,340', '24,600'],
+1027: ['자본총계', '30,800', '36,040', '42,300']
+1031: ['매출액', '79,300', '93,800', '106,900'],
+1032: ['영업이익', '2,400', '6,200', '1,400'],
+1033: ['법인세차감전순이익', '2,800', '8,600', '1,300'],
+1034: ['당기순이익', '2,300', '7,900', '1,100']
+1038: ['매출액', '78,500', '92,700', '105,200'],
+1039: ['영업이익', '2,300', '6,100', '1,300'],
+1040: ['법인세차감전순이익', '2,700', '8,400', '1,200'],
+1041: ['당기순이익', '2,200', '7,700', '1,000']
+1058: // Parse 연결 재무상태표 (12 rows: lines[6] to lines[17])
+1064: // Parse 별도 재무상태표 (11 rows: lines[18] to lines[28])
+1070: // Parse 연결 손익계산서 (4 rows: lines[29] to lines[32])
+1076: // Parse 별도 손익계산서 (4 rows: lines[33] to lines[36])
+1116: <th className="p-3 border-b border-r border-gray-400 font-bold">재무 항목 (단위: 백만원)</th>
+1127: <td className="p-3 border-b border-r border-gray-400 font-bold text-brand-green-dark">{salesRow[0] || '매출액'}</td>
+1136: <td className="p-3 border-r border-gray-400 font-bold text-brand-green-dark">{profitRow[0] || '영업이익'}</td>
+1172: title: '2026년 제1분기 재무 성과 요약 및 IR 공시 안내',
+1173: content: '1분기 매출 증가율 및 연구개발 R&D 투자 비율 등 핵심 재무 실적이 공시 정보에 공식적으로 반영되었습니다.',
+1180: title: '2026년도 정기 주주총회 소집 공고',
+1181: content: '정기 주주총회 소집 장소 및 의결 사항 등 상세 정보 안내문입니다.',
+1191: <p className="text-gray-500 text-sm">다산제약의 기업 성과 및 주요 IR 공시 보도 소식입니다.</p>
+1202: 상세 정보를 준비 중입니다.

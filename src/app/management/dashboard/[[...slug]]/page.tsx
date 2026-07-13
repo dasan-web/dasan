@@ -3842,7 +3842,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                     const dataLines = lines.slice(1);
                                     
                                     const eras: { titleLine: string; yearStart: number; years: { line: string; yearNum: number }[] }[] = [];
-                                    let currentEra = null;
+                                    let currentEra: { titleLine: string; yearStart: number; years: { line: string; yearNum: number }[] } | null = null;
                                     
                                     for (let line of dataLines) {
                                       const trimmed = line.trim();

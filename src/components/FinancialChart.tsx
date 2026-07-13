@@ -8,6 +8,7 @@ interface FinancialChartProps {
   subCategory: 'consolidated' | 'separate';
   years: string[];
   data: string[][];
+  isEnglish?: boolean;
 }
 
 export default function FinancialChart({
@@ -15,6 +16,7 @@ export default function FinancialChart({
   subCategory,
   years,
   data,
+  isEnglish = false,
 }: FinancialChartProps) {
   // Parse string values (e.g., "154,600" -> 154600)
   const parseValue = (valStr: string): number => {
@@ -31,16 +33,22 @@ export default function FinancialChart({
 
   // Determine which rows to chart based on category
   const targetLabels = category === 'bs' 
-    ? ['자산총계', '부채총계', '자본총계'] 
-    : ['매출액', '영업이익', '당기순이익'];
+    ? (isEnglish ? ['Total Assets', 'Total Liabilities', 'Total Equity'] : ['자산총계', '부채총계', '자본총계'])
+    : (isEnglish ? ['Sales', 'Operating Profit', 'Net Income'] : ['매출액', '영업이익', '당기순이익']);
 
   const colors: Record<string, { bg: string; fill: string; text: string }> = {
     '자산총계': { bg: 'bg-brand-green', fill: '#379A35', text: 'text-brand-green-dark' },
+    'Total Assets': { bg: 'bg-brand-green', fill: '#379A35', text: 'text-brand-green-dark' },
     '부채총계': { bg: 'bg-amber-500', fill: '#F59E0B', text: 'text-amber-600' },
+    'Total Liabilities': { bg: 'bg-amber-500', fill: '#F59E0B', text: 'text-amber-600' },
     '자본총계': { bg: 'bg-red-500', fill: '#EF4444', text: 'text-red-600' },
+    'Total Equity': { bg: 'bg-red-500', fill: '#EF4444', text: 'text-red-600' },
     '매출액': { bg: 'bg-brand-green', fill: '#379A35', text: 'text-brand-green-dark' },
+    'Sales': { bg: 'bg-brand-green', fill: '#379A35', text: 'text-brand-green-dark' },
     '영업이익': { bg: 'bg-amber-500', fill: '#F59E0B', text: 'text-amber-600' },
+    'Operating Profit': { bg: 'bg-amber-500', fill: '#F59E0B', text: 'text-amber-600' },
     '당기순이익': { bg: 'bg-red-500', fill: '#EF4444', text: 'text-red-600' },
+    'Net Income': { bg: 'bg-red-500', fill: '#EF4444', text: 'text-red-600' },
   };
 
   // Extract row data
@@ -78,10 +86,10 @@ export default function FinancialChart({
         <h5 className="text-xs sm:text-sm font-bold text-gray-800 flex items-center space-x-1.5 flex-wrap">
           <span className="w-1.5 h-3 bg-brand-green rounded-full animate-pulse"></span>
           <span>
-            {category === 'bs' ? '재무구조' : '당기순이익 추이'}
-            {subCategory === 'consolidated' ? ' (연결)' : ' (별도)'}
+            {category === 'bs' ? (isEnglish ? 'Financial Structure' : '재무구조') : (isEnglish ? 'Net Income Trend' : '당기순이익 추이')}
+            {subCategory === 'consolidated' ? (isEnglish ? ' (Consolidated)' : ' (연결)') : (isEnglish ? ' (Separate)' : ' (별도)')}
           </span>
-          <span className="text-[10px] text-gray-500 font-medium ml-1 sm:ml-1.5">(단위: 백만원)</span>
+          <span className="text-[10px] text-gray-500 font-medium ml-1 sm:ml-1.5">{isEnglish ? '(Unit: Million KRW)' : '(단위: 백만원)'}</span>
         </h5>
         {/* Legend */}
         <div className="flex space-x-3 text-[10px] font-bold text-gray-500">
@@ -97,7 +105,7 @@ export default function FinancialChart({
       {/* SVG Bar Chart Area */}
       <div className="relative pt-4 pl-12 pr-4 pb-2">
         {/* Y Axis Unit Label */}
-        <span className="absolute left-1 top-[20px] text-[8px] text-gray-400 font-semibold font-sans">(단위: 억원)</span>
+        <span className="absolute left-1 top-[20px] text-[8px] text-gray-400 font-semibold font-sans">{isEnglish ? '(100M KRW)' : '(단위: 억원)'}</span>
         {/* Groups of Bars */}
         <div className="h-[200px] flex items-end justify-around relative z-10 pt-4">
           {/* Y Axis Grid Lines - Positioned to align perfectly with the h-[130px] bar wrappers */}

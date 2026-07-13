@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Eye, Download } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 interface NewsItem {
   id: number;
@@ -23,6 +24,9 @@ const isHtml = (str: string) => {
 };
 
 export default function PressList({ initialNews }: PressListProps) {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
+
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [newsList, setNewsList] = useState<NewsItem[]>(initialNews);
 
@@ -70,10 +74,10 @@ export default function PressList({ initialNews }: PressListProps) {
       <table className="w-full min-w-[650px] border-collapse border-t-2 border-t-brand-green text-sm text-left">
         <thead>
           <tr className="border-b border-gray-200 bg-gray-50 text-gray-700 text-xs md:text-sm font-bold">
-            <th className="py-4 px-4 text-center w-[10%]">번호</th>
-            <th className="py-4 px-4 text-left w-[60%]">제목</th>
-            <th className="py-4 px-4 text-center w-[18%]">등록일</th>
-            <th className="py-4 px-4 text-center w-[12%]">조회수</th>
+            <th className="py-4 px-4 text-center w-[10%]">{isEnglish ? "No." : "번호"}</th>
+            <th className="py-4 px-4 text-left w-[60%]">{isEnglish ? "Title" : "제목"}</th>
+            <th className="py-4 px-4 text-center w-[18%]">{isEnglish ? "Date" : "등록일"}</th>
+            <th className="py-4 px-4 text-center w-[12%]">{isEnglish ? "Views" : "조회수"}</th>
           </tr>
         </thead>
         <tbody className="bg-white">
@@ -117,7 +121,7 @@ export default function PressList({ initialNews }: PressListProps) {
                       <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm animate-fade-in">
                         <div className="flex items-center space-x-1 text-xs text-brand-green font-bold mb-3 uppercase tracking-wider">
                           <Eye size={12} />
-                          <span>보도자료 상세 내용</span>
+                          <span>{isEnglish ? "Press Release Details" : "보도자료 상세 내용"}</span>
                         </div>
                         {isHtml(item.content) ? (
                           <div 
@@ -133,14 +137,14 @@ export default function PressList({ initialNews }: PressListProps) {
                           <div className="mt-5 pt-4 border-t border-gray-100 flex justify-start">
                             <a
                               href={item.file_url}
-                              download={item.file_name || '첨부파일'}
+                              download={item.file_name || (isEnglish ? 'Attachment' : '첨부파일')}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center space-x-2 text-xs md:text-sm text-gray-500 hover:text-brand-green bg-gray-50 hover:bg-gray-100 px-3 py-2 rounded-lg border border-gray-200 transition-colors font-bold"
                               onClick={(e) => e.stopPropagation()}
                             >
                               <Download size={14} />
-                              <span className="truncate max-w-[250px]">{item.file_name || '첨부파일 다운로드'}</span>
+                              <span className="truncate max-w-[250px]">{item.file_name || (isEnglish ? 'Download Attachment' : '첨부파일 다운로드')}</span>
                             </a>
                           </div>
                         )}

@@ -11,6 +11,7 @@ interface DetailedFinancialTablesProps {
   consolidatedIS: string[][];
   separateIS: string[][];
   years: string[];
+  isEnglish?: boolean;
 }
 
 export default function DetailedFinancialTables({
@@ -19,25 +20,26 @@ export default function DetailedFinancialTables({
   consolidatedIS,
   separateIS,
   years,
+  isEnglish = false,
 }: DetailedFinancialTablesProps) {
   const [activeCategory, setActiveCategory] = useState<'bs' | 'is'>('bs');
   const [subCategory, setSubCategory] = useState<'consolidated' | 'separate'>('consolidated');
 
-  const highlightRowsBS = ['자산총계', '부채총계', '자본총계'];
-  const highlightRowsIS = ['영업이익', '당기순이익'];
+  const highlightRowsBS = ['자산총계', '부채총계', '자본총계', 'Total Assets', 'Total Liabilities', 'Total Equity'];
+  const highlightRowsIS = ['영업이익', '당기순이익', 'Operating Profit', 'Net Income'];
 
   const renderTable = (title: string, data: string[][], isBS: boolean = false) => {
     return (
       <div className="space-y-2">
         <div className="flex items-end justify-between px-1">
           <span className="text-xs sm:text-sm font-bold text-gray-800">{title}</span>
-          <span className="text-[10px] text-gray-500 font-medium">(단위: 백만원)</span>
+          <span className="text-[10px] text-gray-500 font-medium">{isEnglish ? '(Unit: Million KRW)' : '(단위: 백만원)'}</span>
         </div>
         <div className="overflow-x-auto border border-gray-400 rounded-lg shadow-none">
           <table className="w-full text-xs min-w-[500px] border-collapse">
             <thead className="bg-brand-green text-white uppercase">
               <tr>
-                <th className="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">구분</th>
+                <th className="p-2 font-bold text-center border-b border-r border-gray-400 w-1/4">{isEnglish ? 'Category' : '구분'}</th>
                 {years.map((year, idx) => {
                   const cleanYear = year
                     .replace('년', '')
@@ -45,6 +47,8 @@ export default function DetailedFinancialTables({
                     .replace(')', '')
                     .replace('개별', '')
                     .replace('연결', '')
+                    .replace('Separate', '')
+                    .replace('Consolidated', '')
                     .trim();
                   const isLastCol = idx === years.length - 1;
                   return (
@@ -118,7 +122,7 @@ export default function DetailedFinancialTables({
               : 'text-gray-400 border-transparent hover:text-gray-650 hover:bg-gray-50'
           }`}
         >
-          재무상태표 (Balance Sheet)
+          {isEnglish ? 'Balance Sheet' : '재무상태표 (Balance Sheet)'}
         </button>
         <button
           onClick={() => setActiveCategory('is')}
@@ -128,7 +132,7 @@ export default function DetailedFinancialTables({
               : 'text-gray-400 border-transparent hover:text-gray-650 hover:bg-gray-50'
           }`}
         >
-          손익계산서 (Income Statement)
+          {isEnglish ? 'Income Statement' : '손익계산서 (Income Statement)'}
         </button>
       </div>
 
@@ -141,7 +145,7 @@ export default function DetailedFinancialTables({
           >
             <Layers size={13} className={subCategory === 'consolidated' ? 'text-brand-green-dark' : 'text-gray-450'} />
             <span className={subCategory === 'consolidated' ? 'text-brand-green-dark font-extrabold' : 'text-gray-500 hover:text-gray-700'}>
-              연결 재무제표 (Consolidated)
+              {isEnglish ? 'Consolidated' : '연결 재무제표 (Consolidated)'}
             </span>
             {subCategory === 'consolidated' && (
               <motion.div
@@ -157,7 +161,7 @@ export default function DetailedFinancialTables({
           >
             <FileText size={13} className={subCategory === 'separate' ? 'text-brand-green-dark' : 'text-gray-455'} />
             <span className={subCategory === 'separate' ? 'text-brand-green-dark font-extrabold' : 'text-gray-500 hover:text-gray-700'}>
-              별도 재무제표 (Separate)
+              {isEnglish ? 'Separate' : '별도 재무제표 (Separate)'}
             </span>
             {subCategory === 'separate' && (
               <motion.div
@@ -180,6 +184,7 @@ export default function DetailedFinancialTables({
             ? (subCategory === 'consolidated' ? consolidatedBS : separateBS)
             : (subCategory === 'consolidated' ? consolidatedIS : separateIS)
         }
+        isEnglish={isEnglish}
       />
 
       {/* Panels */}
@@ -188,14 +193,14 @@ export default function DetailedFinancialTables({
         <div className={`space-y-8 ${activeCategory === 'bs' ? 'block' : 'hidden print:block'}`}>
           <div className="space-y-6">
             <h4 className="text-sm sm:text-base font-extrabold text-brand-blue border-l-4 border-brand-green pl-3">
-              재무상태표 (Balance Sheet)
+              {isEnglish ? 'Balance Sheet' : '재무상태표 (Balance Sheet)'}
             </h4>
             <div className="space-y-8">
               <div className={subCategory === 'consolidated' ? 'block' : 'hidden print:block'}>
-                {renderTable('[연결 재무상태표]', consolidatedBS, true)}
+                {renderTable(isEnglish ? '[Consolidated Balance Sheet]' : '[연결 재무상태표]', consolidatedBS, true)}
               </div>
               <div className={subCategory === 'separate' ? 'block' : 'hidden print:block'}>
-                {renderTable('[별도 재무상태표]', separateBS, true)}
+                {renderTable(isEnglish ? '[Separate Balance Sheet]' : '[별도 재무상태표]', separateBS, true)}
               </div>
             </div>
           </div>
@@ -205,14 +210,14 @@ export default function DetailedFinancialTables({
         <div className={`space-y-8 mt-8 print:mt-12 ${activeCategory === 'is' ? 'block' : 'hidden print:block'}`}>
           <div className="space-y-6">
             <h4 className="text-sm sm:text-base font-extrabold text-brand-blue border-l-4 border-brand-green pl-3">
-              손익계산서 (Income Statement)
+              {isEnglish ? 'Income Statement' : '손익계산서 (Income Statement)'}
             </h4>
             <div className="space-y-8">
               <div className={subCategory === 'consolidated' ? 'block' : 'hidden print:block'}>
-                {renderTable('[연결 손익계산서]', consolidatedIS, false)}
+                {renderTable(isEnglish ? '[Consolidated Income Statement]' : '[연결 손익계산서]', consolidatedIS, false)}
               </div>
               <div className={subCategory === 'separate' ? 'block' : 'hidden print:block'}>
-                {renderTable('[별도 손익계산서]', separateIS, false)}
+                {renderTable(isEnglish ? '[Separate Income Statement]' : '[별도 손익계산서]', separateIS, false)}
               </div>
             </div>
           </div>

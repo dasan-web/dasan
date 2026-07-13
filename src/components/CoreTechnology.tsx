@@ -3,12 +3,15 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import ScrollReveal from '@/components/ScrollReveal';
 
 export default function CoreTechnology() {
   // State to handle bidirectional highlights between left diagram and right grid sections
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+  const pathname = usePathname();
+  const isEnglish = pathname ? pathname.startsWith('/en') : false;
 
   return (
     <section id="core-tech" className="pt-16 pb-6 md:pt-24 md:pb-8 bg-white">
@@ -17,8 +20,12 @@ export default function CoreTechnology() {
         <ScrollReveal y={50} duration={1.2}>
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-pretendard font-extrabold text-gray-900 tracking-tight leading-snug md:whitespace-nowrap">
-              다산제약은 <span className="text-brand-green font-extrabold">핵심 기술</span>을 통하여{' '}
-              <span className="text-brand-green font-extrabold">글로벌 DDS</span> 기업으로 성장하고 있습니다.
+              {isEnglish ? (
+                <>Dasan Pharmaceutical is growing into a <span className="text-brand-green font-extrabold">global DDS</span> company through <span className="text-brand-green font-extrabold">core technology</span>.</>
+              ) : (
+                <>다산제약은 <span className="text-brand-green font-extrabold">핵심 기술</span>을 통하여{' '}
+                <span className="text-brand-green font-extrabold">글로벌 DDS</span> 기업으로 성장하고 있습니다.</>
+              )}
             </h2>
           </div>
         </ScrollReveal>
@@ -68,9 +75,7 @@ export default function CoreTechnology() {
                   <div className="text-[10px] md:text-sm font-extrabold text-brand-green mb-0.5">
                     01
                   </div>
-                  <h4 suppressHydrationWarning className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">
-                    1st Generic품목
-                  </h4>
+                  <h4 suppressHydrationWarning className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">{isEnglish ? '1st Generic' : '1st Generic품목'}</h4>
                 </motion.div>
                 {/* Content Box (Below line at y=45) */}
                 <motion.div
@@ -85,7 +90,7 @@ export default function CoreTechnology() {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.5 }}
                 >
                   <p className="text-[9px] sm:text-xs md:text-sm lg:text-base text-gray-500 leading-relaxed font-semibold">
-                    · 핵심공정 ODM품목<br />· 전공정 ODM품목
+                    {isEnglish ? (<>· Core Process ODM<br />· Full Process ODM</>) : (<>· 핵심공정 ODM품목<br />· 전공정 ODM품목</>)}
                   </p>
                 </motion.div>
  
@@ -106,7 +111,7 @@ export default function CoreTechnology() {
                     02
                   </div>
                   <h4 className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">
-                    개량신약(염 변경)
+                    {isEnglish ? 'IMD (Salt Change)' : '개량신약(염 변경)'}
                   </h4>
                 </motion.div>
                 {/* Content Box (Below line at y=45) */}
@@ -122,7 +127,7 @@ export default function CoreTechnology() {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.5 }}
                 >
                   <p className="text-[9px] sm:text-xs md:text-sm lg:text-base text-gray-500 leading-relaxed font-semibold">
-                    · 핵심공정 ODM품목<br />· 전공정 ODM품목
+                    {isEnglish ? (<>· Core Process ODM<br />· Full Process ODM</>) : (<>· 핵심공정 ODM품목<br />· 전공정 ODM품목</>)}
                   </p>
                 </motion.div>
  
@@ -143,7 +148,7 @@ export default function CoreTechnology() {
                     03
                   </div>
                   <h4 className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">
-                    개량신약(약물방출)
+                    {isEnglish ? 'IMD (Drug Release)' : '개량신약(약물방출)'}
                   </h4>
                 </motion.div>
                 {/* Content Box (Below line at y=555) */}
@@ -159,7 +164,7 @@ export default function CoreTechnology() {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.7 }}
                 >
                   <p className="text-[9px] sm:text-xs md:text-sm lg:text-base text-gray-500 leading-relaxed font-semibold mb-1">
-                    · 약물방출 조절 개량신약<br />· 고함량 개량신약
+                    {isEnglish ? (<>· Controlled Release IMD<br />· High Dose IMD</>) : (<>· 약물방출 조절 개량신약<br />· 고함량 개량신약</>)}
                   </p>
                 </motion.div>
  
@@ -180,7 +185,7 @@ export default function CoreTechnology() {
                     04
                   </div>
                   <h4 className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">
-                    개량신약(복합제 & 기타)
+                    {isEnglish ? 'IMD (Combination & Others)' : '개량신약(복합제 & 기타)'}
                   </h4>
                 </motion.div>
                 {/* Content Box (Below line at y=555) */}
@@ -196,7 +201,7 @@ export default function CoreTechnology() {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.7 }}
                 >
                   <p className="text-[9px] sm:text-xs md:text-sm lg:text-base text-gray-500 leading-relaxed font-semibold mb-1">
-                    · 복합제제 개량신약<br />· 제형변경(기타)
+                    {isEnglish ? (<>· Combination IMD<br />· Formulation Change (Others)</>) : (<>· 복합제제 개량신약<br />· 제형변경(기타)</>)}
                   </p>
                 </motion.div>
                    
@@ -380,16 +385,14 @@ export default function CoreTechnology() {
                     <div className="w-8 h-8 bg-brand-green text-white font-extrabold text-base rounded-full flex items-center justify-center">
                       01
                     </div>
-                    <h3 suppressHydrationWarning className="text-base lg:text-lg xl:text-xl font-black text-gray-800">
-                      1st Generic 품목
-                    </h3>
+                    <h3 suppressHydrationWarning className="text-base lg:text-lg xl:text-xl font-black text-gray-800">{isEnglish ? '1st Generic' : '1st Generic 품목'}</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-12 text-sm lg:text-base">
                     {/* 핵심공정 */}
                     <div className="space-y-2">
                       <h5 className="font-extrabold text-gray-800 flex items-center space-x-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                        <span>핵심공정 ODM품목</span>
+                        <span>{isEnglish ? 'Core Process ODM' : '핵심공정 ODM품목'}</span>
                       </h5>
                       <p className="text-gray-500 font-bold leading-relaxed pl-3.5">
                         Glimepiride, Tacrolimus, Itraconazole, Roxatidine SR, Tolterodine SR, Ramipril, Donepezil ODT, Montelukast Sachet, Duloxetine EC, Telmisartan/Rosuvastatin, Tolvaptan
@@ -399,7 +402,7 @@ export default function CoreTechnology() {
                     <div className="space-y-2">
                       <h5 className="font-extrabold text-gray-800 flex items-center space-x-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                        <span>전공정 ODM품목</span>
+                        <span>{isEnglish ? 'Full Process ODM' : '전공정 ODM품목'}</span>
                       </h5>
                       <p className="text-gray-500 font-bold leading-relaxed pl-3.5">
                         Adefovir, Telmisartan, Entecavir, Olmesartan/HCTZ, Telmisartan/HCTZ, Olmesartan/Amlodipine, Valsartan/Amlodipine, Amlodipine, Glimepiride/Metformin, Sitagliptin/Metformin, Sitagliptin, Telmisartan/Amlodipine, Tamsulosin 0.4mg, Atorvastatin/Ezetimibe, Donepezil, Rosuvastatin
@@ -413,7 +416,7 @@ export default function CoreTechnology() {
               <ScrollReveal delay={0.25} y={40}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                   
-                  {/* Column 1: 02 개량신약(염 변경) */}
+                  {/* Column 1: 02 {isEnglish ? 'IMD (Salt Change)' : '개량신약(염 변경)'} */}
                   <div 
                     onMouseEnter={() => setHoveredSection('02')}
                     onMouseLeave={() => setHoveredSection(null)}
@@ -429,26 +432,26 @@ export default function CoreTechnology() {
                           02
                         </div>
                         <h3 className="text-base lg:text-lg xl:text-xl font-black text-gray-800">
-                          개량신약(염 변경)
+                          {isEnglish ? 'IMD (Salt Change)' : '개량신약(염 변경)'}
                         </h3>
                       </div>
                       <div className="pl-12 space-y-5 text-sm lg:text-base">
                         <div className="space-y-1.5">
                           <h5 className="font-extrabold text-gray-800 flex items-center space-x-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                            <span>개량신약(염변경)</span>
+                            <span>{isEnglish ? 'IMD (Salt Change)' : '개량신약(염변경)'}</span>
                           </h5>
                           <p className="text-gray-650 font-extrabold pl-3.5">
                             Amlodipine maleate*
                           </p>
                           <p className="text-xs text-gray-400 font-bold pl-3.5 leading-relaxed">
-                            *공동개발 품목이며 다산에서 핵심기술 진행 (약물의 안정성 확보)
+                            {isEnglish ? '*Co-developed item, core tech handled by Dasan (Securing drug stability)' : '*공동개발 품목이며 다산에서 핵심기술 진행 (약물의 안정성 확보)'}
                           </p>
                         </div>
                         <div className="space-y-1.5">
                           <h5 className="font-extrabold text-gray-800 flex items-center space-x-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                            <span>전공정 ODM품목</span>
+                            <span>{isEnglish ? 'Full Process ODM' : '전공정 ODM품목'}</span>
                           </h5>
                           <p className="text-gray-500 font-bold pl-3.5">
                             Dabigatran etexilate
@@ -458,7 +461,7 @@ export default function CoreTechnology() {
                     </div>
                   </div>
 
-                  {/* Column 2: 03 개량신약(약물방출) */}
+                  {/* Column 2: 03 {isEnglish ? 'IMD (Drug Release)' : '개량신약(약물방출)'} */}
                   <div 
                     onMouseEnter={() => setHoveredSection('03')}
                     onMouseLeave={() => setHoveredSection(null)}
@@ -474,30 +477,30 @@ export default function CoreTechnology() {
                           03
                         </div>
                         <h3 className="text-base lg:text-lg xl:text-xl font-black text-gray-800">
-                          개량신약(약물방출)
+                          {isEnglish ? 'IMD (Drug Release)' : '개량신약(약물방출)'}
                         </h3>
                       </div>
                       <div className="pl-12 space-y-5 text-sm lg:text-base">
                         <div className="space-y-1.5">
                           <h5 className="font-extrabold text-gray-800 flex items-center space-x-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                            <span>약물방출 조절 개량신약</span>
+                            <span>{isEnglish ? 'Controlled Release IMD' : '약물방출 조절 개량신약'}</span>
                           </h5>
                           <p className="text-gray-650 font-extrabold pl-3.5 leading-snug">
                             Carvedilol SR*<br />
                             Aspirin/Clopidogrel*
                           </p>
                           <p className="text-xs text-gray-400 font-bold pl-3.5 leading-relaxed">
-                            *공동개발 품목이며 다산에서 핵심 약물방출 조절 진행
+                            {isEnglish ? '*Co-developed item, Dasan handles core drug release control' : '*공동개발 품목이며 다산에서 핵심 약물방출 조절 진행'}
                           </p>
                         </div>
                         <div className="space-y-1.5">
                           <h5 className="font-extrabold text-gray-800 flex items-center space-x-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                            <span>고함량 개량신약</span>
+                            <span>{isEnglish ? 'High Dose IMD' : '고함량 개량신약'}</span>
                           </h5>
                           <p className="text-gray-500 font-bold pl-3.5">
-                            imatinib mesylate 고함량제제
+                            {isEnglish ? 'imatinib mesylate high dose preparation' : 'imatinib mesylate 고함량제제'}
                           </p>
                         </div>
                       </div>
@@ -507,7 +510,7 @@ export default function CoreTechnology() {
                 </div>
               </ScrollReveal>
 
-              {/* Row 3: 04 개량신약(복합제)&기타 */}
+              {/* Row 3: 04 {isEnglish ? 'IMD (Combination) & Others' : '개량신약(복합제)&기타'} */}
               <ScrollReveal delay={0.35} y={40}>
                 <div 
                   onMouseEnter={() => setHoveredSection('04')}
@@ -524,7 +527,7 @@ export default function CoreTechnology() {
                         04
                       </div>
                       <h3 className="text-base lg:text-lg xl:text-xl font-black text-gray-800">
-                        개량신약(복합제)&기타
+                        {isEnglish ? 'IMD (Combination) & Others' : '개량신약(복합제)&기타'}
                       </h3>
                     </div>
                   </div>
@@ -533,23 +536,23 @@ export default function CoreTechnology() {
                     <div className="space-y-1.5">
                       <h5 className="font-extrabold text-gray-800 flex items-center space-x-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                        <span>복합제제 개량신약</span>
+                        <span>{isEnglish ? 'Combination IMD' : '복합제제 개량신약'}</span>
                       </h5>
                       <p className="text-gray-650 font-bold pl-3.5">
                         Telmisartan/S-amlodipine*
                       </p>
                       <p className="text-xs text-gray-400 font-bold pl-3.5 leading-relaxed">
-                        *공동개발 품목이며 다산에서 핵심 약물방출 조절 진행
+                        {isEnglish ? '*Co-developed item, Dasan handles core drug release control' : '*공동개발 품목이며 다산에서 핵심 약물방출 조절 진행'}
                       </p>
                     </div>
                     {/* 제형 변경 */}
                     <div className="space-y-1.5">
                       <h5 className="font-extrabold text-gray-800 flex items-center space-x-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                        <span>제형 변경(기타)</span>
+                        <span>{isEnglish ? 'Formulation Change (Others)' : '제형 변경(기타)'}</span>
                       </h5>
                       <p className="text-gray-500 font-bold leading-relaxed pl-3.5">
-                        Choline alfoscerate 정제<br />
+                        {isEnglish ? (<>Choline alfoscerate tablet<br /></>) : (<>Choline alfoscerate 정제<br /></>)}
                         Esomeprazole Mg ODT
                       </p>
                     </div>
