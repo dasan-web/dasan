@@ -830,6 +830,18 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-10 animate-fade-in-up">
+            {/* 공장 전경 이미지 (그림1) */}
+            <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-lg relative mb-12">
+              {/* 이미지 경로: 임의로 press_factory.png를 지정하였으나, 추후 실제 파일명으로 수정 가능합니다. */}
+              <Image 
+                src="/press_factory.png" 
+                alt="다산제약 글로벌 생산 기지 전경" 
+                fill
+                unoptimized={true}
+                className="object-cover"
+              />
+            </div>
+            
             <div className="text-left mb-10">
               <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4">
                 글로벌 인프라 현황 (Global Infrastructure)
