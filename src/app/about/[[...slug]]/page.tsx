@@ -273,17 +273,29 @@ export default async function AboutCatchAllPage({ params }: Params) {
         if (dbContent) {
           const parts = dbContent.split('|');
           if (parts.length >= 2) {
-            introTitle = parts[0];
-            introBody = parts[1];
+            introTitle = parts[0].trim();
+            introBody = parts[1].trim();
           } else {
             introBody = dbContent;
           }
         }
 
+        // 제목 앞의 '1. ', '2. ' 등 숫자 번호 포맷을 모두 제거합니다.
+        introTitle = introTitle.replace(/^[1-9]\.\s?/, '').trim();
+
+        // 관리자 에디터에서 CEO 메시지가 h3 이외의 태그(p, h4, strong 등)로 작성되었을 경우, 
+        // 이를 '기업 이념 및 핵심가치'와 완벽히 동일한 h3(하단선 포함) 템플릿으로 강제 치환합니다.
+        introBody = introBody.replace(
+          /<([a-z0-9]+)[^>]*>[\s\n]*(?:<[^>]+>[\s\n]*)*(?:[0-9]\.\s*)?CEO\s*메시지\s*\(CEO\s*Message\)[\s\n]*(?:<\/[^>]+>[\s\n]*)*<\/\1>/gi,
+          '<h3>CEO 메시지 (CEO Message)</h3>'
+        );
+
         return (
-          <div className="space-y-16 animate-fade-in-up">
-            {/* 상단 영상 영역 (스크롤 애니메이션 적용) */}
+          <>
+            {/* 상단 영상 영역 (스크롤 애니메이션 적용). 상위 컨테이너의 애니메이션(transform) 제약을 벗어나 z-index가 정상 작동하게 분리합니다. */}
             <ScrollVideo />
+
+            <div className="space-y-16 animate-fade-in-up mt-16">
 
             {/* 1. Intro Summary */}
             <div className="relative overflow-hidden bg-white rounded-3xl p-8 md:p-12 shadow-none">
@@ -294,7 +306,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   <div 
                     className="
                       [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                      [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3]:mt-12
+                      [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3:not(:first-child)]:mt-28
                       [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
                       [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
                       [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
@@ -307,9 +319,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     const trimmed = line.trim();
                     if (!trimmed) return null;
 
-                    // 1. 기업 이념 및 핵심가치, 2. CEO 메시지 등 메인 타이틀
-                    if (trimmed.match(/^[1-9]\.\s/)) {
-                      const titleText = trimmed.replace(/^[1-9]\.\s/, '');
+                    // 1. 기업 이념 및 핵심가치, CEO 메시지 등 메인 타이틀
+                    if (trimmed.match(/^[1-9]\.\s/) || trimmed.includes('CEO 메시지 (CEO Message)')) {
+                      const titleText = trimmed.replace(/^[1-9]\.\s?/, '');
                       return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
                     }
                     
@@ -364,6 +376,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
 
           </div>
+          </>
         );
 
       case '/about/business-area':
@@ -744,8 +757,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
               )}
               
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-20">
-                {colors.map((c, i) => (
-                  <div key={i} className="rounded-3xl p-8 text-white flex flex-col justify-between shadow-md" style={{backgroundColor: c.hex}}>
+                {colors.map((c, i) => {
+                  let finalHex = c.hex;
+                  if (c.name === 'DASAN GREEN') finalHex = '#74B816';
+                  if (c.name === 'Dasan Light Green') finalHex = '#8DC63F';
+                  if (c.name === 'DASAN CHARCOAL') finalHex = '#2B2B2B';
+                  
+                  return (
+                  <div key={i} className="rounded-3xl p-8 text-white flex flex-col justify-between shadow-md" style={{backgroundColor: finalHex}}>
                     <div>
                       <h4 className="text-2xl font-bold mb-4">{c.name}</h4>
                       {(typeof c.desc === 'string' && (c.desc.includes('<p') || c.desc.includes('<h'))) ? (
@@ -767,7 +786,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       </div>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Premium CI Brand Guideline Download Button */}
