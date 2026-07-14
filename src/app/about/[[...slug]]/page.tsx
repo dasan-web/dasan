@@ -575,9 +575,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let primaryColorDesc = '색상은 브랜드 아이덴티티를 전달하는 핵심적인 요소로 일관성 있는 이미지 구축을 위하여 지정된 색상 값을 참고하여 사용하는 것을 권장합니다.';
         
         let colors = [
-          { name: 'Dasan Green', desc: '정밀성과 신뢰를 기반으로 한 다산제약의 핵심\n컬러로, 안정감 있는 그린 톤을 통해 친환경적\n가치와 브랜드 아이덴티티를 상징하는\n시그니처 컬러', cmyk: '90,30,90,0', rgb: '0, 137, 83', pantone: '3425 C', hex: '#008953' },
-          { name: 'Dasan Light Green', desc: '생동감과 확장성을 담은 컬러로,\n브랜드에 유연한 흐름과 밝은 에너지를\n더해주는 보조 컬러', cmyk: '50,0,100,0', rgb: '141, 198, 63', pantone: '376 C', hex: '#8dc63f' },
-          { name: 'Dasan Gray', desc: '전체적인 균형과 질서를 유지하는 컬러로,\n정보 전달의 명확성을 높이고 시각 요소를\n정돈하는 보조 컬러', cmyk: '0,0,0,70', rgb: '109, 110, 113', pantone: 'Cool Gray 10 C', hex: '#6d6e71' }
+          { name: 'DASAN GREEN', desc: '생명력, 인류의 건강, 지속가능한 경영 가치\n상징', cmyk: '90,30,90,0', rgb: '116, 184, 22', pantone: '3425 C', hex: '#74B816' },
+          { name: 'Dasan Light Green', desc: '생동감과 확장성을 담은 컬러로,\n브랜드에 유연한 흐름과 밝은 에너지를\n더해주는 보조 컬러', cmyk: '50,0,100,0', rgb: '141, 198, 63', pantone: '376 C', hex: '#8DC63F' },
+          { name: 'DASAN CHARCOAL', desc: '기술적인 전문성, 정직한 기업 경영과 신뢰성\n상징', cmyk: '0,0,0,70', rgb: '43, 43, 43', pantone: 'Cool Gray 10 C', hex: '#2B2B2B' }
         ];
 
         let logoColorUsageTitle = 'Logo Color Usage Guideline';
@@ -618,7 +618,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           const lines = dbContent.split('\n');
           if (lines[0]) ciIntro = lines[0];
           if (lines[1]) ciSymbol = lines[1];
-          if (lines[2]) colors[0].name = lines[2];
+          /* if (lines[2]) colors[0].name = lines[2];
           if (lines[3] && lines[3].includes('|')) { colors[0].rgb = lines[3].split('|')[0]?.replace('RGB:', '').trim() || ''; colors[0].hex = lines[3].split('|')[1]?.replace('HEX:', '').trim() || ''; }
           if (lines[4]) colors[0].hex = lines[4];
           if (lines[5]) colors[0].desc = lines[5];
@@ -631,7 +631,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           if (lines[14]) colors[1].name = lines[14];
           if (lines[15] && lines[15].includes('|')) { colors[1].rgb = lines[15].split('|')[0]?.replace('RGB:', '').trim() || ''; colors[1].hex = lines[15].split('|')[1]?.replace('HEX:', '').trim() || ''; }
           if (lines[16]) colors[1].hex = lines[16];
-          if (lines[17]) colors[1].desc = lines[17];
+          if (lines[17]) colors[1].desc = lines[17]; */
           
           if (lines[11]) primaryLogoDesc = lines[11];
           if (lines[12]) secondaryLogoDesc = lines[12];
@@ -751,15 +751,15 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       )}
                     </div>
                     <div className="flex justify-between text-xs font-mono bg-black/10 p-4 rounded-2xl gap-2">
-                      <div className="flex-1">
-                         <span className="inline-block border border-white/40 rounded-full px-3 py-1 text-[10px] mb-3 text-center w-full bg-white/5">인쇄 기준용</span>
-                         <p className="mb-1 text-[11px]">CMYK: {c.cmyk}</p>
-                         <p className="text-[11px]">Pantone: {c.pantone}</p>
+                      <div className="flex-1 min-w-0">
+                         <span className="inline-block border border-white/40 rounded-full px-2 py-1 text-[10px] mb-3 text-center w-full bg-white/5 whitespace-nowrap">인쇄 기준용</span>
+                         <p className="mb-1 text-[9.5px] whitespace-nowrap tracking-tighter">CMYK: {c.cmyk}</p>
+                         <p className="text-[9.5px] whitespace-nowrap tracking-tighter">Pantone: {c.pantone}</p>
                       </div>
-                      <div className="flex-1">
-                         <span className="inline-block border border-white/40 rounded-full px-3 py-1 text-[10px] mb-3 text-center w-full bg-white/5">디지털 화면용</span>
-                         <p className="mb-1 text-[11px]">RGB: {c.rgb}</p>
-                         <p className="text-[11px]">HEX: {c.hex}</p>
+                      <div className="flex-1 min-w-0">
+                         <span className="inline-block border border-white/40 rounded-full px-2 py-1 text-[10px] mb-3 text-center w-full bg-white/5 whitespace-nowrap">디지털 화면용</span>
+                         <p className="mb-1 text-[9.5px] whitespace-nowrap tracking-tighter">RGB: {c.rgb}</p>
+                         <p className="text-[9.5px] whitespace-nowrap tracking-tighter">HEX: {c.hex}</p>
                       </div>
                     </div>
                   </div>
