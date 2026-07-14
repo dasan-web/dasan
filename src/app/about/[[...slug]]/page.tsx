@@ -592,9 +592,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let primaryColorDesc = '색상은 브랜드 아이덴티티를 전달하는 핵심적인 요소로 일관성 있는 이미지 구축을 위하여 지정된 색상 값을 참고하여 사용하는 것을 권장합니다.';
         
         let colors = [
-          { name: 'DASAN GREEN', desc: '생명력, 인류의 건강, 지속가능한 경영 가치 상징', cmyk: '90,30,90,0', rgb: '116, 184, 22', pantone: '3425 C', hex: '#74B816' },
-          { name: 'Dasan Light Green', desc: '생동감과 확장성을 담은 컬러로, 브랜드에 유연한 흐름과 밝은 에너지를 더해주는 보조 컬러', cmyk: '50,0,100,0', rgb: '141, 198, 63', pantone: '376 C', hex: '#8DC63F' },
-          { name: 'DASAN CHARCOAL', desc: '기술적인 전문성, 정직한 기업 경영과 신뢰성 상징', cmyk: '0,0,0,70', rgb: '43, 43, 43', pantone: 'Cool Gray 10 C', hex: '#2B2B2B' }
+          { name: 'DASAN GREEN', desc: '생명력, 인류의 건강, 지속가능한 경영 가치 상징', cmyk: '90,30,90,0', rgb: '0, 137, 83', pantone: '3425 C', hex: '#008953' },
+          { name: 'Dasan Light Green', desc: '생동감과 확장성을 담은 컬러로, 브랜드에 유연한 흐름과 밝은 에너지를 더해주는 보조 컬러', cmyk: '50,0,100,0', rgb: '132, 189, 0', pantone: '376 C', hex: '#84BD00' },
+          { name: 'DASAN CHARCOAL', desc: '기술적인 전문성, 정직한 기업 경영과 신뢰성 상징', cmyk: '0,0,0,70', rgb: '99, 102, 106', pantone: 'Cool Gray 10 C', hex: '#63666A' }
         ];
 
         let logoColorUsageTitle = 'Logo Color Usage Guideline';
@@ -759,9 +759,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-20">
                 {colors.map((c, i) => {
                   let finalHex = c.hex;
-                  if (c.name === 'DASAN GREEN') finalHex = '#74B816';
-                  if (c.name === 'Dasan Light Green') finalHex = '#8DC63F';
-                  if (c.name === 'DASAN CHARCOAL') finalHex = '#2B2B2B';
+                  if (c.name === 'DASAN GREEN') finalHex = '#008953';
+                  if (c.name === 'Dasan Light Green') finalHex = '#84BD00';
+                  if (c.name === 'DASAN CHARCOAL') finalHex = '#63666A';
                   
                   return (
                   <div key={i} className="rounded-3xl p-8 text-white flex flex-col justify-between shadow-md" style={{backgroundColor: finalHex}}>
