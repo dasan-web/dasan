@@ -159,7 +159,7 @@ export default function ProductSearch() {
       </div>
 
       {/* 2. Main Search Area (Flat & Sleek) */}
-      <div className="border border-brand-green rounded-xl bg-white p-5 md:p-6 space-y-6">
+      <div className="border border-gray-200 rounded-xl bg-white p-5 md:p-6 space-y-6">
         {/* Search Mode Buttons (Simple Flat Links) */}
         <div className="flex space-x-6 border-b border-gray-100 pb-3 text-xs md:text-sm font-bold">
           <button
@@ -213,7 +213,7 @@ export default function ProductSearch() {
         )}
 
         {/* Text Input Search Bar (Flat Border) */}
-        <form onSubmit={handleSearch} className="flex max-w-2xl w-full items-stretch border border-brand-green rounded-md overflow-hidden bg-white">
+        <form onSubmit={handleSearch} className="flex max-w-2xl w-full items-stretch border border-gray-200 rounded-md overflow-hidden bg-white">
           <input
             type="text"
             value={searchQuery}
@@ -245,7 +245,7 @@ export default function ProductSearch() {
             <div 
               key={product.id} 
               onClick={() => setSelectedProduct(product)}
-              className="bg-white border border-brand-green rounded-lg overflow-hidden flex flex-col group hover:border-brand-green transition-colors cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-200"
+              className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col group hover:border-gray-300 transition-colors cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-200"
             >
               {/* Product Image / Logo Fallback Container */}
               <div className="aspect-square bg-white flex items-center justify-center border-b border-gray-100 overflow-hidden relative">

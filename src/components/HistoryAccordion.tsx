@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface TimelineEvent {
   year: string;
@@ -37,7 +38,11 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
         return (
           <div key={reversedIndex} className="mb-20 last:mb-0 relative group">
             {/* Era Header */}
-            <div 
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center mb-10 cursor-pointer outline-none hover:opacity-90 transition-opacity"
               onClick={() => toggleEra(reversedIndex)}
             >
@@ -55,7 +60,7 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
                   />
                 </h4>
               </div>
-            </div>
+            </motion.div>
 
             {/* Era Events (Smooth Accordion) */}
             <div 
@@ -64,7 +69,14 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
               <div className="overflow-hidden">
                 <div className="space-y-8 pt-2 pb-4">
                   {era.events.map((event, eventIndex) => (
-                    <div key={eventIndex} className="relative flex flex-col md:flex-row items-start group/event hover:-translate-y-1 transition-transform duration-300">
+                    <motion.div 
+                      key={eventIndex}
+                      initial={{ opacity: 0, y: 40 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.9, delay: eventIndex * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <div className="relative flex flex-col md:flex-row items-start group/event hover:-translate-y-1 transition-transform duration-300">
                       
                       {/* Year */}
                       <div className="ml-[60px] md:ml-0 md:absolute md:left-0 md:w-[90px] md:text-right pt-[18px] md:pt-[22px]">
@@ -89,6 +101,7 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
                         </ul>
                       </div>
                     </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>

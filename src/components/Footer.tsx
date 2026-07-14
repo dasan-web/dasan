@@ -32,7 +32,7 @@ export default function Footer() {
                 <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-brand-green to-brand-cyan/50" />
               </span>
             </div>
-            <h3 className="text-white font-black text-[15px] uppercase tracking-[0.2em] pl-6 lg:pl-8 xl:pl-0">
+            <h3 className="text-white font-black text-[15px] uppercase tracking-[0.2em] pl-6 lg:pl-8 xl:pl-0 hidden md:block">
               Site Map
             </h3>
           </div>
@@ -69,7 +69,7 @@ export default function Footer() {
             </div>
           </div>
             
-            {/* RIGHT: Sitemap Grid */}
+            {/* RIGHT: Sitemap Grid (Desktop) */}
             <div className="flex-1 pb-4 hidden md:block">
               <div className="flex w-full h-full divide-x divide-white/10">
                 {footerColumns.map((grand, gIdx) => (
@@ -101,6 +101,7 @@ export default function Footer() {
                 ))}
               </div>
             </div>
+
         </div>
       </div>
 

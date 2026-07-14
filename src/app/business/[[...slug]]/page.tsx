@@ -5,6 +5,7 @@ import { navigationData } from '@/lib/navigation';
 import SubmenuTabBar from '@/components/SubmenuTabBar';
 import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet } from 'lucide-react';
 import ProductSearch from '@/components/ProductSearch';
+import FindPharmacy from '@/components/FindPharmacy';
 import type { Metadata } from 'next';
 
 import { query } from '@/lib/db';
@@ -99,6 +100,11 @@ export default async function BusinessCatchAllPage({ params }: Params) {
       case '/business/finished/search':
         return (
           <ProductSearch />
+        );
+
+      case '/business/finished/pharmacy':
+        return (
+          <FindPharmacy />
         );
 
       case '/business/finished/news': {

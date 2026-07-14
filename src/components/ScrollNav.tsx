@@ -45,7 +45,7 @@ export default function ScrollNav() {
   };
 
   return (
-    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center space-y-4 select-none">
+    <div className="fixed right-0 md:right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center space-y-4 select-none pr-1">
       {sections.map((section) => {
         const isActive = activeSection === section.id;
         return (

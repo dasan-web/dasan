@@ -29,8 +29,8 @@ export const navigationData: GrandMenu[] = [
           { name: '사업영역', enName: 'Business Area', link: '/about/business-area' },
           { name: '연혁', enName: 'History', link: '/about/history' },
           { name: 'CI', enName: 'CI', link: '/about/ci' },
-          { name: '공장 및 연구소', enName: 'Facilities', link: '/about/facilities' },
-          { name: '찾아오시는 길', enName: 'Location', link: '/about/location' },
+          { name: '찾아오시는길', enName: 'Location', link: '/about/facilities' },
+          { name: '찾아오시는 길 (기존)', enName: 'Location Map', link: '/about/location' },
         ],
       },
       {
@@ -75,6 +75,7 @@ export const navigationData: GrandMenu[] = [
         name: '완제의약품', enName: 'Finished Products',
         subMenus: [
           { name: '제품검색', enName: 'Product Search', link: '/business/finished/search' },
+          { name: '판매약국찾기', enName: 'Find Pharmacies', link: '/business/finished/pharmacy' },
           { name: '제품소식', enName: 'Product News', link: '/business/finished/news' },
         ],
       },

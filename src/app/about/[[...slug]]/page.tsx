@@ -442,8 +442,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
           eraSubtitle: string;
           events: TimelineEvent[];
         };
-        let historyIntroTitle = '도전과 신뢰의 역사, 인류의 건강을 위해 걸어온 길';
-        let historyIntroBody = '다산제약은 1996년 설립 이후 독자적인 DDS 기술 확보와 글로벌 신약 개발을 향해 쉼 없이 달려왔습니다.';
+        let historyIntroTitle = '성장 연혁 (History)';
+        let historyIntroBody = '원천기술 확보에서 글로벌 고성장·고수익 창출 기업으로 도약해 온 다산제약의 발자취입니다';
         let timelineData: TimelineEra[] = [];
 
         // Define default timeline
@@ -453,10 +453,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
             eraSubtitle: '설립기 (원천기술 확보)',
             events: [
               { year: '1996', details: ['• 주식회사 다산메디켐 설립'] },
-              { year: '2001', details: ['• 원료의약품 공장 준공 및 제조업 허가 취득', '• 기업부설연구소 인가'] },
+              { year: '2001', details: ['• 원료의약품 공장 준공 및 제조업 허가 취득 / 기업부설연구소 인가'] },
               { year: '2002', details: ['• BGMP 인증'] },
-              { year: '2007', details: ['• 기술혁신형중소기업(INNO-BIZ) 인증', '• 3D Clean 사업장 인증'] },
-              { year: '2008', details: ['• 매출 100억 원 달성', '• KGMP 인증'] },
+              { year: '2007', details: ['• 기술혁신형중소기업(INNO-BIZ) 인증 / 3D Clean 사업장 인증'] },
+              { year: '2008', details: ['• 매출 100억 원 달성 / KGMP 인증'] },
               { year: '2009', details: ['• 300만불 수출탑 수상'] },
               { year: '2011', details: ['• \'KIBO 성공기업\' 선정'] }
             ]
@@ -465,28 +465,28 @@ export default async function AboutCatchAllPage({ params }: Params) {
             eraTitle: '2013 ~ 2021',
             eraSubtitle: '성장기 (R&D 고도화 및 생산 인프라 확장)',
             events: [
-              { year: '2013', details: ['• 완제의약품 물류센터 완공', '• 벤처기업 중소기업청장상 표창', '• 합성연구소 확장 이전'] },
+              { year: '2013', details: ['• 완제의약품 물류센터 완공 / 벤처기업 중소기업청장상 표창 / 합성연구소 확장 이전'] },
               { year: '2016', details: ['• 중앙연구소 확장 이전'] },
               { year: '2017', details: ['• 사명 변경 ("주식회사 다산제약")'] },
               { year: '2018', details: ['• 중앙연구소 통합 개소'] },
-              { year: '2019', details: ['• 매출 500억 원 달성', '• 아산 제2공장 완공', '• 심양연구소(중국 랴오닝성) 확장'] },
+              { year: '2019', details: ['• 매출 500억 원 달성 / 아산 제2공장 완공 / 심양연구소(중국 랴오닝성) 확장'] },
               { year: '2020', details: ['• 충청남도 유망 중소기업 선정'] },
-              { year: '2021', details: ['• 충청남도 우수기업인상 수상', '• 좋은 일자리 기업 선정', '• 글로벌 강소기업 선정'] }
+              { year: '2021', details: ['• 충청남도 우수기업인상 수상 / 좋은 일자리 기업 선정 / 글로벌 강소기업 선정'] }
             ]
           },
           {
             eraTitle: '2022 ~ Present',
             eraSubtitle: '도약기 (고성장/고수익 창출)',
             events: [
-              { year: '2022', details: ['• 무역의날 산자부 장관표창 및 700만불 수출탑 수상', '• 혁신성장 유공중소기업 장관상 수상', '• 의약품수출분야 보건복지부 장관상 수상', '• 4년 연속 청년친화 강소기업 선정'] },
+              { year: '2022', details: ['• 무역의날 산자부 장관표창 및 700만불 수출탑 수상 / 혁신성장 유공중소기업 장관상 수상 / 의약품수출분야 보건복지부 장관상 수상 / 4년 연속 청년친화 강소기업 선정'] },
               { year: '2023', details: ['• 부패방지경영시스템(ISO 37001) 인증 획득'] },
-              { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정', '• 식약처 공급망 안정화 선도 사업자 선정', '• 안전보건경영시스템(ISO 45001) 인증 획득', '• 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
+              { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정 / 식약처 공급망 안정화 선도 사업자 선정 / 안전보건경영시스템(ISO 45001) 인증 획득 / 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
               { year: '2025', details: ['• 환경부 한국환경공단 스마트생태공장 구축 사업 선정'] }
             ]
           }
         ];
 
-        if (dbContent) {
+        /* if (dbContent) {
           const lines = dbContent.split('\n');
           if (lines.length > 0) {
             const introLine = lines[0];
@@ -522,14 +522,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
               }
             }
           }
-        }
+        } */
         
                 if (timelineData.length === 0) {
           timelineData = defaultTimelineData;
         }
 
         return (
-          <div className="space-y-12 animate-fade-in-up bg-white p-6 md:p-16 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 relative overflow-hidden">
+          <div className="space-y-12 animate-fade-in-up bg-white p-6 md:p-16 rounded-3xl relative overflow-hidden">
             {/* Header */}
             <div className="text-left mb-16 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
               <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>

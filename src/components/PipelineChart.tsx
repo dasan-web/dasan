@@ -128,7 +128,7 @@ export default function PipelineChart() {
             {/* 개발단계 (Nested Columns) */}
             <th className="border border-gray-300 p-0 w-[38%]" colSpan={6}>
               <div className="text-center font-bold py-3.5 border-b border-gray-300">{t('개발단계')}</div>
-              <div className="grid grid-cols-6 text-[11px] font-semibold bg-brand-green-dark">
+              <div className="grid grid-cols-6 text-[11px] font-semibold bg-[#1F4E78]">
                 {PHASES.map((phase) => (
                   <div key={t(phase)} className="py-2.5 text-center border-r last:border-r-0 border-gray-300">
                     {t(phase)}
@@ -179,14 +179,14 @@ export default function PipelineChart() {
                         >
                           {/* Active progress bar (Green with spring-bouncy transition) */}
                           <div
-                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#379A35] to-[#4eb34c] rounded-full transition-all duration-[1200ms] cubic-bezier(0.34, 1.56, 0.64, 1) pointer-events-none"
+                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#4da749] to-[#008953] rounded-full transition-all duration-[1200ms] cubic-bezier(0.34, 1.56, 0.64, 1) pointer-events-none"
                             style={{ width: animate ? widthStr : '0%' }}
                           />
                         </div>
                         
                         {/* End circle handle inside the progress bar (spring-bounce + sliding cursor, pointer-events disabled) */}
                         <div
-                          className="absolute top-1/2 -translate-y-1/2 w-4.5 h-4.5 bg-white border-[3.5px] border-[#379A35] rounded-full shadow-md transition-all duration-[1200ms] cubic-bezier(0.34, 1.56, 0.64, 1) z-10 pointer-events-none"
+                          className="absolute top-1/2 -translate-y-1/2 w-4.5 h-4.5 bg-white border-[3.5px] border-[#008953] rounded-full shadow-md transition-all duration-[1200ms] cubic-bezier(0.34, 1.56, 0.64, 1) z-10 pointer-events-none"
                           style={{ left: `calc(${animate ? widthStr : '0%'} - 9px)` }}
                         />
                       </div>

@@ -10,6 +10,12 @@ import ScrollReveal from '@/components/ScrollReveal';
 export default function CoreTechnology() {
   // State to handle bidirectional highlights between left diagram and right grid sections
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+  const [activeMobileSection, setActiveMobileSection] = useState<string | null>(null);
+
+  const toggleMobileSection = (section: string) => {
+    setActiveMobileSection(prev => prev === section ? null : section);
+  };
+
   const pathname = usePathname();
   const isEnglish = pathname ? pathname.startsWith('/en') : false;
 
@@ -19,7 +25,7 @@ export default function CoreTechnology() {
         {/* Section Heading */}
         <ScrollReveal y={50} duration={1.2}>
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-pretendard font-extrabold text-gray-900 tracking-tight leading-snug md:whitespace-nowrap">
+            <h2 className="text-[13px] sm:text-[15px] md:text-xl lg:text-2xl xl:text-3xl font-pretendard font-extrabold text-gray-900 tracking-tighter md:tracking-tight leading-snug whitespace-nowrap">
               {isEnglish ? (
                 <>Dasan Pharmaceutical is growing into a <span className="text-brand-green font-extrabold">global DDS</span> company through <span className="text-brand-green font-extrabold">core technology</span>.</>
               ) : (
@@ -64,7 +70,8 @@ export default function CoreTechnology() {
                 <motion.div 
                   onMouseEnter={() => setHoveredSection('01')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-0 left-[2%] w-[28%] h-[7.5%] flex flex-col justify-end pb-1 transition-all duration-300 select-none ${
+                  onClick={() => toggleMobileSection('01')}
+                  className={`absolute top-0 left-[2%] w-[28%] h-[7.5%] flex flex-col justify-end pb-1 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '01' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -81,7 +88,8 @@ export default function CoreTechnology() {
                 <motion.div
                   onMouseEnter={() => setHoveredSection('01')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[7.5%] left-[2%] w-[28%] pt-1 transition-all duration-300 select-none ${
+                  onClick={() => toggleMobileSection('01')}
+                  className={`absolute top-[7.5%] left-[2%] w-[28%] pt-1 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '01' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -99,7 +107,8 @@ export default function CoreTechnology() {
                 <motion.div 
                   onMouseEnter={() => setHoveredSection('02')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-0 right-[2%] w-[28%] h-[7.5%] flex flex-col justify-end pb-1 text-right transition-all duration-300 select-none ${
+                  onClick={() => toggleMobileSection('02')}
+                  className={`absolute top-0 right-[2%] w-[28%] h-[7.5%] flex flex-col justify-end pb-1 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '02' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -118,7 +127,8 @@ export default function CoreTechnology() {
                 <motion.div
                   onMouseEnter={() => setHoveredSection('02')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[7.5%] right-[2%] w-[28%] pt-1 text-right transition-all duration-300 select-none ${
+                  onClick={() => toggleMobileSection('02')}
+                  className={`absolute top-[7.5%] right-[2%] w-[28%] pt-1 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '02' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -136,7 +146,8 @@ export default function CoreTechnology() {
                 <motion.div 
                   onMouseEnter={() => setHoveredSection('03')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[77.5%] left-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none ${
+                  onClick={() => toggleMobileSection('03')}
+                  className={`absolute top-[77.5%] left-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '03' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -155,7 +166,8 @@ export default function CoreTechnology() {
                 <motion.div
                   onMouseEnter={() => setHoveredSection('03')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[92.5%] left-[2%] w-[28%] pt-2 transition-all duration-300 select-none ${
+                  onClick={() => toggleMobileSection('03')}
+                  className={`absolute top-[92.5%] left-[2%] w-[28%] pt-2 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '03' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -173,7 +185,8 @@ export default function CoreTechnology() {
                 <motion.div 
                   onMouseEnter={() => setHoveredSection('04')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[77.5%] right-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none ${
+                  onClick={() => toggleMobileSection('04')}
+                  className={`absolute top-[77.5%] right-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '04' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -192,7 +205,8 @@ export default function CoreTechnology() {
                 <motion.div
                   onMouseEnter={() => setHoveredSection('04')}
                   onMouseLeave={() => setHoveredSection(null)}
-                  className={`absolute top-[92.5%] right-[2%] w-[28%] pt-2 text-right transition-all duration-300 select-none ${
+                  onClick={() => toggleMobileSection('04')}
+                  className={`absolute top-[92.5%] right-[2%] w-[28%] pt-2 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '04' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -371,7 +385,7 @@ export default function CoreTechnology() {
             <div className="lg:col-span-6 flex flex-col space-y-6 md:space-y-8">
               
               {/* Row 1: 01 1st Generic 품목 */}
-              <ScrollReveal delay={0.15} y={40}>
+              <ScrollReveal delay={0.15} y={40} className={`${activeMobileSection === '01' ? 'block' : 'hidden lg:block'}`}>
                 <div 
                   onMouseEnter={() => setHoveredSection('01')}
                   onMouseLeave={() => setHoveredSection(null)}
@@ -413,14 +427,16 @@ export default function CoreTechnology() {
               </ScrollReveal>
 
               {/* Row 2: 02 & 03 Side-by-Side Grid */}
-              <ScrollReveal delay={0.25} y={40}>
+              <ScrollReveal delay={0.25} y={40} className={`${(activeMobileSection === '02' || activeMobileSection === '03') ? 'block' : 'hidden lg:block'}`}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                   
                   {/* Column 1: 02 {isEnglish ? 'IMD (Salt Change)' : '개량신약(염 변경)'} */}
                   <div 
                     onMouseEnter={() => setHoveredSection('02')}
                     onMouseLeave={() => setHoveredSection(null)}
-                    className={`p-5 md:p-6 rounded-3xl border transition-all duration-300 flex flex-col justify-between ${
+                    className={`p-5 md:p-6 rounded-3xl border transition-all duration-300 flex-col justify-between ${
+                      activeMobileSection === '02' ? 'flex' : 'hidden lg:flex'
+                    } ${
                       hoveredSection === '02' 
                         ? 'border-brand-green bg-brand-green-light/40' 
                         : 'border-transparent bg-white/50'
@@ -465,7 +481,9 @@ export default function CoreTechnology() {
                   <div 
                     onMouseEnter={() => setHoveredSection('03')}
                     onMouseLeave={() => setHoveredSection(null)}
-                    className={`p-5 md:p-6 rounded-3xl border transition-all duration-300 flex flex-col justify-between ${
+                    className={`p-5 md:p-6 rounded-3xl border transition-all duration-300 flex-col justify-between ${
+                      activeMobileSection === '03' ? 'flex' : 'hidden lg:flex'
+                    } ${
                       hoveredSection === '03' 
                         ? 'border-brand-green bg-brand-green-light/40' 
                         : 'border-transparent bg-white/50'
@@ -511,7 +529,7 @@ export default function CoreTechnology() {
               </ScrollReveal>
 
               {/* Row 3: 04 {isEnglish ? 'IMD (Combination) & Others' : '개량신약(복합제)&기타'} */}
-              <ScrollReveal delay={0.35} y={40}>
+              <ScrollReveal delay={0.35} y={40} className={`${activeMobileSection === '04' ? 'block' : 'hidden lg:block'}`}>
                 <div 
                   onMouseEnter={() => setHoveredSection('04')}
                   onMouseLeave={() => setHoveredSection(null)}
