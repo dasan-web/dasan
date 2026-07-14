@@ -120,7 +120,7 @@ export default function PipelineChart() {
       <table className="w-full min-w-[900px] border-collapse border border-gray-200 text-sm font-sans">
         {/* Table Head */}
         <thead>
-          <tr className="bg-brand-green text-white">
+          <tr className="bg-[#1F4E78] text-white">
             <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[15%]">{t('구분')}</th>
             <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[12%]">{t('프로젝트명')}</th>
             <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[23%]">{t('질환군')}</th>
