@@ -12,6 +12,7 @@ import HistoryAccordion from '@/components/HistoryAccordion';
 import DetailedFinancialTables from '@/components/DetailedFinancialTables';
 import CIDownloadButton from '@/components/CIDownloadButton';
 import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
+import ScrollVideo from '@/components/ScrollVideo';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -281,6 +282,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-16 animate-fade-in-up">
+            {/* 상단 영상 영역 (스크롤 애니메이션 적용) */}
+            <ScrollVideo />
+
             {/* 1. Intro Summary */}
             <div className="relative overflow-hidden bg-white rounded-3xl p-8 md:p-12 shadow-none">
               <span className="text-brand-teal text-xs font-bold tracking-widest uppercase block mb-3">Company Overview</span>
@@ -1208,7 +1212,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
   return (
     <div className="relative bg-white py-16 md:py-24 min-h-screen">
-      <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-8">
+      <div className="relative w-full px-6 md:px-16 lg:px-24 mt-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
