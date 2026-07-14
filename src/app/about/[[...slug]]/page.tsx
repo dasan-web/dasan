@@ -575,9 +575,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let primaryColorDesc = '색상은 브랜드 아이덴티티를 전달하는 핵심적인 요소로 일관성 있는 이미지 구축을 위하여 지정된 색상 값을 참고하여 사용하는 것을 권장합니다.';
         
         let colors = [
-          { name: 'DASAN GREEN', desc: '생명력, 인류의 건강, 지속가능한 경영 가치\n상징', cmyk: '90,30,90,0', rgb: '116, 184, 22', pantone: '3425 C', hex: '#74B816' },
-          { name: 'Dasan Light Green', desc: '생동감과 확장성을 담은 컬러로,\n브랜드에 유연한 흐름과 밝은 에너지를\n더해주는 보조 컬러', cmyk: '50,0,100,0', rgb: '141, 198, 63', pantone: '376 C', hex: '#8DC63F' },
-          { name: 'DASAN CHARCOAL', desc: '기술적인 전문성, 정직한 기업 경영과 신뢰성\n상징', cmyk: '0,0,0,70', rgb: '43, 43, 43', pantone: 'Cool Gray 10 C', hex: '#2B2B2B' }
+          { name: 'DASAN GREEN', desc: '생명력, 인류의 건강, 지속가능한 경영 가치 상징', cmyk: '90,30,90,0', rgb: '116, 184, 22', pantone: '3425 C', hex: '#74B816' },
+          { name: 'Dasan Light Green', desc: '생동감과 확장성을 담은 컬러로, 브랜드에 유연한 흐름과 밝은 에너지를 더해주는 보조 컬러', cmyk: '50,0,100,0', rgb: '141, 198, 63', pantone: '376 C', hex: '#8DC63F' },
+          { name: 'DASAN CHARCOAL', desc: '기술적인 전문성, 정직한 기업 경영과 신뢰성 상징', cmyk: '0,0,0,70', rgb: '43, 43, 43', pantone: 'Cool Gray 10 C', hex: '#2B2B2B' }
         ];
 
         let logoColorUsageTitle = 'Logo Color Usage Guideline';
@@ -745,9 +745,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     <div>
                       <h4 className="text-2xl font-bold mb-4">{c.name}</h4>
                       {(typeof c.desc === 'string' && (c.desc.includes('<p') || c.desc.includes('<h'))) ? (
-                        <div dangerouslySetInnerHTML={{ __html: c.desc }} className="[&_p]:text-[13px] [&_p]:opacity-90 [&_p]:leading-relaxed [&_p]:mb-8 [&_p]:break-keep [&_p]:whitespace-pre-line [&_p]:font-medium [&_h4]:font-bold [&_strong]:font-bold" />
+                        <div dangerouslySetInnerHTML={{ __html: c.desc }} className={`[&_p]:text-[12px] xl:[&_p]:text-[13px] [&_p]:opacity-90 [&_p]:leading-relaxed [&_p]:mb-8 ${c.name === 'Dasan Light Green' ? '[&_p]:break-keep' : '[&_p]:whitespace-nowrap'} [&_p]:tracking-tight [&_p]:font-medium [&_h4]:font-bold [&_strong]:font-bold`} />
                       ) : (
-                        <p className="text-[13px] opacity-90 leading-relaxed mb-8 break-keep whitespace-pre-line font-medium">{c.desc}</p>
+                        <p className={`text-[12px] xl:text-[13px] opacity-90 leading-relaxed mb-8 ${c.name === 'Dasan Light Green' ? 'break-keep' : 'whitespace-nowrap'} tracking-tight font-medium`}>{c.desc}</p>
                       )}
                     </div>
                     <div className="flex justify-between text-xs font-mono bg-black/10 p-4 rounded-2xl gap-2">
