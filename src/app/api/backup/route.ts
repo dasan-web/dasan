@@ -79,7 +79,7 @@ export async function GET(request: Request) {
     });
 
     // Handle archive errors
-    archive.on('error', function(err) {
+    archive.on('error', function(err: any) {
       console.error('Archive error:', err);
       passThrough.end();
     });
