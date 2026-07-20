@@ -13,6 +13,7 @@ import DetailedFinancialTables from '@/components/DetailedFinancialTables';
 import CIDownloadButton from '@/components/CIDownloadButton';
 import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
 import ScrollVideo from '@/components/ScrollVideo';
+import SalesGrowthChart from '@/components/SalesGrowthChart';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -292,6 +293,13 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <>
+            {/* 상단 인트로 슬로건 */}
+            <div className="w-full text-center mb-8 animate-fade-in-up">
+              <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">
+                인류의 행복을 창출하는 <span className="text-brand-green">Global Healthcare 기업</span>
+              </h2>
+            </div>
+
             {/* 상단 영상 영역 (스크롤 애니메이션 적용). 상위 컨테이너의 애니메이션(transform) 제약을 벗어나 z-index가 정상 작동하게 분리합니다. */}
             <ScrollVideo />
 
@@ -547,8 +555,20 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-12 animate-fade-in-up bg-white p-6 md:p-16 rounded-3xl relative overflow-hidden">
+            {/* 동적으로 구현된 프리미엄 럭셔리 매출 성장 그래프 애니메이션 컴포넌트 */}
+            <SalesGrowthChart />
+
             {/* Header */}
             <div className="text-left mb-16 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
+              
+              {/* 사용자 요청 텍스트 (그림 부분) */}
+              <div className="mb-12 animate-fade-in-up">
+                <h2 className="text-3xl md:text-5xl font-black text-gray-800 leading-tight tracking-tight">
+                  신뢰와 혁신으로<br />
+                  미래를 향한 <span className="text-[#3a8b54]">DASAN</span>
+                </h2>
+              </div>
+
               <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
               <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
                 {historyIntroTitle || '성장 연혁 (History)'}
