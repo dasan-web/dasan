@@ -89,6 +89,7 @@ export default function AdminDashboardPage() {
   const [dashboardStats, setDashboardStats] = useState<any>(null);
   const [showVisitorModal, setShowVisitorModal] = useState(false);
   const [selectedVisitorDate, setSelectedVisitorDate] = useState<string | null>(null);
+  const [backupLogs, setBackupLogs] = useState<any[]>([]);
 
   // Static content state
   const [staticContent, setStaticContent] = useState('');
@@ -274,6 +275,8 @@ export default function AdminDashboardPage() {
       fetchAdminUsers();
     } else if (currentSubPath === 'popups') {
       fetchPopups();
+    } else if (currentSubPath === 'backup-settings') {
+      fetchBackupLogs();
     } else if (currentSubPath === '') {
       fetchInquiries();
       fetchProducts();
@@ -658,6 +661,21 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       } else {
         const errData = await res.json();
         console.error(errData.error);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingData(false);
+    }
+  };
+
+  const fetchBackupLogs = async () => {
+    setLoadingData(true);
+    try {
+      const res = await fetch('/api/backup/history');
+      if (res.ok) {
+        const data = await res.json();
+        setBackupLogs(data.logs || []);
       }
     } catch (e) {
       console.error(e);
@@ -1287,16 +1305,29 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
                 {/* Admin Users management (Super admin only) */}
                 {currentUser?.role === 'super_admin' && (
-                  <button
-                    onClick={() => router.push('/management/dashboard/admin-users')}
-                    className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
-                      currentSubPath === 'admin-users'
-                        ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
-                        : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent pl-3.5'
-                    }`}
-                  >
-                    <span>관리자 계정 관리</span>
-                  </button>
+                  <>
+                    <button
+                      onClick={() => router.push('/management/dashboard/admin-users')}
+                      className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
+                        currentSubPath === 'admin-users'
+                          ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
+                          : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent pl-3.5'
+                      }`}
+                    >
+                      <span>관리자 계정 관리</span>
+                    </button>
+
+                    <button
+                      onClick={() => router.push('/management/dashboard/backup-settings')}
+                      className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
+                        currentSubPath === 'backup-settings'
+                          ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
+                          : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent pl-3.5'
+                      }`}
+                    >
+                      <span>백업 설정</span>
+                    </button>
+                  </>
                 )}
               </div>
             )}
@@ -1746,6 +1777,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                currentSubPath !== 'contact/inquiry/corruption' && 
                currentSubPath !== 'admin-users' && 
                currentSubPath !== 'popups' && 
+               currentSubPath !== 'backup-settings' && 
                currentSubPath !== 'seo-settings' && (
                 <div className="space-y-6">
                   {/* Sub-tabs for intro page key sub-components */}
@@ -5198,6 +5230,87 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                             <tr>
                               <td colSpan={5} className="text-center py-12 text-gray-500 text-xs">
                                 등록된 관리자 계정이 없습니다.
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Case Backup: Backup Settings (Super Admin Only) */}
+              {currentSubPath === 'backup-settings' && currentUser?.role === 'super_admin' && (
+                <div className="space-y-6 animate-fade-in-up">
+                  <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                    <h3 className="text-sm font-extrabold text-white">
+                      데이터베이스 및 첨부파일 백업
+                    </h3>
+                  </div>
+                  <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-6 shadow-2xl backdrop-blur-md space-y-4">
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      현재 데이터베이스의 모든 데이터(게시글, 문의 내역, 통계 등)를 백업할 수 있습니다. 
+                      첨부파일을 포함한 <strong>전체 백업</strong>은 용량이 클 수 있으며, 데이터만 백업하는 <strong>DB 전용 백업</strong>은 매우 빠르고 가볍습니다.
+                    </p>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <button
+                        onClick={() => {
+                          window.location.href = `/api/backup?type=full&t=${Date.now()}`;
+                        }}
+                        className="inline-flex items-center space-x-2 bg-brand-green hover:bg-brand-green-dark text-white font-bold px-5 py-3 rounded-xl text-sm transition-colors cursor-pointer shadow-md shadow-brand-green/20"
+                      >
+                        <Download size={16} />
+                        <span>전체 백업 (데이터 + 첨부파일 .zip)</span>
+                      </button>
+                      
+                      <button
+                        onClick={() => {
+                          window.location.href = `/api/backup?type=db_only&t=${Date.now()}`;
+                        }}
+                        className="inline-flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white font-bold px-5 py-3 rounded-xl text-sm transition-colors cursor-pointer shadow-sm"
+                      >
+                        <Download size={16} />
+                        <span>DB 파일만 백업 (데이터 .zip)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Backup Logs Table */}
+                  <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-6 shadow-2xl backdrop-blur-md space-y-4 mt-8">
+                    <h4 className="text-white font-bold text-sm">최근 백업 이력</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-sm text-gray-300">
+                        <thead className="text-xs text-gray-400 bg-white/5 border-b border-white/10">
+                          <tr>
+                            <th className="px-4 py-3 font-semibold rounded-tl-lg">일시</th>
+                            <th className="px-4 py-3 font-semibold">관리자 (ID)</th>
+                            <th className="px-4 py-3 font-semibold">백업 종류</th>
+                            <th className="px-4 py-3 font-semibold rounded-tr-lg">IP 주소</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {backupLogs.length > 0 ? (
+                            backupLogs.map((log: any, idx: number) => (
+                              <tr key={idx} className="hover:bg-white/5 transition-colors">
+                                <td className="px-4 py-3">{new Date(log.created_at).toLocaleString('ko-KR')}</td>
+                                <td className="px-4 py-3">{log.name} ({log.username})</td>
+                                <td className="px-4 py-3">
+                                  {log.type === 'full' ? (
+                                    <span className="px-2 py-1 bg-brand-green/20 text-brand-green rounded text-xs">전체 백업</span>
+                                  ) : (
+                                    <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">DB 전용 백업</span>
+                                  )}
+                                </td>
+                                <td className="px-4 py-3 text-gray-500 text-xs">
+                                  {log.ip_address === '::1' ? '127.0.0.1' : log.ip_address}
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                                백업 기록이 없습니다.
                               </td>
                             </tr>
                           )}

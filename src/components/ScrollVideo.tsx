@@ -14,7 +14,9 @@ export default function ScrollVideo() {
   const [isExpanded, setIsExpanded] = useState(false);
   const isExpandedRef = useRef(false);
   const [expandedScrollY, setExpandedScrollY] = useState(0);
-  
+  const [isReady, setIsReady] = useState(false);
+  const canExpandRef = useRef(false);
+
   // 뷰포트 기준 왼쪽 여백 및 상단 절대 위치를 계산하여 확장 시 100vw를 꽉 채우고 상단을 덮도록 함
   useEffect(() => {
     const updatePosition = () => {
@@ -24,29 +26,36 @@ export default function ScrollVideo() {
         const rect = triggerRef.current.getBoundingClientRect();
         setOffsetLeft(rect.left);
         setInitialTop(rect.top + window.scrollY);
-        // 페이지 진입 시 이미 스크롤이 내려가 있거나 해상도가 작아서 화면 상단에 가까우면 바로 확대 상태로 초기화
-        if (rect.top <= window.innerHeight * 0.3) {
-          isExpandedRef.current = true;
-          setIsExpanded(true);
-          setExpandedScrollY(window.scrollY);
-        }
+        setIsReady(true);
       }
     };
     
     // 초기 로딩 후 한 번 더 계산되도록 약간의 지연을 줌
     setTimeout(updatePosition, 100);
     window.addEventListener('resize', updatePosition);
-    return () => window.removeEventListener('resize', updatePosition);
+
+    // 탭 클릭 등 라우트 이동 시 이전 페이지의 스크롤 위치가 남아있어 
+    // 즉시 확대 애니메이션이 실행되는 것을 방지하기 위해 500ms 동안 확대 차단
+    const timer = setTimeout(() => {
+      canExpandRef.current = true;
+    }, 500);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      clearTimeout(timer);
+    };
   }, []);
 
   const { scrollY } = useScroll();
 
   // 스크롤 위치를 실시간 감지하여 상단에서 일정 지점 이상 스크롤되면 즉시 확대
   useMotionValueEvent(scrollY, "change", (latest) => {
+    if (!canExpandRef.current) return; // 초기 로딩 중 애니메이션 방지
+
     if (triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      // 컨테이너가 화면 중간(약 30vh)쯤 도달했을 때 확대
-      if (rect.top <= window.innerHeight * 0.3) {
+      // 컨테이너 상단이 헤더 밑(약 120px)으로 올라갈 때 확대
+      if (rect.top <= 120) {
         if (!isExpandedRef.current) {
           isExpandedRef.current = true;
           setIsExpanded(true);
@@ -61,6 +70,24 @@ export default function ScrollVideo() {
     }
   });
 
+  let currentPadding = 24;
+  if (windowWidth >= 1024) currentPadding = 96;
+  else if (windowWidth >= 768) currentPadding = 64;
+
+  const unexpandedWidth = windowWidth > 0 ? (windowWidth - currentPadding * 2) : 1200;
+  // 사용자가 요청한 1200x500 크기를 적용합니다.
+  const unexpandedHeight = 500;
+
+  // 가운데 정렬을 위한 x 좌표 이동값 계산
+  const centerOffsetX = windowWidth > 0 ? (windowWidth - unexpandedWidth) / 2 - offsetLeft : 0;
+
+  // 브라우저 크기 계산 전에는 애니메이션(너비 변동)을 방지하기 위해 빈 영역 렌더링
+  if (windowWidth === 0) {
+    return (
+      <div ref={triggerRef} className="w-full flex flex-col mb-16" style={{ height: '500px' }}></div>
+    );
+  }
+
   return (
     <div ref={triggerRef} className="w-full flex flex-col">
       <motion.div 
@@ -72,19 +99,20 @@ export default function ScrollVideo() {
         transition={{ duration: 0.6, ease: "easeInOut" }}
       >
         <motion.div 
-          initial={{ height: '400px', width: '100%', borderRadius: '2rem' }}
+          initial={{ height: `${unexpandedHeight}px`, width: '100%', borderRadius: '2rem', border: '1px solid #E5E7EB' }}
           animate={{
-            width: isExpanded ? '100vw' : '100%',
+            width: isExpanded ? '100vw' : (windowWidth > 0 ? `${unexpandedWidth}px` : '100%'),
             // 화면 전체를 완전히 덮되, 영상 원본 비율(16:9)이 깨져서 위아래가 잘리지 않도록 동적 픽셀 높이 계산
-            height: isExpanded ? (windowHeight > 0 ? `${Math.max(windowHeight, windowWidth * 9 / 16)}px` : '100vh') : '400px',
+            height: isExpanded ? (windowHeight > 0 ? `${Math.max(windowHeight, windowWidth * 9 / 16)}px` : '100vh') : `${unexpandedHeight}px`,
             borderRadius: isExpanded ? '0rem' : '2rem',
-            x: isExpanded ? -offsetLeft : 0,
+            border: isExpanded ? '0px solid transparent' : '1px solid #E5E7EB',
+            x: isExpanded ? -offsetLeft : centerOffsetX,
           }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          transition={{ duration: isReady ? 0.6 : 0, ease: "easeInOut" }}
           className="overflow-hidden shadow-2xl bg-black relative z-[40]"
         >
           <video 
-            className="w-full h-full object-cover" 
+            className={`w-full h-full object-cover`} 
             src="/20260714.mp4" 
             autoPlay 
             loop 

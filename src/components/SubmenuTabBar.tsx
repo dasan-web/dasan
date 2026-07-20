@@ -43,8 +43,8 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
     });
   }, [subMenus, hiddenSlugs]);
 
-  // Update active coords on mount or route change
-  useEffect(() => {
+  // Update active coords
+  const updateCoords = () => {
     if (activeRef.current) {
       const activeEl = activeRef.current;
       setCoords({
@@ -53,6 +53,25 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
         opacity: 1,
       });
     }
+  };
+
+  useEffect(() => {
+    updateCoords();
+    
+    // Add ResizeObserver to handle layout shifts (e.g. scrollbar appearing/disappearing, video expanding)
+    const observer = new ResizeObserver(() => {
+      updateCoords();
+    });
+    
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    
+    window.addEventListener('resize', updateCoords);
+    return () => {
+      window.removeEventListener('resize', updateCoords);
+      observer.disconnect();
+    };
   }, [currentPath, filteredSubMenus]);
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {

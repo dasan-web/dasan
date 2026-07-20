@@ -33,6 +33,27 @@ export async function POST(request: Request) {
       );
     }
 
+    // 90-day inactive lock check (excluding super_admin)
+    if (user.role !== 'super_admin') {
+      const now = new Date();
+      const lastLogin = new Date(user.last_login_at || user.created_at);
+      const diffDays = Math.floor((now.getTime() - lastLogin.getTime()) / (1000 * 60 * 60 * 24));
+      
+      if (diffDays >= 90) {
+        return NextResponse.json(
+          { error: '90일 장기 미접속으로 인해 계정이 잠겼습니다. 최고관리자에게 문의하세요.' },
+          { status: 403 }
+        );
+      }
+    }
+
+    // Update last_login_at
+    try {
+      await query('UPDATE admin_users SET last_login_at = NOW() WHERE id = ?', [user.id]);
+    } catch (e) {
+      console.error('Failed to update last_login_at', e);
+    }
+
     // Create session payload
     const sessionPayload = {
       username: user.username,
