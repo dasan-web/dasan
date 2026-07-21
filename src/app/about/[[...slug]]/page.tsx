@@ -295,7 +295,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           <>
             {/* 상단 인트로 슬로건 */}
             <div className="w-full text-center mb-8 animate-fade-in-up">
-              <h2 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight">
+              <h2 className="text-3xl md:text-4xl font-pretendard font-medium text-gray-900 tracking-tight">
                 인류의 행복을 창출하는 <span className="text-brand-green font-black">Global Healthcare 기업</span>
               </h2>
             </div>
@@ -559,13 +559,13 @@ export default async function AboutCatchAllPage({ params }: Params) {
             <SalesGrowthChart />
 
             {/* Header */}
-            <div className="text-left mb-16 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
+            <div className="text-left mb-16 relative z-10 w-full max-w-5xl mx-auto">
               
               {/* 사용자 요청 텍스트 (그림 부분) */}
               <div className="mb-12 animate-fade-in-up">
-                <h2 className="text-xl md:text-2xl font-pretendard font-black text-gray-800 leading-tight tracking-tight">
+                <h2 className="text-3xl md:text-4xl font-pretendard font-medium text-gray-800 leading-tight tracking-tight">
                   신뢰와 혁신으로<br />
-                  미래를 향한 <span className="text-[#3a8b54]">DASAN</span>
+                  미래를 향한 <span className="text-[#3a8b54] font-black">DASAN</span>
                 </h2>
               </div>
 
