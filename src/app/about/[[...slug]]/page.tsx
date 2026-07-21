@@ -14,6 +14,7 @@ import CIDownloadButton from '@/components/CIDownloadButton';
 import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
 import ScrollVideo from '@/components/ScrollVideo';
 import SalesGrowthChart from '@/components/SalesGrowthChart';
+import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -311,37 +312,132 @@ export default async function AboutCatchAllPage({ params }: Params) {
               
               <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
                 {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
-                  <div 
-                    className="
-                      [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                      [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3:not(:first-child)]:mt-28
-                      [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
-                      [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
-                      [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
-                      [&_strong]:text-gray-900 [&_strong]:font-bold
-                    "
-                    dangerouslySetInnerHTML={{ __html: `<h3 class="text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-12">${introTitle}</h3>` + introBody }} 
-                  />
-                ) : (
-                  (introTitle + '\n' + introBody).split('\n').map((line, i) => {
-                    const trimmed = line.trim();
-                    if (!trimmed) return null;
-
-                    // 1. 기업 이념 및 핵심가치, CEO 메시지 등 메인 타이틀
-                    if (trimmed.match(/^[1-9]\.\s/) || trimmed.includes('CEO 메시지 (CEO Message)')) {
-                      const titleText = trimmed.replace(/^[1-9]\.\s?/, '');
-                      return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
-                    }
+                  (() => {
+                    let beforeHtml = introBody;
+                    let afterHtml = '';
+                    let hasPhilosophy = false;
+                    const philIndex = introBody.indexOf('4대 경영 철학');
                     
-                    // 서브 타이틀 (다산의 정신으로..., 신뢰와 혁신으로..., 4대 경영 철학)
-                    if (
-                      trimmed.startsWith('다산(茶山)의 정신으로') || 
-                      trimmed.startsWith('신뢰와 혁신으로') ||
-                      trimmed.includes('4대 경영 철학') ||
-                      trimmed.includes('핵심 가치')
-                    ) {
-                      return <h4 key={i} className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>;
+                    if (philIndex !== -1) {
+                      hasPhilosophy = true;
+                      const philEnd = philIndex + '4대 경영 철학'.length;
+                      const nextP = introBody.indexOf('</p>', philEnd);
+                      const nextBr = introBody.indexOf('<br', philEnd);
+                      
+                      let cutIndex = philEnd;
+                      if (nextP !== -1 && nextBr !== -1) {
+                        cutIndex = Math.min(nextP + 4, nextBr + (introBody.substring(nextBr, nextBr+6).includes('/') ? 5 : 4));
+                      } else if (nextP !== -1) {
+                        cutIndex = nextP + 4;
+                      } else if (nextBr !== -1) {
+                        cutIndex = nextBr + (introBody.substring(nextBr, nextBr+6).includes('/') ? 5 : 4);
+                      }
+                      
+                      // Fallback just in case it's huge
+                      if (cutIndex - philEnd > 50) cutIndex = philEnd;
+
+                      beforeHtml = introBody.substring(0, cutIndex);
+                      afterHtml = introBody.substring(cutIndex);
+                    } else {
+                      beforeHtml = introBody;
                     }
+
+                    const processHtmlTitles = (html: string) => {
+                      let processed = html;
+                      
+                      // 1. CEO 메시지 (CEO Message)
+                      processed = processed.replace(
+                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(CEO 메시지 \(CEO Message\))\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
+                        '<span class="block text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-24 w-full">$1</span>'
+                      );
+                      
+                      // 1.5 4대 경영 철학
+                      processed = processed.replace(
+                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
+                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">$1</span>'
+                      );
+                      
+                      // 2. 다산(茶山)의 정신으로...
+                      processed = processed.replace(
+                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(다산\(茶山\)의 정신으로.*?다산제약)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
+                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</span>'
+                      );
+                      
+                      // 3. 신뢰와 혁신으로...
+                      processed = processed.replace(
+                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(신뢰와 혁신으로.*?미래)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
+                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">신뢰와 혁신으로 열어가는 더 건강한 미래</span>'
+                      );
+                      
+                      return processed;
+                    };
+
+                    beforeHtml = processHtmlTitles(beforeHtml);
+                    afterHtml = processHtmlTitles(afterHtml);
+
+                    return (
+                      <>
+                        <div 
+                          className="
+                            text-[15px] text-gray-600 leading-[1.8]
+                            [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
+                            [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3:not(:first-child)]:mt-28
+                            [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
+                            [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
+                            [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
+                            [&_strong]:text-gray-900 [&_strong]:font-bold
+                          "
+                          dangerouslySetInnerHTML={{ __html: `<h3 class="text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-12">${introTitle}</h3>` + beforeHtml }} 
+                        />
+                        {hasPhilosophy && (
+                          <>
+                            <div className="w-full">
+                              <PhilosophyGraphic />
+                            </div>
+                            <div 
+                              className="
+                                text-[15px] text-gray-600 leading-[1.8]
+                                [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
+                                [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
+                                [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
+                                [&_strong]:text-gray-900 [&_strong]:font-bold
+                              "
+                              dangerouslySetInnerHTML={{ __html: afterHtml }} 
+                            />
+                          </>
+                        )}
+                      </>
+                    );
+                  })()
+                ) : (
+                  (() => {
+                    return (introTitle + '\n' + introBody).split('\n').map((line, i) => {
+                      const trimmed = line.trim();
+                      if (!trimmed) return null;
+
+                      // 1. 기업 이념 및 핵심가치, CEO 메시지 등 메인 타이틀
+                      if (trimmed.match(/^[1-9]\.\s/) || trimmed.includes('CEO 메시지 (CEO Message)')) {
+                        const titleText = trimmed.replace(/^[1-9]\.\s?/, '');
+                        return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
+                      }
+                      
+                      if (trimmed.includes('4대 경영 철학')) {
+                        return (
+                          <div key={i} className="w-full">
+                            <h4 className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>
+                            <PhilosophyGraphic />
+                          </div>
+                        );
+                      }
+
+                      // 서브 타이틀 (다산의 정신으로..., 신뢰와 혁신으로...)
+                      if (
+                        trimmed.startsWith('다산(茶山)의 정신으로') || 
+                        trimmed.startsWith('신뢰와 혁신으로') ||
+                        trimmed.includes('핵심 가치')
+                      ) {
+                        return <h4 key={i} className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>;
+                      }
 
                     // 불릿 리스트
                     if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('·')) {
@@ -369,7 +465,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                     // 일반 단락
                     return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px]">{trimmed}</p>;
-                  })
+                  });
+                  })()
                 )}
                 
                 {/* CEO Signature */}
