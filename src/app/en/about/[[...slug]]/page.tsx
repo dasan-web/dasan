@@ -389,44 +389,68 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-4 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
-            <h3 className="text-xl md:text-2xl font-black text-gray-900 mt-4 mb-4 pb-2 border-b border-gray-100">
+            <div 
+              className="relative h-[70vh] lg:h-[85vh] mb-16 shadow-lg overflow-hidden"
+              style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}
+            >
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: "url('/images/business_hero.jpg')" }}
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 animate-fade-in-up" style={{ textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 md:mb-10">Dasan Pharmaceutical</h2>
+                <p className="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-5">Has secured high value-added business growth</p>
+                <p className="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-5">by establishing a <span className="font-extrabold">Key Value Chain</span> infrastructure</p>
+                <p className="text-2xl md:text-4xl lg:text-5xl font-bold">for the entire pharmaceutical lifecycle from R&D to sales.</p>
+              </div>
+            </div>
+
+            <h3 className="text-xl md:text-2xl font-black text-gray-900 mt-4 mb-10 pb-2 border-b border-gray-100">
               Core Business
             </h3>
-            <p className="mb-12 text-gray-600 leading-[1.8] text-[15px]">
-              We have secured high value-added business growth by establishing a <strong className="font-bold text-gray-900">Key Value Chain</strong> infrastructure for the entire pharmaceutical lifecycle from R&D to sales
-            </p>
             
-            <div className="space-y-12">
-              {bizData.items.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-2">
-                  {item.title.includes(') ') ? (
-                    <>
-                      <div className="text-lg md:text-xl font-bold text-gray-900 shrink-0">
-                        {item.title.split(') ')[0]})
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-4">
-                          {item.title.substring(item.title.indexOf(') ') + 2)}
-                        </h4>
-                      {(typeof item.desc === 'string' && (item.desc.includes('<p') || item.desc.includes('<h'))) ? (
-                        <div dangerouslySetInnerHTML={{ __html: item.desc }} className="[&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:text-[15px] [&_h4]:font-bold [&_strong]:font-bold" />
-                      ) : (
-                        <p className="text-gray-600 leading-[1.8] text-[15px]">{item.desc}</p>
-                      )}
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex-1">
-                      <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-4">{item.title}</h4>
-                      {(typeof item.desc === 'string' && (item.desc.includes('<p') || item.desc.includes('<h'))) ? (
-                        <div dangerouslySetInnerHTML={{ __html: item.desc }} className="[&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:text-[15px] [&_h4]:font-bold [&_strong]:font-bold" />
-                      ) : (
-                        <p className="text-gray-600 leading-[1.8] text-[15px]">{item.desc}</p>
-                      )}
-                    </div>
-                  )}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:-mx-4 xl:-mx-8 mt-12">
+              {/* Card 1 */}
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
+                />
+                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
+                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">01. Finished Pharmaceutical Products</h4>
+                  <div className="h-[72px] lg:h-[96px]">
+                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Establishing, producing, and selling excellent product lineups focusing on cardiovascular, respiratory, and urological systems</p>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Card 2 */}
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
+                />
+                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
+                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">02. Contract Manufacturing (CMO)</h4>
+                  <div className="h-[72px] lg:h-[96px]">
+                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Contract manufacturing of prescription drugs through proprietary formulation technology and process optimization</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
+                />
+                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
+                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">03. API & Intermediates</h4>
+                  <div className="h-[72px] lg:h-[96px]">
+                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Development and patenting of core APIs and intermediates, DMF registration and management for new synthetic and imported raw materials</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         );

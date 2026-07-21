@@ -4,9 +4,10 @@ import { redirect } from 'next/navigation';
 import { navigationData } from '@/lib/navigation';
 import SubmenuTabBar from '@/components/SubmenuTabBar';
 import { query } from '@/lib/db';
-import { UserCheck, HelpCircle, Briefcase, FileText, CheckCircle2, ChevronRight } from 'lucide-react';
+import { UserCheck, HelpCircle, Briefcase, FileText, CheckCircle2, ChevronRight, ClipboardList } from 'lucide-react';
 import PressList from '@/components/PressList';
 import JobList from '@/components/JobList';
+import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import type { Metadata } from 'next';
 
 interface Params {
@@ -174,61 +175,61 @@ export default async function ContactCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-12 animate-fade-in-up">
-            <div className="border-b border-gray-100 pb-5 text-center md:text-left">
-              <h4 className="text-xl md:text-2xl font-black text-brand-blue mb-3 whitespace-pre-wrap">{mainTitle}</h4>
-              {(typeof intro === 'string' && (intro.includes('<p') || intro.includes('<h'))) ? (
-                <div dangerouslySetInnerHTML={{ __html: intro }} className="[&_p]:text-sm md:[&_p]:text-base [&_p]:text-gray-500 [&_p]:max-w-2xl [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold mx-auto" />
-              ) : (
-                <p className="text-sm md:text-base text-gray-500 max-w-2xl leading-relaxed whitespace-pre-wrap mx-auto">
-                  {intro}
-                </p>
-              )}
+
+
+            <div className="mt-12 mb-8 text-center animate-fade-in-up">
+              <h3 className="text-2xl md:text-3xl font-black text-brand-blue break-keep">
+                인재상(정도 경영, 도전과 창의, 소통과 협력, 사회적 공헌)
+              </h3>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              {/* 전문적 도전 */}
-              <div className="p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-14 h-14 bg-brand-teal/10 rounded-full flex items-center justify-center text-brand-teal mx-auto">
-                  <UserCheck size={28} />
+            <div className="w-full mb-16">
+              <PhilosophyGraphic />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+              {/* Card 1: 정도 경영 */}
+              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
+                <div className="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mx-auto">
+                  <UserCheck size={24} />
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{card1Title}</h5>
-                {(typeof card1Desc === 'string' && (card1Desc.includes('<p') || card1Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: card1Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-500 [&_p]:leading-relaxed [&_p]:font-semibold [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
-                    {card1Desc}
-                  </p>
-                )}
+                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">정도 경영</h5>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
+                  투명하고 올바른 기준을 준수하며 시장과 고객의 신뢰를 구축합니다
+                </p>
               </div>
 
-              {/* 혁신 지향 */}
-              <div className="p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-14 h-14 bg-brand-cyan/10 rounded-full flex items-center justify-center text-brand-cyan mx-auto">
-                  <Briefcase size={28} />
+              {/* Card 2: 도전과 창의 */}
+              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
+                <div className="w-12 h-12 bg-brand-cyan/10 rounded-full flex items-center justify-center text-brand-cyan mx-auto">
+                  <Briefcase size={24} />
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{card2Title}</h5>
-                {(typeof card2Desc === 'string' && (card2Desc.includes('<p') || card2Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: card2Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-500 [&_p]:leading-relaxed [&_p]:font-semibold [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
-                    {card2Desc}
-                  </p>
-                )}
+                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">도전과 창의</h5>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
+                  끊임없는 R&D 혁신과 차별화된 제제기술로 새로운 가능성을 개척합니다
+                </p>
               </div>
 
-              {/* 신뢰와 협동 */}
-              <div className="p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-14 h-14 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue mx-auto">
-                  <CheckCircle2 size={28} />
+              {/* Card 3: 소통과 협력 */}
+              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
+                <div className="w-12 h-12 bg-brand-teal/10 rounded-full flex items-center justify-center text-brand-teal mx-auto">
+                  <CheckCircle2 size={24} />
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{card3Title}</h5>
-                {(typeof card3Desc === 'string' && (card3Desc.includes('<p') || card3Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: card3Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-500 [&_p]:leading-relaxed [&_p]:font-semibold [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold whitespace-pre-wrap">
-                    {card3Desc}
-                  </p>
-                )}
+                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">소통과 협력</h5>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
+                  구성원 간의 유기적인 협업과 파트너사와의 상생을 추구합니다
+                </p>
+              </div>
+
+              {/* Card 4: 사회적 공헌 */}
+              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
+                <div className="w-12 h-12 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue mx-auto">
+                  <HelpCircle size={24} />
+                </div>
+                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">사회적 공헌</h5>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
+                  생명 존중의 가치를 바탕으로 건강하고 행복한 사회를 만드는 데 기여합니다
+                </p>
               </div>
             </div>
           </div>
@@ -259,67 +260,96 @@ export default async function ContactCatchAllPage({ params }: Params) {
               )}
             </div>
             
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 text-center">
+            <div className="relative flex flex-col md:flex-row justify-between gap-4 md:gap-6 text-center mt-12 w-full">
+              {/* Connecting Background Line for Desktop */}
+              <div className="hidden md:block absolute top-10 left-[10%] right-[10%] h-[2px] bg-gray-200 -z-10" />
+
               {/* STEP 1 */}
-              <div className="flex-grow p-6 md:p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300">
-                <span className="font-black text-brand-teal text-base md:text-lg block mb-2">STEP 1</span>
-                <p className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{step1Title}</p>
-                {(typeof step1Desc === 'string' && (step1Desc.includes('<p') || step1Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: step1Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-400 [&_p]:mt-2 [&_p]:font-medium [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step1Desc}</p>
-                )}
-              </div>
-              
-              {/* Arrow 1 */}
-              <div className="flex justify-center items-center text-gray-300 flex-shrink-0">
-                <ChevronRight className="hidden md:block" size={28} />
-                <ChevronRight className="block md:hidden rotate-90" size={28} />
-              </div>
-
-              {/* STEP 2 */}
-              <div className="flex-grow p-6 md:p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300">
-                <span className="font-black text-brand-cyan text-base md:text-lg block mb-2">STEP 2</span>
-                <p className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{step2Title}</p>
-                {(typeof step2Desc === 'string' && (step2Desc.includes('<p') || step2Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: step2Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-400 [&_p]:mt-2 [&_p]:font-medium [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step2Desc}</p>
-                )}
+              <div className="relative z-10 w-full flex-1 flex flex-col items-center">
+                <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white border-[4px] lg:border-[6px] border-gray-50 shadow-md flex items-center justify-center text-brand-teal mb-4 lg:mb-6 mx-auto transition-transform duration-300 hover:scale-105">
+                  <FileText size={28} className="text-brand-teal" />
+                </div>
+                <div className="bg-white p-4 lg:p-6 rounded-2xl border border-gray-200 shadow-sm w-full hover:shadow-md transition-shadow duration-300 flex-grow">
+                  <span className="inline-block px-3 py-1 bg-brand-teal/10 text-brand-teal text-xs font-black rounded-full mb-3">STEP 1</span>
+                  <p className="font-extrabold text-brand-blue text-sm lg:text-base mb-2 whitespace-pre-wrap">{step1Title}</p>
+                  {(typeof step1Desc === 'string' && (step1Desc.includes('<p') || step1Desc.includes('<h'))) ? (
+                    <div dangerouslySetInnerHTML={{ __html: step1Desc }} className="[&_p]:text-xs [&_p]:text-gray-500 [&_p]:font-medium [&_p]:whitespace-pre-wrap" />
+                  ) : (
+                    <p className="text-[11px] lg:text-xs text-gray-500 font-medium whitespace-pre-wrap break-keep">{step1Desc}</p>
+                  )}
+                </div>
+                <div className="block md:hidden text-gray-300 my-4">
+                  <ChevronRight size={24} className="rotate-90 mx-auto" />
+                </div>
               </div>
 
-              {/* Arrow 2 */}
-              <div className="flex justify-center items-center text-gray-300 flex-shrink-0">
-                <ChevronRight className="hidden md:block" size={28} />
-                <ChevronRight className="block md:hidden rotate-90" size={28} />
+              {/* STEP 2 (New) */}
+              <div className="relative z-10 w-full flex-1 flex flex-col items-center">
+                <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white border-[4px] lg:border-[6px] border-gray-50 shadow-md flex items-center justify-center text-brand-cyan mb-4 lg:mb-6 mx-auto transition-transform duration-300 hover:scale-105">
+                  <ClipboardList size={28} className="text-brand-cyan" />
+                </div>
+                <div className="bg-white p-4 lg:p-6 rounded-2xl border border-gray-200 shadow-sm w-full hover:shadow-md transition-shadow duration-300 flex-grow">
+                  <span className="inline-block px-3 py-1 bg-brand-cyan/10 text-brand-cyan text-xs font-black rounded-full mb-3">STEP 2</span>
+                  <p className="font-extrabold text-brand-blue text-sm lg:text-base mb-2 whitespace-pre-wrap">인적성검사</p>
+                  <p className="text-[11px] lg:text-xs text-gray-500 font-medium whitespace-pre-wrap break-keep">종합 인적성 평가</p>
+                </div>
+                <div className="block md:hidden text-gray-300 my-4">
+                  <ChevronRight size={24} className="rotate-90 mx-auto" />
+                </div>
               </div>
 
-              {/* STEP 3 */}
-              <div className="flex-grow p-6 md:p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300">
-                <span className="font-black text-brand-blue text-base md:text-lg block mb-2">STEP 3</span>
-                <p className="font-extrabold text-brand-blue text-base md:text-lg whitespace-pre-wrap">{step3Title}</p>
-                {(typeof step3Desc === 'string' && (step3Desc.includes('<p') || step3Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: step3Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-gray-400 [&_p]:mt-2 [&_p]:font-medium [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-xs md:text-sm text-gray-400 mt-2 font-medium whitespace-pre-wrap">{step3Desc}</p>
-                )}
+              {/* STEP 3 (Formerly 2) */}
+              <div className="relative z-10 w-full flex-1 flex flex-col items-center">
+                <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white border-[4px] lg:border-[6px] border-gray-50 shadow-md flex items-center justify-center text-blue-500 mb-4 lg:mb-6 mx-auto transition-transform duration-300 hover:scale-105">
+                  <Briefcase size={28} className="text-blue-500" />
+                </div>
+                <div className="bg-white p-4 lg:p-6 rounded-2xl border border-gray-200 shadow-sm w-full hover:shadow-md transition-shadow duration-300 flex-grow">
+                  <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-xs font-black rounded-full mb-3">STEP 3</span>
+                  <p className="font-extrabold text-brand-blue text-sm lg:text-base mb-2 whitespace-pre-wrap">{step2Title}</p>
+                  {(typeof step2Desc === 'string' && (step2Desc.includes('<p') || step2Desc.includes('<h'))) ? (
+                    <div dangerouslySetInnerHTML={{ __html: step2Desc }} className="[&_p]:text-xs [&_p]:text-gray-500 [&_p]:font-medium [&_p]:whitespace-pre-wrap" />
+                  ) : (
+                    <p className="text-[11px] lg:text-xs text-gray-500 font-medium whitespace-pre-wrap break-keep">{step2Desc}</p>
+                  )}
+                </div>
+                <div className="block md:hidden text-gray-300 my-4">
+                  <ChevronRight size={24} className="rotate-90 mx-auto" />
+                </div>
               </div>
 
-              {/* Arrow 3 */}
-              <div className="flex justify-center items-center text-gray-300 flex-shrink-0">
-                <ChevronRight className="hidden md:block" size={28} />
-                <ChevronRight className="block md:hidden rotate-90" size={28} />
+              {/* STEP 4 (Formerly 3) */}
+              <div className="relative z-10 w-full flex-1 flex flex-col items-center">
+                <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white border-[4px] lg:border-[6px] border-gray-50 shadow-md flex items-center justify-center text-brand-blue mb-4 lg:mb-6 mx-auto transition-transform duration-300 hover:scale-105">
+                  <UserCheck size={28} className="text-brand-blue" />
+                </div>
+                <div className="bg-white p-4 lg:p-6 rounded-2xl border border-gray-200 shadow-sm w-full hover:shadow-md transition-shadow duration-300 flex-grow">
+                  <span className="inline-block px-3 py-1 bg-brand-blue/10 text-brand-blue text-xs font-black rounded-full mb-3">STEP 4</span>
+                  <p className="font-extrabold text-brand-blue text-sm lg:text-base mb-2 whitespace-pre-wrap">{step3Title}</p>
+                  {(typeof step3Desc === 'string' && (step3Desc.includes('<p') || step3Desc.includes('<h'))) ? (
+                    <div dangerouslySetInnerHTML={{ __html: step3Desc }} className="[&_p]:text-xs [&_p]:text-gray-500 [&_p]:font-medium [&_p]:whitespace-pre-wrap" />
+                  ) : (
+                    <p className="text-[11px] lg:text-xs text-gray-500 font-medium whitespace-pre-wrap break-keep">{step3Desc}</p>
+                  )}
+                </div>
+                <div className="block md:hidden text-gray-300 my-4">
+                  <ChevronRight size={24} className="rotate-90 mx-auto" />
+                </div>
               </div>
 
-              {/* STEP 4 */}
-              <div className="flex-grow p-6 md:p-8 bg-white rounded-2xl border border-gray-150 shadow-sm hover:shadow-md transition-all duration-300">
-                <span className="font-black text-emerald-600 text-base md:text-lg block mb-2">STEP 4</span>
-                <p className="font-extrabold text-emerald-800 text-base md:text-lg whitespace-pre-wrap">{step4Title}</p>
-                {(typeof step4Desc === 'string' && (step4Desc.includes('<p') || step4Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: step4Desc }} className="[&_p]:text-xs md:[&_p]:text-sm [&_p]:text-emerald-700 [&_p]:mt-2 [&_p]:font-medium [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-xs md:text-sm text-emerald-700 mt-2 font-medium whitespace-pre-wrap">{step4Desc}</p>
-                )}
+              {/* STEP 5 (Formerly 4) */}
+              <div className="relative z-10 w-full flex-1 flex flex-col items-center">
+                <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white border-[4px] lg:border-[6px] border-emerald-50 shadow-md flex items-center justify-center text-emerald-500 mb-4 lg:mb-6 mx-auto transition-transform duration-300 hover:scale-105">
+                  <CheckCircle2 size={28} className="text-emerald-500" />
+                </div>
+                <div className="bg-emerald-50/50 p-4 lg:p-6 rounded-2xl border border-emerald-200 shadow-sm w-full hover:shadow-md transition-shadow duration-300 flex-grow">
+                  <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-black rounded-full mb-3">STEP 5</span>
+                  <p className="font-extrabold text-emerald-800 text-sm lg:text-base mb-2 whitespace-pre-wrap">{step4Title}</p>
+                  {(typeof step4Desc === 'string' && (step4Desc.includes('<p') || step4Desc.includes('<h'))) ? (
+                    <div dangerouslySetInnerHTML={{ __html: step4Desc }} className="[&_p]:text-xs [&_p]:text-emerald-700 [&_p]:font-medium [&_p]:whitespace-pre-wrap" />
+                  ) : (
+                    <p className="text-[11px] lg:text-xs text-emerald-700 font-medium whitespace-pre-wrap break-keep">{step4Desc}</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
