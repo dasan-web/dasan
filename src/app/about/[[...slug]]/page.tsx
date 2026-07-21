@@ -597,7 +597,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let primaryLogoDesc = '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다, 대내외 다양한 커뮤니케이션에 최우선으로 사용합니다.\n다산제약의 메인 로고는 각 형태에 따라 비례를 조정한 것이므로, 글자와 도형의 형태, 굵기, 비례 등을 임의로 변경할 수 없습니다.';
         let primaryLogoPrint = '인쇄용: 가로기준 권장: 30mm이상, 최소: 25mm';
         let primaryLogoDigital = '디지털: 가로기준 권장: 130px이상, 최소 120px';
-        let primaryLogoFooter = '로고 활용 시 규정된 최소 사이즈 미만의 사용을 금합니다. 모바일 애플리케이션 등 작게 적용될 수 밖에 없는 매체에서는\n주어진 공간에서 최대한 크게 보일 수 있게 적용합니다.';
+        let primaryLogoFooter = '로고 활용 시 규정된 최소 사이즈 미만의 사용을 금합니다. 모바일 애플리케이션 등 작게 적용될 수 밖에 없는 매체에서는 주어진 공간에서 최대한 크게 보일 수 있게 적용합니다.';
         
         let secondaryLogoTitle = 'Secondary Logo';
         let secondaryLogoDesc = '시그니처 조합형(가로 , 세로, 워드마크)';
@@ -742,7 +742,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 {(typeof primaryLogoFooter === 'string' && (primaryLogoFooter.includes('<p') || primaryLogoFooter.includes('<h'))) ? (
                   <div dangerouslySetInnerHTML={{ __html: primaryLogoFooter }} className="[&_p]:text-gray-500 [&_p]:mt-6 [&_p]:text-sm [&_p]:whitespace-pre-line [&_p]:leading-relaxed [&_h4]:font-bold [&_strong]:font-bold" />
                 ) : (
-                  <p className="text-gray-500 mt-6 text-sm whitespace-pre-line leading-relaxed">{primaryLogoFooter}</p>
+                  <p className="text-gray-500 mt-6 text-sm whitespace-pre-line break-keep leading-relaxed">{primaryLogoFooter}</p>
                 )}
               </div>
             </div>
