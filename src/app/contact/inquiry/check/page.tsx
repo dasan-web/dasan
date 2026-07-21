@@ -133,18 +133,18 @@ export default function InquiryCheckPage() {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className="min-h-[550px] space-y-8 w-full max-w-5xl">
-              <div className="text-left">
-                <p className="text-sm text-gray-500 max-w-2xl leading-relaxed">
+            <div className="min-h-[550px] space-y-8 w-full max-w-5xl flex flex-col items-center">
+              <div className="text-center w-full max-w-4xl">
+                <p className="text-sm text-gray-500 leading-relaxed break-keep">
                   제품 문의 및 영업 문의 접수 시 입력하셨던 이메일 주소를 입력하시면 접수된 문의글의 상태를 확인하실 수 있습니다.
                 </p>
-                <p className="text-xs text-brand-green/90 font-bold mt-2 leading-relaxed">
+                <p className="text-xs text-brand-green/90 font-bold mt-2 leading-relaxed break-keep">
                   * 부패신고 문의(익명)의 경우, 조회용 기본 이메일인 <span className="underline">anonymous@dspharm.com</span>을 입력하시면 익명 접수 완료 여부를 확인하실 수 있습니다.
                 </p>
               </div>
 
               {/* Search Form */}
-              <form onSubmit={handleSearch} className="flex flex-col gap-3 max-w-xl">
+              <form onSubmit={handleSearch} className="flex flex-col gap-3 w-full max-w-xl">
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="relative flex-1">
                     <Mail className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
@@ -208,7 +208,7 @@ export default function InquiryCheckPage() {
 
               {/* Results Area */}
               {searched && (
-                <div className="border-t border-gray-100 pt-8">
+                <div className="border-t border-gray-100 pt-8 w-full max-w-2xl">
                   {loading ? (
                     <div className="flex justify-center items-center py-10">
                       <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-brand-teal"></div>

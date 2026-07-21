@@ -30,7 +30,6 @@ export const navigationData: GrandMenu[] = [
           { name: '연혁', enName: 'History', link: '/about/history' },
           { name: 'CI', enName: 'CI', link: '/about/ci' },
           { name: '찾아오시는길', enName: 'Location', link: '/about/facilities' },
-          { name: '찾아오시는 길 (기존)', enName: 'Location Map', link: '/about/location' },
         ],
       },
       {
@@ -118,8 +117,8 @@ export const navigationData: GrandMenu[] = [
       {
         name: '고객센터', enName: 'Customer Service',
         subMenus: [
-          { name: '제품 문의', enName: 'Product Inquiry', link: '/contact/inquiry' },
-          { name: '영업 문의', enName: 'Sales Inquiry', link: '/contact/inquiry/sales' },
+          { name: '제품 문의(일반소비자)', enName: 'Product Inquiry', link: '/contact/inquiry' },
+          { name: '비즈니스 문의(기업대상)', enName: 'Sales Inquiry', link: '/contact/inquiry/sales' },
           { name: '부패신고 문의(익명)', enName: 'Corruption Report (Anonymous)', link: '/contact/inquiry/corruption' },
           { name: '문의 확인', enName: 'Check Inquiry', link: '/contact/inquiry/check' },
         ],

@@ -295,8 +295,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
           <>
             {/* 상단 인트로 슬로건 */}
             <div className="w-full text-center mb-8 animate-fade-in-up">
-              <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">
-                인류의 행복을 창출하는 <span className="text-brand-green">Global Healthcare 기업</span>
+              <h2 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight">
+                인류의 행복을 창출하는 <span className="text-brand-green font-black">Global Healthcare 기업</span>
               </h2>
             </div>
 
@@ -563,14 +563,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
               
               {/* 사용자 요청 텍스트 (그림 부분) */}
               <div className="mb-12 animate-fade-in-up">
-                <h2 className="text-3xl md:text-5xl font-black text-gray-800 leading-tight tracking-tight">
+                <h2 className="text-xl md:text-2xl font-pretendard font-black text-gray-800 leading-tight tracking-tight">
                   신뢰와 혁신으로<br />
                   미래를 향한 <span className="text-[#3a8b54]">DASAN</span>
                 </h2>
               </div>
 
               <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
-              <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
+              <h3 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
                 {historyIntroTitle || '성장 연혁 (History)'}
               </h3>
               {(typeof historyIntroBody === 'string' && (historyIntroBody.includes('<p') || historyIntroBody.includes('<h'))) ? (
@@ -1147,7 +1147,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
               </div>
             </div>
             <div className="space-y-3">
-              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{desc}</p>
+              <p className="text-gray-600 text-[13.5px] tracking-tight leading-relaxed whitespace-nowrap">{desc}</p>
             </div>
             
             {currentPath === '/about/ir/announcement' ? (

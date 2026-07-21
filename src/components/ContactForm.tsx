@@ -244,7 +244,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 md:p-10 border border-gray-150 shadow-[0_10px_35px_rgba(0,0,0,0.02)] w-full max-w-4xl mx-auto transition-all duration-300">
+    <div className="bg-white rounded-3xl p-8 md:p-10 border border-gray-300 shadow-[0_10px_35px_rgba(0,0,0,0.02)] w-full max-w-4xl mx-auto transition-all duration-300">
       <div className="mb-8">
         <span className="inline-block bg-brand-green/10 text-brand-green text-[10.5px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full mb-3.5">
           {currentConfig.badge}

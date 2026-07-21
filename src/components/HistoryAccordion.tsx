@@ -87,13 +87,12 @@ export default function HistoryAccordion({ timelineData }: { timelineData: Timel
                       <div className="absolute left-[30px] md:left-[120px] top-[26px] md:top-[30px] w-3 h-3 rounded-full bg-gray-300 border-[2px] border-white -translate-x-[5px] z-10 group-hover/event:bg-brand-blue group-hover/event:scale-[1.5] transition-all duration-300 shadow-sm"></div>
 
                       {/* Details */}
-                      <div className="ml-[60px] md:ml-[160px] flex-1 bg-white border border-gray-100 p-5 md:p-6 rounded-2xl shadow-sm group-hover/event:shadow-[0_8px_30px_rgba(0,0,0,0.06)] group-hover/event:border-brand-blue/20 transition-all duration-300 mt-2 md:mt-0">
+                      <div className="ml-[60px] md:ml-[160px] pl-5 flex-1 transition-all duration-300 mt-2 md:mt-0 pt-[18px] md:pt-[22px] pb-4">
                         <ul className="space-y-3">
                           {event.details.map((detail, dIndex) => {
                             const cleanDetail = detail.replace(/^•\s*/, '');
                             return (
                               <li key={dIndex} className="text-gray-600 leading-relaxed text-[15px] flex items-start">
-                                <span className="text-brand-blue/40 mr-3 mt-1 font-bold text-lg leading-none">•</span>
                                 <span className="font-medium">{cleanDetail}</span>
                               </li>
                             );
