@@ -520,10 +520,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 style={{ backgroundImage: "url('/images/business_hero.jpg')" }}
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 animate-fade-in-up" style={{ textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
-                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 md:mb-10">다산제약은</h2>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-5">연구개발(R&D)부터 판매까지 의약품 전 주기의</p>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-5"><span className="font-extrabold">Key Value Chain</span> 인프라를 구축하여</p>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-bold">고부가가치 사업 성장성을 확보하고 있습니다.</p>
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-medium mb-6 md:mb-10">다산제약은</h2>
+                <p className="text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-5">연구개발(R&D)부터 판매까지 의약품 전 주기의</p>
+                <p className="text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-5"><span className="font-extrabold">Key Value Chain</span> 인프라를 구축하여</p>
+                <p className="text-2xl md:text-4xl lg:text-5xl font-medium">고부가가치 사업 성장성을 확보하고 있습니다.</p>
               </div>
             </div>
 
