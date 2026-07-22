@@ -418,7 +418,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 />
                 <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
                   <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">01. Finished Pharmaceutical Products</h4>
-                  <div className="h-[72px] lg:h-[96px]">
+                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
                     <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Establishing, producing, and selling excellent product lineups focusing on cardiovascular, respiratory, and urological systems</p>
                   </div>
                 </div>
@@ -432,7 +432,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 />
                 <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
                   <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">02. Contract Manufacturing (CMO)</h4>
-                  <div className="h-[72px] lg:h-[96px]">
+                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
                     <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Contract manufacturing of prescription drugs through proprietary formulation technology and process optimization</p>
                   </div>
                 </div>
@@ -446,8 +446,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 />
                 <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
                   <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">03. API & Intermediates</h4>
-                  <div className="h-[72px] lg:h-[96px]">
-                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Development and patenting of core APIs and intermediates, DMF registration and management for new synthetic and imported raw materials</p>
+                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
+                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Development and patent securing of key APIs and intermediates, and DMF registration/management for new synthetic and imported materials</p>
                   </div>
                 </div>
               </div>

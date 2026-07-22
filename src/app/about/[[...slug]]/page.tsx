@@ -540,7 +540,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 />
                 <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
                   <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">01. 자사 완제 의약품 사업</h4>
-                  <div className="h-[72px] lg:h-[96px]">
+                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
                     <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">순환기, 호흡기, 비뇨기 중심의<br/><span className="whitespace-nowrap">우수한 제품 라인업 구축 및 생산·판매</span></p>
                   </div>
                 </div>
@@ -554,7 +554,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 />
                 <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
                   <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">02. 수탁 완제 의약품 (CMO) 사업</h4>
-                  <div className="h-[72px] lg:h-[96px]">
+                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
                     <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산</p>
                   </div>
                 </div>
@@ -568,7 +568,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 />
                 <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
                   <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">03. 의약품 핵심 원료 및 중간체 사업</h4>
-                  <div className="h-[72px] lg:h-[96px]">
+                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
                     <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF 등록·관리</p>
                   </div>
                 </div>
