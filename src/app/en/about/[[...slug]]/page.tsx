@@ -830,6 +830,17 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-10 animate-fade-in-up">
+            {/* Factory Overview Image */}
+            <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-lg relative mb-24">
+              <Image 
+                src="/press_factory.png" 
+                alt="Dasan Pharmaceutical Global Production Base" 
+                fill
+                unoptimized={true}
+                className="object-cover"
+              />
+            </div>
+            
             <div className="text-left mb-10">
               <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4">
                 Global Infrastructure
@@ -921,8 +932,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
               </div>
 
             </div>
-            {/* Location & Map */}
-            <div className="mt-20 pt-16 border-t border-gray-150 w-full">
+            {/* Directions & Map */}
+            <div className="mt-20 pt-16 border-t border-gray-200 w-full">
               <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-8">Location</h3>
               <LocationMapSection hideBackButton={true} />
             </div>

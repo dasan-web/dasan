@@ -255,7 +255,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
   return (
     <div className="space-y-8 animate-fade-in-up">
       {/* Location Selection Buttons (Tabs) & Back Button */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-gray-150">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3">
         <div className="flex flex-wrap gap-3">
           {displayLocations.map(loc => {
           const isActive = activeTab === loc.id;
@@ -289,7 +289,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
       </div>
 
       {/* Main Map Card for the Active Location */}
-      <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-[0_10px_35px_rgba(0,0,0,0.02)] space-y-6">
+      <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-[0_10px_35px_rgba(0,0,0,0.02)] space-y-6">
         {/* Header Information */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-100">
           <div className="space-y-1">
@@ -324,7 +324,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
         {/* Transportation Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-gray-600 pt-2">
           {/* Subway Section */}
-          <div className="p-5 bg-[#FAFBFB] border border-gray-150 rounded-2xl space-y-3">
+          <div className="p-5 bg-[#FAFBFB] border border-gray-200 rounded-2xl space-y-3">
             <div className="flex items-center space-x-2 text-brand-green font-bold">
               <Train size={18} />
               <h5 className="text-brand-blue text-sm font-extrabold">{isEnglish ? "By Subway/Train" : "지하철/철도 이용 시"}</h5>
@@ -337,7 +337,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
           </div>
 
           {/* Bus Section */}
-          <div className="p-5 bg-[#FAFBFB] border border-gray-150 rounded-2xl space-y-3">
+          <div className="p-5 bg-[#FAFBFB] border border-gray-200 rounded-2xl space-y-3">
             <div className="flex items-center space-x-2 text-brand-green font-bold">
               <BusFront size={18} />
               <h5 className="text-brand-blue text-sm font-extrabold">{isEnglish ? "By Bus" : "버스 이용 시"}</h5>

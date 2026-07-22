@@ -690,8 +690,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 </h2>
               </div>
 
-              <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
-              <h3 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
+              <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-12 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
+              <h3 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight pb-2 border-b border-gray-100 animate-fade-in-up" style={{animationDelay: '200ms'}}>
                 {historyIntroTitle || '성장 연혁 (History)'}
               </h3>
               {(typeof historyIntroBody === 'string' && (historyIntroBody.includes('<p') || historyIntroBody.includes('<h'))) ? (
@@ -800,7 +800,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           <div className="space-y-16 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl">
             {/* Section 1: Corporate Identity & Primary Logo */}
             <div className="space-y-4">
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">{ciTitle}</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight pb-2 border-b border-gray-100">{ciTitle}</h2>
               
               <div className="pt-8">
                 <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{ciSubtitle}</h3>
@@ -972,7 +972,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
         return (
           <div className="space-y-10 animate-fade-in-up">
             {/* 공장 전경 이미지 (그림1) */}
-            <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-lg relative mb-12">
+            <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-lg relative mb-24">
               {/* 이미지 경로: 임의로 press_factory.png를 지정하였으나, 추후 실제 파일명으로 수정 가능합니다. */}
               <Image 
                 src="/press_factory.png" 
@@ -984,7 +984,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
             
             <div className="text-left mb-10">
-              <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4">
+              <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4 pb-2 border-b border-gray-100">
                 글로벌 인프라 현황 (Global Infrastructure)
               </h3>
               <p className="text-gray-500 text-[15px] leading-relaxed max-w-3xl font-medium">
@@ -1075,8 +1075,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
             </div>
             {/* 찾아오시는 길 & 지도 */}
-            <div className="mt-20 pt-16 border-t border-gray-150 w-full">
-              <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-8">찾아오시는 길</h3>
+            <div className="mt-12 w-full">
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-8 pb-2 border-b border-gray-100">찾아오시는 길</h3>
               <LocationMapSection hideBackButton={true} />
             </div>
           </div>
