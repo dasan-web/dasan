@@ -89,8 +89,8 @@ export async function POST(request: Request) {
 
     // Send email notification dynamically based on SMTP configurations
     try {
-      const smtpUser = process.env.SMTP_USER || 'insa@dspharm.com';
-      const smtpPass = process.env.SMTP_PASSWORD || '@dasan5206';
+      const smtpUser = process.env.SMTP_USER || 'admin@dspharm.com';
+      const smtpPass = process.env.SMTP_PASSWORD || 'dasan337!';
 
       const transporter = nodemailer.createTransport({
         host: 'smtp.mailplug.co.kr',
@@ -102,10 +102,18 @@ export async function POST(request: Request) {
         },
       });
 
+      // Determine recipients based on inquiry type
+      let recipients = 'jssong@dspharm.com';
+      if (typePrefix === '[1:1 문의]') {
+        recipients = 'dssale1996@dspharm.com, jssong@dspharm.com';
+      } else if (typePrefix === '[부패신고 문의]') {
+        recipients = 'insa@dspharm.com, jssong@dspharm.com';
+      }
+
       await transporter.sendMail({
         from: `"다산제약 홈페이지" <${smtpUser}>`,
         replyTo: `"${name}" <${email}>`,
-        to: 'jssong@dspharm.com',
+        to: recipients,
         subject: `[문의 접수] ${prefixedSubject}`,
         html: `
           <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; border: 1px solid #eee; padding: 20px; border-radius: 10px;">

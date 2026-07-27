@@ -21,8 +21,8 @@ export async function POST(request: Request) {
     await query(insertSql, [email, code]);
 
     // Send email using SMTP
-    const smtpUser = process.env.SMTP_USER || 'insa@dspharm.com';
-    const smtpPass = process.env.SMTP_PASSWORD || '@dasan5206';
+    const smtpUser = process.env.SMTP_USER || 'admin@dspharm.com';
+    const smtpPass = process.env.SMTP_PASSWORD || 'dasan337!';
 
     const transporter = nodemailer.createTransport({
       host: 'smtp.mailplug.co.kr',

@@ -1,6 +1,28 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
+import { v2 as cloudinary } from 'cloudinary';
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const uploadToCloudinary = (buffer: Buffer, folder: string): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: folder, resource_type: 'auto' },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    uploadStream.end(buffer);
+  });
+};
 
 export async function POST(request: Request) {
   try {
@@ -15,22 +37,16 @@ export async function POST(request: Request) {
     }
 
     const bytes = await file.arrayBuffer();
-    let buffer = Buffer.from(bytes);
+    const buffer = Buffer.from(bytes);
 
     if (removeBg && file.type.startsWith('image/')) {
-      // Create uploads directory if it doesn't exist under public/uploads
-      const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-      if (!fs.existsSync(uploadsDir)) {
-        fs.mkdirSync(uploadsDir, { recursive: true });
-      }
-
-      // Generate unique name
+      const tempDir = os.tmpdir();
       const timestamp = Date.now();
       const safeName = file.name.replace(/[^a-zA-Z0-9.\u3131-\u318E\uAC00-\uD7A3_-]/g, '_');
       const fileName = `${timestamp}_${safeName}`;
-      const filePath = path.join(uploadsDir, fileName);
+      const filePath = path.join(tempDir, fileName);
 
-      // Save original file
+      // Save original file to temp directory
       fs.writeFileSync(filePath, buffer);
 
       // Run background removal script
@@ -42,29 +58,28 @@ export async function POST(request: Request) {
         console.error('AI Background Removal Error:', aiError);
       }
 
+      // Read processed file and upload to Cloudinary
+      const processedBuffer = fs.readFileSync(filePath);
+      const result = await uploadToCloudinary(processedBuffer, 'dasan');
+
+      // Clean up temp file
+      try {
+        fs.unlinkSync(filePath);
+      } catch (cleanupError) {
+        console.error('Failed to cleanup temp file:', cleanupError);
+      }
+
       return NextResponse.json({
-        url: `/uploads/${fileName}`,
+        url: result.secure_url,
         name: file.name
       });
     }
 
-    // Create uploads directory if it doesn't exist under public/uploads
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    // Generate unique name
-    const timestamp = Date.now();
-    // Replace characters that might cause issues, preserving Korean/English/Numbers and dots/hyphens
-    const safeName = file.name.replace(/[^a-zA-Z0-9.\u3131-\u318E\uAC00-\uD7A3_-]/g, '_');
-    const fileName = `${timestamp}_${safeName}`;
-    const filePath = path.join(uploadsDir, fileName);
-
-    fs.writeFileSync(filePath, buffer);
+    // Standard upload without background removal
+    const result = await uploadToCloudinary(buffer, 'dasan');
 
     return NextResponse.json({
-      url: `/uploads/${fileName}`,
+      url: result.secure_url,
       name: file.name
     });
   } catch (err: any) {

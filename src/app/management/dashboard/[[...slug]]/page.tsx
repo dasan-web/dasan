@@ -219,7 +219,11 @@ export default function AdminDashboardPage() {
   // Redirection guard for connect_editor role
   useEffect(() => {
     if (checkingAuth || !currentUser) return;
-    if (currentUser.role === 'connect_editor') {
+    if (currentUser.username === 'editor3') {
+      if (currentSubPath !== 'business/finished/search') {
+        router.replace('/management/dashboard/business/finished/search');
+      }
+    } else if (currentUser.role === 'connect_editor') {
       if (
         currentSubPath !== 'contact/newsroom/press' &&
         currentSubPath !== 'contact/newsroom/media'
@@ -1203,6 +1207,18 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
           <nav className="p-4 space-y-3">
             {navigationData
               .map((grand) => {
+                if (currentUser?.username === 'editor3') {
+                  if (grand.name !== 'Business') return null;
+                  const filteredMajors = grand.majors
+                    .filter((major) => major.name === '완제의약품')
+                    .map((major) => ({
+                      ...major,
+                      subMenus: major.subMenus.filter(
+                        (sub) => sub.link === '/business/finished/search'
+                      ),
+                    }));
+                  return { ...grand, majors: filteredMajors };
+                }
                 if (currentUser?.role === 'connect_editor') {
                   if (grand.name !== 'Connect') return null;
                   const filteredMajors = grand.majors
@@ -1279,7 +1295,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
             })}
 
             {/* Custom SEO Settings Accordion */}
-            {currentUser?.role !== 'connect_editor' && (
+            {currentUser?.role !== 'connect_editor' && currentUser?.username !== 'editor3' && (
               <div className="pt-2.5 mt-2.5 border-t border-white/5 space-y-1">
                 <button
                   onClick={() => router.push('/management/dashboard/seo-settings')}
@@ -1373,7 +1389,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                    <Download size={14} />
                    <span>엑셀 다운로드</span>
                  </button>
-                 {currentUser?.role !== 'viewer' && (
+                 {(currentUser?.role !== 'viewer' || (currentSubPath === 'business/finished/search' && currentUser?.username === 'editor3')) && (
                    <button
                      onClick={openCreateModal}
                      className="inline-flex items-center space-x-1.5 bg-brand-green hover:bg-brand-green-dark text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-md shadow-brand-green/10"
@@ -1425,7 +1441,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                               <td className="px-5 py-4 text-gray-500 font-mono text-xs">{p.english_name || '-'}</td>
                               <td className="px-5 py-4 text-xs text-gray-400">{p.efficacy}</td>
                               <td className="px-5 py-4 text-right space-x-2">
-                                {currentUser?.role !== 'viewer' && (
+                                {currentUser?.role !== 'viewer' && currentUser?.username !== 'editor3' && (
                                   <button
                                     onClick={() => openEditModal(p, 'product')}
                                     className="text-gray-500 hover:text-brand-green p-1 transition-colors cursor-pointer inline-block"
