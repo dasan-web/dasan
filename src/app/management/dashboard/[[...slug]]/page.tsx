@@ -1441,7 +1441,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                               <td className="px-5 py-4 text-gray-500 font-mono text-xs">{p.english_name || '-'}</td>
                               <td className="px-5 py-4 text-xs text-gray-400">{p.efficacy}</td>
                               <td className="px-5 py-4 text-right space-x-2">
-                                {currentUser?.role !== 'viewer' && currentUser?.username !== 'editor3' && (
+                                {(currentUser?.role !== 'viewer' || currentUser?.username === 'editor3') && (
                                   <button
                                     onClick={() => openEditModal(p, 'product')}
                                     className="text-gray-500 hover:text-brand-green p-1 transition-colors cursor-pointer inline-block"
@@ -1449,7 +1449,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                     <Edit size={14} />
                                   </button>
                                 )}
-                                {currentUser?.role === 'super_admin' && (
+                                {(currentUser?.role === 'super_admin' || currentUser?.username === 'editor3') && (
                                   <button
                                     onClick={() => handleDeleteItem(p.id, 'product')}
                                     className="text-gray-500 hover:text-red-450 p-1 transition-colors cursor-pointer inline-block"
