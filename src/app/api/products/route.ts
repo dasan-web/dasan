@@ -84,9 +84,9 @@ export async function POST(request: Request) {
         name, english_name, type, efficacy, consonant, file_url, file_name,
         category, ingredient, content, reference_drug, efficacy_detail, appearance,
         ingredient_detail, usage_capacity, storage_method, packaging_unit,
-        insurance_code, insurance_price, precautions
+        insurance_code, insurance_price, precautions, updated_by
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const result = await query(insertSql, [
       name,
@@ -108,7 +108,8 @@ export async function POST(request: Request) {
       packaging_unit || null,
       insurance_code || null,
       insurance_price !== undefined ? insurance_price : null,
-      precautions || null
+      precautions || null,
+      auth.session.name || auth.session.username || 'System'
     ]);
 
     return NextResponse.json({
@@ -151,7 +152,7 @@ export async function PUT(request: Request) {
         name = ?, english_name = ?, type = ?, efficacy = ?, consonant = ?, file_url = ?, file_name = ?,
         category = ?, ingredient = ?, content = ?, reference_drug = ?, efficacy_detail = ?, appearance = ?,
         ingredient_detail = ?, usage_capacity = ?, storage_method = ?, packaging_unit = ?,
-        insurance_code = ?, insurance_price = ?, precautions = ?
+        insurance_code = ?, insurance_price = ?, precautions = ?, updated_by = ?
       WHERE id = ?
     `;
     await query(updateSql, [
@@ -175,6 +176,7 @@ export async function PUT(request: Request) {
       insurance_code || null,
       insurance_price !== undefined ? insurance_price : null,
       precautions || null,
+      auth.session.name || auth.session.username || 'System',
       id
     ]);
 
