@@ -1440,7 +1440,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                <div className="flex items-center space-x-2 ml-auto sm:ml-0">
                  <button
                    onClick={handleExportExcel}
-                   className="inline-flex items-center space-x-1.5 bg-white/5 border border-white/10 hover:bg-white/10 text-gray-250 hover:text-white font-bold px-4 py-2 rounded-lg text-xs transition-all cursor-pointer shadow-sm"
+                   className="inline-flex items-center space-x-1.5 bg-white/20 border border-white/30 hover:bg-white/30 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all cursor-pointer shadow-sm"
                  >
                    <Download size={14} />
                    <span>엑셀 다운로드</span>
@@ -1468,7 +1468,8 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
               
               {/* Case A: Products Manager */}
               {currentSubPath === 'business/finished/search' && (
-                <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
+                <div className="space-y-4">
+                  <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs md:text-sm">
                       <thead className="bg-white/[0.03] border-b border-white/10 text-gray-400 font-bold uppercase tracking-wider">
