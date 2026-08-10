@@ -103,7 +103,9 @@ export default function Header() {
 
   const handleEnglishClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    alert('영문버전은 업데이트중입니다');
+    if (!isEnglish) {
+      window.location.href = `/en${pathname === '/' ? '' : pathname}`;
+    }
   };
 
   const handleKoreanClick = (e: React.MouseEvent) => {
