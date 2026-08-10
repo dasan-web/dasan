@@ -1,8 +1,12 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function PhilosophyGraphic() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en') ?? false;
+
   return (
     <div className="relative w-full max-w-[340px] sm:max-w-[450px] md:max-w-[700px] aspect-square mx-auto my-16 select-none overflow-visible" translate="no">
       {/* Background Decorative Circles */}
@@ -12,7 +16,7 @@ export default function PhilosophyGraphic() {
       {/* Center Core */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center justify-center w-[160px] h-[160px] md:w-[220px] md:h-[220px] rounded-full bg-gradient-to-br from-brand-green to-brand-green-dark shadow-[0_20px_40px_rgba(22,163,74,0.3)] group">
         <div className="absolute inset-0 rounded-full bg-white/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <h3 className="text-white font-black text-xl md:text-2xl tracking-tight z-10 drop-shadow-sm">행복경영</h3>
+        <h3 className="text-white font-black text-lg md:text-xl tracking-tight z-10 drop-shadow-sm text-center px-4 leading-tight">{isEnglish ? 'Happiness Management' : '행복경영'}</h3>
         <p className="text-white/80 font-bold text-xs md:text-sm mt-1 tracking-wider z-10">DASAN</p>
       </div>
 
@@ -21,7 +25,7 @@ export default function PhilosophyGraphic() {
       <div className="absolute top-[12%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '100ms' }} suppressHydrationWarning>
         <div className="w-[115px] h-[115px] md:w-[150px] md:h-[150px] rounded-full bg-white/90 backdrop-blur-md border-double border-[6px] border-brand-green/30 shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex flex-col items-center justify-center transition-transform hover:scale-105">
           <strong suppressHydrationWarning translate="no" className="text-brand-green font-bold text-[10px] md:text-xs mb-1 tracking-widest uppercase">Trust</strong>
-          <span className="text-gray-800 font-black text-sm md:text-base">정도경영</span>
+          <span className="text-gray-800 font-black text-xs md:text-sm text-center px-2 leading-tight">{isEnglish ? 'Ethical Management' : '정도경영'}</span>
         </div>
       </div>
 
@@ -29,7 +33,7 @@ export default function PhilosophyGraphic() {
       <div className="absolute top-[88%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '300ms' }} suppressHydrationWarning>
         <div className="w-[115px] h-[115px] md:w-[150px] md:h-[150px] rounded-full bg-white/90 backdrop-blur-md border-double border-[6px] border-brand-blue/30 shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex flex-col items-center justify-center transition-transform hover:scale-105">
           <strong suppressHydrationWarning translate="no" className="text-brand-blue font-bold text-[10px] md:text-xs mb-1 tracking-widest uppercase">Social</strong>
-          <span className="text-gray-800 font-black text-sm md:text-base">사회적 공헌</span>
+          <span className="text-gray-800 font-black text-xs md:text-sm text-center px-2 leading-tight">{isEnglish ? 'Social Contribution' : '사회적 공헌'}</span>
         </div>
       </div>
 
@@ -37,7 +41,7 @@ export default function PhilosophyGraphic() {
       <div className="absolute top-1/2 left-[12%] -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '200ms' }} suppressHydrationWarning>
         <div className="w-[115px] h-[115px] md:w-[150px] md:h-[150px] rounded-full bg-white/90 backdrop-blur-md border-double border-[6px] border-brand-cyan/40 shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex flex-col items-center justify-center transition-transform hover:scale-105">
           <strong suppressHydrationWarning translate="no" className="text-brand-cyan font-bold text-[10px] md:text-xs mb-1 tracking-widest uppercase">Challenge</strong>
-          <span className="text-gray-800 font-black text-sm md:text-base">도전과 창의</span>
+          <span className="text-gray-800 font-black text-xs md:text-sm text-center px-2 leading-tight">{isEnglish ? 'Challenge & Creativity' : '도전과 창의'}</span>
         </div>
       </div>
 
@@ -45,7 +49,7 @@ export default function PhilosophyGraphic() {
       <div className="absolute top-1/2 left-[88%] -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '400ms' }} suppressHydrationWarning>
         <div className="w-[115px] h-[115px] md:w-[150px] md:h-[150px] rounded-full bg-white/90 backdrop-blur-md border-double border-[6px] border-brand-teal/40 shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex flex-col items-center justify-center transition-transform hover:scale-105">
           <strong suppressHydrationWarning translate="no" className="text-brand-teal font-bold text-[8.5px] md:text-[10px] mb-1 tracking-wider uppercase">Collaboration</strong>
-          <span className="text-gray-800 font-black text-sm md:text-base">소통과 협력</span>
+          <span className="text-gray-800 font-black text-xs md:text-sm text-center px-2 leading-tight">{isEnglish ? 'Communication & Collaboration' : '소통과 협력'}</span>
         </div>
       </div>
 
