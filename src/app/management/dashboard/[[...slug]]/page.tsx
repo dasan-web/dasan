@@ -1469,6 +1469,9 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
               {/* Case A: Products Manager */}
               {currentSubPath === 'business/finished/search' && (
                 <div className="space-y-4">
+                  <div className="flex items-center text-white text-sm font-bold mb-2">
+                    총 제품수: <span className="text-brand-green ml-1">{products.length}</span>개
+                  </div>
                   <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs md:text-sm">
