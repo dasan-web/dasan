@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const resolvedParams = await params;
   const slug = resolvedParams.slug || [];
-  const pageKey = `business/${slug.join('/')}`;
+  const pageKey = `en/business/${slug.join('/')}`;
 
   try {
     // 1. Try page-specific SEO
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     
     // If not found or empty, fall back to main Business SEO
     if (!results || results.length === 0 || !results[0].content) {
-      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/business']);
+      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/business']);
     }
 
     if (results && results.length > 0 && results[0].content) {
@@ -63,7 +63,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
   }
 
   const currentPath = `/business/${slug.join('/')}`;
-  const pageKey = `business/${slug.join('/')}`;
+  const pageKey = `en/business/${slug.join('/')}`;
 
   let dbContent: string | null = null;
   try {

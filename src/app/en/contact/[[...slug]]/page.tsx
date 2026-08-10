@@ -21,12 +21,12 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const resolvedParams = await params;
   const slug = resolvedParams.slug || [];
-  const pageKey = `contact/${slug.join('/')}`;
+  const pageKey = `en/contact/${slug.join('/')}`;
 
   try {
     let results = await query('SELECT content FROM admin_contents WHERE page_key = ?', [`seo/${pageKey}`]);
     if (!results || results.length === 0 || !results[0].content) {
-      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/contact']);
+      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/contact']);
     }
 
     if (results && results.length > 0 && results[0].content) {
@@ -69,7 +69,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
   }
 
   const currentPath = `/contact/${slug.join('/')}`;
-  const pageKey = `contact/${slug.join('/')}`;
+  const pageKey = `en/contact/${slug.join('/')}`;
 
   let dbContent: string | null = null;
   try {

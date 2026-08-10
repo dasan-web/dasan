@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const resolvedParams = await params;
   const slug = resolvedParams.slug || [];
-  const pageKey = `about/${slug.join('/')}`;
+  const pageKey = `en/about/${slug.join('/')}`;
 
   try {
     // 1. Try page-specific SEO
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     
     // If not found or empty, fall back to main About Us SEO
     if (!results || results.length === 0 || !results[0].content) {
-      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/about']);
+      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/about']);
     }
 
     if (results && results.length > 0 && results[0].content) {
@@ -69,7 +69,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   }
 
   const currentPath = `/about/${slug.join('/')}`;
-  const pageKey = `about/${slug.join('/')}`;
+  const pageKey = `en/about/${slug.join('/')}`;
 
   let dbContent: string | null = null;
   let competenciesContent: string | null = null;

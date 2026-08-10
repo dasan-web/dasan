@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const resolvedParams = await params;
   const slug = resolvedParams.slug || [];
-  const pageKey = `rd/${slug.join('/')}`;
+  const pageKey = `en/rd/${slug.join('/')}`;
 
   try {
     // 1. Try page-specific SEO
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     
     // If not found or empty, fall back to main R&D SEO
     if (!results || results.length === 0 || !results[0].content) {
-      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/rd']);
+      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/rd']);
     }
 
     if (results && results.length > 0 && results[0].content) {
@@ -62,7 +62,7 @@ export default async function RdCatchAllPage({ params }: Params) {
   }
 
   const currentPath = `/rd/${slug.join('/')}`;
-  const pageKey = `rd/${slug.join('/')}`;
+  const pageKey = `en/rd/${slug.join('/')}`;
 
   let dbContent: string | null = null;
   try {
