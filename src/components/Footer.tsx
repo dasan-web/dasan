@@ -18,6 +18,8 @@ export default function Footer() {
     majors: grand.majors.filter(major => !(isEnglish && major.enName === 'Customer Service'))
   })).filter(grand => grand.majors.length > 0);
 
+  const totalMajors = footerColumns.reduce((sum, grand) => sum + grand.majors.length, 0);
+
   return (
     <footer className="bg-[#050f19] text-white select-none relative overflow-hidden antialiased">
       {/* Premium ambient glow in footer background */}
@@ -76,7 +78,7 @@ export default function Footer() {
             <div className="flex-1 pb-4 hidden md:block">
               <div className="flex w-full h-full divide-x divide-white/10">
                 {footerColumns.map((grand, gIdx) => (
-                  <div key={gIdx} style={{ width: `${(grand.majors.length / 10) * 100}%` }} className="flex flex-col">
+                  <div key={gIdx} style={{ width: `${(grand.majors.length / totalMajors) * 100}%` }} className="flex flex-col">
                     {/* Top Header */}
                     <div className="p-1.5 xl:p-2 bg-white/5 font-black text-white text-[11px] xl:text-[12px] uppercase tracking-wider text-center border-b border-white/10 break-keep">
                       {isEnglish ? (grand.enName || grand.name) : grand.name}
