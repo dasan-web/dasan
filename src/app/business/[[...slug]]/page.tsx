@@ -5,6 +5,7 @@ import { navigationData } from '@/lib/navigation';
 import SubmenuTabBar from '@/components/SubmenuTabBar';
 import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet } from 'lucide-react';
 import ProductSearch from '@/components/ProductSearch';
+import ProductDetail from '@/components/ProductDetail';
 import FindPharmacy from '@/components/FindPharmacy';
 import type { Metadata } from 'next';
 
@@ -96,6 +97,11 @@ export default async function BusinessCatchAllPage({ params }: Params) {
   }
     
   const renderContent = () => {
+    // Dynamic Product Detail Route
+    if (slug.length === 3 && slug[0] === 'finished' && slug[1] === 'search') {
+      return <ProductDetail productId={slug[2]} isEnglish={false} />;
+    }
+
     switch (currentPath) {
       case '/business/finished/search':
         return (

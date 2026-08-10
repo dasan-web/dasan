@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 interface Product {
   id: number;
@@ -27,17 +28,7 @@ interface Product {
   precautions?: string | null;
 }
 
-const InfoSection = ({ title, content }: { title: string; content: string }) => (
-  <div className="space-y-1.5 w-full">
-    <div className="flex items-center gap-2">
-      <div className="w-1.5 h-3.5 bg-brand-green rounded-full"></div>
-      <h4 className="text-[11px] font-extrabold text-slate-800 tracking-widest">{title}</h4>
-    </div>
-    <div className="bg-slate-50/80 text-xs font-medium text-slate-700 leading-relaxed p-3 rounded-xl border border-slate-200/50 whitespace-pre-wrap shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-      {content}
-    </div>
-  </div>
-);
+
 
 
 
@@ -92,7 +83,7 @@ export default function ProductSearch() {
   const [selectedConsonant, setSelectedConsonant] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -284,9 +275,9 @@ export default function ProductSearch() {
           </div>
         ) : paginatedProducts.length > 0 ? (
           paginatedProducts.map(product => (
-            <div 
+            <Link 
               key={product.id} 
-              onClick={() => setSelectedProduct(product)}
+              href={isEnglish ? `/en/business/finished/search/${product.id}` : `/business/finished/search/${product.id}`}
               className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col group hover:border-gray-300 transition-colors cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-200"
             >
               {/* Product Image / Logo Fallback Container */}
@@ -327,7 +318,7 @@ export default function ProductSearch() {
 
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <div className="col-span-full text-center py-16 text-gray-400 text-sm">
@@ -368,85 +359,6 @@ export default function ProductSearch() {
           >
             &gt;
           </button>
-        </div>
-      )}
-
-      {/* Product Detail Modal */}
-      {selectedProduct && (
-        <div 
-          className="fixed inset-0 z-50 flex justify-center overflow-y-auto p-4 bg-slate-900/60 backdrop-blur-md transition-all duration-300"
-          onClick={() => setSelectedProduct(null)}
-        >
-          <div 
-            className="bg-white rounded-[24px] max-w-[420px] w-full shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] relative ring-1 ring-black/5 animate-in fade-in zoom-in-95 duration-300 my-auto overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button 
-              onClick={() => setSelectedProduct(null)}
-              className="absolute top-4 right-4 text-slate-500 hover:text-slate-900 transition-all p-2 hover:bg-slate-100 rounded-full z-20 cursor-pointer bg-white/90 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:scale-105 active:scale-95"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Scrollable Container for Content */}
-            <div className="max-h-[85vh] overflow-y-auto">
-              {/* Product Image Area */}
-              <div className="aspect-video bg-white flex items-center justify-center border-b border-gray-100 overflow-hidden relative">
-                <div className="absolute top-0 left-0 z-10">
-                  <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-br-2xl text-[10px] font-bold tracking-widest bg-white/95 backdrop-blur-md border-b border-r border-gray-100 shadow-[2px_2px_12px_rgba(0,0,0,0.06)] text-gray-700 cursor-default">
-                    <span className={`w-1.5 h-1.5 rounded-full ${selectedProduct.type === '전문의약품' ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]'}`} />
-                    {selectedProduct.type === '전문의약품' ? (isEnglish ? 'ETC' : '전문의약품') : (isEnglish ? 'OTC' : '일반의약품')}
-                  </div>
-                </div>
-                {selectedProduct.file_url && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(selectedProduct.file_url) ? (
-                  <img 
-                    src={selectedProduct.file_url} 
-                    alt={selectedProduct.name} 
-                    className="w-full h-full object-contain p-6 pt-12"
-                  />
-                ) : (
-                  <span className="text-sm tracking-wider text-gray-300 font-extrabold uppercase select-none">
-                    DASAN PHARM
-                  </span>
-                )}
-              </div>
-
-              {/* Content Area */}
-              <div className="p-6 md:p-8 space-y-6 text-left bg-white relative z-10">
-                <div>
-                  <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                    {selectedProduct.name}
-                  </h3>
-                  <p className="text-xs font-bold text-slate-400 mt-1.5 tracking-wider uppercase">
-                    {selectedProduct.englishName}
-                  </p>
-                </div>
-
-                <div className="border-t border-slate-100/80 pt-6 flex flex-wrap gap-y-4 gap-x-2">
-                  {selectedProduct.category && <InfoSection title={isEnglish ? 'Category' : '계열'} content={selectedProduct.category} />}
-                  {selectedProduct.ingredient && <InfoSection title={isEnglish ? 'Ingredient' : '성분명'} content={selectedProduct.ingredient} />}
-                  {selectedProduct.content && <InfoSection title={isEnglish ? 'Content' : '함량'} content={selectedProduct.content} />}
-                  {selectedProduct.reference_drug && <InfoSection title={isEnglish ? 'Reference Drug' : '대조약'} content={selectedProduct.reference_drug} />}
-                  
-                  <InfoSection title={isEnglish ? 'Efficacy & Effects' : '효능/효과'} content={selectedProduct.efficacy_detail || selectedProduct.efficacy || (isEnglish ? 'No information registered.' : '등록된 정보가 없습니다.')} />
-                  
-                  {selectedProduct.appearance && <InfoSection title={isEnglish ? 'Appearance' : '성상'} content={selectedProduct.appearance} />}
-                  {selectedProduct.ingredient_detail && <InfoSection title={isEnglish ? 'Ingredient Detail' : '성분/함량 상세'} content={selectedProduct.ingredient_detail} />}
-                  {selectedProduct.usage_capacity && <InfoSection title={isEnglish ? 'Usage & Capacity' : '용법/용량'} content={selectedProduct.usage_capacity} />}
-                  {selectedProduct.storage_method && <InfoSection title={isEnglish ? 'Storage Method' : '저장방법'} content={selectedProduct.storage_method} />}
-                  {selectedProduct.packaging_unit && <InfoSection title={isEnglish ? 'Packaging Unit' : '포장단위'} content={selectedProduct.packaging_unit} />}
-                  
-                  {selectedProduct.insurance_code && <InfoSection title={isEnglish ? 'Insurance Code' : '보험코드'} content={selectedProduct.insurance_code} />}
-                  {selectedProduct.insurance_price && <InfoSection title={isEnglish ? 'Insurance Price' : '보험약가'} content={`${selectedProduct.insurance_price}원`} />}
-                  
-                  {selectedProduct.precautions && <InfoSection title={isEnglish ? 'Precautions' : '의약정보/주의사항'} content={selectedProduct.precautions} />}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       )}
     </div>
