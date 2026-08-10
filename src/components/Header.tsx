@@ -52,6 +52,7 @@ export default function Header() {
       })
       .map(grand => {
         const filteredMajors = grand.majors
+          .filter(major => !(isEnglish && major.enName === 'Customer Service'))
           .map(major => {
             const filteredSubMenus = major.subMenus.filter(sub => {
               const relativeLink = sub.link.replace(/^\//, '');

@@ -13,7 +13,10 @@ export default function Footer() {
     return null;
   }
 
-  const footerColumns = navigationData;
+  const footerColumns = navigationData.map(grand => ({
+    ...grand,
+    majors: grand.majors.filter(major => !(isEnglish && major.enName === 'Customer Service'))
+  })).filter(grand => grand.majors.length > 0);
 
   return (
     <footer className="bg-[#050f19] text-white select-none relative overflow-hidden antialiased">
