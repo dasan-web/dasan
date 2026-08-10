@@ -12,7 +12,32 @@ interface Product {
   consonant: string;
   file_url?: string | null;
   file_name?: string | null;
+  category?: string | null;
+  ingredient?: string | null;
+  content?: string | null;
+  reference_drug?: string | null;
+  efficacy_detail?: string | null;
+  appearance?: string | null;
+  ingredient_detail?: string | null;
+  usage_capacity?: string | null;
+  storage_method?: string | null;
+  packaging_unit?: string | null;
+  insurance_code?: string | null;
+  insurance_price?: number | null;
+  precautions?: string | null;
 }
+
+const InfoSection = ({ title, content }: { title: string; content: string }) => (
+  <div className="space-y-1.5 w-full">
+    <div className="flex items-center gap-2">
+      <div className="w-1.5 h-3.5 bg-brand-green rounded-full"></div>
+      <h4 className="text-[11px] font-extrabold text-slate-800 tracking-widest">{title}</h4>
+    </div>
+    <div className="bg-slate-50/80 text-xs font-medium text-slate-700 leading-relaxed p-3 rounded-xl border border-slate-200/50 whitespace-pre-wrap shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
+      {content}
+    </div>
+  </div>
+);
 
 
 
@@ -68,6 +93,8 @@ export default function ProductSearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   useEffect(() => {
     fetch('/api/products')
@@ -88,6 +115,7 @@ export default function ProductSearch() {
   const handleSearch = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setSubmittedQuery(searchQuery);
+    setCurrentPage(1);
   };
 
   // Filter Products
@@ -110,6 +138,12 @@ export default function ProductSearch() {
     return true;
   });
 
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="space-y-8 animate-fade-in-up">
       {/* 1. Category Tabs (Classic Minimal Underline) */}
@@ -121,6 +155,7 @@ export default function ProductSearch() {
             setSelectedConsonant(null);
             setSearchQuery('');
             setSubmittedQuery('');
+            setCurrentPage(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
             activeTab === 'all'
@@ -135,6 +170,7 @@ export default function ProductSearch() {
             setSelectedConsonant(null);
             setSearchQuery('');
             setSubmittedQuery('');
+            setCurrentPage(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
             activeTab === 'prescription'
@@ -149,6 +185,7 @@ export default function ProductSearch() {
             setSelectedConsonant(null);
             setSearchQuery('');
             setSubmittedQuery('');
+            setCurrentPage(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
             activeTab === 'otc'
@@ -168,6 +205,7 @@ export default function ProductSearch() {
               setSearchMode('name');
               setSearchQuery('');
               setSubmittedQuery('');
+              setCurrentPage(1);
             }}
             className={`pb-1 transition-all cursor-pointer select-none ${
               searchMode === 'name' 
@@ -182,6 +220,7 @@ export default function ProductSearch() {
               setSelectedConsonant(null);
               setSearchQuery('');
               setSubmittedQuery('');
+              setCurrentPage(1);
             }}
             className={`pb-1 transition-all cursor-pointer select-none ${
               searchMode === 'efficacy' 
@@ -198,7 +237,10 @@ export default function ProductSearch() {
               {consonants.map(con => (
                 <button
                   key={con}
-                  onClick={() => setSelectedConsonant(selectedConsonant === con ? null : con)}
+                  onClick={() => {
+                    setSelectedConsonant(selectedConsonant === con ? null : con);
+                    setCurrentPage(1);
+                  }}
                   className={`w-7 h-7 text-xs font-semibold border rounded transition-all cursor-pointer select-none ${
                     selectedConsonant === con
                       ? 'bg-brand-green text-white border-brand-green'
@@ -240,8 +282,8 @@ export default function ProductSearch() {
           <div className="col-span-full text-center py-16 text-gray-400 text-sm">
             {isEnglish ? 'Loading data...' : '데이터를 불러오는 중입니다...'}
           </div>
-        ) : filteredProducts.length > 0 ? (
-          filteredProducts.map(product => (
+        ) : paginatedProducts.length > 0 ? (
+          paginatedProducts.map(product => (
             <div 
               key={product.id} 
               onClick={() => setSelectedProduct(product)}
@@ -293,6 +335,41 @@ export default function ProductSearch() {
           </div>
         )}
       </div>
+
+      {/* 4. Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center space-x-2 pt-8">
+          <button
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            &lt;
+          </button>
+          
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-semibold transition-colors ${
+                currentPage === page
+                  ? 'bg-brand-green text-white border border-brand-green'
+                  : 'border border-gray-200 text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            &gt;
+          </button>
+        </div>
+      )}
 
       {/* Product Detail Modal */}
       {selectedProduct && (
@@ -348,14 +425,24 @@ export default function ProductSearch() {
                   </p>
                 </div>
 
-                <div className="border-t border-slate-100/80 pt-6 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-3.5 bg-brand-green rounded-full"></div>
-                    <h4 className="text-[11px] font-extrabold text-slate-800 tracking-widest">{isEnglish ? 'Efficacy & Effects' : '효능 및 효과'}</h4>
-                  </div>
-                  <div className="bg-slate-50/80 text-sm font-medium text-slate-700 leading-relaxed p-4 rounded-xl border border-slate-200/50 whitespace-pre-wrap shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-                    {selectedProduct.efficacy || isEnglish ? 'No information registered.' : '등록된 정보가 없습니다.'}
-                  </div>
+                <div className="border-t border-slate-100/80 pt-6 flex flex-wrap gap-y-4 gap-x-2">
+                  {selectedProduct.category && <InfoSection title={isEnglish ? 'Category' : '계열'} content={selectedProduct.category} />}
+                  {selectedProduct.ingredient && <InfoSection title={isEnglish ? 'Ingredient' : '성분명'} content={selectedProduct.ingredient} />}
+                  {selectedProduct.content && <InfoSection title={isEnglish ? 'Content' : '함량'} content={selectedProduct.content} />}
+                  {selectedProduct.reference_drug && <InfoSection title={isEnglish ? 'Reference Drug' : '대조약'} content={selectedProduct.reference_drug} />}
+                  
+                  <InfoSection title={isEnglish ? 'Efficacy & Effects' : '효능/효과'} content={selectedProduct.efficacy_detail || selectedProduct.efficacy || (isEnglish ? 'No information registered.' : '등록된 정보가 없습니다.')} />
+                  
+                  {selectedProduct.appearance && <InfoSection title={isEnglish ? 'Appearance' : '성상'} content={selectedProduct.appearance} />}
+                  {selectedProduct.ingredient_detail && <InfoSection title={isEnglish ? 'Ingredient Detail' : '성분/함량 상세'} content={selectedProduct.ingredient_detail} />}
+                  {selectedProduct.usage_capacity && <InfoSection title={isEnglish ? 'Usage & Capacity' : '용법/용량'} content={selectedProduct.usage_capacity} />}
+                  {selectedProduct.storage_method && <InfoSection title={isEnglish ? 'Storage Method' : '저장방법'} content={selectedProduct.storage_method} />}
+                  {selectedProduct.packaging_unit && <InfoSection title={isEnglish ? 'Packaging Unit' : '포장단위'} content={selectedProduct.packaging_unit} />}
+                  
+                  {selectedProduct.insurance_code && <InfoSection title={isEnglish ? 'Insurance Code' : '보험코드'} content={selectedProduct.insurance_code} />}
+                  {selectedProduct.insurance_price && <InfoSection title={isEnglish ? 'Insurance Price' : '보험약가'} content={`${selectedProduct.insurance_price}원`} />}
+                  
+                  {selectedProduct.precautions && <InfoSection title={isEnglish ? 'Precautions' : '의약정보/주의사항'} content={selectedProduct.precautions} />}
                 </div>
               </div>
             </div>

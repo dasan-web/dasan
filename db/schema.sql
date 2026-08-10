@@ -61,11 +61,24 @@ CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     english_name VARCHAR(150),
-    type VARCHAR(50) NOT NULL, -- '전문의약품', '일반의약품'
+    type VARCHAR(50) NOT NULL DEFAULT '전문의약품', -- '전문의약품', '일반의약품'
     efficacy VARCHAR(100) NOT NULL,
     consonant VARCHAR(10) NOT NULL,
     file_url VARCHAR(255) DEFAULT NULL,
-    file_name VARCHAR(255) DEFAULT NULL
+    file_name VARCHAR(255) DEFAULT NULL,
+    category VARCHAR(100) DEFAULT NULL,
+    ingredient VARCHAR(200) DEFAULT NULL,
+    content VARCHAR(100) DEFAULT NULL,
+    reference_drug VARCHAR(100) DEFAULT NULL,
+    efficacy_detail TEXT DEFAULT NULL,
+    appearance VARCHAR(255) DEFAULT NULL,
+    ingredient_detail TEXT DEFAULT NULL,
+    usage_capacity TEXT DEFAULT NULL,
+    storage_method VARCHAR(255) DEFAULT NULL,
+    packaging_unit VARCHAR(255) DEFAULT NULL,
+    insurance_code VARCHAR(100) DEFAULT NULL,
+    insurance_price INT DEFAULT NULL,
+    precautions TEXT DEFAULT NULL
 );
 
 -- Insert Initial Products Data

@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import { query } from '@/lib/db';
 import { decryptSession } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // Helper function to verify user role
 async function checkAuth(allowedRoles: string[]) {
   const cookieStore = await cookies();
@@ -31,7 +33,20 @@ export async function GET() {
       efficacy: p.efficacy,
       consonant: p.consonant,
       file_url: p.file_url || null,
-      file_name: p.file_name || null
+      file_name: p.file_name || null,
+      category: p.category || null,
+      ingredient: p.ingredient || null,
+      content: p.content || null,
+      reference_drug: p.reference_drug || null,
+      efficacy_detail: p.efficacy_detail || null,
+      appearance: p.appearance || null,
+      ingredient_detail: p.ingredient_detail || null,
+      usage_capacity: p.usage_capacity || null,
+      storage_method: p.storage_method || null,
+      packaging_unit: p.packaging_unit || null,
+      insurance_code: p.insurance_code || null,
+      insurance_price: p.insurance_price || null,
+      precautions: p.precautions || null
     }));
     return NextResponse.json(formatted);
   } catch (err: any) {
@@ -50,7 +65,12 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { name, englishName, type, efficacy, consonant, file_url, file_name } = await request.json();
+    const { 
+      name, englishName, type, efficacy, consonant, file_url, file_name,
+      category, ingredient, content, reference_drug, efficacy_detail, appearance,
+      ingredient_detail, usage_capacity, storage_method, packaging_unit,
+      insurance_code, insurance_price, precautions
+    } = await request.json();
 
     if (!name || !type || !efficacy || !consonant) {
       return NextResponse.json(
@@ -60,8 +80,13 @@ export async function POST(request: Request) {
     }
 
     const insertSql = `
-      INSERT INTO products (name, english_name, type, efficacy, consonant, file_url, file_name)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO products (
+        name, english_name, type, efficacy, consonant, file_url, file_name,
+        category, ingredient, content, reference_drug, efficacy_detail, appearance,
+        ingredient_detail, usage_capacity, storage_method, packaging_unit,
+        insurance_code, insurance_price, precautions
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const result = await query(insertSql, [
       name,
@@ -70,7 +95,20 @@ export async function POST(request: Request) {
       efficacy,
       consonant,
       file_url || null,
-      file_name || null
+      file_name || null,
+      category || null,
+      ingredient || null,
+      content || null,
+      reference_drug || null,
+      efficacy_detail || null,
+      appearance || null,
+      ingredient_detail || null,
+      usage_capacity || null,
+      storage_method || null,
+      packaging_unit || null,
+      insurance_code || null,
+      insurance_price !== undefined ? insurance_price : null,
+      precautions || null
     ]);
 
     return NextResponse.json({
@@ -93,7 +131,12 @@ export async function PUT(request: Request) {
   }
 
   try {
-    const { id, name, englishName, type, efficacy, consonant, file_url, file_name } = await request.json();
+    const { 
+      id, name, englishName, type, efficacy, consonant, file_url, file_name,
+      category, ingredient, content, reference_drug, efficacy_detail, appearance,
+      ingredient_detail, usage_capacity, storage_method, packaging_unit,
+      insurance_code, insurance_price, precautions
+    } = await request.json();
 
     if (!id || !name || !type || !efficacy || !consonant) {
       return NextResponse.json(
@@ -104,7 +147,11 @@ export async function PUT(request: Request) {
 
     const updateSql = `
       UPDATE products
-      SET name = ?, english_name = ?, type = ?, efficacy = ?, consonant = ?, file_url = ?, file_name = ?
+      SET 
+        name = ?, english_name = ?, type = ?, efficacy = ?, consonant = ?, file_url = ?, file_name = ?,
+        category = ?, ingredient = ?, content = ?, reference_drug = ?, efficacy_detail = ?, appearance = ?,
+        ingredient_detail = ?, usage_capacity = ?, storage_method = ?, packaging_unit = ?,
+        insurance_code = ?, insurance_price = ?, precautions = ?
       WHERE id = ?
     `;
     await query(updateSql, [
@@ -115,6 +162,19 @@ export async function PUT(request: Request) {
       consonant,
       file_url || null,
       file_name || null,
+      category || null,
+      ingredient || null,
+      content || null,
+      reference_drug || null,
+      efficacy_detail || null,
+      appearance || null,
+      ingredient_detail || null,
+      usage_capacity || null,
+      storage_method || null,
+      packaging_unit || null,
+      insurance_code || null,
+      insurance_price !== undefined ? insurance_price : null,
+      precautions || null,
       id
     ]);
 

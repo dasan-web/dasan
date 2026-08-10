@@ -84,6 +84,8 @@ export default function AdminDashboardPage() {
   // Dynamic lists
   const [pipelines, setPipelines] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
+  const [productCurrentPage, setProductCurrentPage] = useState(1);
+  const adminProductsPerPage = 10;
   const [newsList, setNewsList] = useState<any[]>([]);
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [dashboardStats, setDashboardStats] = useState<any>(null);
@@ -123,6 +125,19 @@ export default function AdminDashboardPage() {
   const [prodConsonant, setProdConsonant] = useState('ㄱ');
   const [prodFileUrl, setProdFileUrl] = useState('');
   const [prodFileName, setProdFileName] = useState('');
+  const [prodCategory, setProdCategory] = useState('');
+  const [prodIngredient, setProdIngredient] = useState('');
+  const [prodContent, setProdContent] = useState('');
+  const [prodReferenceDrug, setProdReferenceDrug] = useState('');
+  const [prodEfficacyDetail, setProdEfficacyDetail] = useState('');
+  const [prodAppearance, setProdAppearance] = useState('');
+  const [prodIngredientDetail, setProdIngredientDetail] = useState('');
+  const [prodUsageCapacity, setProdUsageCapacity] = useState('');
+  const [prodStorageMethod, setProdStorageMethod] = useState('');
+  const [prodPackagingUnit, setProdPackagingUnit] = useState('');
+  const [prodInsuranceCode, setProdInsuranceCode] = useState('');
+  const [prodInsurancePrice, setProdInsurancePrice] = useState<number | ''>('');
+  const [prodPrecautions, setProdPrecautions] = useState('');
   const [uploadingProdFile, setUploadingProdFile] = useState(false);
 
   // Pipeline fields
@@ -847,6 +862,19 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
     setProdConsonant('ㄱ');
     setProdFileUrl('');
     setProdFileName('');
+    setProdCategory('');
+    setProdIngredient('');
+    setProdContent('');
+    setProdReferenceDrug('');
+    setProdEfficacyDetail('');
+    setProdAppearance('');
+    setProdIngredientDetail('');
+    setProdUsageCapacity('');
+    setProdStorageMethod('');
+    setProdPackagingUnit('');
+    setProdInsuranceCode('');
+    setProdInsurancePrice('');
+    setProdPrecautions('');
 
     setPipeCategory('개량신약');
     setPipeProject('');
@@ -890,6 +918,19 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       setProdConsonant(item.consonant);
       setProdFileUrl(item.file_url || '');
       setProdFileName(item.file_name || '');
+      setProdCategory(item.category || '');
+      setProdIngredient(item.ingredient || '');
+      setProdContent(item.content || '');
+      setProdReferenceDrug(item.reference_drug || '');
+      setProdEfficacyDetail(item.efficacy_detail || '');
+      setProdAppearance(item.appearance || '');
+      setProdIngredientDetail(item.ingredient_detail || '');
+      setProdUsageCapacity(item.usage_capacity || '');
+      setProdStorageMethod(item.storage_method || '');
+      setProdPackagingUnit(item.packaging_unit || '');
+      setProdInsuranceCode(item.insurance_code || '');
+      setProdInsurancePrice(item.insurance_price !== null && item.insurance_price !== undefined ? item.insurance_price : '');
+      setProdPrecautions(item.precautions || '');
     } else if (type === 'pipeline') {
       setPipeCategory(item.category);
       setPipeProject(item.project_name);
@@ -950,6 +991,19 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
         consonant: prodConsonant,
         file_url: prodFileUrl,
         file_name: prodFileName,
+        category: prodCategory,
+        ingredient: prodIngredient,
+        content: prodContent,
+        reference_drug: prodReferenceDrug,
+        efficacy_detail: prodEfficacyDetail,
+        appearance: prodAppearance,
+        ingredient_detail: prodIngredientDetail,
+        usage_capacity: prodUsageCapacity,
+        storage_method: prodStorageMethod,
+        packaging_unit: prodPackagingUnit,
+        insurance_code: prodInsuranceCode,
+        insurance_price: prodInsurancePrice === '' ? null : prodInsurancePrice,
+        precautions: prodPrecautions,
       };
       if (formMode === 'edit') bodyData.id = activeItem.id;
     } else if (currentSubPath === 'rd/pipeline') {
@@ -1145,6 +1199,8 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       </div>
     );
   }
+  const adminTotalPages = Math.ceil(products.length / adminProductsPerPage);
+  const paginatedAdminProducts = products.slice((productCurrentPage - 1) * adminProductsPerPage, productCurrentPage * adminProductsPerPage);
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#070b13] text-gray-150">
@@ -1425,8 +1481,8 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/5 text-gray-300 font-medium">
-                        {products.length > 0 ? (
-                          products.map(p => (
+                        {paginatedAdminProducts.length > 0 ? (
+                          paginatedAdminProducts.map(p => (
                             <tr key={p.id} className="hover:bg-white/[0.02] border-b border-white/5 last:border-0 transition-colors">
                               <td className="px-5 py-4">
                                 <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase border ${
@@ -1471,6 +1527,42 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                     </table>
                   </div>
                 </div>
+
+                {/* Pagination */}
+                {adminTotalPages > 1 && (
+                  <div className="flex justify-center items-center space-x-2 pt-6">
+                    <button
+                      onClick={() => setProductCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={productCurrentPage === 1}
+                      className="w-8 h-8 flex items-center justify-center rounded-md border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      &lt;
+                    </button>
+                    
+                    {Array.from({ length: adminTotalPages }, (_, i) => i + 1).map(page => (
+                      <button
+                        key={page}
+                        onClick={() => setProductCurrentPage(page)}
+                        className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-semibold transition-colors ${
+                          productCurrentPage === page
+                            ? 'bg-brand-green text-[#0a1120] border-transparent'
+                            : 'border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+
+                    <button
+                      onClick={() => setProductCurrentPage(prev => Math.min(prev + 1, adminTotalPages))}
+                      disabled={productCurrentPage === adminTotalPages}
+                      className="w-8 h-8 flex items-center justify-center rounded-md border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      &gt;
+                    </button>
+                  </div>
+                )}
+              </div>
               )}
 
               {/* Case B: Pipeline Manager */}
@@ -5763,6 +5855,60 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                         <option key={c} value={c} className="bg-[#0a1120] text-white">{c}</option>
                       ))}
                     </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">계열</label>
+                    <input type="text" value={prodCategory} onChange={(e) => setProdCategory(e.target.value)} placeholder="계열 (예: 순환기계)" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">성분명</label>
+                    <input type="text" value={prodIngredient} onChange={(e) => setProdIngredient(e.target.value)} placeholder="성분명" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">함량</label>
+                    <input type="text" value={prodContent} onChange={(e) => setProdContent(e.target.value)} placeholder="함량 (예: 75mg)" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">대조약</label>
+                    <input type="text" value={prodReferenceDrug} onChange={(e) => setProdReferenceDrug(e.target.value)} placeholder="대조약" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">상세 효능/효과</label>
+                    <textarea value={prodEfficacyDetail} onChange={(e) => setProdEfficacyDetail(e.target.value)} placeholder="상세 효능/효과" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold min-h-[80px]" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">성상</label>
+                    <input type="text" value={prodAppearance} onChange={(e) => setProdAppearance(e.target.value)} placeholder="성상" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">성분/함량 상세</label>
+                    <textarea value={prodIngredientDetail} onChange={(e) => setProdIngredientDetail(e.target.value)} placeholder="성분/함량 상세" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold min-h-[80px]" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">용법/용량</label>
+                    <textarea value={prodUsageCapacity} onChange={(e) => setProdUsageCapacity(e.target.value)} placeholder="용법/용량" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold min-h-[80px]" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">저장방법</label>
+                    <input type="text" value={prodStorageMethod} onChange={(e) => setProdStorageMethod(e.target.value)} placeholder="저장방법" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">포장단위</label>
+                    <input type="text" value={prodPackagingUnit} onChange={(e) => setProdPackagingUnit(e.target.value)} placeholder="포장단위" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                  </div>
+                  <div className="space-y-1 flex gap-4">
+                    <div className="flex-1 space-y-1">
+                      <label className="font-bold text-gray-400 block">보험코드</label>
+                      <input type="text" value={prodInsuranceCode} onChange={(e) => setProdInsuranceCode(e.target.value)} placeholder="보험코드" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <label className="font-bold text-gray-400 block">보험약가(원)</label>
+                      <input type="number" value={prodInsurancePrice} onChange={(e) => setProdInsurancePrice(e.target.value === '' ? '' : Number(e.target.value))} placeholder="보험약가" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">의약정보/주의사항</label>
+                    <textarea value={prodPrecautions} onChange={(e) => setProdPrecautions(e.target.value)} placeholder="의약정보/주의사항" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold min-h-[80px]" />
                   </div>
                   <div className="space-y-1 mt-2">
                     <label className="font-bold text-gray-400 block">첨부파일(제품 안내 브로셔/설명서 등)</label>
