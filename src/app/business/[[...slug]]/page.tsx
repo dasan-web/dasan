@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { navigationData } from '@/lib/navigation';
 import SubmenuTabBar from '@/components/SubmenuTabBar';
-import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet } from 'lucide-react';
+import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet, FlaskConical, ClipboardCheck, FileCheck, Factory, ChevronRight, Globe2, Users, BookOpenCheck, Settings2 } from 'lucide-react';
 import ProductSearch from '@/components/ProductSearch';
 import ProductDetail from '@/components/ProductDetail';
 import FindPharmacy from '@/components/FindPharmacy';
@@ -188,7 +188,187 @@ export default async function BusinessCatchAllPage({ params }: Params) {
         );
       }
 
-      case '/business/cdmo/quality':
+      case '/business/cdmo/quality': {
+        return (
+          <>
+            <div className="w-[100vw] aspect-[21/9] animate-fade-in-up bg-black overflow-hidden relative left-1/2 -translate-x-1/2">
+              <video 
+                className="w-full h-full object-cover"
+                src="/CDMO_219.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            </div>
+            
+            <div className="mt-24 w-full max-w-5xl mx-auto animate-fade-in-up px-4 md:px-0 pb-20">
+              {/* Header Section */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 mb-24 items-start">
+                <h2 className="text-[32px] md:text-[40px] font-black text-[#111] leading-[1.3] tracking-tight">
+                  위탁개발부터 생산까지,<br />
+                  One-stop Process
+                </h2>
+                <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[15px] md:pt-2">
+                  <p className="break-keep font-medium text-[#666]">
+                    셀트리온은 미국 FDA의 cGMP 인증을 받은 세계 최고 수준의 생산시설 및 품질관리 시스템을 바탕으로 초기물질 개발부터 임상, 허가, 생산까지 바이오의약품 사업 전 과정에 대한 One-stop 서비스를 제공합니다.
+                  </p>
+                </div>
+              </div>
+
+              {/* Quality Title */}
+              <div className="mb-14">
+                <h3 className="text-[26px] font-black text-gray-900 tracking-tight">신뢰할 수 있는 서비스 품질</h3>
+              </div>
+
+              {/* Process Flow */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 relative pt-6">
+                {/* Horizontal dotted line behind icons */}
+                <div className="hidden md:block absolute top-[44px] left-[15%] right-[15%] h-[1px] border-t border-dashed border-gray-200 -z-10" />
+                
+                {/* Step 1 */}
+                <div className="flex flex-col items-center text-center relative">
+                  <div className="bg-white w-[90px] h-[90px] rounded-full border border-gray-100 mb-8 flex items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-transform">
+                    <FlaskConical size={32} strokeWidth={1} className="text-gray-700" />
+                  </div>
+                  <ChevronRight size={14} strokeWidth={1.5} className="hidden md:block text-gray-300 absolute -right-[7px] top-[38px] bg-white px-0.5" />
+                  <h4 className="text-[18px] font-bold text-[#64ad55] mb-5 tracking-tight">개발</h4>
+                  <p className="text-[13px] text-gray-500 leading-[2.1] break-keep font-normal">
+                    항체 바이오시밀러 및<br />
+                    바이오 신약 개발로 축적한<br />
+                    바이오의약품 연구개발 능력
+                  </p>
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex flex-col items-center text-center relative">
+                  <div className="bg-white w-[90px] h-[90px] rounded-full border border-gray-100 mb-8 flex items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-transform">
+                    <ClipboardCheck size={32} strokeWidth={1} className="text-gray-700" />
+                  </div>
+                  <ChevronRight size={14} strokeWidth={1.5} className="hidden md:block text-gray-300 absolute -right-[7px] top-[38px] bg-white px-0.5" />
+                  <h4 className="text-[18px] font-bold text-[#64ad55] mb-5 tracking-tight">임상</h4>
+                  <p className="text-[13px] text-gray-500 leading-[2.1] break-keep font-normal">
+                    소규모부터<br />
+                    대규모 글로벌 임상까지<br />
+                    다양한 규모의 임상 경험
+                  </p>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex flex-col items-center text-center relative">
+                  <div className="bg-white w-[90px] h-[90px] rounded-full border border-gray-100 mb-8 flex items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-transform">
+                    <FileCheck size={32} strokeWidth={1} className="text-gray-700" />
+                  </div>
+                  <ChevronRight size={14} strokeWidth={1.5} className="hidden md:block text-gray-300 absolute -right-[7px] top-[38px] bg-white px-0.5" />
+                  <h4 className="text-[18px] font-bold text-[#64ad55] mb-5 tracking-tight">허가</h4>
+                  <p className="text-[13px] text-gray-500 leading-[2.1] break-keep font-normal">
+                    FDA 및 EMA 등 글로벌 규제기관<br />
+                    으로부터 다수의 바이오의약품에<br />
+                    대한 판매허가 획득
+                  </p>
+                </div>
+
+                {/* Step 4 */}
+                <div className="flex flex-col items-center text-center relative">
+                  <div className="bg-white w-[90px] h-[90px] rounded-full border border-gray-100 mb-8 flex items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-transform">
+                    <Factory size={32} strokeWidth={1} className="text-gray-700" />
+                  </div>
+                  <h4 className="text-[18px] font-bold text-[#64ad55] mb-5 tracking-tight">생산</h4>
+                  <p className="text-[13px] text-gray-500 leading-[2.1] break-keep font-normal">
+                    비임상물질부터 상업 생산까지<br />
+                    다양한 생산 규모에 대응할 수<br />
+                    있는 생산 시설
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* New section: Top Full-bleed title and gray bg icons */}
+            <div className="w-[100vw] relative left-1/2 -translate-x-1/2 mt-16 animate-fade-in-up">
+              {/* Title Section */}
+              <div className="w-full max-w-5xl mx-auto px-4 md:px-0 mb-16">
+                <h3 className="text-[28px] md:text-[32px] font-black text-gray-900 tracking-tight leading-[1.4] break-keep">
+                  제형 개발부터 완제품 생산까지 글로벌 스탠다드 의약품 생산시설에서 맞춤형<br />위탁생산 서비스를 제공합니다
+                </h3>
+              </div>
+
+              {/* Light Gray full-width block with 4 icons */}
+              <div className="bg-[#f8f9fa] w-full py-16 border-y border-gray-100">
+                <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-4 md:px-0">
+                  <div className="flex flex-col items-center text-center">
+                    <Globe2 size={44} strokeWidth={1} className="text-[#333] mb-6" />
+                    <span className="text-[14px] font-bold text-gray-800 leading-[1.5]">글로벌 스탠다드<br />생산시설</span>
+                  </div>
+                  <div className="flex flex-col items-center text-center">
+                    <Users size={44} strokeWidth={1} className="text-[#333] mb-6" />
+                    <span className="text-[14px] font-bold text-gray-800 leading-[1.5]">전문인력</span>
+                  </div>
+                  <div className="flex flex-col items-center text-center">
+                    <BookOpenCheck size={44} strokeWidth={1} className="text-[#333] mb-6" />
+                    <span className="text-[14px] font-bold text-gray-800 leading-[1.5]">제조기술 노하우</span>
+                  </div>
+                  <div className="flex flex-col items-center text-center">
+                    <Settings2 size={44} strokeWidth={1} className="text-[#333] mb-6" />
+                    <span className="text-[14px] font-bold text-gray-800 leading-[1.5]">공정표준화 시스템</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* White section with 3 rows of text */}
+              <div className="w-full max-w-5xl mx-auto px-4 md:px-0 pt-24 pb-12 space-y-20">
+                {/* Row 1 */}
+                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-16 border-b border-gray-100 pb-20">
+                  <h4 className="text-[18px] md:text-[20px] font-bold text-gray-900 leading-[1.5]">
+                    제제 연구부터<br className="hidden md:block" /> 생산까지
+                  </h4>
+                  <p className="text-[14.5px] text-gray-600 leading-[1.9] break-keep font-medium md:pt-1">
+                    셀트리온제약은 케미컬의약품 제제·공정 개발에서 생산에 이르는 전 과정을 고객과 함께 합니다. 대규모 첨단 설비와 기술력을 바탕으로 위탁생산 시장에서의 경쟁력 확보를 위해 끊임없이 노력하고 있습니다.
+                  </p>
+                </div>
+                {/* Row 2 */}
+                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-16 border-b border-gray-100 pb-20">
+                  <h4 className="text-[18px] md:text-[20px] font-bold text-gray-900 leading-[1.5]">
+                    엄격한<br className="hidden md:block" /> 품질 보증
+                  </h4>
+                  <div className="md:pt-1">
+                    <p className="text-[14.5px] text-gray-600 leading-[1.9] break-keep font-medium mb-12">
+                      셀트리온제약 청주공장은 미국 FDA와 유럽 EMA로부터 국내에서는 처음으로 내용고형제 우수 의약품 제조 및 품질관리 시스템 인증을 받았습니다. 셀트리온제약은 제품 개발 단계부터 입고, 제조, 검수, 출하에 이르는 모든 과정에 QMS(Quality Management System, 품질경영시스템), QRM(Quality Risk Management, 품질위험관리) 등 표준화된 시스템을 적용하고 있습니다. 이와 함께 전사동 빌딩관리시스템(BMS)을 통해 온도·습도·차압 등을 24시간 제어함으로써 품질 균일성을 확보하고 있습니다.
+                    </p>
+                    {/* Placeholder for Logos */}
+                    <div className="flex flex-wrap items-center gap-14 opacity-90">
+                      <span className="text-[38px] font-black tracking-tighter text-[#1f4293]" style={{ fontFamily: 'Arial, sans-serif' }}>FDA</span>
+                      <div className="flex items-center space-x-2.5">
+                        <div className="grid grid-cols-4 gap-[2px]">
+                          {[...Array(16)].map((_, i) => <div key={i} className={`w-[3px] h-[3px] rounded-full ${i % 3 === 0 ? 'bg-red-500' : 'bg-[#1f4293]'}`} />)}
+                        </div>
+                        <span className="text-[28px] font-black tracking-tight text-[#1f4293]">MHRA</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 rounded-full border-[5px] border-red-500 flex items-center justify-center relative overflow-hidden">
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-[18px] h-[18px] rounded-full border-[4px] border-[#1f4293] translate-x-1" />
+                          </div>
+                        </div>
+                        <span className="text-[13px] font-bold leading-[1.2] text-gray-800">Ministry of Food and<br/>Drug Safety</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Row 3 */}
+                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-16 pb-10">
+                  <h4 className="text-[18px] md:text-[20px] font-bold text-gray-900 leading-[1.5]">
+                    지속 가능한<br className="hidden md:block" /> 비즈니스 모델
+                  </h4>
+                  <p className="text-[14.5px] text-gray-600 leading-[1.9] break-keep font-medium md:pt-1">
+                    셀트리온제약은 미국·유럽 등 선진국 규제기관으로부터 인정받은 우수의약품 제조 기술을 바탕으로 고객에게 맞춤형 서비스를 제공합니다. 세계 최고 수준의 시설에서 믿을 수 있는 전문 인력이 고품질 의약품을 제조해 지속 가능한 비즈니스 모델을 만들어 갑니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      }
+
       case '/business/cdmo/advantages':
       case '/business/cdmo/logistics': {
         let platformTitle = 'Dasan CDMO Advantage Platform';
@@ -319,7 +499,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className="min-h-[550px] w-full max-w-5xl">
+            <div className={`min-h-[550px] w-full ${currentPath === '/business/cdmo/quality' ? 'max-w-full' : 'max-w-5xl'}`}>
               {renderContent()}
             </div>
           </div>
