@@ -57,7 +57,12 @@ export default function FindPharmacy() {
   useEffect(() => {
     // Fetch products for dropdown
     fetch('/api/products')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) return null;
+        const ct = res.headers.get('content-type');
+        if (ct && ct.includes('application/json')) return res.json();
+        return null;
+      })
       .then(data => {
         if (Array.isArray(data)) {
           setProducts(data);

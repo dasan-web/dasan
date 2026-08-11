@@ -27,7 +27,12 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
 
   useEffect(() => {
     fetch('/api/navigation/hidden', { cache: 'no-store' })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) return null;
+        const ct = res.headers.get('content-type');
+        if (ct && ct.includes('application/json')) return res.json();
+        return null;
+      })
       .then(data => {
         if (data && Array.isArray(data.hiddenKeys)) {
           setHiddenSlugs(data.hiddenKeys);
