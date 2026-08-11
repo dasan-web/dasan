@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
@@ -63,7 +63,7 @@ const efficacyDict: Record<string, string> = {
   "치과구강용약": "Dental & Oral Agents",
   "비타민제": "Vitamins",
   "기타의비타민제": "Other Vitamins",
-  "혼합비타민제(비타민AD혼합제제제외)": "Mixed Vitamins",
+  "혼합비타민제(비타민AD혼합제제외)": "Mixed Vitamins",
   "따로분류되지않는대사성의약품": "Other Metabolic Agents"
 };
 
@@ -82,7 +82,6 @@ export default function ProductSearch() {
   const [searchMode, setSearchMode] = useState<'name' | 'efficacy'>('name');
   const [selectedConsonant, setSelectedConsonant] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [submittedQuery, setSubmittedQuery] = useState('');
   const [isClient, setIsClient] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -107,18 +106,27 @@ export default function ProductSearch() {
       });
   }, []);
 
-  // Handle Search Submission
-  const handleSearch = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    setSubmittedQuery(searchQuery);
-    setCurrentPage(1);
-  };
-
   // Filter Products
   const filteredProducts = productsList.filter(product => {
     if (activeTab === 'prescription' && product.type !== '전문의약품') return false;
     if (activeTab === 'otc' && product.type !== '일반의약품') return false;
     if (searchMode === 'name' && selectedConsonant && product.consonant !== selectedConsonant) return false;
+
+    if (searchQuery.trim() !== '') {
+      const q = searchQuery.toLowerCase().trim();
+      if (searchMode === 'name') {
+        const matchesName = (product.name && product.name.toLowerCase().includes(q)) || 
+                            (product.englishName && product.englishName.toLowerCase().includes(q)) ||
+                            (product.efficacy && product.efficacy.toLowerCase().includes(q));
+        if (!matchesName) return false;
+      } else {
+        const matchesEfficacy = product.efficacy && product.efficacy.toLowerCase().includes(q);
+        if (!matchesEfficacy) return false;
+      }
+    }
+
+    return true;
+  });duct.consonant !== selectedConsonant) return false;
 
     if (submittedQuery.trim() !== '') {
       const q = submittedQuery.toLowerCase().trim();
@@ -150,7 +158,6 @@ export default function ProductSearch() {
             setActiveTab('all');
             setSelectedConsonant(null);
             setSearchQuery('');
-            setSubmittedQuery('');
             setCurrentPage(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
@@ -165,7 +172,6 @@ export default function ProductSearch() {
             setActiveTab('prescription');
             setSelectedConsonant(null);
             setSearchQuery('');
-            setSubmittedQuery('');
             setCurrentPage(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
@@ -180,7 +186,6 @@ export default function ProductSearch() {
             setActiveTab('otc');
             setSelectedConsonant(null);
             setSearchQuery('');
-            setSubmittedQuery('');
             setCurrentPage(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
@@ -200,7 +205,6 @@ export default function ProductSearch() {
             onClick={() => {
               setSearchMode('name');
               setSearchQuery('');
-              setSubmittedQuery('');
               setCurrentPage(1);
             }}
             className={`pb-1 transition-all cursor-pointer select-none ${
@@ -215,7 +219,6 @@ export default function ProductSearch() {
               setSearchMode('efficacy');
               setSelectedConsonant(null);
               setSearchQuery('');
-              setSubmittedQuery('');
               setCurrentPage(1);
             }}
             className={`pb-1 transition-all cursor-pointer select-none ${
@@ -251,18 +254,34 @@ export default function ProductSearch() {
         )}
 
         {/* Text Input Search Bar (Flat Border) */}
-        <form onSubmit={handleSearch} className="flex max-w-2xl w-full items-stretch border border-gray-200 rounded-md overflow-hidden bg-white">
+        <form onSubmit={(e) => e.preventDefault()} className="flex max-w-2xl w-full items-stretch border border-gray-200 rounded-md overflow-hidden bg-white relative">
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setCurrentPage(1);
+            }}
             placeholder={
               searchMode === 'name'
-                ? isEnglish ? 'Please enter the product name to search' : '검색하실 제품명을 입력해 주세요'
+                ? isEnglish ? 'Enter product name (e.g., Levodrop)' : '검색하실 제품명 또는 영문명을 입력해 주세요 (예: 레 -> 레보드로프)'
                 : isEnglish ? 'Please enter the efficacy/effect to search (e.g., hypertension, diabetes, etc.)' : '검색하실 효능/효과를 입력해 주세요 (예: 고혈압, 당뇨 등)'
             }
-            className="flex-1 bg-transparent border-none outline-none px-4 py-2.5 text-xs md:text-sm text-gray-700 placeholder-gray-400"
+            className="flex-1 bg-transparent border-none outline-none px-4 py-2.5 pr-10 text-xs md:text-sm text-gray-700 placeholder-gray-400"
           />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearchQuery('');
+                setCurrentPage(1);
+              }}
+              className="absolute right-14 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
+              title={isEnglish ? 'Clear' : '초기화'}
+            >
+              <X size={16} />
+            </button>
+          )}
           <button
             type="submit"
             className="bg-brand-green hover:bg-brand-green-dark text-white px-5 transition-colors flex items-center justify-center cursor-pointer"
