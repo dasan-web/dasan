@@ -96,7 +96,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
                 <img 
                   src={product.file_url} 
                   alt={product.name} 
-                  className="max-w-full max-h-full object-contain drop-shadow-md transition-transform duration-700 group-hover:scale-105"
+                  className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
                 />
               ) : (
                 <span className="text-xl tracking-wider text-slate-300 font-extrabold uppercase select-none">
