@@ -83,7 +83,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
         <div className="flex flex-col lg:flex-row">
           
           {/* Left: Image Area */}
-          <div className="lg:w-2/5 bg-slate-50 p-8 md:p-12 flex flex-col justify-center items-center border-b lg:border-b-0 lg:border-r border-slate-100 relative group">
+          <div className="lg:w-2/5 bg-white p-8 md:p-12 flex flex-col justify-center items-center border-b lg:border-b-0 lg:border-r border-slate-100 relative group">
             <div className="absolute top-6 left-6 z-10">
               <div className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-widest bg-white/95 backdrop-blur-md border border-slate-200 shadow-sm text-slate-700 cursor-default rounded-full">
                 <span className={`w-2 h-2 rounded-full ${product.type === '전문의약품' ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]'}`} />
