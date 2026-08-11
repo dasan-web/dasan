@@ -1191,15 +1191,6 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
     }));
   };
 
-  if (checkingAuth) {
-    return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-[#070b13]">
-        <div className="text-center text-xs md:text-sm text-gray-500 font-semibold">
-          인증 여부를 확인하는 중입니다...
-        </div>
-      </div>
-    );
-  }
   const filteredAdminProducts = useMemo(() => {
     if (!productSearchQuery.trim()) return products;
     const q = productSearchQuery.trim().toLowerCase();
@@ -1212,6 +1203,16 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
   const adminTotalPages = Math.ceil(filteredAdminProducts.length / adminProductsPerPage);
   const paginatedAdminProducts = filteredAdminProducts.slice((productCurrentPage - 1) * adminProductsPerPage, productCurrentPage * adminProductsPerPage);
+
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center bg-[#070b13]">
+        <div className="text-center text-xs md:text-sm text-gray-500 font-semibold">
+          인증 여부를 확인하는 중입니다...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#070b13] text-gray-150">
