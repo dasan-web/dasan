@@ -8,55 +8,57 @@ interface PipelineItem {
   category: string;
   projectName: string;
   disease: string;
-  phase: '기초연구' | '전임상' | '임상 1상' | '임상 2상' | '임상 3상' | '허가';
+  phase: string;
   partner: string;
   rowSpan?: number;
   isFirst?: boolean;
 }
 
-const PHASES = ['기초연구', '전임상', '임상 1상', '임상 2상', '임상 3상', '허가'];
-
 export default function PipelineChart() {
   const pathname = usePathname();
   const isEnglish = pathname ? pathname.startsWith('/en') : false;
   const [pipelineList, setPipelineList] = useState<PipelineItem[]>([]);
+  const [phases, setPhases] = useState<string[]>(['기초연구', '전임상', '임상 1상', '임상 2상', '임상 3상', '허가']);
+  const [hideProjectName, setHideProjectName] = useState(false);
   const [loading, setLoading] = useState(true);
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    fetch('/api/pipeline')
-      .then(res => {
-        if (!res.ok) return null;
-        const ct = res.headers.get('content-type');
-        if (ct && ct.includes('application/json')) return res.json();
-        return null;
-      })
-      .then(data => {
-        if (Array.isArray(data)) {
-          const formatted = data.map((item: any) => ({
-            id: item.id,
-            category: item.category,
-            projectName: item.project_name,
-            disease: item.disease,
-            phase: item.phase,
-            partner: item.partner || '',
-          }));
-          setPipelineList(formatted);
-          // Trigger initial bouncy entrance transition
-          setTimeout(() => setAnimate(true), 100);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Failed to fetch pipeline:', err);
-        setLoading(false);
-      });
+    // Fetch phases first, then pipelines
+    Promise.all([
+      fetch('/api/pipeline/phases').then(res => res.json()),
+      fetch('/api/pipeline').then(res => res.json())
+    ])
+    .then(([phasesData, pipelineData]) => {
+      if (phasesData) {
+        if (phasesData.phases) setPhases(phasesData.phases);
+        if (phasesData.hideProjectName !== undefined) setHideProjectName(!!phasesData.hideProjectName);
+      }
+      
+      if (Array.isArray(pipelineData)) {
+        const formatted = pipelineData.map((item: any) => ({
+          id: item.id,
+          category: item.category,
+          projectName: item.project_name,
+          disease: item.disease,
+          phase: item.phase,
+          partner: item.partner || '',
+        }));
+        setPipelineList(formatted);
+        setTimeout(() => setAnimate(true), 100);
+      }
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error('Failed to fetch pipeline data:', err);
+      setLoading(false);
+    });
   }, []);
 
   const getPhaseWidth = (phase: string) => {
-    const idx = PHASES.indexOf(phase);
+    const idx = phases.indexOf(phase);
     if (idx === -1) return '0%';
-    const pct = ((idx + 0.5) / PHASES.length) * 100;
+    const pct = ((idx + 0.5) / phases.length) * 100;
     return `${pct}%`;
   };
 
@@ -67,10 +69,10 @@ export default function PipelineChart() {
   const t = (ko: string) => {
     if (!isEnglish) return ko;
     const dict: Record<string, string> = {
-      '구분': 'Category',
+      '분류': 'Category',
       '프로젝트명': 'Project Name',
-      '질환군': 'Indication',
-      '개발단계': 'Development Phase',
+      '적응증': 'Indication',
+      '단계': 'Development Phase',
       '협력기관': 'Partners',
       '기초연구': 'Basic Research',
       '전임상': 'Pre-Clinical',
@@ -126,15 +128,20 @@ export default function PipelineChart() {
         {/* Table Head */}
         <thead>
           <tr className="bg-[#1F4E78] text-white">
-            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[15%]">{t('구분')}</th>
-            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[12%]">{t('프로젝트명')}</th>
-            <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[23%]">{t('질환군')}</th>
+            <th className={`border border-gray-300 px-4 py-6 text-center font-bold ${hideProjectName ? 'w-[18%]' : 'w-[15%]'}`}>{t('분류')}</th>
+            {!hideProjectName && (
+              <th className="border border-gray-300 px-4 py-6 text-center font-bold w-[12%]">{t('프로젝트명')}</th>
+            )}
+            <th className={`border border-gray-300 px-4 py-6 text-center font-bold ${hideProjectName ? 'w-[28%]' : 'w-[23%]'}`}>{t('적응증')}</th>
             
             {/* 개발단계 (Nested Columns) */}
-            <th className="border border-gray-300 p-0 w-[38%]" colSpan={6}>
-              <div className="text-center font-bold py-3.5 border-b border-gray-300">{t('개발단계')}</div>
-              <div className="grid grid-cols-6 text-[11px] font-semibold bg-[#1F4E78]">
-                {PHASES.map((phase) => (
+            <th className={`border border-gray-300 p-0 ${hideProjectName ? 'w-[42%]' : 'w-[38%]'}`} colSpan={phases.length || 1}>
+              <div className="text-center font-bold py-3.5 border-b border-gray-300">{t('단계')}</div>
+              <div 
+                className="grid text-[11px] font-semibold bg-[#1F4E78]"
+                style={{ gridTemplateColumns: `repeat(${phases.length || 1}, minmax(0, 1fr))` }}
+              >
+                {phases.map((phase) => (
                   <div key={t(phase)} className="py-2.5 text-center border-r last:border-r-0 border-gray-300">
                     {t(phase)}
                   </div>
@@ -166,15 +173,17 @@ export default function PipelineChart() {
                   )}
 
                   {/* Project Name */}
-                  <td className="border border-gray-200 px-4 py-6 text-center text-gray-600 font-medium font-mono">
-                    {item.projectName}
-                  </td>
+                  {!hideProjectName && (
+                    <td className="border border-gray-200 px-4 py-6 text-center text-gray-600 font-medium font-mono">
+                      {item.projectName}
+                    </td>
+                  )}
 
                   {/* Indication / Disease */}
                   <td className="border border-gray-200 px-4 py-6 text-center text-gray-700 font-medium">{t(item.disease)}</td>
 
-                  {/* Progress Bar spanned across the 6 phases (Draggable Interactive Track) */}
-                  <td className="border border-gray-200 p-0 relative" colSpan={6}>
+                  {/* Progress Bar spanned across the phases (Draggable Interactive Track) */}
+                  <td className="border border-gray-200 p-0 relative" colSpan={phases.length || 1}>
                     <div className="absolute inset-0 flex items-center px-4">
                       {/* Aligned relative wrapper to match coordinates of progress bar and circle handle */}
                       <div className="relative w-full h-full flex items-center">

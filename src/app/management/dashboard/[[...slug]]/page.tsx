@@ -7,7 +7,7 @@ import RichTextEditor from '@/components/RichTextEditor';
 import { useRouter, useParams } from 'next/navigation';
 import { navigationData, GrandMenu } from '@/lib/navigation';
 import { 
-  LogOut, ShieldAlert, Check, Plus, Trash2, Edit, Save, 
+  LogOut, ShieldAlert, Check, Plus, Trash2, Edit, Save, Settings, GripVertical,
   ChevronRight, ChevronDown, CheckCircle2, ListFilter, Search, Download, Globe, X,
   Heart, BookOpen, MessageSquare, LineChart,
   CheckCircle, ShieldCheck, Truck, Layers
@@ -178,9 +178,18 @@ export default function AdminDashboardPage() {
   const [popupTop, setPopupTop] = useState(100);
   const [popupLeft, setPopupLeft] = useState(100);
 
+  // Phase Manager States
+  const [showPhaseManager, setShowPhaseManager] = useState(false);
+  const [editingPhases, setEditingPhases] = useState<string[]>([]);
+  const [newPhaseName, setNewPhaseName] = useState('');
+  const [isSavingPhases, setIsSavingPhases] = useState(false);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [hideProjectName, setHideProjectName] = useState(false);
+  const [editingHideProjectName, setEditingHideProjectName] = useState(false);
+
   // Consonant list for dropdown
   const consonants = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
-  const PHASES = ['기초연구', '전임상', '임상 1상', '임상 2상', '임상 3상', '허가신청', '발매'];
+  const [dynamicPhases, setDynamicPhases] = useState<string[]>(['기초연구', '전임상', '임상 1상', '임상 2상', '임상 3상', '허가']);
 
   const getCleanSubjectAndPrefix = (subject: string) => {
     let prefix = '';
@@ -343,9 +352,18 @@ export default function AdminDashboardPage() {
   const fetchPipelines = async () => {
     setLoadingData(true);
     try {
-      const res = await fetch('/api/pipeline');
+      const [res, phasesRes] = await Promise.all([
+        fetch('/api/pipeline'),
+        fetch('/api/pipeline/phases')
+      ]);
       const data = await res.json();
+      const phasesData = await phasesRes.json();
+      
       setPipelines(Array.isArray(data) ? data : []);
+      if (phasesData) {
+        if (phasesData.phases) setDynamicPhases(phasesData.phases);
+        if (phasesData.hideProjectName !== undefined) setHideProjectName(!!phasesData.hideProjectName);
+      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -813,6 +831,87 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
     }
   };
 
+  // Phase Management Handlers
+  const openPhaseManager = () => {
+    setEditingPhases([...dynamicPhases]);
+    setEditingHideProjectName(hideProjectName);
+    setNewPhaseName('');
+    setShowPhaseManager(true);
+  };
+
+  const handleAddPhase = () => {
+    const trimmed = newPhaseName.trim();
+    if (!trimmed) return;
+    if (editingPhases.includes(trimmed)) {
+      alert('이미 존재하는 단계입니다.');
+      return;
+    }
+    setEditingPhases([...editingPhases, trimmed]);
+    setNewPhaseName('');
+  };
+
+  const handleRemovePhase = (phase: string) => {
+    if (!confirm(`'${phase}' 단계를 삭제하시겠습니까?\n주의: 차트에서 해당 단계가 사라지면 관련된 프로젝트 표시에 문제가 발생할 수 있습니다.`)) return;
+    setEditingPhases(editingPhases.filter(p => p !== phase));
+  };
+
+  const handleMovePhase = (index: number, direction: 'up' | 'down') => {
+    const newPhases = [...editingPhases];
+    if (direction === 'up' && index > 0) {
+      [newPhases[index - 1], newPhases[index]] = [newPhases[index], newPhases[index - 1]];
+    } else if (direction === 'down' && index < newPhases.length - 1) {
+      [newPhases[index], newPhases[index + 1]] = [newPhases[index + 1], newPhases[index]];
+    }
+    setEditingPhases(newPhases);
+  };
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index.toString());
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    
+    const newPhases = [...editingPhases];
+    const draggedItem = newPhases[draggedIndex];
+    newPhases.splice(draggedIndex, 1);
+    newPhases.splice(index, 0, draggedItem);
+    
+    setDraggedIndex(index);
+    setEditingPhases(newPhases);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+  };
+
+  const handleSavePhases = async () => {
+    setIsSavingPhases(true);
+    try {
+      const res = await fetch('/api/pipeline/phases', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phases: editingPhases, hideProjectName: editingHideProjectName }),
+      });
+      if (res.ok) {
+        alert('설정이 성공적으로 저장되었습니다.');
+        setDynamicPhases(editingPhases);
+        setHideProjectName(editingHideProjectName);
+        setShowPhaseManager(false);
+      } else {
+        alert('저장에 실패했습니다.');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('저장 중 오류 발생');
+    } finally {
+      setIsSavingPhases(false);
+    }
+  };
+
   // Actions: Logout
   const handleLogout = async () => {
     await fetch('/api/management/auth', { method: 'DELETE' });
@@ -1151,7 +1250,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       ]);
       filename = `제품리스트_${new Date().toISOString().slice(0, 10)}.csv`;
     } else if (currentSubPath === 'rd/pipeline') {
-      headers = ['번호', '구분', '프로젝트명', '적응증', '개발단계', '협력기관'];
+      headers = ['번호', '분류', '프로젝트명', '적응증', '단계', '협력기관'];
       rows = pipelines.map(p => [
         p.id,
         p.category,
@@ -1451,13 +1550,24 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                currentSubPath === 'contact/careers/jobs') && (
                <div className="flex items-center space-x-2 ml-auto sm:ml-0">
                  {(currentUser?.role !== 'viewer' || (currentSubPath === 'business/finished/search' && currentUser?.username === 'editor3')) && (
-                   <button
-                     onClick={openCreateModal}
-                     className="inline-flex items-center space-x-1.5 bg-brand-green hover:bg-brand-green-dark text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-md shadow-brand-green/10"
-                   >
-                     <Plus size={14} />
-                     <span>신규 등록</span>
-                   </button>
+                   <>
+                     {currentSubPath === 'rd/pipeline' && (
+                       <button
+                         onClick={openPhaseManager}
+                         className="inline-flex items-center space-x-1.5 bg-[#1F4E78] hover:bg-[#153a5b] text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-sm"
+                       >
+                         <Settings size={14} />
+                         <span>단계 설정</span>
+                       </button>
+                     )}
+                     <button
+                       onClick={openCreateModal}
+                       className="inline-flex items-center space-x-1.5 bg-brand-green hover:bg-brand-green-dark text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-md shadow-brand-green/10"
+                     >
+                       <Plus size={14} />
+                       <span>신규 등록</span>
+                     </button>
+                   </>
                  )}
                  <button
                    onClick={handleExportExcel}
@@ -1638,10 +1748,12 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                     <table className="w-full text-left text-xs md:text-sm">
                       <thead className="bg-white/[0.03] border-b border-white/10 text-gray-400 font-bold uppercase tracking-wider">
                         <tr>
-                          <th className="px-5 py-4 w-[20%]">구분</th>
-                          <th className="px-5 py-4 w-[20%]">프로젝트명</th>
-                          <th className="px-5 py-4 w-[25%]">질환군</th>
-                          <th className="px-5 py-4 w-[15%]">개발단계</th>
+                          <th className="px-5 py-4 w-[20%]">분류</th>
+                          {!hideProjectName && (
+                            <th className="px-5 py-4 w-[20%]">프로젝트명</th>
+                          )}
+                          <th className="px-5 py-4 w-[25%]">적응증</th>
+                          <th className="px-5 py-4 w-[15%]">단계</th>
                           <th className="px-5 py-4 w-[10%]">협력기관</th>
                           <th className="px-5 py-4 w-[10%] text-right">관리</th>
                         </tr>
@@ -1651,19 +1763,32 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                           pipelines.map(p => (
                             <tr key={p.id} className="hover:bg-white/[0.02] border-b border-white/5 last:border-0 transition-colors">
                               <td className="px-5 py-4 font-bold text-white">{p.category}</td>
-                              <td className="px-5 py-4 font-mono font-bold text-brand-green">
-                                {currentUser?.role !== 'viewer' ? (
+                              {!hideProjectName && (
+                                <td className="px-5 py-4 font-mono font-bold text-brand-green">
+                                  {currentUser?.role !== 'viewer' ? (
+                                    <span 
+                                      className="cursor-pointer hover:underline transition-colors"
+                                      onClick={() => openEditModal(p, 'pipeline')}
+                                    >
+                                      {p.project_name || '(미입력)'}
+                                    </span>
+                                  ) : (
+                                    p.project_name || '-'
+                                  )}
+                                </td>
+                              )}
+                              <td className="px-5 py-4 text-gray-300 font-medium">
+                                {hideProjectName && currentUser?.role !== 'viewer' ? (
                                   <span 
-                                    className="cursor-pointer hover:underline transition-colors"
+                                    className="cursor-pointer hover:underline text-white font-bold transition-colors"
                                     onClick={() => openEditModal(p, 'pipeline')}
                                   >
-                                    {p.project_name}
+                                    {p.disease}
                                   </span>
                                 ) : (
-                                  p.project_name
+                                  p.disease
                                 )}
                               </td>
-                              <td className="px-5 py-4 text-xs text-gray-400">{p.disease}</td>
                               <td className="px-5 py-4">
                                 <span className="bg-white/5 text-gray-300 border border-white/10 px-2 py-0.5 rounded text-[10px] font-bold">
                                   {p.phase}
@@ -5864,6 +5989,118 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       </div>
 
       {/* 4. CRUD Modals */}
+      {/* Phase Manager Modal */}
+      {showPhaseManager && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md select-none">
+          <div className="bg-[#0a1120]/90 border border-white/10 rounded-2xl w-full max-w-md p-6 space-y-6 shadow-2xl relative text-white backdrop-blur-xl">
+            <h3 className="text-lg font-bold">단계 설정</h3>
+            
+            <div className="space-y-4">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newPhaseName}
+                  onChange={(e) => setNewPhaseName(e.target.value)}
+                  placeholder="새로운 단계 이름 입력"
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg outline-none p-2 text-sm text-white focus:border-brand-green"
+                  onKeyDown={(e) => e.key === 'Enter' && handleAddPhase()}
+                />
+                <button
+                  onClick={handleAddPhase}
+                  className="bg-[#1F4E78] hover:bg-[#153a5b] text-white px-4 py-2 rounded-lg font-bold text-sm transition-colors"
+                >
+                  추가
+                </button>
+              </div>
+
+              <div className="border border-white/10 rounded-lg overflow-hidden bg-white/5">
+                {editingPhases.length === 0 ? (
+                  <div className="p-4 text-center text-gray-500 text-sm">등록된 단계가 없습니다.</div>
+                ) : (
+                  <ul className="divide-y divide-white/10">
+                    {editingPhases.map((phase, idx) => (
+                      <li 
+                        key={phase} 
+                        draggable={true}
+                        onDragStart={(e) => handleDragStart(e, idx)}
+                        onDragOver={(e) => handleDragOver(e, idx)}
+                        onDragEnd={handleDragEnd}
+                        className={`flex items-center justify-between p-3 transition-colors cursor-grab active:cursor-grabbing select-none ${
+                          draggedIndex === idx ? 'bg-white/10 opacity-50 border border-brand-green/30 rounded-lg' : 'hover:bg-white/5'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <GripVertical size={14} className="text-gray-500 cursor-grab" />
+                          <span className="text-sm font-semibold">{phase}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => handleMovePhase(idx, 'up')}
+                            disabled={idx === 0}
+                            className="p-1 text-gray-400 hover:text-white disabled:opacity-30"
+                          >
+                            ▲
+                          </button>
+                          <button
+                            onClick={() => handleMovePhase(idx, 'down')}
+                            disabled={idx === editingPhases.length - 1}
+                            className="p-1 text-gray-400 hover:text-white disabled:opacity-30"
+                          >
+                            ▼
+                          </button>
+                          <button
+                            onClick={() => handleRemovePhase(phase)}
+                            className="p-1 ml-2 text-gray-500 hover:text-red-450 transition-colors"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div 
+                className="flex items-center justify-between p-3.5 border border-white/10 rounded-lg bg-white/5 cursor-pointer hover:bg-white/[0.08] transition-colors"
+                onClick={() => setEditingHideProjectName(!editingHideProjectName)}
+              >
+                <div>
+                  <span className="text-xs md:text-sm font-bold block text-white">프로젝트명 컬럼 숨기기</span>
+                  <span className="text-[11px] text-gray-400">체크 시 차트 및 대시보드에서 '프로젝트명' 열을 숨깁니다.</span>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={editingHideProjectName}
+                  onChange={(e) => setEditingHideProjectName(e.target.checked)}
+                  className="w-4.5 h-4.5 accent-brand-green cursor-pointer"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+
+              <p className="text-xs text-gray-400">
+                주의: 단계를 삭제하면 이미 해당 단계로 등록된 프로젝트의 차트 표출에 문제가 생길 수 있습니다. 가급적 삭제보다는 이름 변경(삭제 후 동일 위치에 추가)이나 새로운 단계 추가를 권장합니다.
+              </p>
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4 border-t border-white/10">
+              <button
+                onClick={handleSavePhases}
+                disabled={isSavingPhases}
+                className="px-6 py-2 rounded-xl bg-brand-green hover:bg-brand-green-dark text-white text-sm font-bold shadow-md transition-colors disabled:opacity-50"
+              >
+                {isSavingPhases ? '저장 중...' : '저장하기'}
+              </button>
+              <button
+                onClick={() => setShowPhaseManager(false)}
+                className="px-4 py-2 rounded-xl text-sm font-bold text-gray-300 hover:bg-white/10 transition-colors"
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showFormModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md select-none">
           <div className="bg-[#0a1120]/90 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6 shadow-2xl relative text-white backdrop-blur-xl">
@@ -6061,7 +6298,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
               {currentSubPath === 'rd/pipeline' && (
                 <div className="space-y-4 text-xs">
                   <div className="space-y-1">
-                    <label className="font-bold text-gray-400 block">구분</label>
+                    <label className="font-bold text-gray-400 block">분류</label>
                     <select
                       value={pipeCategory}
                       onChange={(e) => setPipeCategory(e.target.value)}
@@ -6084,7 +6321,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="font-bold text-gray-400 block">질환군</label>
+                    <label className="font-bold text-gray-400 block">적응증</label>
                     <input
                       type="text"
                       required
@@ -6095,13 +6332,13 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="font-bold text-gray-400 block">개발 단계</label>
+                    <label className="font-bold text-gray-400 block">단계</label>
                     <select
                       value={pipePhase}
                       onChange={(e) => setPipePhase(e.target.value)}
                       className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold"
                     >
-                      {PHASES.map(ph => (
+                      {dynamicPhases.map(ph => (
                         <option key={ph} value={ph} className="bg-[#0a1120] text-white">{ph}</option>
                       ))}
                     </select>
