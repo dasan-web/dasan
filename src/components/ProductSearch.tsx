@@ -126,20 +126,6 @@ export default function ProductSearch() {
     }
 
     return true;
-  });duct.consonant !== selectedConsonant) return false;
-
-    if (submittedQuery.trim() !== '') {
-      const q = submittedQuery.toLowerCase().trim();
-      if (searchMode === 'name') {
-        const matchesName = product.name.toLowerCase().includes(q) || product.englishName.toLowerCase().includes(q);
-        if (!matchesName) return false;
-      } else {
-        const matchesEfficacy = product.efficacy.toLowerCase().includes(q);
-        if (!matchesEfficacy) return false;
-      }
-    }
-
-    return true;
   });
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
