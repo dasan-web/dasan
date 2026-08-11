@@ -2,5 +2,6 @@ option batch continue
 option confirm off
 open sftp://dspharm:dasan337@192.168.20.85/
 synchronize remote -delete -filemask="|node_modules\; .git\; .next\dev\; .next\cache\; temp_home\; *.xlsx; *.lock" "c:\Share\DASAN" "/home/dspharm/DASAN"
+call cd /home/dspharm/DASAN && docker build -t dasan-homepage . && docker stop dasan-app && docker rm dasan-app && docker run -d --name dasan-app --restart unless-stopped -p 3000:3000 dasan-homepage
 close
 exit

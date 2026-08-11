@@ -1,0 +1,6 @@
+option batch continue
+option confirm off
+open sftp://dspharm:dasan337@192.168.20.85/
+call nohup sh -c "cd /home/dspharm/DASAN && docker build -t dasan-homepage . && docker stop dasan-app && docker rm dasan-app && docker run -d --name dasan-app --restart unless-stopped -p 3000:3000 dasan-homepage" > /tmp/deploy.log 2>&1 &
+close
+exit
