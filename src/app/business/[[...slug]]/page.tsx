@@ -191,7 +191,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
       case '/business/cdmo/quality': {
         return (
           <>
-            <div className="w-[100vw] aspect-[21/9] animate-fade-in-up bg-black overflow-hidden relative left-1/2 -translate-x-1/2">
+            <div className="w-[100vw] h-[40vh] md:h-[50vh] lg:h-[550px] animate-fade-in-up bg-black overflow-hidden relative left-1/2 -translate-x-1/2 mb-4 mt-4 shadow-sm">
               <video 
                 className="w-full h-full object-cover"
                 src="/CDMO_219.mp4"

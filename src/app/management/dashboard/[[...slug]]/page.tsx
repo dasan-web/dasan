@@ -1450,13 +1450,6 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                currentSubPath === 'about/ir/news' ||
                currentSubPath === 'contact/careers/jobs') && (
                <div className="flex items-center space-x-2 ml-auto sm:ml-0">
-                 <button
-                   onClick={handleExportExcel}
-                   className="inline-flex items-center space-x-1.5 bg-white/20 border border-white/30 hover:bg-white/30 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all cursor-pointer shadow-sm"
-                 >
-                   <Download size={14} />
-                   <span>엑셀 다운로드</span>
-                 </button>
                  {(currentUser?.role !== 'viewer' || (currentSubPath === 'business/finished/search' && currentUser?.username === 'editor3')) && (
                    <button
                      onClick={openCreateModal}
@@ -1466,6 +1459,13 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                      <span>신규 등록</span>
                    </button>
                  )}
+                 <button
+                   onClick={handleExportExcel}
+                   className="inline-flex items-center space-x-1.5 bg-white/20 border border-white/30 hover:bg-white/30 text-white font-bold px-4 py-2 rounded-lg text-xs transition-all cursor-pointer shadow-sm"
+                 >
+                   <Download size={14} />
+                   <span>엑셀 다운로드</span>
+                 </button>
                </div>
              )}
           </div>
@@ -1651,7 +1651,18 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                           pipelines.map(p => (
                             <tr key={p.id} className="hover:bg-white/[0.02] border-b border-white/5 last:border-0 transition-colors">
                               <td className="px-5 py-4 font-bold text-white">{p.category}</td>
-                              <td className="px-5 py-4 font-mono font-bold text-brand-green">{p.project_name}</td>
+                              <td className="px-5 py-4 font-mono font-bold text-brand-green">
+                                {currentUser?.role !== 'viewer' ? (
+                                  <span 
+                                    className="cursor-pointer hover:underline transition-colors"
+                                    onClick={() => openEditModal(p, 'pipeline')}
+                                  >
+                                    {p.project_name}
+                                  </span>
+                                ) : (
+                                  p.project_name
+                                )}
+                              </td>
                               <td className="px-5 py-4 text-xs text-gray-400">{p.disease}</td>
                               <td className="px-5 py-4">
                                 <span className="bg-white/5 text-gray-300 border border-white/10 px-2 py-0.5 rounded text-[10px] font-bold">

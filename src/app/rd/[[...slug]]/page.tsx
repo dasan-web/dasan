@@ -115,9 +115,21 @@ export default async function RdCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-8 animate-fade-in-up">
-            <div className="bg-white p-6 rounded-xl shadow-none">
-              <h4 className="text-base font-bold text-brand-blue mb-2">{title}</h4>
+          <>
+            <div className="w-[100vw] h-[40vh] md:h-[50vh] lg:h-[550px] animate-fade-in-up bg-black overflow-hidden relative left-1/2 -translate-x-1/2 mb-20 mt-4 shadow-sm">
+              <video 
+                className="w-full h-full object-cover"
+                src="/R&D_219.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            </div>
+
+            <div className="space-y-8 animate-fade-in-up">
+              <div className="bg-white p-6 rounded-xl shadow-none">
+                <h4 className="text-base font-bold text-brand-blue mb-2">{title}</h4>
               {(typeof desc === 'string' && (desc.includes('<p') || desc.includes('<h'))) ? (
                 <div dangerouslySetInnerHTML={{ __html: desc }} className="[&_p]:text-xs [&_p]:text-gray-500 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
               ) : (
@@ -146,6 +158,7 @@ export default async function RdCatchAllPage({ params }: Params) {
               </div>
             </div>
           </div>
+          </>
         );
       }
 
