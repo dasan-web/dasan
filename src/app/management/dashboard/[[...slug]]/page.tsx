@@ -1521,52 +1521,59 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                     <table className="w-full text-left text-xs md:text-sm">
                       <thead className="bg-white/[0.03] border-b border-white/10 text-gray-400 font-bold uppercase tracking-wider">
                         <tr>
-                          <th className="px-5 py-4 w-[15%]">구분</th>
+                          <th className="px-4 py-4 w-[6%] text-center font-mono text-gray-400">NO</th>
+                          <th className="px-5 py-4 w-[12%]">구분</th>
                           <th className="px-5 py-4 w-[25%]">제품명</th>
-                          <th className="px-5 py-4 w-[25%]">영문명</th>
+                          <th className="px-5 py-4 w-[24%]">영문명</th>
                           <th className="px-5 py-4 w-[20%]">효능/효과</th>
-                          <th className="px-5 py-4 w-[15%] text-right">관리</th>
+                          <th className="px-5 py-4 w-[13%] text-right">관리</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/5 text-gray-300 font-medium">
                         {paginatedAdminProducts.length > 0 ? (
-                          paginatedAdminProducts.map(p => (
-                            <tr key={p.id} className="hover:bg-white/[0.02] border-b border-white/5 last:border-0 transition-colors">
-                              <td className="px-5 py-4">
-                                <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase border ${
-                                  p.type === '전문의약품' 
-                                    ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' 
-                                    : 'bg-brand-green/20 text-brand-green border-brand-green/30'
-                                }`}>
-                                  {p.type}
-                                </span>
-                              </td>
-                              <td className="px-5 py-4 font-bold text-white">{p.name}</td>
-                              <td className="px-5 py-4 text-gray-500 font-mono text-xs">{p.englishName || '-'}</td>
-                              <td className="px-5 py-4 text-xs text-gray-400">{p.efficacy}</td>
-                              <td className="px-5 py-4 text-right space-x-2">
-                                {(currentUser?.role !== 'viewer' || currentUser?.username === 'editor3') && (
-                                  <button
-                                    onClick={() => openEditModal(p, 'product')}
-                                    className="text-gray-500 hover:text-brand-green p-1 transition-colors cursor-pointer inline-block"
-                                  >
-                                    <Edit size={14} />
-                                  </button>
-                                )}
-                                {(currentUser?.role === 'super_admin' || currentUser?.username === 'editor3') && (
-                                  <button
-                                    onClick={() => handleDeleteItem(p.id, 'product')}
-                                    className="text-gray-500 hover:text-red-450 p-1 transition-colors cursor-pointer inline-block"
-                                  >
-                                    <Trash2 size={14} />
-                                  </button>
-                                )}
-                              </td>
-                            </tr>
-                          ))
+                          paginatedAdminProducts.map((p, index) => {
+                            const itemIndex = (productCurrentPage - 1) * adminProductsPerPage + index + 1;
+                            return (
+                              <tr key={p.id} className="hover:bg-white/[0.02] border-b border-white/5 last:border-0 transition-colors">
+                                <td className="px-4 py-4 text-center font-mono text-xs text-gray-400 font-bold">
+                                  {itemIndex}
+                                </td>
+                                <td className="px-5 py-4">
+                                  <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase border ${
+                                    p.type === '전문의약품' 
+                                      ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' 
+                                      : 'bg-brand-green/20 text-brand-green border-brand-green/30'
+                                  }`}>
+                                    {p.type}
+                                  </span>
+                                </td>
+                                <td className="px-5 py-4 font-bold text-white">{p.name}</td>
+                                <td className="px-5 py-4 text-gray-500 font-mono text-xs">{p.englishName || '-'}</td>
+                                <td className="px-5 py-4 text-xs text-gray-400">{p.efficacy}</td>
+                                <td className="px-5 py-4 text-right space-x-2">
+                                  {(currentUser?.role !== 'viewer' || currentUser?.username === 'editor3') && (
+                                    <button
+                                      onClick={() => openEditModal(p, 'product')}
+                                      className="text-gray-500 hover:text-brand-green p-1 transition-colors cursor-pointer inline-block"
+                                    >
+                                      <Edit size={14} />
+                                    </button>
+                                  )}
+                                  {(currentUser?.role === 'super_admin' || currentUser?.username === 'editor3') && (
+                                    <button
+                                      onClick={() => handleDeleteItem(p.id, 'product')}
+                                      className="text-gray-500 hover:text-red-450 p-1 transition-colors cursor-pointer inline-block"
+                                    >
+                                      <Trash2 size={14} />
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })
                         ) : (
                           <tr>
-                            <td colSpan={5} className="text-center py-12 text-gray-500 text-xs">
+                            <td colSpan={6} className="text-center py-12 text-gray-500 text-xs">
                               등록된 완제의약품이 없습니다.
                             </td>
                           </tr>
