@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { navigationData } from '@/lib/navigation';
 import SubmenuTabBar from '@/components/SubmenuTabBar';
 import { query } from '@/lib/db';
-import { UserCheck, HelpCircle, Briefcase, FileText, CheckCircle2, ChevronRight, ClipboardList } from 'lucide-react';
+import { UserCheck, HelpCircle, Briefcase, FileText, CheckCircle2, ChevronRight, ClipboardList, Stethoscope } from 'lucide-react';
 import PressList from '@/components/PressList';
 import JobList from '@/components/JobList';
 import PhilosophyGraphic from '@/components/PhilosophyGraphic';
@@ -336,13 +336,28 @@ export default async function ContactCatchAllPage({ params }: Params) {
                 </div>
               </div>
 
-              {/* STEP 5 (Formerly 4) */}
+              {/* STEP 5: 채용 검진 */}
+              <div className="relative z-10 w-full flex-1 flex flex-col items-center">
+                <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white border-[4px] lg:border-[6px] border-purple-50 shadow-md flex items-center justify-center text-purple-600 mb-4 lg:mb-6 mx-auto transition-transform duration-300 hover:scale-105">
+                  <Stethoscope size={28} className="text-purple-600" />
+                </div>
+                <div className="bg-white p-4 lg:p-6 rounded-2xl border border-gray-200 shadow-sm w-full hover:shadow-md transition-shadow duration-300 flex-grow">
+                  <span className="inline-block px-3 py-1 bg-purple-100 text-purple-700 text-xs font-black rounded-full mb-3">STEP 5</span>
+                  <p className="font-extrabold text-brand-blue text-sm lg:text-base mb-2 whitespace-pre-wrap">채용 검진</p>
+                  <p className="text-[11px] lg:text-xs text-gray-500 font-medium whitespace-pre-wrap break-keep">건강 검진 실시</p>
+                </div>
+                <div className="block md:hidden text-gray-300 my-4">
+                  <ChevronRight size={24} className="rotate-90 mx-auto" />
+                </div>
+              </div>
+
+              {/* STEP 6: 최종 합격 */}
               <div className="relative z-10 w-full flex-1 flex flex-col items-center">
                 <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white border-[4px] lg:border-[6px] border-emerald-50 shadow-md flex items-center justify-center text-emerald-500 mb-4 lg:mb-6 mx-auto transition-transform duration-300 hover:scale-105">
                   <CheckCircle2 size={28} className="text-emerald-500" />
                 </div>
                 <div className="bg-emerald-50/50 p-4 lg:p-6 rounded-2xl border border-emerald-200 shadow-sm w-full hover:shadow-md transition-shadow duration-300 flex-grow">
-                  <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-black rounded-full mb-3">STEP 5</span>
+                  <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-black rounded-full mb-3">STEP 6</span>
                   <p className="font-extrabold text-emerald-800 text-sm lg:text-base mb-2 whitespace-pre-wrap">{step4Title}</p>
                   {(typeof step4Desc === 'string' && (step4Desc.includes('<p') || step4Desc.includes('<h'))) ? (
                     <div dangerouslySetInnerHTML={{ __html: step4Desc }} className="[&_p]:text-xs [&_p]:text-emerald-700 [&_p]:font-medium [&_p]:whitespace-pre-wrap" />

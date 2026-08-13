@@ -65,7 +65,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   const slug = resolvedParams.slug || [];
   
   if (slug.length === 0) {
-    redirect('/about/intro');
+    redirect('/about/greeting');
   }
 
   const currentPath = `/about/${slug.join('/')}`;
@@ -347,18 +347,40 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px]">{trimmed}</p>;
                   })
                 )}
-                
-                {/* CEO Signature */}
-                <div className="flex justify-end items-end mt-16 gap-4">
-                  <span className="text-gray-500 font-medium text-[15px] pb-1">CEO of Dasan Pharmaceutical</span>
-                  <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">Ryu Hyung-sun</span>
-                </div>
               </div>
             </div>
 
+          </div>
+        );
 
+      case '/about/greeting':
+        return (
+          <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
+            <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
+              <div className="mb-8">
+                <h4 className="text-xl md:text-2xl font-bold text-brand-blue mb-4">
+                  Opening a Healthier Future with Trust and Innovation
+                </h4>
+                <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                  We extend our deepest gratitude to all our customers and shareholders visiting the Dasan Pharmaceutical website.
+                </p>
+                <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                  Since taking our first step in 1996, Dasan Pharmaceutical has grown through continuous research and development and bold investments under the management philosophy of &quot;New Technology Development and Quality First.&quot; Based on strict quality control, we practice the value of respect for life by providing high-quality pharmaceuticals in domestic and international markets.
+                </p>
+                <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                  Inheriting the spirit of Silsa-gusi (seeking truth from facts) of Dasan Jeong Yak-yong, we take the lead in building a healthy society with honesty and technology. In line with the rapidly changing pharmaceutical bio environment, we will further strengthen our differentiated Drug Delivery System (DDS) platform technology and global CDMO capabilities.
+                </p>
+                <p className="text-gray-600 leading-[1.8] text-[15px]">
+                  We promise to remain a trusted top partner for customers and society as a global healthcare leader contributing to the health and happy life of mankind.
+                </p>
+              </div>
 
-
+              {/* CEO Signature */}
+              <div className="flex justify-end items-end mt-16 gap-4">
+                <span className="text-gray-500 font-medium text-[15px] pb-1">CEO of Dasan Pharmaceutical</span>
+                <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">Ryu Hyung-sun</span>
+              </div>
+            </div>
           </div>
         );
 
@@ -1379,8 +1401,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
               <SubmenuTabBar 
-                subMenus={(activeMajorObj?.subMenus || []).filter(sub => sub.link !== '/about/location')} 
-                currentPath={currentPath === '/about/location' ? '/about/facilities' : currentPath} 
+                subMenus={activeMajorObj?.subMenus || []} 
+                currentPath={currentPath} 
               />
             </div>
 

@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET() {
   try {
     const results = await query('SELECT page_key FROM admin_contents WHERE is_hidden = 1');
+    console.log('[DEBUG /api/navigation/hidden] DB results:', results);
     
     // Extract key relative paths from the db keys (e.g. 'seo/about/intro' -> 'about/intro')
     const hiddenKeys = results.map((row: any) => {

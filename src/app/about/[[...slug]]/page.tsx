@@ -68,7 +68,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   const slug = resolvedParams.slug || [];
   
   if (slug.length === 0) {
-    redirect('/about/intro');
+    redirect('/about/greeting');
   }
 
   const currentPath = `/about/${slug.join('/')}`;
@@ -285,12 +285,19 @@ export default async function AboutCatchAllPage({ params }: Params) {
         // 제목 앞의 '1. ', '2. ' 등 숫자 번호 포맷을 모두 제거합니다.
         introTitle = introTitle.replace(/^[1-9]\.\s?/, '').trim();
 
-        // 관리자 에디터에서 CEO 메시지가 h3 이외의 태그(p, h4, strong 등)로 작성되었을 경우, 
-        // 이를 '기업 이념 및 핵심가치'와 완벽히 동일한 h3(하단선 포함) 템플릿으로 강제 치환합니다.
-        introBody = introBody.replace(
-          /<([a-z0-9]+)[^>]*>[\s\n]*(?:<[^>]+>[\s\n]*)*(?:[0-9]\.\s*)?CEO\s*메시지\s*\(CEO\s*Message\)[\s\n]*(?:<\/[^>]+>[\s\n]*)*<\/\1>/gi,
-          '<h3>CEO 메시지 (CEO Message)</h3>'
-        );
+        // 기업개요 페이지에서 CEO 메시지 특화 문구 및 단락 제거
+        introBody = introBody
+          .replace(/CEO\s*메시지\s*\(CEO\s*Message\)/gi, '')
+          .replace(/신뢰와 혁신으로 열어가는 더 건강한 미래/gi, '')
+          .replace(/다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다/gi, '')
+          .replace(/1996년 첫 발을 내딛은 다산제약은 '차별화된 의약품 연구개발'이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다/gi, '')
+          .replace(/우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다/gi, '')
+          .replace(/나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다/gi, '')
+          .replace(/다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 '글로벌 헬스케어 리더'로 끊임없이 도약할 것을 약속드립니다/gi, '')
+          .replace(/새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다/gi, '')
+          .replace(/<p[^>]*>\s*감사합니다\s*<\/p>/gi, '');
+
+
 
         return (
           <>
@@ -345,12 +352,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     const processHtmlTitles = (html: string) => {
                       let processed = html;
                       
-                      // 1. CEO 메시지 (CEO Message)
-                      processed = processed.replace(
-                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(CEO 메시지 \(CEO Message\))\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
-                        '<span class="block text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-24 w-full">$1</span>'
-                      );
-                      
                       // 1.5 4대 경영 철학
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
@@ -361,12 +362,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(다산\(茶山\)의 정신으로.*?다산제약)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
                         '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</span>'
-                      );
-                      
-                      // 3. 신뢰와 혁신으로...
-                      processed = processed.replace(
-                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(신뢰와 혁신으로.*?미래)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
-                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">신뢰와 혁신으로 열어가는 더 건강한 미래</span>'
                       );
                       
                       return processed;
@@ -389,22 +384,20 @@ export default async function AboutCatchAllPage({ params }: Params) {
                           "
                           dangerouslySetInnerHTML={{ __html: `<h3 class="text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-12">${introTitle}</h3>` + beforeHtml }} 
                         />
-                        {hasPhilosophy && (
-                          <>
-                            <div className="w-full">
-                              <PhilosophyGraphic />
-                            </div>
-                            <div 
-                              className="
-                                text-[15px] text-gray-600 leading-[1.8]
-                                [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                                [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
-                                [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
-                                [&_strong]:text-gray-900 [&_strong]:font-bold
-                              "
-                              dangerouslySetInnerHTML={{ __html: afterHtml }} 
-                            />
-                          </>
+                        <div className="w-full mt-8">
+                          <PhilosophyGraphic />
+                        </div>
+                        {hasPhilosophy && afterHtml && (
+                          <div 
+                            className="
+                              text-[15px] text-gray-600 leading-[1.8] mt-6
+                              [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
+                              [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
+                              [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
+                              [&_strong]:text-gray-900 [&_strong]:font-bold
+                            "
+                            dangerouslySetInnerHTML={{ __html: afterHtml }} 
+                          />
                         )}
                       </>
                     );
@@ -415,8 +408,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       const trimmed = line.trim();
                       if (!trimmed) return null;
 
-                      // 1. 기업 이념 및 핵심가치, CEO 메시지 등 메인 타이틀
-                      if (trimmed.match(/^[1-9]\.\s/) || trimmed.includes('CEO 메시지 (CEO Message)')) {
+                      // 1. 기업 이념 및 핵심가치 등 메인 타이틀
+                      if (trimmed.match(/^[1-9]\.\s/)) {
                         const titleText = trimmed.replace(/^[1-9]\.\s?/, '');
                         return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
                       }
@@ -430,10 +423,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
                         );
                       }
 
-                      // 서브 타이틀 (다산의 정신으로..., 신뢰와 혁신으로...)
+                      // 서브 타이틀 (다산의 정신으로...)
                       if (
                         trimmed.startsWith('다산(茶山)의 정신으로') || 
-                        trimmed.startsWith('신뢰와 혁신으로') ||
                         trimmed.includes('핵심 가치')
                       ) {
                         return <h4 key={i} className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>;
@@ -468,20 +460,76 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   });
                   })()
                 )}
-                
-                {/* CEO Signature */}
-                <div className="flex justify-end items-end mt-16 gap-4">
-                  <span className="text-gray-500 font-medium text-[15px] pb-1">다산제약 대표이사</span>
-                  <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">류형선</span>
-                </div>
               </div>
             </div>
 
-
-
-
           </div>
           </>
+        );
+
+      case '/about/greeting':
+        let greetingBody = '';
+        if (dbContent) {
+          greetingBody = dbContent;
+        }
+
+        return (
+          <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
+            <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
+              {greetingBody && (greetingBody.includes('<p') || greetingBody.includes('<br') || greetingBody.includes('<h')) ? (
+                <div 
+                  className="
+                    text-[15px] text-gray-600 leading-[1.8]
+                    [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
+                    [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4
+                    [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
+                    [&_strong]:text-gray-900 [&_strong]:font-bold
+                  "
+                  dangerouslySetInnerHTML={{ __html: greetingBody }} 
+                />
+              ) : (
+                <>
+                  <div className="mb-8">
+                    <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
+                      CEO 메시지 (CEO Message)
+                    </h3>
+                    
+                    <h4 className="text-lg md:text-xl font-bold text-gray-900 mt-8 mb-6">
+                      신뢰와 혁신으로 열어가는 더 건강한 미래
+                    </h4>
+                    
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      1996년 첫 발을 내딛은 다산제약은 &apos;차별화된 의약품 연구개발&apos;이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 &apos;글로벌 헬스케어 리더&apos;로 끊임없이 도약할 것을 약속드립니다
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mt-8">
+                      감사합니다
+                    </p>
+                  </div>
+
+                  {/* CEO Signature */}
+                  <div className="flex justify-end items-end mt-16 gap-4">
+                    <span className="text-gray-500 font-medium text-[15px] pb-1">다산제약 대표이사</span>
+                    <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">류형선</span>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
         );
 
       case '/about/business-area':
@@ -676,8 +724,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-12 animate-fade-in-up bg-white p-6 md:p-16 rounded-3xl relative overflow-hidden">
-            {/* 동적으로 구현된 프리미엄 럭셔리 매출 성장 그래프 애니메이션 컴포넌트 */}
-            <SalesGrowthChart />
+            {/* 동적으로 구현된 프리미엄 럭셔리 매출 성장 그래프 애니메이션 컴포넌트 (추후 재사용을 위해 숨김 처리) */}
+            {/* <SalesGrowthChart /> */}
 
             {/* Header */}
             <div className="text-left mb-16 relative z-10 w-full max-w-5xl mx-auto">
@@ -985,7 +1033,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             
             <div className="text-left mb-10">
               <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4 pb-2 border-b border-gray-100">
-                글로벌 인프라 현황 (Global Infrastructure)
+                글로벌 인프라 (Global Infrastructure)
               </h3>
               <p className="text-gray-500 text-[15px] leading-relaxed max-w-3xl font-medium">
                 {facIntro}
@@ -1072,12 +1120,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   </div>
                 </div>
               </div>
-
-            </div>
-            {/* 찾아오시는 길 & 지도 */}
-            <div className="mt-12 w-full">
-              <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-8 pb-2 border-b border-gray-100">찾아오시는 길</h3>
-              <LocationMapSection hideBackButton={true} />
             </div>
           </div>
         );
@@ -1447,8 +1489,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
               <SubmenuTabBar 
-                subMenus={(activeMajorObj?.subMenus || []).filter(sub => sub.link !== '/about/location')} 
-                currentPath={currentPath === '/about/location' ? '/about/facilities' : currentPath} 
+                subMenus={activeMajorObj?.subMenus || []} 
+                currentPath={currentPath} 
               />
             </div>
 

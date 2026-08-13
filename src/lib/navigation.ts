@@ -7,6 +7,7 @@ export interface SubMenu {
 export interface MajorMenu {
   enName?: string;
   name: string;
+  link?: string;
   subMenus: SubMenu[];
 }
 
@@ -25,11 +26,13 @@ export const navigationData: GrandMenu[] = [
       {
         name: '회사소개', enName: 'Company Overview',
         subMenus: [
+          { name: '인사말', enName: 'CEO Greeting', link: '/about/greeting' },
           { name: '기업개요', enName: 'Company Info', link: '/about/intro' },
           { name: '사업영역', enName: 'Business Area', link: '/about/business-area' },
           { name: '연혁', enName: 'History', link: '/about/history' },
           { name: 'CI', enName: 'CI', link: '/about/ci' },
-          { name: '찾아오시는길', enName: 'Location', link: '/about/facilities' },
+          { name: '글로벌 인프라', enName: 'Global Infrastructure', link: '/about/facilities' },
+          { name: '찾아오시는길', enName: 'Location', link: '/about/location' },
         ],
       },
       {
@@ -74,16 +77,13 @@ export const navigationData: GrandMenu[] = [
         name: '완제의약품', enName: 'Finished Products',
         subMenus: [
           { name: '제품검색', enName: 'Product Search', link: '/business/finished/search' },
-          { name: '판매약국찾기', enName: 'Find Pharmacies', link: '/business/finished/pharmacy' },
           { name: '제품소식', enName: 'Product News', link: '/business/finished/news' },
         ],
       },
       {
         name: 'API', enName: 'API',
-        subMenus: [
-          { name: '원료의약품(API)', enName: 'API (Raw)', link: '/business/api/raw' },
-          { name: '원료의약품 중간체', enName: 'API Intermediates', link: '/business/api/intermediates' },
-        ],
+        link: '/business/api/raw',
+        subMenus: [],
       },
       {
         name: 'CDMO', enName: 'CDMO',

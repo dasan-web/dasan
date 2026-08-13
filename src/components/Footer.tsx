@@ -87,9 +87,15 @@ export default function Footer() {
                     <div className="flex flex-1 divide-x divide-white/10">
                       {grand.majors.map((major, mIdx) => (
                         <div key={mIdx} className="flex-1 p-1.5 xl:p-2 flex flex-col gap-1.5 xl:gap-2">
-                          <span className="text-[10px] xl:text-[11px] font-extrabold text-brand-green uppercase tracking-wider block text-center border-b border-white/5 pb-1.5 break-keep">
-                            {isEnglish ? (major.enName || major.name) : major.name}
-                          </span>
+                          {major.link ? (
+                            <Link href={`${basePath}${major.link}`} className="text-[10px] xl:text-[11px] font-extrabold text-brand-green uppercase tracking-wider block text-center border-b border-white/5 pb-1.5 break-keep hover:underline">
+                              {isEnglish ? (major.enName || major.name) : major.name}
+                            </Link>
+                          ) : (
+                            <span className="text-[10px] xl:text-[11px] font-extrabold text-brand-green uppercase tracking-wider block text-center border-b border-white/5 pb-1.5 break-keep">
+                              {isEnglish ? (major.enName || major.name) : major.name}
+                            </span>
+                          )}
                           <ul className="space-y-1.5 text-[10px] xl:text-[11px] font-bold text-center">
                             {major.subMenus.map((sub, sIdx) => (
                               <li key={sIdx}>

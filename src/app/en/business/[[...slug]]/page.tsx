@@ -6,6 +6,7 @@ import SubmenuTabBar from '@/components/SubmenuTabBar';
 import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet } from 'lucide-react';
 import ProductSearch from '@/components/ProductSearch';
 import ProductDetail from '@/components/ProductDetail';
+import ProductNewsBoard from '@/components/ProductNewsBoard';
 import type { Metadata } from 'next';
 
 import { query } from '@/lib/db';
@@ -82,6 +83,12 @@ export default async function BusinessCatchAllPage({ params }: Params) {
   const grandBiz = navigationData.find(g => g.name === 'Business');
   if (grandBiz) {
     for (const major of grandBiz.majors) {
+      if (currentPath === `/business/${major.name.toLowerCase()}` || (major.enName && currentPath === `/business/${major.enName.toLowerCase()}`)) {
+        activeTitle = major.subMenus[0]?.enName || major.subMenus[0]?.name || major.enName || major.name;
+        activeMajor = major.enName || major.name;
+        activeMajorObj = major;
+        break;
+      }
       const sub = major.subMenus.find(s => s.link === currentPath);
       if (sub) {
         activeTitle = sub.enName || sub.name;
@@ -90,7 +97,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
         break;
       }
     }
-    if (!activeMajorObj && grandBiz.majors.length > 0) { // Replace grandBiz later
+    if (!activeMajorObj && grandBiz.majors.length > 0) {
       activeMajorObj = grandBiz.majors[0];
     }
   }
@@ -108,75 +115,112 @@ export default async function BusinessCatchAllPage({ params }: Params) {
         );
 
       case '/business/finished/news': {
-        let tag = 'New Product Launch';
-        let title = "Approval for Launch of Combination Hypertension IMD 'Fimasartan/Amlodipine'";
-        let desc = 'Sales of a hypertension treatment that reduced the patient\'s dosage size using our own DDS patented sustained-release granule coating technology have begun.';
-
-        if (dbContent) {
-          const parts = dbContent.split('|');
-          tag = parts[0] || tag;
-          title = parts[1] || title;
-          desc = parts[2] || desc;
-        }
-
-        return (
-          <div className="space-y-6 animate-fade-in-up">
-            <div className="p-6 rounded-xl bg-white space-y-2 shadow-none">
-              <span className="text-[10px] bg-brand-teal/10 text-brand-teal px-2 py-0.5 rounded font-bold uppercase">{tag}</span>
-              <h4 className="font-bold text-brand-blue text-sm">{title}</h4>
-              {(typeof desc === 'string' && (desc.includes('<p') || desc.includes('<h'))) ? (
-                <div dangerouslySetInnerHTML={{ __html: desc }} className="[&_p]:text-xs [&_p]:text-gray-400 [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-              ) : (
-                <p className="text-xs text-gray-400 whitespace-pre-wrap">{desc}</p>
-              )}
-            </div>
-          </div>
-        );
+        return <ProductNewsBoard isEnglish={true} />;
       }
 
+      case '/business/api':
       case '/business/api/raw':
       case '/business/api/intermediates': {
-        let desc = 'Dasan Pharmaceutical is supplying high-value-added Active Pharmaceutical Ingredients (APIs) to leading domestic and international pharmaceutical companies through high purity and strict crystal form control technology.';
-        let card1Title = 'Major API Pipeline';
-        let card1Desc = 'We directly synthesize high-purity active ingredients such as Fimasartan, Dapagliflozin, Sitagliptin, and Metformin, and can supply tens of tons annually.';
-        let card2Title = 'Intermediate Precision Organic Synthesis';
-        let card2Desc = 'We provide cost reduction and mass supply stability by researching and contract manufacturing the precursor stages of raw materials through highly efficient reaction processes.';
-
-        if (dbContent) {
-          const lines = dbContent.split('\n');
-          desc = lines[0] || desc;
-          card1Title = lines[1] || card1Title;
-          card1Desc = lines[2] || card1Desc;
-          card2Title = lines[3] || card2Title;
-          card2Desc = lines[4] || card2Desc;
-        }
+        const sections = [
+          {
+            num: '01',
+            title: 'Innovative API Development',
+            subTitle: 'Innovative API Development',
+            intro: 'Differentiated raw materials create new value for pharmaceuticals.',
+            body: 'We promote the development of differentiated APIs applying the latest pharmaceutical technology, including Prodrugs and high-value-added raw materials.\nBy connecting Dasan’s formulation & R&D capabilities with raw material development experience, we enhance customer product competitiveness and support global market expansion.',
+            keywords: ['Prodrug', 'High-value API', 'Process Development', 'Innovative Technology']
+          },
+          {
+            num: '02',
+            title: 'Quality First',
+            subTitle: 'Quality First',
+            intro: 'Quality is not a choice, but the standard of trust.',
+            body: 'We apply strict quality standards starting from the raw material, which is the starting point of pharmaceuticals.\nBased on a systematic quality management system from raw material selection, manufacturing, testing, to supply, we ensure safety and consistency to become a trusted API partner.',
+            keywords: ['Quality Assurance', 'Reliable API', 'Traceability', 'Consistent Quality']
+          },
+          {
+            num: '03',
+            title: 'Sustainable API',
+            subTitle: 'Sustainable API for the Future',
+            intro: 'Pharmaceutical development considering the environment is the beginning of future competitiveness.',
+            body: 'We pursue an API business that reduces environmental burden by continuously reviewing and introducing efficient manufacturing processes, eco-friendly raw materials, and production technologies.\nThrough API development that considers sustainability as well as quality and productivity, we shape a better future for the pharmaceutical industry.',
+            keywords: ['Sustainable Chemistry', 'Eco-friendly Process', 'Green Manufacturing', 'ESG']
+          },
+          {
+            num: '04',
+            title: 'Partnership for Success',
+            subTitle: 'Partnership for Success',
+            intro: 'Partner designing success together, not just a supplier.',
+            body: 'Dasan Pharmaceutical API Business Division pursues long-term partnerships beyond simple raw material supply by understanding customers’ development stages and business strategies.\nFrom early-stage raw material evaluation to stable post-commercialization supply, we co-create optimal solutions for your projects.',
+            keywords: ['Strategic Partnership', 'Customer-oriented', 'Development Support', 'Long-term Collaboration']
+          },
+          {
+            num: '05',
+            title: 'Global Supply Network',
+            subTitle: 'Global Supply Network',
+            intro: 'Global Network. Reliable Supply.',
+            body: 'Based on our China Business Division, we hold a long-established global network with various manufacturers and partners in major pharmaceutical markets including China, Japan, and India.\nThrough cooperation with verified overseas partners and supply chain diversification, we support stable procurement and continuous supply, building a global API supply system resilient to market shifts.',
+            keywords: ['China', 'Japan', 'India', 'Global Sourcing', 'Supply Chain', 'Stable Supply']
+          }
+        ];
 
         return (
-          <div className="space-y-6 animate-fade-in-up">
-            {(typeof desc === 'string' && (desc.includes('<p') || desc.includes('<h'))) ? (
-              <div dangerouslySetInnerHTML={{ __html: desc }} className="[&_p]:text-gray-600 [&_p]:text-sm [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-            ) : (
-              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">
-                {desc}
+          <div className="space-y-10 animate-fade-in-up py-2">
+            {/* Header Section */}
+            <div className="space-y-3 pb-8 border-b border-gray-100">
+              <span className="text-xs font-black text-brand-teal tracking-wider uppercase block">API / Active Pharmaceutical Ingredients</span>
+              <h3 className="text-2xl md:text-3xl font-black text-brand-blue tracking-tight">Innovation Beyond Ingredients</h3>
+              <p className="text-base md:text-lg font-bold text-gray-800 pt-1">
+                Beyond ingredients, creating new possibilities for pharmaceuticals.
               </p>
-            )}
-            <div className="grid grid-cols-1 gap-6 text-xs">
-              <div className="p-5 rounded-xl bg-white space-y-2 shadow-none">
-                <h5 className="font-bold text-brand-blue text-sm">{card1Title}</h5>
-                {(typeof card1Desc === 'string' && (card1Desc.includes('<p') || card1Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: card1Desc }} className="[&_p]:text-gray-455 [&_p]:leading-normal [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-gray-455 leading-normal whitespace-pre-wrap">{card1Desc}</p>
-                )}
-              </div>
-              <div className="p-5 rounded-xl bg-white space-y-2 shadow-none">
-                <h5 className="font-bold text-brand-blue text-sm">{card2Title}</h5>
-                {(typeof card2Desc === 'string' && (card2Desc.includes('<p') || card2Desc.includes('<h'))) ? (
-                  <div dangerouslySetInnerHTML={{ __html: card2Desc }} className="[&_p]:text-gray-455 [&_p]:leading-normal [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold" />
-                ) : (
-                  <p className="text-gray-455 leading-normal whitespace-pre-wrap">{card2Desc}</p>
-                )}
-              </div>
+              <p className="text-sm text-gray-600 leading-relaxed pt-2 whitespace-pre-line">
+                Dasan Pharmaceutical develops and supplies high-quality Active Pharmaceutical Ingredients (APIs) based on accumulated pharmaceutical development experience and differentiated technological capabilities.{'\n'}
+                From the development of high-value-added raw materials including Prodrugs to stable global sourcing, quality control, and supply chain establishment, we provide comprehensive API solutions for customer pharmaceutical development and commercialization.
+              </p>
+            </div>
+
+            {/* 5 Core Feature Sections (Flowing layout with subtle dividers) */}
+            <div className="space-y-10">
+              {sections.map((sec) => (
+                <div key={sec.num} className="space-y-4 pb-8 border-b border-gray-100 last:border-0 last:pb-0">
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                    <div className="flex items-baseline space-x-2">
+                      <span className="text-2xl md:text-3xl font-black text-brand-teal font-mono">{sec.num}.</span>
+                      <h4 className="text-lg md:text-xl font-black text-brand-blue">{sec.title}</h4>
+                    </div>
+                    <span className="text-sm font-bold text-brand-teal">{sec.subTitle}</span>
+                  </div>
+
+                  <p className="text-sm font-bold text-gray-800">
+                    {sec.intro}
+                  </p>
+
+                  <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                    {sec.body}
+                  </p>
+
+                  <div className="pt-2">
+                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">KEYWORDS</span>
+                    <p className="text-xs text-gray-500 font-medium">
+                      {sec.keywords.join(' · ')}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Summary Section */}
+            <div className="pt-8 space-y-3 border-t-2 border-brand-teal/20">
+              <span className="text-xs font-black text-brand-teal uppercase tracking-widest block">From API to Value</span>
+              <h4 className="text-xl md:text-2xl font-black text-brand-blue">
+                Good medicine starts with good raw materials.
+              </h4>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Based on Innovation, Quality, Sustainability, Partnership, and Global Network, Dasan Pharmaceutical provides reliable API solutions so that customer ideas can be completed into competitive pharmaceuticals.
+              </p>
+              <p className="text-sm font-bold text-brand-teal pt-2">
+                Your Reliable Partner for Pharmaceutical Ingredients.
+              </p>
             </div>
           </div>
         );

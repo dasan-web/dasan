@@ -22,12 +22,12 @@ async function checkAuth(allowedRoles: string[]) {
 
 export async function GET() {
   try {
-    const pipelines = await query('SELECT * FROM pipeline ORDER BY id ASC');
+    const pipelines = await query('SELECT * FROM pipeline ORDER BY sort_order ASC, id ASC');
     return NextResponse.json(pipelines);
   } catch (err: any) {
-    console.error('API Pipeline fetch error:', err);
+    console.error('API Pipeline fetch error:', err?.message || err);
     return NextResponse.json(
-      { error: '데이터를 가져오는데 실패했습니다.' },
+      { error: err?.message || '데이터를 가져오는데 실패했습니다.' },
       { status: 500 }
     );
   }
@@ -50,8 +50,8 @@ export async function POST(request: Request) {
     }
 
     const insertSql = `
-      INSERT INTO pipeline (category, project_name, disease, phase, partner)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO pipeline (category, project_name, disease, phase, partner, sort_order)
+      VALUES (?, ?, ?, ?, ?, (SELECT COALESCE(MAX(p.sort_order), 0) + 1 FROM pipeline p))
     `;
     const result = await query(insertSql, [category, project_name, disease, phase, partner || '']);
 
@@ -75,7 +75,17 @@ export async function PUT(request: Request) {
   }
 
   try {
-    const { id, category, project_name, disease, phase, partner } = await request.json();
+    const body = await request.json();
+
+    // Reorder handling
+    if (body.orderedIds && Array.isArray(body.orderedIds)) {
+      for (let i = 0; i < body.orderedIds.length; i++) {
+        await query('UPDATE pipeline SET sort_order = ? WHERE id = ?', [i + 1, body.orderedIds[i]]);
+      }
+      return NextResponse.json({ message: '파이프라인 순서가 성공적으로 저장되었습니다.' });
+    }
+
+    const { id, category, project_name, disease, phase, partner } = body;
 
     if (!id || !category || !project_name || !disease || !phase) {
       return NextResponse.json(

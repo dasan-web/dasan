@@ -29,7 +29,7 @@ export default function Header() {
   const [activeGrand, setActiveGrand] = useState<string | null>(null);
   const [hoveredGrand, setHoveredGrand] = useState<string | null>(null);
 
-  const [hiddenSlugs, setHiddenSlugs] = useState<string[]>([]);
+  const [hiddenSlugs, setHiddenSlugs] = useState<string[]>(['business/finished/pharmacy']);
 
   // Fetch hidden menus on mount
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function Header() {
             });
             return { ...major, subMenus: filteredSubMenus };
           })
-          .filter(major => major.subMenus.length > 0);
+          .filter(major => (major.link || major.subMenus.length > 0));
         return { ...grand, majors: filteredMajors };
       })
       .filter(grand => grand.majors.length > 0);
@@ -82,7 +82,7 @@ export default function Header() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ page: pathname }),
-      }).catch(err => console.error('Failed to log visit:', err));
+      }).catch(err => console.error('Failed to load visit:', err));
     }
   }, [pathname]);
 
@@ -166,14 +166,11 @@ export default function Header() {
                      onMouseEnter={() => setHoveredGrand(grand.name)}
                   >
                       <Link
-                        href={`${basePath}${grand.majors[0]?.subMenus[0]?.link || grand.link}`}
+                        href={`${basePath}${grand.majors[0]?.link || grand.majors[0]?.subMenus[0]?.link || grand.link}`}
                         onClick={() => setActiveGrand(activeGrand === grand.name ? null : grand.name)}
                         className={`text-[17px] lg:text-[19px] xl:text-[20px] font-pretendard font-medium tracking-tight transition-colors py-2 relative hover:text-brand-green ${isHighlighted ? 'text-brand-green' : 'text-[#221d1e]'}`}
                       >
                       {isEnglish ? (grand.enName || grand.name) : grand.name}
-                      <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 group-hover:scale-x-100 ${
-                        isHighlighted ? 'scale-x-100' : 'scale-x-0'
-                      }`} />
                     </Link>
 
                     {/* Localized Dropdown Menu Wrapper with Hover Bridge (CSS Hover - Aligned) */}
@@ -194,7 +191,7 @@ export default function Header() {
                         {grand.majors.map((major) => (
                           <div key={isEnglish ? (major.enName || major.name) : major.name} className="flex flex-col space-y-2 group">
                             <Link
-                              href={`${basePath}${major.subMenus[0]?.link || '#'}`}
+                              href={`${basePath}${major.link || major.subMenus[0]?.link || '#'}`}
                               onClick={() => {
                                 setActiveGrand(null);
                                 setHoveredGrand(null);

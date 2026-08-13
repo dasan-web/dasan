@@ -10,7 +10,7 @@ import {
   LogOut, ShieldAlert, Check, Plus, Trash2, Edit, Save, Settings, GripVertical,
   ChevronRight, ChevronDown, CheckCircle2, ListFilter, Search, Download, Globe, X,
   Heart, BookOpen, MessageSquare, LineChart,
-  CheckCircle, ShieldCheck, Truck, Layers
+  CheckCircle, ShieldCheck, Truck, Layers, RotateCcw
 } from 'lucide-react';
 
 
@@ -34,9 +34,9 @@ const seoSubpages: { [key: string]: { key: string; label: string }[] } = {
   'seo/business': [
     { key: 'seo/business', label: 'Business 카테고리 전체' },
     { key: 'seo/business/finished/search', label: '제품검색' },
+    { key: 'seo/business/finished/pharmacy', label: '판매약국찾기' },
     { key: 'seo/business/finished/news', label: '제품소식' },
-    { key: 'seo/business/api/raw', label: '원료의약품(API)' },
-    { key: 'seo/business/api/intermediates', label: '원료의약품 중간체' },
+    { key: 'seo/business/api/raw', label: 'API' },
     { key: 'seo/business/cdmo/quality', label: 'CDMO 서비스 품질' },
     { key: 'seo/business/cdmo/advantages', label: 'CDMO 특장점' },
     { key: 'seo/business/cdmo/logistics', label: 'CDMO 물류' },
@@ -186,6 +186,19 @@ export default function AdminDashboardPage() {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [hideProjectName, setHideProjectName] = useState(false);
   const [editingHideProjectName, setEditingHideProjectName] = useState(false);
+
+  // Category Manager States
+  const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [editingCategories, setEditingCategories] = useState<string[]>([]);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [isSavingCategories, setIsSavingCategories] = useState(false);
+  const [draggedCatIndex, setDraggedCatIndex] = useState<number | null>(null);
+  const [dynamicCategories, setDynamicCategories] = useState<string[]>(['바이오신약', '합성신약', '제네릭']);
+
+  // Pipeline Reorder States
+  const [draggedPipelineIndex, setDraggedPipelineIndex] = useState<number | null>(null);
+  const [isPipelineOrderChanged, setIsPipelineOrderChanged] = useState(false);
+  const [isSavingPipelineOrder, setIsSavingPipelineOrder] = useState(false);
 
   // Consonant list for dropdown
   const consonants = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
@@ -352,17 +365,22 @@ export default function AdminDashboardPage() {
   const fetchPipelines = async () => {
     setLoadingData(true);
     try {
-      const [res, phasesRes] = await Promise.all([
+      const [res, phasesRes, categoriesRes] = await Promise.all([
         fetch('/api/pipeline'),
-        fetch('/api/pipeline/phases')
+        fetch('/api/pipeline/phases'),
+        fetch('/api/pipeline/categories')
       ]);
       const data = await res.json();
       const phasesData = await phasesRes.json();
+      const categoriesData = await categoriesRes.json();
       
       setPipelines(Array.isArray(data) ? data : []);
       if (phasesData) {
         if (phasesData.phases) setDynamicPhases(phasesData.phases);
         if (phasesData.hideProjectName !== undefined) setHideProjectName(!!phasesData.hideProjectName);
+      }
+      if (categoriesData && categoriesData.categories) {
+        setDynamicCategories(categoriesData.categories);
       }
     } catch (e) {
       console.error(e);
@@ -909,6 +927,138 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       alert('저장 중 오류 발생');
     } finally {
       setIsSavingPhases(false);
+    }
+  };
+
+  // Category Manager Functions
+  const openCategoryManager = () => {
+    setEditingCategories([...dynamicCategories]);
+    setNewCategoryName('');
+    setShowCategoryManager(true);
+  };
+
+  const handleAddCategory = () => {
+    const trimmed = newCategoryName.trim();
+    if (!trimmed) return;
+    if (editingCategories.includes(trimmed)) {
+      alert('이미 존재하는 분류입니다.');
+      return;
+    }
+    setEditingCategories([...editingCategories, trimmed]);
+    setNewCategoryName('');
+  };
+
+  const handleRemoveCategory = (cat: string) => {
+    if (!confirm(`'${cat}' 분류를 삭제하시겠습니까?`)) return;
+    setEditingCategories(editingCategories.filter(c => c !== cat));
+  };
+
+  const handleMoveCategory = (index: number, direction: 'up' | 'down') => {
+    const newCats = [...editingCategories];
+    if (direction === 'up' && index > 0) {
+      [newCats[index - 1], newCats[index]] = [newCats[index], newCats[index - 1]];
+    } else if (direction === 'down' && index < newCats.length - 1) {
+      [newCats[index], newCats[index + 1]] = [newCats[index + 1], newCats[index]];
+    }
+    setEditingCategories(newCats);
+  };
+
+  const handleCatDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedCatIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index.toString());
+  };
+
+  const handleCatDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedCatIndex === null || draggedCatIndex === index) return;
+    
+    const newCats = [...editingCategories];
+    const draggedItem = newCats[draggedCatIndex];
+    newCats.splice(draggedCatIndex, 1);
+    newCats.splice(index, 0, draggedItem);
+    
+    setDraggedCatIndex(index);
+    setEditingCategories(newCats);
+  };
+
+  const handleCatDragEnd = () => {
+    setDraggedCatIndex(null);
+  };
+
+  const handleSaveCategories = async () => {
+    setIsSavingCategories(true);
+    try {
+      const res = await fetch('/api/pipeline/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ categories: editingCategories }),
+      });
+      if (res.ok) {
+        alert('분류 설정이 성공적으로 저장되었습니다.');
+        setDynamicCategories(editingCategories);
+        setShowCategoryManager(false);
+      } else {
+        alert('저장에 실패했습니다.');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('저장 중 오류 발생');
+    } finally {
+      setIsSavingCategories(false);
+    }
+  };
+
+  // Pipeline Row Drag and Drop Handlers
+  const handlePipelineDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedPipelineIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index.toString());
+  };
+
+  const handlePipelineDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedPipelineIndex === null || draggedPipelineIndex === index) return;
+
+    const newPipelines = [...pipelines];
+    const draggedItem = newPipelines[draggedPipelineIndex];
+    newPipelines.splice(draggedPipelineIndex, 1);
+    newPipelines.splice(index, 0, draggedItem);
+
+    setDraggedPipelineIndex(index);
+    setPipelines(newPipelines);
+    setIsPipelineOrderChanged(true);
+  };
+
+  const handlePipelineDragEnd = () => {
+    setDraggedPipelineIndex(null);
+  };
+
+  const handleResetPipelineOrder = async () => {
+    await fetchPipelines();
+    setIsPipelineOrderChanged(false);
+  };
+
+  const handleSavePipelineOrder = async () => {
+    setIsSavingPipelineOrder(true);
+    try {
+      const orderedIds = pipelines.map(p => p.id);
+      const res = await fetch('/api/pipeline', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderedIds }),
+      });
+      if (res.ok) {
+        alert('파이프라인 순서가 성공적으로 저장되었습니다.');
+        setIsPipelineOrderChanged(false);
+      } else {
+        alert('순서 저장에 실패했습니다.');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('순서 저장 중 오류가 발생했습니다.');
+    } finally {
+      setIsSavingPipelineOrder(false);
     }
   };
 
@@ -1552,14 +1702,48 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                  {(currentUser?.role !== 'viewer' || (currentSubPath === 'business/finished/search' && currentUser?.username === 'editor3')) && (
                    <>
                      {currentSubPath === 'rd/pipeline' && (
-                       <button
-                         onClick={openPhaseManager}
+                        <>
+                          <button
+                            onClick={handleResetPipelineOrder}
+                             disabled={!isPipelineOrderChanged}
+                             className={`inline-flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-all shadow-sm ${
+                               isPipelineOrderChanged
+                                 ? 'bg-gray-700 hover:bg-gray-600 text-white cursor-pointer border border-white/20'
+                                 : 'bg-white/5 text-gray-500 border border-white/5 cursor-not-allowed opacity-40'
+                             }`}
+                             title="저장 전 기존 순서로 되돌리기"
+                           >
+                             <RotateCcw size={14} />
+                             <span>순서 초기화</span>
+                           </button>
+                           <button
+                             onClick={handleSavePipelineOrder}
+                             disabled={!isPipelineOrderChanged || isSavingPipelineOrder}
+                             className={`inline-flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-sm ${
+                               isPipelineOrderChanged
+                                 ? 'bg-amber-500 hover:bg-amber-600 text-white cursor-pointer animate-pulse shadow-amber-500/20'
+                                 : 'bg-white/10 text-gray-400 border border-white/10 cursor-not-allowed opacity-60'
+                             }`}
+                           >
+                             <Save size={14} />
+                             <span>{isSavingPipelineOrder ? '저장 중...' : '순서 저장'}</span>
+                           </button>
+                           <button
+                             onClick={openCategoryManager}
+                            className="inline-flex items-center space-x-1.5 bg-[#2E7D32] hover:bg-[#1b5e20] text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-sm"
+                          >
+                            <Layers size={14} />
+                            <span>분류 설정</span>
+                          </button>
+                          <button
+                            onClick={openPhaseManager}
                          className="inline-flex items-center space-x-1.5 bg-[#1F4E78] hover:bg-[#153a5b] text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-sm"
                        >
                          <Settings size={14} />
                          <span>단계 설정</span>
-                       </button>
-                     )}
+                          </button>
+                        </>
+                      )}
                      <button
                        onClick={openCreateModal}
                        className="inline-flex items-center space-x-1.5 bg-brand-green hover:bg-brand-green-dark text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-md shadow-brand-green/10"
@@ -1748,7 +1932,8 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                     <table className="w-full text-left text-xs md:text-sm">
                       <thead className="bg-white/[0.03] border-b border-white/10 text-gray-400 font-bold uppercase tracking-wider">
                         <tr>
-                          <th className="px-5 py-4 w-[20%]">분류</th>
+                          <th className="px-3 py-4 w-[40px] text-center">순서</th>
+                          <th className="px-5 py-4 w-[18%]">분류</th>
                           {!hideProjectName && (
                             <th className="px-5 py-4 w-[20%]">프로젝트명</th>
                           )}
@@ -1760,9 +1945,32 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       </thead>
                       <tbody className="divide-y divide-white/5 text-gray-300 font-medium">
                         {pipelines.length > 0 ? (
-                          pipelines.map(p => (
-                            <tr key={p.id} className="hover:bg-white/[0.02] border-b border-white/5 last:border-0 transition-colors">
-                              <td className="px-5 py-4 font-bold text-white">{p.category}</td>
+                          pipelines.map((p, idx) => (
+                            <tr 
+                              key={p.id} 
+                              draggable={currentUser?.role !== 'viewer'}
+                              onDragStart={(e) => handlePipelineDragStart(e, idx)}
+                              onDragOver={(e) => handlePipelineDragOver(e, idx)}
+                              onDragEnd={handlePipelineDragEnd}
+                              className={`hover:bg-white/[0.04] border-b border-white/5 last:border-0 transition-colors select-none ${
+                                draggedPipelineIndex === idx ? 'bg-brand-green/20 opacity-60 border-brand-green/50' : ''
+                              }`}
+                            >
+                              <td className="px-3 py-4 text-center cursor-grab active:cursor-grabbing text-gray-500">
+                                <GripVertical size={16} className="mx-auto text-gray-400 hover:text-white" />
+                              </td>
+                              <td className="px-5 py-4 font-bold text-white">
+                                {currentUser?.role !== 'viewer' ? (
+                                  <span 
+                                    className="cursor-pointer hover:underline transition-colors"
+                                    onClick={() => openEditModal(p, 'pipeline')}
+                                  >
+                                    {p.category}
+                                  </span>
+                                ) : (
+                                  p.category
+                                )}
+                              </td>
                               {!hideProjectName && (
                                 <td className="px-5 py-4 font-mono font-bold text-brand-green">
                                   {currentUser?.role !== 'viewer' ? (
@@ -1778,7 +1986,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                 </td>
                               )}
                               <td className="px-5 py-4 text-gray-300 font-medium">
-                                {hideProjectName && currentUser?.role !== 'viewer' ? (
+                                {currentUser?.role !== 'viewer' ? (
                                   <span 
                                     className="cursor-pointer hover:underline text-white font-bold transition-colors"
                                     onClick={() => openEditModal(p, 'pipeline')}
@@ -6101,6 +6309,102 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
         </div>
       )}
 
+      {/* Category Manager Modal */}
+      {showCategoryManager && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md select-none">
+          <div className="bg-[#0a1120]/90 border border-white/10 rounded-2xl w-full max-w-md p-6 space-y-6 shadow-2xl relative text-white backdrop-blur-xl">
+            <h3 className="text-lg font-bold">분류 설정</h3>
+            
+            <div className="space-y-4">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  placeholder="새로운 분류 이름 입력 (예: 바이오의약품)"
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg outline-none p-2 text-sm text-white focus:border-brand-green"
+                  onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}
+                />
+                <button
+                  onClick={handleAddCategory}
+                  className="bg-[#2E7D32] hover:bg-[#1b5e20] text-white px-4 py-2 rounded-lg font-bold text-sm transition-colors cursor-pointer"
+                >
+                  추가
+                </button>
+              </div>
+
+              <div className="border border-white/10 rounded-lg overflow-hidden bg-white/5 max-h-64 overflow-y-auto">
+                {editingCategories.length === 0 ? (
+                  <div className="p-4 text-center text-gray-500 text-sm">등록된 분류가 없습니다.</div>
+                ) : (
+                  <ul className="divide-y divide-white/10">
+                    {editingCategories.map((cat, idx) => (
+                      <li 
+                        key={cat} 
+                        draggable={true}
+                        onDragStart={(e) => handleCatDragStart(e, idx)}
+                        onDragOver={(e) => handleCatDragOver(e, idx)}
+                        onDragEnd={handleCatDragEnd}
+                        className={`flex items-center justify-between p-3 transition-colors cursor-grab active:cursor-grabbing select-none ${
+                          draggedCatIndex === idx ? 'bg-white/10 opacity-50 border border-brand-green/30 rounded-lg' : 'hover:bg-white/5'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <GripVertical size={14} className="text-gray-500 cursor-grab" />
+                          <span className="text-sm font-semibold">{cat}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => handleMoveCategory(idx, 'up')}
+                            disabled={idx === 0}
+                            className="p-1 text-gray-400 hover:text-white disabled:opacity-30 cursor-pointer"
+                          >
+                            ▲
+                          </button>
+                          <button
+                            onClick={() => handleMoveCategory(idx, 'down')}
+                            disabled={idx === editingCategories.length - 1}
+                            className="p-1 text-gray-400 hover:text-white disabled:opacity-30 cursor-pointer"
+                          >
+                            ▼
+                          </button>
+                          <button
+                            onClick={() => handleRemoveCategory(cat)}
+                            className="p-1 ml-2 text-gray-500 hover:text-red-450 transition-colors cursor-pointer"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <p className="text-xs text-gray-400">
+                원하는 분류 명칭을 자율적으로 텍스트 입력하여 추가하거나 순서를 드래그/화살표 버튼으로 지정할 수 있습니다.
+              </p>
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4 border-t border-white/10">
+              <button
+                onClick={handleSaveCategories}
+                disabled={isSavingCategories}
+                className="px-6 py-2 rounded-xl bg-brand-green hover:bg-brand-green-dark text-white text-sm font-bold shadow-md transition-colors disabled:opacity-50 cursor-pointer"
+              >
+                {isSavingCategories ? '저장 중...' : '저장하기'}
+              </button>
+              <button
+                onClick={() => setShowCategoryManager(false)}
+                className="px-4 py-2 rounded-xl text-sm font-bold text-gray-300 hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showFormModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md select-none">
           <div className="bg-[#0a1120]/90 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6 shadow-2xl relative text-white backdrop-blur-xl">
@@ -6304,9 +6608,12 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       onChange={(e) => setPipeCategory(e.target.value)}
                       className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold"
                     >
-                      <option value="개량신약" className="bg-[#0a1120] text-white">개량신약</option>
-                      <option value="자료 제출 의약품" className="bg-[#0a1120] text-white">자료 제출 의약품</option>
-                      <option value="퍼스트 제네릭" className="bg-[#0a1120] text-white">퍼스트 제네릭</option>
+                      {dynamicCategories.map(cat => (
+                        <option key={cat} value={cat} className="bg-[#0a1120] text-white">{cat}</option>
+                      ))}
+                      {pipeCategory && !dynamicCategories.includes(pipeCategory) && (
+                        <option value={pipeCategory} className="bg-[#0a1120] text-white">{pipeCategory}</option>
+                      )}
                     </select>
                   </div>
                   <div className="space-y-1">

@@ -20,7 +20,7 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
   const [hoverCoords, setHoverCoords] = useState<{ left: number; width: number; opacity: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<HTMLAnchorElement>(null);
-  const [hiddenSlugs, setHiddenSlugs] = useState<string[]>([]);
+  const [hiddenSlugs, setHiddenSlugs] = useState<string[]>(['business/finished/pharmacy']);
   const pathname = usePathname();
   const isEnglish = pathname ? pathname.startsWith('/en') : false;
   const basePath = isEnglish ? '/en' : '';
@@ -94,6 +94,8 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
 
   const currentCoords = hoverCoords || coords;
 
+  if (filteredSubMenus.length === 0) return null;
+
   return (
     <div className="w-full overflow-x-auto pb-3 mt-4 scroll-smooth">
       <div 
@@ -111,7 +113,7 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
         />
 
       {filteredSubMenus.map((sub) => {
-        const isActive = currentPath === sub.link;
+        const isActive = currentPath === sub.link || (currentPath === '/business/api' && sub.link === '/business/api/raw');
         const isEnglishBtn = sub.link === '#english' || sub.name === '영문';
 
         if (isEnglishBtn) {
