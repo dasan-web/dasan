@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Search, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -106,27 +106,31 @@ export default function ProductSearch() {
       });
   }, []);
 
-  // Filter Products
-  const filteredProducts = productsList.filter(product => {
-    if (activeTab === 'prescription' && product.type !== '전문의약품') return false;
-    if (activeTab === 'otc' && product.type !== '일반의약품') return false;
-    if (searchMode === 'name' && selectedConsonant && product.consonant !== selectedConsonant) return false;
+  // Filter and Sort Products (Ascending by Product Name)
+  const filteredProducts = useMemo(() => {
+    const list = productsList.filter(product => {
+      if (activeTab === 'prescription' && product.type !== '전문의약품') return false;
+      if (activeTab === 'otc' && product.type !== '일반의약품') return false;
+      if (searchMode === 'name' && selectedConsonant && product.consonant !== selectedConsonant) return false;
 
-    if (searchQuery.trim() !== '') {
-      const q = searchQuery.toLowerCase().trim();
-      if (searchMode === 'name') {
-        const matchesName = (product.name && product.name.toLowerCase().includes(q)) || 
-                            (product.englishName && product.englishName.toLowerCase().includes(q)) ||
-                            (product.efficacy && product.efficacy.toLowerCase().includes(q));
-        if (!matchesName) return false;
-      } else {
-        const matchesEfficacy = product.efficacy && product.efficacy.toLowerCase().includes(q);
-        if (!matchesEfficacy) return false;
+      if (searchQuery.trim() !== '') {
+        const q = searchQuery.toLowerCase().trim();
+        if (searchMode === 'name') {
+          const matchesName = (product.name && product.name.toLowerCase().includes(q)) || 
+                              (product.englishName && product.englishName.toLowerCase().includes(q)) ||
+                              (product.efficacy && product.efficacy.toLowerCase().includes(q));
+          if (!matchesName) return false;
+        } else {
+          const matchesEfficacy = product.efficacy && product.efficacy.toLowerCase().includes(q);
+          if (!matchesEfficacy) return false;
+        }
       }
-    }
 
-    return true;
-  });
+      return true;
+    });
+
+    return list.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
+  }, [productsList, activeTab, searchMode, selectedConsonant, searchQuery]);
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
@@ -284,7 +288,7 @@ export default function ProductSearch() {
             {isEnglish ? 'Loading data...' : '데이터를 불러오는 중입니다...'}
           </div>
         ) : paginatedProducts.length > 0 ? (
-          paginatedProducts.map(product => (
+          paginatedProducts.map((product: Product) => (
             <Link 
               key={product.id} 
               href={isEnglish ? `/en/business/finished/search/${product.id}` : `/business/finished/search/${product.id}`}
@@ -315,10 +319,10 @@ export default function ProductSearch() {
               <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                 <div>
                   <h5 className="font-bold text-gray-800 text-xs md:text-sm leading-tight group-hover:text-brand-green transition-colors">
-                    {product.name}
+                    {isEnglish ? (product.englishName || product.name) : product.name}
                   </h5>
                   <p className="text-[10px] text-gray-450 mt-0.5">
-                    {product.englishName}
+                    {isEnglish ? product.name : product.englishName}
                   </p>
                 </div>
 
@@ -340,10 +344,22 @@ export default function ProductSearch() {
       {/* 4. Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center space-x-2 pt-8">
+          {/* First Page Button << */}
+          <button
+            onClick={() => setCurrentPage(1)}
+            disabled={currentPage === 1}
+            className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-xs"
+            title="첫 페이지"
+          >
+            &lt;&lt;
+          </button>
+
+          {/* Prev Page Button < */}
           <button
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
             className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            title="이전 페이지"
           >
             &lt;
           </button>
@@ -362,12 +378,24 @@ export default function ProductSearch() {
             </button>
           ))}
 
+          {/* Next Page Button > */}
           <button
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
             className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            title="다음 페이지"
           >
             &gt;
+          </button>
+
+          {/* Last Page Button >> */}
+          <button
+            onClick={() => setCurrentPage(totalPages)}
+            disabled={currentPage === totalPages}
+            className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-xs"
+            title="마지막 페이지"
+          >
+            &gt;&gt;
           </button>
         </div>
       )}

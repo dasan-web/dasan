@@ -65,7 +65,8 @@ export default function FindPharmacy() {
       })
       .then(data => {
         if (Array.isArray(data)) {
-          setProducts(data);
+          const sorted = [...data].sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
+          setProducts(sorted);
         }
         setLoading(false);
       })

@@ -110,10 +110,10 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
           <div className="lg:w-3/5 p-8 md:p-12 lg:p-16">
             <div className="mb-10">
               <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-2">
-                {product.name}
+                {isEnglish ? (product.englishName || product.name) : product.name}
               </h1>
               <p className="text-sm md:text-base font-bold text-slate-400 tracking-wider uppercase">
-                {product.englishName}
+                {isEnglish ? product.name : product.englishName}
               </p>
             </div>
 

@@ -1441,13 +1441,16 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
   };
 
   const filteredAdminProducts = useMemo(() => {
-    if (!productSearchQuery.trim()) return products;
-    const q = productSearchQuery.trim().toLowerCase();
-    return products.filter(p => 
-      (p.name && p.name.toLowerCase().includes(q)) ||
-      (p.englishName && p.englishName.toLowerCase().includes(q)) ||
-      (p.efficacy && p.efficacy.toLowerCase().includes(q))
-    );
+    let list = products;
+    if (productSearchQuery.trim()) {
+      const q = productSearchQuery.trim().toLowerCase();
+      list = products.filter(p => 
+        (p.name && p.name.toLowerCase().includes(q)) ||
+        (p.englishName && p.englishName.toLowerCase().includes(q)) ||
+        (p.efficacy && p.efficacy.toLowerCase().includes(q))
+      );
+    }
+    return [...list].sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
   }, [products, productSearchQuery]);
 
   const adminTotalPages = Math.ceil(filteredAdminProducts.length / adminProductsPerPage);
@@ -1891,10 +1894,22 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                 {/* Pagination */}
                 {adminTotalPages > 1 && (
                   <div className="flex justify-center items-center space-x-2 pt-6">
+                    {/* First Page Button << */}
+                    <button
+                      onClick={() => setProductCurrentPage(1)}
+                      disabled={productCurrentPage === 1}
+                      className="w-8 h-8 flex items-center justify-center rounded-md border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-bold text-xs"
+                      title="첫 페이지"
+                    >
+                      &lt;&lt;
+                    </button>
+
+                    {/* Prev Page Button < */}
                     <button
                       onClick={() => setProductCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={productCurrentPage === 1}
                       className="w-8 h-8 flex items-center justify-center rounded-md border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      title="이전 페이지"
                     >
                       &lt;
                     </button>
@@ -1913,12 +1928,24 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       </button>
                     ))}
 
+                    {/* Next Page Button > */}
                     <button
                       onClick={() => setProductCurrentPage(prev => Math.min(prev + 1, adminTotalPages))}
                       disabled={productCurrentPage === adminTotalPages}
                       className="w-8 h-8 flex items-center justify-center rounded-md border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      title="다음 페이지"
                     >
                       &gt;
+                    </button>
+
+                    {/* Last Page Button >> */}
+                    <button
+                      onClick={() => setProductCurrentPage(adminTotalPages)}
+                      disabled={productCurrentPage === adminTotalPages}
+                      className="w-8 h-8 flex items-center justify-center rounded-md border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-bold text-xs"
+                      title="마지막 페이지"
+                    >
+                      &gt;&gt;
                     </button>
                   </div>
                 )}

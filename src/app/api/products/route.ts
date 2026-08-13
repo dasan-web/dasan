@@ -24,7 +24,7 @@ async function checkAuth(allowedRoles: string[]) {
 
 export async function GET() {
   try {
-    const products = await query('SELECT * FROM products ORDER BY id ASC');
+    const products = await query('SELECT * FROM products ORDER BY name ASC');
     const formatted = products.map((p: any) => ({
       id: p.id,
       name: p.name,
