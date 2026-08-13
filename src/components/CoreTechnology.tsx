@@ -25,7 +25,7 @@ export default function CoreTechnology() {
         {/* Section Heading */}
         <ScrollReveal y={50} duration={1.2}>
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-[13px] sm:text-[15px] md:text-xl lg:text-2xl xl:text-3xl font-pretendard font-extrabold text-gray-900 tracking-tighter md:tracking-tight leading-snug whitespace-nowrap">
+            <h2 className="text-[12px] sm:text-[15px] md:text-xl lg:text-2xl xl:text-3xl font-pretendard font-extrabold text-gray-900 tracking-tighter md:tracking-tight leading-snug whitespace-normal sm:whitespace-nowrap max-w-full px-2">
               {isEnglish ? (
                 <>Dasan Pharmaceutical is growing into a <span className="text-brand-green font-extrabold">global DDS</span> company through <span className="text-brand-green font-extrabold">core technology</span>.</>
               ) : (
@@ -71,7 +71,7 @@ export default function CoreTechnology() {
                   onMouseEnter={() => setHoveredSection('01')}
                   onMouseLeave={() => setHoveredSection(null)}
                   onClick={() => toggleMobileSection('01')}
-                  className={`absolute top-0 left-[2%] w-[28%] h-[7.5%] flex flex-col justify-end pb-1 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
+                  className={`absolute top-0 left-[1.5%] w-[30%] h-[7.5%] flex flex-col justify-end pb-1 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '01' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -82,14 +82,14 @@ export default function CoreTechnology() {
                   <div className="text-[10px] md:text-sm font-extrabold text-brand-green mb-0.5">
                     01
                   </div>
-                  <h4 suppressHydrationWarning className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">{isEnglish ? '1st Generic' : '1st Generic품목'}</h4>
+                  <h4 suppressHydrationWarning className={`font-black leading-tight whitespace-nowrap text-brand-green ${isEnglish ? 'text-[7.5px] sm:text-[9px] md:text-[13px] lg:text-[15px]' : 'text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px]'}`}>{isEnglish ? '1st Generic' : '1st Generic품목'}</h4>
                 </motion.div>
                 {/* Content Box (Below line at y=45) */}
                 <motion.div
                   onMouseEnter={() => setHoveredSection('01')}
                   onMouseLeave={() => setHoveredSection(null)}
                   onClick={() => toggleMobileSection('01')}
-                  className={`absolute top-[7.5%] left-[2%] w-[28%] pt-1 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
+                  className={`absolute top-[7.5%] left-[1.5%] w-[30%] pt-1 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '01' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -108,7 +108,7 @@ export default function CoreTechnology() {
                   onMouseEnter={() => setHoveredSection('02')}
                   onMouseLeave={() => setHoveredSection(null)}
                   onClick={() => toggleMobileSection('02')}
-                  className={`absolute top-0 right-[2%] w-[28%] h-[7.5%] flex flex-col justify-end pb-1 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
+                  className={`absolute top-0 right-[1.5%] w-[30%] h-[7.5%] flex flex-col justify-end pb-1 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '02' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -119,7 +119,7 @@ export default function CoreTechnology() {
                   <div className="text-[10px] md:text-sm font-extrabold text-brand-green mb-0.5">
                     02
                   </div>
-                  <h4 className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">
+                  <h4 className={`font-black leading-tight whitespace-nowrap text-brand-green ${isEnglish ? 'text-[7px] sm:text-[8.5px] md:text-[12px] lg:text-[14px]' : 'text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px]'}`}>
                     {isEnglish ? 'IMD (Salt Change)' : '개량신약(염 변경)'}
                   </h4>
                 </motion.div>
@@ -128,7 +128,7 @@ export default function CoreTechnology() {
                   onMouseEnter={() => setHoveredSection('02')}
                   onMouseLeave={() => setHoveredSection(null)}
                   onClick={() => toggleMobileSection('02')}
-                  className={`absolute top-[7.5%] right-[2%] w-[28%] pt-1 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
+                  className={`absolute top-[7.5%] right-[1.5%] w-[30%] pt-1 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '02' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -147,7 +147,7 @@ export default function CoreTechnology() {
                   onMouseEnter={() => setHoveredSection('03')}
                   onMouseLeave={() => setHoveredSection(null)}
                   onClick={() => toggleMobileSection('03')}
-                  className={`absolute top-[77.5%] left-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
+                  className={`absolute top-[77.5%] left-[1.5%] w-[30%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '03' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -158,7 +158,7 @@ export default function CoreTechnology() {
                   <div className="text-[10px] md:text-sm font-extrabold text-brand-green mb-0.5">
                     03
                   </div>
-                  <h4 className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">
+                  <h4 className={`font-black leading-tight whitespace-nowrap text-brand-green ${isEnglish ? 'text-[7px] sm:text-[8.5px] md:text-[12px] lg:text-[14px]' : 'text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px]'}`}>
                     {isEnglish ? 'IMD (Drug Release)' : '개량신약(약물방출)'}
                   </h4>
                 </motion.div>
@@ -167,7 +167,7 @@ export default function CoreTechnology() {
                   onMouseEnter={() => setHoveredSection('03')}
                   onMouseLeave={() => setHoveredSection(null)}
                   onClick={() => toggleMobileSection('03')}
-                  className={`absolute top-[92.5%] left-[2%] w-[28%] pt-2 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
+                  className={`absolute top-[92.5%] left-[1.5%] w-[30%] pt-2 transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '03' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -186,7 +186,7 @@ export default function CoreTechnology() {
                   onMouseEnter={() => setHoveredSection('04')}
                   onMouseLeave={() => setHoveredSection(null)}
                   onClick={() => toggleMobileSection('04')}
-                  className={`absolute top-[77.5%] right-[2%] w-[28%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
+                  className={`absolute top-[77.5%] right-[1%] w-[30%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default z-30 ${
                     hoveredSection === '04' ? 'scale-102 font-bold' : 'opacity-95'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -197,7 +197,7 @@ export default function CoreTechnology() {
                   <div className="text-[10px] md:text-sm font-extrabold text-brand-green mb-0.5">
                     04
                   </div>
-                  <h4 className="text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px] font-black leading-tight whitespace-nowrap text-brand-green">
+                  <h4 className={`font-black leading-tight whitespace-nowrap text-brand-green ${isEnglish ? 'text-[6.5px] xs:text-[7.5px] sm:text-[8.5px] md:text-[11.5px] lg:text-[13.5px]' : 'text-[8px] sm:text-[9px] md:text-[13px] lg:text-[15px]'}`}>
                     {isEnglish ? 'IMD (Combination & Others)' : '개량신약(복합제 & 기타)'}
                   </h4>
                 </motion.div>
@@ -206,7 +206,7 @@ export default function CoreTechnology() {
                   onMouseEnter={() => setHoveredSection('04')}
                   onMouseLeave={() => setHoveredSection(null)}
                   onClick={() => toggleMobileSection('04')}
-                  className={`absolute top-[92.5%] right-[2%] w-[28%] pt-2 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
+                  className={`absolute top-[92.5%] right-[1%] w-[30%] pt-2 text-right transition-all duration-300 select-none cursor-pointer lg:cursor-default ${
                     hoveredSection === '04' ? 'scale-102' : 'opacity-90'
                   }`}
                   initial={{ x: 20, opacity: 0 }}

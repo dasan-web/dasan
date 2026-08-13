@@ -55,6 +55,25 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
+/* 4K & Ultra-wide High Resolution Responsive Typography Scaling */
+@media (min-width: 1920px) {
+  html {
+    font-size: 18px; /* 112.5% scaling for 1920px / 2K displays */
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 21px; /* 131.25% scaling for 2560px / 4K displays */
+  }
+}
+
+@media (min-width: 3840px) {
+  html {
+    font-size: 25px; /* 156.25% scaling for 3840px Ultra 4K displays */
+  }
+}
+
 /* Glassmorphism utility */
 .glass-panel {
   background: rgba(255, 255, 255, 0.7);

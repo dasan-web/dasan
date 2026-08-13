@@ -12,6 +12,8 @@ import HistoryAccordion from '@/components/HistoryAccordion';
 import DetailedFinancialTables from '@/components/DetailedFinancialTables';
 import CIDownloadButton from '@/components/CIDownloadButton';
 import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
+import ScrollVideo from '@/components/ScrollVideo';
+import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -279,78 +281,183 @@ export default async function AboutCatchAllPage({ params }: Params) {
           }
         }
 
+        // 제목 앞의 '1. ', '2. ' 등 숫자 번호 포맷을 모두 제거합니다.
+        introTitle = introTitle.replace(/^[1-9]\.\s?/, '').trim();
+
+        // 기업개요 페이지에서 CEO 메시지 특화 문구 및 단락 제거
+        introBody = introBody
+          .replace(/CEO\s*Message/gi, '')
+          .replace(/With trust and innovation, we open a healthier future/gi, '')
+          .replace(/We sincerely welcome customers, shareholders, and partners who have visited the Dasan Pharmaceutical website\./gi, '')
+          .replace(/Dasan Pharmaceutical, which took its first step in 1996, has grown alongside the Korean pharmaceutical industry based on the firm belief of 'differentiated pharmaceutical R&D'\. It is all thanks to your unwavering support that we have been able to build deep trust in the domestic and international markets based on our excellent manufacturing technology and strict quality control\./gi, '')
+          .replace(/We are producing pharmaceuticals that meet global standards by introducing state-of-the-art manufacturing processes and building advanced infrastructure based on the 'Seeking Truth from Facts' spirit of Dasan Jeong Yak-yong, and we are establishing a faster and more flexible management system to keep pace with the rapidly changing pharmaceutical bio environment\./gi, '')
+          .replace(/Furthermore, based on an organizational culture where all employees can creatively demonstrate their capabilities, we will share the value created in the field with customers and shareholders and contribute to making a healthy society\./gi, '')
+          .replace(/Dasan Pharmaceutical promises not to settle for the present, but to constantly leap forward as a 'Global Healthcare Leader' that gives hope to those suffering from diseases and contributes to the healthy and happy life of mankind\./gi, '')
+          .replace(/Please continue to watch with a warm gaze the grand future and challenges that Dasan Pharmaceutical will unfold in this newly renovated space\./gi, '')
+          .replace(/Thank you\./gi, '');
+
         return (
-          <div className="space-y-16 animate-fade-in-up">
+          <>
+            {/* Top Slogan */}
+            <div className="w-full text-center mb-8 animate-fade-in-up">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-pretendard font-medium text-gray-900 tracking-tight">
+                Innovation for Human Health, <span className="text-brand-green font-black">Global Healthcare Enterprise</span>
+              </h2>
+            </div>
+
+            {/* Top Video Section */}
+            <ScrollVideo />
+
+            <div className="space-y-16 animate-fade-in-up mt-16">
+
             {/* 1. Intro Summary */}
             <div className="relative overflow-hidden bg-white rounded-3xl p-8 md:p-12 shadow-none">
               <span className="text-brand-teal text-xs font-bold tracking-widest uppercase block mb-3">Company Overview</span>
               
               <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
                 {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
-                  <div 
-                    className="
-                      [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                      [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3]:mt-12
-                      [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
-                      [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
-                      [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
-                      [&_strong]:text-gray-900 [&_strong]:font-bold
-                    "
-                    dangerouslySetInnerHTML={{ __html: `<h3 class="text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-12">${introTitle}</h3>` + introBody }} 
-                  />
-                ) : (
-                  (introTitle + '\n' + introBody).split('\n').map((line, i) => {
-                    const trimmed = line.trim();
-                    if (!trimmed) return null;
-
-                    // 1. Corporate Philosophy and Core Values, 2. CEO Message, etc. Main Title
-                    if (trimmed.match(/^[1-9]\.\s/)) {
-                      const titleText = trimmed.replace(/^[1-9]\.\s/, '');
-                      return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
-                    }
+                  (() => {
+                    let beforeHtml = introBody;
+                    let afterHtml = '';
+                    let hasPhilosophy = false;
+                    const philIndex = introBody.toLowerCase().indexOf('4 major management philosophies') !== -1 
+                      ? introBody.toLowerCase().indexOf('4 major management philosophies')
+                      : introBody.indexOf('4대 경영 철학');
                     
-                    // Sub Title (With the spirit of Dasan..., With trust and innovation..., 4 Major Management Philosophies)
-                    if (
-                      trimmed.startsWith('With the spirit of Dasan') || 
-                      trimmed.startsWith('With trust and innovation') ||
-                      trimmed.includes('4 Major Management Philosophies') ||
-                      trimmed.includes('Core Values')
-                    ) {
-                      return <h4 key={i} className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>;
+                    if (philIndex !== -1) {
+                      hasPhilosophy = true;
+                      const philEnd = philIndex + (introBody.toLowerCase().includes('4 major management philosophies') ? '4 major management philosophies'.length : '4대 경영 철학'.length);
+                      const nextP = introBody.indexOf('</p>', philEnd);
+                      const nextBr = introBody.indexOf('<br', philEnd);
+                      
+                      let cutIndex = philEnd;
+                      if (nextP !== -1 && nextBr !== -1) {
+                        cutIndex = Math.min(nextP + 4, nextBr + (introBody.substring(nextBr, nextBr+6).includes('/') ? 5 : 4));
+                      } else if (nextP !== -1) {
+                        cutIndex = nextP + 4;
+                      } else if (nextBr !== -1) {
+                        cutIndex = nextBr + (introBody.substring(nextBr, nextBr+6).includes('/') ? 5 : 4);
+                      }
+                      
+                      if (cutIndex - philEnd > 50) cutIndex = philEnd;
+
+                      beforeHtml = introBody.substring(0, cutIndex);
+                      afterHtml = introBody.substring(cutIndex);
+                    } else {
+                      beforeHtml = introBody;
                     }
 
-                    // Bullet List
-                    if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('·')) {
-                      const content = trimmed.substring(1).trim();
-                      const splitIdx = content.indexOf(':');
+                    const processHtmlTitles = (html: string) => {
+                      let processed = html;
                       
-                      if (splitIdx !== -1 && splitIdx < 15) {
-                        const title = content.substring(0, splitIdx).trim();
-                        const desc = content.substring(splitIdx + 1).trim();
+                      processed = processed.replace(
+                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4 Major Management Philosophies|4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?/gi,
+                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">$1</span>'
+                      );
+                      
+                      processed = processed.replace(
+                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(Dasan Pharmaceutical, opening a healthy tomorrow.*?spirit of Dasan)\s*(?:<\/strong>|<\/b>|<\/span>)?/gi,
+                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">Dasan Pharmaceutical, opening a healthy tomorrow for mankind with the spirit of Dasan</span>'
+                      );
+                      
+                      return processed;
+                    };
+
+                    beforeHtml = processHtmlTitles(beforeHtml);
+                    afterHtml = processHtmlTitles(afterHtml);
+
+                    return (
+                      <>
+                        <div 
+                          className="
+                            text-[15px] text-gray-600 leading-[1.8]
+                            [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
+                            [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3:not(:first-child)]:mt-28
+                            [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
+                            [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
+                            [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
+                            [&_strong]:text-gray-900 [&_strong]:font-bold
+                          "
+                          dangerouslySetInnerHTML={{ __html: `<h3 class="text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-12">${introTitle}</h3>` + beforeHtml }} 
+                        />
+                        <div className="w-full mt-8">
+                          <PhilosophyGraphic />
+                        </div>
+                        {hasPhilosophy && afterHtml && (
+                          <div 
+                            className="
+                              text-[15px] text-gray-600 leading-[1.8] mt-6
+                              [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
+                              [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
+                              [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
+                              [&_strong]:text-gray-900 [&_strong]:font-bold
+                            "
+                            dangerouslySetInnerHTML={{ __html: afterHtml }} 
+                          />
+                        )}
+                      </>
+                    );
+                  })()
+                ) : (
+                  (() => {
+                    return (introTitle + '\n' + introBody).split('\n').map((line, i) => {
+                      const trimmed = line.trim();
+                      if (!trimmed) return null;
+
+                      if (trimmed.match(/^[1-9]\.\s/)) {
+                        const titleText = trimmed.replace(/^[1-9]\.\s?/, '');
+                        return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
+                      }
+                      
+                      if (trimmed.includes('4 Major Management Philosophies') || trimmed.includes('4대 경영 철학')) {
                         return (
-                          <div key={i} className="flex items-start mb-3 ml-2">
-                            <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
-                            <p className="text-gray-600 leading-[1.8] text-[15px]"><strong className="text-gray-900">{title}</strong> : {desc}</p>
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div key={i} className="flex items-start mb-3 ml-2">
-                            <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
-                            <p className="text-gray-600 leading-[1.8] text-[15px]">{content}</p>
+                          <div key={i} className="w-full">
+                            <h4 className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>
+                            <PhilosophyGraphic />
                           </div>
                         );
                       }
-                    }
 
-                    // General Paragraph
-                    return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px]">{trimmed}</p>;
-                  })
+                      if (
+                        trimmed.startsWith('With the spirit of Dasan') || 
+                        trimmed.startsWith('With trust and innovation') ||
+                        trimmed.includes('Core Values')
+                      ) {
+                        return <h4 key={i} className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>;
+                      }
+
+                      if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('·')) {
+                        const content = trimmed.substring(1).trim();
+                        const splitIdx = content.indexOf(':');
+                        
+                        if (splitIdx !== -1 && splitIdx < 25) {
+                          const title = content.substring(0, splitIdx).trim();
+                          const desc = content.substring(splitIdx + 1).trim();
+                          return (
+                            <div key={i} className="flex items-start mb-3 ml-2">
+                              <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
+                              <p className="text-gray-600 leading-[1.8] text-[15px]"><strong className="text-gray-900">{title}</strong> : {desc}</p>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div key={i} className="flex items-start mb-3 ml-2">
+                              <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
+                              <p className="text-gray-600 leading-[1.8] text-[15px]">{content}</p>
+                            </div>
+                          );
+                        }
+                      }
+
+                      return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px]">{trimmed}</p>;
+                    });
+                  })()
                 )}
               </div>
             </div>
 
           </div>
+          </>
         );
 
       case '/about/greeting':
@@ -1215,27 +1322,28 @@ export default async function AboutCatchAllPage({ params }: Params) {
         return (
           <div className="space-y-6 animate-fade-in-up bg-white p-6 rounded-xl shadow-none">
             <div className="flex items-center justify-between flex-wrap gap-4 pb-2 border-b border-gray-100">
-              <div className="flex items-center space-x-3 text-brand-green">
-                <LineChart size={24} />
-                <h4 className="text-lg font-bold">{title}</h4>
+              <div className="flex items-center space-x-2 sm:space-x-3 text-brand-green">
+                <LineChart size={22} className="flex-shrink-0" />
+                <h4 className="text-xs sm:text-base md:text-lg font-bold whitespace-nowrap tracking-tight leading-tight">{title}</h4>
               </div>
             </div>
             <div className="space-y-3">
-              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{desc}</p>
+              <p className="text-gray-600 text-xs sm:text-sm tracking-tight leading-relaxed break-keep">{desc}</p>
             </div>
             
             {currentPath === '/about/ir/announcement' ? (
-              <div className="flex flex-col items-center justify-center w-full py-4 bg-white">
-                <div className="w-full max-w-[715px] h-[745px] border border-gray-150 rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
-                  <iframe
-                    src={dartUrl}
-                    name="IR"
-                    scrolling="no"
-                    frameBorder="0"
-                    className="w-full h-full"
-                    style={{ overflow: 'hidden' }}
-                    allowFullScreen
-                  />
+              <div className="w-full py-4 bg-white">
+                <div className="w-full overflow-x-auto [scrollbar-width:thin] pb-3">
+                  <div className="min-w-[650px] max-w-[715px] h-[745px] mx-auto border border-gray-150 rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+                    <iframe
+                      src={dartUrl}
+                      name="IR"
+                      scrolling="yes"
+                      frameBorder="0"
+                      className="w-full h-full"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
               </div>
             ) : (

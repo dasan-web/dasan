@@ -344,6 +344,25 @@ export default function Header() {
                   >
                     {grand.majors.map((major) => {
                       const isMajorActive = activeMobileMajor === major.name;
+                      const hasSubMenus = major.subMenus && major.subMenus.length > 0;
+
+                      if (!hasSubMenus) {
+                        return (
+                          <div key={isEnglish ? (major.enName || major.name) : major.name} className="py-1">
+                            <Link
+                              href={`${basePath}${major.link || '#'}`}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className={`flex items-center justify-between w-full py-2 px-2 text-sm font-semibold hover:text-brand-green text-left transition-colors ${
+                                pathname === major.link ? 'text-brand-green font-bold' : 'text-gray-600'
+                              }`}
+                            >
+                              <span>{isEnglish ? (major.enName || major.name) : major.name}</span>
+                              <ChevronRight size={14} className="text-gray-400" />
+                            </Link>
+                          </div>
+                        );
+                      }
+
                       return (
                         <div key={isEnglish ? (major.enName || major.name) : major.name} className="py-1">
                           <button

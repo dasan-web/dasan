@@ -1304,27 +1304,28 @@ export default async function AboutCatchAllPage({ params }: Params) {
         return (
           <div className="space-y-6 animate-fade-in-up bg-white p-6 rounded-xl shadow-none">
             <div className="flex items-center justify-between flex-wrap gap-4 pb-2 border-b border-gray-100">
-              <div className="flex items-center space-x-3 text-brand-green">
-                <LineChart size={24} />
-                <h4 className="text-lg font-bold">{title}</h4>
+              <div className="flex items-center space-x-2 sm:space-x-3 text-brand-green">
+                <LineChart size={22} className="flex-shrink-0" />
+                <h4 className="text-xs sm:text-base md:text-lg font-bold whitespace-nowrap tracking-tight leading-tight">{title}</h4>
               </div>
             </div>
             <div className="space-y-3">
-              <p className="text-gray-600 text-[13.5px] tracking-tight leading-relaxed whitespace-nowrap">{desc}</p>
+              <p className="text-gray-600 text-xs sm:text-sm tracking-tight leading-relaxed break-keep">{desc}</p>
             </div>
             
             {currentPath === '/about/ir/announcement' ? (
-              <div className="flex flex-col items-center justify-center w-full py-4 bg-white">
-                <div className="w-full max-w-[715px] h-[745px] border border-gray-150 rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
-                  <iframe
-                    src={dartUrl}
-                    name="IR"
-                    scrolling="no"
-                    frameBorder="0"
-                    className="w-full h-full"
-                    style={{ overflow: 'hidden' }}
-                    allowFullScreen
-                  />
+              <div className="w-full py-4 bg-white">
+                <div className="w-full overflow-x-auto [scrollbar-width:thin] pb-3">
+                  <div className="min-w-[650px] max-w-[715px] h-[745px] mx-auto border border-gray-150 rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+                    <iframe
+                      src={dartUrl}
+                      name="IR"
+                      scrolling="yes"
+                      frameBorder="0"
+                      className="w-full h-full"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
               </div>
             ) : (

@@ -16,8 +16,8 @@ interface SubmenuTabBarProps {
 }
 
 export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarProps) {
-  const [coords, setCoords] = useState<{ left: number; width: number; opacity: number }>({ left: 0, width: 0, opacity: 0 });
-  const [hoverCoords, setHoverCoords] = useState<{ left: number; width: number; opacity: number } | null>(null);
+  const [coords, setCoords] = useState<{ left: number; top: number; width: number; opacity: number }>({ left: 0, top: 0, width: 0, opacity: 0 });
+  const [hoverCoords, setHoverCoords] = useState<{ left: number; top: number; width: number; opacity: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<HTMLAnchorElement>(null);
   const [hiddenSlugs, setHiddenSlugs] = useState<string[]>(['business/finished/pharmacy']);
@@ -54,6 +54,7 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
       const activeEl = activeRef.current;
       setCoords({
         left: activeEl.offsetLeft,
+        top: activeEl.offsetTop + activeEl.offsetHeight - 2,
         width: activeEl.offsetWidth,
         opacity: 1,
       });
@@ -63,7 +64,6 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
   useEffect(() => {
     updateCoords();
     
-    // Add ResizeObserver to handle layout shifts (e.g. scrollbar appearing/disappearing, video expanding)
     const observer = new ResizeObserver(() => {
       updateCoords();
     });
@@ -79,10 +79,11 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
     };
   }, [currentPath, filteredSubMenus]);
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     const el = e.currentTarget;
     setHoverCoords({
       left: el.offsetLeft,
+      top: el.offsetTop + el.offsetHeight - 2,
       width: el.offsetWidth,
       opacity: 1,
     });
@@ -97,67 +98,60 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
   if (filteredSubMenus.length === 0) return null;
 
   return (
-    <div className="w-full overflow-x-auto pb-3 mt-4 scroll-smooth">
+    <div className="w-full mt-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden overflow-x-hidden">
       <div 
         ref={containerRef}
-        className="relative flex flex-nowrap items-center md:justify-center gap-x-8 min-w-max mx-auto px-4 select-none animate-fade-in whitespace-nowrap"
+        className="relative flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-4 md:gap-x-8 gap-y-2 max-w-5xl mx-auto px-2 sm:px-4 select-none animate-fade-in"
       >
         {/* Sliding Underline Indicator */}
         <div
-          className="absolute bottom-[-1px] h-[3px] bg-brand-green transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+          className="absolute h-[2.5px] bg-brand-green transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] pointer-events-none"
           style={{
             left: `${currentCoords.left}px`,
+            top: `${currentCoords.top}px`,
             width: `${currentCoords.width}px`,
             opacity: currentCoords.opacity,
           }}
         />
 
-      {filteredSubMenus.map((sub) => {
-        const isActive = currentPath === sub.link || (currentPath === '/business/api' && sub.link === '/business/api/raw');
-        const isEnglishBtn = sub.link === '#english' || sub.name === '영문';
+        {filteredSubMenus.map((sub) => {
+          const isActive = currentPath === sub.link || (currentPath === '/business/api' && sub.link === '/business/api/raw');
+          const isEnglishBtn = sub.link === '#english' || sub.name === '영문';
 
-        if (isEnglishBtn) {
+          if (isEnglishBtn) {
+            return (
+              <button
+                key={sub.enName || sub.name}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert('영문 홈페이지 준비 중입니다.');
+                }}
+                className="relative pb-1 text-[11px] sm:text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 text-gray-400 hover:text-brand-blue cursor-pointer focus:outline-none whitespace-nowrap"
+              >
+                {sub.enName || sub.name}
+              </button>
+            );
+          }
+
           return (
-            <button
-              key={sub.enName || sub.name}
-              onMouseEnter={(e) => {
-                // Mimic Link ref behavior for the hover indicator
-                const el = e.currentTarget;
-                setHoverCoords({
-                  left: el.offsetLeft,
-                  width: el.offsetWidth,
-                  opacity: 1,
-                });
-              }}
+            <Link
+              key={isEnglish ? (sub.enName || sub.name) : sub.name}
+              href={`${basePath}${sub.link}`}
+              ref={isActive ? activeRef : null}
+              onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              onClick={(e) => {
-                e.preventDefault();
-                alert('영문 홈페이지 준비 중입니다.');
-              }}
-              className="relative pb-2 text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 text-gray-400 hover:text-brand-blue cursor-pointer focus:outline-none"
+              className={`relative pb-1 text-[11px] sm:text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 whitespace-nowrap ${
+                isActive
+                  ? 'text-brand-green font-extrabold'
+                  : 'text-gray-400 hover:text-brand-blue'
+              }`}
             >
-              {sub.enName || sub.name}
-            </button>
+              {isEnglish ? (sub.enName || sub.name) : sub.name}
+            </Link>
           );
-        }
-
-        return (
-          <Link
-            key={isEnglish ? (sub.enName || sub.name) : sub.name}
-            href={`${basePath}${sub.link}`}
-            ref={isActive ? activeRef : null}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className={`relative pb-2 text-xs md:text-sm font-bold tracking-tight text-center transition-all duration-300 active:scale-95 ${
-              isActive
-                ? 'text-brand-green'
-                : 'text-gray-400 hover:text-brand-blue'
-            }`}
-          >
-            {isEnglish ? (sub.enName || sub.name) : sub.name}
-          </Link>
-        );
-      })}
+        })}
       </div>
     </div>
   );
