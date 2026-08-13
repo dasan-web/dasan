@@ -87,11 +87,8 @@ export const navigationData: GrandMenu[] = [
       },
       {
         name: 'CDMO', enName: 'CDMO',
-        subMenus: [
-          { name: '서비스 품질', enName: 'Service Quality', link: '/business/cdmo/quality' },
-          { name: '특장점', enName: 'Advantages', link: '/business/cdmo/advantages' },
-          { name: '물류', enName: 'Logistics', link: '/business/cdmo/logistics' },
-        ],
+        link: '/business/cdmo',
+        subMenus: [],
       },
     ],
   },

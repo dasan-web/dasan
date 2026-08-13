@@ -244,6 +244,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
         );
       }
 
+      case '/business/cdmo':
       case '/business/cdmo/quality': {
         return (
           <>
@@ -267,7 +268,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 </h2>
                 <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[15px] md:pt-2">
                   <p className="break-keep font-medium text-[#666]">
-                    셀트리온은 미국 FDA의 cGMP 인증을 받은 세계 최고 수준의 생산시설 및 품질관리 시스템을 바탕으로 초기물질 개발부터 임상, 허가, 생산까지 바이오의약품 사업 전 과정에 대한 One-stop 서비스를 제공합니다.
+                    다산제약은 선진 GMP 규격 생산시설 및 독자적인 약물전달기술(DDS)을 바탕으로 초기물질 개발부터 임상, 허가, 상업 생산까지 의약품 전 과정에 대한 CDMO 원스톱 서비스를 제공합니다.
                   </p>
                 </div>
               </div>

@@ -31,7 +31,7 @@ const slides: Slide[] = [
     subTitle: '글로벌 기준의 차별화된 위탁 개발 생산 솔루션',
     description: '고난도 고형제 생산 기술과 선진 품질 보증 시스템을 통해 국내외 파트너사에게 신뢰할 수 있는 가치를 전달합니다.',
     btnText: 'CDMO 강점 확인',
-    btnLink: '/business/cdmo/advantages',
+    btnLink: '/business/cdmo',
     gradient: 'from-brand-blue via-brand-dark/95 to-slate-900',
   },
   {

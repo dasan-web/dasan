@@ -188,53 +188,67 @@ export default function Header() {
                           gap: '1.5rem'
                         }}
                       >
-                        {grand.majors.map((major) => (
-                          <div key={isEnglish ? (major.enName || major.name) : major.name} className="flex flex-col space-y-2 group">
-                            <Link
-                              href={`${basePath}${major.link || major.subMenus[0]?.link || '#'}`}
-                              onClick={() => {
-                                setActiveGrand(null);
-                                setHoveredGrand(null);
-                              }}
-                            >
-                              <h3 className="text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider text-gray-800 border-b border-gray-100 pb-1.5 text-left hover:text-brand-green group-hover:text-brand-green cursor-pointer">
-                                {isEnglish ? (major.enName || major.name) : major.name}
-                              </h3>
-                            </Link>
-                            <ul className="space-y-1.5 text-left">
-                              {major.subMenus.map((sub) => (
-                                <li key={isEnglish ? (sub.enName || sub.name) : sub.name}>
-                                  {sub.link.startsWith('#') ? (
-                                    <a
-                                      href={`${basePath}${sub.link}`}
-                                      onClick={(e) => {
-                                        handleEnglishClick(e);
-                                        setActiveGrand(null);
-                                        setHoveredGrand(null);
-                                      }}
-                                      className="text-gray-550 hover:text-brand-green text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform"
-                                    >
-                                      {isEnglish ? (sub.enName || sub.name) : sub.name}
-                                    </a>
-                                  ) : (
-                                    <Link
-                                      href={`${basePath}${sub.link}`}
-                                      onClick={() => {
-                                        setActiveGrand(null);
-                                        setHoveredGrand(null);
-                                      }}
-                                      className={`text-gray-550 hover:text-brand-green text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform ${
-                                        pathname === sub.link ? 'text-gray-900 font-bold' : ''
-                                      }`}
-                                    >
-                                      {isEnglish ? (sub.enName || sub.name) : sub.name}
-                                    </Link>
-                                  )}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
+                        {grand.majors.map((major) => {
+                          const isMajorActive = (major.link && major.link !== '#' && (pathname === major.link || pathname.startsWith(major.link))) ||
+                            (major.subMenus && major.subMenus.some(sub => pathname === sub.link || (pathname.startsWith(sub.link) && sub.link !== '/')));
+                          
+                          return (
+                            <div key={isEnglish ? (major.enName || major.name) : major.name} className="flex flex-col space-y-2 group/major">
+                              <Link
+                                href={`${basePath}${major.link || major.subMenus[0]?.link || '#'}`}
+                                onClick={() => {
+                                  setActiveGrand(null);
+                                  setHoveredGrand(null);
+                                }}
+                              >
+                                <h3 className={`text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider pb-1.5 text-left transition-colors cursor-pointer ${
+                                  isMajorActive
+                                    ? 'text-[#367e47] border-b-2 border-[#367e47]'
+                                    : 'text-gray-800 border-b border-gray-100 hover:text-[#367e47]'
+                                }`}>
+                                  {isEnglish ? (major.enName || major.name) : major.name}
+                                </h3>
+                              </Link>
+                              <ul className="space-y-1.5 text-left">
+                                {major.subMenus.map((sub) => {
+                                  const isSubActive = pathname === sub.link || (pathname.startsWith(sub.link) && sub.link !== '/');
+                                  return (
+                                    <li key={isEnglish ? (sub.enName || sub.name) : sub.name}>
+                                      {sub.link.startsWith('#') ? (
+                                        <a
+                                          href={`${basePath}${sub.link}`}
+                                          onClick={(e) => {
+                                            handleEnglishClick(e);
+                                            setActiveGrand(null);
+                                            setHoveredGrand(null);
+                                          }}
+                                          className="text-gray-500 hover:text-[#367e47] text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform"
+                                        >
+                                          {isEnglish ? (sub.enName || sub.name) : sub.name}
+                                        </a>
+                                      ) : (
+                                        <Link
+                                          href={`${basePath}${sub.link}`}
+                                          onClick={() => {
+                                            setActiveGrand(null);
+                                            setHoveredGrand(null);
+                                          }}
+                                          className={`text-[13px] lg:text-[14px] xl:text-[15px] transition-colors block py-0.5 hover:translate-x-1 duration-200 transform ${
+                                            isSubActive
+                                              ? 'text-[#367e47] font-bold'
+                                              : 'text-gray-500 hover:text-[#367e47] font-semibold'
+                                          }`}
+                                        >
+                                          {isEnglish ? (sub.enName || sub.name) : sub.name}
+                                        </Link>
+                                      )}
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

@@ -226,6 +226,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
         );
       }
 
+      case '/business/cdmo':
       case '/business/cdmo/quality':
       case '/business/cdmo/advantages':
       case '/business/cdmo/logistics': {
