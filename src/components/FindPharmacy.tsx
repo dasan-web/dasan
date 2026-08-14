@@ -56,7 +56,7 @@ export default function FindPharmacy() {
 
   useEffect(() => {
     // Fetch products for dropdown
-    fetch('/api/products')
+    fetch('/api/products', { cache: 'no-store' })
       .then(res => {
         if (!res.ok) return null;
         const ct = res.headers.get('content-type');

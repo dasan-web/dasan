@@ -44,7 +44,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       created_at: p.created_at,
     };
 
-    return NextResponse.json(formatted);
+    return NextResponse.json(formatted, {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0'
+      }
+    });
   } catch (error) {
     console.error('Failed to fetch product:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

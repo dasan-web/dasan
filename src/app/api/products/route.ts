@@ -48,7 +48,11 @@ export async function GET() {
       insurance_price: p.insurance_price || null,
       precautions: p.precautions || null
     }));
-    return NextResponse.json(formatted);
+    return NextResponse.json(formatted, {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0'
+      }
+    });
   } catch (err: any) {
     console.error('API Products fetch error:', err);
     return NextResponse.json(

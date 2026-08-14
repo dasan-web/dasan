@@ -87,7 +87,7 @@ export default function ProductSearch() {
   const itemsPerPage = 8;
 
   useEffect(() => {
-    fetch('/api/products')
+    fetch('/api/products', { cache: 'no-store' })
       .then(res => {
         if (!res.ok) return null;
         const ct = res.headers.get('content-type');

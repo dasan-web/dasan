@@ -392,7 +392,7 @@ export default function AdminDashboardPage() {
   const fetchProducts = async () => {
     setLoadingData(true);
     try {
-      const res = await fetch('/api/products');
+      const res = await fetch('/api/products', { cache: 'no-store' });
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
     } catch (e) {
