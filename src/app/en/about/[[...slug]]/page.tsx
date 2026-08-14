@@ -526,11 +526,13 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: "url('/images/business_hero.jpg')" }}
               />
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 animate-fade-in-up" style={{ textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
-                <h2 className="text-2xl md:text-4xl lg:text-5xl font-medium mb-6 md:mb-10">Dasan Pharmaceutical</h2>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-5">Has secured high value-added business growth</p>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-5">by establishing a <span className="font-extrabold">Key Value Chain</span> infrastructure</p>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-medium">for the entire pharmaceutical lifecycle from R&D to sales.</p>
+              <div className="absolute inset-0 flex items-center justify-center px-6 animate-fade-in-up">
+                <div className="bg-black/50 backdrop-blur-md border border-white/20 p-8 md:p-12 lg:p-14 rounded-3xl max-w-4xl w-full text-center text-white shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
+                  <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold mb-4 md:mb-6 text-slate-100">Dasan Pharmaceutical</h2>
+                  <p className="text-xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-4 leading-relaxed">Has secured high value-added business growth</p>
+                  <p className="text-xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-4 leading-relaxed">by establishing a <span className="font-black text-emerald-400">Key Value Chain</span> infrastructure</p>
+                  <p className="text-xl md:text-3xl lg:text-4xl font-medium leading-relaxed">for the entire pharmaceutical lifecycle from R&D to sales.</p>
+                </div>
               </div>
             </div>
 

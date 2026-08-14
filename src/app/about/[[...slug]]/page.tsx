@@ -567,11 +567,13 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: "url('/images/business_hero.jpg')" }}
               />
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 animate-fade-in-up" style={{ textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>
-                <h2 className="text-2xl md:text-4xl lg:text-5xl font-medium mb-6 md:mb-10">다산제약은</h2>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-5">연구개발(R&D)부터 판매까지 의약품 전 주기의</p>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-5"><span className="font-extrabold">Key Value Chain</span> 인프라를 구축하여</p>
-                <p className="text-2xl md:text-4xl lg:text-5xl font-medium">고부가가치 사업 성장성을 확보하고 있습니다.</p>
+              <div className="absolute inset-0 flex items-center justify-center px-6 animate-fade-in-up">
+                <div className="bg-black/50 backdrop-blur-md border border-white/20 p-8 md:p-12 lg:p-14 rounded-3xl max-w-4xl w-full text-center text-white shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
+                  <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold mb-4 md:mb-6 text-slate-100">다산제약은</h2>
+                  <p className="text-xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-4 leading-relaxed">연구개발(R&D)부터 판매까지 의약품 전 주기의</p>
+                  <p className="text-xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-4 leading-relaxed"><span className="font-black text-emerald-400">Key Value Chain</span> 인프라를 구축하여</p>
+                  <p className="text-xl md:text-3xl lg:text-4xl font-medium leading-relaxed">고부가가치 사업 성장성을 확보하고 있습니다.</p>
+                </div>
               </div>
             </div>
 
