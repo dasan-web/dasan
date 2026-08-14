@@ -4,6 +4,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import CustomDatePicker from '@/components/CustomDatePicker';
 import RichTextEditor from '@/components/RichTextEditor';
+import RdIntroContent from '@/components/RdIntroContent';
+import RdActivitiesContent from '@/components/RdActivitiesContent';
 import { useRouter, useParams } from 'next/navigation';
 import { navigationData, GrandMenu } from '@/lib/navigation';
 import { 
@@ -569,7 +571,9 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
         setIsHidden(data.is_hidden === 1 || data.is_hidden === true);
       } else {
         let contentVal = '';
-        if (key === 'about/ci') {
+        if (key === 'about/greeting') {
+          contentVal = `CEO 메시지 (CEO Message)|<h4><strong>신뢰와 혁신으로 열어가는 더 건강한 미래</strong></h4><p>다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다</p><p>1996년 첫 발을 내딛은 다산제약은 '차별화된 의약품 연구개발'이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다</p><p>우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다</p><p>나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다</p><p>다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 '글로벌 헬스케어 리더'로 끊임없이 도약할 것을 약속드립니다</p><p>새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다</p><p>감사합니다</p>`;
+        } else if (key === 'about/ci') {
           contentVal = `다산제약의 CI는 독자적인 연구 플랫폼과 신약 파이프라인 개발을 향한 끝없는 도전, 그리고 인류의 건강을 최우선으로 생각하는 핵심 이념을 시각적으로 형상화하고 있습니다.
 다산제약의 심볼은 과학과 생명의 조화로운 결합을 나타냅니다. 육각형 구조는 신약 개발 및 연구의 정밀한 화학적 결합과 견고한 기술력을 의미하며, 내부에 배치된 초록 나뭇잎은 인류의 생명 건강 증진과 친환경 미래 생명공학 리더로 성장하겠다는 비전을 상징합니다.
 DASAN GREEN
@@ -3792,108 +3796,15 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
                         {/* 연구소 소개 정적 페이지 */}
                         {currentSubPath === 'rd/intro' && (
-                          <div className="space-y-6">
+                          <div className="space-y-4">
                             <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">메인 타이틀</label>
-                              <input
-                                type="text"
-                                value={(staticContent || '').split('\n')[0] || ''}
-                                onChange={(e) => {
-                                  const lines = (staticContent || '').split('\n');
-                                  while (lines.length < 6) lines.push('');
-                                  lines[0] = e.target.value;
-                                  setStaticContent(lines.join('\n'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                placeholder="수원 중앙연구소 - 혁신 신약의 메카"
-                              />
-                            </div>
-                            <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">연구소 전체 소개 설명글</label>
-                              <textarea
-                                value={(staticContent || '').split('\n')[1] || ''}
-                                onChange={(e) => {
-                                  const lines = (staticContent || '').split('\n');
-                                  while (lines.length < 6) lines.push('');
-                                  lines[1] = e.target.value;
-                                  setStaticContent(lines.join('\n'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all min-h-[80px]"
-                                placeholder="소개글 입력"
-                              />
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {/* 합성 연구 파트 */}
-                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
-                                <span className="text-[10px] font-bold text-brand-teal uppercase">파트 1 설정</span>
-                                <div className="space-y-2">
-                                  <div className="space-y-1">
-                                    <label className="text-[10px] text-gray-400 block">파트 명칭</label>
-                                    <input
-                                      type="text"
-                                      value={(staticContent || '').split('\n')[2] || ''}
-                                      onChange={(e) => {
-                                        const lines = (staticContent || '').split('\n');
-                                        while (lines.length < 6) lines.push('');
-                                        lines[2] = e.target.value;
-                                        setStaticContent(lines.join('\n'));
-                                      }}
-                                      className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green"
-                                      placeholder="합성 연구 파트"
-                                    />
-                                  </div>
-                                  <div className="space-y-1">
-                                    <label className="text-[10px] text-gray-400 block">설명 및 연구 분야</label>
-                                    <textarea
-                                      value={(staticContent || '').split('\n')[3] || ''}
-                                      onChange={(e) => {
-                                        const lines = (staticContent || '').split('\n');
-                                        while (lines.length < 6) lines.push('');
-                                        lines[3] = e.target.value;
-                                        setStaticContent(lines.join('\n'));
-                                      }}
-                                      className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green min-h-[60px]"
-                                      placeholder="설명 입력"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* 제제 연구 파트 */}
-                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
-                                <span className="text-[10px] font-bold text-brand-cyan uppercase">파트 2 설정</span>
-                                <div className="space-y-2">
-                                  <div className="space-y-1">
-                                    <label className="text-[10px] text-gray-400 block">파트 명칭</label>
-                                    <input
-                                      type="text"
-                                      value={(staticContent || '').split('\n')[4] || ''}
-                                      onChange={(e) => {
-                                        const lines = (staticContent || '').split('\n');
-                                        while (lines.length < 6) lines.push('');
-                                        lines[4] = e.target.value;
-                                        setStaticContent(lines.join('\n'));
-                                      }}
-                                      className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green"
-                                      placeholder="제제 연구 파트"
-                                    />
-                                  </div>
-                                  <div className="space-y-1">
-                                    <label className="text-[10px] text-gray-400 block">설명 및 연구 분야</label>
-                                    <textarea
-                                      value={(staticContent || '').split('\n')[5] || ''}
-                                      onChange={(e) => {
-                                        const lines = (staticContent || '').split('\n');
-                                        while (lines.length < 6) lines.push('');
-                                        lines[5] = e.target.value;
-                                        setStaticContent(lines.join('\n'));
-                                      }}
-                                      className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green min-h-[60px]"
-                                      placeholder="설명 입력"
-                                    />
-                                  </div>
-                                </div>
+                              <label className="text-[11px] font-bold text-gray-400 block mb-2">연구소 소개 본문 에디터 (Rich Text Editor)</label>
+                              <div className="bg-slate-900 rounded-xl p-1 border border-white/10">
+                                <RichTextEditor
+                                  value={staticContent || ''}
+                                  onChange={(val) => setStaticContent(val)}
+                                  placeholder="연구소 소개 내용을 입력하세요..."
+                                />
                               </div>
                             </div>
                           </div>
@@ -3901,93 +3812,15 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
                         {/* 연구 활동 정적 페이지 */}
                         {currentSubPath === 'rd/activities' && (
-                          <div className="space-y-6">
+                          <div className="space-y-4">
                             <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">핵심 연구 성과 요약 소개글</label>
-                              <textarea
-                                value={(staticContent || '').split('\n')[0] || ''}
-                                onChange={(e) => {
-                                  const lines = (staticContent || '').split('\n');
-                                  while (lines.length < 5) lines.push('');
-                                  lines[0] = e.target.value;
-                                  setStaticContent(lines.join('\n'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all min-h-[80px]"
-                                placeholder="소개글 입력"
-                              />
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {/* 기술 1 */}
-                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
-                                <span className="text-[10px] font-bold text-brand-teal uppercase">핵심 기술 1 설정</span>
-                                <div className="space-y-2">
-                                  <div className="space-y-1">
-                                    <label className="text-[10px] text-gray-400 block">기술 명칭</label>
-                                    <input
-                                      type="text"
-                                      value={(staticContent || '').split('\n')[1] || ''}
-                                      onChange={(e) => {
-                                        const lines = (staticContent || '').split('\n');
-                                        while (lines.length < 5) lines.push('');
-                                        lines[1] = e.target.value;
-                                        setStaticContent(lines.join('\n'));
-                                      }}
-                                      className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green"
-                                      placeholder="DDS(약물전달시스템) 플랫폼 기술"
-                                    />
-                                  </div>
-                                  <div className="space-y-1">
-                                    <label className="text-[10px] text-gray-400 block">기술 상세 설명</label>
-                                    <textarea
-                                      value={(staticContent || '').split('\n')[2] || ''}
-                                      onChange={(e) => {
-                                        const lines = (staticContent || '').split('\n');
-                                        while (lines.length < 5) lines.push('');
-                                        lines[2] = e.target.value;
-                                        setStaticContent(lines.join('\n'));
-                                      }}
-                                      className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green min-h-[80px]"
-                                      placeholder="설명 입력"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* 기술 2 */}
-                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
-                                <span className="text-[10px] font-bold text-brand-cyan uppercase">핵심 기술 2 설정</span>
-                                <div className="space-y-2">
-                                  <div className="space-y-1">
-                                    <label className="text-[10px] text-gray-400 block">기술 명칭</label>
-                                    <input
-                                      type="text"
-                                      value={(staticContent || '').split('\n')[3] || ''}
-                                      onChange={(e) => {
-                                        const lines = (staticContent || '').split('\n');
-                                        while (lines.length < 5) lines.push('');
-                                        lines[3] = e.target.value;
-                                        setStaticContent(lines.join('\n'));
-                                      }}
-                                      className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green"
-                                      placeholder="마이크로캡슐화 기술"
-                                    />
-                                  </div>
-                                  <div className="space-y-1">
-                                    <label className="text-[10px] text-gray-400 block">기술 상세 설명</label>
-                                    <textarea
-                                      value={(staticContent || '').split('\n')[4] || ''}
-                                      onChange={(e) => {
-                                        const lines = (staticContent || '').split('\n');
-                                        while (lines.length < 5) lines.push('');
-                                        lines[4] = e.target.value;
-                                        setStaticContent(lines.join('\n'));
-                                      }}
-                                      className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green min-h-[80px]"
-                                      placeholder="설명 입력"
-                                    />
-                                  </div>
-                                </div>
+                              <label className="text-[11px] font-bold text-gray-400 block mb-2">연구 활동 본문 에디터 (Rich Text Editor)</label>
+                              <div className="bg-slate-900 rounded-xl p-1 border border-white/10">
+                                <RichTextEditor
+                                  value={staticContent || ''}
+                                  onChange={(val) => setStaticContent(val)}
+                                  placeholder="연구 활동 내용을 입력하세요..."
+                                />
                               </div>
                             </div>
                           </div>
@@ -4640,11 +4473,6 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                   <>
                                     <h5 className="font-bold text-white text-xs mb-2 whitespace-pre-wrap">{title.replace(/\\n/g, '\n')}</h5>
                                     <div dangerouslySetInnerHTML={{ __html: body }} className="text-gray-300 text-xs leading-relaxed space-y-2 [&_h3]:font-bold [&_h3]:text-white [&_h3]:text-sm [&_h4]:font-bold [&_h4]:text-white [&_h4]:text-sm [&_strong]:font-bold [&_strong]:text-white" />
-                                    {/* CEO Signature Preview */}
-                                    <div className="flex justify-end items-end mt-12 gap-3">
-                                      <span className="text-gray-400 font-medium text-[11px] pb-0.5">다산제약 대표이사</span>
-                                      <span className="text-white font-black text-2xl tracking-widest font-serif">류형선</span>
-                                    </div>
                                   </>
                                 );
                               }
@@ -4679,12 +4507,6 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
                                       return <p key={i} className="text-gray-400 text-[11px] leading-relaxed">{trimmed}</p>;
                                     })}
-                                  </div>
-                                  
-                                  {/* CEO Signature Preview */}
-                                  <div className="flex justify-end items-end mt-12 gap-3">
-                                    <span className="text-gray-400 font-medium text-[11px] pb-0.5">다산제약 대표이사</span>
-                                    <span className="text-white font-black text-2xl tracking-widest font-serif">류형선</span>
                                   </div>
                                 </>
                               );
@@ -5237,67 +5059,36 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                               );
                             })()}
                           </div>
-                        ) : currentSubPath === 'rd/intro' ? (
-                          <div className="bg-white p-6 rounded-xl text-gray-800 space-y-4 shadow-sm border border-gray-150">
+                        ) : currentSubPath === 'about/greeting' ? (
+                          <div className="bg-white p-6 rounded-xl text-gray-800 space-y-4 shadow-sm border border-gray-150 max-h-[650px] overflow-y-auto">
                             {(() => {
-                              const lines = (staticContent || '').split('\n');
-                              const title = lines[0] || '수원 중앙연구소 - 혁신 신약의 메카';
-                              const desc = lines[1] || '설명글이 여기에 들어갑니다.';
-                              const part1Name = lines[2] || '합성 연구 파트';
-                              const part1Desc = lines[3] || '';
-                              const part2Name = lines[4] || '제제 연구 파트';
-                              const part2Desc = lines[5] || '';
+                              const parts = (staticContent || '').split('|');
+                              const title = parts[0] || 'CEO 메시지 (CEO Message)';
+                              const body = parts.length > 1 ? parts.slice(1).join('|') : parts[0] || '';
                               return (
-                                <>
-                                  <div className="border-b border-gray-100 pb-2">
-                                    <h4 className="text-sm font-bold text-brand-blue">{title}</h4>
-                                    <p className="text-[10px] text-gray-500 leading-relaxed mt-1 whitespace-pre-wrap">{desc}</p>
-                                  </div>
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-                                      <h5 className="font-bold text-xs text-brand-blue">{part1Name}</h5>
-                                      <p className="text-[10px] text-gray-500 mt-1 whitespace-pre-wrap">{part1Desc}</p>
-                                    </div>
-                                    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-                                      <h5 className="font-bold text-xs text-brand-blue">{part2Name}</h5>
-                                      <p className="text-[10px] text-gray-500 mt-1 whitespace-pre-wrap">{part2Desc}</p>
-                                    </div>
-                                  </div>
-                                </>
+                                <div className="space-y-4">
+                                  {title && (
+                                    <h4 className="text-base font-extrabold text-gray-900 pb-2 border-b border-gray-100">{title}</h4>
+                                  )}
+                                  {body && (body.includes('<p') || body.includes('<h') || body.includes('<br')) ? (
+                                    <div 
+                                      className="text-xs text-gray-600 leading-relaxed [&_p]:mb-3 [&_h4]:font-bold [&_h4]:text-sm [&_h4]:text-brand-blue [&_h4]:mt-4 [&_h4]:mb-2" 
+                                      dangerouslySetInnerHTML={{ __html: body }} 
+                                    />
+                                  ) : (
+                                    <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-wrap">{body}</p>
+                                  )}
+                                </div>
                               );
                             })()}
                           </div>
+                        ) : currentSubPath === 'rd/intro' ? (
+                          <div className="bg-white p-6 rounded-xl text-gray-800 space-y-4 shadow-sm border border-gray-150 max-h-[650px] overflow-y-auto">
+                            <RdIntroContent dbContent={staticContent} />
+                          </div>
                         ) : currentSubPath === 'rd/activities' ? (
-                          <div className="bg-white p-6 rounded-xl text-gray-800 space-y-4 shadow-sm border border-gray-150">
-                            {(() => {
-                              const lines = (staticContent || '').split('\n');
-                              const desc = lines[0] || '설명글이 여기에 들어갑니다.';
-                              const tech1Name = lines[1] || 'DDS 플랫폼 기술';
-                              const tech1Desc = lines[2] || '';
-                              const tech2Name = lines[3] || '마이크로캡슐화 기술';
-                              const tech2Desc = lines[4] || '';
-                              return (
-                                <>
-                                  <p className="text-[10px] text-gray-600 leading-relaxed whitespace-pre-wrap border-b border-gray-100 pb-2">{desc}</p>
-                                  <div className="space-y-3">
-                                    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100 flex items-start space-x-2">
-                                      <span className="p-1 bg-brand-teal/10 rounded text-brand-teal text-[10px] font-bold">DDS</span>
-                                      <div>
-                                        <h5 className="font-bold text-xs text-brand-blue">{tech1Name}</h5>
-                                        <p className="text-[9px] text-gray-500 mt-0.5 whitespace-pre-wrap">{tech1Desc}</p>
-                                      </div>
-                                    </div>
-                                    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100 flex items-start space-x-2">
-                                      <span className="p-1 bg-brand-cyan/10 rounded text-brand-cyan text-[10px] font-bold">CAP</span>
-                                      <div>
-                                        <h5 className="font-bold text-xs text-brand-blue">{tech2Name}</h5>
-                                        <p className="text-[9px] text-gray-500 mt-0.5 whitespace-pre-wrap">{tech2Desc}</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </>
-                              );
-                            })()}
+                          <div className="bg-white p-6 rounded-xl text-gray-800 space-y-4 shadow-sm border border-gray-150 max-h-[650px] overflow-y-auto">
+                            <RdActivitiesContent dbContent={staticContent} />
                           </div>
                         ) : currentSubPath === 'business/finished/news' ? (
                           <div className="bg-white p-6 rounded-xl text-gray-800 space-y-4 shadow-sm border border-gray-150">
