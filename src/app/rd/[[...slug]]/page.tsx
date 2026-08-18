@@ -99,9 +99,9 @@ export default async function RdCatchAllPage({ params }: Params) {
       case '/rd/intro': {
         return (
           <>
-            <div className="w-[100vw] aspect-[21/9] max-h-[420px] bg-slate-950 overflow-hidden relative left-1/2 -translate-x-1/2 mb-12 shadow-sm rounded-none">
+            <div className="w-[100vw] aspect-[21/9] animate-fade-in-up bg-black overflow-hidden relative left-1/2 -translate-x-1/2 mb-12 shadow-sm rounded-none" style={{ aspectRatio: '21 / 9' }}>
               <video 
-                className="w-full h-full object-cover opacity-90"
+                className="w-full h-full object-cover"
                 src="/R&D_219.mp4"
                 autoPlay
                 loop
