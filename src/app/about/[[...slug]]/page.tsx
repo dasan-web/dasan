@@ -488,46 +488,44 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   dangerouslySetInnerHTML={{ __html: greetingBody }} 
                 />
               ) : (
-                <>
-                  <div className="mb-8">
-                    <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                      CEO 메시지 (CEO Message)
-                    </h3>
-                    
-                    <h4 className="text-lg md:text-xl font-bold text-gray-900 mt-8 mb-6">
-                      신뢰와 혁신으로 열어가는 더 건강한 미래
-                    </h4>
-                    
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      1996년 첫 발을 내딛은 다산제약은 &apos;차별화된 의약품 연구개발&apos;이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 &apos;글로벌 헬스케어 리더&apos;로 끊임없이 도약할 것을 약속드립니다
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mt-8">
-                      감사합니다
-                    </p>
-                  </div>
-
-                  {/* CEO Signature */}
-                  <div className="flex justify-end items-end mt-16 gap-4">
-                    <span className="text-gray-500 font-medium text-[15px] pb-1">다산제약 대표이사</span>
-                    <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">류형선</span>
-                  </div>
-                </>
+                <div className="mb-8">
+                  <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
+                    CEO 메시지 (CEO Message)
+                  </h3>
+                  
+                  <h4 className="text-lg md:text-xl font-bold text-gray-900 mt-8 mb-6">
+                    신뢰와 혁신으로 열어가는 더 건강한 미래
+                  </h4>
+                  
+                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                    다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다
+                  </p>
+                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                    1996년 첫 발을 내딛은 다산제약은 &apos;차별화된 의약품 연구개발&apos;이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다
+                  </p>
+                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                    우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다
+                  </p>
+                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                    나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다
+                  </p>
+                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                    다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 &apos;글로벌 헬스케어 리더&apos;로 끊임없이 도약할 것을 약속드립니다
+                  </p>
+                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                    새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다
+                  </p>
+                  <p className="text-gray-600 leading-[1.8] text-[15px] mt-8">
+                    감사합니다
+                  </p>
+                </div>
               )}
+
+              {/* CEO Signature */}
+              <div className="flex justify-end items-end mt-16 gap-4">
+                <span className="text-gray-500 font-medium text-[15px] pb-1">대표이사</span>
+                <span className="text-gray-800 font-black text-3xl md:text-4xl tracking-[0.15em] font-serif">류 형 선</span>
+              </div>
             </div>
           </div>
         );
