@@ -267,7 +267,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 </h2>
                 <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[15px] md:pt-2 space-y-4">
                   <p className="break-keep font-medium text-[#666]">
-                    다산제약은 의약품 연구개발 역량과 GMP 기반 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 고객 맞춤형 CDMO 서비스를 제공합니다.
+                    다산제약은 의약품 연구개발 역량과 GMP 기반 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 맞춤형 CDMO 서비스를 제공합니다.
                   </p>
                   <p className="break-keep font-medium text-[#666]">
                     Multi-Stra®를 기반으로 차별화된 제형 설계 및 약물 방출 기술을 제공합니다.
