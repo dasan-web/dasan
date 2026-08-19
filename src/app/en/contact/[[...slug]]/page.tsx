@@ -174,61 +174,101 @@ export default async function ContactCatchAllPage({ params }: Params) {
         const card3Desc = lines[7] || 'Thoroughly observing honesty and moral duties and aiming for horizontal communication with colleagues and partners.';
 
         return (
-          <div className="space-y-12 animate-fade-in-up">
-
-            <div className="mt-12 mb-8 text-center animate-fade-in-up px-4">
-              <h3 className="text-xl md:text-2xl font-black text-brand-blue break-keep">
-                Talent (Trust, Challenge & Creativity, Communication, Social Contribution)
-              </h3>
-            </div>
-
-            <div className="w-full mb-16">
-              <PhilosophyGraphic />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-              {/* Card 1: Trust */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mx-auto">
-                  <UserCheck size={24} />
+          <div className="space-y-6 animate-fade-in-up py-4">
+            {/* Pure White Graphic Container (No Outer Border) */}
+            <div className="w-full max-w-5xl mx-auto bg-white rounded-3xl p-4 sm:p-8 relative">
+              <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                
+                {/* Left Brand Badge with Ambient Glow */}
+                <div className="flex flex-col items-center justify-center min-w-[150px] text-center group/dasan">
+                  <span className="text-4xl sm:text-5xl font-black text-[#64ad55] tracking-widest transition-transform duration-300 group-hover/dasan:scale-105 drop-shadow-[0_4px_12px_rgba(100,173,85,0.15)]">
+                    DASAN
+                  </span>
+                  <span className="text-[11px] font-bold text-gray-400 tracking-[0.25em] uppercase mt-2">
+                    TALENT VALUES
+                  </span>
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">Trust</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
-                  We adhere to transparent and ethical standards to build trust with the market and customers.
-                </p>
-              </div>
 
-              {/* Card 2: Challenge & Creativity */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-12 h-12 bg-brand-cyan/10 rounded-full flex items-center justify-center text-brand-cyan mx-auto">
-                  <Briefcase size={24} />
-                </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">Challenge & Creativity</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
-                  We pioneer new possibilities through continuous R&D innovation and differentiated technology.
-                </p>
-              </div>
+                {/* SVG Connecting Lines with Pulse Node Glow */}
+                <div className="hidden md:block w-20 h-[270px] relative shrink-0 -mr-3">
+                  <svg className="w-full h-full overflow-visible" viewBox="0 0 80 270" fill="none">
+                    {/* Origin Pulse Glow Ring */}
+                    <circle cx="2" cy="135" r="8" className="fill-[#64ad55]/20 animate-ping origin-center" />
+                    <circle cx="2" cy="135" r="4" fill="#64ad55" />
 
-              {/* Card 3: Communication & Collaboration */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-12 h-12 bg-brand-teal/10 rounded-full flex items-center justify-center text-brand-teal mx-auto">
-                  <CheckCircle2 size={24} />
+                    {/* Full-length branch lines */}
+                    <path d="M 2 135 C 38 135, 38 26, 80 26" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                    <path d="M 2 135 C 38 135, 38 80, 80 80" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                    <path d="M 2 135 L 80 135" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                    <path d="M 2 135 C 38 135, 38 190, 80 190" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                    <path d="M 2 135 C 38 135, 38 244, 80 244" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                  </svg>
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">Communication</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
-                  We pursue organic collaboration among members and mutual growth with our partners.
-                </p>
-              </div>
 
-              {/* Card 4: Social Contribution */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-12 h-12 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue mx-auto">
-                  <HelpCircle size={24} />
+                {/* Right 5 Items Flow */}
+                <div className="flex-1 w-full space-y-2.5">
+                  
+                  {/* Item 1: Detail */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">D</span>etail
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      Pursuing the highest perfection from start to finish of every task.
+                    </div>
+                  </div>
+
+                  {/* Item 2: Active */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">A</span>ctive
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      Proactively carrying out duties and collaborating with team members.
+                    </div>
+                  </div>
+
+                  {/* Item 3: Smart */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">S</span>mart
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      Possessing professional expertise and making rational judgments.
+                    </div>
+                  </div>
+
+                  {/* Item 4: Action */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">A</span>ction
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      Achieving goals based on strong drive and execution power.
+                    </div>
+                  </div>
+
+                  {/* Item 5: New thinking */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight text-center leading-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">N</span>ew thinking
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      Breaking away from stereotypes and leading creative change.
+                    </div>
+                  </div>
+
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">Social Contribution</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
-                  We contribute to creating a healthy and happy society based on the value of respect for life.
-                </p>
               </div>
             </div>
           </div>

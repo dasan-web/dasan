@@ -174,62 +174,101 @@ export default async function ContactCatchAllPage({ params }: Params) {
         const card3Desc = lines[7] || '정직과 도덕적 의무를 철저히 지키며 동료 및 파트너와의 수평적 소통을 지향.';
 
         return (
-          <div className="space-y-12 animate-fade-in-up">
-
-
-            <div className="mt-12 mb-8 text-center animate-fade-in-up">
-              <h3 className="text-2xl md:text-3xl font-black text-brand-blue break-keep">
-                인재상(정도 경영, 도전과 창의, 소통과 협력, 사회적 공헌)
-              </h3>
-            </div>
-
-            <div className="w-full mb-16">
-              <PhilosophyGraphic />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-              {/* Card 1: 정도 경영 */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green mx-auto">
-                  <UserCheck size={24} />
+          <div className="space-y-6 animate-fade-in-up py-4">
+            {/* Pure White Graphic Container (No Outer Border) */}
+            <div className="w-full max-w-5xl mx-auto bg-white rounded-3xl p-4 sm:p-8 relative">
+              <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                
+                {/* Left Brand Badge with Ambient Glow */}
+                <div className="flex flex-col items-center justify-center min-w-[150px] text-center group/dasan">
+                  <span className="text-4xl sm:text-5xl font-black text-[#64ad55] tracking-widest transition-transform duration-300 group-hover/dasan:scale-105 drop-shadow-[0_4px_12px_rgba(100,173,85,0.15)]">
+                    DASAN
+                  </span>
+                  <span className="text-[11px] font-bold text-gray-400 tracking-[0.25em] uppercase mt-2">
+                    TALENT VALUES
+                  </span>
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">정도 경영</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
-                  투명하고 올바른 기준을 준수하며 시장과 고객의 신뢰를 구축합니다
-                </p>
-              </div>
 
-              {/* Card 2: 도전과 창의 */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-12 h-12 bg-brand-cyan/10 rounded-full flex items-center justify-center text-brand-cyan mx-auto">
-                  <Briefcase size={24} />
-                </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">도전과 창의</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
-                  끊임없는 R&D 혁신과 차별화된 제제기술로 새로운 가능성을 개척합니다
-                </p>
-              </div>
+                {/* SVG Connecting Lines with Pulse Node Glow */}
+                <div className="hidden md:block w-20 h-[270px] relative shrink-0 -mr-3">
+                  <svg className="w-full h-full overflow-visible" viewBox="0 0 80 270" fill="none">
+                    {/* Origin Pulse Glow Ring */}
+                    <circle cx="2" cy="135" r="8" className="fill-[#64ad55]/20 animate-ping origin-center" />
+                    <circle cx="2" cy="135" r="4" fill="#64ad55" />
 
-              {/* Card 3: 소통과 협력 */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-12 h-12 bg-brand-teal/10 rounded-full flex items-center justify-center text-brand-teal mx-auto">
-                  <CheckCircle2 size={24} />
+                    {/* Full-length branch lines */}
+                    <path d="M 2 135 C 38 135, 38 26, 80 26" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                    <path d="M 2 135 C 38 135, 38 80, 80 80" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                    <path d="M 2 135 L 80 135" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                    <path d="M 2 135 C 38 135, 38 190, 80 190" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                    <path d="M 2 135 C 38 135, 38 244, 80 244" stroke="#64ad55" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+                  </svg>
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">소통과 협력</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
-                  구성원 간의 유기적인 협업과 파트너사와의 상생을 추구합니다
-                </p>
-              </div>
 
-              {/* Card 4: 사회적 공헌 */}
-              <div className="p-6 bg-white rounded-2xl border border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 space-y-4">
-                <div className="w-12 h-12 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue mx-auto">
-                  <HelpCircle size={24} />
+                {/* Right 5 Items Flow */}
+                <div className="flex-1 w-full space-y-2.5">
+                  
+                  {/* Item 1: Detail */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">D</span>etail
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      업무의 시작부터 마지막 순간까지 최고의 완성도를 추구한다.
+                    </div>
+                  </div>
+
+                  {/* Item 2: Active */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">A</span>ctive
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      능동적으로 업무를 수행하고 상호 협력한다.
+                    </div>
+                  </div>
+
+                  {/* Item 3: Smart */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">S</span>mart
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      전문지식을 보유하고 합리적으로 판단한다.
+                    </div>
+                  </div>
+
+                  {/* Item 4: Action */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">A</span>ction
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      강력한 추진력을 바탕으로 목표한 바를 이뤄낸다.
+                    </div>
+                  </div>
+
+                  {/* Item 5: New thinking */}
+                  <div className="bg-white p-3 sm:px-5 flex flex-col sm:flex-row sm:items-center gap-4 group cursor-pointer">
+                    <div className="min-w-[135px] sm:w-[145px] h-10 bg-white border-2 border-[#64ad55] group-hover:bg-[#64ad55] rounded-full flex items-center justify-center px-4 transition-all duration-300 group-hover:scale-105">
+                      <span className="text-[15px] font-bold text-gray-900 group-hover:text-white transition-colors duration-300 tracking-tight text-center leading-tight">
+                        <span className="text-[#64ad55] group-hover:text-white font-black text-base transition-colors duration-300">N</span>ew thinking
+                      </span>
+                    </div>
+                    <div className="text-sm md:text-[15px] text-gray-700 group-hover:text-gray-900 font-medium leading-relaxed break-keep group-hover:translate-x-1 transition-all duration-300">
+                      고정관념을 버리고 창의적인 변화를 주도한다.
+                    </div>
+                  </div>
+
                 </div>
-                <h5 className="font-extrabold text-brand-blue text-base md:text-lg">사회적 공헌</h5>
-                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-semibold break-keep">
-                  생명 존중의 가치를 바탕으로 건강하고 행복한 사회를 만드는 데 기여합니다
-                </p>
               </div>
             </div>
           </div>

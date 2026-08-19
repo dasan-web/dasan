@@ -473,6 +473,22 @@ export default async function AboutCatchAllPage({ params }: Params) {
           greetingBody = dbContent;
         }
 
+        // CEO 메시지 (CEO Message) 문구를 굵고 큰 헤딩으로 변환 및 오타 글자(|, ㅣ) 완전 제거 (하단 테두리 선 복원)
+        if (greetingBody) {
+          greetingBody = greetingBody
+            .replace(
+              /(?:<p[^>]*>)?\s*(?:<span[^>]*>)?\s*(?:<strong[^>]*>)?\s*CEO\s*메시지\s*\(CEO\s*Message\)\s*[|ㅣ]?\s*(?:<\/strong>)?\s*(?:<\/span>)?\s*(?:<\/p>)?/gi,
+              '<h3 class="text-2xl md:text-3xl font-black text-gray-900 mb-6 pb-3 border-b border-gray-200">CEO 메시지 (CEO Message)</h3>'
+            )
+            .replace(/<p[^>]*>\s*[|ㅣ]\s*<\/p>/gi, '')
+            .replace(/^\s*[|ㅣ]\s*$/gm, '');
+
+          greetingBody = greetingBody.replace(
+            /(?:<p[^>]*>)?\s*(?:<span[^>]*>)?\s*(?:<strong[^>]*>)?\s*(신뢰와 혁신으로 열어가는 더 건강한 미래)\s*(?:<\/strong>)?\s*(?:<\/span>)?\s*(?:<\/p>)?/gi,
+            '<h4 class="text-lg md:text-xl font-bold text-gray-900 mt-6 mb-5">$1</h4>'
+          );
+        }
+
         return (
           <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
             <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
@@ -481,19 +497,19 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   className="
                     text-[15px] text-gray-600 leading-[1.8]
                     [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                    [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4
-                    [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
+                    [&_h3]:text-2xl md:[&_h3]:text-3xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-200 [&_h3]:pb-3 [&_h3]:mb-6
+                    [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-gray-900 [&_h4]:mt-6 [&_h4]:mb-5
                     [&_strong]:text-gray-900 [&_strong]:font-bold
                   "
                   dangerouslySetInnerHTML={{ __html: greetingBody }} 
                 />
               ) : (
                 <div className="mb-8">
-                  <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
+                  <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-6 pb-3 border-b border-gray-200">
                     CEO 메시지 (CEO Message)
                   </h3>
                   
-                  <h4 className="text-lg md:text-xl font-bold text-gray-900 mt-8 mb-6">
+                  <h4 className="text-lg md:text-xl font-bold text-gray-900 mt-6 mb-5">
                     신뢰와 혁신으로 열어가는 더 건강한 미래
                   </h4>
                   

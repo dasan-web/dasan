@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { navigationData } from '@/lib/navigation';
 import SubmenuTabBar from '@/components/SubmenuTabBar';
-import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet, FlaskConical, ClipboardCheck, FileCheck, Factory, ChevronRight, Globe2, Users, BookOpenCheck, Settings2 } from 'lucide-react';
+import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet, FlaskConical, ClipboardCheck, FileCheck, Factory, ChevronRight, Globe2, Users, BookOpenCheck, Settings2, RefreshCw } from 'lucide-react';
 import ProductSearch from '@/components/ProductSearch';
 import ProductDetail from '@/components/ProductDetail';
 import FindPharmacy from '@/components/FindPharmacy';
@@ -263,12 +263,14 @@ export default async function BusinessCatchAllPage({ params }: Params) {
               {/* Header Section */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 mb-24 items-start">
                 <h2 className="text-[32px] md:text-[40px] font-black text-[#111] leading-[1.3] tracking-tight">
-                  위탁개발부터 생산까지,<br />
-                  One-stop Process
+                  One-stop CDMO Solution
                 </h2>
-                <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[15px] md:pt-2">
+                <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[15px] md:pt-2 space-y-4">
                   <p className="break-keep font-medium text-[#666]">
-                    다산제약은 선진 GMP 규격 생산시설 및 독자적인 약물전달기술(DDS)을 바탕으로 초기물질 개발부터 임상, 허가, 상업 생산까지 의약품 전 과정에 대한 CDMO 원스톱 서비스를 제공합니다.
+                    다산제약은 의약품 연구개발 역량과 GMP 기반 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 고객 맞춤형 CDMO 서비스를 제공합니다.
+                  </p>
+                  <p className="break-keep font-medium text-[#666]">
+                    Multi-Stra®를 기반으로 차별화된 제형 설계 및 약물 방출 기술을 제공합니다.
                   </p>
                 </div>
               </div>
@@ -278,64 +280,223 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 <h3 className="text-[26px] font-black text-gray-900 tracking-tight">신뢰할 수 있는 서비스 품질</h3>
               </div>
 
-              {/* Process Flow */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 relative pt-6">
-                {/* Horizontal dotted line behind icons */}
-                <div className="hidden md:block absolute top-[44px] left-[15%] right-[15%] h-[1px] border-t border-dashed border-gray-200 -z-10" />
-                
-                {/* Step 1 */}
-                <div className="flex flex-col items-center text-center relative">
-                  <div className="bg-white w-[90px] h-[90px] rounded-full border border-gray-100 mb-8 flex items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-transform">
-                    <FlaskConical size={32} strokeWidth={1} className="text-gray-700" />
+              {/* Process Flow (5 Steps: 개발, 임상, 기술이전, 품질, 생산) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 pt-2">
+                {/* Step 1: 개발 */}
+                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                  <div>
+                    <div className="flex items-center justify-between w-full mb-4">
+                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 01</span>
+                      <FlaskConical size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">개발</h4>
+                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                      개량신약, 제네릭 의약품의 제제 및 공정 개발 능력
+                    </p>
                   </div>
-                  <ChevronRight size={14} strokeWidth={1.5} className="hidden md:block text-gray-300 absolute -right-[7px] top-[38px] bg-white px-0.5" />
-                  <h4 className="text-[18px] font-bold text-[#64ad55] mb-5 tracking-tight">개발</h4>
-                  <p className="text-[13px] text-gray-500 leading-[2.1] break-keep font-normal">
-                    항체 바이오시밀러 및<br />
-                    바이오 신약 개발로 축적한<br />
-                    바이오의약품 연구개발 능력
-                  </p>
                 </div>
 
-                {/* Step 2 */}
-                <div className="flex flex-col items-center text-center relative">
-                  <div className="bg-white w-[90px] h-[90px] rounded-full border border-gray-100 mb-8 flex items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-transform">
-                    <ClipboardCheck size={32} strokeWidth={1} className="text-gray-700" />
+                {/* Step 2: 임상 */}
+                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                  <div>
+                    <div className="flex items-center justify-between w-full mb-4">
+                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 02</span>
+                      <ClipboardCheck size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">임상</h4>
+                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                      소규모부터 대규모 글로벌 임상까지 다양한 규모의 임상 경험
+                    </p>
                   </div>
-                  <ChevronRight size={14} strokeWidth={1.5} className="hidden md:block text-gray-300 absolute -right-[7px] top-[38px] bg-white px-0.5" />
-                  <h4 className="text-[18px] font-bold text-[#64ad55] mb-5 tracking-tight">임상</h4>
-                  <p className="text-[13px] text-gray-500 leading-[2.1] break-keep font-normal">
-                    소규모부터<br />
-                    대규모 글로벌 임상까지<br />
-                    다양한 규모의 임상 경험
-                  </p>
                 </div>
 
-                {/* Step 3 */}
-                <div className="flex flex-col items-center text-center relative">
-                  <div className="bg-white w-[90px] h-[90px] rounded-full border border-gray-100 mb-8 flex items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-transform">
-                    <FileCheck size={32} strokeWidth={1} className="text-gray-700" />
+                {/* Step 3: 기술이전 */}
+                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                  <div>
+                    <div className="flex items-center justify-between w-full mb-4">
+                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 03</span>
+                      <RefreshCw size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:rotate-45" />
+                    </div>
+                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">기술이전</h4>
+                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                      연구개발된 제제 및 공정의 Scale-up을 통해 안정적인 생산으로 연결
+                    </p>
                   </div>
-                  <ChevronRight size={14} strokeWidth={1.5} className="hidden md:block text-gray-300 absolute -right-[7px] top-[38px] bg-white px-0.5" />
-                  <h4 className="text-[18px] font-bold text-[#64ad55] mb-5 tracking-tight">허가</h4>
-                  <p className="text-[13px] text-gray-500 leading-[2.1] break-keep font-normal">
-                    FDA 및 EMA 등 글로벌 규제기관<br />
-                    으로부터 다수의 바이오의약품에<br />
-                    대한 판매허가 획득
-                  </p>
                 </div>
 
-                {/* Step 4 */}
-                <div className="flex flex-col items-center text-center relative">
-                  <div className="bg-white w-[90px] h-[90px] rounded-full border border-gray-100 mb-8 flex items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-transform">
-                    <Factory size={32} strokeWidth={1} className="text-gray-700" />
+                {/* Step 4: 품질 */}
+                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                  <div>
+                    <div className="flex items-center justify-between w-full mb-4">
+                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 04</span>
+                      <ShieldCheck size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">품질(QA/QC)</h4>
+                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                      QA·QC 체계를 기반으로 원료부터 완제품까지 전 과정의 품질 관리
+                    </p>
                   </div>
-                  <h4 className="text-[18px] font-bold text-[#64ad55] mb-5 tracking-tight">생산</h4>
-                  <p className="text-[13px] text-gray-500 leading-[2.1] break-keep font-normal">
-                    비임상물질부터 상업 생산까지<br />
-                    다양한 생산 규모에 대응할 수<br />
-                    있는 생산 시설
-                  </p>
+                </div>
+
+                {/* Step 5: 생산 */}
+                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                  <div>
+                    <div className="flex items-center justify-between w-full mb-4">
+                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 05</span>
+                      <Factory size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">생산</h4>
+                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                      비임상물질부터 상업 생산까지 다양한 생산 규모에 대응할 수 있는 생산 시설
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* What We Develop Section */}
+              <div className="mt-20 mb-12">
+                <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-3">
+                  What We Develop
+                </h3>
+                <p className="text-[15px] md:text-[16px] text-gray-600 leading-[1.8] font-medium break-keep mb-10">
+                  다양한 의약품 개발 및 생산 경험을 바탕으로 고객의 제품 특성에 맞는 CDMO 솔루션을 제공합니다.
+                </p>
+
+                {/* 4 Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {/* Card 01 */}
+                  <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between">
+                    <div>
+                      <span className="text-[26px] font-black text-[#64ad55] block mb-1">01</span>
+                      <h4 className="text-[17px] font-bold text-[#64ad55] mb-3 border-b-2 border-[#64ad55] pb-2 tracking-tight">
+                        1st Generic 품목
+                      </h4>
+                      <ul className="space-y-2.5 text-[14px] text-gray-700 font-medium pt-1">
+                        <li className="flex items-start gap-1.5">
+                          <span className="text-[#64ad55] font-bold">•</span>
+                          <span>핵심공정 ODM 품목</span>
+                        </li>
+                        <li className="flex items-start gap-1.5">
+                          <span className="text-[#64ad55] font-bold">•</span>
+                          <span>전공정 ODM 품목</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Card 02 */}
+                  <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between">
+                    <div>
+                      <span className="text-[26px] font-black text-[#64ad55] block mb-1">02</span>
+                      <h4 className="text-[17px] font-bold text-[#64ad55] mb-3 border-b-2 border-[#64ad55] pb-2 tracking-tight">
+                        개량신약(염 변경)
+                      </h4>
+                      <ul className="space-y-2.5 text-[14px] text-gray-700 font-medium pt-1">
+                        <li className="flex items-start gap-1.5">
+                          <span className="text-[#64ad55] font-bold">•</span>
+                          <span>핵심공정 ODM 품목</span>
+                        </li>
+                        <li className="flex items-start gap-1.5">
+                          <span className="text-[#64ad55] font-bold">•</span>
+                          <span>전공정 ODM 품목</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Card 03 */}
+                  <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between">
+                    <div>
+                      <span className="text-[26px] font-black text-[#64ad55] block mb-1">03</span>
+                      <h4 className="text-[17px] font-bold text-[#64ad55] mb-3 border-b-2 border-[#64ad55] pb-2 tracking-tight">
+                        개량신약(약물방출)
+                      </h4>
+                      <ul className="space-y-2.5 text-[14px] text-gray-700 font-medium pt-1">
+                        <li className="flex items-start gap-1.5">
+                          <span className="text-[#64ad55] font-bold">•</span>
+                          <span>약물방출 조절 개량신약</span>
+                        </li>
+                        <li className="flex items-start gap-1.5">
+                          <span className="text-[#64ad55] font-bold">•</span>
+                          <span>고함량 개량신약</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Card 04 */}
+                  <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between">
+                    <div>
+                      <span className="text-[26px] font-black text-[#64ad55] block mb-1">04</span>
+                      <h4 className="text-[17px] font-bold text-[#64ad55] mb-3 border-b-2 border-[#64ad55] pb-2 tracking-tight">
+                        개량신약(복합제 &amp; 기타)
+                      </h4>
+                      <ul className="space-y-2.5 text-[14px] text-gray-700 font-medium pt-1">
+                        <li className="flex items-start gap-1.5">
+                          <span className="text-[#64ad55] font-bold">•</span>
+                          <span>복합제제 개량신약</span>
+                        </li>
+                        <li className="flex items-start gap-1.5">
+                          <span className="text-[#64ad55] font-bold">•</span>
+                          <span>제형변경(기타)</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* WHY DASAN Section */}
+              <div className="mt-24 mb-12">
+                <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-3">
+                  WHY DASAN
+                </h3>
+                <p className="text-[15px] md:text-[16px] text-gray-600 leading-[1.8] font-medium break-keep mb-10">
+                  개발부터 생산까지, 의약품의 가치를 완성하는 파트너
+                </p>
+
+                {/* 4 Crisp & Vibrant Brand Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {/* Card 1: TECHNOLOGY */}
+                  <div className="bg-white border-2 border-gray-100 hover:border-[#64ad55] rounded-2xl p-6 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(100,173,85,0.18)] transition-all duration-300 hover:-translate-y-1.5 group">
+                    <div className="bg-gradient-to-r from-[#64ad55] to-[#519943] text-white py-3.5 px-4 rounded-xl text-center mb-6 font-black text-[13px] tracking-wider uppercase shadow-sm">
+                      TECHNOLOGY
+                    </div>
+                    <p className="text-[15px] font-bold text-gray-900 tracking-tight leading-relaxed text-center group-hover:text-[#64ad55] transition-colors">
+                      Multi-Stra® 기반 제형 및 MUPS 기술
+                    </p>
+                  </div>
+
+                  {/* Card 2: MANUFACTURING & QUALITY */}
+                  <div className="bg-white border-2 border-gray-100 hover:border-[#64ad55] rounded-2xl p-6 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(100,173,85,0.18)] transition-all duration-300 hover:-translate-y-1.5 group">
+                    <div className="bg-gradient-to-r from-[#64ad55] to-[#519943] text-white py-3.5 px-4 rounded-xl text-center mb-6 font-black text-[13px] tracking-wider uppercase shadow-sm">
+                      MANUFACTURING &amp; QUALITY
+                    </div>
+                    <p className="text-[15px] font-bold text-gray-900 tracking-tight leading-relaxed text-center group-hover:text-[#64ad55] transition-colors">
+                      GMP 기반 생산 인프라
+                    </p>
+                  </div>
+
+                  {/* Card 3: ONE-STOP */}
+                  <div className="bg-white border-2 border-gray-100 hover:border-[#64ad55] rounded-2xl p-6 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(100,173,85,0.18)] transition-all duration-300 hover:-translate-y-1.5 group">
+                    <div className="bg-gradient-to-r from-[#64ad55] to-[#519943] text-white py-3.5 px-4 rounded-xl text-center mb-6 font-black text-[13px] tracking-wider uppercase shadow-sm">
+                      ONE-STOP
+                    </div>
+                    <p className="text-[15px] font-bold text-gray-900 tracking-tight leading-relaxed text-center group-hover:text-[#64ad55] transition-colors">
+                      체계적인 품질관리
+                    </p>
+                  </div>
+
+                  {/* Card 4: MANUFACTURING & QUALITY */}
+                  <div className="bg-white border-2 border-gray-100 hover:border-[#64ad55] rounded-2xl p-6 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(100,173,85,0.18)] transition-all duration-300 hover:-translate-y-1.5 group">
+                    <div className="bg-gradient-to-r from-[#64ad55] to-[#519943] text-white py-3.5 px-4 rounded-xl text-center mb-6 font-black text-[13px] tracking-wider uppercase shadow-sm">
+                      MANUFACTURING &amp; QUALITY
+                    </div>
+                    <p className="text-[15px] font-bold text-gray-900 tracking-tight leading-relaxed text-center group-hover:text-[#64ad55] transition-colors">
+                      개발부터 생산까지 연계
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
