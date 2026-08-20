@@ -46,7 +46,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
         </h2>
         <button 
           onClick={() => router.back()}
-          className="text-brand-green font-bold hover:underline"
+          className="text-brand-green font-bold hover:underline cursor-pointer"
         >
           {isEnglish ? 'Go Back' : '목록으로 돌아가기'}
         </button>
@@ -59,7 +59,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
       {/* Back Button */}
       <button 
         onClick={() => router.push(isEnglish ? '/en/business/finished/search' : '/business/finished/search')}
-        className="mb-8 inline-flex items-center text-sm font-bold text-slate-500 hover:text-brand-green transition-colors group"
+        className="mb-8 inline-flex items-center text-sm font-bold text-slate-500 hover:text-brand-green transition-colors group cursor-pointer"
       >
         <svg className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
