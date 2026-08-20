@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { navigationData } from '@/lib/navigation';
 import SubmenuTabBar from '@/components/SubmenuTabBar';
-import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet, FlaskConical, ClipboardCheck, FileCheck, Factory, ChevronRight, Globe2, Users, BookOpenCheck, Settings2, RefreshCw } from 'lucide-react';
+import { CheckCircle, ShieldCheck, Truck, Layers, Award, FileSpreadsheet, FlaskConical, ClipboardCheck, FileCheck, Factory, ChevronRight, Globe2, Users, BookOpenCheck, Settings2, RefreshCw, ArrowRight, ArrowDown } from 'lucide-react';
 import ProductSearch from '@/components/ProductSearch';
 import ProductDetail from '@/components/ProductDetail';
 import FindPharmacy from '@/components/FindPharmacy';
@@ -261,29 +261,29 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             
             <div className="mt-24 w-full max-w-5xl mx-auto animate-fade-in-up px-4 md:px-0 pb-20">
               {/* Header Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 mb-24 items-start">
+              <div className="flex flex-col space-y-6 mb-20">
                 <h2 className="text-[32px] md:text-[40px] font-black text-[#111] leading-[1.3] tracking-tight">
                   One-stop CDMO Solution
                 </h2>
-                <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[15px] md:pt-2 space-y-4">
+                <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[16px] space-y-3 max-w-4xl">
                   <p className="break-keep font-medium text-[#666]">
                     다산제약은 의약품 연구개발 역량과 GMP 기반 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 맞춤형 CDMO 서비스를 제공합니다.
                   </p>
                   <p className="break-keep font-medium text-[#666]">
-                    Multi-Stra®를 기반으로 차별화된 제형 설계 및 약물 방출 기술을 제공합니다.
+                    <strong className="font-bold text-gray-900">Multi-Stra®</strong>를 기반으로 차별화된 제형 설계 및 약물 방출 기술을 제공합니다.
                   </p>
                 </div>
               </div>
 
               {/* Quality Title */}
               <div className="mb-14">
-                <h3 className="text-[26px] font-black text-gray-900 tracking-tight">신뢰할 수 있는 서비스 품질</h3>
+                <h3 className="text-[26px] font-black text-gray-900 tracking-tight">CDMO 프로세스</h3>
               </div>
 
-              {/* Process Flow (5 Steps: 개발, 임상, 기술이전, 품질, 생산) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 pt-2">
+              {/* Process Flow (5 Steps: 개발, 임상, 기술이전, 품질, 생산) with Arrow Connectors */}
+              <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-2.5 pt-2">
                 {/* Step 1: 개발 */}
-                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
                       <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 01</span>
@@ -296,8 +296,16 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                   </div>
                 </div>
 
+                {/* Arrow 1 -> 2 */}
+                <div className="flex items-center justify-center py-1 lg:py-0 px-0.5 text-[#64ad55]">
+                  <div className="w-8 h-8 rounded-full bg-[#64ad55]/10 border border-[#64ad55]/30 flex items-center justify-center shadow-2xs transition-transform hover:scale-110">
+                    <ArrowRight size={16} strokeWidth={2.5} className="hidden lg:block text-[#64ad55]" />
+                    <ArrowDown size={16} strokeWidth={2.5} className="block lg:hidden text-[#64ad55]" />
+                  </div>
+                </div>
+
                 {/* Step 2: 임상 */}
-                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
                       <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 02</span>
@@ -310,8 +318,16 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                   </div>
                 </div>
 
+                {/* Arrow 2 -> 3 */}
+                <div className="flex items-center justify-center py-1 lg:py-0 px-0.5 text-[#64ad55]">
+                  <div className="w-8 h-8 rounded-full bg-[#64ad55]/10 border border-[#64ad55]/30 flex items-center justify-center shadow-2xs transition-transform hover:scale-110">
+                    <ArrowRight size={16} strokeWidth={2.5} className="hidden lg:block text-[#64ad55]" />
+                    <ArrowDown size={16} strokeWidth={2.5} className="block lg:hidden text-[#64ad55]" />
+                  </div>
+                </div>
+
                 {/* Step 3: 기술이전 */}
-                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
                       <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 03</span>
@@ -324,8 +340,16 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                   </div>
                 </div>
 
+                {/* Arrow 3 -> 4 */}
+                <div className="flex items-center justify-center py-1 lg:py-0 px-0.5 text-[#64ad55]">
+                  <div className="w-8 h-8 rounded-full bg-[#64ad55]/10 border border-[#64ad55]/30 flex items-center justify-center shadow-2xs transition-transform hover:scale-110">
+                    <ArrowRight size={16} strokeWidth={2.5} className="hidden lg:block text-[#64ad55]" />
+                    <ArrowDown size={16} strokeWidth={2.5} className="block lg:hidden text-[#64ad55]" />
+                  </div>
+                </div>
+
                 {/* Step 4: 품질 */}
-                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
                       <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 04</span>
@@ -338,8 +362,16 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                   </div>
                 </div>
 
+                {/* Arrow 4 -> 5 */}
+                <div className="flex items-center justify-center py-1 lg:py-0 px-0.5 text-[#64ad55]">
+                  <div className="w-8 h-8 rounded-full bg-[#64ad55]/10 border border-[#64ad55]/30 flex items-center justify-center shadow-2xs transition-transform hover:scale-110">
+                    <ArrowRight size={16} strokeWidth={2.5} className="hidden lg:block text-[#64ad55]" />
+                    <ArrowDown size={16} strokeWidth={2.5} className="block lg:hidden text-[#64ad55]" />
+                  </div>
+                </div>
+
                 {/* Step 5: 생산 */}
-                <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
                       <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 05</span>
@@ -353,233 +385,257 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 </div>
               </div>
 
-              {/* What We Develop Section */}
-              <div className="mt-20 mb-12">
-                <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-3">
-                  What We Develop
-                </h3>
-                <p className="text-[15px] md:text-[16px] text-gray-600 leading-[1.8] font-medium break-keep mb-10">
-                  다양한 의약품 개발 및 생산 경험을 바탕으로 고객의 제품 특성에 맞는 CDMO 솔루션을 제공합니다.
-                </p>
 
-                {/* 4 Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Card 01 */}
-                  <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between">
-                    <div>
-                      <span className="text-[26px] font-black text-[#64ad55] block mb-1">01</span>
-                      <h4 className="text-[17px] font-bold text-[#64ad55] mb-3 border-b-2 border-[#64ad55] pb-2 tracking-tight">
+
+              {/* WHY DASAN Section - Clean & Premium Redesign */}
+              <div className="w-[100vw] relative left-1/2 -translate-x-1/2 bg-[#f8f9fa] py-16 md:py-20 border-y border-gray-100 mt-20 mb-12">
+                <div className="max-w-5xl mx-auto px-4 md:px-0">
+                  {/* Title & Subtitle */}
+                  <div className="mb-12 text-left">
+                    <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
+                      WHY DASAN
+                    </h3>
+                    <p className="text-[15px] md:text-[16px] text-gray-600 font-medium break-keep">
+                      개발부터 생산까지, 의약품의 가치를 완성하는 파트너
+                    </p>
+                  </div>
+
+                  {/* 4 Clean Modern Cards with Click-to-Scroll (Server Component Compatible Anchors) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+                    {/* Card 1: TECHNOLOGY -> Scroll to 01 */}
+                    <a 
+                      href="#cdmo-item-01"
+                      className="block bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 cursor-pointer group active:scale-[0.99]"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-6">
+                          <span className="inline-block bg-[#64ad55]/10 text-[#64ad55] font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase">
+                            TECHNOLOGY
+                          </span>
+                          <FlaskConical size={20} strokeWidth={1.75} className="text-[#64ad55] opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform" />
+                        </div>
+                        <h4 className="text-[14.5px] xl:text-[15px] font-bold text-gray-900 tracking-tight leading-snug group-hover:text-[#64ad55] transition-colors break-keep">
+                          Multi-Stra® 기반 제형 및 MUPS 기술
+                        </h4>
+                      </div>
+                    </a>
+
+                    {/* Card 2: MANUFACTURING -> Scroll to 02 */}
+                    <a 
+                      href="#cdmo-item-02"
+                      className="block bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 cursor-pointer group active:scale-[0.99]"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-6">
+                          <span className="inline-block bg-[#64ad55]/10 text-[#64ad55] font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase">
+                            MANUFACTURING
+                          </span>
+                          <Factory size={20} strokeWidth={1.75} className="text-[#64ad55] opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform" />
+                        </div>
+                        <h4 className="text-[14.5px] xl:text-[15px] font-bold text-gray-900 tracking-tight leading-snug group-hover:text-[#64ad55] transition-colors break-keep">
+                          GMP 기반 생산 인프라
+                        </h4>
+                      </div>
+                    </a>
+
+                    {/* Card 3: QUALITY CONTROL -> Scroll to 03 */}
+                    <a 
+                      href="#cdmo-item-03"
+                      className="block bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 cursor-pointer group active:scale-[0.99]"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-6">
+                          <span className="inline-block bg-[#64ad55]/10 text-[#64ad55] font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase">
+                            QUALITY CONTROL
+                          </span>
+                          <ShieldCheck size={20} strokeWidth={1.75} className="text-[#64ad55] opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform" />
+                        </div>
+                        <h4 className="text-[14.5px] xl:text-[15px] font-bold text-gray-900 tracking-tight leading-snug group-hover:text-[#64ad55] transition-colors break-keep">
+                          체계적인 품질관리
+                        </h4>
+                      </div>
+                    </a>
+
+                    {/* Card 4: ONE-STOP -> Scroll to 04 */}
+                    <a 
+                      href="#cdmo-item-04"
+                      className="block bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 cursor-pointer group active:scale-[0.99]"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-6">
+                          <span className="inline-block bg-[#64ad55]/10 text-[#64ad55] font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase">
+                            ONE-STOP
+                          </span>
+                          <Layers size={20} strokeWidth={1.75} className="text-[#64ad55] opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform" />
+                        </div>
+                        <h4 className="text-[14.5px] xl:text-[15px] font-bold text-gray-900 tracking-tight leading-snug group-hover:text-[#64ad55] transition-colors break-keep">
+                          개발부터 생산까지 연계
+                        </h4>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Detailed Products / Capability Section (01, 02, 03, 04) */}
+              <div className="mt-16 mb-16">
+
+                {/* 4 Cards Vertical List (01, 02, 03, 04) - Clean without outer borders */}
+                <div className="grid grid-cols-1 gap-10">
+                  {/* 01. 1st Generic 품목 */}
+                  <div id="cdmo-item-01" className="scroll-mt-28 bg-white rounded-2xl p-6 sm:p-7 transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                      <span className="w-8 h-8 rounded-full bg-[#64ad55] text-white font-black text-[13px] flex items-center justify-center flex-shrink-0 shadow-xs">
+                        01
+                      </span>
+                      <h4 className="text-[19px] font-bold text-gray-900 tracking-tight">
                         1st Generic 품목
                       </h4>
-                      <ul className="space-y-2.5 text-[14px] text-gray-700 font-medium pt-1">
-                        <li className="flex items-start gap-1.5">
-                          <span className="text-[#64ad55] font-bold">•</span>
-                          <span>핵심공정 ODM 품목</span>
-                        </li>
-                        <li className="flex items-start gap-1.5">
-                          <span className="text-[#64ad55] font-bold">•</span>
-                          <span>전공정 ODM 품목</span>
-                        </li>
-                      </ul>
+                    </div>
+
+                    <div className="space-y-6">
+                      {/* 핵심공정 ODM품목 */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15px] font-bold text-gray-900">핵심공정 ODM품목</span>
+                        </div>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-[1.8] pl-4 break-keep">
+                          Glimepiride, Tacrolimus, Itraconazole, Roxatidine SR, Tolterodine SR, Ramipril, Donepezil ODT, Montelukast Sachet, Duloxetine EC, Telmisartan/Rosuvastatin, Tolvaptan
+                        </p>
+                      </div>
+
+                      {/* 전공정 ODM품목 */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15px] font-bold text-gray-900">전공정 ODM품목</span>
+                        </div>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-[1.8] pl-4 break-keep">
+                          Adefovir, Telmisartan, Entecavir, Olmesartan/HCTZ, Telmisartan/HCTZ, Olmesartan/Amlodipine, Valsartan/Amlodipine, Amlodipine, Glimepiride/Metformin, Sitagliptin/Metformin, Sitagliptin, Telmisartan/Amlodipine, Tamsulosin 0.4mg, Atorvastatin/Ezetimibe, Donepezil, Rosuvastatin
+                        </p>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Card 02 */}
-                  <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between">
-                    <div>
-                      <span className="text-[26px] font-black text-[#64ad55] block mb-1">02</span>
-                      <h4 className="text-[17px] font-bold text-[#64ad55] mb-3 border-b-2 border-[#64ad55] pb-2 tracking-tight">
+                  {/* 02. 개량신약(염 변경) */}
+                  <div id="cdmo-item-02" className="scroll-mt-28 bg-white rounded-2xl p-6 sm:p-7 transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                      <span className="w-8 h-8 rounded-full bg-[#64ad55] text-white font-black text-[13px] flex items-center justify-center flex-shrink-0 shadow-xs">
+                        02
+                      </span>
+                      <h4 className="text-[19px] font-bold text-gray-900 tracking-tight">
                         개량신약(염 변경)
                       </h4>
-                      <ul className="space-y-2.5 text-[14px] text-gray-700 font-medium pt-1">
-                        <li className="flex items-start gap-1.5">
-                          <span className="text-[#64ad55] font-bold">•</span>
-                          <span>핵심공정 ODM 품목</span>
-                        </li>
-                        <li className="flex items-start gap-1.5">
-                          <span className="text-[#64ad55] font-bold">•</span>
-                          <span>전공정 ODM 품목</span>
-                        </li>
-                      </ul>
+                    </div>
+
+                    <div className="space-y-6">
+                      {/* 개량신약(염변경) */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15px] font-bold text-gray-900">개량신약(염변경)</span>
+                        </div>
+                        <p className="text-[14px] font-bold text-gray-900 pl-4 mb-1">
+                          Amlodipine maleate*
+                        </p>
+                        <p className="text-[12px] text-gray-500 font-medium pl-4">
+                          *공동개발 품목이며 다산에서 핵심기술 진행 (약물의 안정성 확보)
+                        </p>
+                      </div>
+
+                      {/* 전공정 ODM품목 */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15px] font-bold text-gray-900">전공정 ODM품목</span>
+                        </div>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-[1.8] pl-4">
+                          Dabigatran etexilate
+                        </p>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Card 03 */}
-                  <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between">
-                    <div>
-                      <span className="text-[26px] font-black text-[#64ad55] block mb-1">03</span>
-                      <h4 className="text-[17px] font-bold text-[#64ad55] mb-3 border-b-2 border-[#64ad55] pb-2 tracking-tight">
+                  {/* 03. 개량신약(약물방출) */}
+                  <div id="cdmo-item-03" className="scroll-mt-28 bg-white rounded-2xl p-6 sm:p-7 transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                      <span className="w-8 h-8 rounded-full bg-[#64ad55] text-white font-black text-[13px] flex items-center justify-center flex-shrink-0 shadow-xs">
+                        03
+                      </span>
+                      <h4 className="text-[19px] font-bold text-gray-900 tracking-tight">
                         개량신약(약물방출)
                       </h4>
-                      <ul className="space-y-2.5 text-[14px] text-gray-700 font-medium pt-1">
-                        <li className="flex items-start gap-1.5">
-                          <span className="text-[#64ad55] font-bold">•</span>
-                          <span>약물방출 조절 개량신약</span>
-                        </li>
-                        <li className="flex items-start gap-1.5">
-                          <span className="text-[#64ad55] font-bold">•</span>
-                          <span>고함량 개량신약</span>
-                        </li>
-                      </ul>
+                    </div>
+
+                    <div className="space-y-6">
+                      {/* 약물방출 조절 개량신약 */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15px] font-bold text-gray-900">약물방출 조절 개량신약</span>
+                        </div>
+                        <p className="text-[14px] font-bold text-gray-900 pl-4">
+                          Carvedilol SR*<br />
+                          Aspirin/Clopidogrel*
+                        </p>
+                        <p className="text-[12px] text-gray-500 font-medium pl-4 mt-1">
+                          *공동개발 품목이며 다산에서 핵심 약물방출 조절 진행
+                        </p>
+                      </div>
+
+                      {/* 고함량 개량신약 */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15px] font-bold text-gray-900">고함량 개량신약</span>
+                        </div>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-[1.8] pl-4">
+                          imatinib mesylate 고함량제제
+                        </p>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Card 04 */}
-                  <div className="bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex flex-col justify-between">
-                    <div>
-                      <span className="text-[26px] font-black text-[#64ad55] block mb-1">04</span>
-                      <h4 className="text-[17px] font-bold text-[#64ad55] mb-3 border-b-2 border-[#64ad55] pb-2 tracking-tight">
-                        개량신약(복합제 &amp; 기타)
+                  {/* 04. 개량신약(복합제)&기타 */}
+                  <div id="cdmo-item-04" className="scroll-mt-28 bg-white rounded-2xl p-6 sm:p-7 transition-all duration-300">
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                      <span className="w-8 h-8 rounded-full bg-[#64ad55] text-white font-black text-[13px] flex items-center justify-center flex-shrink-0 shadow-xs">
+                        04
+                      </span>
+                      <h4 className="text-[19px] font-bold text-gray-900 tracking-tight">
+                        개량신약(복합제)&amp;기타
                       </h4>
-                      <ul className="space-y-2.5 text-[14px] text-gray-700 font-medium pt-1">
-                        <li className="flex items-start gap-1.5">
-                          <span className="text-[#64ad55] font-bold">•</span>
-                          <span>복합제제 개량신약</span>
-                        </li>
-                        <li className="flex items-start gap-1.5">
-                          <span className="text-[#64ad55] font-bold">•</span>
-                          <span>제형변경(기타)</span>
-                        </li>
-                      </ul>
                     </div>
-                  </div>
 
-                </div>
-              </div>
-
-              {/* WHY DASAN Section */}
-              <div className="mt-24 mb-12">
-                <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-3">
-                  WHY DASAN
-                </h3>
-                <p className="text-[15px] md:text-[16px] text-gray-600 leading-[1.8] font-medium break-keep mb-10">
-                  개발부터 생산까지, 의약품의 가치를 완성하는 파트너
-                </p>
-
-                {/* 4 Crisp & Vibrant Brand Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Card 1: TECHNOLOGY */}
-                  <div className="bg-white border-2 border-gray-100 hover:border-[#64ad55] rounded-2xl p-6 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(100,173,85,0.18)] transition-all duration-300 hover:-translate-y-1.5 group">
-                    <div className="bg-gradient-to-r from-[#64ad55] to-[#519943] text-white py-3.5 px-4 rounded-xl text-center mb-6 font-black text-[13px] tracking-wider uppercase shadow-sm">
-                      TECHNOLOGY
-                    </div>
-                    <p className="text-[15px] font-bold text-gray-900 tracking-tight leading-relaxed text-center group-hover:text-[#64ad55] transition-colors">
-                      Multi-Stra® 기반 제형 및 MUPS 기술
-                    </p>
-                  </div>
-
-                  {/* Card 2: MANUFACTURING & QUALITY */}
-                  <div className="bg-white border-2 border-gray-100 hover:border-[#64ad55] rounded-2xl p-6 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(100,173,85,0.18)] transition-all duration-300 hover:-translate-y-1.5 group">
-                    <div className="bg-gradient-to-r from-[#64ad55] to-[#519943] text-white py-3.5 px-4 rounded-xl text-center mb-6 font-black text-[13px] tracking-wider uppercase shadow-sm">
-                      MANUFACTURING &amp; QUALITY
-                    </div>
-                    <p className="text-[15px] font-bold text-gray-900 tracking-tight leading-relaxed text-center group-hover:text-[#64ad55] transition-colors">
-                      GMP 기반 생산 인프라
-                    </p>
-                  </div>
-
-                  {/* Card 3: ONE-STOP */}
-                  <div className="bg-white border-2 border-gray-100 hover:border-[#64ad55] rounded-2xl p-6 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(100,173,85,0.18)] transition-all duration-300 hover:-translate-y-1.5 group">
-                    <div className="bg-gradient-to-r from-[#64ad55] to-[#519943] text-white py-3.5 px-4 rounded-xl text-center mb-6 font-black text-[13px] tracking-wider uppercase shadow-sm">
-                      ONE-STOP
-                    </div>
-                    <p className="text-[15px] font-bold text-gray-900 tracking-tight leading-relaxed text-center group-hover:text-[#64ad55] transition-colors">
-                      체계적인 품질관리
-                    </p>
-                  </div>
-
-                  {/* Card 4: MANUFACTURING & QUALITY */}
-                  <div className="bg-white border-2 border-gray-100 hover:border-[#64ad55] rounded-2xl p-6 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgba(100,173,85,0.18)] transition-all duration-300 hover:-translate-y-1.5 group">
-                    <div className="bg-gradient-to-r from-[#64ad55] to-[#519943] text-white py-3.5 px-4 rounded-xl text-center mb-6 font-black text-[13px] tracking-wider uppercase shadow-sm">
-                      MANUFACTURING &amp; QUALITY
-                    </div>
-                    <p className="text-[15px] font-bold text-gray-900 tracking-tight leading-relaxed text-center group-hover:text-[#64ad55] transition-colors">
-                      개발부터 생산까지 연계
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* New section: Top Full-bleed title and gray bg icons */}
-            <div className="w-[100vw] relative left-1/2 -translate-x-1/2 mt-16 animate-fade-in-up">
-              {/* Title Section */}
-              <div className="w-full max-w-5xl mx-auto px-4 md:px-0 mb-16">
-                <h3 className="text-[28px] md:text-[32px] font-black text-gray-900 tracking-tight leading-[1.4] break-keep">
-                  제형 개발부터 완제품 생산까지 글로벌 스탠다드 의약품 생산시설에서 맞춤형<br />위탁생산 서비스를 제공합니다
-                </h3>
-              </div>
-
-              {/* Light Gray full-width block with 4 icons */}
-              <div className="bg-[#f8f9fa] w-full py-16 border-y border-gray-100">
-                <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-4 md:px-0">
-                  <div className="flex flex-col items-center text-center">
-                    <Globe2 size={44} strokeWidth={1} className="text-[#333] mb-6" />
-                    <span className="text-[14px] font-bold text-gray-800 leading-[1.5]">글로벌 스탠다드<br />생산시설</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <Users size={44} strokeWidth={1} className="text-[#333] mb-6" />
-                    <span className="text-[14px] font-bold text-gray-800 leading-[1.5]">전문인력</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <BookOpenCheck size={44} strokeWidth={1} className="text-[#333] mb-6" />
-                    <span className="text-[14px] font-bold text-gray-800 leading-[1.5]">제조기술 노하우</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <Settings2 size={44} strokeWidth={1} className="text-[#333] mb-6" />
-                    <span className="text-[14px] font-bold text-gray-800 leading-[1.5]">공정표준화 시스템</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* White section with 3 rows of text */}
-              <div className="w-full max-w-5xl mx-auto px-4 md:px-0 pt-24 pb-12 space-y-20">
-                {/* Row 1 */}
-                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-16 border-b border-gray-100 pb-20">
-                  <h4 className="text-[18px] md:text-[20px] font-bold text-gray-900 leading-[1.5]">
-                    제제 연구부터<br className="hidden md:block" /> 생산까지
-                  </h4>
-                  <p className="text-[14.5px] text-gray-600 leading-[1.9] break-keep font-medium md:pt-1">
-                    셀트리온제약은 케미컬의약품 제제·공정 개발에서 생산에 이르는 전 과정을 고객과 함께 합니다. 대규모 첨단 설비와 기술력을 바탕으로 위탁생산 시장에서의 경쟁력 확보를 위해 끊임없이 노력하고 있습니다.
-                  </p>
-                </div>
-                {/* Row 2 */}
-                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-16 border-b border-gray-100 pb-20">
-                  <h4 className="text-[18px] md:text-[20px] font-bold text-gray-900 leading-[1.5]">
-                    엄격한<br className="hidden md:block" /> 품질 보증
-                  </h4>
-                  <div className="md:pt-1">
-                    <p className="text-[14.5px] text-gray-600 leading-[1.9] break-keep font-medium mb-12">
-                      셀트리온제약 청주공장은 미국 FDA와 유럽 EMA로부터 국내에서는 처음으로 내용고형제 우수 의약품 제조 및 품질관리 시스템 인증을 받았습니다. 셀트리온제약은 제품 개발 단계부터 입고, 제조, 검수, 출하에 이르는 모든 과정에 QMS(Quality Management System, 품질경영시스템), QRM(Quality Risk Management, 품질위험관리) 등 표준화된 시스템을 적용하고 있습니다. 이와 함께 전사동 빌딩관리시스템(BMS)을 통해 온도·습도·차압 등을 24시간 제어함으로써 품질 균일성을 확보하고 있습니다.
-                    </p>
-                    {/* Placeholder for Logos */}
-                    <div className="flex flex-wrap items-center gap-14 opacity-90">
-                      <span className="text-[38px] font-black tracking-tighter text-[#1f4293]" style={{ fontFamily: 'Arial, sans-serif' }}>FDA</span>
-                      <div className="flex items-center space-x-2.5">
-                        <div className="grid grid-cols-4 gap-[2px]">
-                          {[...Array(16)].map((_, i) => <div key={i} className={`w-[3px] h-[3px] rounded-full ${i % 3 === 0 ? 'bg-red-500' : 'bg-[#1f4293]'}`} />)}
+                    <div className="space-y-6">
+                      {/* 복합제제 개량신약 */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15px] font-bold text-gray-900">복합제제 개량신약</span>
                         </div>
-                        <span className="text-[28px] font-black tracking-tight text-[#1f4293]">MHRA</span>
+                        <p className="text-[14px] font-bold text-gray-900 pl-4">
+                          Telmisartan/S-amlodipine*
+                        </p>
+                        <p className="text-[12px] text-gray-500 font-medium pl-4 mt-1">
+                          *공동개발 품목이며 다산에서 핵심 약물방출 조절 진행
+                        </p>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-full border-[5px] border-red-500 flex items-center justify-center relative overflow-hidden">
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-[18px] h-[18px] rounded-full border-[4px] border-[#1f4293] translate-x-1" />
-                          </div>
+
+                      {/* 제형 변경(기타) */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15px] font-bold text-gray-900">제형 변경(기타)</span>
                         </div>
-                        <span className="text-[13px] font-bold leading-[1.2] text-gray-800">Ministry of Food and<br/>Drug Safety</span>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-[1.8] pl-4">
+                          Choline alfoscerate 정제<br />
+                          Esomeprazole Mg ODT
+                        </p>
                       </div>
                     </div>
                   </div>
-                </div>
-                {/* Row 3 */}
-                <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-16 pb-10">
-                  <h4 className="text-[18px] md:text-[20px] font-bold text-gray-900 leading-[1.5]">
-                    지속 가능한<br className="hidden md:block" /> 비즈니스 모델
-                  </h4>
-                  <p className="text-[14.5px] text-gray-600 leading-[1.9] break-keep font-medium md:pt-1">
-                    셀트리온제약은 미국·유럽 등 선진국 규제기관으로부터 인정받은 우수의약품 제조 기술을 바탕으로 고객에게 맞춤형 서비스를 제공합니다. 세계 최고 수준의 시설에서 믿을 수 있는 전문 인력이 고품질 의약품을 제조해 지속 가능한 비즈니스 모델을 만들어 갑니다.
-                  </p>
                 </div>
               </div>
             </div>
