@@ -506,13 +506,13 @@ export default function CDMOTabSection() {
         </div>
 
         {/* 4 Informational Cards with Hover Effects */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-4.5 xl:gap-5">
           {tabData.map((tab) => {
             const Icon = tab.icon;
             return (
               <div
                 key={tab.id}
-                className="text-left rounded-2xl p-6 sm:p-7 flex flex-col justify-between bg-white border border-gray-200/70 hover:border-[#64ad55] shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 group select-none cursor-default"
+                className="text-left rounded-2xl px-4.5 py-6 sm:px-5 sm:py-6 xl:px-6 xl:py-7 flex flex-col justify-between bg-white border border-gray-200/70 hover:border-[#64ad55] shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 group select-none cursor-default"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
@@ -525,7 +525,7 @@ export default function CDMOTabSection() {
                       className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
-                  <h4 className="text-[14.5px] xl:text-[15px] font-bold tracking-tight leading-snug break-keep text-gray-900 transition-colors group-hover:text-[#64ad55]">
+                  <h4 className="text-[13px] sm:text-[13.5px] lg:text-[12.5px] xl:text-[13.8px] font-bold tracking-tight leading-snug whitespace-nowrap text-gray-900 transition-colors group-hover:text-[#64ad55]">
                     {tab.cardTitle}
                   </h4>
                 </div>
