@@ -262,7 +262,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             
             <div className="mt-24 w-full max-w-5xl mx-auto animate-fade-in-up px-4 md:px-0 pb-20">
               {/* Header Section */}
-              <div className="flex flex-col space-y-6 mb-20">
+              <div className="flex flex-col space-y-6 mb-24 sm:mb-28">
                 <h2 className="text-[32px] md:text-[40px] font-black text-[#111] leading-[1.3] tracking-tight">
                   One-stop CDMO Solution
                 </h2>
@@ -277,7 +277,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
               </div>
 
               {/* Quality Title */}
-              <div className="mb-14">
+              <div className="mb-6">
                 <h3 className="text-[26px] font-black text-gray-900 tracking-tight">CDMO 프로세스</h3>
               </div>
 

@@ -108,7 +108,7 @@ export default function CDMOTabSection() {
   const currentTab = tabData[activeTab];
 
   return (
-    <div className="w-full pt-2 pb-0 mt-4 mb-0">
+    <div className="w-full pt-2 pb-0 mt-16 sm:mt-20 md:mt-24 mb-0">
       <div className="max-w-5xl mx-auto px-4 md:px-0">
         {/* What We Develop Section Header */}
         <div className="mb-8 text-left">
@@ -121,20 +121,7 @@ export default function CDMOTabSection() {
         </div>
 
         {/* Combined Section: Hexagon Diagram on Left & Detail Panel on Right */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xs border border-gray-200/80 mb-12">
-          
-          {/* Click Guidance Notice Banner */}
-          <div className="mb-6 flex items-center justify-between gap-3 bg-[#64ad55]/10 border border-[#64ad55]/30 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-800 font-semibold shadow-2xs">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#64ad55] text-white text-[10px] font-black shrink-0">
-                i
-              </span>
-              <span>
-                💡 좌측 항목<strong className="text-[#64ad55] font-bold px-1">(01 ~ 04)</strong> 클릭 시 상세 정보가 표시됩니다.
-              </span>
-            </div>
-          </div>
-
+        <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xs border border-gray-200/80 mb-2">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
             
             {/* Left Column: Hexagon Diagram (6 cols) */}
@@ -537,7 +524,7 @@ export default function CDMOTabSection() {
         </div>
 
         {/* WHY DASAN Section Header */}
-        <div className="mb-6 text-left">
+        <div className="mt-16 sm:mt-20 md:mt-24 mb-8 text-left">
           <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
             WHY DASAN
           </h3>
