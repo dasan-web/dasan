@@ -122,6 +122,19 @@ export default function CDMOTabSection() {
 
         {/* Combined Section: Hexagon Diagram on Left & Detail Panel on Right */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xs border border-gray-200/80 mb-12">
+          
+          {/* Click Guidance Notice Banner */}
+          <div className="mb-6 flex items-center justify-between gap-3 bg-[#64ad55]/10 border border-[#64ad55]/30 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-800 font-semibold shadow-2xs">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#64ad55] text-white text-[10px] font-black shrink-0">
+                i
+              </span>
+              <span>
+                💡 좌측 항목<strong className="text-[#64ad55] font-bold px-1">(01 ~ 04)</strong> 클릭 시 상세 정보가 표시됩니다.
+              </span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
             
             {/* Left Column: Hexagon Diagram (6 cols) */}
@@ -162,8 +175,15 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
                 >
-                  <div className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55] mb-0.5">01</div>
-                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55]">01</span>
+                    <span className={`inline-flex items-center gap-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-black px-1.5 py-0.5 rounded-full transition-all duration-300 ${
+                      activeTab === 0 ? 'bg-[#64ad55] text-white shadow-xs' : 'bg-[#64ad55]/15 text-[#64ad55] hover:bg-[#64ad55] hover:text-white'
+                    }`}>
+                      VIEW MORE +
+                    </span>
+                  </div>
+                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
                     1st Generic품목
                   </h4>
                 </motion.div>
@@ -200,8 +220,15 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
                 >
-                  <div className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55] mb-0.5">02</div>
-                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap">
+                  <div className="flex items-center justify-between flex-row-reverse">
+                    <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55]">02</span>
+                    <span className={`inline-flex items-center gap-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-black px-1.5 py-0.5 rounded-full transition-all duration-300 ${
+                      activeTab === 1 ? 'bg-[#64ad55] text-white shadow-xs' : 'bg-[#64ad55]/15 text-[#64ad55] hover:bg-[#64ad55] hover:text-white'
+                    }`}>
+                      VIEW MORE +
+                    </span>
+                  </div>
+                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
                     개량신약(염 변경)
                   </h4>
                 </motion.div>
@@ -238,8 +265,15 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.6 }}
                 >
-                  <div className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55] mb-0.5">03</div>
-                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55]">03</span>
+                    <span className={`inline-flex items-center gap-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-black px-1.5 py-0.5 rounded-full transition-all duration-300 ${
+                      activeTab === 2 ? 'bg-[#64ad55] text-white shadow-xs' : 'bg-[#64ad55]/15 text-[#64ad55] hover:bg-[#64ad55] hover:text-white'
+                    }`}>
+                      VIEW MORE +
+                    </span>
+                  </div>
+                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
                     개량신약(약물방출)
                   </h4>
                 </motion.div>
@@ -276,8 +310,15 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.6 }}
                 >
-                  <div className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55] mb-0.5">04</div>
-                  <h4 className="font-black text-[8.5px] sm:text-[9.5px] md:text-[11px] lg:text-[12px] leading-tight text-[#64ad55] whitespace-nowrap">
+                  <div className="flex items-center justify-between flex-row-reverse">
+                    <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55]">04</span>
+                    <span className={`inline-flex items-center gap-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-black px-1.5 py-0.5 rounded-full transition-all duration-300 ${
+                      activeTab === 3 ? 'bg-[#64ad55] text-white shadow-xs' : 'bg-[#64ad55]/15 text-[#64ad55] hover:bg-[#64ad55] hover:text-white'
+                    }`}>
+                      VIEW MORE +
+                    </span>
+                  </div>
+                  <h4 className="font-black text-[8.5px] sm:text-[9.5px] md:text-[11px] lg:text-[12px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
                     개량신약(복합제 & 기타)
                   </h4>
                 </motion.div>
