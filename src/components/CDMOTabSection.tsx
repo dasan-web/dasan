@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { FlaskConical, Factory, ShieldCheck, Layers } from 'lucide-react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 interface TabItem {
   id: string;
@@ -101,6 +103,7 @@ const tabData: TabItem[] = [
 
 export default function CDMOTabSection() {
   const [activeTab, setActiveTab] = useState<number>(0);
+  const [hoveredTab, setHoveredTab] = useState<number | null>(null);
 
   const currentTab = tabData[activeTab];
 
@@ -117,88 +120,407 @@ export default function CDMOTabSection() {
           </p>
         </div>
 
-        {/* 4 Interactive Cards */}
+        {/* 4 Informational Cards with Hover Effects */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 mb-10">
-          {tabData.map((tab, idx) => {
+          {tabData.map((tab) => {
             const Icon = tab.icon;
-            const isActive = activeTab === idx;
             return (
-              <button
+              <div
                 key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(idx)}
-                className={`text-left rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer group active:scale-[0.98] ${
-                  isActive
-                    ? 'bg-white border-2 border-[#64ad55] shadow-md -translate-y-1'
-                    : 'bg-white/80 border border-gray-200/70 hover:border-[#64ad55]/60 hover:bg-white shadow-2xs hover:shadow-sm'
-                }`}
+                className="text-left rounded-2xl p-6 sm:p-7 flex flex-col justify-between bg-white border border-gray-200/70 hover:border-[#64ad55] shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 group select-none cursor-default"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span
-                      className={`inline-block font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase transition-colors ${
-                        isActive
-                          ? 'bg-[#64ad55] text-white'
-                          : 'bg-[#64ad55]/10 text-[#64ad55]'
-                      }`}
-                    >
+                    <span className="inline-block font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase bg-[#64ad55]/10 text-[#64ad55] transition-colors group-hover:bg-[#64ad55] group-hover:text-white">
                       {tab.badge}
                     </span>
                     <Icon
                       size={20}
                       strokeWidth={1.75}
-                      className={`transition-transform duration-300 ${
-                        isActive
-                          ? 'text-[#64ad55] scale-110'
-                          : 'text-[#64ad55]/70 group-hover:scale-110 group-hover:text-[#64ad55]'
-                      }`}
+                      className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
-                  <h4
-                    className={`text-[14.5px] xl:text-[15px] font-bold tracking-tight leading-snug break-keep transition-colors ${
-                      isActive ? 'text-[#64ad55]' : 'text-gray-900 group-hover:text-[#64ad55]'
-                    }`}
-                  >
+                  <h4 className="text-[14.5px] xl:text-[15px] font-bold tracking-tight leading-snug break-keep text-gray-900 transition-colors group-hover:text-[#64ad55]">
                     {tab.cardTitle}
                   </h4>
                 </div>
-              </button>
+              </div>
             );
           })}
         </div>
 
-        {/* Active Tab Content Panel Displayed Directly Below Cards */}
-        <div key={currentTab.id} className="bg-white rounded-2xl p-7 md:p-9 shadow-sm border border-gray-100/80 animate-fade-in-up">
-          <div className="flex items-center gap-3.5 mb-8 pb-5 border-b border-gray-100">
-            <span className="w-9 h-9 rounded-full bg-[#64ad55] text-white font-black text-[14px] flex items-center justify-center flex-shrink-0 shadow-xs">
-              {currentTab.num}
-            </span>
-            <h4 className="text-[20px] md:text-[22px] font-black text-gray-900 tracking-tight">
-              {currentTab.sectionTitle}
-            </h4>
-          </div>
+        {/* Combined Section: Hexagon Diagram on Left & Detail Panel on Right */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xs border border-gray-200/80 mb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+            
+            {/* Left Column: Hexagon Diagram (6 cols) */}
+            <div className="lg:col-span-6 flex justify-center items-center relative py-2 w-full">
+              <div className="relative w-full aspect-square max-w-[340px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[540px] flex items-center justify-center my-2">
+                {/* Central Hexagon */}
+                <motion.div 
+                  className="absolute left-[18%] top-[22.17%] w-[64%] h-[55.67%] z-10 overflow-hidden"
+                  style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }}
+                  initial={{ scale: 0.6, opacity: 0, rotate: -8 }}
+                  whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                >
+                  <div className="w-full h-full relative">
+                    <Image
+                      src="/clear_white_pills_mixed_shapes_sharp.png"
+                      alt="Dasan Core Technology"
+                      fill
+                      sizes="(max-width: 768px) 240px, 400px"
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                </motion.div>
 
-          <div className="space-y-7">
-            {currentTab.groups.map((grp, i) => (
-              <div key={i}>
-                <div className="flex items-center gap-2 mb-2.5">
-                  <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
-                  <span className="text-[15.5px] font-bold text-gray-900">{grp.subtitle}</span>
-                </div>
-                <div className="pl-4">
-                  {grp.items.map((item, itemIdx) => (
-                    <p key={itemIdx} className="text-[14px] text-gray-700 font-medium leading-[1.85] break-keep">
-                      {item}
-                    </p>
-                  ))}
-                  {grp.note && (
-                    <p className="text-[12.5px] text-gray-500 font-medium mt-1.5">
-                      {grp.note}
-                    </p>
-                  )}
+                {/* Quadrant 01: Top-Left */}
+                {/* Title Box (Above line at y=45) */}
+                <motion.div
+                  onClick={() => setActiveTab(0)}
+                  onMouseEnter={() => setHoveredTab(0)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`absolute top-0 left-[2%] w-[24%] h-[7.5%] flex flex-col justify-end pb-1 transition-all duration-300 select-none cursor-pointer z-30 ${
+                    activeTab === 0 || hoveredTab === 0 ? 'scale-105 font-bold' : 'opacity-85'
+                  }`}
+                  initial={{ x: -20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
+                >
+                  <div className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55] mb-0.5">01</div>
+                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap">
+                    1st Generic품목
+                  </h4>
+                </motion.div>
+                {/* Content Box (Below line at y=45) */}
+                <motion.div
+                  onClick={() => setActiveTab(0)}
+                  onMouseEnter={() => setHoveredTab(0)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`absolute top-[7.5%] left-[2%] w-[24%] pt-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
+                    activeTab === 0 || hoveredTab === 0 ? 'scale-105' : 'opacity-85'
+                  }`}
+                  initial={{ x: -20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 1.5 }}
+                >
+                  <p className="text-[8.5px] sm:text-[9.5px] md:text-[10.5px] text-gray-500 leading-relaxed font-semibold">
+                    · 핵심공정 ODM품목<br />
+                    · 전공정 ODM품목
+                  </p>
+                </motion.div>
+
+                {/* Quadrant 02: Top-Right */}
+                {/* Title Box (Above line at y=45) */}
+                <motion.div
+                  onClick={() => setActiveTab(1)}
+                  onMouseEnter={() => setHoveredTab(1)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`absolute top-0 right-[2%] w-[24%] h-[7.5%] flex flex-col justify-end pb-1 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
+                    activeTab === 1 || hoveredTab === 1 ? 'scale-105 font-bold' : 'opacity-85'
+                  }`}
+                  initial={{ x: 20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
+                >
+                  <div className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55] mb-0.5">02</div>
+                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap">
+                    개량신약(염 변경)
+                  </h4>
+                </motion.div>
+                {/* Content Box (Below line at y=45) */}
+                <motion.div
+                  onClick={() => setActiveTab(1)}
+                  onMouseEnter={() => setHoveredTab(1)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`absolute top-[7.5%] right-[2%] w-[24%] pt-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
+                    activeTab === 1 || hoveredTab === 1 ? 'scale-105' : 'opacity-85'
+                  }`}
+                  initial={{ x: 20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 1.5 }}
+                >
+                  <p className="text-[8.5px] sm:text-[9.5px] md:text-[10.5px] text-gray-500 leading-relaxed font-semibold">
+                    · 핵심공정 ODM품목<br />
+                    · 전공정 ODM품목
+                  </p>
+                </motion.div>
+
+                {/* Quadrant 03: Bottom-Left */}
+                {/* Title Box (Above line at y=555) */}
+                <motion.div
+                  onClick={() => setActiveTab(2)}
+                  onMouseEnter={() => setHoveredTab(2)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`absolute top-[77.5%] left-[2%] w-[24%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
+                    activeTab === 2 || hoveredTab === 2 ? 'scale-105 font-bold' : 'opacity-85'
+                  }`}
+                  initial={{ x: -20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 1.6 }}
+                >
+                  <div className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55] mb-0.5">03</div>
+                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap">
+                    개량신약(약물방출)
+                  </h4>
+                </motion.div>
+                {/* Content Box (Below line at y=555) */}
+                <motion.div
+                  onClick={() => setActiveTab(2)}
+                  onMouseEnter={() => setHoveredTab(2)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`absolute top-[92.5%] left-[2%] w-[24%] pt-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
+                    activeTab === 2 || hoveredTab === 2 ? 'scale-105' : 'opacity-85'
+                  }`}
+                  initial={{ x: -20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 1.7 }}
+                >
+                  <p className="text-[8.5px] sm:text-[9.5px] md:text-[10.5px] text-gray-500 leading-relaxed font-semibold">
+                    · 약물방출 조절 개량신약<br />
+                    · 고함량 개량신약
+                  </p>
+                </motion.div>
+
+                {/* Quadrant 04: Bottom-Right */}
+                {/* Title Box (Above line at y=555) */}
+                <motion.div
+                  onClick={() => setActiveTab(3)}
+                  onMouseEnter={() => setHoveredTab(3)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`absolute top-[77.5%] right-[2%] w-[24%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
+                    activeTab === 3 || hoveredTab === 3 ? 'scale-105 font-bold' : 'opacity-85'
+                  }`}
+                  initial={{ x: 20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 1.6 }}
+                >
+                  <div className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55] mb-0.5">04</div>
+                  <h4 className="font-black text-[8.5px] sm:text-[9.5px] md:text-[11px] lg:text-[12px] leading-tight text-[#64ad55] whitespace-nowrap">
+                    개량신약(복합제 & 기타)
+                  </h4>
+                </motion.div>
+                {/* Content Box (Below line at y=555) */}
+                <motion.div
+                  onClick={() => setActiveTab(3)}
+                  onMouseEnter={() => setHoveredTab(3)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`absolute top-[92.5%] right-[2%] w-[24%] pt-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
+                    activeTab === 3 || hoveredTab === 3 ? 'scale-105' : 'opacity-85'
+                  }`}
+                  initial={{ x: 20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 1.7 }}
+                >
+                  <p className="text-[8.5px] sm:text-[9.5px] md:text-[10.5px] text-gray-500 leading-relaxed font-semibold">
+                    · 복합제제 개량신약<br />
+                    · 제형변경(기타)
+                  </p>
+                </motion.div>
+
+                {/* SVG Connecting Lines with Framer Motion Animation */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 600 600">
+                  {/* Hexagon Border Outline */}
+                  <motion.polygon 
+                    points="204,133 396,133 492,300 396,467 204,467 108,300" 
+                    stroke="#64ad55" 
+                    strokeWidth="3" 
+                    fill="none" 
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    whileInView={{ pathLength: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.4, ease: "easeInOut", delay: 0.4 }}
+                  />
+
+                  {/* 01 Top-Left Lines */}
+                  <motion.line 
+                    x1="12" y1="45" x2="162" y2="45" 
+                    stroke="#64ad55" 
+                    strokeWidth={activeTab === 0 || hoveredTab === 0 ? '3' : '1.5'} 
+                    className="transition-all duration-300"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 1.2 }}
+                  />
+                  <motion.line 
+                    x1="162" y1="45" x2="204" y2="133" 
+                    stroke="#64ad55" 
+                    strokeWidth={activeTab === 0 || hoveredTab === 0 ? '3' : '1.5'} 
+                    className="transition-all duration-300"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 1.5 }}
+                  />
+                  <motion.circle 
+                    cx="162" cy="45" 
+                    r={activeTab === 0 || hoveredTab === 0 ? '5.5' : '3.5'} 
+                    stroke="#64ad55" 
+                    strokeWidth="2" 
+                    fill="white" 
+                    className="transition-all duration-300"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, ease: "backOut", delay: 1.8 }}
+                  />
+
+                  {/* 02 Top-Right Lines */}
+                  <motion.line 
+                    x1="438" y1="45" x2="588" y2="45" 
+                    stroke="#64ad55" 
+                    strokeWidth={activeTab === 1 || hoveredTab === 1 ? '3' : '1.5'} 
+                    className="transition-all duration-300"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 1.2 }}
+                  />
+                  <motion.line 
+                    x1="438" y1="45" x2="396" y2="133" 
+                    stroke="#64ad55" 
+                    strokeWidth={activeTab === 1 || hoveredTab === 1 ? '3' : '1.5'} 
+                    className="transition-all duration-300"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 1.5 }}
+                  />
+                  <motion.circle 
+                    cx="438" cy="45" 
+                    r={activeTab === 1 || hoveredTab === 1 ? '5.5' : '3.5'} 
+                    stroke="#64ad55" 
+                    strokeWidth="2" 
+                    fill="white" 
+                    className="transition-all duration-300"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, ease: "backOut", delay: 1.8 }}
+                  />
+
+                  {/* 03 Bottom-Left Lines */}
+                  <motion.line 
+                    x1="12" y1="555" x2="162" y2="555" 
+                    stroke="#64ad55" 
+                    strokeWidth={activeTab === 2 || hoveredTab === 2 ? '3' : '1.5'} 
+                    className="transition-all duration-300"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 1.4 }}
+                  />
+                  <motion.line 
+                    x1="162" y1="555" x2="204" y2="467" 
+                    stroke="#64ad55" 
+                    strokeWidth={activeTab === 2 || hoveredTab === 2 ? '3' : '1.5'} 
+                    className="transition-all duration-300"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 1.7 }}
+                  />
+                  <motion.circle 
+                    cx="162" cy="555" 
+                    r={activeTab === 2 || hoveredTab === 2 ? '5.5' : '3.5'} 
+                    stroke="#64ad55" 
+                    strokeWidth="2" 
+                    fill="white" 
+                    className="transition-all duration-300"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, ease: "backOut", delay: 2.0 }}
+                  />
+
+                  {/* 04 Bottom-Right Lines */}
+                  <motion.line 
+                    x1="438" y1="555" x2="588" y2="555" 
+                    stroke="#64ad55" 
+                    strokeWidth={activeTab === 3 || hoveredTab === 3 ? '3' : '1.5'} 
+                    className="transition-all duration-300"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 1.4 }}
+                  />
+                  <motion.line 
+                    x1="438" y1="555" x2="396" y2="467" 
+                    stroke="#64ad55" 
+                    strokeWidth={activeTab === 3 || hoveredTab === 3 ? '3' : '1.5'} 
+                    className="transition-all duration-300"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 1.7 }}
+                  />
+                  <motion.circle 
+                    cx="438" cy="555" 
+                    r={activeTab === 3 || hoveredTab === 3 ? '5.5' : '3.5'} 
+                    stroke="#64ad55" 
+                    strokeWidth="2" 
+                    fill="white" 
+                    className="transition-all duration-300"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, ease: "backOut", delay: 2.0 }}
+                  />
+                </svg>
+              </div>
+            </div>
+
+            {/* Right Column: Active Category Details Panel (6 cols) */}
+            <div className="lg:col-span-6 flex flex-col h-full justify-center">
+              <div key={currentTab.id} className="bg-[#FAFBFB] rounded-2xl p-6 sm:p-8 lg:p-9 border border-gray-200/80 animate-fade-in-up h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-3.5 mb-7 pb-5 border-b border-gray-200/80">
+                    <span className="w-9 h-9 rounded-full bg-[#64ad55] text-white font-black text-[14px] flex items-center justify-center flex-shrink-0 shadow-xs">
+                      {currentTab.num}
+                    </span>
+                    <h4 className="text-[20px] md:text-[22px] font-black text-gray-900 tracking-tight">
+                      {currentTab.sectionTitle}
+                    </h4>
+                  </div>
+
+                  <div className="space-y-7">
+                    {currentTab.groups.map((grp, i) => (
+                      <div key={i}>
+                        <div className="flex items-center gap-2 mb-2.5">
+                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[15.5px] font-bold text-gray-900">{grp.subtitle}</span>
+                        </div>
+                        <div className="pl-4">
+                          {grp.items.map((item, itemIdx) => (
+                            <p key={itemIdx} className="text-[14px] text-gray-700 font-medium leading-[1.85] break-keep">
+                              {item}
+                            </p>
+                          ))}
+                          {grp.note && (
+                            <p className="text-[12.5px] text-gray-500 font-medium mt-1.5">
+                              {grp.note}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            ))}
+            </div>
+
           </div>
         </div>
       </div>
