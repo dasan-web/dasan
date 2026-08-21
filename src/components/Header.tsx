@@ -175,13 +175,13 @@ export default function Header() {
 
                     {/* Localized Dropdown Menu Wrapper with Hover Bridge (CSS Hover - Aligned) */}
                     <div
-                      className={`absolute top-20 ${alignClass} pt-4 z-50 ${activeGrand===grand.name ? 'opacity-100 visible pointer-events-auto translate-y-0' : 'opacity-0 invisible pointer-events-none translate-y-2'} group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 transition-all duration-300 ease-out`}
+                      className={`absolute top-20 ${alignClass} pt-4 z-50 ${activeGrand===grand.name ? 'opacity-100 visible pointer-events-auto translate-y-0' : 'opacity-0 invisible pointer-events-none translate-y-1'} group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 transition-all duration-200 ease-out will-change-[opacity,transform]`}
                       style={{
                         width: colCount === 1 ? '240px' : colCount === 2 ? '480px' : '700px'
                       }}
                     >
                       <div 
-                        className="w-full bg-white/5 backdrop-blur-md border border-gray-200/50 rounded-2xl p-6 text-gray-900 shadow-xl shadow-slate-900/5"
+                        className="w-full bg-white/90 backdrop-blur-xl backdrop-saturate-150 border border-gray-200/80 rounded-2xl p-6 text-gray-900 shadow-2xl shadow-slate-900/10"
                         style={{
                           display: 'grid',
                           gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
@@ -199,12 +199,12 @@ export default function Header() {
                                 onClick={() => {
                                   setActiveGrand(null);
                                   setHoveredGrand(null);
-                                }}
+                                  }}
                               >
                                 <h3 className={`text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider pb-1.5 text-left transition-colors cursor-pointer ${
                                   isMajorActive
                                     ? 'text-[#367e47] border-b-2 border-[#367e47]'
-                                    : 'text-gray-800 border-b border-gray-100 hover:text-[#367e47]'
+                                    : 'text-gray-900 border-b border-gray-100 hover:text-[#367e47]'
                                 }`}>
                                   {isEnglish ? (major.enName || major.name) : major.name}
                                 </h3>
@@ -222,7 +222,7 @@ export default function Header() {
                                             setActiveGrand(null);
                                             setHoveredGrand(null);
                                           }}
-                                          className="text-gray-500 hover:text-[#367e47] text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform"
+                                          className="text-gray-800 hover:text-[#367e47] text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform"
                                         >
                                           {isEnglish ? (sub.enName || sub.name) : sub.name}
                                         </a>
@@ -236,7 +236,7 @@ export default function Header() {
                                           className={`text-[13px] lg:text-[14px] xl:text-[15px] transition-colors block py-0.5 hover:translate-x-1 duration-200 transform ${
                                             isSubActive
                                               ? 'text-[#367e47] font-bold'
-                                              : 'text-gray-500 hover:text-[#367e47] font-semibold'
+                                              : 'text-gray-800 hover:text-[#367e47] font-semibold'
                                           }`}
                                         >
                                           {isEnglish ? (sub.enName || sub.name) : sub.name}
