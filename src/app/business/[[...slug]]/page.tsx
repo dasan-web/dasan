@@ -459,8 +459,8 @@ export default async function BusinessCatchAllPage({ params }: Params) {
   };
 
   return (
-    <div className="relative bg-white py-16 md:py-24 min-h-screen">
-      <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-8">
+    <div className="relative bg-white pt-10 md:pt-14 pb-10 min-h-screen">
+      <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-4">
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -525,7 +525,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`min-h-[550px] w-full ${currentPath === '/business/cdmo/quality' ? 'max-w-full' : 'max-w-5xl'}`}>
+            <div className={`w-full ${currentPath === '/business/cdmo/quality' ? 'max-w-full' : 'max-w-5xl'}`}>
               {renderContent()}
             </div>
           </div>

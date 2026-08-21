@@ -108,49 +108,20 @@ export default function CDMOTabSection() {
   const currentTab = tabData[activeTab];
 
   return (
-    <div className="w-[100vw] relative left-1/2 -translate-x-1/2 bg-[#f8f9fa] py-16 md:py-20 border-y border-gray-100 mt-20 mb-12">
+    <div className="w-full pt-2 pb-0 mt-4 mb-0">
       <div className="max-w-5xl mx-auto px-4 md:px-0">
-        {/* Title & Subtitle */}
-        <div className="mb-12 text-left">
+        {/* What We Develop Section Header */}
+        <div className="mb-8 text-left">
           <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
-            WHY DASAN
+            What We Develop
           </h3>
           <p className="text-[15px] md:text-[16px] text-gray-600 font-medium break-keep">
-            개발부터 생산까지, 의약품의 가치를 완성하는 파트너
+            다양한 의약품 개발 및 생산 경험을 바탕으로 고객의 제품 특성에 맞는 CDMO 솔루션을 제공합니다.
           </p>
         </div>
 
-        {/* 4 Informational Cards with Hover Effects */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 mb-10">
-          {tabData.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <div
-                key={tab.id}
-                className="text-left rounded-2xl p-6 sm:p-7 flex flex-col justify-between bg-white border border-gray-200/70 hover:border-[#64ad55] shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 group select-none cursor-default"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="inline-block font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase bg-[#64ad55]/10 text-[#64ad55] transition-colors group-hover:bg-[#64ad55] group-hover:text-white">
-                      {tab.badge}
-                    </span>
-                    <Icon
-                      size={20}
-                      strokeWidth={1.75}
-                      className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110"
-                    />
-                  </div>
-                  <h4 className="text-[14.5px] xl:text-[15px] font-bold tracking-tight leading-snug break-keep text-gray-900 transition-colors group-hover:text-[#64ad55]">
-                    {tab.cardTitle}
-                  </h4>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
         {/* Combined Section: Hexagon Diagram on Left & Detail Panel on Right */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xs border border-gray-200/80 mb-10">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xs border border-gray-200/80 mb-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
             
             {/* Left Column: Hexagon Diagram (6 cols) */}
@@ -522,6 +493,45 @@ export default function CDMOTabSection() {
             </div>
 
           </div>
+        </div>
+
+        {/* WHY DASAN Section Header */}
+        <div className="mb-6 text-left">
+          <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
+            WHY DASAN
+          </h3>
+          <p className="text-[15px] md:text-[16px] text-gray-600 font-medium break-keep">
+            개발부터 생산까지, 의약품의 가치를 완성하는 파트너
+          </p>
+        </div>
+
+        {/* 4 Informational Cards with Hover Effects */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+          {tabData.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <div
+                key={tab.id}
+                className="text-left rounded-2xl p-6 sm:p-7 flex flex-col justify-between bg-white border border-gray-200/70 hover:border-[#64ad55] shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 group select-none cursor-default"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="inline-block font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase bg-[#64ad55]/10 text-[#64ad55] transition-colors group-hover:bg-[#64ad55] group-hover:text-white">
+                      {tab.badge}
+                    </span>
+                    <Icon
+                      size={20}
+                      strokeWidth={1.75}
+                      className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <h4 className="text-[14.5px] xl:text-[15px] font-bold tracking-tight leading-snug break-keep text-gray-900 transition-colors group-hover:text-[#64ad55]">
+                    {tab.cardTitle}
+                  </h4>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
