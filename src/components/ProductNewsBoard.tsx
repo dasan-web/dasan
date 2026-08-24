@@ -316,19 +316,19 @@ export default function ProductNewsBoard({
     return pages;
   }, [currentPage, totalPages]);
 
-  // Category Pill Badge Generator (Using Exact Dasan Logo Colors #367E47 & #74B816)
+  // Category Pill Badge Generator (Using Exact Dasan Logo Colors)
   const renderCategoryBadge = (category: string) => {
     switch (category) {
       case '신제품':
         return (
-          <span className="inline-flex items-center gap-1 bg-[#74b816] text-white font-extrabold px-2.5 py-0.5 rounded-full text-xs shadow-2xs">
+          <span className="inline-flex items-center gap-1 bg-[#84bd00] text-white font-extrabold px-2.5 py-0.5 rounded-full text-xs shadow-2xs">
             <Sparkles className="w-3 h-3 text-white" />
             {isEnglish ? 'New' : '신제품'}
           </span>
         );
       case '허가변경':
         return (
-          <span className="inline-flex items-center bg-[#367e47]/10 text-[#367e47] border border-[#367e47]/30 font-bold px-2.5 py-0.5 rounded-full text-xs">
+          <span className="inline-flex items-center bg-brand-green/10 text-brand-green border border-brand-green/30 font-bold px-2.5 py-0.5 rounded-full text-xs">
             {isEnglish ? 'Regulatory' : '허가변경'}
           </span>
         );
@@ -360,8 +360,8 @@ export default function ProductNewsBoard({
               onClick={() => handleCategoryClick(cat.value)}
               className={`px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer select-none whitespace-nowrap ${
                 isActive
-                  ? 'bg-[#367e47] text-white font-bold shadow-xs scale-[1.02]'
-                  : 'bg-gray-100/90 text-gray-600 hover:bg-[#367e47]/10 hover:text-[#367e47] border border-gray-200/60'
+                  ? 'bg-brand-green text-white font-bold shadow-xs scale-[1.02]'
+                  : 'bg-gray-100/90 text-gray-600 hover:bg-brand-green/10 hover:text-brand-green border border-gray-200/60'
               }`}
             >
               {cat.label}
@@ -370,13 +370,13 @@ export default function ProductNewsBoard({
         })}
       </div>
 
-      {/* 2. Total Info & Search Bar Row (NO bottom divider line for ultra-clean look) */}
+      {/* 2. Total Info & Search Bar Row */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-5">
         {/* Left: Total Count Info */}
         <div className="flex items-center space-x-2 text-xs md:text-sm text-gray-700">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#74b816] animate-pulse"></span>
+          <span className="w-2.5 h-2.5 rounded-full bg-[#84bd00] animate-pulse"></span>
           <span className="font-semibold text-gray-800">
-            Total: <strong className="text-[#367e47] font-extrabold text-sm md:text-base">{totalItems}</strong>건
+            Total: <strong className="text-brand-green font-extrabold text-sm md:text-base">{totalItems}</strong>건
           </span>
           <span className="text-gray-400 font-normal text-xs">
             [{currentPage}/{totalPages}]
@@ -390,14 +390,14 @@ export default function ProductNewsBoard({
             <select
               value={searchField}
               onChange={(e) => setSearchField(e.target.value)}
-              className="appearance-none border border-gray-200 rounded-full bg-white pl-4 pr-8 py-2 text-xs md:text-sm font-medium text-gray-700 hover:border-[#367e47] focus:border-[#367e47] focus:ring-2 focus:ring-[#367e47]/20 focus:outline-none transition-all cursor-pointer shadow-2xs"
+              className="appearance-none border border-gray-200 rounded-full bg-white pl-4 pr-8 py-2 text-xs md:text-sm font-medium text-gray-700 hover:border-brand-green focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 focus:outline-none transition-all cursor-pointer shadow-2xs"
             >
               <option value="제목">{isEnglish ? 'Title' : '제목'}</option>
               <option value="내용">{isEnglish ? 'Content' : '내용'}</option>
               <option value="구분">{isEnglish ? 'Category' : '구분'}</option>
               <option value="전체">{isEnglish ? 'All' : '전체'}</option>
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#367e47] w-3.5 h-3.5 pointer-events-none" />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-green w-3.5 h-3.5 pointer-events-none" />
           </div>
 
           {/* Search Input Box */}
@@ -407,36 +407,36 @@ export default function ProductNewsBoard({
               value={searchQuery}
               onChange={handleSearchChange}
               placeholder={isEnglish ? 'Enter search keyword' : '검색어를 입력해주세요'}
-              className="w-full border border-gray-200 rounded-full bg-white pl-4 pr-9 py-2 text-xs md:text-sm text-gray-800 placeholder-gray-400 hover:border-[#367e47] focus:border-[#367e47] focus:ring-2 focus:ring-[#367e47]/20 focus:outline-none transition-all shadow-2xs"
+              className="w-full border border-gray-200 rounded-full bg-white pl-4 pr-9 py-2 text-xs md:text-sm text-gray-800 placeholder-gray-400 hover:border-brand-green focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 focus:outline-none transition-all shadow-2xs"
             />
-            <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#367e47] w-4 h-4 pointer-events-none" />
+            <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-green w-4 h-4 pointer-events-none" />
           </div>
         </div>
       </div>
 
-      {/* 3. Main Notice Table (Clean Borderless Row Dividers) */}
-      <div className="w-full overflow-x-auto rounded-xl shadow-xs border border-gray-200 bg-white">
-        <table className="w-full min-w-[680px] border-collapse text-left">
-          {/* Table Header: Matches 'DASAN' Logo Green #367E47 */}
+      {/* 3. Main Notice Table (Matching 그림2 / PressList Board Style) */}
+      <div className="w-full overflow-x-auto">
+        <table className="w-full min-w-[650px] border-collapse border-t-2 border-t-brand-green text-sm text-left">
+          {/* Table Header: Light Gray Background with Gray-700 Text */}
           <thead>
-            <tr className="bg-[#367e47] text-white text-xs md:text-sm font-bold">
-              <th className="py-3.5 px-4 text-center w-[15%] tracking-wider">
-                {isEnglish ? 'Category' : '구분'}
+            <tr className="border-b border-gray-200 bg-gray-50 text-gray-700 text-xs md:text-sm font-bold">
+              <th className="py-4 px-4 text-center w-[10%]">
+                {isEnglish ? 'No.' : '번호'}
               </th>
-              <th className="py-3.5 px-5 text-center w-[57%] tracking-wider">
+              <th className="py-4 px-5 text-left w-[60%]">
                 {isEnglish ? 'Title' : '제목'}
               </th>
-              <th className="py-3.5 px-4 text-center w-[16%] tracking-wider">
+              <th className="py-4 px-4 text-center w-[18%]">
                 {isEnglish ? 'Date' : '등록일'}
               </th>
-              <th className="py-3.5 px-4 text-center w-[12%] tracking-wider">
+              <th className="py-4 px-4 text-center w-[12%]">
                 {isEnglish ? 'Views' : '조회수'}
               </th>
             </tr>
           </thead>
 
           {/* Table Body */}
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="bg-white">
             {paginatedItems.length === 0 ? (
               <tr>
                 <td colSpan={4} className="py-14 text-center text-gray-400 text-xs md:text-sm">
@@ -444,56 +444,60 @@ export default function ProductNewsBoard({
                 </td>
               </tr>
             ) : (
-              paginatedItems.map((item) => {
+              paginatedItems.map((item, index) => {
                 const isExpanded = expandedId === item.id;
+                const itemNumber = totalItems - ((currentPage - 1) * itemsPerPage + index);
                 return (
                   <React.Fragment key={item.id}>
                     {/* Row Item */}
                     <tr
                       onClick={() => handleRowClick(item.id)}
-                      className={`transition-colors cursor-pointer group ${
-                        isExpanded ? 'bg-[#367e47]/10' : 'hover:bg-[#367e47]/5'
-                      }`}
+                      className="hover:bg-gray-50/50 transition-colors text-gray-700 cursor-pointer border-b border-gray-100"
                     >
-                      <td className="py-3.5 px-4 text-center whitespace-nowrap">
-                        {renderCategoryBadge(item.category)}
+                      <td className="py-4.5 px-4 text-center font-medium text-xs md:text-sm text-gray-400">
+                        {itemNumber}
                       </td>
-                      <td className="py-3.5 px-5 text-left">
-                        <div className="flex items-center space-x-2">
-                          <span className="font-bold text-gray-900 group-hover:text-[#367e47] transition-colors text-xs md:text-sm leading-snug">
-                            {item.title}
+                      <td className="py-4.5 px-5 text-left">
+                        <div className="flex items-center justify-between font-semibold text-brand-blue hover:text-brand-green transition-colors text-xs md:text-sm leading-snug">
+                          <span className="flex-1 pr-3 flex items-center gap-2">
+                            <span>{item.title}</span>
+                            {item.isNew && (
+                              <span className="text-[10px] bg-[#74b816] text-white font-bold px-1.5 py-0.2 rounded uppercase shrink-0">
+                                NEW
+                              </span>
+                            )}
                           </span>
-                          {item.isNew && (
-                            <span className="text-[10px] bg-[#74b816] text-white font-bold px-1.5 py-0.2 rounded uppercase">
-                              NEW
-                            </span>
+                          {isExpanded ? (
+                            <ChevronDown size={16} className="text-brand-green flex-shrink-0 rotate-180 transition-transform duration-200" />
+                          ) : (
+                            <ChevronDown size={16} className="text-gray-400 flex-shrink-0 transition-transform duration-200" />
                           )}
                         </div>
                       </td>
-                      <td className="py-3.5 px-4 text-center text-xs md:text-sm text-gray-500 font-normal whitespace-nowrap">
-                        {item.date}
+                      <td className="py-4.5 px-4 text-center text-xs md:text-sm text-gray-500 font-medium whitespace-nowrap">
+                        {item.date.replace(/-/g, '.')}
                       </td>
-                      <td className="py-3.5 px-4 text-center text-xs md:text-sm text-gray-500 font-normal whitespace-nowrap">
+                      <td className="py-4.5 px-4 text-center text-xs md:text-sm text-gray-400 font-medium">
                         {item.views}
                       </td>
                     </tr>
 
                     {/* Accordion Detail View Row */}
                     {isExpanded && (
-                      <tr className="bg-[#367e47]/5">
-                        <td colSpan={4} className="p-4 md:p-6 border-b border-gray-150">
-                          <div className="bg-white p-6 rounded-2xl border border-[#367e47]/20 shadow-xs space-y-4 animate-fade-in">
+                      <tr className="bg-gray-50/30">
+                        <td colSpan={4} className="py-6 px-6 md:px-8 text-gray-700 text-xs md:text-sm leading-relaxed border-b border-gray-150">
+                          <div className="bg-white p-5 md:p-6 rounded-lg border border-gray-100 shadow-sm animate-fade-in space-y-4">
                             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
                               <div className="flex items-center space-x-2">
                                 {renderCategoryBadge(item.category)}
-                                <span className="text-xs text-gray-400 font-medium pl-2">{item.date}</span>
+                                <span className="text-xs text-gray-400 font-medium pl-2">{item.date.replace(/-/g, '.')}</span>
                               </div>
-                              <span className="text-xs text-[#367e47] font-semibold bg-[#367e47]/10 px-2.5 py-1 rounded-full border border-[#367e47]/20">
+                              <span className="text-xs text-brand-green font-semibold bg-brand-green/10 px-2.5 py-1 rounded-full border border-brand-green/20">
                                 {isEnglish ? 'Views' : '조회수'}: {item.views}
                               </span>
                             </div>
 
-                            <h4 className="font-bold text-gray-900 text-sm md:text-base leading-snug text-[#367e47]">
+                            <h4 className="font-bold text-brand-blue text-sm md:text-base leading-snug">
                               {item.title}
                             </h4>
 
@@ -505,15 +509,16 @@ export default function ProductNewsBoard({
                               <div className="pt-3 border-t border-gray-100 flex justify-start">
                                 <a
                                   href={item.file_url || '#'}
+                                  download={item.file_name}
                                   onClick={(e) => {
                                     if (!item.file_url) {
                                       e.preventDefault();
                                       alert(isEnglish ? 'File download ready.' : '첨부파일 다운로드 안내입니다.');
                                     }
                                   }}
-                                  className="inline-flex items-center space-x-2 text-xs md:text-sm text-[#367e47] bg-[#367e47]/10 hover:bg-[#367e47]/20 px-3.5 py-2 rounded-xl border border-[#367e47]/30 transition-colors font-bold shadow-2xs"
+                                  className="inline-flex items-center space-x-2 text-xs md:text-sm text-gray-600 hover:text-brand-green bg-gray-50 hover:bg-gray-100 px-3.5 py-2 rounded-lg border border-gray-200 transition-colors font-semibold shadow-2xs"
                                 >
-                                  <Download className="w-4 h-4 text-[#367e47]" />
+                                  <Download className="w-4 h-4 text-brand-green" />
                                   <span>{item.file_name}</span>
                                 </a>
                               </div>
@@ -536,7 +541,7 @@ export default function ProductNewsBoard({
         <button
           onClick={() => goToPage(1)}
           disabled={currentPage === 1}
-          className="hover:text-[#367e47] disabled:opacity-30 disabled:cursor-not-allowed p-1 transition-colors"
+          className="hover:text-brand-green disabled:opacity-30 disabled:cursor-not-allowed p-1 transition-colors"
           title="첫 페이지"
         >
           <ChevronsLeft className="w-4 h-4" />
@@ -546,7 +551,7 @@ export default function ProductNewsBoard({
         <button
           onClick={() => goToPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="hover:text-[#367e47] disabled:opacity-30 disabled:cursor-not-allowed p-1 transition-colors"
+          className="hover:text-brand-green disabled:opacity-30 disabled:cursor-not-allowed p-1 transition-colors"
           title="이전 페이지"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -562,8 +567,8 @@ export default function ProductNewsBoard({
                 onClick={() => goToPage(num)}
                 className={`px-1.5 py-0.5 transition-colors ${
                   isCurrent
-                    ? 'text-[#367e47] font-extrabold relative after:content-[""] after:absolute after:-bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-[2.5px] after:bg-[#367e47]'
-                    : 'text-gray-600 hover:text-[#367e47] font-normal'
+                    ? 'text-brand-green font-extrabold relative after:content-[""] after:absolute after:-bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-[2.5px] after:bg-brand-green'
+                    : 'text-gray-600 hover:text-brand-green font-normal'
                 }`}
               >
                 {num}
@@ -576,7 +581,7 @@ export default function ProductNewsBoard({
         <button
           onClick={() => goToPage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="hover:text-[#367e47] disabled:opacity-30 disabled:cursor-not-allowed p-1 transition-colors"
+          className="hover:text-brand-green disabled:opacity-30 disabled:cursor-not-allowed p-1 transition-colors"
           title="다음 페이지"
         >
           <ChevronRight className="w-4 h-4" />
@@ -586,7 +591,7 @@ export default function ProductNewsBoard({
         <button
           onClick={() => goToPage(totalPages)}
           disabled={currentPage === totalPages}
-          className="hover:text-[#367e47] disabled:opacity-30 disabled:cursor-not-allowed p-1 transition-colors"
+          className="hover:text-brand-green disabled:opacity-30 disabled:cursor-not-allowed p-1 transition-colors"
           title="마지막 페이지"
         >
           <ChevronsRight className="w-4 h-4" />
