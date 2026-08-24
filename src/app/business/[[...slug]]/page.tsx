@@ -266,8 +266,8 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 <h2 className="text-[32px] md:text-[40px] font-black text-[#111] leading-[1.3] tracking-tight">
                   One-stop CDMO Solution
                 </h2>
-                <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[16px] space-y-3 max-w-4xl">
-                  <p className="break-keep font-medium text-[#666]">
+                <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[16px] space-y-3 w-full">
+                  <p className="break-keep lg:whitespace-nowrap font-medium text-[#666]">
                     다산제약은 의약품 연구개발 역량과 GMP 기반 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 맞춤형 CDMO 서비스를 제공합니다.
                   </p>
                   <p className="break-keep font-medium text-[#666]">
@@ -278,7 +278,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
 
               {/* Quality Title */}
               <div className="mb-6">
-                <h3 className="text-[26px] font-black text-gray-900 tracking-tight">CDMO 프로세스</h3>
+                <h3 className="text-[26px] font-black text-gray-900 tracking-tight">CDMO PROCESS</h3>
               </div>
 
               {/* Process Flow (5 Steps: 개발, 임상, 기술이전, 품질, 생산) with Arrow Connectors */}
