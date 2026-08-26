@@ -4,6 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldAlert } from 'lucide-react';
 
+const getOptimizedImageUrl = (url?: string | null, width = 800) => {
+  if (!url) return '';
+  if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+    return url.replace('/upload/', `/upload/f_auto,q_auto:good,w_${width}/`);
+  }
+  return url;
+};
+
 export interface ProductDetailProps {
   productId: string;
   isEnglish?: boolean;
@@ -85,7 +93,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
             <div className="w-full aspect-square max-w-[320px] sm:max-w-[360px] flex items-center justify-center p-2 bg-white">
               {product.file_url && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(product.file_url) ? (
                 <img 
-                  src={product.file_url} 
+                  src={getOptimizedImageUrl(product.file_url, 800)} 
                   alt={product.name} 
                   className="max-w-full max-h-full object-contain transition-transform duration-500 hover:scale-105"
                 />

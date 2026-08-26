@@ -114,10 +114,12 @@ export default function ScrollVideo() {
           <video 
             className={`w-full h-full object-cover`} 
             src="/20260714.mp4" 
+            poster="/poster_overview.jpg"
             autoPlay 
             loop 
             muted 
             playsInline
+            preload="auto"
           />
         </motion.div>
       </motion.div>

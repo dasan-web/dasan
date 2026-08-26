@@ -178,10 +178,12 @@ export default async function BusinessCatchAllPage({ params }: Params) {
               <video 
                 className="w-full h-full object-cover"
                 src="/API.mp4"
+                poster="/poster_api.jpg"
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="auto"
               />
             </div>
 
@@ -253,10 +255,12 @@ export default async function BusinessCatchAllPage({ params }: Params) {
               <video 
                 className="w-full h-full object-cover"
                 src="/CDMO_219.mp4"
+                poster="/poster_cdmo.jpg"
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="auto"
               />
             </div>
             

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import CoreTechnology from '@/components/CoreTechnology';
+import MainProductShowcase from '@/components/MainProductShowcase';
+import MainProductNews from '@/components/MainProductNews';
 import PressReleaseSlider from '@/components/PressReleaseSlider';
 import ScrollIndicator from '@/components/ScrollIndicator';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -17,8 +18,8 @@ export async function generateMetadata(): Promise<Metadata> {
     if (results && results.length > 0) {
       const [title, keywords, description] = results[0].content.split('|');
       return {
-        title: title || 'Dasan Pharmaceutical | Pharmaceutical CDMO Company',
-        keywords: keywords || 'Dasan Pharmaceutical, Pharmaceutical CDMO Company, Dasan Pharmaceutical, dspharm',
+        title: title || 'Dasan Pharmaceutical | Pharmaceutical CDMO',
+        keywords: keywords || 'Dasan Pharmaceutical, Pharmaceutical CDMO, CDMO, dspharm',
         description: description || 'Dasan Pharmaceutical is a global pharmaceutical company creating a healthy life through continuous R&D and high-quality drug production.',
       };
     }
@@ -26,20 +27,41 @@ export async function generateMetadata(): Promise<Metadata> {
     console.error('Failed to load main page metadata:', e);
   }
   return {
-    title: 'Dasan Pharmaceutical | Pharmaceutical CDMO Company',
-    keywords: 'Dasan Pharmaceutical, Pharmaceutical CDMO Company, Dasan Pharmaceutical, dspharm',
+    title: 'Dasan Pharmaceutical | Pharmaceutical CDMO',
+    keywords: 'Dasan Pharmaceutical, Pharmaceutical CDMO, CDMO, dspharm',
     description: 'Dasan Pharmaceutical is a global pharmaceutical company creating a healthy life through continuous R&D and high-quality drug production.',
   };
 }
 
 export default async function Home() {
   let pressNews = [];
+  let products = [];
   try {
     pressNews = await query(
-      "SELECT * FROM news WHERE category = 'press' AND file_url IS NOT NULL AND file_url != '' ORDER BY created_at DESC LIMIT 3"
+      "SELECT * FROM news WHERE category = 'press' ORDER BY created_at DESC LIMIT 20"
     );
   } catch (err) {
     console.error('Failed to fetch press news for main page:', err);
+  }
+
+  try {
+    const rawProducts = await query(
+      "SELECT id, name, english_name, type, efficacy, file_url, ingredient, appearance FROM products ORDER BY id ASC LIMIT 20"
+    );
+    if (rawProducts && rawProducts.length > 0) {
+      products = rawProducts.map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        englishName: p.english_name || '',
+        type: p.type,
+        efficacy: p.efficacy,
+        file_url: p.file_url || null,
+        ingredient: p.ingredient || null,
+        appearance: p.appearance || null,
+      }));
+    }
+  } catch (err) {
+    console.error('Failed to fetch products for main page:', err);
   }
 
   return (
@@ -88,11 +110,14 @@ export default async function Home() {
         <ScrollIndicator />
       </section>
 
-      {/* 2. Core Technology Section */}
-      <CoreTechnology />
+      {/* 2. Finished Products Showcase Section */}
+      <MainProductShowcase initialProducts={products} />
 
-      {/* 3. Press Release Section */}
-      <div id="press-release">
+      {/* 3. Product News Section */}
+      <MainProductNews />
+
+      {/* 4. Press Release Section */}
+      <div id="press-release" className="scroll-mt-24 md:scroll-mt-28">
         <PressReleaseSlider initialNews={pressNews} />
       </div>
 

@@ -2,13 +2,43 @@
 
 import React, { useState, useEffect } from 'react';
 
-const sections = [
-  { id: 'hero', label: '소개' },
-  { id: 'core-tech', label: '핵심기술' },
-  { id: 'press-release', label: '보도자료' }
-];
+import { usePathname } from 'next/navigation';
 
 export default function ScrollNav() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
+
+  const sections = [
+    { 
+      id: 'hero', 
+      label: isEnglish ? 'Intro' : '소개',
+      activeColor: 'bg-white border-2 border-gray-400 shadow-md',
+      inactiveColor: 'bg-white/80 border border-gray-300 shadow-2xs hover:bg-white hover:border-gray-500',
+      pingColor: 'bg-white/40 border border-gray-300'
+    },
+    { 
+      id: 'products', 
+      label: isEnglish ? 'Product List' : '제품리스트',
+      activeColor: 'bg-[#FACC15] shadow-[0_0_12px_rgba(250,204,21,0.7)]',
+      inactiveColor: 'bg-[#FACC15]/40 hover:bg-[#FACC15]',
+      pingColor: 'bg-[#FACC15]/30 border border-amber-400/40'
+    },
+    { 
+      id: 'product-news', 
+      label: isEnglish ? 'Product News' : '제품소식',
+      activeColor: 'bg-brand-green shadow-green-glow',
+      inactiveColor: 'bg-brand-green/40 hover:bg-brand-green',
+      pingColor: 'bg-brand-green/25 border border-brand-green/35'
+    },
+    { 
+      id: 'press-release', 
+      label: isEnglish ? 'Press Release' : '보도자료',
+      activeColor: 'bg-[#EF4444] shadow-[0_0_12px_rgba(239,68,68,0.7)]',
+      inactiveColor: 'bg-[#EF4444]/40 hover:bg-[#EF4444]',
+      pingColor: 'bg-[#EF4444]/25 border border-red-400/40'
+    }
+  ];
+
   const [activeSection, setActiveSection] = useState('hero');
 
   useEffect(() => {
@@ -40,7 +70,17 @@ export default function ScrollNav() {
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      if (id === 'hero') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      const headerOffset = 140;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -69,26 +109,14 @@ export default function ScrollNav() {
             >
               {/* Outer Pulsing Glow Circle for Active Section */}
               {isActive && (
-                <span className={`absolute w-6 h-6 rounded-full animate-ping duration-1000 pointer-events-none left-0 top-0 ${
-                  section.id === 'hero' ? 'bg-brand-green/20 border border-brand-green/35' :
-                  section.id === 'core-tech' ? 'bg-yellow-500/20 border border-yellow-500/35' :
-                  'bg-red-500/20 border border-red-500/35'
-                }`} />
+                <span className={`absolute w-6 h-6 rounded-full animate-ping duration-1000 pointer-events-none left-0 top-0 ${section.pingColor}`} />
               )}
-              {/* Core dot */}
+              {/* Core dot with customized colors */}
               <span 
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-350 ${
                   isActive 
-                    ? (
-                      section.id === 'hero' ? 'bg-brand-green scale-125 shadow-green-glow' :
-                      section.id === 'core-tech' ? 'bg-yellow-400 scale-125 shadow-[0_0_8px_rgba(250,204,21,0.6)]' :
-                      'bg-red-500 scale-125 shadow-[0_0_8px_rgba(239,68,68,0.6)]'
-                    )
-                    : (
-                      section.id === 'hero' ? 'bg-brand-green/40 hover:bg-brand-green hover:scale-110' :
-                      section.id === 'core-tech' ? 'bg-yellow-400/40 hover:bg-yellow-400 hover:scale-110' :
-                      'bg-red-500/40 hover:bg-red-500 hover:scale-110'
-                    )
+                    ? `${section.activeColor} scale-125`
+                    : `${section.inactiveColor} hover:scale-110`
                 }`}
               />
             </button>

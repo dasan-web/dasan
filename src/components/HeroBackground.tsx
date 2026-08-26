@@ -42,6 +42,8 @@ export default function HeroBackground() {
         loop 
         muted 
         playsInline 
+        preload="auto"
+        poster="/poster_main.jpg"
         onCanPlay={(e) => {
           e.currentTarget.playbackRate = 0.75; // 75% speed is much smoother than 50% on browsers
         }}

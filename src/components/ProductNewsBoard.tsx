@@ -21,7 +21,7 @@ interface ProductNewsBoardProps {
 }
 
 // Sample dataset for Dasan Pharmaceuticals product news
-const sampleNewsItems: ProductNewsItem[] = [
+export const sampleNewsItems: ProductNewsItem[] = [
   {
     id: 1,
     category: '신제품',

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search, X } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 interface Product {
@@ -72,8 +72,18 @@ const translateEfficacy = (koText: string, isEng: boolean) => {
   return efficacyDict[koText.trim()] || koText;
 };
 
+// Cloudinary image URL optimization helper (High Quality WebP, Retina 2x/3x ready width=600)
+const getOptimizedImageUrl = (url?: string | null, width = 600) => {
+  if (!url) return '';
+  if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+    return url.replace('/upload/', `/upload/f_auto,q_auto:good,w_${width}/`);
+  }
+  return url;
+};
+
 export default function ProductSearch() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isEnglish = pathname?.startsWith('/en');
 
   const [productsList, setProductsList] = useState<Product[]>([]);
@@ -81,7 +91,7 @@ export default function ProductSearch() {
   const [activeTab, setActiveTab] = useState<'all' | 'prescription' | 'otc'>('all');
   const [searchMode, setSearchMode] = useState<'name' | 'efficacy'>('name');
   const [selectedConsonant, setSelectedConsonant] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams?.get('q') || searchParams?.get('search') || '');
   const [isClient, setIsClient] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -106,6 +116,26 @@ export default function ProductSearch() {
       });
   }, []);
 
+  // Background prefetch all product images for instant page transitions
+  useEffect(() => {
+    if (productsList.length > 0 && typeof window !== 'undefined') {
+      const prefetchImages = () => {
+        productsList.forEach(p => {
+          if (p.file_url) {
+            const img = new window.Image();
+            img.src = getOptimizedImageUrl(p.file_url, 600);
+          }
+        });
+      };
+
+      if ('requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(prefetchImages);
+      } else {
+        setTimeout(prefetchImages, 200);
+      }
+    }
+  }, [productsList]);
+
   // Filter and Sort Products (Ascending by Product Name)
   const filteredProducts = useMemo(() => {
     const list = productsList.filter(product => {
@@ -113,12 +143,16 @@ export default function ProductSearch() {
       if (activeTab === 'otc' && product.type !== '일반의약품') return false;
       if (searchMode === 'name' && selectedConsonant && product.consonant !== selectedConsonant) return false;
 
-      if (searchQuery.trim() !== '') {
-        const q = searchQuery.toLowerCase().trim();
+      const trimmed = searchQuery.trim();
+      const isOnlyJamo = /^[ㄱ-ㅎㅏ-ㅣ\s]+$/.test(trimmed);
+
+      if (trimmed !== '' && !isOnlyJamo) {
+        const q = trimmed.toLowerCase();
         if (searchMode === 'name') {
           const matchesName = (product.name && product.name.toLowerCase().includes(q)) || 
                               (product.englishName && product.englishName.toLowerCase().includes(q)) ||
-                              (product.efficacy && product.efficacy.toLowerCase().includes(q));
+                              (product.efficacy && product.efficacy.toLowerCase().includes(q)) ||
+                              (product.ingredient && product.ingredient.toLowerCase().includes(q));
           if (!matchesName) return false;
         } else {
           const matchesEfficacy = product.efficacy && product.efficacy.toLowerCase().includes(q);
@@ -304,9 +338,11 @@ export default function ProductSearch() {
                 </div>
                 {product.file_url && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(product.file_url) ? (
                   <img 
-                    src={product.file_url} 
+                    src={getOptimizedImageUrl(product.file_url, 600)} 
                     alt={product.name} 
-                    className="w-full h-full object-contain p-4 pt-10"
+                    loading="eager"
+                    decoding="async"
+                    className="w-full h-full object-contain p-4 pt-10 transition-opacity duration-200"
                   />
                 ) : (
                   <span className="text-[10px] tracking-wider text-gray-300 font-extrabold uppercase select-none">

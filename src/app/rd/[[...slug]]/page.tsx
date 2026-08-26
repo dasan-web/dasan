@@ -103,10 +103,12 @@ export default async function RdCatchAllPage({ params }: Params) {
               <video 
                 className="w-full h-full object-cover"
                 src="/R&D_219.mp4"
+                poster="/poster_rd.jpg"
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="auto"
               />
             </div>
             <RdIntroContent dbContent={dbContent} />

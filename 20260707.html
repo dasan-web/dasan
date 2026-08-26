@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다산제약 추가 메인화면 (20260707.mp4)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': '#2A5C43',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 기본 폰트 설정 (웹 폰트) */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body {
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 비디오 배경이 화면을 넘어가지 않도록 */
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <section class="relative w-full h-screen overflow-hidden flex items-center justify-start bg-black">
+        
+        <!-- Background Video -->
+        <video 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            class="absolute top-0 left-0 w-full h-full object-cover z-0 opacity-80"
+        >
+            <source src="/20260707.mp4" type="video/mp4">
+            브라우저가 비디오 태그를 지원하지 않습니다.
+        </video>
+
+        <!-- Content Container -->
+        <div class="relative z-10 w-full px-8 md:px-16 lg:px-24">
+            <div class="w-full text-left space-y-6 md:space-y-8">
+                
+                <!-- Main Headline -->
+                <div class="space-y-2 md:space-y-3">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-brand-green tracking-tight leading-tight lg:whitespace-nowrap">
+                        <span class="font-[800]">Global CDMO company</span><br class="md:hidden" />
+                        <span class="font-[900]"> through DDS.</span>
+                    </h1>
+                </div>
+
+                <!-- Slogan -->
+                <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-brand-green tracking-tight leading-tight">
+                    Happy people make the healthy world.
+                </h2>
+
+                <!-- Paragraph Description -->
+                <p class="text-sm sm:text-base md:text-lg lg:text-xl text-[#343434] leading-relaxed max-w-5xl font-[500] pt-2 md:pt-4">
+                    다산제약은 한국 최고의 실학자이자 과학자였던 정약용 선생의 愛民정신을 창업이념으로 삼아<br />인류의 건강과 행복한 삶을 위해 필요한 제제기술 및 합성기술 연구와 우수한 의약품 생산을 위해<br />끊임없이 노력하고 있습니다.
+                </p>
+
+                <!-- Learn More Button -->
+                <div class="pt-4 md:pt-6">
+                    <a href="/about/intro" class="inline-flex items-center gap-2.5 bg-white text-brand-green border-2 border-brand-green hover:bg-brand-green hover:text-white font-semibold px-9 py-4 lg:px-11 lg:py-4 rounded-full transition-all duration-300 text-sm lg:text-base cursor-pointer group">
+                        <span>Learn More</span>
+                        <!-- SVG Arrow Right -->
+                        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+</body>
+</html>
