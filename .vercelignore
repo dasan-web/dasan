@@ -1,0 +1,11 @@
+﻿*.exe
+*.zip
+*.pptx
+*.pptx.bak
+/*.mp4
+/*.pdf
+public/backup_videos/
+temp_home/
+*.py
+*.bat
+*.ps1
