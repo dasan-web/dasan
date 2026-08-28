@@ -25,83 +25,53 @@ interface MainProductShowcaseProps {
 const defaultProducts: ProductItem[] = [
   {
     id: 1,
-    name: '다산 펠로디핀 서방정 5mg',
-    englishName: 'Dasan Felodipine SR Tab. 5mg',
-    type: '전문의약품',
-    efficacy: '혈압강하제',
-    ingredient: '펠로디핀 5mg',
-    appearance: '원형 분홍색 서방정',
-    file_url: null
-  },
-  {
-    id: 2,
-    name: '피마스탄플러스정',
-    englishName: 'Fimastan Plus Tab.',
+    name: '클피그렐정 75mg',
+    englishName: 'CLPIGREL 75mg',
     type: '전문의약품',
     efficacy: '동맥경화용제',
-    ingredient: '피마사르탄 / 아토르바스타틴',
-    appearance: '담홍색의 장방형 필름코팅정',
-    file_url: null
-  },
-  {
-    id: 3,
-    name: '모사프리드 서방정 15mg',
-    englishName: 'Mosapride SR Tab. 15mg',
-    type: '전문의약품',
-    efficacy: '소화기관용약',
-    ingredient: '모사프리드시트르산염수화물',
-    appearance: '흰색의 원형 이중정',
-    file_url: null
-  },
-  {
-    id: 4,
-    name: '다파시타정 10/100mg',
-    englishName: 'Dapacita Tab. 10/100mg',
-    type: '전문의약품',
-    efficacy: '당뇨병용제',
-    ingredient: '다파글리플로진 / 시타글립틴',
-    appearance: '황색의 타원형 필름코팅정',
-    file_url: null
-  },
-  {
-    id: 5,
-    name: '다산 레바미피드정 100mg',
-    englishName: 'Dasan Rebamipide Tab. 100mg',
-    type: '전문의약품',
-    efficacy: '소화성궤양용제',
-    ingredient: '레바미피드 100mg',
-    appearance: '흰색의 원형 필름코팅정',
-    file_url: null
-  },
-  {
-    id: 6,
-    name: '다산 세레콕시브 캡슐 200mg',
-    englishName: 'Dasan Celecoxib Cap. 200mg',
-    type: '전문의약품',
-    efficacy: '해열,진통,소염제',
-    ingredient: '세레콕시브 200mg',
-    appearance: '흰색 분말이 든 상하부 흰색 경질캡슐',
-    file_url: null
+    ingredient: '클로피도그렐황산염 (Clopidogrel Bisulfate)',
+    appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
+    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787794594/dasan/uqxcob5pcllnowke6b45.jpg'
   },
   {
     id: 7,
-    name: '다산 펙소페나딘염산염정 120mg',
-    englishName: 'Dasan Fexofenadine HCl Tab. 120mg',
+    name: '트윈액트정',
+    englishName: 'TWINACT',
     type: '전문의약품',
-    efficacy: '항히스타민제',
-    ingredient: '펙소페나딘염산염 120mg',
-    appearance: '연한 주황색의 장방형 필름코팅정',
-    file_url: null
+    efficacy: '혈압강하제',
+    ingredient: '암로디핀, 텔미사르탄',
+    appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
+    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787706038/dasan/sc2joxcggm56nhzyuptw.png'
   },
   {
     id: 8,
-    name: '다산 실로스타졸 서방정 100mg',
-    englishName: 'Dasan Cilostazol SR Tab. 100mg',
+    name: '디스포지정',
+    englishName: 'DISPOSE',
     type: '전문의약품',
-    efficacy: '기타의순환계용약',
-    ingredient: '실로스타졸 100mg',
-    appearance: '흰색의 원형 서방성 정제',
-    file_url: null
+    efficacy: '혈압강하제',
+    ingredient: '암로디핀, 발사르탄',
+    appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
+    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787795353/dasan/o9aeeylomnkah8bwv5im.png'
+  },
+  {
+    id: 9,
+    name: '세비텐션정',
+    englishName: 'SEVITENSION',
+    type: '전문의약품',
+    efficacy: '혈압강하제',
+    ingredient: '암로디핀, 올메사르탄',
+    appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
+    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787706049/dasan/wivflmfegd2cew9uodco.png'
+  },
+  {
+    id: 26,
+    name: '프리투스정 50mg',
+    englishName: 'PRETUS 50mg',
+    type: '전문의약품',
+    efficacy: '호흡기관용약',
+    ingredient: '프란루카스트수화물',
+    appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
+    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787719444/dasan/y9jlxn6rtc70x7a4okvz.png'
   }
 ];
 

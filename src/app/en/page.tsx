@@ -46,7 +46,19 @@ export default async function Home() {
 
   try {
     const rawProducts = await query(
-      "SELECT id, name, english_name, type, efficacy, file_url, ingredient, appearance FROM products ORDER BY id ASC LIMIT 20"
+      `SELECT id, name, english_name, type, efficacy, file_url, ingredient, appearance 
+       FROM products 
+       ORDER BY 
+         CASE 
+           WHEN name LIKE '%클피그렐%' THEN 1
+           WHEN name LIKE '%트윈액트%' THEN 2
+           WHEN name LIKE '%디스포지%' THEN 3
+           WHEN name LIKE '%세비텐션%' THEN 4
+           WHEN name LIKE '%프리투스%' THEN 5
+           ELSE 6
+         END, 
+         id ASC 
+       LIMIT 30`
     );
     if (rawProducts && rawProducts.length > 0) {
       products = rawProducts.map((p: any) => ({
