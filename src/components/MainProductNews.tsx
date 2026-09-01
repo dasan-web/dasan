@@ -195,25 +195,24 @@ export default function MainProductNews({ initialItems }: MainProductNewsProps) 
                     <div
                       key={`${item.id}-${idx}`}
                       onClick={() => setSelectedModalItem(item)}
-                      className="relative bg-white rounded-3xl overflow-hidden border border-gray-200/90 hover:border-brand-green transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,137,83,0.22)] flex flex-col justify-between cursor-pointer group shadow-xs p-6 sm:p-7"
+                      className="relative bg-[#f8f9fa] rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group p-6 sm:p-7"
                       style={{ minHeight: '340px' }}
                     >
-                      {/* Expanding Circle Background Effect (Fades out to white as it shrinks) */}
+                      {/* Expanding Circle Background Ripple Effect (Slower, ultra-smooth gradual wave) */}
                       <div
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-brand-green scale-0 opacity-0 group-hover:scale-[25] group-hover:opacity-100 transition-all duration-700 ease-out origin-center pointer-events-none z-0"
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-brand-green scale-0 opacity-0 group-hover:scale-[26] group-hover:opacity-100 transition-all duration-[2200ms] ease-out origin-center pointer-events-none z-0"
                         aria-hidden="true"
                       />
-
                       {/* Top Header: Badge, Date & Icon */}
                       <div className="relative z-10">
                         <div className="flex items-center justify-between mb-5">
                           <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 rounded-2xl bg-gray-50 group-hover:bg-white/20 flex items-center justify-center transition-colors duration-500">
+                            <div className="w-10 h-10 rounded-2xl bg-white group-hover:bg-white/20 flex items-center justify-center transition-colors duration-[1500ms] shadow-2xs">
                               {React.cloneElement(meta.icon as React.ReactElement<any>, {
-                                className: "w-6 h-6 text-brand-green group-hover:text-white transition-colors duration-500"
+                                className: "w-6 h-6 text-brand-green group-hover:text-white transition-colors duration-[1500ms]"
                               })}
                             </div>
-                            <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase shadow-2xs group-hover:bg-white group-hover:text-brand-green transition-all duration-500 ${meta.badgeBg}`}>
+                            <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase shadow-2xs group-hover:bg-white group-hover:text-brand-green transition-all duration-[1500ms] ${meta.badgeBg}`}>
                               {meta.label}
                             </span>
                             {item.isNew && (
@@ -223,8 +222,8 @@ export default function MainProductNews({ initialItems }: MainProductNewsProps) 
                             )}
                           </div>
 
-                          <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-white/90 font-medium transition-colors duration-500">
-                            <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-500" />
+                          <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-white/90 font-medium transition-colors duration-[1500ms]">
+                            <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-[1500ms]" />
                             <span>{item.date.replace(/-/g, '.')}</span>
                           </div>
                         </div>
@@ -232,23 +231,53 @@ export default function MainProductNews({ initialItems }: MainProductNewsProps) 
                         {/* Content Area */}
                         <div className="space-y-3">
                           {/* Title (2 lines max) */}
-                          <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-500 line-clamp-2">
+                          <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-[1500ms] line-clamp-2">
                             {item.title}
                           </h3>
 
                           {/* Short Summary (2 lines) */}
-                          <p className="text-xs sm:text-sm text-gray-500 group-hover:text-white/85 leading-relaxed line-clamp-2 font-normal transition-colors duration-500">
+                          <p className="text-xs sm:text-sm text-gray-500 group-hover:text-white/85 leading-relaxed line-clamp-3 font-normal transition-colors duration-[1500ms]">
                             {item.content || (isEnglish ? 'Detailed information regarding this formulation notice.' : '다산제약의 주요 의약품 및 제제 변경 관련 안내사항입니다.')}
                           </p>
                         </div>
                       </div>
 
-                      {/* Footer Row (Aligned to far right) */}
-                      <div className="relative z-10 pt-5 mt-6 border-t border-gray-100 group-hover:border-white/20 flex items-center justify-end transition-colors duration-500">
-                        <span className="text-xs font-bold text-brand-green group-hover:text-white inline-flex items-center gap-1 group-hover:translate-x-1 transition-all duration-500">
+                      {/* Bottom Date & Action Area */}
+                      <div className="relative z-10 pt-5 mt-6 flex items-end justify-between">
+                        {/* Date indicator in normal state */}
+                        <div className="text-gray-400 group-hover:text-white/80 transition-colors duration-[1500ms]">
+                          <span className="text-2xl font-black text-gray-900 group-hover:text-white transition-colors duration-[1500ms] block leading-none">
+                            {item.date ? item.date.split('-')[2] || item.date.split('.')[2] || '01' : '01'}
+                          </span>
+                          <span className="text-[11px] font-medium block mt-1">
+                            {item.date ? `${item.date.split('-')[0]}.${item.date.split('-')[1]}` : ''}
+                          </span>
+                        </div>
+
+                        {/* Normal State: subtle arrow link */}
+                        <span className="text-xs font-bold text-brand-green group-hover:opacity-0 transition-opacity duration-300 inline-flex items-center gap-1 pr-1">
                           {isEnglish ? 'View Notice' : '상세보기'}
-                          <ArrowRight className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-500" />
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </span>
+                      </div>
+
+                      {/* Picture 2 Style: 100% Pure White Concentric Cutout Notch (Dynamic Scale Animation) */}
+                      <div className="absolute bottom-0 right-0 w-[112px] h-[112px] pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-[1000ms] ease-out z-30 overflow-hidden transform scale-90 group-hover:scale-100 origin-bottom-right">
+                        {/* SVG Concentric Arc Notch */}
+                        <svg className="w-full h-full" viewBox="0 0 112 112" fill="none">
+                          <path
+                            d="M 112,16 C 112,26 96,38 76,38 A 38 38 0 0 0 38,76 C 38,96 26,112 16,112 L 112,112 Z"
+                            fill="white"
+                          />
+                        </svg>
+                        
+                        {/* Floating Black Circle Action Button with Dynamic Scale Effect */}
+                        <div
+                          className="absolute w-11 h-11 rounded-full bg-black text-white flex items-center justify-center shadow-lg transform scale-85 group-hover:scale-105 active:scale-95 transition-all duration-[700ms] ease-out"
+                          style={{ right: '12px', bottom: '12px' }}
+                        >
+                          <ArrowRight className="w-5 h-5 stroke-[2.4] transition-transform duration-[700ms] group-hover:translate-x-1" />
+                        </div>
                       </div>
                     </div>
                   );

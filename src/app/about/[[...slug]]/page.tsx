@@ -15,6 +15,7 @@ import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
 import ScrollVideo from '@/components/ScrollVideo';
 import SalesGrowthChart from '@/components/SalesGrowthChart';
 import PhilosophyGraphic from '@/components/PhilosophyGraphic';
+import BusinessAreaTabSection from '@/components/BusinessAreaTabSection';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -597,44 +598,78 @@ export default async function AboutCatchAllPage({ params }: Params) {
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:-mx-4 xl:-mx-8 mt-12">
               {/* Card 1 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
                   style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
                 />
-                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
-                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">01. 자사 완제 의약품 사업</h4>
-                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
-                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">순환기, 호흡기, 비뇨기 중심의<br/><span className="whitespace-nowrap">우수한 제품 라인업 구축 및 생산·판매</span></p>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                <div 
+                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                >
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                      #Core Business
+                    </span>
                   </div>
+                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                    01. 자사 완제 의약품 사업
+                  </h4>
+                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                    순환기, 호흡기, 비뇨기 중심의<br />
+                    <span className="whitespace-nowrap">우수한 제품 라인업 구축 및 생산·판매</span>
+                  </p>
                 </div>
               </div>
 
               {/* Card 2 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
                   style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
                 />
-                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
-                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">02. 수탁 완제 의약품 (CMO) 사업</h4>
-                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
-                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산</p>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                <div 
+                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                >
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                      #Smart CMO
+                    </span>
                   </div>
+                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                    02. 수탁 완제 의약품 (CMO) 사업
+                  </h4>
+                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                    독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산
+                  </p>
                 </div>
               </div>
 
               {/* Card 3 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
                   style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
                 />
-                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
-                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">03. 의약품 핵심 원료 및 중간체 사업</h4>
-                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
-                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF 등록·관리</p>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                <div 
+                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                >
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                      #API & Intermediate
+                    </span>
                   </div>
+                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                    03. 의약품 핵심 원료 및 중간체 사업
+                  </h4>
+                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                    의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF 등록·관리
+                  </p>
                 </div>
               </div>
             </div>

@@ -14,6 +14,7 @@ import CIDownloadButton from '@/components/CIDownloadButton';
 import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
 import ScrollVideo from '@/components/ScrollVideo';
 import PhilosophyGraphic from '@/components/PhilosophyGraphic';
+import BusinessAreaTabSection from '@/components/BusinessAreaTabSection';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -542,44 +543,77 @@ export default async function AboutCatchAllPage({ params }: Params) {
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:-mx-4 xl:-mx-8 mt-12">
               {/* Card 1 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
                   style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
                 />
-                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
-                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">01. Finished Pharmaceutical Products</h4>
-                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
-                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Establishing, producing, and selling excellent product lineups focusing on cardiovascular, respiratory, and urological systems</p>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                <div 
+                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                >
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                      #Core Business
+                    </span>
                   </div>
+                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                    01. Finished Pharmaceutical Products
+                  </h4>
+                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                    Establishing, producing, and selling excellent product lineups focusing on cardiovascular, respiratory, and urological systems
+                  </p>
                 </div>
               </div>
 
               {/* Card 2 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
                   style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
                 />
-                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
-                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">02. Contract Manufacturing (CMO)</h4>
-                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
-                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Contract manufacturing of prescription drugs through proprietary formulation technology and process optimization</p>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                <div 
+                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                >
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                      #Smart CMO
+                    </span>
                   </div>
+                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                    02. Contract Manufacturing (CMO)
+                  </h4>
+                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                    Contract manufacturing of prescription drugs through proprietary formulation technology and process optimization
+                  </p>
                 </div>
               </div>
 
               {/* Card 3 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group">
+              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
                   style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
                 />
-                <div className="absolute inset-0 px-6 py-8 lg:p-8 flex flex-col text-white" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
-                  <h4 className="text-base lg:text-lg xl:text-xl font-bold whitespace-nowrap leading-tight mb-auto tracking-tighter">03. API & Intermediates</h4>
-                  <div className="h-[72px] lg:h-[96px] flex flex-col justify-end">
-                    <p className="text-[15px] lg:text-[17px] font-medium break-keep leading-relaxed tracking-tight">Development and patent securing of key APIs and intermediates, and DMF registration/management for new synthetic and imported materials</p>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                <div 
+                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                >
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                      #API & Intermediate
+                    </span>
                   </div>
+                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                    03. API & Intermediates
+                  </h4>
+                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                    Development and patent securing of key APIs and intermediates, and DMF registration/management for new synthetic and imported materials
+                  </p>
                 </div>
               </div>
             </div>

@@ -60,7 +60,7 @@ export default function ScrollIndicator() {
           animate={{ opacity: 1, y: 0, x: '-50%' }}
           exit={{ opacity: 0, y: 10, x: '-50%' }}
           transition={{ duration: 0.3 }}
-          href={scrollDir === 'down' ? '#products' : '#'}
+          href={scrollDir === 'down' ? '#core-business' : '#'}
           onClick={(e) => {
             if (scrollDir === 'up') {
               e.preventDefault();

@@ -235,51 +235,93 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3, ease: 'easeOut', delay: idx * 0.03 }}
                     onClick={() => setSelectedCard(card)}
-                    className="relative bg-white rounded-3xl overflow-hidden border border-gray-200/90 hover:border-brand-green transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,137,83,0.22)] flex flex-col justify-between cursor-pointer group shadow-xs p-6 sm:p-7"
-                    style={{ minHeight: '340px' }}
+                    className="relative bg-white rounded-3xl overflow-hidden border border-gray-200/90 hover:border-brand-green transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,137,83,0.22)] flex flex-col justify-between cursor-pointer group shadow-xs p-5 sm:p-6"
+                    style={{ minHeight: '380px' }}
                   >
-                  {/* Expanding Circle Background Effect (Fades out to white as it shrinks) */}
+                  {/* Expanding Circle Background Ripple Effect (Slower, ultra-smooth gradual wave) */}
                   <div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-brand-green scale-0 opacity-0 group-hover:scale-[25] group-hover:opacity-100 transition-all duration-700 ease-out origin-center pointer-events-none z-0"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-brand-green scale-0 opacity-0 group-hover:scale-[26] group-hover:opacity-100 transition-all duration-[2200ms] ease-out origin-center pointer-events-none z-0"
                     aria-hidden="true"
                   />
 
                   {/* Top Content Area */}
                   <div className="relative z-10">
                     {/* Badge, Icon & Date Row */}
-                    <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-2xl bg-gray-50 group-hover:bg-white/20 flex items-center justify-center transition-colors duration-500">
-                          <Newspaper className="w-5 h-5 text-brand-green group-hover:text-white transition-colors duration-500" />
+                        <div className="w-9 h-9 rounded-2xl bg-gray-50 group-hover:bg-white/20 flex items-center justify-center transition-colors duration-[1500ms] shadow-2xs">
+                          <Newspaper className="w-4.5 h-4.5 text-brand-green group-hover:text-white transition-colors duration-[1500ms]" />
                         </div>
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-brand-green group-hover:bg-white text-white group-hover:text-brand-green shadow-2xs transition-all duration-500">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-brand-green group-hover:bg-white text-white group-hover:text-brand-green shadow-2xs transition-all duration-[1500ms]">
                           PRESS
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-white/90 font-medium transition-colors duration-500">
-                        <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-500" />
+                      <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-white/90 font-medium transition-colors duration-[1500ms]">
+                        <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-[1500ms]" />
                         <span>{card.date}</span>
                       </div>
                     </div>
 
+                    {/* Press Image / Photo Thumbnail */}
+                    {card.image && (
+                      <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden mb-4 bg-gray-100 border border-gray-100 group-hover:border-white/25 transition-all duration-500 shadow-2xs">
+                        <img
+                          src={card.image}
+                          alt={card.title}
+                          className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none" />
+                      </div>
+                    )}
+
                     {/* News Headline Title (2 lines max) */}
-                    <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-500 line-clamp-2 mb-2.5">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-[1500ms] line-clamp-2 mb-2">
                       {card.title}
                     </h3>
 
                     {/* Short Description Preview */}
-                    <p className="text-xs sm:text-sm text-gray-500 group-hover:text-white/85 font-normal leading-relaxed line-clamp-3 mb-4 transition-colors duration-500">
+                    <p className="text-xs sm:text-sm text-gray-500 group-hover:text-white/85 font-normal leading-relaxed line-clamp-2 mb-2 transition-colors duration-[1500ms]">
                       {card.content ? card.content.replace(/<[^>]*>/g, '') : ''}
                     </p>
                   </div>
 
-                  {/* Bottom Action Link (Aligned to far right) */}
-                  <div className="relative z-10 pt-5 mt-6 border-t border-gray-100 group-hover:border-white/20 flex items-center justify-end transition-colors duration-500">
-                    <span className="text-xs font-bold text-brand-green group-hover:text-white inline-flex items-center gap-1 group-hover:translate-x-1 transition-all duration-500">
+                  {/* Bottom Date & Action Area */}
+                  <div className="relative z-10 pt-4 mt-4 flex items-end justify-between">
+                    {/* Date indicator in normal state */}
+                    <div className="text-gray-400 group-hover:text-white/80 transition-colors duration-[1500ms]">
+                      <span className="text-2xl font-black text-gray-900 group-hover:text-white transition-colors duration-[1500ms] block leading-none">
+                        {card.date ? card.date.split('-')[2] || card.date.split('.')[2] || '01' : '01'}
+                      </span>
+                      <span className="text-[11px] font-medium block mt-1">
+                        {card.date ? `${card.date.split('-')[0] || card.date.split('.')[0]}.${card.date.split('-')[1] || card.date.split('.')[1]}` : ''}
+                      </span>
+                    </div>
+
+                    {/* Normal State: subtle arrow link */}
+                    <span className="text-xs font-bold text-brand-green group-hover:opacity-0 transition-opacity duration-300 inline-flex items-center gap-1 pr-1">
                       {isEnglish ? 'Read Press' : '상세보기'}
-                      <ArrowRight className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-500" />
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </span>
+                  </div>
+
+                  {/* Corner White Concentric Cutout Notch with Floating Black Circle Action Button */}
+                  <div className="absolute bottom-0 right-0 w-[112px] h-[112px] pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-[1000ms] ease-out z-30 overflow-hidden transform scale-90 group-hover:scale-100 origin-bottom-right">
+                    {/* SVG Concentric Arc Notch */}
+                    <svg className="w-full h-full" viewBox="0 0 112 112" fill="none">
+                      <path
+                        d="M 112,16 C 112,26 96,38 76,38 A 38 38 0 0 0 38,76 C 38,96 26,112 16,112 L 112,112 Z"
+                        fill="white"
+                      />
+                    </svg>
+                    
+                    {/* Floating Black Circle Action Button with Dynamic Scale Effect */}
+                    <div
+                      className="absolute w-11 h-11 rounded-full bg-black text-white flex items-center justify-center shadow-lg transform scale-85 group-hover:scale-105 active:scale-95 transition-all duration-[700ms] ease-out"
+                      style={{ right: '12px', bottom: '12px' }}
+                    >
+                      <ArrowRight className="w-5 h-5 stroke-[2.4] transition-transform duration-[700ms] group-hover:translate-x-1" />
+                    </div>
                   </div>
                 </motion.div>
               ))}

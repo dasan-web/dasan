@@ -8,6 +8,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 import HeroBackground from '@/components/HeroBackground';
 import ScrollNav from '@/components/ScrollNav';
 import PopupWrapper from '@/components/PopupWrapper';
+import CoreBusinessSection from '@/components/CoreBusinessSection';
 import { query } from '@/lib/db';
 import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -122,7 +123,10 @@ export default async function Home() {
         <ScrollIndicator />
       </section>
 
-      {/* 2. Finished Products Showcase Section */}
+      {/* 2. Core Business Section */}
+      <CoreBusinessSection />
+
+      {/* 3. Finished Products Showcase Section */}
       <MainProductShowcase initialProducts={products} />
 
       {/* 3. Product News Section */}

@@ -51,7 +51,7 @@ const defaultProducts: ProductItem[] = [
     efficacy: '혈압강하제',
     ingredient: '암로디핀, 발사르탄',
     appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
-    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787795353/dasan/o9aeeylomnkah8bwv5im.png'
+    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1788224026/dasan/disforge_tab_transparent_v2.png'
   },
   {
     id: 9,
