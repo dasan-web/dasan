@@ -150,128 +150,128 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
               다산제약은 5대 핵심 플랫폼 기술을 유기적으로 융합하여 원료의약품의 한계를 극복하고, 환자의 복약 순응도와 치료 효과를 극대화하는 고부가가치 개량신약 개발을 지속하고 있습니다.
             </p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-3.5 pt-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-2.5 lg:gap-3 pt-3">
               {/* 전체 보기 버튼 */}
               <button 
                 type="button"
                 onClick={() => setSelectedTech('all')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                className={`px-2 sm:px-2.5 py-3.5 sm:py-4 rounded-2xl border shadow-2xs text-center space-y-1.5 transition-all cursor-pointer group ${
                   selectedTech === 'all' 
                     ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
                     : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
                 }`}
               >
-                <div className="h-6 flex items-center justify-center">
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                <div className="h-5 flex items-center justify-center">
+                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-wider whitespace-nowrap">
                     VIEW ALL
                   </span>
                 </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">전체 보기</p>
+                <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">전체 보기</p>
               </button>
 
               {/* A. TDDS */}
               <button 
                 type="button"
                 onClick={() => setSelectedTech('A')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                className={`px-2 sm:px-2.5 py-3.5 sm:py-4 rounded-2xl border shadow-2xs text-center space-y-1.5 transition-all cursor-pointer group ${
                   selectedTech === 'A' 
                     ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
                     : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
                 }`}
               >
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
+                <div className="flex items-center justify-center gap-1 sm:gap-1.5 min-w-0">
+                  <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     A
                   </span>
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
                     TDDS Platform
                   </span>
                 </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">경피 약물 전달</p>
+                <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">경피 약물 전달</p>
               </button>
 
               {/* B. Nanonization */}
               <button 
                 type="button"
                 onClick={() => setSelectedTech('B')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                className={`px-2 sm:px-2.5 py-3.5 sm:py-4 rounded-2xl border shadow-2xs text-center space-y-1.5 transition-all cursor-pointer group ${
                   selectedTech === 'B' 
                     ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
                     : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
                 }`}
               >
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
+                <div className="flex items-center justify-center gap-1 sm:gap-1.5 min-w-0">
+                  <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     B
                   </span>
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
                     Nanonization
                   </span>
                 </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">100nm 나노화</p>
+                <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">100nm 나노화</p>
               </button>
 
               {/* C. Release Control */}
               <button 
                 type="button"
                 onClick={() => setSelectedTech('C')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                className={`px-2 sm:px-2.5 py-3.5 sm:py-4 rounded-2xl border shadow-2xs text-center space-y-1.5 transition-all cursor-pointer group ${
                   selectedTech === 'C' 
                     ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
                     : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
                 }`}
               >
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
+                <div className="flex items-center justify-center gap-1 sm:gap-1.5 min-w-0">
+                  <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     C
                   </span>
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
                     Release Control
                   </span>
                 </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">방출 정밀제어</p>
+                <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">방출 정밀제어</p>
               </button>
 
               {/* D. Multilayer Tablet */}
               <button 
                 type="button"
                 onClick={() => setSelectedTech('D')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                className={`px-2 sm:px-2.5 py-3.5 sm:py-4 rounded-2xl border shadow-2xs text-center space-y-1.5 transition-all cursor-pointer group ${
                   selectedTech === 'D' 
                     ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
                     : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
                 }`}
               >
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
+                <div className="flex items-center justify-center gap-1 sm:gap-1.5 min-w-0">
+                  <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     D
                   </span>
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
                     Multilayer Tablet
                   </span>
                 </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">다층 복합정제</p>
+                <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">다층 복합정제</p>
               </button>
 
               {/* E. Solid Dispersion */}
               <button 
                 type="button"
                 onClick={() => setSelectedTech('E')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                className={`px-2 sm:px-2.5 py-3.5 sm:py-4 rounded-2xl border shadow-2xs text-center space-y-1.5 transition-all cursor-pointer group ${
                   selectedTech === 'E' 
                     ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
                     : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
                 }`}
               >
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
+                <div className="flex items-center justify-center gap-1 sm:gap-1.5 min-w-0">
+                  <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     E
                   </span>
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
                     Solid Dispersion
                   </span>
                 </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">약물 고체분산체</p>
+                <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">약물 고체분산체</p>
               </button>
             </div>
           </div>

@@ -18,8 +18,49 @@ interface RdIntroContentProps {
 }
 
 export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
-  const [expandedSynthesis, setExpandedSynthesis] = useState(false);
-  const [expandedFormulation, setExpandedFormulation] = useState(false);
+  const [selectedDivision, setSelectedDivision] = useState<string>('all');
+  const [hoveredDivision, setHoveredDivision] = useState<string | null>(null);
+
+  const divisionList = [
+    {
+      id: 'A',
+      name: '제제연구파트',
+      subTitle: 'FORMULATION DIVISION',
+      icon: Layers,
+      image: '/core_business_api.jpg',
+      imageAlt: '다산제약 제제연구파트 약물전달시스템 및 제형 설계',
+      badgeColor: 'bg-emerald-600 text-white',
+      leadDesc: '제제연구소는 의약품의 물리·화학적 특성과 약물의 방출 및 흡수 특성을 기반으로 다산제약만의 차별화된 제형 설계와 여러가지 방식의 약물전달시스템(DDS) 개발을 수행하고 있습니다.',
+      detailDesc: '당사의 보유 기술을 융합한 Multistra®는 다양한 약물의 특성과 목표하는 약효 및 방출조절 특성에 적합한 제제기술의 집약체로서 새로운 제형의 제품이나 신규 복합제, 용량 개선 개량신약, 특수 방출제어 제제 등의 다양한 고부가가치 의약품 개발에 활용되고 있으며 이를 통해 다산제약만의 제품 차별화와 경쟁력 향상에 기여하고 있습니다.',
+      subFields: [
+        { title: '01. Multistra® 기반 DDS 기술', desc: '약물의 물리·화학적 특성에 맞춰 방출속도를 정밀 제어하고 최적의 제형을 설계하여 차별화된 개량신약을 개발합니다.' },
+        { title: '02. 다양한 제형 및 복합제 개발', desc: '서로 다른 유효성분을 하나의 제형으로 구현하는 다층정 설계 및 서방화 기술로 복용 편의성을 획기적으로 개선합니다.' },
+        { title: '03. 제제설계에서 상업생산까지', desc: 'Glatt사 Multilab® GPCG 유동층 코팅 및 HATA 다층정 타정기를 활용하여 Lab Scale부터 상업생산까지 재현성을 확보합니다.' },
+        { title: '04. 과학적 분석을 통한 최적화', desc: 'HPLC, GC, DSC 열분석, 입도분석 및 Automated Dissolution 시스템을 통해 고도화된 품질특성을 검증합니다.' },
+      ]
+    },
+    {
+      id: 'B',
+      name: '합성연구파트',
+      subTitle: 'SYNTHESIS DIVISION',
+      icon: FlaskConical,
+      image: '/core_business_cmo.jpg',
+      imageAlt: '다산제약 합성연구파트 유기합성 및 고순도 API 공정 개발',
+      badgeColor: 'bg-teal-700 text-white',
+      leadDesc: '합성연구소는 유기합성 기술을 기반으로 원료의약품 및 의약품 개발에 필요한 핵심 합성기술과 공정기술을 연구합니다.',
+      detailDesc: '신약의 후보물질, 지식재산권 확보와 특허 전략을 고려한 차별화된 원료의약품(염변경, 결정형변경, Pro-drug…)을 설계하고 고도화된 공정기술을 적용한 불순물 발생 억제 제품 등을 개발하고 상용화하는 최적의 합성공정 개발 체계를 구축하고 있습니다.',
+      subFields: [
+        { title: '01. 프로세스 디자인 (Process Design)', desc: '신규 후보물질의 합성경로 설계부터 공정 최적화, Scale-up 및 기술이전에 이르기까지 재현성 높은 공정을 확립합니다.' },
+        { title: '02. 차별화된 원료의약품 개발', desc: '신규염(Salt), 결정형(Polymorph) 변경 및 Pro-drug 설계를 통해 유해 불순물을 억제하고 특허 전략을 확보합니다.' },
+        { title: '03. Lab에서 Commercial Scale까지', desc: '30L~50L Pilot-scale 다목적 반응 시스템을 활용하여 공정변수를 최적화하고 상업생산 안정성을 확보합니다.' },
+        { title: '04. 고순도 원료의약품 공정개발', desc: '합성단계별 불순물 생성을 체계적으로 억제하여 최종 제품의 안전성과 유효성을 보장하는 고순도 API를 제조합니다.' },
+      ]
+    }
+  ];
+
+  const displayedDivisions = selectedDivision === 'all'
+    ? divisionList
+    : divisionList.filter(item => item.id === selectedDivision);
 
   return (
     <div className="w-full space-y-20 md:space-y-28 text-slate-800 font-pretendard">
@@ -58,15 +99,9 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 pt-4 items-start">
           {/* Left Title Column */}
           <div className="lg:col-span-4 space-y-3">
-            <div className="inline-flex flex-col items-start">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-                중앙 연구소
-              </h2>
-              <div className="w-full h-1.5 bg-brand-green mt-2 rounded-full" />
-            </div>
-            <p className="text-xs sm:text-sm text-slate-500 font-medium pt-1">
-              Central R&D Center — Mecca of Innovative New Drugs
-            </p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              중앙 연구소
+            </h2>
           </div>
 
           {/* Right Description Column (Original Texts 100% Preserved) */}
@@ -268,212 +303,187 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 4. 그림 4 형식: 함께 만드는 혁신 (Clean Light Luxury Bio-Tech Layout) */}
+      {/* 4. 함께 만드는 혁신 (R&D Synergy) */}
       {/* ========================================================================= */}
-      <section className="relative w-full rounded-[28px] sm:rounded-[36px] overflow-hidden bg-gradient-to-br from-emerald-50/40 via-slate-50 to-teal-50/30 text-slate-800 p-6 sm:p-10 lg:p-12 shadow-md border border-emerald-100/80">
-        
-        {/* Subtle Decorative Geometric / Molecular Wave */}
-        <div className="absolute right-0 bottom-0 top-0 w-1/3 opacity-30 pointer-events-none overflow-hidden">
-          <svg className="w-full h-full" viewBox="0 0 300 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 50,0 Q 150,150 50,300 T 50,600" stroke="rgba(0,180,120,0.15)" strokeWidth="3" fill="none" strokeDasharray="6 6" />
-            <path d="M 120,0 Q 20,150 120,300 T 120,600" stroke="rgba(0,180,120,0.1)" strokeWidth="2" fill="none" />
-            <circle cx="50" cy="150" r="12" fill="rgba(0,180,120,0.08)" />
-            <circle cx="120" cy="300" r="16" fill="rgba(0,180,120,0.1)" />
-            <circle cx="50" cy="450" r="12" fill="rgba(0,180,120,0.08)" />
-          </svg>
+      <section id="rd-synergy" className="space-y-6">
+        <div className="relative w-full text-slate-800 py-1 sm:py-2">
+          {/* Subtle Decorative Molecular Wave (neutral light gray) */}
+          <div className="absolute right-0 bottom-0 top-0 w-1/3 opacity-20 pointer-events-none overflow-hidden">
+            <svg className="w-full h-full" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="150" cy="150" r="100" stroke="rgba(203,213,225,0.6)" strokeWidth="1.5" strokeDasharray="6 6" />
+              <circle cx="150" cy="150" r="60" stroke="rgba(203,213,225,0.7)" strokeWidth="1.5" />
+              <circle cx="210" cy="150" r="7" fill="rgba(203,213,225,0.8)" />
+              <circle cx="90" cy="150" r="7" fill="rgba(203,213,225,0.8)" />
+              <circle cx="150" cy="90" r="7" fill="rgba(203,213,225,0.8)" />
+              <circle cx="150" cy="210" r="7" fill="rgba(203,213,225,0.8)" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 space-y-4 sm:space-y-5 w-full">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-brand-green text-xs font-bold tracking-wider uppercase shadow-2xs">
+              <Dna size={14} className="text-brand-green" />
+              <span>R&D Synergy</span>
+            </div>
+
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-snug">
+              함께 만드는 혁신
+            </h3>
+
+            <p className="text-xs sm:text-sm md:text-base text-slate-600 font-normal leading-relaxed break-keep max-w-4xl">
+              제제연구소와 합성연구소의 유기적인 협력을 바탕으로 후보물질 도출부터 고부가가치 의약품 상용화까지 독보적인 연구 시너지를 창출합니다.
+            </p>
+
+            {/* Horizontal Control Buttons (VIEW ALL, A. 제제연구파트, B. 합성연구파트) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5 pt-3 max-w-2xl">
+              {/* 전체 보기 버튼 */}
+              <button 
+                type="button"
+                onClick={() => setSelectedDivision('all')}
+                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                  selectedDivision === 'all' 
+                    ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
+                    : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
+                }`}
+              >
+                <div className="h-6 flex items-center justify-center">
+                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                    VIEW ALL
+                  </span>
+                </div>
+                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">전체 보기</p>
+              </button>
+
+              {/* A. 제제연구파트 */}
+              <button 
+                type="button"
+                onClick={() => setSelectedDivision('A')}
+                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                  selectedDivision === 'A' 
+                    ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
+                    : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
+                }`}
+              >
+                <div className="flex items-center justify-center gap-1.5">
+                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
+                    A
+                  </span>
+                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                    FORMULATION
+                  </span>
+                </div>
+                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">제제연구파트</p>
+              </button>
+
+              {/* B. 합성연구파트 */}
+              <button 
+                type="button"
+                onClick={() => setSelectedDivision('B')}
+                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
+                  selectedDivision === 'B' 
+                    ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
+                    : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
+                }`}
+              >
+                <div className="flex items-center justify-center gap-1.5">
+                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
+                    B
+                  </span>
+                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+                    SYNTHESIS
+                  </span>
+                </div>
+                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">합성연구파트</p>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          
-          {/* Left Column: Heading & Division Info */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="space-y-3">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/90 border border-emerald-200 text-brand-green text-xs font-bold tracking-wider uppercase shadow-xs">
-                <Dna size={14} className="text-brand-green" />
-                <span>R&D Synergy</span>
-              </div>
-              
-              <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-black text-slate-900 tracking-tight leading-snug">
-                함께 만드는 혁신
-              </h2>
-              
-              <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed break-keep">
-                제제연구소와 합성연구소의 유기적인 협력을 바탕으로 후보물질 도출부터 고부가가치 의약품 상용화까지 독보적인 연구 시너지를 창출합니다.
-              </p>
-            </div>
+        {/* Division Cards Stack with AnimatePresence */}
+        <div className="space-y-6 pt-2">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedDivision}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-8"
+            >
+              {displayedDivisions.map((item, index) => {
+                const isHovered = hoveredDivision === item.id;
+                const isEven = index % 2 === 1;
 
-            {/* Synergy Highlights */}
-            <div className="space-y-3 pt-4 border-t border-emerald-100">
-              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
-                <div className="w-9 h-9 rounded-xl bg-emerald-50 text-brand-green border border-emerald-100 flex items-center justify-center font-bold">
-                  <Layers size={17} />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-900">제제연구팀</h4>
-                  <p className="text-[11px] text-slate-500">Multistra® DDS & 복합제 개발</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
-                <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 border border-teal-100 flex items-center justify-center font-bold">
-                  <FlaskConical size={17} />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-900">합성연구팀</h4>
-                  <p className="text-[11px] text-slate-500">고순도 API & 신규염 공정 설계</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: 2 Stacked Clean Luxury Cards */}
-          <div className="lg:col-span-8 space-y-6">
-            
-            {/* 1. 제제연구팀 Card (Original Text Preserved) */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-emerald-200 transition-all duration-300 shadow-sm hover:shadow-md space-y-5">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-100 text-brand-green flex items-center justify-center shadow-xs">
-                    <Layers size={20} />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-bold text-brand-green uppercase tracking-widest block">Formulation Division</span>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">제제연구팀</h3>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setExpandedFormulation(!expandedFormulation)}
-                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-brand-green border border-slate-200/80 flex items-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  <span>{expandedFormulation ? '상세 접기' : '세부 연구분야'}</span>
-                  {expandedFormulation ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                </button>
-              </div>
-
-              {/* Main Description */}
-              <div className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal space-y-2.5 break-keep">
-                <p>
-                  제제연구소는 의약품의 물리·화학적 특성과 약물의 방출 및 흡수 특성을 기반으로 다산제약만의 차별화된 제형 설계와 여러가지 방식의 약물전달시스템(DDS) 개발을 수행하고 있습니다.
-                </p>
-                <p>
-                  당사의 보유 기술을 융합한 <strong className="font-bold text-brand-green bg-emerald-50 px-1 py-0.5 rounded">Multistra®</strong>는 다양한 약물의 특성과 목표하는 약효 및 방출조절 특성에 적합한 제제기술의 집약체로서 새로운 제형의 제품이나 신규 복합제, 용량 개선 개량신약, 특수 방출제어 제제 등의 다양한 고부가가치 의약품 개발에 활용되고 있으며 이를 통해 다산제약만의 제품 차별화와 경쟁력 향상에 기여하고 있습니다.
-                </p>
-              </div>
-
-              {/* Collapsible 4 Detailed Sub-Sections */}
-              <AnimatePresence>
-                {expandedFormulation && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="pt-4 border-t border-slate-100 space-y-4 overflow-hidden"
+                return (
+                  <div 
+                    key={item.id}
+                    onMouseEnter={() => setHoveredDivision(item.id)}
+                    onMouseLeave={() => setHoveredDivision(null)}
+                    className={`group relative p-6 sm:p-8 rounded-[28px] sm:rounded-[32px] border transition-all duration-500 bg-white ${
+                      isHovered 
+                        ? 'border-emerald-300 shadow-xl -translate-y-1' 
+                        : 'border-slate-200/80 shadow-sm hover:border-slate-300'
+                    }`}
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                        <span className="font-bold text-brand-green block">01. Multistra® 기반 DDS 기술</span>
-                        <p className="text-slate-600 leading-relaxed">
-                          약물의 물리·화학적 특성에 맞춰 방출속도를 정밀 제어하고 최적의 제형을 설계하여 차별화된 개량신약을 개발합니다.
-                        </p>
+                    <div className={`grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center ${isEven ? 'lg:flex-row-reverse' : ''}`}>
+                      
+                      {/* Photo Column (5 cols) */}
+                      <div className={`lg:col-span-5 relative aspect-[16/10] sm:aspect-[16/10] rounded-[20px] sm:rounded-[24px] overflow-hidden bg-slate-100 border border-gray-100 shadow-sm ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+                        <img 
+                          src={item.image} 
+                          alt={item.imageAlt} 
+                          className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+                        
+                        {/* Corner Tag */}
+                        <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold">
+                          DIVISION {item.id}
+                        </div>
                       </div>
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                        <span className="font-bold text-brand-green block">02. 다양한 제형 및 복합제 개발</span>
-                        <p className="text-slate-600 leading-relaxed">
-                          서로 다른 유효성분을 하나의 제형으로 구현하는 다층정 설계 및 서방화 기술로 복용 편의성을 획기적으로 개선합니다.
-                        </p>
+
+                      {/* Text Description Column (7 cols) */}
+                      <div className={`lg:col-span-7 space-y-4 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                        
+                        {/* Header with Alphabet Badge */}
+                        <div className="flex items-center gap-3.5">
+                          <div className={`w-11 h-11 rounded-2xl ${item.badgeColor} font-black text-lg flex items-center justify-center shadow-md shrink-0`}>
+                            {item.id}
+                          </div>
+                          <div className="space-y-0.5">
+                            <span className="text-xs font-extrabold uppercase tracking-widest text-brand-green block">
+                              {item.subTitle}
+                            </span>
+                            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                              {item.name}
+                            </h3>
+                          </div>
+                        </div>
+
+                        {/* Description Paragraphs */}
+                        <div className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal space-y-2 break-keep">
+                          <p>{item.leadDesc}</p>
+                          <p>{item.detailDesc}</p>
+                        </div>
+
+                        {/* 4 Detailed Sub-Fields */}
+                        <div className="pt-3 border-t border-slate-100">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                            {item.subFields.map((field, fIdx) => (
+                              <div key={fIdx} className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                                <span className="font-bold text-brand-green block">{field.title}</span>
+                                <p className="text-[11.5px] text-slate-600 leading-relaxed">{field.desc}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                        <span className="font-bold text-brand-green block">03. 제제설계에서 상업생산까지</span>
-                        <p className="text-slate-600 leading-relaxed">
-                          Glatt사 Multilab® GPCG 유동층 코팅 및 HATA 다층정 타정기를 활용하여 Lab Scale부터 상업생산까지 재현성을 확보합니다.
-                        </p>
-                      </div>
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                        <span className="font-bold text-brand-green block">04. 과학적 분석을 통한 최적화</span>
-                        <p className="text-slate-600 leading-relaxed">
-                          HPLC, GC, DSC 열분석, 입도분석 및 Automated Dissolution 시스템을 통해 고도화된 품질특성을 검증합니다.
-                        </p>
-                      </div>
+
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* 2. 합성연구팀 Card (Original Text Preserved) */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-teal-200 transition-all duration-300 shadow-sm hover:shadow-md space-y-5">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-2xl bg-teal-50 border border-teal-100 text-teal-700 flex items-center justify-center shadow-xs">
-                    <FlaskConical size={20} />
                   </div>
-                  <div>
-                    <span className="text-[11px] font-bold text-teal-700 uppercase tracking-widest block">Synthesis Division</span>
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">합성연구팀</h3>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setExpandedSynthesis(!expandedSynthesis)}
-                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-teal-50 text-slate-700 hover:text-teal-700 border border-slate-200/80 flex items-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  <span>{expandedSynthesis ? '상세 접기' : '세부 연구분야'}</span>
-                  {expandedSynthesis ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                </button>
-              </div>
-
-              {/* Main Description */}
-              <div className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal space-y-2.5 break-keep">
-                <p>
-                  합성연구소는 유기합성 기술을 기반으로 원료의약품 및 의약품 개발에 필요한 핵심 합성기술과 공정기술을 연구합니다.
-                </p>
-                <p>
-                  신약의 후보물질, 지식재산권 확보와 특허 전략을 고려한 차별화된 원료의약품(염변경, 결정형변경, Pro-drug…)을 설계하고 고도화된 공정기술을 적용한 불순물 발생 억제 제품 등을 개발하고 상용화하는 최적의 합성공정 개발 체계를 구축하고 있습니다.
-                </p>
-              </div>
-
-              {/* Collapsible 4 Detailed Sub-Sections */}
-              <AnimatePresence>
-                {expandedSynthesis && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="pt-4 border-t border-slate-100 space-y-4 overflow-hidden"
-                  >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                        <span className="font-bold text-teal-700 block">01. 프로세스 디자인 (Process Design)</span>
-                        <p className="text-slate-600 leading-relaxed">
-                          신규 후보물질의 합성경로 설계부터 공정 최적화, Scale-up 및 기술이전에 이르기까지 재현성 높은 공정을 확립합니다.
-                        </p>
-                      </div>
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                        <span className="font-bold text-teal-700 block">02. 차별화된 원료의약품 개발</span>
-                        <p className="text-slate-600 leading-relaxed">
-                          신규염(Salt), 결정형(Polymorph) 변경 및 Pro-drug 설계를 통해 유해 불순물을 억제하고 특허 전략을 확보합니다.
-                        </p>
-                      </div>
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                        <span className="font-bold text-teal-700 block">03. Lab에서 Commercial Scale까지</span>
-                        <p className="text-slate-600 leading-relaxed">
-                          30L~50L Pilot-scale 다목적 반응 시스템을 활용하여 공정변수를 최적화하고 상업생산 안정성을 확보합니다.
-                        </p>
-                      </div>
-                      <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                        <span className="font-bold text-teal-700 block">04. 고순도 원료의약품 공정개발</span>
-                        <p className="text-slate-600 leading-relaxed">
-                          합성단계별 불순물 생성을 체계적으로 억제하여 최종 제품의 안전성과 유효성을 보장하는 고순도 API를 제조합니다.
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-          </div>
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
