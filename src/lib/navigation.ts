@@ -63,6 +63,7 @@ export const navigationData: GrandMenu[] = [
         name: 'Innovation', enName: 'Innovation',
         subMenus: [
           { name: '연구소 소개', enName: 'R&D Center Intro', link: '/rd/intro' },
+          { name: '연구 활동', enName: 'R&D Activities', link: '/rd/activities' },
           { name: '파이프라인', enName: 'Pipeline', link: '/rd/pipeline' },
         ],
       },

@@ -57,7 +57,7 @@ export default async function RdCatchAllPage({ params }: Params) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug || [];
 
-  if (slug.length === 0 || slug.join('/') === 'activities') {
+  if (slug.length === 0) {
     redirect('/rd/intro');
   }
 
