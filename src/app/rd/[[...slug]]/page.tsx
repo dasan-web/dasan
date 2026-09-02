@@ -57,7 +57,7 @@ export default async function RdCatchAllPage({ params }: Params) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug || [];
 
-  if (slug.length === 0) {
+  if (slug.length === 0 || slug.join('/') === 'activities') {
     redirect('/rd/intro');
   }
 
@@ -97,23 +97,7 @@ export default async function RdCatchAllPage({ params }: Params) {
   const renderContent = () => {
     switch (currentPath) {
       case '/rd/intro': {
-        return (
-          <>
-            <div className="w-[100vw] aspect-[21/9] animate-fade-in-up bg-black overflow-hidden relative left-1/2 -translate-x-1/2 mb-12 shadow-sm rounded-none" style={{ aspectRatio: '21 / 9' }}>
-              <video 
-                className="w-full h-full object-cover"
-                src="/R&D_219.mp4"
-                poster="/poster_rd.jpg"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-              />
-            </div>
-            <RdIntroContent dbContent={dbContent} />
-          </>
-        );
+        return <RdIntroContent dbContent={dbContent} />;
       }
 
       case '/rd/activities': {
