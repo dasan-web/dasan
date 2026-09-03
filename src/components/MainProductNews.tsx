@@ -287,7 +287,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                       : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
-                  Product News
+                  Product
                 </button>
 
                 <button
