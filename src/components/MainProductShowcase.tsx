@@ -264,18 +264,18 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                           ? 'shadow-[0_24px_50px_rgba(0,137,83,0.16)] -translate-y-8 z-30'
                           : 'shadow-[0_8px_24px_rgba(0,0,0,0.04)] z-10'
                       }`}
-                      style={{ height: '360px', backgroundColor: '#ffffff' }}
+                      style={{ height: '400px', backgroundColor: '#ffffff' }}
                     >
-                      {/* Top Info Area (Slides down on hover without shrinking image) */}
+                      {/* Top Info Area (Cleanly positioned at top zone on hover) */}
                       <div 
-                        className={`p-5 transition-all duration-300 flex flex-col justify-start absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-white via-white/90 to-transparent ${
+                        className={`p-5 transition-all duration-300 flex flex-col justify-start absolute top-0 left-0 right-0 z-20 ${
                           isHovered 
                             ? 'opacity-100 translate-y-0' 
                             : 'opacity-0 -translate-y-4 pointer-events-none'
                         }`}
                       >
                         {/* Hashtag Tags */}
-                        <div className="flex flex-wrap gap-1.5 mb-2.5">
+                        <div className="flex flex-wrap gap-1.5 mb-2">
                           <span className="text-[11px] font-bold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">
                             #{product.type === '전문의약품' ? (isEnglish ? 'ETC' : '전문의약품') : (isEnglish ? 'OTC' : '일반의약품')}
                           </span>
@@ -285,19 +285,19 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                         </div>
 
                         {/* Bold Product Name */}
-                        <h3 className="text-base font-bold text-gray-900 leading-snug line-clamp-2 mb-1.5 group-hover:text-brand-green">
+                        <h3 className="text-base font-bold text-gray-900 leading-snug line-clamp-1 mb-1 group-hover:text-brand-green">
                           {isEnglish ? (product.englishName || product.name) : product.name}
                         </h3>
 
                         {/* Appearance / Trait Description */}
-                        <p className="text-[11.5px] text-gray-600 font-normal line-clamp-2 leading-relaxed">
+                        <p className="text-[11.5px] text-gray-500 font-normal line-clamp-2 leading-relaxed">
                           {product.appearance || product.ingredient || (isEnglish ? 'Dasan high-potency formulation' : '다산제약 고품질 완제의약품')}
                         </p>
                       </div>
 
-                      {/* Product Image Area (Seamless & Clean Pure White) */}
+                      {/* Product Image Area (Anchored to bottom zone, preventing any overlap with top text) */}
                       <div 
-                        className={`w-full flex items-center justify-center p-2 sm:p-3 transition-all duration-400 absolute left-0 right-0 bottom-0 ${imgStyle.containerClass}`}
+                        className={`w-full flex items-end justify-center pb-6 sm:pb-8 transition-all duration-400 absolute left-0 right-0 bottom-0 ${imgStyle.containerClass}`}
                       >
                         {(() => {
                           let imgUrl = product.file_url;
