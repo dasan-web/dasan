@@ -25,17 +25,10 @@ export default function ScrollNav() {
     },
     { 
       id: 'product-news', 
-      label: isEnglish ? 'Product News' : '제품소식',
+      label: isEnglish ? 'News & Media' : '뉴스 & 소식',
       activeColor: 'bg-brand-green shadow-green-glow',
       inactiveColor: 'bg-brand-green/40 hover:bg-brand-green',
       pingColor: 'bg-brand-green/25 border border-brand-green/35'
-    },
-    { 
-      id: 'press-release', 
-      label: isEnglish ? 'Press Release' : '보도자료',
-      activeColor: 'bg-[#EF4444] shadow-[0_0_12px_rgba(239,68,68,0.7)]',
-      inactiveColor: 'bg-[#EF4444]/40 hover:bg-[#EF4444]',
-      pingColor: 'bg-[#EF4444]/25 border border-red-400/40'
     }
   ];
 

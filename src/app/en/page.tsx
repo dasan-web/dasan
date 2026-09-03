@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import MainProductShowcase from '@/components/MainProductShowcase';
 import MainProductNews from '@/components/MainProductNews';
-import PressReleaseSlider from '@/components/PressReleaseSlider';
 import ScrollIndicator from '@/components/ScrollIndicator';
 import ScrollReveal from '@/components/ScrollReveal';
 import HeroBackground from '@/components/HeroBackground';
@@ -129,13 +128,8 @@ export default async function Home() {
       {/* 3. Finished Products Showcase Section */}
       <MainProductShowcase initialProducts={products} />
 
-      {/* 3. Product News Section */}
-      <MainProductNews />
-
-      {/* 4. Press Release Section */}
-      <div id="press-release" className="scroll-mt-24 md:scroll-mt-28">
-        <PressReleaseSlider initialNews={pressNews} />
-      </div>
+      {/* 3. News Section (Product News & Press Release with Tabs) */}
+      <MainProductNews initialPressNews={pressNews} />
 
       {/* Floating dot page navigator */}
       <ScrollNav />
