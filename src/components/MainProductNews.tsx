@@ -214,7 +214,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
   };
 
   return (
-    <section id="product-news" className="scroll-mt-36 md:scroll-mt-40 -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 pt-0 pb-14 md:pb-20 bg-white relative z-20 font-pretendard">
+    <section id="product-news" className="scroll-mt-36 md:scroll-mt-40 pt-4 pb-14 md:pt-6 md:pb-20 bg-white relative font-pretendard">
       {/* Anchor for #press-release so direct links still scroll here */}
       <div id="press-release" className="absolute -top-36 left-0 pointer-events-none" />
 

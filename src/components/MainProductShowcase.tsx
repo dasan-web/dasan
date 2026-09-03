@@ -4,7 +4,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight, ArrowRight, Pill, Sparkles, Search, X } from 'lucide-react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export interface ProductItem {
   id: number;
@@ -85,49 +85,6 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
   const [startIndex, setStartIndex] = useState(0);
   const [searchKeyword, setSearchKeyword] = useState('');
 
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Raw Scroll Progress
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end']
-  });
-
-  // 120fps Ultra-Smooth Physics Spring Easing (Zero jank / Zero stutter)
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 45,
-    damping: 22,
-    mass: 0.15,
-    restDelta: 0.001,
-  });
-
-  // Hexagonal Pill Vector Scale: 1.0 (Exact 1:1 Responsive Lockup) up to 75.0 (Full 4K Ultra-HD Viewport Coverage)
-  const pillScale = useTransform(
-    smoothProgress, 
-    [0, 0.2, 0.5, 0.8, 0.98], 
-    [1, 2.5, 9, 28, 75]
-  );
-  const sloganOpacity = useTransform(smoothProgress, [0, 0.22], [1, 0]);
-  const pillOpacity = useTransform(smoothProgress, [0, 0.85, 0.98], [1, 1, 0]);
-  
-  // Hexagon Border Color: Turns lighter and seamlessly transitions to pure white at max expansion!
-  const hexagonBorderColor = useTransform(
-    smoothProgress,
-    [0, 0.25, 0.55, 0.85, 0.96],
-    ['#8ec31f', '#a6d83a', '#d2f094', '#f1fae0', '#ffffff']
-  );
-  
-  // Debossed DASAN text fades out gracefully as the hexagon begins zooming
-  const dasanDebossOpacity = useTransform(smoothProgress, [0, 0.14], [1, 0]);
-  
-  // Pure white expanding canvas inside hexagon to fill the entire red box
-  const expandingLensOpacity = useTransform(smoothProgress, [0.06, 0.35, 0.85, 0.98], [0, 0.85, 1, 0]);
-  
-  // Products section opacity & reveal (Smooth gradual fade-in)
-  const productsOpacity = useTransform(smoothProgress, [0.55, 0.92], [0, 1]);
-  const productsY = useTransform(smoothProgress, [0.55, 0.92], [20, 0]);
-  const productsPointerEvents = useTransform(smoothProgress, (v) => (v > 0.58 ? 'auto' : 'none'));
-
   const rawProducts = (initialProducts && initialProducts.length > 0)
     ? initialProducts
     : defaultProducts;
@@ -189,219 +146,11 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
   return (
     <section 
       id="products" 
-      ref={containerRef}
-      className="relative h-[250vh] font-pretendard select-none bg-white"
+      className="scroll-mt-28 py-12 md:py-16 bg-white relative font-pretendard select-none"
     >
-      {/* Sticky Fullscreen Stage */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center">
+      <div className="w-full px-6 md:px-16 lg:px-24 mx-auto">
         
-        {/* ========================================================================= */}
-        {/* 1. SCROLL-EXPANDING HEXAGON & 3-LINE SLOGAN LAYER */}
-        {/* ========================================================================= */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20 px-6">
-          
-          {/* Main Slogan: 3-Tier Layout with Symmetrically Balanced Vertical Spacing (Mobile to 4K Responsive) */}
-          <div className="flex flex-col items-center text-center max-w-4xl 2xl:max-w-6xl 3xl:max-w-7xl w-full">
-            
-            {/* Row 1: 기술과 혁신으로 (Fades with sloganOpacity) */}
-            <motion.h3 
-              style={{ opacity: sloganOpacity }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-tight"
-            >
-              {isEnglish ? 'Through Technology and Innovation,' : '기술과 혁신으로'}
-            </motion.h3>
 
-            {/* Row 2: DASAN Master CI Lockup (100.00% Exact Master Brand Blueprint) */}
-            <div className="relative select-none my-5 sm:my-7 lg:my-8 2xl:my-12 3xl:my-16 h-11 sm:h-13 lg:h-16 2xl:h-22 3xl:h-28 aspect-[1024/388]">
-              
-              {/* 1. DASAN Pharmaceutical Text (Master Blueprint: x=0, y=76, w=614, h=298) */}
-              <motion.div 
-                style={{ opacity: sloganOpacity }}
-                className="absolute left-0 top-[19.59%] w-[60.0%] h-[76.8%] flex items-center justify-center select-none"
-              >
-                <img
-                  src="/dasan_ci_text_authentic.png"
-                  alt="DASAN Pharmaceutical"
-                  className="w-full h-full object-contain select-none"
-                  style={{ imageRendering: '-webkit-optimize-contrast' }}
-                />
-              </motion.div>
-
-              {/* 2. High-Definition Vector SVG 3D Hexagonal Pill (Master Blueprint: x=607, y=16, w=410, h=360) */}
-              <div 
-                className="absolute left-[59.28%] top-[4.12%] w-[40.04%] h-[92.78%] flex items-center justify-center"
-              >
-                <motion.div
-                  style={{ 
-                    scale: pillScale,
-                    opacity: pillOpacity,
-                    willChange: 'transform, opacity',
-                    transform: 'translateZ(0)'
-                  }}
-                  className="relative w-full h-full flex items-center justify-center origin-center pointer-events-none z-30"
-                >
-                  <svg 
-                    viewBox="0 0 410 360" 
-                    className="w-full h-full overflow-visible select-none"
-                    shapeRendering="geometricPrecision"
-                  >
-                    <defs>
-                      {/* Realistic Tablet Drop Shadow */}
-                      <filter id="pillShadow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="#0f172a" floodOpacity="0.10" />
-                        <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#0f172a" floodOpacity="0.06" />
-                      </filter>
-
-                      {/* 3D Tablet Dome (Convex spherical gradient) */}
-                      <radialGradient id="tabletDomeGrad" cx="38%" cy="28%" r="68%">
-                        <stop offset="0%" stopColor="#ffffff" />
-                        <stop offset="45%" stopColor="#f8fafc" />
-                        <stop offset="80%" stopColor="#edf2f7" />
-                        <stop offset="100%" stopColor="#e2e8f0" />
-                      </radialGradient>
-
-                      {/* Bevel Rim Upper Reflection Gradient */}
-                      <linearGradient id="bevelLightGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
-                        <stop offset="50%" stopColor="#ffffff" stopOpacity="0.3" />
-                        <stop offset="100%" stopColor="#94a3b8" stopOpacity="0.25" />
-                      </linearGradient>
-
-                      {/* Bevel Rim Lower Shadow Gradient */}
-                      <linearGradient id="bevelDarkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#f8fafc" stopOpacity="0.2" />
-                        <stop offset="100%" stopColor="#64748b" stopOpacity="0.35" />
-                      </linearGradient>
-
-                      {/* Upper Surface Specular Gloss / Coating Sheen */}
-                      <linearGradient id="glossGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.75" />
-                        <stop offset="40%" stopColor="#ffffff" stopOpacity="0.15" />
-                        <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-
-                    {/* 1. Outer Hexagon Frame Line (Brand Green Frame) */}
-                    <motion.polygon
-                      points="102.5,4 307.5,4 406,180 307.5,356 102.5,356 4,180"
-                      style={{ fill: hexagonBorderColor }}
-                      strokeLinejoin="round"
-                    />
-
-                    {/* 2. Outer Chamfered Bevel Rim (깎인 3D 모서리) */}
-                    <polygon
-                      points="114,20 296,20 384,180 296,340 114,340 26,180"
-                      fill="url(#bevelLightGrad)"
-                      stroke="url(#bevelDarkGrad)"
-                      strokeWidth="2.5"
-                      strokeLinejoin="round"
-                    />
-
-                    {/* 3. Inner 3D Convex Tablet Body with Ambient Shadow */}
-                    <polygon
-                      points="124,34 286,34 368,180 286,326 124,326 42,180"
-                      fill="url(#tabletDomeGrad)"
-                      stroke="#ffffff"
-                      strokeWidth="2"
-                      strokeLinejoin="round"
-                      filter="url(#pillShadow)"
-                    />
-
-                    {/* 4. Upper Surface Specular Coating Sheen (정제 표면 은은한 광택) */}
-                    <path
-                      d="M 130 42 L 280 42 L 356 174 C 270 138 140 138 54 174 Z"
-                      fill="url(#glossGrad)"
-                      opacity="0.8"
-                      pointerEvents="none"
-                    />
-
-                    {/* 5. Realistic Debossed DSPHARM Engraving (실제 정제 금형 음각 프레스 각인) */}
-                    <motion.g style={{ opacity: dasanDebossOpacity }}>
-                      {/* Bottom Light Reflection (1px 아래 밝은 빛) */}
-                      <text
-                        x="205"
-                        y="192.5"
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        fill="#ffffff"
-                        fontWeight="900"
-                        fontSize="38"
-                        letterSpacing="2.5"
-                        fontFamily="sans-serif"
-                        className="select-none"
-                        opacity="0.9"
-                      >
-                        DSPHARM
-                      </text>
-                      {/* Top Inner Shadow (1px 위 깊은 그림자) */}
-                      <text
-                        x="205"
-                        y="189.5"
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        fill="#1e293b"
-                        fontWeight="900"
-                        fontSize="38"
-                        letterSpacing="2.5"
-                        fontFamily="sans-serif"
-                        className="select-none"
-                        opacity="0.5"
-                      >
-                        DSPHARM
-                      </text>
-                      {/* Core Debossed Text Body */}
-                      <text
-                        x="205"
-                        y="191"
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        fill="#475569"
-                        fontWeight="900"
-                        fontSize="38"
-                        letterSpacing="2.5"
-                        fontFamily="sans-serif"
-                        className="select-none"
-                      >
-                        DSPHARM
-                      </text>
-                    </motion.g>
-
-                    {/* 6. Pure White Expanding Canvas for Full Viewport Scroll Transition */}
-                    <motion.polygon
-                      points="102.5,0 307.5,0 410,180 307.5,360 102.5,360 0,180"
-                      fill="#ffffff"
-                      style={{ opacity: expandingLensOpacity }}
-                    />
-                  </svg>
-                </motion.div>
-              </div>
-
-            </div>
-
-            {/* Row 3: 건강한 내일을 만듭니다. (Fades with sloganOpacity) */}
-            <motion.h3 
-              style={{ opacity: sloganOpacity }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-tight"
-            >
-              {isEnglish ? 'We create a healthier tomorrow.' : '건강한 내일을 만듭니다.'}
-            </motion.h3>
-
-          </div>
-
-        </div>
-
-
-        {/* ========================================================================= */}
-        {/* 2. REVEALED PRODUCTS SHOWCASE SECTION */}
-        {/* ========================================================================= */}
-        <motion.div
-          style={{ 
-            opacity: productsOpacity, 
-            y: productsY,
-            pointerEvents: productsPointerEvents as any
-          }}
-          className="w-full px-6 md:px-16 lg:px-24 mx-auto z-30"
-        >
           {/* Section Headline Area with Integrated Search Bar */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8 sm:mb-10">
             <div>
@@ -600,9 +349,7 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
-        </motion.div>
-
-      </div>
-    </section>
-  );
-}
+        </div>
+      </section>
+    );
+  }
