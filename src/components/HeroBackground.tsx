@@ -4,18 +4,12 @@ import React from 'react';
 
 export default function HeroBackground() {
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950 select-none">
-      <video 
-        autoPlay 
-        loop 
-        muted 
-        playsInline 
-        preload="auto"
-        poster="/poster_main.jpg"
-        className="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-95 pointer-events-none"
-      >
-        <source src="/20260818.mp4" type="video/mp4" />
-      </video>
+    <div className="absolute inset-0 z-0 overflow-hidden bg-white select-none">
+      <img 
+        src="/main.png" 
+        alt="Dasan Background"
+        className="w-full h-full object-cover object-center pointer-events-none"
+      />
       
       {/* Premium clean overlay matching Dasan style (gradient from white for text contrast) */}
       <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-10" />
