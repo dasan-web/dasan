@@ -31,7 +31,7 @@ const defaultProducts: ProductItem[] = [
     efficacy: '동맥경화용제',
     ingredient: '클로피도그렐황산염 (Clopidogrel Bisulfate)',
     appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
-    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787794594/dasan/uqxcob5pcllnowke6b45.jpg'
+    file_url: '/images/products/showcase_clpigrel.png'
   },
   {
     id: 7,
@@ -41,7 +41,7 @@ const defaultProducts: ProductItem[] = [
     efficacy: '혈압강하제',
     ingredient: '암로디핀, 텔미사르탄',
     appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
-    file_url: '/images/products/twinact_white.png'
+    file_url: '/images/products/showcase_twinact.png'
   },
   {
     id: 8,
@@ -51,7 +51,7 @@ const defaultProducts: ProductItem[] = [
     efficacy: '혈압강하제',
     ingredient: '암로디핀, 발사르탄',
     appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
-    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1788224026/dasan/disforge_tab_transparent_v2.png'
+    file_url: '/images/products/showcase_disforge.png'
   },
   {
     id: 9,
@@ -61,7 +61,7 @@ const defaultProducts: ProductItem[] = [
     efficacy: '혈압강하제',
     ingredient: '암로디핀, 올메사르탄',
     appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
-    file_url: '/images/products/sevitension_white.png'
+    file_url: '/images/products/showcase_sevitension.png'
   },
   {
     id: 26,
@@ -71,9 +71,19 @@ const defaultProducts: ProductItem[] = [
     efficacy: '호흡기관용약',
     ingredient: '프란루카스트수화물',
     appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
-    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787719444/dasan/y9jlxn6rtc70x7a4okvz.png'
+    file_url: '/images/products/showcase_pretus.png'
   }
 ];
+
+// 5개 제품 사진의 바닥 접지선(Baseline)을 100% 일직선으로 정렬한 쇼케이스 전용 이미지 매핑
+const getShowcaseImageUrl = (product: ProductItem) => {
+  if (product.name.includes('클피그렐')) return '/images/products/showcase_clpigrel.png';
+  if (product.name.includes('트윈액트')) return '/images/products/showcase_twinact.png';
+  if (product.name.includes('디스포지')) return '/images/products/showcase_disforge.png';
+  if (product.name.includes('세비텐션')) return '/images/products/showcase_sevitension.png';
+  if (product.name.includes('프리투스')) return '/images/products/showcase_pretus.png';
+  return product.file_url;
+};
 
 export default function MainProductShowcase({ initialProducts }: MainProductShowcaseProps) {
   const pathname = usePathname();
@@ -132,28 +142,7 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
     }
   };
 
-  // 5개 제품 사진의 시각적 체감 크기(부피감)를 균형 있게 보정하는 헬퍼 (호버 시에도 축소되지 않고 크기 유지)
-  const getProductImageStyle = (name: string) => {
-    // 가로형 박스 패키지(트윈액트정, 세비텐션정): 세로형 병과 동일한 시각적 면적/존재감이 느껴지도록 가로폭과 스케일 확대
-    if (name.includes('트윈액트') || name.includes('세비텐션')) {
-      return {
-        containerClass: 'h-full scale-[1.32]',
-        imageClass: 'max-h-[220px] max-w-[96%]',
-      };
-    }
-    // 원본 여백이 있는 보틀(디스포지정): 다른 보틀과 동일한 체감 높이로 스케일 보정
-    if (name.includes('디스포지')) {
-      return {
-        containerClass: 'h-full scale-[1.22]',
-        imageClass: 'max-h-[240px] max-w-[92%]',
-      };
-    }
-    // 기본 대형 보틀(클피그렐정, 프리투스정)
-    return {
-      containerClass: 'h-full scale-100',
-      imageClass: 'max-h-[235px] max-w-[88%]',
-    };
-  };
+
 
   const visibleProducts = useMemo(() => {
     if (total === 0) return [];
@@ -248,7 +237,6 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 items-end">
               {visibleProducts.map((product) => {
                 const isHovered = hoveredId === product.id;
-                const imgStyle = getProductImageStyle(product.name);
                 return (
                   <motion.div
                     key={product.id}
@@ -295,22 +283,15 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                         </p>
                       </div>
 
-                      {/* Product Image Area (Anchored to bottom zone, preventing any overlap with top text) */}
-                      <div 
-                        className={`w-full flex items-end justify-center pb-6 sm:pb-8 transition-all duration-400 absolute left-0 right-0 bottom-0 ${imgStyle.containerClass}`}
-                      >
+                      {/* Product Image Area (100% Perfectly Aligned to Exact Same Horizontal Baseline) */}
+                      <div className="w-full flex items-end justify-center pb-6 sm:pb-8 absolute left-0 right-0 bottom-0 pointer-events-none">
                         {(() => {
-                          let imgUrl = product.file_url;
-                          if (product.name.includes('트윈액트')) {
-                            imgUrl = '/images/products/twinact_white.png';
-                          } else if (product.name.includes('세비텐션')) {
-                            imgUrl = '/images/products/sevitension_white.png';
-                          }
+                          const imgUrl = getShowcaseImageUrl(product);
                           return imgUrl && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(imgUrl) ? (
                             <img
                               src={imgUrl}
                               alt={product.name}
-                              className={`w-auto object-contain transition-all duration-400 mix-blend-multiply ${imgStyle.imageClass}`}
+                              className="w-full max-w-[280px] h-auto object-contain transition-transform duration-300 mix-blend-multiply"
                             />
                           ) : (
                             <div className="flex flex-col items-center justify-center text-gray-300 group-hover:text-brand-green transition-colors">
