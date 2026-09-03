@@ -16,6 +16,7 @@ import ScrollVideo from '@/components/ScrollVideo';
 import SalesGrowthChart from '@/components/SalesGrowthChart';
 import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import BusinessAreaTabSection from '@/components/BusinessAreaTabSection';
+import ESGEthicsSection from '@/components/ESGEthicsSection';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -1180,32 +1181,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
           <LocationMapSection dbContent={dbContent} />
         );
 
-                  case '/about/esg/ethics':
+      case '/about/esg/ethics':
         return (
-          <div className="space-y-6 animate-fade-in-up bg-white p-6 md:p-12 rounded-3xl shadow-none">
-            {dbContent ? (
-              (() => {
-                const parts = dbContent.split('|');
-                const title = parts[0] || '지속 가능한 비즈니스를 위한 ESG 선언';
-                const body = parts.slice(1).join('|') || '';
-                return (
-                  <>
-                    <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                      {title}
-                    </h3>
-                    {String(body).includes('<p') || String(body).includes('<h') ? (
-                      <div dangerouslySetInnerHTML={{__html: body}} className="[&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4 [&_h4]:text-lg [&_h4]:text-brand-blue [&_h4]:mb-4 [&_h3]:mt-20 [&_h3]:mb-6 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900" />
-                    ) : (
-                      <p className="text-gray-600 text-[15px] leading-[1.8] whitespace-pre-wrap">{body}</p>
-                    )}
-                  </>
-                );
-              })()
-            ) : (
-              <div className="text-center text-gray-500 py-12">
-                (입력된 문구가 여기에 표시됩니다)
-              </div>
-            )}
+          <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+            <ESGEthicsSection lang="ko" />
           </div>
         );
       case '/about/esg/environment': {

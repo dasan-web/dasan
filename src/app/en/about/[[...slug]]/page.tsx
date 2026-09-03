@@ -15,6 +15,7 @@ import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
 import ScrollVideo from '@/components/ScrollVideo';
 import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import BusinessAreaTabSection from '@/components/BusinessAreaTabSection';
+import ESGEthicsSection from '@/components/ESGEthicsSection';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -1110,105 +1111,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
           <LocationMapSection dbContent={dbContent} />
         );
 
-                  case '/about/esg/ethics':
+      case '/about/esg/ethics':
         return (
-          <div className="space-y-6 animate-fade-in-up bg-white p-6 md:p-12 rounded-3xl shadow-none">
-            {dbContent ? (
-              (() => {
-                const parts = dbContent.split('|');
-                const title = parts[0] || 'ESG Declaration for Sustainable Business';
-                const body = parts.slice(1).join('|') || '';
-                return (
-                  <>
-                    <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                      {title}
-                    </h3>
-                    {String(body).includes('<p') || String(body).includes('<h') ? (
-                      <div dangerouslySetInnerHTML={{__html: body}} className="[&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:leading-[1.8] [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4 [&_h4]:text-lg [&_h4]:text-brand-blue [&_h4]:mb-4 [&_h3]:mt-20 [&_h3]:mb-6 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900" />
-                    ) : (
-                      <p className="text-gray-600 text-[15px] leading-[1.8] whitespace-pre-wrap">{body}</p>
-                    )}
-                  </>
-                );
-              })()
-            ) : (
-              <div className="space-y-12 text-left w-full">
-                <section>
-                  <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                    1. ESG Management Vision (Slogan)
-                  </h3>
-                  <h4 className="text-lg text-brand-blue font-bold mb-4">
-                    Dasan Pharmaceutical\'s Promise to Heal Tomorrow with Righteous Management
-                  </h4>
-                  <p className="text-[15px] text-gray-600 leading-[1.8] whitespace-pre-wrap">
-                    Based on our founding philosophy of 'Aemin (Love for the People)', Dasan Pharmaceutical opens a sustainable healthcare future by establishing an eco-friendly process that considers the Environment (E), a safe workplace that coexists with Society (S), and a transparent and upright Governance (G).
-                  </p>
-                </section>
-
-                <section>
-                  <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                    2. Performance by Core Area (ESG Pillars)
-                  </h3>
-                  
-                  <div className="mb-8">
-                    <h4 className="text-lg text-brand-blue font-bold mb-4">Environmental | Eco-friendly Management (E)</h4>
-                    <p className="text-[15px] text-gray-600 leading-[1.8] mb-4">
-                      Protecting human health begins with creating a healthy Earth. Dasan Pharmaceutical is creating an eco-friendly production ecosystem that minimizes environmental impact.
-                    </p>
-                    <ul className="list-disc pl-4 text-[15px] text-gray-600 space-y-2">
-                      <li><strong>ISO 14001 (Environmental Management System) Certification:</strong> We systematically operate an environmental management system that meets global standards.</li>
-                      <li><strong>Smart Eco-Factory Establishment:</strong> Selected for the support project by the Ministry of Environment and Korea Environment Corporation, we are advancing our eco-friendly manufacturing infrastructure, such as reducing pollutant emissions and improving energy efficiency.</li>
-                    </ul>
-                  </div>
-
-                  <div className="mb-8">
-                    <h4 className="text-lg text-brand-blue font-bold mb-4">Social | Social Responsibility and Safety Management (S)</h4>
-                    <p className="text-[15px] text-gray-600 leading-[1.8] mb-4">
-                      The safety of our employees is the foundation of quality, and their growth is our corporate competitiveness. Dasan Pharmaceutical realizes the value of coexistence where everyone is safe and happy.
-                    </p>
-                    <ul className="list-disc pl-4 text-[15px] text-gray-600 space-y-2">
-                      <li><strong>ISO 45001 (Occupational Health and Safety Management System) Certification:</strong> We proactively manage and prevent risk factors in the workplace to maintain a safe working environment of 'Zero Severe Accidents'.</li>
-                      <li><strong>Aiming for a Great Workplace:</strong> Based on being selected as a Youth-Friendly Small Hidden Champion and a Good Job Company, we are creating a healthy organizational culture where safety, work, and life are in harmony.</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="text-lg text-brand-blue font-bold mb-4">Governance | Transparent and Thorough Righteous Management (G)</h4>
-                    <p className="text-[15px] text-gray-600 leading-[1.8] mb-4">
-                      Inheriting the 'Seeking Truth from Facts' spirit of Dasan Jeong Yak-yong, we prove the market's trust with transparent and clean management processes rather than empty theories.
-                    </p>
-                    <ul className="list-disc pl-4 text-[15px] text-gray-600 space-y-2">
-                      <li><strong>ISO 37001 (Anti-Bribery Management System) Certification:</strong> We establish a company-wide anti-corruption policy and ethical management system to thoroughly control risks and lead a transparent transaction culture.</li>
-                      <li><strong>Official Satisfaction of K-ESG Indicators:</strong> By securing a governance system and disclosure capabilities that meet the Korean ESG (K-ESG) guidelines, we continue to maximize shareholder value and transparent management befitting a listed company.</li>
-                    </ul>
-                  </div>
-                </section>
-
-                <section>
-                  <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                    3. ESG Certification Status (Certifications)
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="p-4 bg-gray-50 rounded-lg text-center">
-                      <h5 className="font-bold text-gray-900 mb-1">ISO 14001</h5>
-                      <p className="text-xs text-gray-500">Environmental Management System Certification</p>
-                    </div>
-                    <div className="p-4 bg-gray-50 rounded-lg text-center">
-                      <h5 className="font-bold text-gray-900 mb-1">ISO 45001</h5>
-                      <p className="text-xs text-gray-500">Occupational Health and Safety Management System Certification</p>
-                    </div>
-                    <div className="p-4 bg-gray-50 rounded-lg text-center">
-                      <h5 className="font-bold text-gray-900 mb-1">ISO 37001</h5>
-                      <p className="text-xs text-gray-500">Anti-Bribery Management System Certification</p>
-                    </div>
-                    <div className="p-4 bg-gray-50 rounded-lg text-center">
-                      <h5 className="font-bold text-gray-900 mb-1">K-ESG</h5>
-                      <p className="text-xs text-gray-500">Korean ESG Indicator Satisfaction</p>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            )}
+          <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+            <ESGEthicsSection lang="en" />
           </div>
         );
       case '/about/esg/environment':
