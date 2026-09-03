@@ -273,9 +273,9 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
 
                       {/* Product Image Area (Seamless & Clean) */}
                       <div 
-                        className={`w-full flex items-center justify-center p-4 transition-all duration-400 absolute left-0 right-0 bottom-0 ${
+                        className={`w-full flex items-center justify-center p-2 sm:p-3 transition-all duration-400 absolute left-0 right-0 bottom-0 ${
                           isHovered 
-                            ? 'h-[200px] scale-95' 
+                            ? 'h-[190px] scale-90' 
                             : 'h-full scale-100'
                         }`}
                       >
@@ -283,7 +283,11 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                           <img
                             src={product.file_url}
                             alt={product.name}
-                            className="max-h-[190px] w-auto max-w-[85%] object-contain transition-transform duration-400"
+                            className={`w-auto object-contain transition-all duration-400 ${
+                              isHovered 
+                                ? 'max-h-[175px] max-w-[85%]' 
+                                : 'max-h-[250px] sm:max-h-[265px] max-w-[92%] drop-shadow-sm group-hover:scale-105'
+                            }`}
                           />
                         ) : (
                           <div className="flex flex-col items-center justify-center text-gray-300 group-hover:text-brand-green transition-colors">
