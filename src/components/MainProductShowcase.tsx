@@ -291,7 +291,7 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                             <img
                               src={imgUrl}
                               alt={product.name}
-                              className="w-full max-w-[280px] h-auto object-contain transition-transform duration-300 mix-blend-multiply"
+                              className="w-full max-w-[280px] h-auto object-contain transition-transform duration-300"
                             />
                           ) : (
                             <div className="flex flex-col items-center justify-center text-gray-300 group-hover:text-brand-green transition-colors">
