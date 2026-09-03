@@ -271,10 +271,9 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
               </div>
             </div>
 
-            {/* Bottom Row: 그림2 형태 탭 (Product News / Press Release) + Category Chips */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200/80 pb-3">
-              {/* 그림2 스타일: 녹색 밑줄 active / 회색 inactive 탭 */}
-              <div className="flex items-center gap-8 sm:gap-10">
+            {/* Bottom Row: 탭 (Product News / Press Release) + Category Chips (가로막대 제거) */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-1">
+              <div className="flex items-center gap-6 sm:gap-8">
                 <button
                   type="button"
                   onClick={() => {
@@ -282,20 +281,13 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                     setStartIndex(0);
                     setDirection(0);
                   }}
-                  className={`relative pb-3 text-lg sm:text-xl font-bold transition-all duration-200 cursor-pointer ${
+                  className={`text-lg sm:text-xl font-bold transition-colors duration-200 cursor-pointer ${
                     activeTab === 'productNews'
                       ? 'text-brand-green'
                       : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
-                  <span>Product News</span>
-                  {activeTab === 'productNews' && (
-                    <motion.div
-                      layoutId="newsSubTabLine"
-                      className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-green rounded-full"
-                      transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-                    />
-                  )}
+                  Product News
                 </button>
 
                 <button
@@ -305,20 +297,13 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                     setStartIndex(0);
                     setDirection(0);
                   }}
-                  className={`relative pb-3 text-lg sm:text-xl font-bold transition-all duration-200 cursor-pointer ${
+                  className={`text-lg sm:text-xl font-bold transition-colors duration-200 cursor-pointer ${
                     activeTab === 'pressRelease'
                       ? 'text-brand-green'
                       : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
-                  <span>Press Release</span>
-                  {activeTab === 'pressRelease' && (
-                    <motion.div
-                      layoutId="newsSubTabLine"
-                      className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-green rounded-full"
-                      transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-                    />
-                  )}
+                  Press Release
                 </button>
               </div>
 
