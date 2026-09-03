@@ -185,8 +185,8 @@ export default function CoreBusinessSection() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    <div className="bg-[#1F4E78] px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-5 lg:py-5.5 flex items-center shrink-0">
-                      <p className="text-base sm:text-lg lg:text-[19px] xl:text-[21px] font-bold leading-snug sm:leading-relaxed text-white break-keep">
+                    <div className="bg-[#1F4E78] px-6 sm:px-8 lg:px-10 xl:px-12 h-[145px] sm:h-[155px] lg:h-[160px] flex items-center shrink-0">
+                      <p className="text-lg sm:text-xl md:text-[22px] lg:text-[24px] xl:text-[26px] font-extrabold leading-snug sm:leading-snug md:leading-normal text-white break-keep">
                         {slides[0].title}
                       </p>
                     </div>
