@@ -17,6 +17,13 @@ export default function ScrollNav() {
       pingColor: 'bg-white/40 border border-gray-300'
     },
     { 
+      id: 'core-business', 
+      label: isEnglish ? 'Core Business' : '주요 사업영역',
+      activeColor: 'bg-[#1F4E78] shadow-[0_0_12px_rgba(31,78,120,0.7)]',
+      inactiveColor: 'bg-[#1F4E78]/40 hover:bg-[#1F4E78]',
+      pingColor: 'bg-[#1F4E78]/30 border border-[#1F4E78]/40'
+    },
+    { 
       id: 'products', 
       label: isEnglish ? 'Product List' : '제품리스트',
       activeColor: 'bg-[#FACC15] shadow-[0_0_12px_rgba(250,204,21,0.7)]',
