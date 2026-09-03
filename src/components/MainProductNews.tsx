@@ -336,29 +336,29 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
         {/* 3-Column Modern Wide Cards Grid with Smooth Book-like Page Slide Transition */}
         <ScrollReveal delay={0.15} y={60} duration={1.2}>
           <div className="relative">
-            {/* Left Side Floating Prev Button (Positioned cleanly outside the card boundary) */}
+            {/* Left Side Floating Prev Button (Compact & Positioned cleanly outside) */}
             {total > cardsPerPage && (
               <button
                 type="button"
                 onClick={handlePrev}
-                className="absolute -left-6 sm:-left-10 md:-left-12 lg:-left-14 xl:-left-16 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-brand-green hover:bg-brand-green/5 shadow-md flex items-center justify-center transition-all duration-200 cursor-pointer z-30 group"
+                className="absolute -left-3 sm:-left-6 md:-left-9 lg:-left-12 xl:-left-[52px] top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-brand-green hover:bg-brand-green/5 shadow-md flex items-center justify-center transition-all duration-200 cursor-pointer z-30 group"
                 aria-label={isEnglish ? "Previous slide" : "이전"}
                 title={isEnglish ? "Previous" : "이전"}
               >
-                <ChevronLeft className="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-0.5" />
+                <ChevronLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
               </button>
             )}
 
-            {/* Right Side Floating Next Button (Positioned cleanly outside the card boundary) */}
+            {/* Right Side Floating Next Button (Compact & Positioned cleanly outside) */}
             {total > cardsPerPage && (
               <button
                 type="button"
                 onClick={handleNext}
-                className="absolute -right-6 sm:-right-10 md:-right-12 lg:-right-14 xl:-right-16 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-brand-green hover:bg-brand-green/5 shadow-md flex items-center justify-center transition-all duration-200 cursor-pointer z-30 group"
+                className="absolute -right-3 sm:-right-6 md:-right-9 lg:-right-12 xl:-right-[52px] top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-brand-green hover:bg-brand-green/5 shadow-md flex items-center justify-center transition-all duration-200 cursor-pointer z-30 group"
                 aria-label={isEnglish ? "Next slide" : "다음"}
                 title={isEnglish ? "Next" : "다음"}
               >
-                <ChevronRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5" />
+                <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </button>
             )}
 
