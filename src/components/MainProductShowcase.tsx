@@ -235,12 +235,12 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                   >
                     <Link
                       href={`${basePath}/business/finished/search/${product.id}`}
-                      className={`block rounded-3xl transition-all duration-400 cursor-pointer relative overflow-hidden ${
+                      className={`block rounded-3xl transition-all duration-400 cursor-pointer relative overflow-hidden bg-white ${
                         isHovered
-                          ? 'bg-white shadow-[0_24px_50px_rgba(0,137,83,0.16)] -translate-y-8 z-30'
-                          : 'bg-white/95 hover:bg-white shadow-[0_8px_24px_rgba(0,0,0,0.04)] z-10'
+                          ? 'shadow-[0_24px_50px_rgba(0,137,83,0.16)] -translate-y-8 z-30'
+                          : 'shadow-[0_8px_24px_rgba(0,0,0,0.04)] z-10'
                       }`}
-                      style={{ height: '360px' }}
+                      style={{ height: '360px', backgroundColor: '#ffffff' }}
                     >
                       {/* Top Info Area (Slides down on hover) */}
                       <div 
@@ -271,7 +271,7 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                         </p>
                       </div>
 
-                      {/* Product Image Area (Seamless & Clean) */}
+                      {/* Product Image Area (Seamless & Clean Pure White) */}
                       <div 
                         className={`w-full flex items-center justify-center p-2 sm:p-3 transition-all duration-400 absolute left-0 right-0 bottom-0 ${
                           isHovered 
@@ -283,10 +283,10 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                           <img
                             src={product.file_url}
                             alt={product.name}
-                            className={`w-auto object-contain transition-all duration-400 ${
+                            className={`w-auto object-contain transition-all duration-400 mix-blend-multiply ${
                               isHovered 
                                 ? 'max-h-[175px] max-w-[85%]' 
-                                : 'max-h-[250px] sm:max-h-[265px] max-w-[92%] drop-shadow-sm group-hover:scale-105'
+                                : 'max-h-[250px] sm:max-h-[265px] max-w-[92%] group-hover:scale-105'
                             }`}
                           />
                         ) : (
