@@ -222,17 +222,59 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
         
         {/* Section Header with Main Tabs */}
         <ScrollReveal y={50} duration={1.2}>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10 gap-5">
-            {/* Eye-Catching Modern Segmented Pill Tabs */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
-                <span className="text-[11px] sm:text-xs font-bold tracking-widest text-brand-green uppercase">
-                  {isEnglish ? 'News & Media' : '다산 소식 & 미디어'}
-                </span>
+          <div className="flex flex-col mb-8 sm:mb-10 gap-6">
+            {/* Top Row: NEWS Title (그림3 형태) & Controls (Arrows & View All) */}
+            <div className="flex items-center justify-between gap-5">
+              <div className="flex flex-col">
+                <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-brand-green tracking-tight">
+                  NEWS
+                </h2>
+                <div className="w-full h-1.5 bg-brand-green mt-2 rounded-full" />
               </div>
 
-              <div className="inline-flex p-1.5 bg-gray-100/90 rounded-2xl sm:rounded-full border border-gray-200/90 shadow-inner gap-1 sm:gap-1.5 self-start">
+              {/* Controls on Right: Arrows & View All */}
+              <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+                {/* Slider Arrows (Prev / Next Page Buttons) */}
+                {total > cardsPerPage && (
+                  <div className="flex items-center gap-1.5 mr-1">
+                    <button
+                      onClick={handlePrev}
+                      className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-200 hover:border-brand-green text-gray-500 hover:text-brand-green hover:bg-brand-green/5 flex items-center justify-center transition-colors duration-200 cursor-pointer bg-white shadow-2xs"
+                      aria-label={isEnglish ? "Previous page" : "이전 페이지"}
+                      title={isEnglish ? "Previous" : "이전 페이지"}
+                    >
+                      <ChevronLeft className="w-4.5 h-4.5" />
+                    </button>
+                    <button
+                      onClick={handleNext}
+                      className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-200 hover:border-brand-green text-gray-500 hover:text-brand-green hover:bg-brand-green/5 flex items-center justify-center transition-colors duration-200 cursor-pointer bg-white shadow-2xs"
+                      aria-label={isEnglish ? "Next page" : "다음 페이지"}
+                      title={isEnglish ? "Next" : "다음 페이지"}
+                    >
+                      <ChevronRight className="w-4.5 h-4.5" />
+                    </button>
+                  </div>
+                )}
+
+                {/* View All Button */}
+                <Link
+                  href={
+                    activeTab === 'productNews' 
+                      ? `${basePath}/business/finished/news` 
+                      : `${basePath}/contact/newsroom/press`
+                  }
+                  className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white text-xs lg:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
+                >
+                  <span>{isEnglish ? 'View All' : '전체보기'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Bottom Row: 그림2 형태 탭 (Product News / Press Release) + Category Chips */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200/80 pb-3">
+              {/* 그림2 스타일: 녹색 밑줄 active / 회색 inactive 탭 */}
+              <div className="flex items-center gap-8 sm:gap-10">
                 <button
                   type="button"
                   onClick={() => {
@@ -240,28 +282,20 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                     setStartIndex(0);
                     setDirection(0);
                   }}
-                  className={`relative px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl sm:rounded-full text-base sm:text-lg font-extrabold transition-all duration-300 flex items-center gap-2.5 cursor-pointer select-none ${
+                  className={`relative pb-3 text-lg sm:text-xl font-bold transition-all duration-200 cursor-pointer ${
                     activeTab === 'productNews'
-                      ? 'text-white shadow-[0_6px_20px_rgba(0,137,83,0.35)]'
-                      : 'text-gray-500 hover:text-gray-800 hover:bg-white/60'
+                      ? 'text-brand-green'
+                      : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
+                  <span>Product News</span>
                   {activeTab === 'productNews' && (
                     <motion.div
-                      layoutId="activeNewsPillBg"
-                      className="absolute inset-0 bg-gradient-to-r from-brand-green to-brand-green-dark rounded-xl sm:rounded-full"
+                      layoutId="newsSubTabLine"
+                      className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-green rounded-full"
                       transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                     />
                   )}
-                  <span className="relative z-10 flex items-center gap-2">
-                    <Sparkles className={`w-4 h-4 sm:w-5 sm:h-5 ${activeTab === 'productNews' ? 'text-amber-300' : 'text-gray-400'}`} />
-                    <span>Product News</span>
-                    <span className={`text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full font-black ${
-                      activeTab === 'productNews' ? 'bg-white/20 text-white' : 'bg-brand-green/10 text-brand-green'
-                    }`}>
-                      NEW
-                    </span>
-                  </span>
                 </button>
 
                 <button
@@ -271,37 +305,26 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                     setStartIndex(0);
                     setDirection(0);
                   }}
-                  className={`relative px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl sm:rounded-full text-base sm:text-lg font-extrabold transition-all duration-300 flex items-center gap-2.5 cursor-pointer select-none ${
+                  className={`relative pb-3 text-lg sm:text-xl font-bold transition-all duration-200 cursor-pointer ${
                     activeTab === 'pressRelease'
-                      ? 'text-white shadow-[0_6px_20px_rgba(0,137,83,0.35)]'
-                      : 'text-gray-500 hover:text-gray-800 hover:bg-white/60'
+                      ? 'text-brand-green'
+                      : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
+                  <span>Press Release</span>
                   {activeTab === 'pressRelease' && (
                     <motion.div
-                      layoutId="activeNewsPillBg"
-                      className="absolute inset-0 bg-gradient-to-r from-brand-green to-brand-green-dark rounded-xl sm:rounded-full"
+                      layoutId="newsSubTabLine"
+                      className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-green rounded-full"
                       transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                     />
                   )}
-                  <span className="relative z-10 flex items-center gap-2">
-                    <Newspaper className={`w-4 h-4 sm:w-5 sm:h-5 ${activeTab === 'pressRelease' ? 'text-emerald-200' : 'text-gray-400'}`} />
-                    <span>Press Release</span>
-                    <span className={`text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full font-black ${
-                      activeTab === 'pressRelease' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'
-                    }`}>
-                      {pressItems.length}
-                    </span>
-                  </span>
                 </button>
               </div>
-            </div>
 
-            {/* Controls on Right: Sub-filter (Product News only), Arrows & View All */}
-            <div className="flex items-center gap-3 md:gap-4 flex-wrap">
               {/* Category sub-filter chips for Product News */}
               {activeTab === 'productNews' && (
-                <div className="hidden sm:flex items-center gap-1.5 mr-2">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   {categories.map((cat) => (
                     <button
                       key={cat.value}
@@ -310,7 +333,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                         setStartIndex(0);
                         setDirection(0);
                       }}
-                      className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                      className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
                         activeCategory === cat.value
                           ? 'bg-brand-green text-white shadow-xs'
                           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -321,41 +344,6 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                   ))}
                 </div>
               )}
-
-              {/* Slider Arrows (Prev / Next Page Buttons) */}
-              {total > cardsPerPage && (
-                <div className="flex items-center gap-1.5 mr-1">
-                  <button
-                    onClick={handlePrev}
-                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-200 hover:border-brand-green text-gray-500 hover:text-brand-green hover:bg-brand-green/5 flex items-center justify-center transition-colors duration-200 cursor-pointer bg-white shadow-2xs"
-                    aria-label={isEnglish ? "Previous page" : "이전 페이지"}
-                    title={isEnglish ? "Previous" : "이전 페이지"}
-                  >
-                    <ChevronLeft className="w-4.5 h-4.5" />
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-200 hover:border-brand-green text-gray-500 hover:text-brand-green hover:bg-brand-green/5 flex items-center justify-center transition-colors duration-200 cursor-pointer bg-white shadow-2xs"
-                    aria-label={isEnglish ? "Next page" : "다음 페이지"}
-                    title={isEnglish ? "Next" : "다음 페이지"}
-                  >
-                    <ChevronRight className="w-4.5 h-4.5" />
-                  </button>
-                </div>
-              )}
-
-              {/* View All Button */}
-              <Link
-                href={
-                  activeTab === 'productNews' 
-                    ? `${basePath}/business/finished/news` 
-                    : `${basePath}/contact/newsroom/press`
-                }
-                className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white text-xs lg:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
-              >
-                <span>{isEnglish ? 'View All' : '전체보기'}</span>
-                <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
             </div>
           </div>
         </ScrollReveal>
