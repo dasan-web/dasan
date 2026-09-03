@@ -89,19 +89,19 @@ export default async function Home() {
           <div className="w-full text-left space-y-6 md:space-y-8">
             {/* Main Headline */}
             <div className="space-y-2 md:space-y-3">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-brand-green tracking-tight leading-tight lg:whitespace-nowrap">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-tight leading-tight lg:whitespace-nowrap drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
                 <span className="font-paperlogy font-[800]">Global CDMO company</span><br className="md:hidden" />
                 <span className="font-paperlogy font-[900]"> through DDS.</span>
               </h1>
             </div>
 
             {/* Slogan */}
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-pretendard font-semibold text-brand-green tracking-tight leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-pretendard font-bold text-white tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]">
               Happy people make the healthy world.
             </h2>
 
             {/* Korean Paragraph Description */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-[#343434] leading-relaxed max-w-5xl font-paperlogy font-[500] pt-2 md:pt-4">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/95 leading-relaxed max-w-5xl font-paperlogy font-[500] pt-2 md:pt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
               다산제약은 한국 최고의 실학자이자 과학자였던 정약용 선생의 愛民정신을 창업이념으로 삼아<br />인류의 건강과 행복한 삶을 위해 필요한 제제기술 및 합성기술 연구와 우수한 의약품 생산을 위해<br />끊임없이 노력하고 있습니다.
             </p>
 
@@ -109,7 +109,7 @@ export default async function Home() {
             <div className="pt-4 md:pt-6">
               <Link
                 href="/about/intro"
-                className="inline-flex items-center gap-2.5 bg-white text-brand-green border-2 border-brand-green hover:bg-brand-green hover:text-white font-pretendard font-semibold px-9 py-4 lg:px-11 lg:py-4.5 rounded-full transition-all duration-300 text-sm lg:text-base hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
+                className="inline-flex items-center gap-2.5 bg-brand-green text-white hover:bg-brand-green-dark border-2 border-white/80 font-pretendard font-bold px-9 py-4 lg:px-11 lg:py-4.5 rounded-full transition-all duration-300 text-sm lg:text-base shadow-[0_6px_20px_rgba(0,0,0,0.35)] hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
               >
                 <span>Learn More</span>
                 <ArrowRight className="w-4.5 h-4.5 lg:w-5 lg:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
