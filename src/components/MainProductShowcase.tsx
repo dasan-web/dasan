@@ -3,8 +3,9 @@
 import React, { useState, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight, ArrowRight, Pill, Sparkles, Search, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight, Pill, Search, X } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ScrollReveal from './ScrollReveal';
 
 export interface ProductItem {
   id: number;
@@ -163,7 +164,8 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
       <div className="w-full px-6 md:px-16 lg:px-24 mx-auto">
         
 
-          {/* Section Headline Area with Integrated Search Bar */}
+        {/* Section Headline Area with Integrated Search Bar */}
+        <ScrollReveal y={50} duration={1.1}>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8 sm:mb-10">
             <div>
               {/* 그림2 스타일: PRODUCT LIST 타이틀 및 하단 녹색 바 */}
@@ -215,8 +217,10 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
               </button>
             </form>
           </div>
+        </ScrollReveal>
 
-          {/* Seamless Borderless Clean Product Cards */}
+        {/* Seamless Borderless Clean Product Cards */}
+        <ScrollReveal y={60} duration={1.2} delay={0.15}>
           <div className="relative flex items-center pt-2 pb-2">
             
             {/* Products Grid */}
@@ -362,7 +366,8 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
-        </div>
-      </section>
+        </ScrollReveal>
+      </div>
+    </section>
     );
   }
