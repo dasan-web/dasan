@@ -222,7 +222,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
         
         {/* Section Header with Main Tabs */}
         <ScrollReveal y={50} duration={1.2}>
-          <div className="flex flex-col mb-8 sm:mb-10 gap-6">
+          <div className="flex flex-col mb-4 sm:mb-5 gap-4">
             {/* Top Row: NEWS Title (그림3 형태) & Controls (Arrows & View All) */}
             <div className="flex items-center justify-between gap-5">
               <div className="flex flex-col">
