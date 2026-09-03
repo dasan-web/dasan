@@ -132,6 +132,35 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
     }
   };
 
+  // 5개 제품 사진의 시각적 체감 크기(부피감)를 균형 있게 보정하는 헬퍼
+  const getProductImageStyle = (name: string, isHovered: boolean) => {
+    if (isHovered) {
+      return {
+        containerClass: 'h-[190px] scale-90',
+        imageClass: 'max-h-[175px] max-w-[85%]',
+      };
+    }
+    // 가로형 박스 패키지(트윈액트정, 세비텐션정): 세로형 병과 동일한 시각적 면적/존재감이 느껴지도록 가로폭과 스케일 확대
+    if (name.includes('트윈액트') || name.includes('세비텐션')) {
+      return {
+        containerClass: 'h-full scale-[1.32]',
+        imageClass: 'max-h-[220px] max-w-[96%]',
+      };
+    }
+    // 원본 여백이 있는 보틀(디스포지정): 다른 보틀과 동일한 체감 높이로 스케일 보정
+    if (name.includes('디스포지')) {
+      return {
+        containerClass: 'h-full scale-[1.22]',
+        imageClass: 'max-h-[240px] max-w-[92%]',
+      };
+    }
+    // 기본 대형 보틀(클피그렐정, 프리투스정)
+    return {
+      containerClass: 'h-full scale-100',
+      imageClass: 'max-h-[235px] max-w-[88%]',
+    };
+  };
+
   const visibleProducts = useMemo(() => {
     if (total === 0) return [];
     const count = Math.min(cardsPerPage, total);
@@ -225,6 +254,7 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 items-end">
               {visibleProducts.map((product) => {
                 const isHovered = hoveredId === product.id;
+                const imgStyle = getProductImageStyle(product.name, isHovered);
                 return (
                   <motion.div
                     key={product.id}
@@ -273,21 +303,13 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
 
                       {/* Product Image Area (Seamless & Clean Pure White) */}
                       <div 
-                        className={`w-full flex items-center justify-center p-2 sm:p-3 transition-all duration-400 absolute left-0 right-0 bottom-0 ${
-                          isHovered 
-                            ? 'h-[190px] scale-90' 
-                            : 'h-full scale-100'
-                        }`}
+                        className={`w-full flex items-center justify-center p-2 sm:p-3 transition-all duration-400 absolute left-0 right-0 bottom-0 ${imgStyle.containerClass}`}
                       >
                         {product.file_url && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(product.file_url) ? (
                           <img
                             src={product.file_url}
                             alt={product.name}
-                            className={`w-auto object-contain transition-all duration-400 mix-blend-multiply ${
-                              isHovered 
-                                ? 'max-h-[175px] max-w-[85%]' 
-                                : 'max-h-[250px] sm:max-h-[265px] max-w-[92%] group-hover:scale-105'
-                            }`}
+                            className={`w-auto object-contain transition-all duration-400 mix-blend-multiply ${imgStyle.imageClass}`}
                           />
                         ) : (
                           <div className="flex flex-col items-center justify-center text-gray-300 group-hover:text-brand-green transition-colors">
