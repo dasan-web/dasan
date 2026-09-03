@@ -1,42 +1,10 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
-import { useMotionValue, useSpring } from 'framer-motion';
+import React from 'react';
 
 export default function HeroBackground() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Motion values for smooth spring animation
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  
-  const springConfig = { stiffness: 60, damping: 25, mass: 0.5 };
-  const springX = useSpring(x, springConfig);
-  const springY = useSpring(y, springConfig);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      const { width, height } = containerRef.current.getBoundingClientRect();
-      const clientX = e.clientX;
-      const clientY = e.clientY;
-      
-      // Calculate normalized position from center (-0.5 to 0.5)
-      const moveX = (clientX / width - 0.5) * -25; // max 25px offset opposite to cursor
-      const moveY = (clientY / height - 0.5) * -25;
-      
-      x.set(moveX);
-      y.set(moveY);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [x, y]);
-
   return (
-    <div ref={containerRef} className="absolute inset-0 z-0 overflow-hidden bg-slate-950 select-none">
+    <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950 select-none">
       <video 
         autoPlay 
         loop 
@@ -44,10 +12,7 @@ export default function HeroBackground() {
         playsInline 
         preload="auto"
         poster="/poster_main.jpg"
-        onCanPlay={(e) => {
-          e.currentTarget.playbackRate = 0.75;
-        }}
-        className="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-95"
+        className="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-95 pointer-events-none"
       >
         <source src="/20260818.mp4" type="video/mp4" />
       </video>
