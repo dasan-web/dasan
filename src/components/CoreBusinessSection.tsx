@@ -176,17 +176,17 @@ export default function CoreBusinessSection() {
                 >
                   {/* Left Column: Factory Image & Navy Banner (7 cols) */}
                   <div className="lg:col-span-7 flex flex-col h-full overflow-hidden">
-                    <div className="relative w-full aspect-[21/9] lg:aspect-auto lg:h-[360px] xl:h-[370px] overflow-hidden bg-gray-100 group">
+                    <div className="relative w-full aspect-[21/9] lg:aspect-auto flex-1 overflow-hidden bg-gray-100 group">
                       <img
                         src="/core_business_factory.jpg"
                         alt={isEnglish ? 'Dasan Pharmaceutical Asan Plant' : '다산제약 아산공장 전경'}
                         className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    <div className="bg-[#1F4E78] px-6 sm:px-8 lg:px-10 xl:px-12 py-7 sm:py-8 lg:py-9 xl:py-10 flex items-center flex-1">
-                      <p className="text-xl sm:text-2xl lg:text-[26px] xl:text-[29px] 2xl:text-[31px] font-extrabold leading-snug sm:leading-relaxed md:leading-[1.58] text-white break-keep">
+                    <div className="bg-[#1F4E78] px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-5 lg:py-5.5 flex items-center shrink-0">
+                      <p className="text-base sm:text-lg lg:text-[19px] xl:text-[21px] font-bold leading-snug sm:leading-relaxed text-white break-keep">
                         {slides[0].title}
                       </p>
                     </div>
