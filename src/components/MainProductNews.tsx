@@ -335,95 +335,123 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
 
         {/* 3-Column Modern Wide Cards Grid with Smooth Book-like Page Slide Transition */}
         <ScrollReveal delay={0.15} y={60} duration={1.2}>
-          <div className="relative overflow-hidden">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={`${activeTab}-${activeCategory}-${startIndex}`}
-                custom={direction}
-                variants={{
-                  enter: (dir: number) => ({
-                    x: dir > 0 ? '40%' : dir < 0 ? '-40%' : 0,
-                    opacity: 0,
-                    scale: 0.98,
-                  }),
-                  center: {
-                    x: 0,
-                    opacity: 1,
-                    scale: 1,
-                    transition: {
-                      duration: 0.45,
-                      ease: [0.16, 1, 0.3, 1],
-                    },
-                  },
-                  exit: (dir: number) => ({
-                    x: dir > 0 ? '-40%' : dir < 0 ? '40%' : 0,
-                    opacity: 0,
-                    scale: 0.98,
-                    transition: {
-                      duration: 0.3,
-                      ease: [0.16, 1, 0.3, 1],
-                    },
-                  }),
-                }}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+          <div className="relative">
+            {/* Left Side Floating Prev Button */}
+            {total > cardsPerPage && (
+              <button
+                type="button"
+                onClick={handlePrev}
+                className="absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-brand-green hover:bg-brand-green/5 shadow-md flex items-center justify-center transition-all duration-200 cursor-pointer z-30 group"
+                aria-label={isEnglish ? "Previous slide" : "이전"}
+                title={isEnglish ? "Previous" : "이전"}
               >
-                {visibleItems.map((item, idx) => {
-                  const meta = getCategoryMeta(item.category);
-                  const dateStr = item.date || '2026.06.25';
-                  const dateParts = dateStr.includes('-') ? dateStr.split('-') : dateStr.split('.');
-                  const yearMonth = dateParts.length >= 2 ? `${dateParts[0]}.${dateParts[1]}` : '2026.06';
-                  const day = dateParts.length >= 3 ? dateParts[2] : '25';
+                <ChevronLeft className="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-0.5" />
+              </button>
+            )}
 
-                  return (
-                    <div
-                      key={`${activeTab}-${item.id}-${idx}`}
-                      onClick={() => setSelectedModalItem(item)}
-                      className="relative bg-[#f8f9fa] rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group p-6 sm:p-7"
-                      style={{ minHeight: '340px' }}
-                    >
-                      {/* Expanding Circle Background Ripple Effect */}
+            {/* Right Side Floating Next Button */}
+            {total > cardsPerPage && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-brand-green hover:bg-brand-green/5 shadow-md flex items-center justify-center transition-all duration-200 cursor-pointer z-30 group"
+                aria-label={isEnglish ? "Next slide" : "다음"}
+                title={isEnglish ? "Next" : "다음"}
+              >
+                <ChevronRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </button>
+            )}
+
+            <div className="relative overflow-hidden">
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={`${activeTab}-${activeCategory}-${startIndex}`}
+                  custom={direction}
+                  variants={{
+                    enter: (dir: number) => ({
+                      x: dir > 0 ? '40%' : dir < 0 ? '-40%' : 0,
+                      opacity: 0,
+                      scale: 0.98,
+                    }),
+                    center: {
+                      x: 0,
+                      opacity: 1,
+                      scale: 1,
+                      transition: {
+                        duration: 0.45,
+                        ease: [0.16, 1, 0.3, 1],
+                      },
+                    },
+                    exit: (dir: number) => ({
+                      x: dir > 0 ? '-40%' : dir < 0 ? '40%' : 0,
+                      opacity: 0,
+                      scale: 0.98,
+                      transition: {
+                        duration: 0.3,
+                        ease: [0.16, 1, 0.3, 1],
+                      },
+                    }),
+                  }}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+                >
+                  {visibleItems.map((item, idx) => {
+                    const meta = getCategoryMeta(item.category);
+                    const dateStr = item.date || '2026.06.25';
+                    const dateParts = dateStr.includes('-') ? dateStr.split('-') : dateStr.split('.');
+                    const yearMonth = dateParts.length >= 2 ? `${dateParts[0]}.${dateParts[1]}` : '2026.06';
+                    const day = dateParts.length >= 3 ? dateParts[2] : '25';
+                    const plainContent = item.content ? item.content.replace(/<[^>]*>/g, '').trim() : '';
+
+                    return (
                       <div
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-brand-green scale-0 opacity-0 group-hover:scale-[26] group-hover:opacity-100 transition-all duration-[2200ms] ease-out origin-center pointer-events-none z-0"
-                        aria-hidden="true"
-                      />
+                        key={`${activeTab}-${item.id}-${idx}`}
+                        onClick={() => setSelectedModalItem(item)}
+                        className="relative bg-[#f8f9fa] rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group p-6 sm:p-7"
+                        style={{ minHeight: '340px' }}
+                      >
+                        {/* Expanding Circle Background Ripple Effect */}
+                        <div
+                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-brand-green scale-0 opacity-0 group-hover:scale-[26] group-hover:opacity-100 transition-all duration-[2200ms] ease-out origin-center pointer-events-none z-0"
+                          aria-hidden="true"
+                        />
 
-                      {/* Top Header: Badge, Date & Icon */}
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-5">
-                          <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 rounded-2xl bg-white group-hover:bg-white/20 flex items-center justify-center transition-colors duration-[1500ms] shadow-2xs">
-                              {React.cloneElement(meta.icon as React.ReactElement<any>, {
-                                className: "w-6 h-6 text-brand-green group-hover:text-white transition-colors duration-[1500ms]"
-                              })}
-                            </div>
-                            <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase shadow-2xs group-hover:bg-white group-hover:text-brand-green transition-all duration-[1500ms] ${meta.badgeBg}`}>
-                              {meta.label}
-                            </span>
-                            {item.isNew && (
-                              <span className="bg-amber-400 text-gray-900 font-extrabold text-[10px] px-1.5 py-0.5 rounded shadow-2xs">
-                                NEW
+                        {/* Top Header: Badge, Date & Icon */}
+                        <div className="relative z-10">
+                          <div className="flex items-center justify-between mb-5">
+                            <div className="flex items-center gap-2">
+                              <div className="w-10 h-10 rounded-2xl bg-white group-hover:bg-white/20 flex items-center justify-center transition-colors duration-[1500ms] shadow-2xs">
+                                {React.cloneElement(meta.icon as React.ReactElement<any>, {
+                                  className: "w-6 h-6 text-brand-green group-hover:text-white transition-colors duration-[1500ms]"
+                                })}
+                              </div>
+                              <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase shadow-2xs group-hover:bg-white group-hover:text-brand-green transition-all duration-[1500ms] ${meta.badgeBg}`}>
+                                {meta.label}
                               </span>
-                            )}
+                              {item.isNew && (
+                                <span className="bg-amber-400 text-gray-900 font-extrabold text-[10px] px-1.5 py-0.5 rounded shadow-2xs">
+                                  NEW
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-white/90 font-medium transition-colors duration-[1500ms]">
+                              <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-[1500ms]" />
+                              <span>{dateStr.replace(/-/g, '.')}</span>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-white/90 font-medium transition-colors duration-[1500ms]">
-                            <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-[1500ms]" />
-                            <span>{dateStr.replace(/-/g, '.')}</span>
-                          </div>
-                        </div>
 
-                        {/* Title & Description */}
-                        <div className="space-y-3">
-                          <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-[1500ms] line-clamp-2">
-                            {item.title}
-                          </h3>
-                          <p className="text-xs sm:text-sm text-gray-500 group-hover:text-white/85 leading-relaxed line-clamp-3 font-normal transition-colors duration-[1500ms]">
-                            {item.content}
-                          </p>
+                          {/* Title & Description */}
+                          <div className="space-y-3">
+                            <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-[1500ms] line-clamp-2">
+                              {item.title}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-gray-500 group-hover:text-white/85 leading-relaxed line-clamp-3 font-normal transition-colors duration-[1500ms]">
+                              {plainContent}
+                            </p>
+                          </div>
                         </div>
-                      </div>
 
                       {/* Bottom Footer: Big Date & Arrow Link */}
                       <div className="relative z-10 pt-5 mt-6 flex items-end justify-between border-t border-gray-100/80 group-hover:border-white/20 transition-colors duration-[1500ms]">
@@ -465,7 +493,8 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
               </motion.div>
             </AnimatePresence>
           </div>
-        </ScrollReveal>
+        </div>
+      </ScrollReveal>
 
       </div>
 
