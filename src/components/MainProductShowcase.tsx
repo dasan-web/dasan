@@ -41,7 +41,7 @@ const defaultProducts: ProductItem[] = [
     efficacy: '혈압강하제',
     ingredient: '암로디핀, 텔미사르탄',
     appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
-    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787706038/dasan/sc2joxcggm56nhzyuptw.png'
+    file_url: '/images/products/twinact_white.png'
   },
   {
     id: 8,
@@ -61,7 +61,7 @@ const defaultProducts: ProductItem[] = [
     efficacy: '혈압강하제',
     ingredient: '암로디핀, 올메사르탄',
     appearance: '흰색 또는 지정색의 원형/타원형 필름코팅정',
-    file_url: 'https://res.cloudinary.com/ewrop4wj/image/upload/v1787706049/dasan/wivflmfegd2cew9uodco.png'
+    file_url: '/images/products/sevitension_white.png'
   },
   {
     id: 26,
@@ -305,22 +305,30 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                       <div 
                         className={`w-full flex items-center justify-center p-2 sm:p-3 transition-all duration-400 absolute left-0 right-0 bottom-0 ${imgStyle.containerClass}`}
                       >
-                        {product.file_url && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(product.file_url) ? (
-                          <img
-                            src={product.file_url}
-                            alt={product.name}
-                            className={`w-auto object-contain transition-all duration-400 mix-blend-multiply ${imgStyle.imageClass}`}
-                          />
-                        ) : (
-                          <div className="flex flex-col items-center justify-center text-gray-300 group-hover:text-brand-green transition-colors">
-                            <div className="w-20 h-20 rounded-3xl bg-gray-50 flex items-center justify-center mb-3">
-                              <Pill className="w-10 h-10 stroke-[1.5] text-brand-green/70" />
+                        {(() => {
+                          let imgUrl = product.file_url;
+                          if (product.name.includes('트윈액트')) {
+                            imgUrl = '/images/products/twinact_white.png';
+                          } else if (product.name.includes('세비텐션')) {
+                            imgUrl = '/images/products/sevitension_white.png';
+                          }
+                          return imgUrl && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(imgUrl) ? (
+                            <img
+                              src={imgUrl}
+                              alt={product.name}
+                              className={`w-auto object-contain transition-all duration-400 mix-blend-multiply ${imgStyle.imageClass}`}
+                            />
+                          ) : (
+                            <div className="flex flex-col items-center justify-center text-gray-300 group-hover:text-brand-green transition-colors">
+                              <div className="w-20 h-20 rounded-3xl bg-gray-50 flex items-center justify-center mb-3">
+                                <Pill className="w-10 h-10 stroke-[1.5] text-brand-green/70" />
+                              </div>
+                              <span className="text-[11px] font-black tracking-widest text-gray-400">
+                                {product.name.split(' ')[0]}
+                              </span>
                             </div>
-                            <span className="text-[11px] font-black tracking-widest text-gray-400">
-                              {product.name.split(' ')[0]}
-                            </span>
-                          </div>
-                        )}
+                          );
+                        })()}
                       </div>
                     </Link>
                   </motion.div>
