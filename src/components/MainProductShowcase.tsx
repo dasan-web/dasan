@@ -132,14 +132,8 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
     }
   };
 
-  // 5개 제품 사진의 시각적 체감 크기(부피감)를 균형 있게 보정하는 헬퍼
-  const getProductImageStyle = (name: string, isHovered: boolean) => {
-    if (isHovered) {
-      return {
-        containerClass: 'h-[190px] scale-90',
-        imageClass: 'max-h-[175px] max-w-[85%]',
-      };
-    }
+  // 5개 제품 사진의 시각적 체감 크기(부피감)를 균형 있게 보정하는 헬퍼 (호버 시에도 축소되지 않고 크기 유지)
+  const getProductImageStyle = (name: string) => {
     // 가로형 박스 패키지(트윈액트정, 세비텐션정): 세로형 병과 동일한 시각적 면적/존재감이 느껴지도록 가로폭과 스케일 확대
     if (name.includes('트윈액트') || name.includes('세비텐션')) {
       return {
@@ -254,7 +248,7 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 items-end">
               {visibleProducts.map((product) => {
                 const isHovered = hoveredId === product.id;
-                const imgStyle = getProductImageStyle(product.name, isHovered);
+                const imgStyle = getProductImageStyle(product.name);
                 return (
                   <motion.div
                     key={product.id}
@@ -272,12 +266,12 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
                       }`}
                       style={{ height: '360px', backgroundColor: '#ffffff' }}
                     >
-                      {/* Top Info Area (Slides down on hover) */}
+                      {/* Top Info Area (Slides down on hover without shrinking image) */}
                       <div 
-                        className={`p-6 transition-all duration-400 flex flex-col justify-start absolute top-0 left-0 right-0 z-20 ${
+                        className={`p-5 transition-all duration-300 flex flex-col justify-start absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-white via-white/90 to-transparent ${
                           isHovered 
                             ? 'opacity-100 translate-y-0' 
-                            : 'opacity-0 -translate-y-6 pointer-events-none'
+                            : 'opacity-0 -translate-y-4 pointer-events-none'
                         }`}
                       >
                         {/* Hashtag Tags */}
