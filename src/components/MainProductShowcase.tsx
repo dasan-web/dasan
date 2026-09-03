@@ -166,15 +166,19 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
           {/* Section Headline Area with Integrated Search Bar */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8 sm:mb-10">
             <div>
-              <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-brand-green mb-2 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#84bd00]" />
-                {isEnglish ? 'Product' : 'PRODUCT'}
-              </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-gray-900 lg:whitespace-nowrap">
+              {/* 그림2 스타일: PRODUCT LIST 타이틀 및 하단 녹색 바 */}
+              <div className="flex flex-col mb-3.5 w-fit">
+                <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-brand-green tracking-tight">
+                  PRODUCT LIST
+                </h2>
+                <div className="w-full h-1.5 bg-brand-green mt-2 rounded-full" />
+              </div>
+
+              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight text-gray-900 lg:whitespace-nowrap">
                 {isEnglish 
                   ? 'Dasan Pharmaceutical creates healthy and happy lives for humanity.' 
                   : '다산제약은 인류의 건강과 행복한 삶을 완성합니다.'}
-              </h2>
+              </p>
             </div>
 
             {/* Clean Seamless Search Input Bar */}
