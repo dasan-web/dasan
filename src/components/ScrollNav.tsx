@@ -32,7 +32,7 @@ export default function ScrollNav() {
     },
     { 
       id: 'product-news', 
-      label: isEnglish ? 'News & Media' : '뉴스 & 소식',
+      label: isEnglish ? 'News (Product, Press)' : '뉴스(제품소식,보도자료)',
       activeColor: 'bg-brand-green shadow-green-glow',
       inactiveColor: 'bg-brand-green/40 hover:bg-brand-green',
       pingColor: 'bg-brand-green/25 border border-brand-green/35'
