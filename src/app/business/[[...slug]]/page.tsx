@@ -139,8 +139,8 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             <div className="w-[100vw] aspect-[21/9] animate-fade-in-up bg-black overflow-hidden relative left-1/2 -translate-x-1/2 mb-4 mt-4 shadow-sm" style={{ aspectRatio: '21 / 9' }}>
               <video 
                 className="w-full h-full object-cover"
-                src="/CDMO_219.mp4"
-                poster="/poster_cdmo.jpg"
+                src="/CDMO_219.mp4?v=20260903"
+                poster="/poster_cdmo.jpg?v=20260903"
                 autoPlay
                 loop
                 muted
