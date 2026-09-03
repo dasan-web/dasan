@@ -4,7 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldAlert } from 'lucide-react';
 
-const getOptimizedImageUrl = (url?: string | null, width = 800) => {
+const getOptimizedImageUrl = (url?: string | null, width = 800, productName?: string) => {
+  if (productName) {
+    if (productName.includes('트윈액트')) return '/images/products/showcase_twinact.png';
+    if (productName.includes('세비텐션')) return '/images/products/showcase_sevitension.png';
+  }
   if (!url) return '';
   if (url.includes('cloudinary.com') && url.includes('/upload/')) {
     return url.replace('/upload/', `/upload/f_auto,q_auto:good,w_${width}/`);
@@ -91,17 +95,20 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
             </div>
             
             <div className="w-full aspect-square max-w-[320px] sm:max-w-[360px] flex items-center justify-center p-2 bg-white">
-              {product.file_url && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(product.file_url) ? (
-                <img 
-                  src={getOptimizedImageUrl(product.file_url, 800)} 
-                  alt={product.name} 
-                  className="max-w-full max-h-full object-contain transition-transform duration-500 hover:scale-105"
-                />
-              ) : (
-                <span className="text-xl tracking-wider text-slate-300 font-extrabold uppercase select-none">
-                  DASAN PHARM
-                </span>
-              )}
+              {(() => {
+                const imgUrl = getOptimizedImageUrl(product.file_url, 800, product.name);
+                return imgUrl && /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(imgUrl) ? (
+                  <img 
+                    src={imgUrl} 
+                    alt={product.name} 
+                    className="max-w-full max-h-full object-contain transition-transform duration-500 hover:scale-105"
+                  />
+                ) : (
+                  <span className="text-xl tracking-wider text-slate-300 font-extrabold uppercase select-none">
+                    DASAN PHARM
+                  </span>
+                );
+              })()}
             </div>
           </div>
 
