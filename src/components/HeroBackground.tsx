@@ -45,17 +45,11 @@ export default function HeroBackground() {
         preload="auto"
         poster="/poster_main.jpg"
         onCanPlay={(e) => {
-          e.currentTarget.playbackRate = 0.75; // 75% speed is much smoother than 50% on browsers
-        }}
-        onTimeUpdate={(e) => {
-          if (e.currentTarget.currentTime >= 9.3) {
-            e.currentTarget.currentTime = 0;
-            e.currentTarget.play();
-          }
+          e.currentTarget.playbackRate = 0.75;
         }}
         className="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-95"
       >
-        <source src="/20260721.mp4" type="video/mp4" />
+        <source src="/20260818.mp4" type="video/mp4" />
       </video>
       
       {/* Premium clean overlay matching Dasan style (gradient from white for text contrast) */}
