@@ -136,9 +136,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
       category: 'press',
       title: item.title,
       date: item.created_at
-        ? (item.created_at instanceof Date
-            ? item.created_at.toISOString().substring(0, 10).replace(/-/g, '.')
-            : String(item.created_at).substring(0, 10).replace(/-/g, '.'))
+        ? String(item.created_at).substring(0, 10).replace(/-/g, '.')
         : '2026.06.25',
       content: item.content,
       views: item.views || 0,
