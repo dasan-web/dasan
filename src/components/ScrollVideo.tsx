@@ -84,7 +84,7 @@ export default function ScrollVideo() {
   // 브라우저 크기 계산 전에는 애니메이션(너비 변동)을 방지하기 위해 빈 영역 렌더링
   if (windowWidth === 0) {
     return (
-      <div ref={triggerRef} className="w-full flex flex-col mb-16" style={{ height: '500px' }}></div>
+      <div ref={triggerRef} className="w-full flex flex-col mb-0" style={{ height: '500px' }}></div>
     );
   }
 
@@ -93,7 +93,7 @@ export default function ScrollVideo() {
       <motion.div 
         ref={containerRef} 
         // 전체화면 시 상단 헤더(z-50)를 완전히 덮어버릴 수 있도록 z-index를 90으로 상향
-        className="relative w-full mb-16 z-[90]"
+        className="relative w-full mb-0 z-[90]"
         // 확대되는 순간의 뷰포트 최상단에 정확히 일치하도록 marginTop 동적 계산
         animate={{ marginTop: isExpanded ? `${expandedScrollY - initialTop}px` : '0px' }}
         transition={{ duration: 0.6, ease: "easeInOut" }}

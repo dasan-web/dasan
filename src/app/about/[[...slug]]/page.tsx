@@ -17,6 +17,12 @@ import SalesGrowthChart from '@/components/SalesGrowthChart';
 import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import BusinessAreaTabSection from '@/components/BusinessAreaTabSection';
 import ESGEthicsSection from '@/components/ESGEthicsSection';
+import ScrollPromiseImage from '@/components/ScrollPromiseImage';
+import ScrollEnvironmentImage from '@/components/ScrollEnvironmentImage';
+import ScrollSafetyImage from '@/components/ScrollSafetyImage';
+import ScrollAntiCorruptionImage from '@/components/ScrollAntiCorruptionImage';
+import ScrollEthicsImage from '@/components/ScrollEthicsImage';
+import ScrollGreetingImage from '@/components/ScrollGreetingImage';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -313,13 +319,32 @@ export default async function AboutCatchAllPage({ params }: Params) {
             {/* 상단 영상 영역 (스크롤 애니메이션 적용). 상위 컨테이너의 애니메이션(transform) 제약을 벗어나 z-index가 정상 작동하게 분리합니다. */}
             <ScrollVideo />
 
-            <div className="space-y-16 animate-fade-in-up mt-16">
+            <div className="space-y-16 animate-fade-in-up mt-0">
 
-            {/* 1. Intro Summary */}
-            <div className="relative overflow-hidden bg-white rounded-3xl p-8 md:p-12 shadow-none">
-              <span className="text-brand-teal text-xs font-bold tracking-widest uppercase block mb-3">Company Overview</span>
-              
-              <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
+            {/* 1. Intro Summary with Full-Bleed 4.avif Forest Background */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen overflow-hidden pt-16 sm:pt-20 md:pt-24 pb-28 sm:pb-36 md:pb-44 mt-0 mb-0 shadow-none border-b-0 group/bg"
+            >
+              {/* Background Image: 4.avif */}
+              <div className="absolute inset-0 z-0">
+                <Image 
+                  src="/images/4.avif" 
+                  alt="다산제약 기업 철학 숲길 배경" 
+                  fill 
+                  priority 
+                  className="object-cover object-center scale-100 group-hover/bg:scale-102 transition-transform duration-1000 ease-out"
+                />
+                {/* 숲길 본연의 깊고 차분한 색감을 살려 톤 다운한 반투명 오버레이 */}
+                <div className="absolute inset-0 bg-black/45 backdrop-blur-[0.5px]" />
+              </div>
+
+              {/* Content Container */}
+              <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
+                <div className="space-y-4 text-white text-sm md:text-base leading-relaxed">
                 {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
                   (() => {
                     let beforeHtml = introBody;
@@ -357,13 +382,13 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       // 1.5 4대 경영 철학
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
-                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">$1</span>'
+                        '<span class="block text-2xl sm:text-3xl md:text-4xl font-black text-white mt-10 mb-5 w-full [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">$1</span>'
                       );
                       
                       // 2. 다산(茶山)의 정신으로...
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(다산\(茶山\)의 정신으로.*?다산제약)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
-                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</span>'
+                        '<span class="block text-xl sm:text-2xl md:text-3xl font-black text-white mt-8 mb-4 w-full [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</span>'
                       );
                       
                       return processed;
@@ -374,96 +399,116 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                     return (
                       <>
-                        <div 
-                          className="
-                            text-[15px] text-gray-600 leading-[1.8]
-                            [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                            [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3:not(:first-child)]:mt-28
-                            [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
-                            [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
-                            [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
-                            [&_strong]:text-gray-900 [&_strong]:font-bold
-                          "
-                          dangerouslySetInnerHTML={{ __html: `<h3 class="text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-12">${introTitle}</h3>` + beforeHtml }} 
-                        />
-                        <div className="w-full mt-8">
-                          <PhilosophyGraphic />
-                        </div>
-                        {hasPhilosophy && afterHtml && (
+                        {/* 상단 텍스트 영역: 전체적으로 글씨 크기 확대 및 흰색 적용 */}
+                        <div className="w-full">
+                          <span className="text-white text-sm sm:text-base md:text-lg font-black tracking-widest uppercase block mb-3 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
+                            Company Overview
+                          </span>
                           <div 
                             className="
-                              text-[15px] text-gray-600 leading-[1.8] mt-6
-                              [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                              [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
-                              [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
-                              [&_strong]:text-gray-900 [&_strong]:font-bold
+                              text-[17px] sm:text-[19px] md:text-[21px] text-white leading-[2.0] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]
+                              [&_p]:leading-[2.0] [&_p]:text-[17px] sm:[&_p]:text-[19px] md:[&_p]:text-[21px] [&_p]:text-white [&_p]:font-bold [&_p]:mb-5 
+                              [&_h3]:text-3xl sm:[&_h3]:text-4xl md:[&_h3]:text-5xl [&_h3]:font-black [&_h3]:text-white [&_h3]:border-b [&_h3]:border-white/25 [&_h3]:pb-4 [&_h3]:mb-6
+                              [&_h4]:text-xl sm:[&_h4]:text-2xl md:[&_h4]:text-3xl [&_h4]:font-black [&_h4]:text-white [&_h4]:mt-8 [&_h4]:mb-4
+                              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:space-y-4
+                              [&_li]:text-white [&_li]:font-bold [&_li]:text-[17px] sm:[&_li]:text-[19px] md:[&_li]:text-[21px] [&_li]:leading-[2.0] [&_li::marker]:text-white
+                              [&_strong]:text-white [&_strong]:font-black
                             "
-                            dangerouslySetInnerHTML={{ __html: afterHtml }} 
+                            dangerouslySetInnerHTML={{ __html: `<h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 pb-4 border-b border-white/25 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">${introTitle}</h3>` + beforeHtml }} 
                           />
+                        </div>
+
+                        {/* 중앙 4대 경영 철학 그래픽 */}
+                        <div className="w-full my-6 sm:my-10">
+                          <PhilosophyGraphic />
+                        </div>
+
+                        {/* 하단 세부 항목 영역: 전체적으로 글씨 크기 확대 및 흰색 적용 */}
+                        {hasPhilosophy && afterHtml && (
+                          <div className="w-full mt-8 sm:mt-12">
+                            <div 
+                              className="
+                                text-[17px] sm:text-[19px] md:text-[21px] text-white leading-[2.0] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]
+                                [&_p]:leading-[2.0] [&_p]:text-[17px] sm:[&_p]:text-[19px] md:[&_p]:text-[21px] [&_p]:text-white [&_p]:font-bold [&_p]:mb-4 
+                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-4
+                                [&_li]:text-white [&_li]:font-bold [&_li]:text-[17px] sm:[&_li]:text-[19px] md:[&_li]:text-[21px] [&_li]:leading-[2.0] [&_li::marker]:text-white
+                                [&_strong]:text-white [&_strong]:font-black [&_strong]:text-[18px] sm:[&_strong]:text-[20px] md:[&_strong]:text-[22px]
+                              "
+                              dangerouslySetInnerHTML={{ __html: afterHtml }} 
+                            />
+                          </div>
                         )}
                       </>
                     );
                   })()
                 ) : (
                   (() => {
-                    return (introTitle + '\n' + introBody).split('\n').map((line, i) => {
-                      const trimmed = line.trim();
-                      if (!trimmed) return null;
+                    const lines = (introTitle + '\n' + introBody).split('\n').map(l => l.trim()).filter(Boolean);
+                    const philIdx = lines.findIndex(l => l.includes('4대 경영 철학') || l.includes('4 Major Management Philosophies'));
+                    
+                    const topLines = philIdx !== -1 ? lines.slice(0, philIdx + 1) : lines;
+                    const bottomLines = philIdx !== -1 ? lines.slice(philIdx + 1) : [];
 
-                      // 1. 기업 이념 및 핵심가치 등 메인 타이틀
-                      if (trimmed.match(/^[1-9]\.\s/)) {
-                        const titleText = trimmed.replace(/^[1-9]\.\s?/, '');
-                        return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
-                      }
-                      
-                      if (trimmed.includes('4대 경영 철학')) {
-                        return (
-                          <div key={i} className="w-full">
-                            <h4 className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>
-                            <PhilosophyGraphic />
+                    return (
+                      <>
+                        <div className="w-full">
+                          <span className="text-white text-sm sm:text-base md:text-lg font-black tracking-widest uppercase block mb-3 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
+                            Company Overview
+                          </span>
+                          {topLines.map((line, i) => {
+                            if (line.match(/^[1-9]\.\s/) || i === 0) {
+                              const titleText = line.replace(/^[1-9]\.\s?/, '');
+                              return <h3 key={i} className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 pb-4 border-b border-white/25 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{titleText}</h3>;
+                            }
+                            if (line.includes('4대 경영 철학') || line.includes('4 Major Management Philosophies')) {
+                              return <h4 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-white mt-8 mb-4 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</h4>;
+                            }
+                            if (line.startsWith('다산(茶山)의 정신으로') || line.includes('핵심 가치') || line.startsWith('With the spirit of Dasan')) {
+                              return <h4 key={i} className="text-xl sm:text-2xl md:text-3xl font-black text-white mt-8 mb-4 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</h4>;
+                            }
+                            return <p key={i} className="mb-5 text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</p>;
+                          })}
+                        </div>
+
+                        <div className="w-full my-6 sm:my-10">
+                          <PhilosophyGraphic />
+                        </div>
+
+                        {bottomLines.length > 0 && (
+                          <div className="w-full mt-8 sm:mt-12">
+                            <div className="space-y-4 sm:space-y-5">
+                              {bottomLines.map((line, i) => {
+                                const content = (line.startsWith('•') || line.startsWith('-') || line.startsWith('·')) ? line.substring(1).trim() : line;
+                                const splitIdx = content.indexOf(':');
+                                if (splitIdx !== -1 && splitIdx < 25) {
+                                  const title = content.substring(0, splitIdx).trim();
+                                  const desc = content.substring(splitIdx + 1).trim();
+                                  return (
+                                    <div key={i} className="flex items-start">
+                                      <span className="text-white font-black mr-3.5 mt-1 text-2xl leading-none drop-shadow-md">•</span>
+                                      <p className="text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">
+                                        <strong className="text-white font-black text-[18px] sm:text-[20px] md:text-[22px]">{title}</strong> : {desc}
+                                      </p>
+                                    </div>
+                                  );
+                                }
+                                return (
+                                  <div key={i} className="flex items-start">
+                                    <span className="text-white font-black mr-3.5 mt-1 text-2xl leading-none drop-shadow-md">•</span>
+                                    <p className="text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{content}</p>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
-                        );
-                      }
-
-                      // 서브 타이틀 (다산의 정신으로...)
-                      if (
-                        trimmed.startsWith('다산(茶山)의 정신으로') || 
-                        trimmed.includes('핵심 가치')
-                      ) {
-                        return <h4 key={i} className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>;
-                      }
-
-                    // 불릿 리스트
-                    if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('·')) {
-                      const content = trimmed.substring(1).trim();
-                      const splitIdx = content.indexOf(':');
-                      
-                      if (splitIdx !== -1 && splitIdx < 15) {
-                        const title = content.substring(0, splitIdx).trim();
-                        const desc = content.substring(splitIdx + 1).trim();
-                        return (
-                          <div key={i} className="flex items-start mb-3 ml-2">
-                            <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
-                            <p className="text-gray-600 leading-[1.8] text-[15px]"><strong className="text-gray-900">{title}</strong> : {desc}</p>
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div key={i} className="flex items-start mb-3 ml-2">
-                            <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
-                            <p className="text-gray-600 leading-[1.8] text-[15px]">{content}</p>
-                          </div>
-                        );
-                      }
-                    }
-
-                    // 일반 단락
-                    return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px]">{trimmed}</p>;
-                  });
+                        )}
+                      </>
+                    );
                   })()
                 )}
               </div>
             </div>
+          </div>
 
           </div>
           </>
@@ -492,60 +537,67 @@ export default async function AboutCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
-            <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
-              {greetingBody && (greetingBody.includes('<p') || greetingBody.includes('<br') || greetingBody.includes('<h')) ? (
-                <div 
-                  className="
-                    text-[15px] text-gray-600 leading-[1.8]
-                    [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                    [&_h3]:text-2xl md:[&_h3]:text-3xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-200 [&_h3]:pb-3 [&_h3]:mb-6
-                    [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-gray-900 [&_h4]:mt-6 [&_h4]:mb-5
-                    [&_strong]:text-gray-900 [&_strong]:font-bold
-                  "
-                  dangerouslySetInnerHTML={{ __html: greetingBody }} 
-                />
-              ) : (
-                <div className="mb-8">
-                  <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-6 pb-3 border-b border-gray-200">
-                    CEO 메시지 (CEO Message)
-                  </h3>
-                  
-                  <h4 className="text-lg md:text-xl font-bold text-gray-900 mt-6 mb-5">
-                    신뢰와 혁신으로 열어가는 더 건강한 미래
-                  </h4>
-                  
-                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                    다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다
-                  </p>
-                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                    1996년 첫 발을 내딛은 다산제약은 &apos;차별화된 의약품 연구개발&apos;이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다
-                  </p>
-                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                    우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다
-                  </p>
-                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                    나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다
-                  </p>
-                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                    다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 &apos;글로벌 헬스케어 리더&apos;로 끊임없이 도약할 것을 약속드립니다
-                  </p>
-                  <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                    새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다
-                  </p>
-                  <p className="text-gray-600 leading-[1.8] text-[15px] mt-8">
-                    감사합니다
-                  </p>
-                </div>
-              )}
+          <>
+            {/* 대표이사 인사말 상단 배너 배치 */}
+            <ScrollGreetingImage lang="ko" />
 
-              {/* CEO Signature */}
-              <div className="flex justify-end items-end mt-16 gap-4">
-                <span className="text-gray-500 font-medium text-[15px] pb-1">대표이사</span>
-                <span className="text-gray-800 font-black text-3xl md:text-4xl tracking-[0.15em] font-serif">류 형 선</span>
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
+                <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
+                  {greetingBody && (greetingBody.includes('<p') || greetingBody.includes('<br') || greetingBody.includes('<h')) ? (
+                    <div 
+                      className="
+                        text-[15px] text-gray-600 leading-[1.8]
+                        [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
+                        [&_h3]:text-2xl md:[&_h3]:text-3xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-200 [&_h3]:pb-3 [&_h3]:mb-6
+                        [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-gray-900 [&_h4]:mt-6 [&_h4]:mb-5
+                        [&_strong]:text-gray-900 [&_strong]:font-bold
+                      "
+                      dangerouslySetInnerHTML={{ __html: greetingBody }} 
+                    />
+                  ) : (
+                    <div className="mb-8">
+                      <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-6 pb-3 border-b border-gray-200">
+                        CEO 메시지 (CEO Message)
+                      </h3>
+                      
+                      <h4 className="text-lg md:text-xl font-bold text-gray-900 mt-6 mb-5">
+                        신뢰와 혁신으로 열어가는 더 건강한 미래
+                      </h4>
+                      
+                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                        다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다
+                      </p>
+                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                        1996년 첫 발을 내딛은 다산제약은 &apos;차별화된 의약품 연구개발&apos;이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다
+                      </p>
+                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                        우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다
+                      </p>
+                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                        나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다
+                      </p>
+                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                        다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 &apos;글로벌 헬스케어 리더&apos;로 끊임없이 도약할 것을 약속드립니다
+                      </p>
+                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                        새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다
+                      </p>
+                      <p className="text-gray-600 leading-[1.8] text-[15px] mt-8">
+                        감사합니다
+                      </p>
+                    </div>
+                  )}
+
+                  {/* CEO Signature */}
+                  <div className="flex justify-end items-end mt-16 gap-4">
+                    <span className="text-gray-500 font-medium text-[15px] pb-1">대표이사</span>
+                    <span className="text-gray-800 font-black text-3xl md:text-4xl tracking-[0.15em] font-serif">류 형 선</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         );
 
       case '/about/business-area':
@@ -1071,15 +1123,21 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-10 animate-fade-in-up">
-            {/* 공장 전경 이미지 (그림1) */}
-            <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-lg relative mb-24">
-              {/* 이미지 경로: 임의로 press_factory.png를 지정하였으나, 추후 실제 파일명으로 수정 가능합니다. */}
+            {/* 글로벌 인프라 대표 비주얼 (21:9 와이드 화면) */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-16 sm:mb-20"
+            >
               <Image 
-                src="/press_factory.png" 
-                alt="다산제약 글로벌 생산 기지 전경" 
+                src="/global_infrastructure_highway.jpg" 
+                alt="다산제약 글로벌 인프라 허브 전경" 
                 fill
+                priority
                 unoptimized={true}
-                className="object-cover"
+                className="object-cover object-center"
               />
             </div>
             
@@ -1183,9 +1241,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
       case '/about/esg/ethics':
         return (
-          <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
-            <ESGEthicsSection lang="ko" />
-          </div>
+          <>
+            {/* 기업 개요와 동일한 크기 및 스크롤 확장 효과를 제공하는 Promise.png 이미지 */}
+            <ScrollPromiseImage lang="ko" />
+
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <ESGEthicsSection lang="ko" />
+            </div>
+          </>
         );
       case '/about/esg/environment': {
         const defaultTitle = '환경경영방침';
@@ -1203,58 +1266,65 @@ export default async function AboutCatchAllPage({ params }: Params) {
         const defaultDate = '2025년 10월 20일';
 
         return (
-          <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
-            {/* Header & Core Statement */}
-            <div className="text-left max-w-4xl mx-auto space-y-5">
-              <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                <Leaf size={14} className="text-brand-green" />
-                <span>Environmental Management Policy</span>
-              </div>
+          <>
+            {/* 그림2 표시 부분 사진 위치와 동일하게 환경경영방침 풍력발전기 배너 배치 */}
+            <ScrollEnvironmentImage lang="ko" />
 
-              {/* Core Statement & Separated Bridge Line */}
-              <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
-                <p>
-                  {defaultCoreStatement}
-                </p>
-                <p className="text-gray-800 font-medium">
-                  {defaultBridgeText}
-                </p>
-              </div>
-            </div>
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+                {/* Header & Core Statement */}
+                <div className="text-left max-w-4xl mx-auto space-y-5">
+                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
+                    <Leaf size={14} className="text-brand-green" />
+                    <span>Environmental Management Policy</span>
+                  </div>
 
-            {/* 6 Action Items */}
-            <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
-              {defaultItems.map((item, idx) => (
-                <div 
-                  key={idx} 
-                  className="flex items-start space-x-4 py-4.5 sm:py-5 group"
-                >
-                  <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
-                    {idx + 1}
-                  </span>
-                  <p className="text-sm sm:text-base text-gray-700 leading-[1.7] font-normal pt-0.5 break-keep tracking-[-0.015em] flex-1">
-                    {item}
-                  </p>
+                  {/* Core Statement & Separated Bridge Line */}
+                  <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
+                    <p>
+                      {defaultCoreStatement}
+                    </p>
+                    <p className="text-gray-800 font-medium">
+                      {defaultBridgeText}
+                    </p>
+                  </div>
                 </div>
-              ))}
-            </div>
 
-            {/* Formal Footer Sign-off Block */}
-            <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
-              <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
-                {defaultDate}
-              </p>
-              
-              <div className="space-y-1.5">
-                <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
-                  주식회사 다산제약
-                </p>
-                <p className="text-base sm:text-lg font-bold text-gray-800">
-                  대표이사 <span className="font-black text-gray-900 ml-1">류 형 선</span>
-                </p>
+                {/* 6 Action Items */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
+                  {defaultItems.map((item, idx) => (
+                    <div 
+                      key={idx} 
+                      className="flex items-start space-x-4 py-4.5 sm:py-5 group"
+                    >
+                      <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
+                        {idx + 1}
+                      </span>
+                      <p className="text-sm sm:text-base text-gray-700 leading-[1.7] font-normal pt-0.5 break-keep tracking-[-0.015em] flex-1">
+                        {item}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Formal Footer Sign-off Block */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
+                  <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
+                    {defaultDate}
+                  </p>
+                  
+                  <div className="space-y-1.5">
+                    <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
+                      주식회사 다산제약
+                    </p>
+                    <p className="text-base sm:text-lg font-bold text-gray-800">
+                      대표이사 <span className="font-black text-gray-900 ml-1">류 형 선</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         );
       }
 
@@ -1311,61 +1381,68 @@ export default async function AboutCatchAllPage({ params }: Params) {
         const defaultDate = '2025년 01월 01일';
 
         return (
-          <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
-            {/* Header & Core Intro */}
-            <div className="text-left max-w-4xl mx-auto space-y-5">
-              <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                <Shield size={14} className="text-brand-green" />
-                <span>Code of Ethics</span>
-              </div>
+          <>
+            {/* 윤리강령 상단 배너 배치 */}
+            <ScrollEthicsImage lang="ko" />
 
-              {/* Intro Statement with balanced vertical spacing */}
-              <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
-                {defaultIntroParas.map((para, pIdx) => (
-                  <p key={pIdx}>
-                    {para}
-                  </p>
-                ))}
-              </div>
-            </div>
-
-            {/* 5 Core Principles */}
-            <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
-              {defaultSections.map((sec, idx) => (
-                <div key={idx} className="py-6 sm:py-7 space-y-3">
-                  <div className="flex items-start space-x-3.5">
-                    <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
-                      {idx + 1}
-                    </span>
-                    <h4 className="text-base sm:text-lg font-bold text-gray-900 leading-snug pt-0.5 break-keep tracking-[-0.015em]">
-                      {sec.title}
-                    </h4>
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+                {/* Header & Core Intro */}
+                <div className="text-left max-w-4xl mx-auto space-y-5">
+                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
+                    <Shield size={14} className="text-brand-green" />
+                    <span>Code of Ethics</span>
                   </div>
-                  <ul className="pl-10 sm:pl-11 space-y-2 text-sm sm:text-base text-gray-600 leading-[1.7] break-keep tracking-[-0.015em]">
-                    {sec.items.map((item, iIdx) => (
-                      <li key={iIdx} className="flex items-start">
-                        <span className="mr-2 text-gray-400 font-bold">•</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
 
-            {/* Formal Footer Sign-off Block */}
-            <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
-              <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
-                {defaultDate}
-              </p>
-              
-              <div className="space-y-1.5">
-                <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
-                  주식회사 다산제약 대표이사
-                </p>
+                  {/* Intro Statement with balanced vertical spacing */}
+                  <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
+                    {defaultIntroParas.map((para, pIdx) => (
+                      <p key={pIdx}>
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 5 Core Principles */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
+                  {defaultSections.map((sec, idx) => (
+                    <div key={idx} className="py-6 sm:py-7 space-y-3">
+                      <div className="flex items-start space-x-3.5">
+                        <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
+                          {idx + 1}
+                        </span>
+                        <h4 className="text-base sm:text-lg font-bold text-gray-900 leading-snug pt-0.5 break-keep tracking-[-0.015em]">
+                          {sec.title}
+                        </h4>
+                      </div>
+                      <ul className="pl-10 sm:pl-11 space-y-2 text-sm sm:text-base text-gray-600 leading-[1.7] break-keep tracking-[-0.015em]">
+                        {sec.items.map((item, iIdx) => (
+                          <li key={iIdx} className="flex items-start">
+                            <span className="mr-2 text-gray-400 font-bold">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Formal Footer Sign-off Block */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
+                  <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
+                    {defaultDate}
+                  </p>
+                  
+                  <div className="space-y-1.5">
+                    <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
+                      주식회사 다산제약 대표이사
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         );
       }
 
@@ -1387,55 +1464,62 @@ export default async function AboutCatchAllPage({ params }: Params) {
         const defaultDate = '2025년 03월 04일';
 
         return (
-          <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
-            {/* Header & Core Intro */}
-            <div className="text-left max-w-4xl mx-auto space-y-5">
-              <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                <ShieldAlert size={14} className="text-brand-green" />
-                <span>Anti-Corruption Policy</span>
-              </div>
+          <>
+            {/* 부패방지방침 상단 배너 배치 */}
+            <ScrollAntiCorruptionImage lang="ko" />
 
-              {/* Intro Statement */}
-              <div className="text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
-                <p>
-                  {defaultIntro}
-                </p>
-              </div>
-            </div>
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+                {/* Header & Core Intro */}
+                <div className="text-left max-w-4xl mx-auto space-y-5">
+                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
+                    <ShieldAlert size={14} className="text-brand-green" />
+                    <span>Anti-Corruption Policy</span>
+                  </div>
 
-            {/* 8 Action Items */}
-            <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
-              {defaultItems.map((item, idx) => (
-                <div 
-                  key={idx} 
-                  className="flex items-start space-x-4 py-4.5 sm:py-5 group"
-                >
-                  <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
-                    {idx + 1}
-                  </span>
-                  <p className="text-sm sm:text-base text-gray-700 leading-[1.7] font-normal pt-0.5 break-keep tracking-[-0.015em] flex-1">
-                    {item}
-                  </p>
+                  {/* Intro Statement */}
+                  <div className="text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
+                    <p>
+                      {defaultIntro}
+                    </p>
+                  </div>
                 </div>
-              ))}
-            </div>
 
-            {/* Formal Footer Sign-off Block */}
-            <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
-              <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
-                {defaultDate}
-              </p>
-              
-              <div className="space-y-1.5">
-                <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
-                  주식회사 다산제약
-                </p>
-                <p className="text-base sm:text-lg font-bold text-gray-800">
-                  대표이사 <span className="font-black text-gray-900 ml-1">류 형 선</span>
-                </p>
+                {/* 8 Action Items */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
+                  {defaultItems.map((item, idx) => (
+                    <div 
+                      key={idx} 
+                      className="flex items-start space-x-4 py-4.5 sm:py-5 group"
+                    >
+                      <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
+                        {idx + 1}
+                      </span>
+                      <p className="text-sm sm:text-base text-gray-700 leading-[1.7] font-normal pt-0.5 break-keep tracking-[-0.015em] flex-1">
+                        {item}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Formal Footer Sign-off Block */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
+                  <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
+                    {defaultDate}
+                  </p>
+                  
+                  <div className="space-y-1.5">
+                    <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
+                      주식회사 다산제약
+                    </p>
+                    <p className="text-base sm:text-lg font-bold text-gray-800">
+                      대표이사 <span className="font-black text-gray-900 ml-1">류 형 선</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         );
       }
 
@@ -1456,55 +1540,62 @@ export default async function AboutCatchAllPage({ params }: Params) {
         const defaultDate = '2024년 09월 30일';
 
         return (
-          <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
-            {/* Header & Core Intro */}
-            <div className="text-left max-w-4xl mx-auto space-y-5">
-              <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                <Shield size={14} className="text-brand-green" />
-                <span>Health & Safety Policy</span>
-              </div>
+          <>
+            {/* 안전보건경영방침 상단 배너 배치 */}
+            <ScrollSafetyImage lang="ko" />
 
-              {/* Intro Statement */}
-              <div className="text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
-                <p>
-                  {defaultIntro}
-                </p>
-              </div>
-            </div>
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+                {/* Header & Core Intro */}
+                <div className="text-left max-w-4xl mx-auto space-y-5">
+                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
+                    <Shield size={14} className="text-brand-green" />
+                    <span>Health & Safety Policy</span>
+                  </div>
 
-            {/* 7 Action Items */}
-            <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
-              {defaultItems.map((item, idx) => (
-                <div 
-                  key={idx} 
-                  className="flex items-start space-x-4 py-4.5 sm:py-5 group"
-                >
-                  <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
-                    {idx + 1}
-                  </span>
-                  <p className="text-sm sm:text-base text-gray-700 leading-[1.7] font-normal pt-0.5 break-keep tracking-[-0.015em] flex-1">
-                    {item}
-                  </p>
+                  {/* Intro Statement */}
+                  <div className="text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
+                    <p>
+                      {defaultIntro}
+                    </p>
+                  </div>
                 </div>
-              ))}
-            </div>
 
-            {/* Formal Footer Sign-off Block */}
-            <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
-              <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
-                {defaultDate}
-              </p>
-              
-              <div className="space-y-1.5">
-                <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
-                  주식회사 다산제약
-                </p>
-                <p className="text-base sm:text-lg font-bold text-gray-800">
-                  대표이사 <span className="font-black text-gray-900 ml-1">류 형 선</span>
-                </p>
+                {/* 7 Action Items */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
+                  {defaultItems.map((item, idx) => (
+                    <div 
+                      key={idx} 
+                      className="flex items-start space-x-4 py-4.5 sm:py-5 group"
+                    >
+                      <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
+                        {idx + 1}
+                      </span>
+                      <p className="text-sm sm:text-base text-gray-700 leading-[1.7] font-normal pt-0.5 break-keep tracking-[-0.015em] flex-1">
+                        {item}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Formal Footer Sign-off Block */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
+                  <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
+                    {defaultDate}
+                  </p>
+                  
+                  <div className="space-y-1.5">
+                    <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
+                      주식회사 다산제약
+                    </p>
+                    <p className="text-base sm:text-lg font-bold text-gray-800">
+                      대표이사 <span className="font-black text-gray-900 ml-1">류 형 선</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         );
       }
 
@@ -1731,7 +1822,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   };
 
   return (
-    <div className="relative bg-white py-16 md:py-24 min-h-screen">
+    <div className={`relative bg-white pt-16 md:pt-24 ${currentPath === '/about/intro' ? 'pb-0' : 'pb-16 md:pb-24'} min-h-screen`}>
       <div className="relative w-full px-6 md:px-16 lg:px-24 mt-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
@@ -1800,7 +1891,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className="min-h-[550px] w-full max-w-5xl">
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>

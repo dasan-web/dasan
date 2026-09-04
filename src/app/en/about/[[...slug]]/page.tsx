@@ -16,6 +16,12 @@ import ScrollVideo from '@/components/ScrollVideo';
 import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import BusinessAreaTabSection from '@/components/BusinessAreaTabSection';
 import ESGEthicsSection from '@/components/ESGEthicsSection';
+import ScrollPromiseImage from '@/components/ScrollPromiseImage';
+import ScrollEnvironmentImage from '@/components/ScrollEnvironmentImage';
+import ScrollSafetyImage from '@/components/ScrollSafetyImage';
+import ScrollAntiCorruptionImage from '@/components/ScrollAntiCorruptionImage';
+import ScrollEthicsImage from '@/components/ScrollEthicsImage';
+import ScrollGreetingImage from '@/components/ScrollGreetingImage';
 import { query } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -310,13 +316,32 @@ export default async function AboutCatchAllPage({ params }: Params) {
             {/* Top Video Section */}
             <ScrollVideo />
 
-            <div className="space-y-16 animate-fade-in-up mt-16">
+            <div className="space-y-16 animate-fade-in-up mt-0">
 
-            {/* 1. Intro Summary */}
-            <div className="relative overflow-hidden bg-white rounded-3xl p-8 md:p-12 shadow-none">
-              <span className="text-brand-teal text-xs font-bold tracking-widest uppercase block mb-3">Company Overview</span>
-              
-              <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
+            {/* 1. Intro Summary with Full-Bleed 4.avif Forest Background */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen overflow-hidden pt-16 sm:pt-20 md:pt-24 pb-28 sm:pb-36 md:pb-44 mt-0 mb-0 shadow-none border-b-0 group/bg"
+            >
+              {/* Background Image: 4.avif */}
+              <div className="absolute inset-0 z-0">
+                <Image 
+                  src="/images/4.avif" 
+                  alt="Dasan Pharmaceutical Forest Path Background" 
+                  fill 
+                  priority 
+                  className="object-cover object-center scale-100 group-hover/bg:scale-102 transition-transform duration-1000 ease-out"
+                />
+                {/* Soft translucent overlay toning down brightness to restore natural deep forest colors */}
+                <div className="absolute inset-0 bg-black/45 backdrop-blur-[0.5px]" />
+              </div>
+
+              {/* Content Container */}
+              <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
+                <div className="space-y-4 text-white text-sm md:text-base leading-relaxed">
                 {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
                   (() => {
                     let beforeHtml = introBody;
@@ -354,12 +379,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4 Major Management Philosophies|4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?/gi,
-                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">$1</span>'
+                        '<span class="block text-2xl sm:text-3xl md:text-4xl font-black text-white mt-10 mb-5 w-full [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">$1</span>'
                       );
                       
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(Dasan Pharmaceutical, opening a healthy tomorrow.*?spirit of Dasan)\s*(?:<\/strong>|<\/b>|<\/span>)?/gi,
-                        '<span class="block text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3 w-full">Dasan Pharmaceutical, opening a healthy tomorrow for mankind with the spirit of Dasan</span>'
+                        '<span class="block text-xl sm:text-2xl md:text-3xl font-black text-white mt-8 mb-4 w-full [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">Dasan Pharmaceutical, opening a healthy tomorrow for mankind with the spirit of Dasan</span>'
                       );
                       
                       return processed;
@@ -370,93 +395,120 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                     return (
                       <>
-                        <div 
-                          className="
-                            text-[15px] text-gray-600 leading-[1.8]
-                            [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                            [&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-100 [&_h3]:pb-2 [&_h3]:mb-4 [&_h3:not(:first-child)]:mt-28
-                            [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-brand-blue [&_h4]:mt-8 [&_h4]:mb-3
-                            [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
-                            [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
-                            [&_strong]:text-gray-900 [&_strong]:font-bold
-                          "
-                          dangerouslySetInnerHTML={{ __html: `<h3 class="text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 mt-12">${introTitle}</h3>` + beforeHtml }} 
-                        />
-                        <div className="w-full mt-8">
-                          <PhilosophyGraphic />
-                        </div>
-                        {hasPhilosophy && afterHtml && (
+                        {/* Top Text Area: Overall enlarged font sizes and white text */}
+                        <div className="w-full">
+                          <span className="text-white text-sm sm:text-base md:text-lg font-black tracking-widest uppercase block mb-3 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
+                            Company Overview
+                          </span>
                           <div 
                             className="
-                              text-[15px] text-gray-600 leading-[1.8] mt-6
-                              [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                              [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-5 [&_ul]:space-y-3
-                              [&_li]:text-gray-600 [&_li]:text-[15px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-teal
-                              [&_strong]:text-gray-900 [&_strong]:font-bold
+                              text-[17px] sm:text-[19px] md:text-[21px] text-white leading-[2.0] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]
+                              [&_p]:leading-[2.0] [&_p]:text-[17px] sm:[&_p]:text-[19px] md:[&_p]:text-[21px] [&_p]:text-white [&_p]:font-bold [&_p]:mb-5 
+                              [&_h3]:text-3xl sm:[&_h3]:text-4xl md:[&_h3]:text-5xl [&_h3]:font-black [&_h3]:text-white [&_h3]:border-b [&_h3]:border-white/25 [&_h3]:pb-4 [&_h3]:mb-6
+                              [&_h4]:text-xl sm:[&_h4]:text-2xl md:[&_h4]:text-3xl [&_h4]:font-black [&_h4]:text-white [&_h4]:mt-8 [&_h4]:mb-4
+                              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:space-y-4
+                              [&_li]:text-white [&_li]:font-bold [&_li]:text-[17px] sm:[&_li]:text-[19px] md:[&_li]:text-[21px] [&_li]:leading-[2.0] [&_li::marker]:text-white
+                              [&_strong]:text-white [&_strong]:font-black
                             "
-                            dangerouslySetInnerHTML={{ __html: afterHtml }} 
+                            dangerouslySetInnerHTML={{ __html: `<h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 pb-4 border-b border-white/25 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">${introTitle}</h3>` + beforeHtml }} 
                           />
+                        </div>
+
+                        {/* Central Philosophy Graphic */}
+                        <div className="w-full my-6 sm:my-10">
+                          <PhilosophyGraphic />
+                        </div>
+
+                        {/* Bottom Detail Area: Overall enlarged font sizes and white text */}
+                        {hasPhilosophy && afterHtml && (
+                          <div className="w-full mt-8 sm:mt-12">
+                            <div 
+                              className="
+                                text-[17px] sm:text-[19px] md:text-[21px] text-white leading-[2.0] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]
+                                [&_p]:leading-[2.0] [&_p]:text-[17px] sm:[&_p]:text-[19px] md:[&_p]:text-[21px] [&_p]:text-white [&_p]:font-bold [&_p]:mb-4 
+                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-4
+                                [&_li]:text-white [&_li]:font-bold [&_li]:text-[17px] sm:[&_li]:text-[19px] md:[&_li]:text-[21px] [&_li]:leading-[2.0] [&_li::marker]:text-white
+                                [&_strong]:text-white [&_strong]:font-black [&_strong]:text-[18px] sm:[&_strong]:text-[20px] md:[&_strong]:text-[22px]
+                              "
+                              dangerouslySetInnerHTML={{ __html: afterHtml }} 
+                            />
+                          </div>
                         )}
                       </>
                     );
                   })()
                 ) : (
                   (() => {
-                    return (introTitle + '\n' + introBody).split('\n').map((line, i) => {
-                      const trimmed = line.trim();
-                      if (!trimmed) return null;
+                    const lines = (introTitle + '\n' + introBody).split('\n').map(l => l.trim()).filter(Boolean);
+                    const philIdx = lines.findIndex(l => l.includes('4 Major Management Philosophies') || l.includes('4대 경영 철학'));
+                    
+                    const topLines = philIdx !== -1 ? lines.slice(0, philIdx + 1) : lines;
+                    const bottomLines = philIdx !== -1 ? lines.slice(philIdx + 1) : [];
 
-                      if (trimmed.match(/^[1-9]\.\s/)) {
-                        const titleText = trimmed.replace(/^[1-9]\.\s?/, '');
-                        return <h3 key={i} className={`text-xl md:text-2xl font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 ${i === 0 ? 'mt-12' : 'mt-24'}`}>{titleText}</h3>;
-                      }
-                      
-                      if (trimmed.includes('4 Major Management Philosophies') || trimmed.includes('4대 경영 철학')) {
-                        return (
-                          <div key={i} className="w-full">
-                            <h4 className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>
-                            <PhilosophyGraphic />
+                    return (
+                      <>
+                        <div className="w-full">
+                          <span className="text-white text-sm sm:text-base md:text-lg font-black tracking-widest uppercase block mb-3 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
+                            Company Overview
+                          </span>
+                          {topLines.map((line, i) => {
+                            if (line.match(/^[1-9]\.\s/) || i === 0) {
+                              const titleText = line.replace(/^[1-9]\.\s?/, '');
+                              return <h3 key={i} className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 pb-4 border-b border-white/25 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{titleText}</h3>;
+                            }
+                            if (line.includes('4 Major Management Philosophies') || line.includes('4대 경영 철학')) {
+                              return <h4 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-white mt-8 mb-4 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</h4>;
+                            }
+                            if (
+                              line.startsWith('With the spirit of Dasan') || 
+                              line.startsWith('With trust and innovation') ||
+                              line.includes('Core Values')
+                            ) {
+                              return <h4 key={i} className="text-xl sm:text-2xl md:text-3xl font-black text-white mt-8 mb-4 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</h4>;
+                            }
+                            return <p key={i} className="mb-5 text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</p>;
+                          })}
+                        </div>
+
+                        <div className="w-full my-6 sm:my-10">
+                          <PhilosophyGraphic />
+                        </div>
+
+                        {bottomLines.length > 0 && (
+                          <div className="w-full mt-8 sm:mt-12">
+                            <div className="space-y-4 sm:space-y-5">
+                              {bottomLines.map((line, i) => {
+                                const content = (line.startsWith('•') || line.startsWith('-') || line.startsWith('·')) ? line.substring(1).trim() : line;
+                                const splitIdx = content.indexOf(':');
+                                if (splitIdx !== -1 && splitIdx < 25) {
+                                  const title = content.substring(0, splitIdx).trim();
+                                  const desc = content.substring(splitIdx + 1).trim();
+                                  return (
+                                    <div key={i} className="flex items-start">
+                                      <span className="text-white font-black mr-3.5 mt-1 text-2xl leading-none drop-shadow-md">•</span>
+                                      <p className="text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">
+                                        <strong className="text-white font-black text-[18px] sm:text-[20px] md:text-[22px]">{title}</strong> : {desc}
+                                      </p>
+                                    </div>
+                                  );
+                                }
+                                return (
+                                  <div key={i} className="flex items-start">
+                                    <span className="text-white font-black mr-3.5 mt-1 text-2xl leading-none drop-shadow-md">•</span>
+                                    <p className="text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{content}</p>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
-                        );
-                      }
-
-                      if (
-                        trimmed.startsWith('With the spirit of Dasan') || 
-                        trimmed.startsWith('With trust and innovation') ||
-                        trimmed.includes('Core Values')
-                      ) {
-                        return <h4 key={i} className="text-lg md:text-xl font-bold text-brand-blue mt-8 mb-3">{trimmed}</h4>;
-                      }
-
-                      if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('·')) {
-                        const content = trimmed.substring(1).trim();
-                        const splitIdx = content.indexOf(':');
-                        
-                        if (splitIdx !== -1 && splitIdx < 25) {
-                          const title = content.substring(0, splitIdx).trim();
-                          const desc = content.substring(splitIdx + 1).trim();
-                          return (
-                            <div key={i} className="flex items-start mb-3 ml-2">
-                              <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
-                              <p className="text-gray-600 leading-[1.8] text-[15px]"><strong className="text-gray-900">{title}</strong> : {desc}</p>
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <div key={i} className="flex items-start mb-3 ml-2">
-                              <span className="text-brand-teal mr-3 mt-1 text-lg leading-none">•</span>
-                              <p className="text-gray-600 leading-[1.8] text-[15px]">{content}</p>
-                            </div>
-                          );
-                        }
-                      }
-
-                      return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px]">{trimmed}</p>;
-                    });
+                        )}
+                      </>
+                    );
                   })()
                 )}
               </div>
             </div>
+          </div>
 
           </div>
           </>
@@ -464,33 +516,40 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
       case '/about/greeting':
         return (
-          <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
-            <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
-              <div className="mb-8">
-                <h4 className="text-xl md:text-2xl font-bold text-brand-blue mb-4">
-                  Opening a Healthier Future with Trust and Innovation
-                </h4>
-                <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                  We extend our deepest gratitude to all our customers and shareholders visiting the Dasan Pharmaceutical website.
-                </p>
-                <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                  Since taking our first step in 1996, Dasan Pharmaceutical has grown through continuous research and development and bold investments under the management philosophy of &quot;New Technology Development and Quality First.&quot; Based on strict quality control, we practice the value of respect for life by providing high-quality pharmaceuticals in domestic and international markets.
-                </p>
-                <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                  Inheriting the spirit of Silsa-gusi (seeking truth from facts) of Dasan Jeong Yak-yong, we take the lead in building a healthy society with honesty and technology. In line with the rapidly changing pharmaceutical bio environment, we will further strengthen our differentiated Drug Delivery System (DDS) platform technology and global CDMO capabilities.
-                </p>
-                <p className="text-gray-600 leading-[1.8] text-[15px]">
-                  We promise to remain a trusted top partner for customers and society as a global healthcare leader contributing to the health and happy life of mankind.
-                </p>
-              </div>
+          <>
+            {/* CEO Greeting Banner */}
+            <ScrollGreetingImage lang="en" />
 
-              {/* CEO Signature */}
-              <div className="flex justify-end items-end mt-16 gap-4">
-                <span className="text-gray-500 font-medium text-[15px] pb-1">CEO of Dasan Pharmaceutical</span>
-                <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">Ryu Hyung-sun</span>
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
+                <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
+                  <div className="mb-8">
+                    <h4 className="text-xl md:text-2xl font-bold text-brand-blue mb-4">
+                      Opening a Healthier Future with Trust and Innovation
+                    </h4>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      We extend our deepest gratitude to all our customers and shareholders visiting the Dasan Pharmaceutical website.
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      Since taking our first step in 1996, Dasan Pharmaceutical has grown through continuous research and development and bold investments under the management philosophy of &quot;New Technology Development and Quality First.&quot; Based on strict quality control, we practice the value of respect for life by providing high-quality pharmaceuticals in domestic and international markets.
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
+                      Inheriting the spirit of Silsa-gusi (seeking truth from facts) of Dasan Jeong Yak-yong, we take the lead in building a healthy society with honesty and technology. In line with the rapidly changing pharmaceutical bio environment, we will further strengthen our differentiated Drug Delivery System (DDS) platform technology and global CDMO capabilities.
+                    </p>
+                    <p className="text-gray-600 leading-[1.8] text-[15px]">
+                      We promise to remain a trusted top partner for customers and society as a global healthcare leader contributing to the health and happy life of mankind.
+                    </p>
+                  </div>
+
+                  {/* CEO Signature */}
+                  <div className="flex justify-end items-end mt-16 gap-4">
+                    <span className="text-gray-500 font-medium text-[15px] pb-1">CEO of Dasan Pharmaceutical</span>
+                    <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">Ryu Hyung-sun</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         );
 
       case '/about/business-area':
@@ -1113,56 +1172,285 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
       case '/about/esg/ethics':
         return (
-          <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
-            <ESGEthicsSection lang="en" />
-          </div>
+          <>
+            {/* 기업 개요와 동일한 크기 및 스크롤 확장 효과를 제공하는 Promise.png 이미지 */}
+            <ScrollPromiseImage lang="en" />
+
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <ESGEthicsSection lang="en" />
+            </div>
+          </>
         );
       case '/about/esg/environment':
-      case '/about/esg/safety':
         return (
-          <div className="space-y-6 animate-fade-in-up bg-white p-6 rounded-xl shadow-none">
-            {dbContent ? (
-              (() => {
-                const parts = dbContent.split('|');
-                if (parts.length >= 2) {
-                  return (
-                    <>
-                      <div className="flex items-center space-x-3 text-emerald-600 mb-2">
-                        <Heart size={24} />
-                        <h4 className="text-lg font-bold">{parts[0]}</h4>
-                      </div>
-                      {String(parts[1]).includes('<') ? <div dangerouslySetInnerHTML={{__html: parts[1]}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{parts[1]}</p>}
-                    </>
-                  );
-                }
-                return (
+          <>
+            <ScrollEnvironmentImage lang="en" />
+
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="space-y-6 animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+                {dbContent ? (
+                  (() => {
+                    const parts = dbContent.split('|');
+                    if (parts.length >= 2) {
+                      return (
+                        <>
+                          <div className="flex items-center space-x-3 text-emerald-600 mb-2">
+                            <Heart size={24} />
+                            <h4 className="text-lg font-bold">{parts[0]}</h4>
+                          </div>
+                          {String(parts[1]).includes('<') ? <div dangerouslySetInnerHTML={{__html: parts[1]}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{parts[1]}</p>}
+                        </>
+                      );
+                    }
+                    return (
+                      <>
+                        <div className="flex items-center space-x-3 text-emerald-600 mb-2">
+                          <Heart size={24} />
+                          <h4 className="text-lg font-bold">Environmental Management Policy</h4>
+                        </div>
+                        {String(dbContent).includes('<') ? <div dangerouslySetInnerHTML={{__html: dbContent}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{dbContent}</p>}
+                      </>
+                    );
+                  })()
+                ) : (
                   <>
                     <div className="flex items-center space-x-3 text-emerald-600 mb-2">
                       <Heart size={24} />
-                      <h4 className="text-lg font-bold">ESG Declaration for Sustainable Business</h4>
+                      <h4 className="text-lg font-bold">Environmental Management Policy</h4>
                     </div>
-                    {String(dbContent).includes('<') ? <div dangerouslySetInnerHTML={{__html: dbContent}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{dbContent}</p>}
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                      Dasan Pharmaceutical promises not only to contribute to healthcare through new drug development, but also to introduce eco-friendly processes for future generations, strictly manage health and safety, and realize transparent and upright ethical management.
+                    </p>
+                    <div className="p-4 bg-emerald-50/50 rounded-lg text-xs sm:text-sm space-y-2">
+                      <p><strong>E (Environment)</strong>: Operating eco-friendly high-efficiency purification systems and establishing energy reduction goals</p>
+                      <p><strong>S (Social)</strong>: Strict compliance with ISO45001 (Health & Safety Management) system and regular check-ups for employee safety</p>
+                      <p><strong>G (Governance)</strong>: Practicing anti-corruption guidelines and making autonomous fair trade compliance programs (CP) training mandatory for employees</p>
+                    </div>
                   </>
-                );
-              })()
-            ) : (
-              <>
-                <div className="flex items-center space-x-3 text-emerald-600 mb-2">
-                  <Heart size={24} />
-                  <h4 className="text-lg font-bold">ESG Declaration for Sustainable Business</h4>
-                </div>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Dasan Pharmaceutical promises not only to contribute to healthcare through new drug development, but also to introduce eco-friendly processes for future generations, strictly manage health and safety, and realize transparent and upright ethical management.
-                </p>
-                <div className="p-4 bg-emerald-50/50 rounded-lg text-xs space-y-2">
-                  <p><strong>E (Environment)</strong>: Operating eco-friendly high-efficiency purification systems and establishing energy reduction goals</p>
-                  <p><strong>S (Social)</strong>: Strict compliance with ISO45001 (Health & Safety Management) system and regular check-ups for employee safety</p>
-                  <p><strong>G (Governance)</strong>: Practicing anti-corruption guidelines and making autonomous fair trade compliance programs (CP) training mandatory for employees</p>
-                </div>
-              </>
-            )}
-          </div>
+                )}
+              </div>
+            </div>
+          </>
         );
+
+      case '/about/esg/safety':
+        return (
+          <>
+            <ScrollSafetyImage lang="en" />
+
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="space-y-6 animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+                {dbContent ? (
+                  (() => {
+                    const parts = dbContent.split('|');
+                    if (parts.length >= 2) {
+                      return (
+                        <>
+                          <div className="flex items-center space-x-3 text-emerald-600 mb-2">
+                            <Heart size={24} />
+                            <h4 className="text-lg font-bold">{parts[0]}</h4>
+                          </div>
+                          {String(parts[1]).includes('<') ? <div dangerouslySetInnerHTML={{__html: parts[1]}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{parts[1]}</p>}
+                        </>
+                      );
+                    }
+                    return (
+                      <>
+                        <div className="flex items-center space-x-3 text-emerald-600 mb-2">
+                          <Heart size={24} />
+                          <h4 className="text-lg font-bold">Health & Safety Management Policy</h4>
+                        </div>
+                        {String(dbContent).includes('<') ? <div dangerouslySetInnerHTML={{__html: dbContent}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{dbContent}</p>}
+                      </>
+                    );
+                  })()
+                ) : (
+                  <>
+                    <div className="flex items-center space-x-3 text-emerald-600 mb-2">
+                      <Heart size={24} />
+                      <h4 className="text-lg font-bold">Health & Safety Management Policy</h4>
+                    </div>
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                      Dasan Pharmaceutical places the health and safety of all workers as the highest priority, strictly complies with ISO45001 standards, and realizes transparent, safe, and healthy corporate management.
+                    </p>
+                    <div className="p-4 bg-emerald-50/50 rounded-lg text-xs sm:text-sm space-y-2">
+                      <p><strong>Safety Priority</strong>: Prioritizing occupational health and safety across all company activities</p>
+                      <p><strong>Health System</strong>: Implementing disease prevention programs and emergency health response frameworks</p>
+                      <p><strong>Compliance & Participation</strong>: Strictly adhering to safety regulations and fostering active employee participation</p>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        );
+
+      case '/about/esg/anti-corruption':
+        return (
+          <>
+            <ScrollAntiCorruptionImage lang="en" />
+
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="space-y-6 animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+                {dbContent ? (
+                  (() => {
+                    const parts = dbContent.split('|');
+                    if (parts.length >= 2) {
+                      return (
+                        <>
+                          <div className="flex items-center space-x-3 text-emerald-600 mb-2">
+                            <Heart size={24} />
+                            <h4 className="text-lg font-bold">{parts[0]}</h4>
+                          </div>
+                          {String(parts[1]).includes('<') ? <div dangerouslySetInnerHTML={{__html: parts[1]}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{parts[1]}</p>}
+                        </>
+                      );
+                    }
+                    return (
+                      <>
+                        <div className="flex items-center space-x-3 text-emerald-600 mb-2">
+                          <Heart size={24} />
+                          <h4 className="text-lg font-bold">Anti-Corruption & Bribery Prevention Policy</h4>
+                        </div>
+                        {String(dbContent).includes('<') ? <div dangerouslySetInnerHTML={{__html: dbContent}} className="[&_p]:text-sm [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-wrap [&_h4]:font-bold [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-4" /> : <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{dbContent}</p>}
+                      </>
+                    );
+                  })()
+                ) : (
+                  <>
+                    <div className="flex items-center space-x-3 text-emerald-600 mb-2">
+                      <Heart size={24} />
+                      <h4 className="text-lg font-bold">Anti-Corruption & Bribery Prevention Policy</h4>
+                    </div>
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                      Dasan Pharmaceutical establishes a transparent and upright corporate culture, strictly prohibiting all forms of corruption, improper solicitations, and bribery across all global business practices.
+                    </p>
+                    <div className="p-4 bg-emerald-50/50 rounded-lg text-xs sm:text-sm space-y-2">
+                      <p><strong>Zero Tolerance</strong>: Absolute prohibition against improper solicitations, kickbacks, and financial favors</p>
+                      <p><strong>Strict Compliance</strong>: Full adherence to anti-corruption laws, internal codes, and international standards</p>
+                      <p><strong>Whistleblower Protection</strong>: Guaranteed confidentiality and non-retaliation for reporting violations</p>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        );
+
+      case '/about/esg/code-of-ethics': {
+        const defaultIntroParas = [
+          'Dasan Pharmaceutical holds a noble mission to promote human health and well-being. In carrying out this important mission, we firmly believe that the highest global standards of ethical consciousness and transparent management are essential.',
+          'Through this commitment, we pledge to uphold integrity, fairness, and responsibility as our top priorities across all business endeavors.',
+          'By strictly complying with all domestic and global laws, regulations, and international standards, we will earn public trust and build a sustainable future together.'
+        ];
+
+        const defaultSections = [
+          {
+            title: 'Pledging Transparent Management Free of Corruption and Kickbacks',
+            items: [
+              'We never demand or accept any inappropriate financial gains, hospitality, or conveniences in connection with our official duties.',
+              'We strictly prohibit offering illegal kickbacks or unfair economic benefits to healthcare professionals. All engagements remain fully transparent pursuant to relevant laws and ethical codes.',
+              'We establish an upright corporate culture and resolutely eliminate any corrupt practices.'
+            ]
+          },
+          {
+            title: 'Prioritizing Customer Health and Safety Above All',
+            items: [
+              'Valuing human life and health as our highest principles, we research, develop, manufacture, and supply pharmaceuticals with the highest quality and proven safety.',
+              'All clinical trials and research activities strictly comply with scientific and ethical standards, placing utmost care on protecting patient information.'
+            ]
+          },
+          {
+            title: 'Promising Fair, Honest, and Transparent Relationships',
+            items: [
+              'We provide customers with the highest quality products and services while safeguarding customer data confidentiality.',
+              'We deal fairly with partners based on mutual trust and respect, never abusing dominant positions, and pursuing shared growth.',
+              'We faithfully provide timely and accurate information to shareholders to protect their right to know and continuously maximize enterprise value.',
+              'We strictly observe regulations in close cooperation with government agencies and regulatory authorities to support sound pharmaceutical advancement.'
+            ]
+          },
+          {
+            title: 'Respecting and Fostering Employee Growth',
+            items: [
+              'All employees are treated fairly with fundamental dignity. Discrimination based on academic ties, regional backgrounds, kinship, gender, religion, or disability is strictly prohibited.',
+              'We provide a safe, healthy working environment and eradicate harassment and discrimination, nurturing a culture of mutual respect.',
+              'We actively support capability development so that every employee can flourish in a rewarding environment.'
+            ]
+          },
+          {
+            title: 'Contributing to Social Responsibility and Environmental Protection',
+            items: [
+              'As a responsible corporate citizen, we actively contribute to social causes and local community development.',
+              'Recognizing the critical importance of sustainability throughout pharmaceutical development and manufacturing, we spearhead eco-friendly practices.'
+            ]
+          }
+        ];
+
+        return (
+          <>
+            {/* Code of Ethics Banner */}
+            <ScrollEthicsImage lang="en" />
+
+            <div className="space-y-16 animate-fade-in-up mt-16">
+              <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
+                {/* Header & Core Intro */}
+                <div className="text-left max-w-4xl mx-auto space-y-5">
+                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
+                    <Shield size={14} className="text-brand-green" />
+                    <span>Code of Ethics</span>
+                  </div>
+
+                  {/* Intro Statement */}
+                  <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
+                    {defaultIntroParas.map((para, pIdx) => (
+                      <p key={pIdx}>
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 5 Core Principles */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
+                  {defaultSections.map((sec, idx) => (
+                    <div key={idx} className="py-6 sm:py-7 space-y-3">
+                      <div className="flex items-start space-x-3.5">
+                        <span className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center mt-0.5 shadow-2xs">
+                          {idx + 1}
+                        </span>
+                        <h4 className="text-base sm:text-lg font-bold text-gray-900 leading-snug pt-0.5 break-keep tracking-[-0.015em]">
+                          {sec.title}
+                        </h4>
+                      </div>
+                      <ul className="pl-10 sm:pl-11 space-y-2 text-sm sm:text-base text-gray-600 leading-[1.7] break-keep tracking-[-0.015em]">
+                        {sec.items.map((item, iIdx) => (
+                          <li key={iIdx} className="flex items-start">
+                            <span className="mr-2 text-gray-400 font-bold">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Formal Footer Sign-off Block */}
+                <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
+                  <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
+                    January 1, 2025
+                  </p>
+                  
+                  <div className="space-y-1.5">
+                    <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
+                      CEO & President, Dasan Pharmaceutical Co., Ltd.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      }
 
       // IR pages
       case '/about/ir/announcement':
@@ -1388,7 +1676,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   };
 
   return (
-    <div className="relative bg-white py-16 md:py-24 min-h-screen">
+    <div className={`relative bg-white pt-16 md:pt-24 ${currentPath === '/about/intro' ? 'pb-0' : 'pb-16 md:pb-24'} min-h-screen`}>
       <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
@@ -1457,7 +1745,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className="min-h-[550px] w-full max-w-5xl">
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/esg/ethics' ? 'max-w-6xl' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>
