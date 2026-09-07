@@ -33,12 +33,12 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
         <div className="flex flex-col mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider w-fit mb-3">
             <Sparkles className="w-3.5 h-3.5 text-brand-green" />
-            <span>{isEn ? '2. Core ESG Pillars' : '2. 핵심 영역별 추진 성과'}</span>
+            <span>{isEn ? 'Core ESG Pillars' : '핵심 영역별 추진 성과'}</span>
           </div>
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-            {isEn ? 'Action Tasks by 3 Core ESG Pillars' : 'ESG 핵심 3대 영역별 실천 과제'}
+            {isEn ? 'Action Tasks by ESG Pillars' : 'ESG 영역별 실천 과제'}
           </h3>
-          <p className="text-sm sm:text-base text-slate-500 mt-2.5 font-normal max-w-3xl">
+          <p className="text-sm sm:text-base text-slate-500 mt-2.5 font-normal max-w-none break-keep">
             {isEn 
               ? 'We implement transparent and responsible sustainability management across Environment, Social, and Governance with large-scale high-tech infrastructure.'
               : '환경(E), 사회(S), 지배구조(G) 전 과정에 걸쳐 투명하고 책임 있는 지속가능경영을 이행하며, 첨단 현장 중심의 실천을 이어가고 있습니다.'}
@@ -304,7 +304,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
         <div className="flex flex-col mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider w-fit mb-3">
             <Award className="w-3.5 h-3.5 text-brand-green" />
-            <span>{isEn ? '3. ESG Certifications & Standards' : '3. 공인 표준 인증 현황'}</span>
+            <span>{isEn ? 'ESG Certifications & Standards' : '공인 표준 인증 현황'}</span>
           </div>
           <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             {isEn ? 'Certified Sustainable Management Standards' : '공인된 지속가능경영 표준 인증'}

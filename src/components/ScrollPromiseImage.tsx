@@ -19,13 +19,14 @@ export default function ScrollPromiseImage({ lang = 'ko' }: Props) {
         }}
         className="relative min-h-[560px] sm:min-h-[620px] lg:h-[660px] overflow-hidden bg-slate-900 shadow-sm"
       >
-        {/* Promise.png Photo - 확대 및 크기 애니메이션 없이 처음부터 즉시 고정 표시 */}
+        {/* esg_tree_field.jpg Photo */}
         <Image
-          src="/Promise.png"
+          src="/esg_tree_field.jpg"
           alt={isEn ? "Dasan Pharmaceutical's Sustainable ESG Promise" : "다산제약 지속가능 ESG 약속"}
           fill
           priority
-          className="object-cover object-center sm:object-[center_right]"
+          unoptimized={true}
+          className="object-cover object-[center_right] sm:object-center"
         />
 
         {/* 
@@ -34,13 +35,7 @@ export default function ScrollPromiseImage({ lang = 'ko' }: Props) {
         */}
         <div className="absolute inset-0 z-10 flex items-start justify-start pointer-events-none">
           <div className="w-full px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 pt-8 sm:pt-10 md:pt-12 lg:pt-14 pb-8 pointer-events-auto">
-            <div className="max-w-xl lg:max-w-2xl xl:max-w-3xl space-y-4 sm:space-y-6 text-left">
-
-              {/* 반투명 플로팅 뱃지 */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg mb-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span>{isEn ? 'Vision & Founding Spirit' : '경영비전 & 창업이념'}</span>
-              </div>
+            <div className="max-w-2xl lg:max-w-3xl xl:max-w-4xl space-y-4 sm:space-y-6 text-left">
 
               {/* 메인 타이틀 */}
               <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[46px] font-black text-white tracking-tight leading-[1.25] drop-shadow-[0_3px_12px_rgba(0,0,0,0.85)]">

@@ -20,13 +20,13 @@ export default function CoreBusinessSection() {
       title: isEnglish ? (
         <>
           Dasan Pharmaceutical has established a{' '}
-          <strong className="font-black text-white">Key Value Chain infrastructure</strong>{' '}
+          <strong className="font-black text-brand-green">Key Value Chain infrastructure</strong>{' '}
           across the entire pharmaceutical lifecycle from R&D to sales, securing high value-added business growth potential.
         </>
       ) : (
         <>
           다산제약은 연구개발(R&D)부터 판매까지 의약품 전 주기의<br className="hidden sm:block" />
-          <strong className="font-black text-white">Key Value Chain 인프라를 구축하여</strong><br className="hidden sm:block" />
+          <strong className="font-black text-brand-green">Key Value Chain 인프라를 구축하여</strong><br className="hidden sm:block" />
           고부가가치 사업 성장성을 확보하고 있습니다.
         </>
       ),
@@ -69,24 +69,21 @@ export default function CoreBusinessSection() {
   const businessItems = [
     {
       id: 'finished',
+      num: '01',
       title: isEnglish ? 'Proprietary Finished Drug Business' : '자사 완제 의약품 사업',
       targetSlide: 1,
-      bgClass: 'bg-[#f1f5f9] text-gray-900 hover:brightness-[0.98]',
-      arrowColor: 'text-gray-900',
     },
     {
       id: 'cmo',
+      num: '02',
       title: isEnglish ? 'Contract Finished Drug (CMO) Business' : '수탁 완제 의약품 (CMO) 사업',
       targetSlide: 2,
-      bgClass: 'bg-[#cbd5e1] text-gray-900 hover:brightness-[0.98]',
-      arrowColor: 'text-gray-900',
     },
     {
       id: 'api',
+      num: '03',
       title: isEnglish ? 'API & Intermediate Business' : '의약품 핵심 원료 및 중간체 사업',
       targetSlide: 3,
-      bgClass: 'bg-[#8594a6] text-gray-900 hover:brightness-[0.98]',
-      arrowColor: 'text-gray-900',
     },
   ];
 
@@ -161,7 +158,7 @@ export default function CoreBusinessSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
-            className="w-full bg-white rounded-[24px] sm:rounded-[32px] lg:rounded-[36px] shadow-[0_20px_50px_rgba(0,0,0,0.06)] overflow-hidden"
+            className="w-full bg-white rounded-[24px] sm:rounded-[32px] lg:rounded-[36px] border border-gray-200/80 shadow-[0_20px_50px_rgba(10,37,64,0.06)] overflow-hidden"
           >
             <AnimatePresence mode="wait">
               {currentSlide === 0 ? (
@@ -185,8 +182,8 @@ export default function CoreBusinessSection() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    <div className="bg-[#1F4E78] px-6 sm:px-8 lg:px-10 xl:px-12 h-[145px] sm:h-[155px] lg:h-[160px] flex items-center shrink-0">
-                      <p className="text-lg sm:text-xl md:text-[22px] lg:text-[24px] xl:text-[26px] font-extrabold leading-snug sm:leading-snug md:leading-normal text-white break-keep">
+                    <div className="bg-gray-100 px-6 sm:px-8 lg:px-10 xl:px-12 h-[145px] sm:h-[155px] lg:h-[160px] flex items-center shrink-0 border-t-2 border-brand-green relative overflow-hidden">
+                      <p className="text-lg sm:text-xl md:text-[21px] lg:text-[23px] xl:text-[25px] font-extrabold leading-snug sm:leading-normal text-gray-900 break-keep">
                         {slides[0].title}
                       </p>
                     </div>
@@ -195,16 +192,22 @@ export default function CoreBusinessSection() {
                   {/* Right Column: Title & 3 Stacked Buttons (5 cols) */}
                   <div className="lg:col-span-5 flex flex-col justify-between bg-white h-full">
                     <div className="px-6 sm:px-8 lg:px-10 xl:px-12 pt-6 sm:pt-8 lg:pt-10 pb-4 sm:pb-5">
-                      <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[56px] 2xl:text-[62px] font-black text-gray-900 tracking-tight break-keep">
+                      <div className="inline-flex items-center gap-2 mb-3">
+                        <span className="w-2 h-2 rounded-full bg-brand-green" />
+                        <span className="text-xs sm:text-sm font-bold tracking-wider text-brand-green uppercase">
+                          BUSINESS SECTOR
+                        </span>
+                      </div>
+                      <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[54px] font-black text-brand-blue tracking-tight break-keep leading-tight">
                         {isEnglish ? (
-                          <span className="flex flex-col gap-3 sm:gap-4 lg:gap-5">
+                          <span className="flex flex-col gap-1 sm:gap-2">
                             <span>Dasan Pharm&apos;s</span>
-                            <span className="text-gray-900">Core Business Areas</span>
+                            <span className="text-brand-green">Core Business</span>
                           </span>
                         ) : (
-                          <span className="flex flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+                          <span className="flex flex-col gap-1 sm:gap-2">
                             <span>다산제약의</span>
-                            <span className="text-gray-900">주요 사업영역</span>
+                            <span className="text-brand-green">주요 사업영역</span>
                           </span>
                         )}
                       </h3>
@@ -215,15 +218,20 @@ export default function CoreBusinessSection() {
                         <button
                           key={item.id}
                           onClick={() => setCurrentSlide(item.targetSlide)}
-                          className={`group relative w-full pl-6 sm:pl-8 lg:pl-10 xl:pl-12 pr-24 sm:pr-28 py-6 sm:py-7 lg:py-8 xl:py-8.5 flex items-center justify-between transition-all duration-300 ease-out cursor-pointer overflow-hidden text-left ${item.bgClass}`}
+                          className="group relative w-full pl-6 sm:pl-8 lg:pl-10 xl:pl-12 pr-20 sm:pr-24 py-5 sm:py-6 lg:py-6.5 xl:py-7 flex items-center justify-between border-t border-gray-200 bg-white hover:bg-emerald-50/40 transition-all duration-300 ease-out cursor-pointer overflow-hidden text-left"
                         >
-                          <span className="relative z-10 text-xl sm:text-2xl lg:text-[24px] xl:text-[27px] 2xl:text-[29px] font-medium tracking-tight break-keep text-gray-900">
-                            {item.title}
-                          </span>
+                          <div className="flex items-center gap-3.5 sm:gap-4 relative z-10">
+                            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-50 border border-emerald-200/60 text-brand-green font-bold text-xs sm:text-sm flex items-center justify-center font-mono group-hover:bg-brand-green group-hover:text-white group-hover:border-brand-green transition-all duration-300 shrink-0">
+                              {item.num}
+                            </span>
+                            <span className="text-lg sm:text-xl lg:text-[22px] xl:text-[25px] font-bold tracking-tight break-keep text-gray-800 group-hover:text-brand-green transition-colors duration-300">
+                              {item.title}
+                            </span>
+                          </div>
 
                           <div className="absolute right-5 sm:right-7 top-1/2 -translate-y-1/2 flex items-center justify-center">
-                            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-brand-green flex items-center justify-center shadow-sm group-hover:scale-105 group-hover:shadow-md transition-all duration-300 ease-out">
-                              <ArrowRight className="w-5.5 h-5.5 sm:w-6 sm:h-6 stroke-[2.5] text-brand-green transition-transform duration-300 group-hover:translate-x-0.5" />
+                            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-50 border border-gray-200 text-brand-green flex items-center justify-center shadow-2xs group-hover:scale-105 group-hover:bg-brand-green group-hover:text-white group-hover:border-brand-green group-hover:shadow-md transition-all duration-300 ease-out">
+                              <ArrowRight className="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[2.5] transition-transform duration-300 group-hover:translate-x-0.5" />
                             </div>
                           </div>
                         </button>
@@ -252,29 +260,46 @@ export default function CoreBusinessSection() {
 
                   {/* Right Column: 5 cols (Matching Slide 1 right bounds perfectly) */}
                   <div className="lg:col-span-5 relative p-8 sm:p-10 lg:p-12 xl:p-14 flex flex-col justify-center bg-white h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full">
-                    {/* Top Right Corner Action Button: Click to return to Overview (Picture 2) */}
+                    {/* Top Right Corner Action Button: Click to return to Overview */}
                     <button
                       onClick={() => setCurrentSlide(0)}
-                      aria-label="주요 사업영역 전체보기"
-                      className="absolute top-6 sm:top-8 lg:top-10 right-6 sm:right-8 lg:right-10 w-11 h-11 rounded-full flex items-center justify-center text-gray-700 hover:text-brand-green hover:bg-gray-100/80 transition-all duration-300 hover:scale-110 cursor-pointer focus:outline-none"
+                      aria-label={isEnglish ? 'View All Business Areas' : '주요 사업영역 전체보기'}
+                      className="absolute top-6 sm:top-8 lg:top-10 right-6 sm:right-8 lg:right-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-gray-500 hover:text-brand-green hover:bg-emerald-50 border border-gray-200 transition-all duration-300 cursor-pointer focus:outline-none group"
                     >
-                      <ArrowUpRight className="w-7 h-7 stroke-[2.2]" />
+                      <span>{isEnglish ? 'Overview' : '전체보기'}</span>
+                      <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </button>
 
                     {/* Sub-label */}
-                    <span className="text-sm sm:text-base lg:text-lg font-bold text-[#1F4E78] tracking-wider uppercase mb-3 sm:mb-4">
-                      {slides[currentSlide].tag}
-                    </span>
+                    <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
+                      <span className="w-2 h-2 rounded-full bg-brand-green" />
+                      <span className="text-xs sm:text-base font-bold text-brand-green tracking-wider uppercase">
+                        {slides[currentSlide].tag}
+                      </span>
+                    </div>
 
                     {/* Big Title */}
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[42px] font-black text-gray-900 tracking-tight leading-tight mb-4 sm:mb-6 break-keep">
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[42px] font-black text-brand-blue tracking-tight leading-tight mb-4 sm:mb-6 break-keep">
                       {slides[currentSlide].title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-normal leading-relaxed break-keep">
+                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-normal leading-relaxed break-keep mb-8">
                       {slides[currentSlide].desc}
                     </p>
+
+                    {/* Link to detail business page */}
+                    {slides[currentSlide].href && (
+                      <div>
+                        <Link
+                          href={slides[currentSlide].href!}
+                          className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-brand-green text-white font-bold text-sm sm:text-base shadow-sm hover:bg-brand-green-dark hover:shadow-md transition-all duration-300 group cursor-pointer"
+                        >
+                          <span>{isEnglish ? 'View Details' : '자세히 보기'}</span>
+                          <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -293,8 +318,8 @@ export default function CoreBusinessSection() {
                 aria-label={`Slide ${index + 1}`}
                 className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   isActive
-                    ? 'w-10 sm:w-12 bg-black'
-                    : 'w-7 sm:w-8 bg-gray-300 hover:bg-gray-400'
+                    ? 'w-10 sm:w-12 bg-brand-green'
+                    : 'w-7 sm:w-8 bg-gray-200 hover:bg-gray-300'
                 }`}
               />
             );
@@ -304,7 +329,7 @@ export default function CoreBusinessSection() {
           <button
             onClick={() => setIsPlaying(!isPlaying)}
             aria-label={isPlaying ? 'Pause auto slide' : 'Start auto slide'}
-            className="ml-2 w-7 h-7 rounded-full flex items-center justify-center text-gray-700 hover:text-black hover:bg-gray-100 transition-colors cursor-pointer"
+            className="ml-2 w-7 h-7 rounded-full flex items-center justify-center text-gray-600 hover:text-brand-green hover:bg-gray-100 transition-colors cursor-pointer"
           >
             {isPlaying ? (
               <Pause className="w-4 h-4 fill-current stroke-none" />

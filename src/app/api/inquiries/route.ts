@@ -23,7 +23,7 @@ async function checkAuth(allowedRoles: string[]) {
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, subject, content, inquiryType, password, recaptchaToken } = await request.json();
+    const { name, email, phone, subject, content, inquiryType, password, recaptchaToken, file_url, file_name } = await request.json();
 
     if (!recaptchaToken) {
       return NextResponse.json(
@@ -82,10 +82,10 @@ export async function POST(request: Request) {
     }
 
     const insertSql = `
-      INSERT INTO inquiries (name, email, phone, subject, content, password)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO inquiries (name, email, phone, subject, content, password, file_url, file_name)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const result = await query(insertSql, [name, email, phone || null, prefixedSubject, content, hashedPassword]);
+    const result = await query(insertSql, [name, email, phone || null, prefixedSubject, content, hashedPassword, file_url || null, file_name || null]);
 
     // Send email notification dynamically based on SMTP configurations
     try {
@@ -109,6 +109,13 @@ export async function POST(request: Request) {
       } else if (typePrefix === '[부패신고 문의]') {
         recipients = 'insa@dspharm.com, jssong@dspharm.com';
       }
+
+      const fileAttachmentHtml = file_url ? `
+        <tr>
+          <td style="font-weight: bold; padding: 8px 0;">첨부파일:</td>
+          <td style="padding: 8px 0;"><a href="${file_url}" target="_blank" style="color: #1565c0; text-decoration: underline; font-weight: bold;">${file_name || '첨부파일 다운로드'}</a></td>
+        </tr>
+      ` : '';
 
       await transporter.sendMail({
         from: `"다산제약 홈페이지" <${smtpUser}>`,
@@ -135,6 +142,7 @@ export async function POST(request: Request) {
                 <td style="font-weight: bold; padding: 8px 0;">제목:</td>
                 <td style="padding: 8px 0; font-weight: bold; color: #1565c0;">${prefixedSubject}</td>
               </tr>
+              ${fileAttachmentHtml}
             </table>
             <div style="margin-top: 20px; background-color: #f9f9f9; padding: 15px; border-radius: 5px; border-left: 4px solid #2e7d32; white-space: pre-wrap;">
               ${content}
@@ -177,7 +185,7 @@ export async function GET(request: Request) {
 
       // Admin request: return all fields including content
       const selectSql = `
-        SELECT id, name, email, phone, subject, content, created_at
+        SELECT id, name, email, phone, subject, content, file_url, file_name, created_at
         FROM inquiries
         ORDER BY created_at DESC
       `;
@@ -203,7 +211,7 @@ export async function GET(request: Request) {
       const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
       
       const selectSql = `
-        SELECT id, name, email, phone, subject, content, created_at
+        SELECT id, name, email, phone, subject, content, file_url, file_name, created_at
         FROM inquiries
         WHERE email = ? AND password = ?
         ORDER BY created_at DESC
@@ -212,7 +220,7 @@ export async function GET(request: Request) {
       return NextResponse.json(inquiries);
     } else {
       const selectSql = `
-        SELECT id, name, email, phone, subject, content, created_at
+        SELECT id, name, email, phone, subject, content, file_url, file_name, created_at
         FROM inquiries
         WHERE email = ?
         ORDER BY created_at DESC

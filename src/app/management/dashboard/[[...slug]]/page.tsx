@@ -2300,6 +2300,21 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                             {selectedInquiry.content}
                           </div>
                         </div>
+
+                        {selectedInquiry.file_url && (
+                          <div className="space-y-1.5 pt-1">
+                            <span className="text-[10px] text-gray-400 uppercase block">첨부파일</span>
+                            <a
+                              href={selectedInquiry.file_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 border border-white/15 text-emerald-400 hover:text-emerald-300 text-xs font-semibold transition-colors"
+                            >
+                              <span>📎</span>
+                              <span className="truncate max-w-sm">{selectedInquiry.file_name || '첨부파일 다운로드'}</span>
+                            </a>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="text-center py-12 text-gray-550 text-xs">

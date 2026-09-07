@@ -3,117 +3,27 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 export default function HeroBackground() {
-  const video1Ref = useRef<HTMLVideoElement>(null);
-  const video2Ref = useRef<HTMLVideoElement>(null);
-  const [activeVideo, setActiveVideo] = useState<1 | 2>(1);
-  const isTransitioningRef = useRef(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Initial start
-    if (video1Ref.current) {
-      video1Ref.current.play().catch(() => {});
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
     }
   }, []);
-
-  // Transition from Video 1 -> Video 2
-  const transitionTo2 = useCallback(() => {
-    if (isTransitioningRef.current) return;
-    const v1 = video1Ref.current;
-    const v2 = video2Ref.current;
-    if (!v1 || !v2) return;
-
-    isTransitioningRef.current = true;
-    v2.currentTime = 0;
-    v2.play()
-      .then(() => {
-        setActiveVideo(2);
-        setTimeout(() => {
-          if (v1) {
-            v1.pause();
-            v1.currentTime = 0;
-          }
-          isTransitioningRef.current = false;
-        }, 1200);
-      })
-      .catch(() => {
-        isTransitioningRef.current = false;
-      });
-  }, []);
-
-  // Transition from Video 2 -> Video 1
-  const transitionTo1 = useCallback(() => {
-    if (isTransitioningRef.current) return;
-    const v1 = video1Ref.current;
-    const v2 = video2Ref.current;
-    if (!v1 || !v2) return;
-
-    isTransitioningRef.current = true;
-    v1.currentTime = 0;
-    v1.play()
-      .then(() => {
-        setActiveVideo(1);
-        setTimeout(() => {
-          if (v2) {
-            v2.pause();
-            v2.currentTime = 0;
-          }
-          isTransitioningRef.current = false;
-        }, 1200);
-      })
-      .catch(() => {
-        isTransitioningRef.current = false;
-      });
-  }, []);
-
-  const handleTimeUpdate1 = () => {
-    const v1 = video1Ref.current;
-    if (!v1 || activeVideo !== 1 || isTransitioningRef.current) return;
-
-    // Trigger crossfade 1.4s before video ends
-    if (v1.duration && v1.currentTime >= v1.duration - 1.4) {
-      transitionTo2();
-    }
-  };
-
-  const handleTimeUpdate2 = () => {
-    const v2 = video2Ref.current;
-    if (!v2 || activeVideo !== 2 || isTransitioningRef.current) return;
-
-    // Trigger crossfade 1.4s before video ends
-    if (v2.duration && v2.currentTime >= v2.duration - 1.4) {
-      transitionTo1();
-    }
-  };
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950 select-none">
-      {/* Primary Video */}
+      {/* 10초 무한 반복 구름 시네마그래프 영상 */}
       <video
-        ref={video1Ref}
-        src="/mainF.mp4"
+        ref={videoRef}
+        src="/main_clouds.mp4"
+        poster="/main.png"
         autoPlay
+        loop
         muted
         playsInline
         preload="auto"
-        onTimeUpdate={handleTimeUpdate1}
-        onEnded={transitionTo2}
-        className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-1000 ease-in-out ${
-          activeVideo === 1 ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
-
-      {/* Secondary Buffer Video */}
-      <video
-        ref={video2Ref}
-        src="/mainF.mp4"
-        muted
-        playsInline
-        preload="auto"
-        onTimeUpdate={handleTimeUpdate2}
-        onEnded={transitionTo1}
-        className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-1000 ease-in-out ${
-          activeVideo === 2 ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
       />
 
       {/* Soft cinematic left-side gradient to ensure text readability without altering original video beauty */}

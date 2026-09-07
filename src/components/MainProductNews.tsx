@@ -94,22 +94,49 @@ const defaultPressCards: DBNewsItem[] = [
   }
 ];
 
+const formatDateSafe = (raw: any): string => {
+  if (!raw) return '2026.06.25';
+  try {
+    const d = new Date(raw);
+    if (!isNaN(d.getTime())) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}.${month}.${day}`;
+    }
+  } catch (e) {}
+  const s = String(raw).substring(0, 10).replace(/-/g, '.');
+  return s && s.length >= 8 ? s : '2026.06.25';
+};
+
+const isHtml = (str: string): boolean => {
+  if (!str) return false;
+  return /<[a-z][\s\S]*>/i.test(str);
+};
+
+const cleanHtmlContent = (html: string): string => {
+  if (!html) return '';
+  return html
+    .replace(/background-color:\s*[^;"]+;?/gi, '')
+    .replace(/font-family:\s*[^;"]+;?/gi, '');
+};
+
 export default function MainProductNews({ initialItems, initialPressNews }: MainProductNewsProps) {
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith('/en');
   const basePath = isEnglish ? '/en' : '';
 
-  // Tab State: 'productNews' or 'pressRelease'
-  const [activeTab, setActiveTab] = useState<'productNews' | 'pressRelease'>('productNews');
+  // Tab State: 'pressRelease' or 'productNews'
+  const [activeTab, setActiveTab] = useState<'pressRelease' | 'productNews'>('pressRelease');
   const [activeCategory, setActiveCategory] = useState<string>('전체');
   const [startIndex, setStartIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [selectedModalItem, setSelectedModalItem] = useState<any | null>(null);
 
-  // Check initial hash on mount (e.g. #press-release)
+  // Check initial hash on mount (e.g. #product-news)
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash === '#press-release') {
-      setActiveTab('pressRelease');
+    if (typeof window !== 'undefined' && window.location.hash === '#product-news') {
+      setActiveTab('productNews');
     }
   }, []);
 
@@ -135,14 +162,12 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
       id: item.id || idx + 1,
       category: 'press',
       title: item.title,
-      date: item.created_at
-        ? String(item.created_at).substring(0, 10).replace(/-/g, '.')
-        : '2026.06.25',
+      date: formatDateSafe(item.created_at || (item as any).date),
       content: item.content,
       views: item.views || 0,
       file_name: item.file_name,
       file_url: item.file_url,
-      image: item.image,
+      image: item.image || (idx % 3 === 0 ? '/press_exhibition.png' : idx % 3 === 1 ? '/press_factory.png' : '/press_ceo.png'),
       isNew: idx === 0
     }));
   }, [initialPressNews]);
@@ -275,22 +300,6 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                 <button
                   type="button"
                   onClick={() => {
-                    setActiveTab('productNews');
-                    setStartIndex(0);
-                    setDirection(0);
-                  }}
-                  className={`text-lg sm:text-xl font-bold transition-colors duration-200 cursor-pointer ${
-                    activeTab === 'productNews'
-                      ? 'text-brand-green'
-                      : 'text-gray-400 hover:text-gray-600'
-                  }`}
-                >
-                  Product
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
                     setActiveTab('pressRelease');
                     setStartIndex(0);
                     setDirection(0);
@@ -302,6 +311,22 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                   }`}
                 >
                   Press Release
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab('productNews');
+                    setStartIndex(0);
+                    setDirection(0);
+                  }}
+                  className={`text-lg sm:text-xl font-bold transition-colors duration-200 cursor-pointer ${
+                    activeTab === 'productNews'
+                      ? 'text-brand-green'
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  Product
                 </button>
               </div>
 
@@ -397,18 +422,110 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                 >
                   {visibleItems.map((item, idx) => {
                     const meta = getCategoryMeta(item.category);
-                    const dateStr = item.date || '2026.06.25';
+                    const dateStr = formatDateSafe(item.date || (item as any).created_at);
                     const dateParts = dateStr.includes('-') ? dateStr.split('-') : dateStr.split('.');
                     const yearMonth = dateParts.length >= 2 ? `${dateParts[0]}.${dateParts[1]}` : '2026.06';
                     const day = dateParts.length >= 3 ? dateParts[2] : '25';
                     const plainContent = item.content ? item.content.replace(/<[^>]*>/g, '').trim() : '';
 
+                    if (activeTab === 'pressRelease') {
+                      return (
+                        <div
+                          key={`${activeTab}-${item.id}-${idx}`}
+                          onClick={() => setSelectedModalItem(item)}
+                          className="relative bg-white rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group h-[340px]"
+                          style={{ height: '340px', minHeight: '340px' }}
+                        >
+                          {/* Upper Section: Photo fills marked area edge-to-edge */}
+                          <div className="relative w-full h-[255px] overflow-hidden flex flex-col justify-between p-5 sm:p-5.5 select-none shrink-0">
+                            {/* Full Cover Photo */}
+                            <img
+                              src={(item as any).image || '/press_exhibition.png'}
+                              alt={item.title}
+                              className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                            />
+
+                            {/* Bright legible gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/45 pointer-events-none" />
+
+                            {/* Top Header: Badge, Date & Icon directly on photo */}
+                            <div className="relative z-10 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-2xl bg-white/25 backdrop-blur-md flex items-center justify-center shadow-xs border border-white/30">
+                                  {React.cloneElement(meta.icon as React.ReactElement<any>, {
+                                    className: "w-4 h-4 sm:w-5 sm:h-5 text-white"
+                                  })}
+                                </div>
+                                <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase shadow-xs bg-brand-green text-white">
+                                  {meta.label}
+                                </span>
+                                {item.isNew && (
+                                  <span className="bg-amber-400 text-gray-900 font-extrabold text-[10px] px-1.5 py-0.5 rounded shadow-xs">
+                                    NEW
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-1 text-xs text-white/95 font-medium drop-shadow-xs">
+                                <Calendar className="w-3.5 h-3.5 text-white" />
+                                <span>{dateStr}</span>
+                              </div>
+                            </div>
+
+                            {/* Title & Description directly on photo */}
+                            <div className="relative z-10 space-y-1">
+                              <h3 className="text-sm sm:text-[15px] font-bold text-white leading-snug tracking-tight drop-shadow-sm line-clamp-1">
+                                {item.title}
+                              </h3>
+                              <p className="text-xs text-white/90 leading-relaxed font-normal drop-shadow-xs line-clamp-2">
+                                {plainContent}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Bottom Footer: Big Date & Arrow Link */}
+                          <div className="relative z-10 h-[85px] px-5 sm:px-6 flex items-end justify-between pb-5 sm:pb-6 border-t border-gray-100 bg-[#f8f9fa] group-hover:bg-brand-green transition-colors duration-[1000ms]">
+                            <div className="text-gray-400 group-hover:text-white/80 transition-colors duration-[1000ms]">
+                              <span className="text-2xl font-black text-gray-900 group-hover:text-white transition-colors duration-[1000ms] block leading-none">
+                                {day}
+                              </span>
+                              <span className="text-[11px] font-medium block mt-1">
+                                {yearMonth}
+                              </span>
+                            </div>
+
+                            {/* Normal State: subtle arrow link */}
+                            <span className="text-xs font-bold text-brand-green group-hover:opacity-0 transition-opacity duration-300 inline-flex items-center gap-1 pr-1 mb-1.5 sm:mb-2">
+                              {isEnglish ? 'View Notice' : '상세보기'}
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </span>
+
+                            {/* Concentric Cutout Notch with Floating Black Circle Action Button */}
+                            <div className="absolute bottom-0 right-0 w-[112px] h-[112px] pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-[700ms] ease-out z-30 overflow-hidden transform scale-90 group-hover:scale-100 origin-bottom-right">
+                              <svg className="w-full h-full" viewBox="0 0 112 112" fill="none">
+                                <path
+                                  d="M 112,16 C 112,26 96,38 76,38 A 38 38 0 0 0 38,76 C 38,96 26,112 16,112 L 112,112 Z"
+                                  fill="white"
+                                />
+                              </svg>
+                              
+                              <div
+                                className="absolute w-11 h-11 rounded-full bg-black text-white flex items-center justify-center shadow-lg transform scale-85 group-hover:scale-105 active:scale-95 transition-all duration-[500ms] ease-out"
+                                style={{ right: '12px', bottom: '12px' }}
+                              >
+                                <ArrowRight className="w-5 h-5 stroke-[2.4] transition-transform duration-[500ms] group-hover:translate-x-1" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+
                     return (
                       <div
                         key={`${activeTab}-${item.id}-${idx}`}
                         onClick={() => setSelectedModalItem(item)}
-                        className="relative bg-[#f8f9fa] rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group p-6 sm:p-7"
-                        style={{ minHeight: '340px' }}
+                        className="relative bg-[#f8f9fa] rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group p-6 sm:p-7 h-[340px]"
+                        style={{ height: '340px', minHeight: '340px' }}
                       >
                         {/* Expanding Circle Background Ripple Effect */}
                         <div
@@ -418,7 +535,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
 
                         {/* Top Header: Badge, Date & Icon */}
                         <div className="relative z-10">
-                          <div className="flex items-center justify-between mb-5">
+                          <div className="flex items-center justify-between mb-4 sm:mb-5">
                             <div className="flex items-center gap-2">
                               <div className="w-10 h-10 rounded-2xl bg-white group-hover:bg-white/20 flex items-center justify-center transition-colors duration-[1500ms] shadow-2xs">
                                 {React.cloneElement(meta.icon as React.ReactElement<any>, {
@@ -436,12 +553,12 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                             </div>
                             <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-white/90 font-medium transition-colors duration-[1500ms]">
                               <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-[1500ms]" />
-                              <span>{dateStr.replace(/-/g, '.')}</span>
+                              <span>{dateStr}</span>
                             </div>
                           </div>
 
                           {/* Title & Description */}
-                          <div className="space-y-3">
+                          <div className="space-y-2.5 sm:space-y-3">
                             <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-[1500ms] line-clamp-2">
                               {item.title}
                             </h3>
@@ -451,42 +568,42 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                           </div>
                         </div>
 
-                      {/* Bottom Footer: Big Date & Arrow Link */}
-                      <div className="relative z-10 pt-5 mt-6 flex items-end justify-between border-t border-gray-100/80 group-hover:border-white/20 transition-colors duration-[1500ms]">
-                        <div className="text-gray-400 group-hover:text-white/80 transition-colors duration-[1500ms]">
-                          <span className="text-2xl font-black text-gray-900 group-hover:text-white transition-colors duration-[1500ms] block leading-none">
-                            {day}
-                          </span>
-                          <span className="text-[11px] font-medium block mt-1">
-                            {yearMonth}
+                        {/* Bottom Footer: Big Date & Arrow Link */}
+                        <div className="relative z-10 pt-4 mt-4 sm:pt-5 sm:mt-5 flex items-end justify-between border-t border-gray-100/80 group-hover:border-white/20 transition-colors duration-[1500ms]">
+                          <div className="text-gray-400 group-hover:text-white/80 transition-colors duration-[1500ms]">
+                            <span className="text-2xl font-black text-gray-900 group-hover:text-white transition-colors duration-[1500ms] block leading-none">
+                              {day}
+                            </span>
+                            <span className="text-[11px] font-medium block mt-1">
+                              {yearMonth}
+                            </span>
+                          </div>
+
+                          {/* Normal State: subtle arrow link */}
+                          <span className="text-xs font-bold text-brand-green group-hover:opacity-0 transition-opacity duration-300 inline-flex items-center gap-1 pr-1 mb-2 sm:mb-2.5">
+                            {isEnglish ? 'View Notice' : '상세보기'}
+                            <ArrowRight className="w-3.5 h-3.5" />
                           </span>
                         </div>
 
-                        {/* Normal State: subtle arrow link */}
-                        <span className="text-xs font-bold text-brand-green group-hover:opacity-0 transition-opacity duration-300 inline-flex items-center gap-1 pr-1">
-                          {isEnglish ? 'View Notice' : '상세보기'}
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
-                      </div>
-
-                      {/* Concentric Cutout Notch with Floating Black Circle Action Button */}
-                      <div className="absolute bottom-0 right-0 w-[112px] h-[112px] pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-[1000ms] ease-out z-30 overflow-hidden transform scale-90 group-hover:scale-100 origin-bottom-right">
-                        <svg className="w-full h-full" viewBox="0 0 112 112" fill="none">
-                          <path
-                            d="M 112,16 C 112,26 96,38 76,38 A 38 38 0 0 0 38,76 C 38,96 26,112 16,112 L 112,112 Z"
-                            fill="white"
-                          />
-                        </svg>
-                        
-                        <div
-                          className="absolute w-11 h-11 rounded-full bg-black text-white flex items-center justify-center shadow-lg transform scale-85 group-hover:scale-105 active:scale-95 transition-all duration-[700ms] ease-out"
-                          style={{ right: '12px', bottom: '12px' }}
-                        >
-                          <ArrowRight className="w-5 h-5 stroke-[2.4] transition-transform duration-[700ms] group-hover:translate-x-1" />
+                        {/* Concentric Cutout Notch with Floating Black Circle Action Button */}
+                        <div className="absolute bottom-0 right-0 w-[112px] h-[112px] pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-[1000ms] ease-out z-30 overflow-hidden transform scale-90 group-hover:scale-100 origin-bottom-right">
+                          <svg className="w-full h-full" viewBox="0 0 112 112" fill="none">
+                            <path
+                              d="M 112,16 C 112,26 96,38 76,38 A 38 38 0 0 0 38,76 C 38,96 26,112 16,112 L 112,112 Z"
+                              fill="white"
+                            />
+                          </svg>
+                          
+                          <div
+                            className="absolute w-11 h-11 rounded-full bg-black text-white flex items-center justify-center shadow-lg transform scale-85 group-hover:scale-105 active:scale-95 transition-all duration-[700ms] ease-out"
+                            style={{ right: '12px', bottom: '12px' }}
+                          >
+                            <ArrowRight className="w-5 h-5 stroke-[2.4] transition-transform duration-[700ms] group-hover:translate-x-1" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
+                    );
                 })}
               </motion.div>
             </AnimatePresence>
@@ -547,8 +664,19 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                 )}
 
                 {/* Modal Content */}
-                <div className="text-xs sm:text-sm text-gray-700 leading-relaxed whitespace-pre-line py-3 px-4 bg-gray-50/80 rounded-2xl border border-gray-100 font-normal">
-                  {selectedModalItem.content || (isEnglish ? 'Detailed content for this notice.' : '본 소식에 대한 세부 내용입니다.')}
+                <div className="text-xs sm:text-sm text-gray-700 leading-relaxed py-3.5 px-4.5 bg-gray-50/80 rounded-2xl border border-gray-100 font-normal">
+                  {isHtml(selectedModalItem.content) ? (
+                    <div
+                      className="rich-text-content space-y-2 [&_span]:!bg-transparent [&_h1]:text-base [&_h1]:font-bold [&_h1]:text-gray-900 [&_h1]:mb-2 [&_h2]:text-sm [&_h2]:font-bold [&_h2]:text-gray-800 [&_h2]:mb-1.5 [&_h3]:text-xs [&_h3]:font-semibold [&_h3]:mb-1 [&_p]:leading-relaxed [&_p]:mb-2"
+                      dangerouslySetInnerHTML={{
+                        __html: cleanHtmlContent(selectedModalItem.content)
+                      }}
+                    />
+                  ) : (
+                    <div className="whitespace-pre-line">
+                      {selectedModalItem.content || (isEnglish ? 'Detailed content for this notice.' : '본 소식에 대한 세부 내용입니다.')}
+                    </div>
+                  )}
                 </div>
 
                 {/* Attachment Link */}

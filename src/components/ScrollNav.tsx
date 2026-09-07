@@ -19,9 +19,9 @@ export default function ScrollNav() {
     { 
       id: 'core-business', 
       label: isEnglish ? 'Core Business' : '주요 사업영역',
-      activeColor: 'bg-[#1F4E78] shadow-[0_0_12px_rgba(31,78,120,0.7)]',
-      inactiveColor: 'bg-[#1F4E78]/40 hover:bg-[#1F4E78]',
-      pingColor: 'bg-[#1F4E78]/30 border border-[#1F4E78]/40'
+      activeColor: 'bg-brand-blue shadow-[0_0_12px_rgba(10,37,64,0.7)]',
+      inactiveColor: 'bg-brand-blue/30 hover:bg-brand-blue',
+      pingColor: 'bg-brand-blue/20 border border-brand-blue/30'
     },
     { 
       id: 'products', 
@@ -32,7 +32,7 @@ export default function ScrollNav() {
     },
     { 
       id: 'product-news', 
-      label: isEnglish ? 'News (Product, Press)' : '뉴스(제품소식,보도자료)',
+      label: isEnglish ? 'News (Press, Product)' : '뉴스(보도자료,제품소식)',
       activeColor: 'bg-brand-green shadow-green-glow',
       inactiveColor: 'bg-brand-green/40 hover:bg-brand-green',
       pingColor: 'bg-brand-green/25 border border-brand-green/35'

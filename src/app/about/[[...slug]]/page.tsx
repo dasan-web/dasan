@@ -321,30 +321,11 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
             <div className="space-y-16 animate-fade-in-up mt-0">
 
-            {/* 1. Intro Summary with Full-Bleed 4.avif Forest Background */}
-            <div 
-              style={{
-                width: '100vw',
-                marginLeft: 'calc(50% - 50vw)',
-              }}
-              className="relative w-screen overflow-hidden pt-16 sm:pt-20 md:pt-24 pb-28 sm:pb-36 md:pb-44 mt-0 mb-0 shadow-none border-b-0 group/bg"
-            >
-              {/* Background Image: 4.avif */}
-              <div className="absolute inset-0 z-0">
-                <Image 
-                  src="/images/4.avif" 
-                  alt="다산제약 기업 철학 숲길 배경" 
-                  fill 
-                  priority 
-                  className="object-cover object-center scale-100 group-hover/bg:scale-102 transition-transform duration-1000 ease-out"
-                />
-                {/* 숲길 본연의 깊고 차분한 색감을 살려 톤 다운한 반투명 오버레이 */}
-                <div className="absolute inset-0 bg-black/45 backdrop-blur-[0.5px]" />
-              </div>
-
+            {/* 1. Intro Summary */}
+            <div className="relative w-full pt-8 sm:pt-12 pb-16 sm:pb-20 mt-0 mb-0">
               {/* Content Container */}
-              <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
-                <div className="space-y-4 text-white text-sm md:text-base leading-relaxed">
+              <div className="relative z-10 max-w-5xl mx-auto">
+                <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed">
                 {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
                   (() => {
                     let beforeHtml = introBody;
@@ -382,13 +363,13 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       // 1.5 4대 경영 철학
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
-                        '<span class="block text-2xl sm:text-3xl md:text-4xl font-black text-white mt-10 mb-5 w-full [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">$1</span>'
+                        '<span class="block text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mt-10 mb-5 w-full">$1</span>'
                       );
                       
                       // 2. 다산(茶山)의 정신으로...
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(다산\(茶山\)의 정신으로.*?다산제약)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
-                        '<span class="block text-xl sm:text-2xl md:text-3xl font-black text-white mt-8 mb-4 w-full [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</span>'
+                        '<span class="block text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-8 mb-4 w-full">다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</span>'
                       );
                       
                       return processed;
@@ -399,22 +380,22 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                     return (
                       <>
-                        {/* 상단 텍스트 영역: 전체적으로 글씨 크기 확대 및 흰색 적용 */}
+                        {/* 상단 텍스트 영역 */}
                         <div className="w-full">
-                          <span className="text-white text-sm sm:text-base md:text-lg font-black tracking-widest uppercase block mb-3 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
+                          <span className="text-brand-green text-xs sm:text-sm font-bold tracking-wider uppercase block mb-3">
                             Company Overview
                           </span>
                           <div 
                             className="
-                              text-[17px] sm:text-[19px] md:text-[21px] text-white leading-[2.0] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]
-                              [&_p]:leading-[2.0] [&_p]:text-[17px] sm:[&_p]:text-[19px] md:[&_p]:text-[21px] [&_p]:text-white [&_p]:font-bold [&_p]:mb-5 
-                              [&_h3]:text-3xl sm:[&_h3]:text-4xl md:[&_h3]:text-5xl [&_h3]:font-black [&_h3]:text-white [&_h3]:border-b [&_h3]:border-white/25 [&_h3]:pb-4 [&_h3]:mb-6
-                              [&_h4]:text-xl sm:[&_h4]:text-2xl md:[&_h4]:text-3xl [&_h4]:font-black [&_h4]:text-white [&_h4]:mt-8 [&_h4]:mb-4
-                              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:space-y-4
-                              [&_li]:text-white [&_li]:font-bold [&_li]:text-[17px] sm:[&_li]:text-[19px] md:[&_li]:text-[21px] [&_li]:leading-[2.0] [&_li::marker]:text-white
-                              [&_strong]:text-white [&_strong]:font-black
+                              text-[15px] sm:text-[16px] text-gray-600 leading-[1.8] font-normal
+                              [&_p]:leading-[1.8] [&_p]:text-[15px] sm:[&_p]:text-[16px] [&_p]:text-gray-600 [&_p]:font-normal [&_p]:mb-5 
+                              [&_h3]:text-2xl sm:[&_h3]:text-3xl md:[&_h3]:text-4xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-200 [&_h3]:pb-4 [&_h3]:mb-6
+                              [&_h4]:text-lg sm:[&_h4]:text-xl md:[&_h4]:text-2xl [&_h4]:font-bold [&_h4]:text-gray-900 [&_h4]:mt-8 [&_h4]:mb-4
+                              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:space-y-3
+                              [&_li]:text-gray-600 [&_li]:font-normal [&_li]:text-[15px] sm:[&_li]:text-[16px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-green
+                              [&_strong]:text-gray-900 [&_strong]:font-bold
                             "
-                            dangerouslySetInnerHTML={{ __html: `<h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 pb-4 border-b border-white/25 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">${introTitle}</h3>` + beforeHtml }} 
+                            dangerouslySetInnerHTML={{ __html: `<h3 class="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-6 pb-4 border-b border-gray-200">${introTitle}</h3>` + beforeHtml }} 
                           />
                         </div>
 
@@ -423,16 +404,16 @@ export default async function AboutCatchAllPage({ params }: Params) {
                           <PhilosophyGraphic />
                         </div>
 
-                        {/* 하단 세부 항목 영역: 전체적으로 글씨 크기 확대 및 흰색 적용 */}
+                        {/* 하단 세부 항목 영역 */}
                         {hasPhilosophy && afterHtml && (
                           <div className="w-full mt-8 sm:mt-12">
                             <div 
                               className="
-                                text-[17px] sm:text-[19px] md:text-[21px] text-white leading-[2.0] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]
-                                [&_p]:leading-[2.0] [&_p]:text-[17px] sm:[&_p]:text-[19px] md:[&_p]:text-[21px] [&_p]:text-white [&_p]:font-bold [&_p]:mb-4 
-                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-4
-                                [&_li]:text-white [&_li]:font-bold [&_li]:text-[17px] sm:[&_li]:text-[19px] md:[&_li]:text-[21px] [&_li]:leading-[2.0] [&_li::marker]:text-white
-                                [&_strong]:text-white [&_strong]:font-black [&_strong]:text-[18px] sm:[&_strong]:text-[20px] md:[&_strong]:text-[22px]
+                                text-[15px] sm:text-[16px] text-gray-600 leading-[1.8] font-normal
+                                [&_p]:leading-[1.8] [&_p]:text-[15px] sm:[&_p]:text-[16px] [&_p]:text-gray-600 [&_p]:font-normal [&_p]:mb-4 
+                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-3
+                                [&_li]:text-gray-600 [&_li]:font-normal [&_li]:text-[15px] sm:[&_li]:text-[16px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-green
+                                [&_strong]:text-gray-900 [&_strong]:font-bold
                               "
                               dangerouslySetInnerHTML={{ __html: afterHtml }} 
                             />
@@ -452,21 +433,21 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     return (
                       <>
                         <div className="w-full">
-                          <span className="text-white text-sm sm:text-base md:text-lg font-black tracking-widest uppercase block mb-3 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
+                          <span className="text-brand-green text-xs sm:text-sm font-bold tracking-wider uppercase block mb-3">
                             Company Overview
                           </span>
                           {topLines.map((line, i) => {
                             if (line.match(/^[1-9]\.\s/) || i === 0) {
                               const titleText = line.replace(/^[1-9]\.\s?/, '');
-                              return <h3 key={i} className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 pb-4 border-b border-white/25 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{titleText}</h3>;
+                              return <h3 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-6 pb-4 border-b border-gray-200">{titleText}</h3>;
                             }
                             if (line.includes('4대 경영 철학') || line.includes('4 Major Management Philosophies')) {
-                              return <h4 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-white mt-8 mb-4 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</h4>;
+                              return <h4 key={i} className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mt-8 mb-4">{line}</h4>;
                             }
                             if (line.startsWith('다산(茶山)의 정신으로') || line.includes('핵심 가치') || line.startsWith('With the spirit of Dasan')) {
-                              return <h4 key={i} className="text-xl sm:text-2xl md:text-3xl font-black text-white mt-8 mb-4 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</h4>;
+                              return <h4 key={i} className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-8 mb-4">{line}</h4>;
                             }
-                            return <p key={i} className="mb-5 text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</p>;
+                            return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">{line}</p>;
                           })}
                         </div>
 
@@ -476,7 +457,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                         {bottomLines.length > 0 && (
                           <div className="w-full mt-8 sm:mt-12">
-                            <div className="space-y-4 sm:space-y-5">
+                            <div className="space-y-4">
                               {bottomLines.map((line, i) => {
                                 const content = (line.startsWith('•') || line.startsWith('-') || line.startsWith('·')) ? line.substring(1).trim() : line;
                                 const splitIdx = content.indexOf(':');
@@ -485,17 +466,17 @@ export default async function AboutCatchAllPage({ params }: Params) {
                                   const desc = content.substring(splitIdx + 1).trim();
                                   return (
                                     <div key={i} className="flex items-start">
-                                      <span className="text-white font-black mr-3.5 mt-1 text-2xl leading-none drop-shadow-md">•</span>
-                                      <p className="text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">
-                                        <strong className="text-white font-black text-[18px] sm:text-[20px] md:text-[22px]">{title}</strong> : {desc}
+                                      <span className="text-brand-green font-bold mr-3 mt-0.5 text-lg leading-none">•</span>
+                                      <p className="text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">
+                                        <strong className="text-gray-900 font-bold">{title}</strong> : {desc}
                                       </p>
                                     </div>
                                   );
                                 }
                                 return (
                                   <div key={i} className="flex items-start">
-                                    <span className="text-white font-black mr-3.5 mt-1 text-2xl leading-none drop-shadow-md">•</span>
-                                    <p className="text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{content}</p>
+                                    <span className="text-brand-green font-bold mr-3 mt-0.5 text-lg leading-none">•</span>
+                                    <p className="text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">{content}</p>
                                   </div>
                                 );
                               })}
@@ -515,89 +496,82 @@ export default async function AboutCatchAllPage({ params }: Params) {
         );
 
       case '/about/greeting':
-        let greetingBody = '';
-        if (dbContent) {
-          greetingBody = dbContent;
-        }
-
-        // CEO 메시지 (CEO Message) 문구를 굵고 큰 헤딩으로 변환 및 오타 글자(|, ㅣ) 완전 제거 (하단 테두리 선 복원)
-        if (greetingBody) {
-          greetingBody = greetingBody
-            .replace(
-              /(?:<p[^>]*>)?\s*(?:<span[^>]*>)?\s*(?:<strong[^>]*>)?\s*CEO\s*메시지\s*\(CEO\s*Message\)\s*[|ㅣ]?\s*(?:<\/strong>)?\s*(?:<\/span>)?\s*(?:<\/p>)?/gi,
-              '<h3 class="text-2xl md:text-3xl font-black text-gray-900 mb-6 pb-3 border-b border-gray-200">CEO 메시지 (CEO Message)</h3>'
-            )
-            .replace(/<p[^>]*>\s*[|ㅣ]\s*<\/p>/gi, '')
-            .replace(/^\s*[|ㅣ]\s*$/gm, '');
-
-          greetingBody = greetingBody.replace(
-            /(?:<p[^>]*>)?\s*(?:<span[^>]*>)?\s*(?:<strong[^>]*>)?\s*(신뢰와 혁신으로 열어가는 더 건강한 미래)\s*(?:<\/strong>)?\s*(?:<\/span>)?\s*(?:<\/p>)?/gi,
-            '<h4 class="text-lg md:text-xl font-bold text-gray-900 mt-6 mb-5">$1</h4>'
-          );
-        }
-
         return (
-          <>
-            {/* 대표이사 인사말 상단 배너 배치 */}
-            <ScrollGreetingImage lang="ko" />
+          <div className="animate-fade-in-up mt-4 sm:mt-6 bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-3xl shadow-none w-full">
+            {/* Header Title */}
+            <div className="mb-8 sm:mb-12 pb-4 border-b border-gray-100">
+              <span className="text-xs font-bold tracking-widest text-emerald-600 uppercase mb-1.5 block">
+                CEO Message
+              </span>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
+                CEO 메시지
+              </h3>
+            </div>
 
-            <div className="space-y-16 animate-fade-in-up mt-16">
-              <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
-                <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
-                  {greetingBody && (greetingBody.includes('<p') || greetingBody.includes('<br') || greetingBody.includes('<h')) ? (
-                    <div 
-                      className="
-                        text-[15px] text-gray-600 leading-[1.8]
-                        [&_p]:leading-[1.8] [&_p]:text-[15px] [&_p]:text-gray-600 [&_p]:mb-5 
-                        [&_h3]:text-2xl md:[&_h3]:text-3xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-200 [&_h3]:pb-3 [&_h3]:mb-6
-                        [&_h4]:text-lg md:[&_h4]:text-xl [&_h4]:font-bold [&_h4]:text-gray-900 [&_h4]:mt-6 [&_h4]:mb-5
-                        [&_strong]:text-gray-900 [&_strong]:font-bold
-                      "
-                      dangerouslySetInnerHTML={{ __html: greetingBody }} 
+            {/* 2-Column Responsive Layout: Photo Card (Left) & Fully Expanded Greeting Body (Right) */}
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-14 items-start w-full">
+              {/* Left Column: Prominent Large CEO Photo Card */}
+              <div className="w-full lg:w-[380px] xl:w-[440px] 2xl:w-[480px] shrink-0 lg:sticky lg:top-24">
+                <div className="bg-slate-50/80 border border-slate-200/80 rounded-[32px] p-3 sm:p-4 shadow-sm hover:shadow-md transition-shadow">
+                  {/* Large Photo Frame */}
+                  <div className="relative aspect-[3/4.2] w-full rounded-2xl overflow-hidden shadow-md bg-slate-900 group">
+                    <img 
+                      src="/images/ceo_greeting.webp" 
+                      alt="다산제약 대표이사 류형선" 
+                      className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                     />
-                  ) : (
-                    <div className="mb-8">
-                      <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-6 pb-3 border-b border-gray-200">
-                        CEO 메시지 (CEO Message)
-                      </h3>
-                      
-                      <h4 className="text-lg md:text-xl font-bold text-gray-900 mt-6 mb-5">
-                        신뢰와 혁신으로 열어가는 더 건강한 미래
-                      </h4>
-                      
-                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                        다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다
-                      </p>
-                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                        1996년 첫 발을 내딛은 다산제약은 &apos;차별화된 의약품 연구개발&apos;이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다
-                      </p>
-                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                        우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다
-                      </p>
-                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                        나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다
-                      </p>
-                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                        다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 &apos;글로벌 헬스케어 리더&apos;로 끊임없이 도약할 것을 약속드립니다
-                      </p>
-                      <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                        새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다
-                      </p>
-                      <p className="text-gray-600 leading-[1.8] text-[15px] mt-8">
-                        감사합니다
-                      </p>
-                    </div>
-                  )}
+                  </div>
+                </div>
+              </div>
 
-                  {/* CEO Signature */}
-                  <div className="flex justify-end items-end mt-16 gap-4">
-                    <span className="text-gray-500 font-medium text-[15px] pb-1">대표이사</span>
-                    <span className="text-gray-800 font-black text-3xl md:text-4xl tracking-[0.15em] font-serif">류 형 선</span>
+              {/* Right Column: Greeting Text - Fully expanded wide container */}
+              <div className="flex-1 w-full min-w-0 flex flex-col justify-between pt-1">
+                <div>
+                  {/* Slogan Banner */}
+                  <div className="border-l-4 border-brand-green pl-4 sm:pl-5 py-1 mb-8">
+                    <p className="text-xs font-bold tracking-widest text-brand-green uppercase mb-1">
+                      Trust & Innovation
+                    </p>
+                    <h4 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-snug">
+                      신뢰와 혁신으로 열어가는 더 건강한 미래
+                    </h4>
+                  </div>
+
+                  {/* Paragraphs */}
+                  <div className="space-y-6 text-gray-700 text-[15px] sm:text-base md:text-[16.5px] leading-[1.95] tracking-normal font-normal break-keep">
+                    <p className="font-semibold text-gray-900 text-base sm:text-lg leading-relaxed">
+                      다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다.
+                    </p>
+                    <p>
+                      1996년 첫 발을 내딛은 다산제약은 &apos;차별화된 의약품 연구개발&apos;이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다. 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다.
+                    </p>
+                    <p>
+                      우리는 다산 정약용 선생의 실사구시(實事求是) 정신을 이어받아 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 고품질 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다.
+                    </p>
+                    <p>
+                      나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 앞장서겠습니다.
+                    </p>
+                    <p>
+                      다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 &apos;글로벌 헬스케어 리더&apos;로 끊임없이 도약할 것을 약속드립니다.
+                    </p>
+                    <p className="text-gray-600 pt-2">
+                      새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다. 감사합니다.
+                    </p>
+                  </div>
+                </div>
+
+                {/* CEO Signature Block */}
+                <div className="mt-14 pt-8 border-t border-gray-100 flex justify-end items-end">
+                  <div className="flex items-end gap-3">
+                    <span className="text-gray-500 font-medium text-sm pb-1.5">대표이사</span>
+                    <span className="text-gray-900 font-bold text-3xl md:text-4xl tracking-[0.18em] font-serif">
+                      류 형 선
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-          </>
+          </div>
         );
 
       case '/about/business-area':
@@ -626,50 +600,68 @@ export default async function AboutCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-4 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
+          <div className="space-y-10 animate-fade-in-up">
+            {/* 사업영역 대표 비주얼 (21:9 와이드 화면 - 상단 좌측 텍스트 오버레이) */}
             <div 
-              className="relative h-[70vh] lg:h-[85vh] mb-16 shadow-lg overflow-hidden"
-              style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
             >
-              <div 
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url('/images/business_hero.jpg')" }}
+              <Image 
+                src="/images/business_hero.jpg" 
+                alt="다산제약 사업영역 비주얼" 
+                fill
+                priority
+                unoptimized={true}
+                className="object-cover object-center"
               />
-              <div className="absolute inset-0 flex items-center justify-center px-6 animate-fade-in-up">
-                <div className="bg-black/50 backdrop-blur-md border border-white/20 p-8 md:p-12 lg:p-14 rounded-3xl max-w-4xl w-full text-center text-white shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
-                  <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold mb-4 md:mb-6 text-slate-100">다산제약은</h2>
-                  <p className="text-xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-4 leading-relaxed">연구개발(R&D)부터 판매까지 의약품 전 주기의</p>
-                  <p className="text-xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-4 leading-relaxed"><span className="font-black text-emerald-400">Key Value Chain</span> 인프라를 구축하여</p>
-                  <p className="text-xl md:text-3xl lg:text-4xl font-medium leading-relaxed">고부가가치 사업 성장성을 확보하고 있습니다.</p>
+
+              {/* 좌측 텍스트 가독성을 위한 은은한 소프트 그라데이션 */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent pointer-events-none" />
+
+              {/* 파란색 표시부분 (상단 좌측 텍스트 영역) */}
+              <div className="absolute inset-0 flex items-start justify-start p-6 sm:p-10 md:p-14 lg:p-16">
+                <div className="max-w-xl lg:max-w-2xl text-left animate-fade-in-up">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-pretendard font-bold text-gray-900 leading-snug tracking-tight break-keep drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
+                    다산제약은 연구개발(R&D)부터 판매까지<br />
+                    의약품 전 주기의 <span className="text-[#2f7847] font-black">Key Value Chain</span> 인프라를 구축하여<br />
+                    고부가가치 사업 성장성을 확보하고 있습니다.
+                  </h2>
                 </div>
               </div>
             </div>
 
-            <h3 className="text-xl md:text-2xl font-black text-gray-900 mt-4 mb-10 pb-2 border-b border-gray-100">
-              주요 사업 영역 (Core Business)
-            </h3>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:-mx-4 xl:-mx-8 mt-12">
+            <div className="bg-white p-6 md:p-12 rounded-3xl shadow-none">
+              <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-10 pb-2 border-b border-gray-100">
+                주요 사업 영역 (Core Business)
+              </h3>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:-mx-4 xl:-mx-8 mt-12">
               {/* Card 1 */}
               <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                {/* Light static top gradient for title contrast (No darkening on hover) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                  {/* 고정 표시: 해시태그 + 제목 */}
+                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
                       #Core Business
                     </span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     01. 자사 완제 의약품 사업
                   </h4>
-                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
+                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
                     순환기, 호흡기, 비뇨기 중심의<br />
                     <span className="whitespace-nowrap">우수한 제품 라인업 구축 및 생산·판매</span>
                   </p>
@@ -679,23 +671,26 @@ export default async function AboutCatchAllPage({ params }: Params) {
               {/* Card 2 */}
               <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                {/* Light static top gradient for title contrast (No darkening on hover) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                  {/* 고정 표시: 해시태그 + 제목 */}
+                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
                       #Smart CMO
                     </span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     02. 수탁 완제 의약품 (CMO) 사업
                   </h4>
-                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
+                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
                     독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산
                   </p>
                 </div>
@@ -704,27 +699,31 @@ export default async function AboutCatchAllPage({ params }: Params) {
               {/* Card 3 */}
               <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                {/* Light static top gradient for title contrast (No darkening on hover) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                  {/* 고정 표시: 해시태그 + 제목 */}
+                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
                       #API & Intermediate
                     </span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     03. 의약품 핵심 원료 및 중간체 사업
                   </h4>
-                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
+                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
                     의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF 등록·관리
                   </p>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         );
@@ -744,42 +743,42 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let historyIntroBody = '원천기술 확보에서 글로벌 고성장·고수익 창출 기업으로 도약해 온 다산제약의 발자취입니다';
         let timelineData: TimelineEra[] = [];
 
-        // Define default timeline
+        // Define default timeline (최신순: 2022 ~ Present부터 표시)
         const defaultTimelineData: TimelineEra[] = [
           {
-            eraTitle: '1996 ~ 2011',
-            eraSubtitle: '설립기 (원천기술 확보)',
+            eraTitle: '2022 ~ Present',
+            eraSubtitle: '도약기 (고성장/고수익 창출)',
             events: [
-              { year: '1996', details: ['• 주식회사 다산메디켐 설립'] },
-              { year: '2001', details: ['• 원료의약품 공장 준공 및 제조업 허가 취득 / 기업부설연구소 인가'] },
-              { year: '2002', details: ['• BGMP 인증'] },
-              { year: '2007', details: ['• 기술혁신형중소기업(INNO-BIZ) 인증 / 3D Clean 사업장 인증'] },
-              { year: '2008', details: ['• 매출 100억 원 달성 / KGMP 인증'] },
-              { year: '2009', details: ['• 300만불 수출탑 수상'] },
-              { year: '2011', details: ['• \'KIBO 성공기업\' 선정'] }
+              { year: '2025', details: ['• 환경부 한국환경공단 스마트생태공장 구축 사업 선정'] },
+              { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정 / 식약처 공급망 안정화 선도 사업자 선정 / 안전보건경영시스템(ISO 45001) 인증 획득 / 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
+              { year: '2023', details: ['• 부패방지경영시스템(ISO 37001) 인증 획득'] },
+              { year: '2022', details: ['• 무역의날 산자부 장관표창 및 700만불 수출탑 수상 / 혁신성장 유공중소기업 장관상 수상 / 의약품수출분야 보건복지부 장관상 수상 / 4년 연속 청년친화 강소기업 선정'] }
             ]
           },
           {
             eraTitle: '2013 ~ 2021',
             eraSubtitle: '성장기 (R&D 고도화 및 생산 인프라 확장)',
             events: [
-              { year: '2013', details: ['• 완제의약품 물류센터 완공 / 벤처기업 중소기업청장상 표창 / 합성연구소 확장 이전'] },
-              { year: '2016', details: ['• 중앙연구소 확장 이전'] },
-              { year: '2017', details: ['• 사명 변경 ("주식회사 다산제약")'] },
-              { year: '2018', details: ['• 중앙연구소 통합 개소'] },
-              { year: '2019', details: ['• 매출 500억 원 달성 / 아산 제2공장 완공 / 심양연구소(중국 랴오닝성) 확장'] },
+              { year: '2021', details: ['• 충청남도 우수기업인상 수상 / 좋은 일자리 기업 선정 / 글로벌 강소기업 선정'] },
               { year: '2020', details: ['• 충청남도 유망 중소기업 선정'] },
-              { year: '2021', details: ['• 충청남도 우수기업인상 수상 / 좋은 일자리 기업 선정 / 글로벌 강소기업 선정'] }
+              { year: '2019', details: ['• 매출 500억 원 달성 / 아산 제2공장 완공 / 심양연구소(중국 랴오닝성) 확장'] },
+              { year: '2018', details: ['• 중앙연구소 통합 개소'] },
+              { year: '2017', details: ['• 사명 변경 ("주식회사 다산제약")'] },
+              { year: '2016', details: ['• 중앙연구소 확장 이전'] },
+              { year: '2013', details: ['• 완제의약품 물류센터 완공 / 벤처기업 중소기업청장상 표창 / 합성연구소 확장 이전'] }
             ]
           },
           {
-            eraTitle: '2022 ~ Present',
-            eraSubtitle: '도약기 (고성장/고수익 창출)',
+            eraTitle: '1996 ~ 2011',
+            eraSubtitle: '설립기 (원천기술 확보)',
             events: [
-              { year: '2022', details: ['• 무역의날 산자부 장관표창 및 700만불 수출탑 수상 / 혁신성장 유공중소기업 장관상 수상 / 의약품수출분야 보건복지부 장관상 수상 / 4년 연속 청년친화 강소기업 선정'] },
-              { year: '2023', details: ['• 부패방지경영시스템(ISO 37001) 인증 획득'] },
-              { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정 / 식약처 공급망 안정화 선도 사업자 선정 / 안전보건경영시스템(ISO 45001) 인증 획득 / 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
-              { year: '2025', details: ['• 환경부 한국환경공단 스마트생태공장 구축 사업 선정'] }
+              { year: '2011', details: ['• \'KIBO 성공기업\' 선정'] },
+              { year: '2009', details: ['• 300만불 수출탑 수상'] },
+              { year: '2008', details: ['• 매출 100억 원 달성 / KGMP 인증'] },
+              { year: '2007', details: ['• 기술혁신형중소기업(INNO-BIZ) 인증 / 3D Clean 사업장 인증'] },
+              { year: '2002', details: ['• BGMP 인증'] },
+              { year: '2001', details: ['• 원료의약품 공장 준공 및 제조업 허가 취득 / 기업부설연구소 인가'] },
+              { year: '1996', details: ['• 주식회사 다산메디켐 설립'] }
             ]
           }
         ];
@@ -827,36 +826,56 @@ export default async function AboutCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-12 animate-fade-in-up bg-white p-6 md:p-16 rounded-3xl relative overflow-hidden">
-            {/* 동적으로 구현된 프리미엄 럭셔리 매출 성장 그래프 애니메이션 컴포넌트 (추후 재사용을 위해 숨김 처리) */}
-            {/* <SalesGrowthChart /> */}
-
-            {/* Header */}
-            <div className="text-left mb-16 relative z-10 w-full max-w-5xl mx-auto">
-              
-              {/* 사용자 요청 텍스트 (그림 부분) */}
-              <div className="mb-12 animate-fade-in-up">
-                <h2 className="text-3xl md:text-4xl font-pretendard font-medium text-gray-800 leading-tight tracking-tight">
-                  신뢰와 혁신으로<br />
-                  미래를 향한 <span className="text-[#3a8b54] font-black">DASAN</span>
-                </h2>
-              </div>
-
-              <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-12 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
-              <h3 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight pb-2 border-b border-gray-100 animate-fade-in-up" style={{animationDelay: '200ms'}}>
-                {historyIntroTitle || '성장 연혁 (History)'}
-              </h3>
-              {(typeof historyIntroBody === 'string' && (historyIntroBody.includes('<p') || historyIntroBody.includes('<h'))) ? (
-                <div dangerouslySetInnerHTML={{ __html: historyIntroBody }} className="mt-4 animate-fade-in-up max-w-2xl [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:text-sm [&_p]:md:text-base [&_strong]:font-bold" style={{animationDelay: '300ms'}} />
-              ) : (
-                <p className="text-gray-600 mt-4 text-sm md:text-base leading-relaxed animate-fade-in-up max-w-2xl" style={{animationDelay: '300ms'}}>
-                  {historyIntroBody}
-                </p>
-              )}
+          <div className="space-y-10 animate-fade-in-up">
+            {/* 연혁 대표 비주얼 (21:9 와이드 화면 - 글로벌 인프라 사진 크기) */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
+            >
+              <Image 
+                src="/history_hero_spiral.png" 
+                alt="다산제약 성장 연혁 비주얼" 
+                fill
+                priority
+                unoptimized={true}
+                className="object-cover object-center"
+              />
             </div>
 
-            {/* Timeline Container */}
-            <HistoryAccordion timelineData={timelineData} />
+            <div className="space-y-12 bg-white p-6 md:p-16 rounded-3xl relative overflow-hidden">
+              {/* 동적으로 구현된 프리미엄 럭셔리 매출 성장 그래프 애니메이션 컴포넌트 (추후 재사용을 위해 숨김 처리) */}
+              {/* <SalesGrowthChart /> */}
+
+              {/* Header */}
+              <div className="text-left mb-10 relative z-10 w-full max-w-5xl mx-auto">
+                
+                {/* 사용자 요청 텍스트 (그림 바로 아래) */}
+                <div className="mb-8 animate-fade-in-up">
+                  <h2 className="text-3xl md:text-4xl font-pretendard font-medium text-gray-800 leading-tight tracking-tight">
+                    신뢰와 혁신으로<br />
+                    미래를 향한 <span className="text-[#3a8b54] font-black">DASAN</span>
+                  </h2>
+                </div>
+
+                <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-4 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
+                <h3 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight pb-2 border-b border-gray-100 animate-fade-in-up" style={{animationDelay: '200ms'}}>
+                  {historyIntroTitle || '성장 연혁 (History)'}
+                </h3>
+                {(typeof historyIntroBody === 'string' && (historyIntroBody.includes('<p') || historyIntroBody.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: historyIntroBody }} className="mt-4 animate-fade-in-up max-w-2xl [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:text-sm [&_p]:md:text-base [&_strong]:font-bold" style={{animationDelay: '300ms'}} />
+                ) : (
+                  <p className="text-gray-600 mt-4 text-sm md:text-base leading-relaxed animate-fade-in-up max-w-2xl" style={{animationDelay: '300ms'}}>
+                    {historyIntroBody}
+                  </p>
+                )}
+              </div>
+
+              {/* Timeline Container */}
+              <HistoryAccordion timelineData={timelineData} />
+            </div>
           </div>
         );
 
@@ -949,10 +968,29 @@ export default async function AboutCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-16 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl">
-            {/* Section 1: Corporate Identity & Primary Logo */}
-            <div className="space-y-4">
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight pb-2 border-b border-gray-100">{ciTitle}</h2>
+          <div className="space-y-10 animate-fade-in-up">
+            {/* CI 대표 비주얼 (21:9 와이드 화면 - 글로벌 인프라 및 연혁과 동일 규격) */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
+            >
+              <Image 
+                src="/ci_hero_pills.png" 
+                alt="다산제약 CI 대표 비주얼" 
+                fill
+                priority
+                unoptimized={true}
+                className="object-cover object-center"
+              />
+            </div>
+
+            <div className="space-y-16 bg-white p-8 md:p-12 rounded-3xl">
+              {/* Section 1: Corporate Identity & Primary Logo */}
+              <div className="space-y-4">
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight pb-2 border-b border-gray-100">{ciTitle}</h2>
               
               <div className="pt-8">
                 <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{ciSubtitle}</h3>
@@ -1090,6 +1128,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
 
 
+            </div>
           </div>
         );
 
@@ -1236,7 +1275,27 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
       case '/about/location':
         return (
-          <LocationMapSection dbContent={dbContent} />
+          <div className="space-y-10 animate-fade-in-up">
+            {/* 찾아오시는 길 대표 비주얼 (21:9 와이드 화면 - 글로벌 인프라/연혁/CI 동일 규격) */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
+            >
+              <Image 
+                src="/location_hero.jpg" 
+                alt="다산제약 찾아오시는 길 비주얼" 
+                fill
+                priority
+                unoptimized={true}
+                className="object-cover object-center"
+              />
+            </div>
+
+            <LocationMapSection dbContent={dbContent} />
+          </div>
         );
 
       case '/about/esg/ethics':
@@ -1823,7 +1882,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
   return (
     <div className={`relative bg-white pt-16 md:pt-24 ${currentPath === '/about/intro' ? 'pb-0' : 'pb-16 md:pb-24'} min-h-screen`}>
-      <div className="relative w-full px-6 md:px-16 lg:px-24 mt-8">
+      <div className={`relative w-full ${currentPath === '/about/greeting' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -1891,7 +1950,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`min-h-[550px] w-full ${currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : 'max-w-5xl'}`}>
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>

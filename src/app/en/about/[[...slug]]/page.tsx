@@ -318,30 +318,11 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
             <div className="space-y-16 animate-fade-in-up mt-0">
 
-            {/* 1. Intro Summary with Full-Bleed 4.avif Forest Background */}
-            <div 
-              style={{
-                width: '100vw',
-                marginLeft: 'calc(50% - 50vw)',
-              }}
-              className="relative w-screen overflow-hidden pt-16 sm:pt-20 md:pt-24 pb-28 sm:pb-36 md:pb-44 mt-0 mb-0 shadow-none border-b-0 group/bg"
-            >
-              {/* Background Image: 4.avif */}
-              <div className="absolute inset-0 z-0">
-                <Image 
-                  src="/images/4.avif" 
-                  alt="Dasan Pharmaceutical Forest Path Background" 
-                  fill 
-                  priority 
-                  className="object-cover object-center scale-100 group-hover/bg:scale-102 transition-transform duration-1000 ease-out"
-                />
-                {/* Soft translucent overlay toning down brightness to restore natural deep forest colors */}
-                <div className="absolute inset-0 bg-black/45 backdrop-blur-[0.5px]" />
-              </div>
-
+            {/* 1. Intro Summary */}
+            <div className="relative w-full pt-8 sm:pt-12 pb-16 sm:pb-20 mt-0 mb-0">
               {/* Content Container */}
-              <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
-                <div className="space-y-4 text-white text-sm md:text-base leading-relaxed">
+              <div className="relative z-10 max-w-5xl mx-auto">
+                <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed">
                 {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
                   (() => {
                     let beforeHtml = introBody;
@@ -379,12 +360,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4 Major Management Philosophies|4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?/gi,
-                        '<span class="block text-2xl sm:text-3xl md:text-4xl font-black text-white mt-10 mb-5 w-full [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">$1</span>'
+                        '<span class="block text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mt-10 mb-5 w-full">$1</span>'
                       );
                       
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(Dasan Pharmaceutical, opening a healthy tomorrow.*?spirit of Dasan)\s*(?:<\/strong>|<\/b>|<\/span>)?/gi,
-                        '<span class="block text-xl sm:text-2xl md:text-3xl font-black text-white mt-8 mb-4 w-full [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">Dasan Pharmaceutical, opening a healthy tomorrow for mankind with the spirit of Dasan</span>'
+                        '<span class="block text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-8 mb-4 w-full">Dasan Pharmaceutical, opening a healthy tomorrow for mankind with the spirit of Dasan</span>'
                       );
                       
                       return processed;
@@ -395,22 +376,22 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                     return (
                       <>
-                        {/* Top Text Area: Overall enlarged font sizes and white text */}
+                        {/* Top Text Area */}
                         <div className="w-full">
-                          <span className="text-white text-sm sm:text-base md:text-lg font-black tracking-widest uppercase block mb-3 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
+                          <span className="text-brand-green text-xs sm:text-sm font-bold tracking-wider uppercase block mb-3">
                             Company Overview
                           </span>
                           <div 
                             className="
-                              text-[17px] sm:text-[19px] md:text-[21px] text-white leading-[2.0] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]
-                              [&_p]:leading-[2.0] [&_p]:text-[17px] sm:[&_p]:text-[19px] md:[&_p]:text-[21px] [&_p]:text-white [&_p]:font-bold [&_p]:mb-5 
-                              [&_h3]:text-3xl sm:[&_h3]:text-4xl md:[&_h3]:text-5xl [&_h3]:font-black [&_h3]:text-white [&_h3]:border-b [&_h3]:border-white/25 [&_h3]:pb-4 [&_h3]:mb-6
-                              [&_h4]:text-xl sm:[&_h4]:text-2xl md:[&_h4]:text-3xl [&_h4]:font-black [&_h4]:text-white [&_h4]:mt-8 [&_h4]:mb-4
-                              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:space-y-4
-                              [&_li]:text-white [&_li]:font-bold [&_li]:text-[17px] sm:[&_li]:text-[19px] md:[&_li]:text-[21px] [&_li]:leading-[2.0] [&_li::marker]:text-white
-                              [&_strong]:text-white [&_strong]:font-black
+                              text-[15px] sm:text-[16px] text-gray-600 leading-[1.8] font-normal
+                              [&_p]:leading-[1.8] [&_p]:text-[15px] sm:[&_p]:text-[16px] [&_p]:text-gray-600 [&_p]:font-normal [&_p]:mb-5 
+                              [&_h3]:text-2xl sm:[&_h3]:text-3xl md:[&_h3]:text-4xl [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:border-b [&_h3]:border-gray-200 [&_h3]:pb-4 [&_h3]:mb-6
+                              [&_h4]:text-lg sm:[&_h4]:text-xl md:[&_h4]:text-2xl [&_h4]:font-bold [&_h4]:text-gray-900 [&_h4]:mt-8 [&_h4]:mb-4
+                              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:space-y-3
+                              [&_li]:text-gray-600 [&_li]:font-normal [&_li]:text-[15px] sm:[&_li]:text-[16px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-green
+                              [&_strong]:text-gray-900 [&_strong]:font-bold
                             "
-                            dangerouslySetInnerHTML={{ __html: `<h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 pb-4 border-b border-white/25 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">${introTitle}</h3>` + beforeHtml }} 
+                            dangerouslySetInnerHTML={{ __html: `<h3 class="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-6 pb-4 border-b border-gray-200">${introTitle}</h3>` + beforeHtml }} 
                           />
                         </div>
 
@@ -419,16 +400,16 @@ export default async function AboutCatchAllPage({ params }: Params) {
                           <PhilosophyGraphic />
                         </div>
 
-                        {/* Bottom Detail Area: Overall enlarged font sizes and white text */}
+                        {/* Bottom Detail Area */}
                         {hasPhilosophy && afterHtml && (
                           <div className="w-full mt-8 sm:mt-12">
                             <div 
                               className="
-                                text-[17px] sm:text-[19px] md:text-[21px] text-white leading-[2.0] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]
-                                [&_p]:leading-[2.0] [&_p]:text-[17px] sm:[&_p]:text-[19px] md:[&_p]:text-[21px] [&_p]:text-white [&_p]:font-bold [&_p]:mb-4 
-                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-4
-                                [&_li]:text-white [&_li]:font-bold [&_li]:text-[17px] sm:[&_li]:text-[19px] md:[&_li]:text-[21px] [&_li]:leading-[2.0] [&_li::marker]:text-white
-                                [&_strong]:text-white [&_strong]:font-black [&_strong]:text-[18px] sm:[&_strong]:text-[20px] md:[&_strong]:text-[22px]
+                                text-[15px] sm:text-[16px] text-gray-600 leading-[1.8] font-normal
+                                [&_p]:leading-[1.8] [&_p]:text-[15px] sm:[&_p]:text-[16px] [&_p]:text-gray-600 [&_p]:font-normal [&_p]:mb-4 
+                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-3
+                                [&_li]:text-gray-600 [&_li]:font-normal [&_li]:text-[15px] sm:[&_li]:text-[16px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-green
+                                [&_strong]:text-gray-900 [&_strong]:font-bold
                               "
                               dangerouslySetInnerHTML={{ __html: afterHtml }} 
                             />
@@ -448,25 +429,25 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     return (
                       <>
                         <div className="w-full">
-                          <span className="text-white text-sm sm:text-base md:text-lg font-black tracking-widest uppercase block mb-3 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
+                          <span className="text-brand-green text-xs sm:text-sm font-bold tracking-wider uppercase block mb-3">
                             Company Overview
                           </span>
                           {topLines.map((line, i) => {
                             if (line.match(/^[1-9]\.\s/) || i === 0) {
                               const titleText = line.replace(/^[1-9]\.\s?/, '');
-                              return <h3 key={i} className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6 pb-4 border-b border-white/25 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{titleText}</h3>;
+                              return <h3 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-6 pb-4 border-b border-gray-200">{titleText}</h3>;
                             }
                             if (line.includes('4 Major Management Philosophies') || line.includes('4대 경영 철학')) {
-                              return <h4 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-white mt-8 mb-4 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</h4>;
+                              return <h4 key={i} className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mt-8 mb-4">{line}</h4>;
                             }
                             if (
                               line.startsWith('With the spirit of Dasan') || 
                               line.startsWith('With trust and innovation') ||
                               line.includes('Core Values')
                             ) {
-                              return <h4 key={i} className="text-xl sm:text-2xl md:text-3xl font-black text-white mt-8 mb-4 [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</h4>;
+                              return <h4 key={i} className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-8 mb-4">{line}</h4>;
                             }
-                            return <p key={i} className="mb-5 text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{line}</p>;
+                            return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">{line}</p>;
                           })}
                         </div>
 
@@ -476,7 +457,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                         {bottomLines.length > 0 && (
                           <div className="w-full mt-8 sm:mt-12">
-                            <div className="space-y-4 sm:space-y-5">
+                            <div className="space-y-4">
                               {bottomLines.map((line, i) => {
                                 const content = (line.startsWith('•') || line.startsWith('-') || line.startsWith('·')) ? line.substring(1).trim() : line;
                                 const splitIdx = content.indexOf(':');
@@ -485,17 +466,17 @@ export default async function AboutCatchAllPage({ params }: Params) {
                                   const desc = content.substring(splitIdx + 1).trim();
                                   return (
                                     <div key={i} className="flex items-start">
-                                      <span className="text-white font-black mr-3.5 mt-1 text-2xl leading-none drop-shadow-md">•</span>
-                                      <p className="text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">
-                                        <strong className="text-white font-black text-[18px] sm:text-[20px] md:text-[22px]">{title}</strong> : {desc}
+                                      <span className="text-brand-green font-bold mr-3 mt-0.5 text-lg leading-none">•</span>
+                                      <p className="text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">
+                                        <strong className="text-gray-900 font-bold">{title}</strong> : {desc}
                                       </p>
                                     </div>
                                   );
                                 }
                                 return (
                                   <div key={i} className="flex items-start">
-                                    <span className="text-white font-black mr-3.5 mt-1 text-2xl leading-none drop-shadow-md">•</span>
-                                    <p className="text-white leading-[2.0] text-[17px] sm:text-[19px] md:text-[21px] font-bold [text-shadow:_0_2px_4px_rgba(0,0,0,0.8),_0_1px_2px_rgba(0,0,0,0.9)]">{content}</p>
+                                    <span className="text-brand-green font-bold mr-3 mt-0.5 text-lg leading-none">•</span>
+                                    <p className="text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">{content}</p>
                                   </div>
                                 );
                               })}
@@ -516,40 +497,81 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
       case '/about/greeting':
         return (
-          <>
-            {/* CEO Greeting Banner */}
-            <ScrollGreetingImage lang="en" />
+          <div className="animate-fade-in-up mt-4 sm:mt-6 bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-3xl shadow-none w-full">
+            {/* Header Title */}
+            <div className="mb-8 sm:mb-12 pb-4 border-b border-gray-100">
+              <span className="text-xs font-bold tracking-widest text-emerald-600 uppercase mb-1.5 block">
+                CEO Message
+              </span>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
+                CEO Greeting
+              </h3>
+            </div>
 
-            <div className="space-y-16 animate-fade-in-up mt-16">
-              <div className="space-y-12 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
-                <div className="space-y-6 text-gray-800 text-sm md:text-base leading-relaxed max-w-5xl">
-                  <div className="mb-8">
-                    <h4 className="text-xl md:text-2xl font-bold text-brand-blue mb-4">
+            {/* 2-Column Responsive Layout: Photo Card (Left) & Fully Expanded Greeting Body (Right) */}
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-14 items-start w-full">
+              {/* Left Column: Prominent Large CEO Photo Card */}
+              <div className="w-full lg:w-[380px] xl:w-[440px] 2xl:w-[480px] shrink-0 lg:sticky lg:top-24">
+                <div className="bg-slate-50/80 border border-slate-200/80 rounded-[32px] p-3 sm:p-4 shadow-sm hover:shadow-md transition-shadow">
+                  {/* Large Photo Frame */}
+                  <div className="relative aspect-[3/4.2] w-full rounded-2xl overflow-hidden shadow-md bg-slate-900 group">
+                    <img 
+                      src="/images/ceo_greeting.webp" 
+                      alt="CEO Ryu Hyoung-sun" 
+                      className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Greeting Text - Fully expanded wide container */}
+              <div className="flex-1 w-full min-w-0 flex flex-col justify-between pt-1">
+                <div>
+                  {/* Slogan Banner */}
+                  <div className="border-l-4 border-brand-green pl-4 sm:pl-5 py-1 mb-8">
+                    <p className="text-xs font-bold tracking-widest text-brand-green uppercase mb-1">
+                      Trust & Innovation
+                    </p>
+                    <h4 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-snug">
                       Opening a Healthier Future with Trust and Innovation
                     </h4>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      We extend our deepest gratitude to all our customers and shareholders visiting the Dasan Pharmaceutical website.
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      Since taking our first step in 1996, Dasan Pharmaceutical has grown through continuous research and development and bold investments under the management philosophy of &quot;New Technology Development and Quality First.&quot; Based on strict quality control, we practice the value of respect for life by providing high-quality pharmaceuticals in domestic and international markets.
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px] mb-5">
-                      Inheriting the spirit of Silsa-gusi (seeking truth from facts) of Dasan Jeong Yak-yong, we take the lead in building a healthy society with honesty and technology. In line with the rapidly changing pharmaceutical bio environment, we will further strengthen our differentiated Drug Delivery System (DDS) platform technology and global CDMO capabilities.
-                    </p>
-                    <p className="text-gray-600 leading-[1.8] text-[15px]">
-                      We promise to remain a trusted top partner for customers and society as a global healthcare leader contributing to the health and happy life of mankind.
-                    </p>
                   </div>
 
-                  {/* CEO Signature */}
-                  <div className="flex justify-end items-end mt-16 gap-4">
-                    <span className="text-gray-500 font-medium text-[15px] pb-1">CEO of Dasan Pharmaceutical</span>
-                    <span className="text-gray-800 font-black text-4xl tracking-widest font-serif">Ryu Hyung-sun</span>
+                  {/* Paragraphs */}
+                  <div className="space-y-6 text-gray-700 text-[15px] sm:text-base md:text-[16.5px] leading-[1.95] tracking-normal font-normal">
+                    <p className="font-semibold text-gray-900 text-base sm:text-lg leading-relaxed">
+                      We extend our deepest gratitude to all our customers, shareholders, and partners visiting Dasan Pharmaceutical.
+                    </p>
+                    <p>
+                      Since taking our first step in 1996, Dasan Pharmaceutical has grown continuously through rigorous research, development, and bold investments under the philosophy of &quot;New Technology Development and Quality First.&quot; Based on strict quality control, we practice respect for human life by supplying high-quality pharmaceuticals across domestic and global markets.
+                    </p>
+                    <p>
+                      Inheriting the spirit of Silsa-gusi (seeking truth from facts) of Dasan Jeong Yak-yong, we take the lead in building a healthy society with honesty and cutting-edge technology. In response to the rapidly changing bio-pharmaceutical landscape, we are establishing a swift, flexible management system and further advancing our state-of-the-art manufacturing infrastructure.
+                    </p>
+                    <p>
+                      Furthermore, through an organizational culture where all employees can creatively demonstrate their capabilities, we will share the value created on-site with customers and shareholders, contributing to a healthier society.
+                    </p>
+                    <p>
+                      Dasan Pharmaceutical will never settle for the present. We promise to continuously leap forward as a &apos;Global Healthcare Leader&apos; that delivers hope and vitality to humanity.
+                    </p>
+                    <p className="text-gray-600 pt-2">
+                      Please continue to watch our grand journey and future challenges with warm interest. Thank you.
+                    </p>
+                  </div>
+                </div>
+
+                {/* CEO Signature Block */}
+                <div className="mt-14 pt-8 border-t border-gray-100 flex justify-end items-end">
+                  <div className="flex items-end gap-3">
+                    <span className="text-gray-500 font-medium text-sm pb-1.5">CEO</span>
+                    <span className="text-gray-900 font-bold text-3xl md:text-4xl tracking-[0.15em] font-serif">
+                      Ryu Hyoung-sun
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-          </>
+          </div>
         );
 
       case '/about/business-area':
@@ -578,50 +600,69 @@ export default async function AboutCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-4 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl shadow-none">
+          <div className="space-y-10 animate-fade-in-up">
+            {/* Business Area Hero Visual (21:9 wide screen - Top-left text overlay) */}
             <div 
-              className="relative h-[70vh] lg:h-[85vh] mb-16 shadow-lg overflow-hidden"
-              style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
             >
-              <div 
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url('/images/business_hero.jpg')" }}
+              <Image 
+                src="/images/business_hero.jpg" 
+                alt="Dasan Pharmaceutical Business Area Visual" 
+                fill
+                priority
+                unoptimized={true}
+                className="object-cover object-center"
               />
-              <div className="absolute inset-0 flex items-center justify-center px-6 animate-fade-in-up">
-                <div className="bg-black/50 backdrop-blur-md border border-white/20 p-8 md:p-12 lg:p-14 rounded-3xl max-w-4xl w-full text-center text-white shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
-                  <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold mb-4 md:mb-6 text-slate-100">Dasan Pharmaceutical</h2>
-                  <p className="text-xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-4 leading-relaxed">Has secured high value-added business growth</p>
-                  <p className="text-xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-4 leading-relaxed">by establishing a <span className="font-black text-emerald-400">Key Value Chain</span> infrastructure</p>
-                  <p className="text-xl md:text-3xl lg:text-4xl font-medium leading-relaxed">for the entire pharmaceutical lifecycle from R&D to sales.</p>
+
+              {/* Soft Gradient Overlay for Left-side Typography Readability */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent pointer-events-none" />
+
+              {/* Blue Box Area (Top-Left Text Overlay) */}
+              <div className="absolute inset-0 flex items-start justify-start p-6 sm:p-10 md:p-14 lg:p-16">
+                <div className="max-w-xl lg:max-w-2xl text-left animate-fade-in-up">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-pretendard font-bold text-gray-900 leading-snug tracking-tight break-keep drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
+                    Dasan Pharmaceutical <br className="sm:hidden" />
+                    Has secured high value-added business growth<br />
+                    by establishing a <span className="text-[#2f7847] font-black">Key Value Chain</span> infrastructure<br />
+                    for the entire pharmaceutical lifecycle from R&D to sales.
+                  </h2>
                 </div>
               </div>
             </div>
 
-            <h3 className="text-xl md:text-2xl font-black text-gray-900 mt-4 mb-10 pb-2 border-b border-gray-100">
-              Core Business
-            </h3>
+            <div className="bg-white p-6 md:p-12 rounded-3xl shadow-none">
+              <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-10 pb-2 border-b border-gray-100">
+                Core Business
+              </h3>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:-mx-4 xl:-mx-8 mt-12">
               {/* Card 1 */}
               <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                {/* Light static top gradient for title contrast (No darkening on hover) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                  {/* 고정 표시: 해시태그 + 제목 */}
+                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
                       #Core Business
                     </span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     01. Finished Pharmaceutical Products
                   </h4>
-                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
+                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
                     Establishing, producing, and selling excellent product lineups focusing on cardiovascular, respiratory, and urological systems
                   </p>
                 </div>
@@ -630,23 +671,26 @@ export default async function AboutCatchAllPage({ params }: Params) {
               {/* Card 2 */}
               <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                {/* Light static top gradient for title contrast (No darkening on hover) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                  {/* 고정 표시: 해시태그 + 제목 */}
+                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
                       #Smart CMO
                     </span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     02. Contract Manufacturing (CMO)
                   </h4>
-                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
+                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
                     Contract manufacturing of prescription drugs through proprietary formulation technology and process optimization
                   </p>
                 </div>
@@ -655,27 +699,31 @@ export default async function AboutCatchAllPage({ params }: Params) {
               {/* Card 3 */}
               <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+                {/* Light static top gradient for title contrast (No darkening on hover) */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-6 sm:p-8 flex flex-col text-white opacity-0 -translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    <span className="text-xs font-bold text-white bg-brand-green/80 backdrop-blur-xs px-3 py-1 rounded-full">
+                  {/* 고정 표시: 해시태그 + 제목 */}
+                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
                       #API & Intermediate
                     </span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-black whitespace-nowrap leading-tight mb-3 tracking-tight">
+                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     03. API & Intermediates
                   </h4>
-                  <p className="text-sm sm:text-base font-medium break-keep leading-relaxed tracking-tight text-gray-100">
+                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
+                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
                     Development and patent securing of key APIs and intermediates, and DMF registration/management for new synthetic and imported materials
                   </p>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         );
@@ -698,39 +746,39 @@ export default async function AboutCatchAllPage({ params }: Params) {
         // Define default timeline
         const defaultTimelineData: TimelineEra[] = [
           {
-            eraTitle: '1996 ~ 2011',
-            eraSubtitle: 'Establishment Phase (Securing Core Tech)',
+            eraTitle: '2022 ~ Present',
+            eraSubtitle: 'Leap Phase (High Growth / High Profit Creation)',
             events: [
-              { year: '1996', details: ['• Dasan Medichem Co., Ltd. Established'] },
-              { year: '2001', details: ['• API Plant Completed & Manufacturing License Acquired', '• Corporate R&D Center Approved'] },
-              { year: '2002', details: ['• BGMP Certified'] },
-              { year: '2007', details: ['• INNO-BIZ Certified', '• 3D Clean Workplace Certified'] },
-              { year: '2008', details: ['• Achieved 10B KRW Revenue', '• KGMP Certified'] },
-              { year: '2009', details: ['• $3M Export Tower Award'] },
-              { year: '2011', details: ['• Selected as KIBO Success Company'] }
+              { year: '2025', details: ['• Selected for Smart Eco-Plant Construction Project'] },
+              { year: '2024', details: ['• Selected for Global Hidden Champion 1000+ Project', '• Selected as Leading Supply Chain Stabilizer by MFDS', '• ISO 45001 Certified', '• Established Anhui Heyi-Dasan Pharma JV in China'] },
+              { year: '2023', details: ['• ISO 37001 Anti-Bribery Management System Certified'] },
+              { year: '2022', details: ['• $7M Export Tower Award', '• Minister Award for Innovative SME', '• Minister Award for Drug Export', '• Youth-Friendly Hidden Champion (4 Yrs)'] }
             ]
           },
           {
             eraTitle: '2013 ~ 2021',
             eraSubtitle: 'Growth Phase (R&D Advancement & Infrastructure Expansion)',
             events: [
-              { year: '2013', details: ['• Finished Product Logistics Center Completed', '• SME Administrator Award', '• Synthetic R&D Center Relocated'] },
-              { year: '2016', details: ['• Central R&D Center Relocated'] },
-              { year: '2017', details: ['• Company Name Changed to Dasan Pharmaceutical Co., Ltd.'] },
-              { year: '2018', details: ['• Central R&D Center Integrated & Opened'] },
-              { year: '2019', details: ['• Achieved 50B KRW Revenue', '• Asan Plant 2 Completed', '• Shenyang R&D Center (China) Expanded'] },
+              { year: '2021', details: ['• Chungnam Excellent Entrepreneur Award', '• Good Workplace Company', '• Global Hidden Champion'] },
               { year: '2020', details: ['• Selected as Promising SME by Chungnam'] },
-              { year: '2021', details: ['• Chungnam Excellent Entrepreneur Award', '• Good Workplace Company', '• Global Hidden Champion'] }
+              { year: '2019', details: ['• Achieved 50B KRW Revenue', '• Asan Plant 2 Completed', '• Shenyang R&D Center (China) Expanded'] },
+              { year: '2018', details: ['• Central R&D Center Integrated & Opened'] },
+              { year: '2017', details: ['• Company Name Changed to Dasan Pharmaceutical Co., Ltd.'] },
+              { year: '2016', details: ['• Central R&D Center Relocated'] },
+              { year: '2013', details: ['• Finished Product Logistics Center Completed', '• SME Administrator Award', '• Synthetic R&D Center Relocated'] }
             ]
           },
           {
-            eraTitle: '2022 ~ Present',
-            eraSubtitle: 'Leap Phase (High Growth / High Profit Creation)',
+            eraTitle: '1996 ~ 2011',
+            eraSubtitle: 'Establishment Phase (Securing Core Tech)',
             events: [
-              { year: '2022', details: ['• $7M Export Tower Award', '• Minister Award for Innovative SME', '• Minister Award for Drug Export', '• Youth-Friendly Hidden Champion (4 Yrs)'] },
-              { year: '2023', details: ['• ISO 37001 Anti-Bribery Management System Certified'] },
-              { year: '2024', details: ['• Selected for Global Hidden Champion 1000+ Project', '• Selected as Leading Supply Chain Stabilizer by MFDS', '• ISO 45001 Certified', '• Established Anhui Heyi-Dasan Pharma JV in China'] },
-              { year: '2025', details: ['• Selected for Smart Eco-Plant Construction Project'] }
+              { year: '2011', details: ['• Selected as KIBO Success Company'] },
+              { year: '2009', details: ['• $3M Export Tower Award'] },
+              { year: '2008', details: ['• Achieved 10B KRW Revenue', '• KGMP Certified'] },
+              { year: '2007', details: ['• INNO-BIZ Certified', '• 3D Clean Workplace Certified'] },
+              { year: '2002', details: ['• BGMP Certified'] },
+              { year: '2001', details: ['• API Plant Completed & Manufacturing License Acquired', '• Corporate R&D Center Approved'] },
+              { year: '1996', details: ['• Dasan Medichem Co., Ltd. Established'] }
             ]
           }
         ];
@@ -778,24 +826,51 @@ export default async function AboutCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-12 animate-fade-in-up bg-white p-6 md:p-16 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 relative overflow-hidden">
-            {/* Header */}
-            <div className="text-left mb-16 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
-              <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
-              <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
-                {historyIntroTitle || 'Growth History'}
-              </h3>
-              {(typeof historyIntroBody === 'string' && (historyIntroBody.includes('<p') || historyIntroBody.includes('<h'))) ? (
-                <div dangerouslySetInnerHTML={{ __html: historyIntroBody }} className="mt-4 animate-fade-in-up max-w-2xl [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:text-sm [&_p]:md:text-base [&_strong]:font-bold" style={{animationDelay: '300ms'}} />
-              ) : (
-                <p className="text-gray-600 mt-4 text-sm md:text-base leading-relaxed animate-fade-in-up max-w-2xl" style={{animationDelay: '300ms'}}>
-                  {historyIntroBody}
-                </p>
-              )}
+          <div className="space-y-10 animate-fade-in-up">
+            {/* History Hero Visual (21:9 wide screen - Global Infrastructure size) */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
+            >
+              <Image 
+                src="/history_hero_spiral.png" 
+                alt="Dasan Pharmaceutical Growth History Visual" 
+                fill
+                priority
+                unoptimized={true}
+                className="object-cover object-center"
+              />
             </div>
 
-            {/* Timeline Container */}
-            <HistoryAccordion timelineData={timelineData} />
+            <div className="space-y-12 bg-white p-6 md:p-16 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 relative overflow-hidden">
+              {/* Header */}
+              <div className="text-left mb-10 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
+                <div className="mb-8 animate-fade-in-up">
+                  <h2 className="text-3xl md:text-4xl font-pretendard font-medium text-gray-800 leading-tight tracking-tight">
+                    With Trust &amp; Innovation,<br />
+                    <span className="text-[#3a8b54] font-black">DASAN</span> Towards the Future
+                  </h2>
+                </div>
+
+                <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
+                <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
+                  {historyIntroTitle || 'Growth History'}
+                </h3>
+                {(typeof historyIntroBody === 'string' && (historyIntroBody.includes('<p') || historyIntroBody.includes('<h'))) ? (
+                  <div dangerouslySetInnerHTML={{ __html: historyIntroBody }} className="mt-4 animate-fade-in-up max-w-2xl [&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:text-sm [&_p]:md:text-base [&_strong]:font-bold" style={{animationDelay: '300ms'}} />
+                ) : (
+                  <p className="text-gray-600 mt-4 text-sm md:text-base leading-relaxed animate-fade-in-up max-w-2xl" style={{animationDelay: '300ms'}}>
+                    {historyIntroBody}
+                  </p>
+                )}
+              </div>
+
+              {/* Timeline Container */}
+              <HistoryAccordion timelineData={timelineData} />
+            </div>
           </div>
         );
 
@@ -888,10 +963,29 @@ export default async function AboutCatchAllPage({ params }: Params) {
         }
 
         return (
-          <div className="space-y-16 animate-fade-in-up bg-white p-8 md:p-12 rounded-3xl">
-            {/* Section 1: Corporate Identity & Primary Logo */}
-            <div className="space-y-4">
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">{ciTitle}</h2>
+          <div className="space-y-10 animate-fade-in-up">
+            {/* CI Hero Visual (21:9 wide screen - Global Infrastructure size) */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
+            >
+              <Image 
+                src="/ci_hero_pills.png" 
+                alt="Dasan Pharmaceutical CI Visual" 
+                fill
+                priority
+                unoptimized={true}
+                className="object-cover object-center"
+              />
+            </div>
+
+            <div className="space-y-16 bg-white p-8 md:p-12 rounded-3xl">
+              {/* Section 1: Corporate Identity & Primary Logo */}
+              <div className="space-y-4">
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">{ciTitle}</h2>
               
               <div className="pt-8">
                 <h3 className="text-2xl font-bold text-[#2A5C43] mb-4">{ciSubtitle}</h3>
@@ -1022,6 +1116,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
 
 
+            </div>
           </div>
         );
 
@@ -1167,7 +1262,27 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
       case '/about/location':
         return (
-          <LocationMapSection dbContent={dbContent} />
+          <div className="space-y-10 animate-fade-in-up">
+            {/* Location Hero Visual (21:9 Wide Screen - Same format as Global Infra / History / CI) */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
+            >
+              <Image 
+                src="/location_hero.jpg" 
+                alt="DASAN Directions and Location Visual" 
+                fill
+                priority
+                unoptimized={true}
+                className="object-cover object-center"
+              />
+            </div>
+
+            <LocationMapSection dbContent={dbContent} />
+          </div>
         );
 
       case '/about/esg/ethics':
@@ -1677,7 +1792,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
   return (
     <div className={`relative bg-white pt-16 md:pt-24 ${currentPath === '/about/intro' ? 'pb-0' : 'pb-16 md:pb-24'} min-h-screen`}>
-      <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-8">
+      <div className={`relative z-10 w-full ${currentPath === '/about/greeting' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -1745,7 +1860,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`min-h-[550px] w-full ${currentPath === '/about/esg/ethics' ? 'max-w-6xl' : 'max-w-5xl'}`}>
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/esg/ethics' ? 'max-w-7xl' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>

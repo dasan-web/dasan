@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Search, Mail, FileText, Calendar, CheckCircle2, RefreshCw } from 'lucide-react';
+import { Search, Mail, FileText, Calendar, CheckCircle2, RefreshCw, Paperclip } from 'lucide-react';
 import { navigationData } from '@/lib/navigation';
 import SubmenuTabBar from '@/components/SubmenuTabBar';
 
@@ -13,6 +13,8 @@ interface InquiryItem {
   phone?: string;
   subject: string;
   content: string;
+  file_url?: string;
+  file_name?: string;
   created_at: string;
 }
 
@@ -269,6 +271,21 @@ export default function InquiryCheckPage() {
                                     <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">문의 내용</span>
                                     <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{item.content}</p>
                                   </div>
+
+                                  {item.file_url && (
+                                    <div className="pt-2">
+                                      <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-1.5">첨부파일</span>
+                                      <a
+                                        href={item.file_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-brand-blue hover:text-brand-green hover:border-brand-green/40 text-xs font-semibold transition-colors shadow-2xs"
+                                      >
+                                        <Paperclip size={13} className="text-brand-green" />
+                                        <span className="truncate max-w-xs">{item.file_name || '첨부파일 보기'}</span>
+                                      </a>
+                                    </div>
+                                  )}
                                   
                                   <div className="border-t border-gray-200/70 pt-4 space-y-1">
                                     <span className="text-[10px] text-brand-teal font-bold uppercase tracking-wider block">답변 정보</span>

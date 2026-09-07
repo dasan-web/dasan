@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Paperclip, X, FileText, Upload } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import ReCAPTCHA from 'react-google-recaptcha';
 
@@ -20,6 +20,14 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
     content: '',
     password: '',
   });
+
+  // File Upload State (Max 3MB)
+  const [attachedFile, setAttachedFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState<string>('');
+  const [fileName, setFileName] = useState<string>('');
+  const [uploadingFile, setUploadingFile] = useState<boolean>(false);
+  const [fileError, setFileError] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -110,6 +118,61 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
     } finally {
       setVerifying(false);
     }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Check file size (3MB limit: 3 * 1024 * 1024 bytes)
+    const MAX_SIZE = 3 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      const errorMsg = isEnglish 
+        ? 'File size exceeds the 3MB limit. Please upload a file under 3MB.' 
+        : '파일 용량이 3MB를 초과합니다. 3MB 이하의 파일만 업로드 가능합니다.';
+      setFileError(errorMsg);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    setFileError('');
+    setAttachedFile(file);
+    setUploadingFile(true);
+
+    try {
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', file);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadFormData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.url) {
+        setFileUrl(data.url);
+        setFileName(file.name);
+      } else {
+        throw new Error(data.error || (isEnglish ? 'Failed to upload file.' : '파일 업로드에 실패했습니다.'));
+      }
+    } catch (err: any) {
+      console.error('File upload error:', err);
+      setFileError(err.message || (isEnglish ? 'Error occurred during file upload.' : '파일 업로드 중 오류가 발생했습니다.'));
+      setAttachedFile(null);
+      setFileUrl('');
+      setFileName('');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    } finally {
+      setUploadingFile(false);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setAttachedFile(null);
+    setFileUrl('');
+    setFileName('');
+    setFileError('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const config = {
@@ -209,6 +272,8 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
           email: isCorruption && !formData.email ? 'anonymous@dspharm.com' : formData.email,
           inquiryType,
           recaptchaToken,
+          file_url: fileUrl || null,
+          file_name: fileName || null,
         }),
       });
 
@@ -228,6 +293,11 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
         setIsEmailVerified(false);
         setVerificationCode('');
         setVerificationSent(false);
+        setAttachedFile(null);
+        setFileUrl('');
+        setFileName('');
+        setFileError('');
+        if (fileInputRef.current) fileInputRef.current.value = '';
         if (recaptchaRef.current) {
           recaptchaRef.current.reset();
         }
@@ -434,6 +504,79 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
               required
               className="w-full px-4.5 py-3.5 rounded-xl border border-gray-200 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all resize-none placeholder:text-gray-400 bg-gray-50/30 focus:bg-white"
             />
+          </div>
+
+          {/* File Attachment (Max 3MB) */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label htmlFor="file-upload" className="block text-xs font-black text-brand-blue uppercase tracking-wider">
+                {isEnglish ? 'File Attachment' : '파일 첨부'} <span className="text-gray-400 font-normal text-[11px] ml-1">({isEnglish ? 'Max 3MB' : '최대 3MB'})</span>
+              </label>
+              <span className="text-[11px] text-gray-400 font-medium">
+                {isEnglish ? 'Supports documents, images, PDF, ZIP' : '문서, 이미지, PDF, 압축파일 지원'}
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <input
+                type="file"
+                id="file-upload"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+                accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.hwp"
+              />
+
+              {!attachedFile ? (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full border-2 border-dashed border-gray-200 hover:border-brand-green/60 bg-gray-50/40 hover:bg-emerald-50/20 rounded-xl p-4.5 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2 group"
+                >
+                  <div className="w-10 h-10 rounded-full bg-white shadow-xs border border-gray-150 flex items-center justify-center text-gray-400 group-hover:text-brand-green group-hover:border-brand-green/30 transition-colors">
+                    <Paperclip size={18} />
+                  </div>
+                  <div className="text-xs font-semibold text-gray-600 group-hover:text-brand-green transition-colors">
+                    <span className="font-bold text-brand-green">{isEnglish ? 'Click to select file' : '파일 선택하기'}</span>
+                    <span className="text-gray-400 font-normal ml-1.5">{isEnglish ? '(or drag and drop)' : '(또는 클릭하여 파일 업로드)'}</span>
+                  </div>
+                  <p className="text-[11px] text-gray-400">
+                    {isEnglish ? 'Single file up to 3MB' : '3MB 이하의 파일 1개 첨부 가능'}
+                  </p>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between p-3.5 bg-emerald-50/40 border border-emerald-200/80 rounded-xl transition-all">
+                  <div className="flex items-center space-x-3 min-w-0 pr-2">
+                    <div className="w-8 h-8 rounded-lg bg-white border border-emerald-200 flex items-center justify-center text-brand-green shrink-0">
+                      <FileText size={18} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-brand-blue truncate">
+                        {attachedFile.name}
+                      </p>
+                      <p className="text-[11px] text-gray-400 font-mono">
+                        {(attachedFile.size / (1024 * 1024)).toFixed(2)} MB {uploadingFile && <span className="text-brand-green font-bold ml-1 animate-pulse">• {isEnglish ? 'Uploading...' : '업로드 중...'}</span>}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleRemoveFile}
+                    className="p-1.5 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer shrink-0"
+                    title={isEnglish ? 'Remove file' : '파일 삭제'}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              )}
+
+              {fileError && (
+                <p className="text-xs font-bold text-rose-500 mt-1 flex items-center gap-1">
+                  <AlertCircle size={13} />
+                  <span>{fileError}</span>
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Privacy Consent Checkbox (Mock) */}
