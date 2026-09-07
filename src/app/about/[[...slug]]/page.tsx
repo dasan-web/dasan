@@ -843,6 +843,19 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 unoptimized={true}
                 className="object-cover object-center"
               />
+
+              {/* 좌측 상단 텍스트 가독성을 위한 은은한 소프트 그라데이션 */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/40 to-transparent pointer-events-none" />
+
+              {/* 파란색 표시부분 (상단 좌측 텍스트 오버레이 영역) */}
+              <div className="absolute inset-0 flex items-start justify-start p-6 sm:p-10 md:p-14 lg:p-16">
+                <div className="max-w-xl lg:max-w-2xl text-left animate-fade-in-up">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-pretendard font-medium text-gray-900 leading-tight tracking-tight drop-shadow-[0_1px_3px_rgba(255,255,255,0.9)]">
+                    신뢰와 혁신으로<br />
+                    미래를 향한 <span className="text-[#3a8b54] font-black">DASAN</span>
+                  </h2>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-12 bg-white p-6 md:p-16 rounded-3xl relative overflow-hidden">
@@ -851,15 +864,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
               {/* Header */}
               <div className="text-left mb-10 relative z-10 w-full max-w-5xl mx-auto">
-                
-                {/* 사용자 요청 텍스트 (그림 바로 아래) */}
-                <div className="mb-8 animate-fade-in-up">
-                  <h2 className="text-3xl md:text-4xl font-pretendard font-medium text-gray-800 leading-tight tracking-tight">
-                    신뢰와 혁신으로<br />
-                    미래를 향한 <span className="text-[#3a8b54] font-black">DASAN</span>
-                  </h2>
-                </div>
-
                 <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-4 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
                 <h3 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight pb-2 border-b border-gray-100 animate-fade-in-up" style={{animationDelay: '200ms'}}>
                   {historyIntroTitle || '성장 연혁 (History)'}

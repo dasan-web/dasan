@@ -843,18 +843,24 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 unoptimized={true}
                 className="object-cover object-center"
               />
+
+              {/* Soft Gradient Overlay for Typography Readability */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/40 to-transparent pointer-events-none" />
+
+              {/* Top-Left Text Overlay */}
+              <div className="absolute inset-0 flex items-start justify-start p-6 sm:p-10 md:p-14 lg:p-16">
+                <div className="max-w-xl lg:max-w-2xl text-left animate-fade-in-up">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] font-pretendard font-medium text-gray-900 leading-tight tracking-tight drop-shadow-[0_1px_3px_rgba(255,255,255,0.9)]">
+                    With Trust &amp; Innovation,<br />
+                    <span className="text-[#3a8b54] font-black">DASAN</span> Towards the Future
+                  </h2>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-12 bg-white p-6 md:p-16 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 relative overflow-hidden">
               {/* Header */}
               <div className="text-left mb-10 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
-                <div className="mb-8 animate-fade-in-up">
-                  <h2 className="text-3xl md:text-4xl font-pretendard font-medium text-gray-800 leading-tight tracking-tight">
-                    With Trust &amp; Innovation,<br />
-                    <span className="text-[#3a8b54] font-black">DASAN</span> Towards the Future
-                  </h2>
-                </div>
-
                 <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
                 <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
                   {historyIntroTitle || 'Growth History'}
