@@ -31,10 +31,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
       {/* 2. 핵심 영역별 추진 성과 (대형 사진 중심 비주얼 쇼케이스) */}
       <section className="mb-20 sm:mb-28">
         <div className="flex flex-col mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider w-fit mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-brand-green" />
-            <span>{isEn ? 'Core ESG Pillars' : '핵심 영역별 추진 성과'}</span>
-          </div>
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
             {isEn ? 'Action Tasks by ESG Pillars' : 'ESG 영역별 실천 과제'}
           </h3>
@@ -70,9 +66,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                         <Leaf className="w-6 h-6" />
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-emerald-700 uppercase tracking-widest">
-                          Pillar 01 · Environmental
-                        </div>
                         <h4 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                           {isEn ? 'Eco-friendly Management (E)' : '친환경 경영 (E)'}
                         </h4>
@@ -140,9 +133,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                         <Users className="w-6 h-6" />
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-sky-700 uppercase tracking-widest">
-                          Pillar 02 · Social &amp; Safety
-                        </div>
                         <h4 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                           {isEn ? 'Social Responsibility & Safety (S)' : '사회적 책임 및 안전 경영 (S)'}
                         </h4>
@@ -230,9 +220,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                         <Scale className="w-6 h-6" />
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-indigo-700 uppercase tracking-widest">
-                          Pillar 03 · Governance &amp; Ethics
-                        </div>
                         <h4 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                           {isEn ? 'Transparent Governance (G)' : '투명하고 투철한 정도 경영 (G)'}
                         </h4>
@@ -302,10 +289,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
       {/* 3. ESG 인증 현황 (공인 표준 인증 아이콘 카드) */}
       <section className="pt-10 border-t border-slate-200/80">
         <div className="flex flex-col mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider w-fit mb-3">
-            <Award className="w-3.5 h-3.5 text-brand-green" />
-            <span>{isEn ? 'ESG Certifications & Standards' : '공인 표준 인증 현황'}</span>
-          </div>
           <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             {isEn ? 'Certified Sustainable Management Standards' : '공인된 지속가능경영 표준 인증'}
           </h3>

@@ -257,27 +257,6 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
 
               {/* Controls on Right: Arrows & View All */}
               <div className="flex items-center gap-3 md:gap-4 flex-wrap">
-                {/* Slider Arrows (Prev / Next Page Buttons) */}
-                {total > cardsPerPage && (
-                  <div className="flex items-center gap-1.5 mr-1">
-                    <button
-                      onClick={handlePrev}
-                      className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-200 hover:border-brand-green text-gray-500 hover:text-brand-green hover:bg-brand-green/5 flex items-center justify-center transition-colors duration-200 cursor-pointer bg-white shadow-2xs"
-                      aria-label={isEnglish ? "Previous page" : "이전 페이지"}
-                      title={isEnglish ? "Previous" : "이전 페이지"}
-                    >
-                      <ChevronLeft className="w-4.5 h-4.5" />
-                    </button>
-                    <button
-                      onClick={handleNext}
-                      className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-200 hover:border-brand-green text-gray-500 hover:text-brand-green hover:bg-brand-green/5 flex items-center justify-center transition-colors duration-200 cursor-pointer bg-white shadow-2xs"
-                      aria-label={isEnglish ? "Next page" : "다음 페이지"}
-                      title={isEnglish ? "Next" : "다음 페이지"}
-                    >
-                      <ChevronRight className="w-4.5 h-4.5" />
-                    </button>
-                  </div>
-                )}
 
                 {/* View All Button */}
                 <Link
@@ -436,7 +415,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                           className="relative bg-white rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group h-[340px]"
                           style={{ height: '340px', minHeight: '340px' }}
                         >
-                          {/* Upper Section: Photo fills marked area edge-to-edge */}
+                          {/* Upper Section: Photo fills edge-to-edge (파란색 표시부분 아이콘, 보도자료, NEW 배지 제거 완료) */}
                           <div className="relative w-full h-[255px] overflow-hidden flex flex-col justify-between p-5 sm:p-5.5 select-none shrink-0">
                             {/* Full Cover Photo */}
                             <img
@@ -445,59 +424,22 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                               className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                             />
 
-                            {/* Bright legible gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/45 pointer-events-none" />
-
-                            {/* Top Header: Badge, Date & Icon directly on photo */}
-                            <div className="relative z-10 flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-2xl bg-white/25 backdrop-blur-md flex items-center justify-center shadow-xs border border-white/30">
-                                  {React.cloneElement(meta.icon as React.ReactElement<any>, {
-                                    className: "w-4 h-4 sm:w-5 sm:h-5 text-white"
-                                  })}
-                                </div>
-                                <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase shadow-xs bg-brand-green text-white">
-                                  {meta.label}
-                                </span>
-                                {item.isNew && (
-                                  <span className="bg-amber-400 text-gray-900 font-extrabold text-[10px] px-1.5 py-0.5 rounded shadow-xs">
-                                    NEW
-                                  </span>
-                                )}
-                              </div>
-                              <div className="flex items-center gap-1 text-xs text-white/95 font-medium drop-shadow-xs">
-                                <Calendar className="w-3.5 h-3.5 text-white" />
-                                <span>{dateStr}</span>
-                              </div>
-                            </div>
-
-                            {/* Title & Description directly on photo */}
-                            <div className="relative z-10 space-y-1">
-                              <h3 className="text-sm sm:text-[15px] font-bold text-white leading-snug tracking-tight drop-shadow-sm line-clamp-1">
-                                {item.title}
-                              </h3>
-                              <p className="text-xs text-white/90 leading-relaxed font-normal drop-shadow-xs line-clamp-2">
-                                {plainContent}
-                              </p>
-                            </div>
+                            {/* Gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none" />
                           </div>
 
-                          {/* Bottom Footer: Big Date & Arrow Link */}
-                          <div className="relative z-10 h-[85px] px-5 sm:px-6 flex items-end justify-between pb-5 sm:pb-6 border-t border-gray-100 bg-[#f8f9fa] group-hover:bg-brand-green transition-colors duration-[1000ms]">
-                            <div className="text-gray-400 group-hover:text-white/80 transition-colors duration-[1000ms]">
-                              <span className="text-2xl font-black text-gray-900 group-hover:text-white transition-colors duration-[1000ms] block leading-none">
-                                {day}
-                              </span>
-                              <span className="text-[11px] font-medium block mt-1">
-                                {yearMonth}
-                              </span>
-                            </div>
+                          {/* Bottom Footer: 제목과 날짜가 깔끔하게 표시되는 영역 */}
+                          <div className="relative z-10 h-[85px] pl-3.5 pr-6 sm:pl-4 sm:pr-8 lg:pl-5 lg:pr-10 flex flex-col justify-center items-start border-t border-gray-100 bg-[#f8f9fa] group-hover:bg-brand-green transition-colors duration-[1000ms] overflow-hidden">
+                            {/* 제목 한 줄 표시 (잘림 방지) */}
+                            <h3 className="text-[12px] sm:text-[13px] md:text-[13.5px] lg:text-[14px] xl:text-[14.5px] font-bold text-gray-900 group-hover:text-white leading-tight tracking-tighter transition-colors duration-[1000ms] whitespace-nowrap w-full mb-1.5">
+                              {item.title}
+                            </h3>
 
-                            {/* Normal State: subtle arrow link */}
-                            <span className="text-xs font-bold text-brand-green group-hover:opacity-0 transition-opacity duration-300 inline-flex items-center gap-1 pr-1 mb-1.5 sm:mb-2">
-                              {isEnglish ? 'View Notice' : '상세보기'}
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </span>
+                            {/* 날짜 표시 (제목 아래) */}
+                            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-gray-400 group-hover:text-white/80 font-medium transition-colors duration-[1000ms]">
+                              <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-[1000ms]" />
+                              <span>{dateStr}</span>
+                            </div>
 
                             {/* Concentric Cutout Notch with Floating Black Circle Action Button */}
                             <div className="absolute bottom-0 right-0 w-[112px] h-[112px] pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-[700ms] ease-out z-30 overflow-hidden transform scale-90 group-hover:scale-100 origin-bottom-right">
@@ -533,27 +475,13 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                           aria-hidden="true"
                         />
 
-                        {/* Top Header: Badge, Date & Icon */}
+                        {/* Top Header: Badge only */}
                         <div className="relative z-10">
                           <div className="flex items-center justify-between mb-4 sm:mb-5">
                             <div className="flex items-center gap-2">
-                              <div className="w-10 h-10 rounded-2xl bg-white group-hover:bg-white/20 flex items-center justify-center transition-colors duration-[1500ms] shadow-2xs">
-                                {React.cloneElement(meta.icon as React.ReactElement<any>, {
-                                  className: "w-6 h-6 text-brand-green group-hover:text-white transition-colors duration-[1500ms]"
-                                })}
-                              </div>
                               <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase shadow-2xs group-hover:bg-white group-hover:text-brand-green transition-all duration-[1500ms] ${meta.badgeBg}`}>
                                 {meta.label}
                               </span>
-                              {item.isNew && (
-                                <span className="bg-amber-400 text-gray-900 font-extrabold text-[10px] px-1.5 py-0.5 rounded shadow-2xs">
-                                  NEW
-                                </span>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-white/90 font-medium transition-colors duration-[1500ms]">
-                              <Calendar className="w-3.5 h-3.5 text-brand-green group-hover:text-white transition-colors duration-[1500ms]" />
-                              <span>{dateStr}</span>
                             </div>
                           </div>
 
@@ -635,15 +563,12 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
 
               <div className="overflow-y-auto pr-1 space-y-5">
                 {/* Modal Header */}
-                <div className="flex items-center gap-2.5 pb-3 border-b border-gray-100">
+                <div className="flex items-center gap-2.5 pb-3 border-b border-gray-100 pr-10">
                   <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold text-white ${getCategoryMeta(selectedModalItem.category).badgeBg}`}>
                     {getCategoryMeta(selectedModalItem.category).label}
                   </span>
                   <span className="text-xs text-gray-400 font-medium">
                     {selectedModalItem.date ? selectedModalItem.date.replace(/-/g, '.') : ''}
-                  </span>
-                  <span className="text-xs text-brand-green font-semibold bg-brand-green/10 px-2.5 py-0.5 rounded-full ml-auto">
-                    {isEnglish ? 'Views' : '조회수'} {selectedModalItem.views || 0}
                   </span>
                 </div>
 
@@ -701,23 +626,10 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
               </div>
 
               {/* Modal Footer Buttons */}
-              <div className="pt-5 mt-5 border-t border-gray-100 flex items-center justify-between">
-                <Link
-                  href={
-                    activeTab === 'productNews'
-                      ? `${basePath}/business/finished/news`
-                      : `${basePath}/contact/newsroom/press`
-                  }
-                  className="text-xs sm:text-sm font-bold text-brand-green hover:underline inline-flex items-center gap-1"
-                >
-                  {activeTab === 'productNews'
-                    ? (isEnglish ? 'Go to Product News Board' : '제품소식 게시판 바로가기')
-                    : (isEnglish ? 'Go to Press Newsroom' : '보도자료 게시판 바로가기')}
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+              <div className="pt-5 mt-5 border-t border-gray-100 flex items-center justify-end">
                 <button
                   onClick={() => setSelectedModalItem(null)}
-                  className="px-5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
+                  className="px-6 py-2.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
                 >
                   {isEnglish ? 'Close' : '닫기'}
                 </button>

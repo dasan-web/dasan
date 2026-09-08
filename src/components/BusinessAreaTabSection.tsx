@@ -102,7 +102,9 @@ export default function BusinessAreaTabSection({ isEnglish = false }: BusinessAr
               <h4 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] font-extrabold text-gray-900 tracking-tight leading-tight">
                 {currentItem.title}
               </h4>
-              <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-normal leading-relaxed break-keep pt-1">
+              <p className={`text-base sm:text-lg lg:text-[17.5px] xl:text-[19px] text-gray-600 font-normal leading-relaxed break-keep pt-1 ${
+                currentItem.id === 'finished' || currentItem.id === 'cmo' ? 'lg:whitespace-nowrap' : ''
+              }`}>
                 {currentItem.desc}
               </p>
 

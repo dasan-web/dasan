@@ -147,16 +147,20 @@ export default function Header() {
 
             {/* Desktop Navigation ( GNB ) */}
             <nav 
-              className="hidden lg:flex space-x-14 h-full"
+              className="hidden lg:flex space-x-10 xl:space-x-14 h-full"
               onMouseLeave={() => setHoveredGrand(null)}
             >
               {filteredNavigation.map((grand) => {
                 const colCount = grand.majors.length;
+                const hasDropdown = grand.majors.some(m => m.subMenus && m.subMenus.length > 0);
                 
                 // 각 대메뉴별 시작점/끝점 정렬 클래스 지정
                 const alignClass = '-left-6 origin-top-left';
 
-                const isActive = pathname.startsWith(grand.link);
+                const checkPath = pathname.replace(/^\/en/, '') || '/';
+                const isActive = grand.link === '/business'
+                  ? checkPath.startsWith('/business') && !checkPath.startsWith('/business/cdmo')
+                  : checkPath.startsWith(grand.link);
                 const isHighlighted = hoveredGrand === grand.name || (hoveredGrand === null && isActive);
 
                 return (
@@ -167,90 +171,99 @@ export default function Header() {
                   >
                       <Link
                         href={`${basePath}${grand.majors[0]?.link || grand.majors[0]?.subMenus[0]?.link || grand.link}`}
-                        onClick={() => setActiveGrand(activeGrand === grand.name ? null : grand.name)}
+                        onClick={() => {
+                          if (hasDropdown) {
+                            setActiveGrand(activeGrand === grand.name ? null : grand.name);
+                          } else {
+                            setActiveGrand(null);
+                            setHoveredGrand(null);
+                          }
+                        }}
                         className={`text-[17px] lg:text-[19px] xl:text-[20px] font-pretendard font-medium tracking-tight transition-colors py-2 relative hover:text-brand-green ${isHighlighted ? 'text-brand-green' : 'text-[#221d1e]'}`}
                       >
                       {isEnglish ? (grand.enName || grand.name) : grand.name}
                     </Link>
 
                     {/* Localized Dropdown Menu Wrapper with Hover Bridge (CSS Hover - Aligned) */}
-                    <div
-                      className={`absolute top-20 ${alignClass} pt-4 z-50 ${activeGrand===grand.name ? 'opacity-100 visible pointer-events-auto translate-y-0' : 'opacity-0 invisible pointer-events-none translate-y-1'} group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 transition-all duration-200 ease-out will-change-[opacity,transform]`}
-                      style={{
-                        width: colCount === 1 ? '240px' : colCount === 2 ? '480px' : '700px'
-                      }}
-                    >
-                      <div 
-                        className="w-full bg-white/90 backdrop-blur-xl backdrop-saturate-150 border border-gray-200/80 rounded-2xl p-6 text-gray-900 shadow-2xl shadow-slate-900/10"
+                    {hasDropdown && (
+                      <div
+                        className={`absolute top-20 ${alignClass} pt-4 z-50 ${activeGrand===grand.name ? 'opacity-100 visible pointer-events-auto translate-y-0' : 'opacity-0 invisible pointer-events-none translate-y-1'} group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 transition-all duration-200 ease-out will-change-[opacity,transform]`}
                         style={{
-                          display: 'grid',
-                          gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
-                          gap: '1.5rem'
+                          width: colCount === 1 ? '240px' : colCount === 2 ? '480px' : '700px'
                         }}
                       >
-                        {grand.majors.map((major) => {
-                          const isMajorActive = (major.link && major.link !== '#' && (pathname === major.link || pathname.startsWith(major.link))) ||
-                            (major.subMenus && major.subMenus.some(sub => pathname === sub.link || (pathname.startsWith(sub.link) && sub.link !== '/')));
-                          
-                          return (
-                            <div key={isEnglish ? (major.enName || major.name) : major.name} className="flex flex-col space-y-2 group/major">
-                              <Link
-                                href={`${basePath}${major.link || major.subMenus[0]?.link || '#'}`}
-                                onClick={() => {
-                                  setActiveGrand(null);
-                                  setHoveredGrand(null);
-                                  }}
-                              >
-                                <h3 className={`text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider pb-1.5 text-left transition-colors cursor-pointer ${
-                                  isMajorActive
-                                    ? 'text-[#367e47] border-b-2 border-[#367e47]'
-                                    : 'text-gray-900 border-b border-gray-100 hover:text-[#367e47]'
-                                }`}>
-                                  {isEnglish ? (major.enName || major.name) : major.name}
-                                </h3>
-                              </Link>
-                              <ul className="space-y-1.5 text-left">
-                                {major.subMenus.map((sub) => {
-                                  const isSubActive = pathname === sub.link || (pathname.startsWith(sub.link) && sub.link !== '/');
-                                  return (
-                                    <li key={isEnglish ? (sub.enName || sub.name) : sub.name}>
-                                      {sub.link.startsWith('#') ? (
-                                        <a
-                                          href={`${basePath}${sub.link}`}
-                                          onClick={(e) => {
-                                            handleEnglishClick(e);
-                                            setActiveGrand(null);
-                                            setHoveredGrand(null);
-                                          }}
-                                          className="text-gray-800 hover:text-[#367e47] text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform"
-                                        >
-                                          {isEnglish ? (sub.enName || sub.name) : sub.name}
-                                        </a>
-                                      ) : (
-                                        <Link
-                                          href={`${basePath}${sub.link}`}
-                                          onClick={() => {
-                                            setActiveGrand(null);
-                                            setHoveredGrand(null);
-                                          }}
-                                          className={`text-[13px] lg:text-[14px] xl:text-[15px] transition-colors block py-0.5 hover:translate-x-1 duration-200 transform ${
-                                            isSubActive
-                                              ? 'text-[#367e47] font-bold'
-                                              : 'text-gray-800 hover:text-[#367e47] font-semibold'
-                                          }`}
-                                        >
-                                          {isEnglish ? (sub.enName || sub.name) : sub.name}
-                                        </Link>
-                                      )}
-                                    </li>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                          );
-                        })}
+                        <div 
+                          className="w-full bg-white/90 backdrop-blur-xl backdrop-saturate-150 border border-gray-200/80 rounded-2xl p-6 text-gray-900 shadow-2xl shadow-slate-900/10"
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
+                            gap: '1.5rem'
+                          }}
+                        >
+                          {grand.majors.map((major) => {
+                            const isMajorActive = (major.link && major.link !== '#' && (pathname === major.link || pathname.startsWith(major.link))) ||
+                              (major.subMenus && major.subMenus.some(sub => pathname === sub.link || (pathname.startsWith(sub.link) && sub.link !== '/')));
+                            
+                            return (
+                              <div key={isEnglish ? (major.enName || major.name) : major.name} className="flex flex-col space-y-2 group/major">
+                                <Link
+                                  href={`${basePath}${major.link || major.subMenus[0]?.link || '#'}`}
+                                  onClick={() => {
+                                    setActiveGrand(null);
+                                    setHoveredGrand(null);
+                                    }}
+                                >
+                                  <h3 className={`text-sm lg:text-[15px] xl:text-[16px] font-extrabold uppercase tracking-wider pb-1.5 text-left transition-colors cursor-pointer ${
+                                    isMajorActive
+                                      ? 'text-[#367e47] border-b-2 border-[#367e47]'
+                                      : 'text-gray-900 border-b border-gray-100 hover:text-[#367e47]'
+                                  }`}>
+                                    {isEnglish ? (major.enName || major.name) : major.name}
+                                  </h3>
+                                </Link>
+                                <ul className="space-y-1.5 text-left">
+                                  {major.subMenus.map((sub) => {
+                                    const isSubActive = pathname === sub.link || (pathname.startsWith(sub.link) && sub.link !== '/');
+                                    return (
+                                      <li key={isEnglish ? (sub.enName || sub.name) : sub.name}>
+                                        {sub.link.startsWith('#') ? (
+                                          <a
+                                            href={`${basePath}${sub.link}`}
+                                            onClick={(e) => {
+                                              handleEnglishClick(e);
+                                              setActiveGrand(null);
+                                              setHoveredGrand(null);
+                                            }}
+                                            className="text-gray-800 hover:text-[#367e47] text-[13px] lg:text-[14px] xl:text-[15px] font-semibold transition-colors block py-0.5 hover:translate-x-1 duration-200 transform"
+                                          >
+                                            {isEnglish ? (sub.enName || sub.name) : sub.name}
+                                          </a>
+                                        ) : (
+                                          <Link
+                                            href={`${basePath}${sub.link}`}
+                                            onClick={() => {
+                                              setActiveGrand(null);
+                                              setHoveredGrand(null);
+                                            }}
+                                            className={`text-[13px] lg:text-[14px] xl:text-[15px] transition-colors block py-0.5 hover:translate-x-1 duration-200 transform ${
+                                              isSubActive
+                                                ? 'text-[#367e47] font-bold'
+                                                : 'text-gray-800 hover:text-[#367e47] font-semibold'
+                                            }`}
+                                          >
+                                            {isEnglish ? (sub.enName || sub.name) : sub.name}
+                                          </Link>
+                                        )}
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 );
               })}
@@ -318,6 +331,29 @@ export default function Header() {
           <div className="flex-1 overflow-y-auto px-4 py-6 space-y-3">
             {filteredNavigation.map((grand) => {
               const isGrandActive = activeMobileGrand === grand.name;
+              const hasDropdown = grand.majors.some(m => m.subMenus && m.subMenus.length > 0);
+
+              if (!hasDropdown) {
+                const checkPath = pathname.replace(/^\/en/, '') || '/';
+                const isGrandSelected = grand.link === '/business'
+                  ? checkPath.startsWith('/business') && !checkPath.startsWith('/business/cdmo')
+                  : checkPath.startsWith(grand.link);
+
+                return (
+                  <div key={isEnglish ? (grand.enName || grand.name) : grand.name} className="border-b border-gray-50 pb-2">
+                    <Link
+                      href={`${basePath}${grand.majors[0]?.link || grand.link}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center justify-between w-full py-3 px-2 font-bold hover:text-brand-green text-left rounded-md transition-colors ${
+                        isGrandSelected ? 'text-brand-green' : 'text-gray-800'
+                      }`}
+                    >
+                      <span>{isEnglish ? (grand.enName || grand.name) : grand.name}</span>
+                      <ChevronRight size={18} className="text-gray-400" />
+                    </Link>
+                  </div>
+                );
+              }
               return (
                 <div key={isEnglish ? (grand.enName || grand.name) : grand.name} className="border-b border-gray-50 pb-2">
                   {/* Level 0 Menu Button */}

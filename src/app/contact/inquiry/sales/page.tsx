@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function ContactSalesInquiryPage() {
   const currentPath = '/contact/inquiry/sales';
-  const activeTitle = '영업 문의';
+  const activeTitle = '비즈니스 문의';
   const activeMajor = '고객센터';
   
   const grandContact = navigationData.find(g => g.name === 'Connect');

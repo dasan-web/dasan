@@ -109,7 +109,7 @@ export default async function Home() {
             <div className="pt-4 md:pt-6">
               <Link
                 href="/about/intro"
-                className="inline-flex items-center gap-2.5 bg-brand-green text-white hover:bg-brand-green-dark border-2 border-white/80 font-pretendard font-bold px-9 py-4 lg:px-11 lg:py-4.5 rounded-full transition-all duration-300 text-sm lg:text-base shadow-[0_6px_20px_rgba(0,0,0,0.35)] hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
+                className="inline-flex items-center gap-2.5 bg-white text-brand-green hover:bg-brand-green hover:text-white font-pretendard font-bold px-9 py-4 lg:px-11 lg:py-4.5 rounded-full transition-all duration-300 text-sm lg:text-base shadow-[0_4px_16px_rgba(0,0,0,0.2)] hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
               >
                 <span>Learn More</span>
                 <ArrowRight className="w-4.5 h-4.5 lg:w-5 lg:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
@@ -150,9 +150,16 @@ export default async function Home() {
 
             {/* Right Column: Operating Hours & Button */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-8">
-              <div className="text-left sm:text-right text-white/80 font-medium text-[11px] md:text-xs leading-relaxed">
-                <p>Weekdays 09:00 AM - 06:00 PM</p>
-                <p>Lunch 12:30 PM - 01:30 PM</p>
+              <div className="grid grid-cols-[auto_auto_auto_auto] items-center gap-x-2.5 gap-y-1 text-white/85 font-medium text-[11px] md:text-xs leading-relaxed">
+                <span className="font-semibold text-white/95">Weekdays</span>
+                <span className="tabular-nums">09:00 AM</span>
+                <span className="text-white/60 text-center">-</span>
+                <span className="tabular-nums">06:00 PM</span>
+
+                <span className="font-semibold text-white/95">Lunch</span>
+                <span className="tabular-nums">12:30 PM</span>
+                <span className="text-white/60 text-center">-</span>
+                <span className="tabular-nums">01:30 PM</span>
               </div>
               <div>
                 <Link

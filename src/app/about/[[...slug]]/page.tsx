@@ -303,7 +303,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
           .replace(/나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다/gi, '')
           .replace(/다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 '글로벌 헬스케어 리더'로 끊임없이 도약할 것을 약속드립니다/gi, '')
           .replace(/새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다/gi, '')
-          .replace(/<p[^>]*>\s*감사합니다\s*<\/p>/gi, '');
+          .replace(/<p[^>]*>\s*감사합니다\s*<\/p>/gi, '')
+          .replace(/끊임없이\s*노력합니다(?!\.)/g, '끊임없이 노력합니다.');
 
 
 
@@ -500,9 +501,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
           <div className="animate-fade-in-up mt-4 sm:mt-6 bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-3xl shadow-none w-full">
             {/* Header Title */}
             <div className="mb-8 sm:mb-12 pb-4 border-b border-gray-100">
-              <span className="text-xs font-bold tracking-widest text-emerald-600 uppercase mb-1.5 block">
-                CEO Message
-              </span>
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
                 CEO 메시지
               </h3>
@@ -529,9 +527,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 <div>
                   {/* Slogan Banner */}
                   <div className="border-l-4 border-brand-green pl-4 sm:pl-5 py-1 mb-8">
-                    <p className="text-xs font-bold tracking-widest text-brand-green uppercase mb-1">
-                      Trust & Innovation
-                    </p>
                     <h4 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-snug">
                       신뢰와 혁신으로 열어가는 더 건강한 미래
                     </h4>
@@ -623,11 +618,13 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
               {/* 파란색 표시부분 (상단 좌측 텍스트 영역) */}
               <div className="absolute inset-0 flex items-start justify-start p-6 sm:p-10 md:p-14 lg:p-16">
-                <div className="max-w-xl lg:max-w-2xl text-left animate-fade-in-up">
-                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-pretendard font-bold text-gray-900 leading-snug tracking-tight break-keep drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
-                    다산제약은 연구개발(R&D)부터 판매까지<br />
-                    의약품 전 주기의 <span className="text-[#2f7847] font-black">Key Value Chain</span> 인프라를 구축하여<br />
-                    고부가가치 사업 성장성을 확보하고 있습니다.
+                <div className="max-w-2xl lg:max-w-3xl xl:max-w-4xl text-left animate-fade-in-up">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[45px] font-pretendard font-extrabold text-gray-900 leading-snug tracking-tight break-keep drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)] space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6">
+                    <span className="block">다산제약은 연구개발(R&D)부터 판매까지</span>
+                    <span className="block">
+                      의약품 전 주기의 <span className="text-[#2f7847] font-black">Key Value Chain</span> 인프라를 구축하여
+                    </span>
+                    <span className="block">고부가가치 사업 성장성을 확보하고 있습니다.</span>
                   </h2>
                 </div>
               </div>
@@ -651,12 +648,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  {/* 고정 표시: 해시태그 + 제목 */}
-                  <div className="flex flex-wrap gap-1.5 mb-2.5">
-                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
-                      #Core Business
-                    </span>
-                  </div>
                   <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     01. 자사 완제 의약품 사업
                   </h4>
@@ -680,12 +671,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  {/* 고정 표시: 해시태그 + 제목 */}
-                  <div className="flex flex-wrap gap-1.5 mb-2.5">
-                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
-                      #Smart CMO
-                    </span>
-                  </div>
                   <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     02. 수탁 완제 의약품 (CMO) 사업
                   </h4>
@@ -708,12 +693,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  {/* 고정 표시: 해시태그 + 제목 */}
-                  <div className="flex flex-wrap gap-1.5 mb-2.5">
-                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
-                      #API & Intermediate
-                    </span>
-                  </div>
                   <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     03. 의약품 핵심 원료 및 중간체 사업
                   </h4>
@@ -864,7 +843,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
               {/* Header */}
               <div className="text-left mb-10 relative z-10 w-full max-w-5xl mx-auto">
-                <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-4 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
                 <h3 className="text-xl md:text-2xl font-pretendard font-black text-gray-900 tracking-tight pb-2 border-b border-gray-100 animate-fade-in-up" style={{animationDelay: '200ms'}}>
                   {historyIntroTitle || '성장 연혁 (History)'}
                 </h3>
@@ -973,24 +951,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-10 animate-fade-in-up">
-            {/* CI 대표 비주얼 (21:9 와이드 화면 - 글로벌 인프라 및 연혁과 동일 규격) */}
-            <div 
-              style={{
-                width: '100vw',
-                marginLeft: 'calc(50% - 50vw)',
-              }}
-              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
-            >
-              <Image 
-                src="/ci_hero_pills.png" 
-                alt="다산제약 CI 대표 비주얼" 
-                fill
-                priority
-                unoptimized={true}
-                className="object-cover object-center"
-              />
-            </div>
-
             <div className="space-y-16 bg-white p-8 md:p-12 rounded-3xl">
               {/* Section 1: Corporate Identity & Primary Logo */}
               <div className="space-y-4">
@@ -1201,8 +1161,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     <Building2 size={28} />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Headquarters</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">본사</h4>
+                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Seoul Office</span>
+                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">서울사무소</h4>
                   </div>
                 </div>
                 <div className="border-t border-gray-100 pt-6 space-y-4 flex-grow relative z-10">
@@ -1226,23 +1186,17 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 </div>
                 <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
                   <div>
-                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
-                      다산 중앙연구소 
-                      <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">경기 수원시</span>
-                    </span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-4">제제 및 합성 관련 연구시설을 갖추고 연구개발 총괄</p>
+                    <span className="text-sm text-brand-green font-bold block mb-2">다산 중앙연구소 (경기 수원시)</span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">제제 및 합성 관련 연구시설을 갖추고 연구개발 총괄</p>
                   </div>
                   <div className="pt-6 border-t border-dashed border-gray-200">
-                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
-                      중국 심양연구소
-                      <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-bold">중국 심양시</span>
-                    </span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">중국 내 연구, 허가, 사업개발을 담당하는 글로벌 영토 확장의 전초기지</p>
+                    <span className="text-sm text-brand-green font-bold block mb-2">중국 심양연구소 (중국 심양시)</span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">중국 내 연구, 허가, 사업개발을 담당하는 글로벌 영토 확장의 전초시설</p>
                   </div>
                 </div>
               </div>
 
-              {/* 글로벌 생산 기지 */}
+              {/* 글로벌 생산시설 */}
               <div className={cardClass}>
                 <div className="flex items-center space-x-4 relative z-10 mb-6">
                   <div className={iconContainerClass}>
@@ -1250,26 +1204,47 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   </div>
                   <div>
                     <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Production Base</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">글로벌 생산 기지</h4>
+                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">글로벌 생산시설</h4>
                   </div>
                 </div>
                 <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
-                  <div>
-                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
-                      아산 제1공장 / 제2공장
-                      <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">충남 아산시</span>
-                    </span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-3">
-                      원료 및 완제의약품, 내용고형제 대량 생산 체계 구축
-                      <span className="inline-block text-brand-blue font-bold text-[11px] ml-2 bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP 인증 완료</span>
-                    </p>
+                  {/* 국내 생산시설 */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200/70 text-emerald-800 text-[11px] font-extrabold tracking-wider uppercase">
+                        국내
+                      </span>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <span className="text-sm text-brand-green font-bold block mb-1.5">아산 제1공장 (충남 아산시)</span>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-2">
+                          원료 및 완제의약품 생산본부, cGMP 수준의 우수 의약품 생산
+                        </p>
+                        <div className="flex items-center">
+                          <span className="inline-block text-brand-blue font-bold text-[11px] bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP 인증 완료</span>
+                        </div>
+                      </div>
+                      <div className="pt-4 border-t border-dashed border-gray-200">
+                        <span className="text-sm text-brand-green font-bold block mb-1.5">아산 제2공장 (충남 아산시)</span>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">
+                          내용고형제 대량 생산 체제 및 최첨단 스마트 자동화 패키징 라인 구축
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="pt-6 border-t border-dashed border-gray-200">
-                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
-                      Anhui Heryi Dasan
-                      <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-bold">중국 안휘성</span>
-                    </span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">연간 약 40억 정의 생산 능력을 갖춘 중국 현지 전진 생산 기지</p>
+
+                  {/* 해외 생산시설 */}
+                  <div className="pt-5 border-t border-gray-200 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-200/70 text-blue-800 text-[11px] font-extrabold tracking-wider uppercase">
+                        해외
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-sm text-brand-green font-bold block mb-1.5">Anhui Heryi Dasan (중국 안휘성)</span>
+                      <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">연간 약 40억 정의 생산 능력을 갖춘 중국 현지 전진 생산 시설</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1337,11 +1312,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
                 {/* Header & Core Statement */}
                 <div className="text-left max-w-4xl mx-auto space-y-5">
-                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                    <Leaf size={14} className="text-brand-green" />
-                    <span>Environmental Management Policy</span>
-                  </div>
-
                   {/* Core Statement & Separated Bridge Line */}
                   <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
                     <p>
@@ -1452,11 +1422,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
                 {/* Header & Core Intro */}
                 <div className="text-left max-w-4xl mx-auto space-y-5">
-                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                    <Shield size={14} className="text-brand-green" />
-                    <span>Code of Ethics</span>
-                  </div>
-
                   {/* Intro Statement with balanced vertical spacing */}
                   <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
                     {defaultIntroParas.map((para, pIdx) => (
@@ -1535,11 +1500,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
                 {/* Header & Core Intro */}
                 <div className="text-left max-w-4xl mx-auto space-y-5">
-                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                    <ShieldAlert size={14} className="text-brand-green" />
-                    <span>Anti-Corruption Policy</span>
-                  </div>
-
                   {/* Intro Statement */}
                   <div className="text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
                     <p>
@@ -1611,11 +1571,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
                 {/* Header & Core Intro */}
                 <div className="text-left max-w-4xl mx-auto space-y-5">
-                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                    <Shield size={14} className="text-brand-green" />
-                    <span>Health & Safety Policy</span>
-                  </div>
-
                   {/* Intro Statement */}
                   <div className="text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
                     <p>

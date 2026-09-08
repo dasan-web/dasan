@@ -221,6 +221,9 @@ export default function AdminDashboardPage() {
     } else if (clean.startsWith('[1:1 문의]')) {
       prefix = '1:1 문의';
       clean = clean.substring('[1:1 문의]'.length).trim();
+    } else if (clean.startsWith('[상시 채용지원]')) {
+      prefix = '상시 채용';
+      clean = clean.substring('[상시 채용지원]'.length).trim();
     }
     return { prefix, clean };
   };
@@ -234,6 +237,9 @@ export default function AdminDashboardPage() {
     }
     if (currentSubPath === 'contact/inquiry/corruption') {
       return inquiries.filter(inq => inq.subject.startsWith('[부패신고 문의]'));
+    }
+    if (currentSubPath === 'contact/careers/jobs') {
+      return inquiries.filter(inq => inq.subject.startsWith('[상시 채용지원]'));
     }
     return inquiries;
   };
@@ -2211,6 +2217,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                         prefix === '제품 문의' ? 'bg-brand-teal/10 text-brand-teal border border-brand-teal/20' :
                                         prefix === '영업 문의' ? 'bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20' :
                                         prefix === '부패신고' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+                                        prefix === '상시 채용' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
                                         'bg-brand-blue/10 text-brand-blue border border-brand-blue/20'
                                       }`}>
                                         {prefix}

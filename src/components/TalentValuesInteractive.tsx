@@ -268,19 +268,27 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
           {isEnglish ? (
             <>
               <p>
-                Dasan Pharmaceutical was founded on the philosophy of &apos;Aemin (Love for the People)&apos; inspired by Dasan Jeong Yak-yong, the greatest practical scholar of the Joseon Dynasty, researching and developing pharmaceuticals for humanity&apos;s health and happy life. Believing that good medicine ultimately comes from good people, we expect the same sincerity and principles from the colleagues who join us.
+                Dasan Pharmaceutical was founded on the philosophy of &apos;Aemin (Love for the People)&apos; inspired by Dasan Jeong Yak-yong, the greatest practical scholar of the Joseon Dynasty, researching and developing pharmaceuticals for humanity&apos;s health and happy life.
+                <br />
+                Believing that good medicine ultimately comes from good people, we expect the same sincerity and principles from the colleagues who join us.
               </p>
               <p>
-                &apos;Innovating Today for a Healthier Tomorrow&apos;, we believe that innovation today for a healthier tomorrow is only possible when such individuals come together. Dasan Pharmaceutical awaits talented individuals who resonate with this value and wish to grow together with us.
+                &apos;Innovating Today for a Healthier Tomorrow&apos;, we believe that innovation today for a healthier tomorrow is only possible when such individuals come together.
+                <br />
+                Dasan Pharmaceutical awaits talented individuals who resonate with this value and wish to grow together with us.
               </p>
             </>
           ) : (
             <>
               <p>
-                다산제약은 조선 최고의 실학자 다산 정약용 선생의 &apos;애민(愛民)&apos; 정신을 창업이념으로 삼아, 인류의 건강과 행복한 삶을 위한 의약품을 연구하고 만들어 왔습니다. 좋은 의약품은 결국 좋은 사람에게서 나온다는 믿음으로, 저희는 함께 일할 동료에게도 같은 진심과 원칙을 기대합니다.
+                다산제약은 조선 최고의 실학자 다산 정약용 선생의 &apos;애민(愛民)&apos; 정신을 창업이념으로 삼아, 인류의 건강과 행복한 삶을 위한 의약품을 연구하고 만들어 왔습니다.
+                <br />
+                좋은 의약품은 결국 좋은 사람에게서 나온다는 믿음으로, 저희는 함께 일할 동료에게도 같은 진심과 원칙을 기대합니다.
               </p>
               <p>
-                &apos;Innovating Today for a Healthier Tomorrow&apos;, 건강한 내일을 위한 오늘의 혁신은 이런 사람들이 모였을 때 비로소 가능하다고 믿습니다. 다산제약은 이 가치에 공감하고 함께 성장해 나갈 인재를 기다립니다.
+                &apos;Innovating Today for a Healthier Tomorrow&apos;, 건강한 내일을 위한 오늘의 혁신은 이런 사람들이 모였을 때 비로소 가능하다고 믿습니다.
+                <br />
+                다산제약은 이 가치에 공감하고 함께 성장해 나갈 인재를 기다립니다.
               </p>
             </>
           )}

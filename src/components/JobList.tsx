@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Eye, Download } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import TalentPoolSection from '@/components/TalentPoolSection';
 
 interface NewsItem {
   id: number;
@@ -122,9 +123,21 @@ export default function JobList({ initialJobs }: JobListProps) {
   };
 
   return (
-    <div className="w-full space-y-6">
-      <h4 className="font-bold text-brand-blue text-base">{isEnglish ? `Ongoing Regular/Permanent Openings (${jobs.length})` : `진행 중인 상시/정기 공고 (${jobs.length})`}</h4>
-      <div className="w-full overflow-x-auto">
+    <div className="w-full space-y-12">
+      {/* 1. 상시 채용 / 인재풀 프로세스 섹션 */}
+      <TalentPoolSection isEnglish={isEnglish} />
+
+      {/* 2. 진행 중인 정기/수시 공고 목록 */}
+      <div className="w-full space-y-6 pt-4 border-t border-slate-200">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <h4 className="font-bold text-brand-blue text-base sm:text-lg">
+            {isEnglish ? `Ongoing Job Openings (${jobs.length})` : `진행 중인 정기/수시 채용공고 (${jobs.length})`}
+          </h4>
+          <span className="text-xs text-slate-400">
+            {isEnglish ? 'Specific hiring notices with set deadlines' : '마감 일자가 지정된 정기/공채 채용 공고'}
+          </span>
+        </div>
+        <div className="w-full overflow-x-auto">
         <table className="w-full min-w-[650px] border-collapse border-t-2 border-t-brand-green text-sm text-left">
           <thead>
             <tr className="border-b border-gray-200 bg-gray-50 text-gray-700 text-xs md:text-sm font-bold">
@@ -231,5 +244,6 @@ export default function JobList({ initialJobs }: JobListProps) {
         </table>
       </div>
     </div>
+  </div>
   );
 }

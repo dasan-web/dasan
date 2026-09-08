@@ -29,6 +29,7 @@
 *.zip
 *.pptx
 *.pptx.bak
+*.bak
 
 # root media (keep public/ media)
 /*.mp4

@@ -173,11 +173,15 @@ export default async function RdCatchAllPage({ params }: Params) {
             <div className="pb-6 w-full text-center flex flex-col items-center">
               <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-emerald-600 mb-3">
                 <span>{grandRd?.name}</span>
-                <span className="text-slate-300">/</span>
-                <span className="text-slate-400">{activeMajor}</span>
+                {activeMajor && activeMajor.toLowerCase() !== grandRd?.name?.toLowerCase() && (
+                  <>
+                    <span className="text-slate-300">/</span>
+                    <span className="text-slate-400">{activeMajor}</span>
+                  </>
+                )}
               </div>
               
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight text-center mb-6">{activeTitle}</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-950 tracking-tight text-center mb-6">{activeTitle}</h2>
 
               <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath} />
             </div>

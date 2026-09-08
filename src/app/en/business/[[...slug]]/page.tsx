@@ -80,9 +80,13 @@ export default async function BusinessCatchAllPage({ params }: Params) {
   let activeMajor = '완제의약품';
   let activeMajorObj = null;
   
-  const grandBiz = navigationData.find(g => g.name === 'Business');
-  if (grandBiz) {
-    for (const major of grandBiz.majors) {
+  const isCdmo = currentPath.startsWith('/business/cdmo');
+  const targetGrand = isCdmo
+    ? navigationData.find(g => g.name === 'CDMO')
+    : navigationData.find(g => g.name === 'Business');
+
+  if (targetGrand) {
+    for (const major of targetGrand.majors) {
       if (currentPath === `/business/${major.name.toLowerCase()}` || (major.enName && currentPath === `/business/${major.enName.toLowerCase()}`)) {
         activeTitle = major.subMenus[0]?.enName || major.subMenus[0]?.name || major.enName || major.name;
         activeMajor = major.enName || major.name;
@@ -97,8 +101,12 @@ export default async function BusinessCatchAllPage({ params }: Params) {
         break;
       }
     }
-    if (!activeMajorObj && grandBiz.majors.length > 0) {
-      activeMajorObj = grandBiz.majors[0];
+    if (!activeMajorObj && targetGrand.majors.length > 0) {
+      activeMajorObj = targetGrand.majors[0];
+      if (isCdmo) {
+        activeTitle = 'CDMO';
+        activeMajor = 'CDMO';
+      }
     }
   }
     
@@ -302,13 +310,13 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             <div>
               <div className="mb-6">
                 <h3 className="text-2xl font-black text-brand-green tracking-tight pb-2 border-b-2 border-brand-green inline-block">
-                  {grandBiz?.name}
+                  {targetGrand?.name}
                 </h3>
               </div>
               <nav className="space-y-6">
-                {grandBiz?.majors.map(major => (
+                {targetGrand?.majors.map(major => (
                   <div key={major.name} className="space-y-2 mt-5 first:mt-0">
-                    {grandBiz.majors.length > 1 && (
+                    {targetGrand.majors.length > 1 && (
                       <h4 className="text-[12px] font-bold tracking-wider text-gray-400 uppercase">
                         {major.name}
                       </h4>
@@ -345,11 +353,17 @@ export default async function BusinessCatchAllPage({ params }: Params) {
           <div className="lg:col-span-5 space-y-8 flex flex-col items-center w-full">
             {/* Header - Centered for symmetry */}
             <div className="pb-8 w-full text-center flex flex-col items-center">
-              <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
-                <span>{grandBiz?.name}</span>
-                <span className="text-gray-300">/</span>
-                <span className="text-gray-400">{activeMajor}</span>
-              </div>
+              {!isCdmo && (
+                <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
+                  <span>{targetGrand?.name}</span>
+                  {activeMajor && activeMajor.toLowerCase() !== targetGrand?.name?.toLowerCase() && (
+                    <>
+                      <span className="text-gray-300">/</span>
+                      <span className="text-gray-400">{activeMajor}</span>
+                    </>
+                  )}
+                </div>
+              )}
               
               <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>
 

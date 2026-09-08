@@ -12,29 +12,29 @@ export default function ScrollNav() {
     { 
       id: 'hero', 
       label: isEnglish ? 'Intro' : '소개',
-      activeColor: 'bg-white border-2 border-gray-400 shadow-md',
-      inactiveColor: 'bg-white/80 border border-gray-300 shadow-2xs hover:bg-white hover:border-gray-500',
+      activeColor: 'bg-white border-2 border-gray-400 shadow-[0_0_12px_rgba(255,255,255,0.9)] ring-2 ring-gray-400/50',
+      inactiveColor: 'bg-white/70 border border-gray-400/60 shadow-2xs hover:bg-white',
       pingColor: 'bg-white/40 border border-gray-300'
     },
     { 
       id: 'core-business', 
       label: isEnglish ? 'Core Business' : '주요 사업영역',
-      activeColor: 'bg-brand-blue shadow-[0_0_12px_rgba(10,37,64,0.7)]',
-      inactiveColor: 'bg-brand-blue/30 hover:bg-brand-blue',
-      pingColor: 'bg-brand-blue/20 border border-brand-blue/30'
+      activeColor: 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.9)] ring-2 ring-amber-300',
+      inactiveColor: 'bg-amber-400/60 hover:bg-amber-400',
+      pingColor: 'bg-amber-400/30 border border-amber-300'
     },
     { 
       id: 'products', 
       label: isEnglish ? 'Product List' : '제품리스트',
-      activeColor: 'bg-[#FACC15] shadow-[0_0_12px_rgba(250,204,21,0.7)]',
-      inactiveColor: 'bg-[#FACC15]/40 hover:bg-[#FACC15]',
-      pingColor: 'bg-[#FACC15]/30 border border-amber-400/40'
+      activeColor: 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.9)] ring-2 ring-red-400',
+      inactiveColor: 'bg-red-500/60 hover:bg-red-500',
+      pingColor: 'bg-red-500/30 border border-red-400'
     },
     { 
       id: 'product-news', 
       label: isEnglish ? 'News (Press, Product)' : '뉴스(보도자료,제품소식)',
-      activeColor: 'bg-brand-green shadow-green-glow',
-      inactiveColor: 'bg-brand-green/40 hover:bg-brand-green',
+      activeColor: 'bg-brand-green shadow-green-glow ring-2 ring-green-400',
+      inactiveColor: 'bg-brand-green/60 hover:bg-brand-green',
       pingColor: 'bg-brand-green/25 border border-brand-green/35'
     }
   ];
@@ -74,11 +74,20 @@ export default function ScrollNav() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
-      const headerOffset = 140;
-      const elementPosition = el.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      let targetTop: number;
+      if (id === 'products') {
+        // 제품리스트 섹션(320vh 스크롤 애니메이션) 클릭 시, 
+        // 텍스트/알약 줌 애니메이션이 완료되어 제품 리스트가 완전히 보이는 지점으로 부드럽게 이동
+        const elTop = el.getBoundingClientRect().top + window.pageYOffset;
+        targetTop = elTop + (el.offsetHeight - window.innerHeight) * 0.92;
+      } else {
+        const headerOffset = 140;
+        targetTop = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      }
+
       window.scrollTo({
-        top: offsetPosition,
+        top: targetTop,
         behavior: 'smooth'
       });
     }

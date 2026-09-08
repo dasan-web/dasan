@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function ContactCorruptionInquiryPage() {
   const currentPath = '/contact/inquiry/corruption';
-  const activeTitle = '부패신고 문의(익명)';
+  const activeTitle = '부패신고 문의';
   const activeMajor = '고객센터';
   
   const grandContact = navigationData.find(g => g.name === 'Connect');

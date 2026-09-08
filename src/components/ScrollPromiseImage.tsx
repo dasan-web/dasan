@@ -56,20 +56,6 @@ export default function ScrollPromiseImage({ lang = 'ko' }: Props) {
                   </>
                 )}
               </p>
-
-              {/* 하단 핵심 키워드 칩 */}
-              <div className="pt-2 flex flex-wrap gap-2.5 sm:gap-3">
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  🌱 {isEn ? 'Eco-friendly Green' : '친환경 생태'}
-                </span>
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  🤝 {isEn ? 'Shared Growth' : '사회적 상생'}
-                </span>
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  ⚖️ {isEn ? 'Righteous Governance' : '투명 정도경영'}
-                </span>
-              </div>
-
             </div>
           </div>
         </div>

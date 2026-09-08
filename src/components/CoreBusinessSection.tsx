@@ -158,7 +158,7 @@ export default function CoreBusinessSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
-            className="w-full bg-white rounded-[24px] sm:rounded-[32px] lg:rounded-[36px] border border-gray-200/80 shadow-[0_20px_50px_rgba(10,37,64,0.06)] overflow-hidden"
+            className="w-full bg-white rounded-[24px] sm:rounded-[32px] lg:rounded-[36px] border border-gray-200 shadow-[0_12px_36px_rgba(0,0,0,0.10),0_3px_12px_rgba(0,0,0,0.06)] overflow-hidden"
           >
             <AnimatePresence mode="wait">
               {currentSlide === 0 ? (
@@ -249,8 +249,8 @@ export default function CoreBusinessSection() {
                   transition={{ duration: 0.35, ease: 'easeInOut' }}
                   className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[620px] xl:h-[640px]"
                 >
-                  {/* Left Column: 7 cols (Edge-to-edge full height matching Slide 1 left bounds perfectly) */}
-                  <div className="lg:col-span-7 relative overflow-hidden bg-gray-100 min-h-[320px] sm:min-h-[380px] lg:min-h-full h-full group">
+                  {/* Left Column: 6 cols */}
+                  <div className="lg:col-span-6 relative overflow-hidden bg-gray-100 min-h-[320px] sm:min-h-[380px] lg:min-h-full h-full group">
                     <img
                       src={slides[currentSlide].image}
                       alt={slides[currentSlide].title as string}
@@ -258,8 +258,8 @@ export default function CoreBusinessSection() {
                     />
                   </div>
 
-                  {/* Right Column: 5 cols (Matching Slide 1 right bounds perfectly) */}
-                  <div className="lg:col-span-5 relative p-8 sm:p-10 lg:p-12 xl:p-14 flex flex-col justify-center bg-white h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full">
+                  {/* Right Column: 6 cols */}
+                  <div className="lg:col-span-6 relative p-8 sm:p-10 lg:p-12 xl:p-14 flex flex-col justify-center bg-white h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full">
                     {/* Top Right Corner Action Button: Click to return to Overview */}
                     <button
                       onClick={() => setCurrentSlide(0)}
@@ -283,23 +283,14 @@ export default function CoreBusinessSection() {
                       {slides[currentSlide].title}
                     </h3>
 
-                    {/* Description */}
-                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-normal leading-relaxed break-keep mb-8">
+                    {/* Description (Single line for finished/cmo) */}
+                    <p className={`text-base sm:text-lg lg:text-[17.5px] xl:text-[19px] text-gray-600 font-normal leading-relaxed break-keep ${
+                      slides[currentSlide].id === 'finished' || slides[currentSlide].id === 'cmo'
+                        ? 'lg:whitespace-nowrap'
+                        : ''
+                    }`}>
                       {slides[currentSlide].desc}
                     </p>
-
-                    {/* Link to detail business page */}
-                    {slides[currentSlide].href && (
-                      <div>
-                        <Link
-                          href={slides[currentSlide].href!}
-                          className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-brand-green text-white font-bold text-sm sm:text-base shadow-sm hover:bg-brand-green-dark hover:shadow-md transition-all duration-300 group cursor-pointer"
-                        >
-                          <span>{isEnglish ? 'View Details' : '자세히 보기'}</span>
-                          <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                        </Link>
-                      </div>
-                    )}
                   </div>
                 </motion.div>
               )}

@@ -38,12 +38,6 @@ export default function ScrollAntiCorruptionImage({ lang = 'ko' }: Props) {
           <div className="w-full px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 pt-8 sm:pt-10 md:pt-12 lg:pt-14 pb-8 pointer-events-auto">
             <div className="max-w-xl lg:max-w-2xl xl:max-w-3xl space-y-4 sm:space-y-6 text-left">
 
-              {/* 반투명 플로팅 뱃지 */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg mb-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span>{isEn ? 'Transparent Governance & Anti-Corruption' : '투명경영 & 부패방지'}</span>
-              </div>
-
               {/* 메인 타이틀 */}
               <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[46px] font-black text-white tracking-tight leading-[1.25] drop-shadow-[0_3px_12px_rgba(0,0,0,0.85)]">
                 {isEn 
@@ -63,19 +57,6 @@ export default function ScrollAntiCorruptionImage({ lang = 'ko' }: Props) {
                   </>
                 )}
               </p>
-
-              {/* 하단 핵심 키워드 칩 */}
-              <div className="pt-2 flex flex-wrap gap-2.5 sm:gap-3">
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  ⚖️ {isEn ? 'Zero Tolerance Policy' : '부패 및 부정청탁 무관용 원칙'}
-                </span>
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  📜 {isEn ? 'Global Compliance Practice' : '글로벌 준법·윤리경영 실천'}
-                </span>
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  🔒 {isEn ? 'Whistleblower Protection' : '제보자 기밀보호 및 공정성 확립'}
-                </span>
-              </div>
 
             </div>
           </div>

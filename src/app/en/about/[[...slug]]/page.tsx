@@ -500,9 +500,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
           <div className="animate-fade-in-up mt-4 sm:mt-6 bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-3xl shadow-none w-full">
             {/* Header Title */}
             <div className="mb-8 sm:mb-12 pb-4 border-b border-gray-100">
-              <span className="text-xs font-bold tracking-widest text-emerald-600 uppercase mb-1.5 block">
-                CEO Message
-              </span>
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
                 CEO Greeting
               </h3>
@@ -529,9 +526,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 <div>
                   {/* Slogan Banner */}
                   <div className="border-l-4 border-brand-green pl-4 sm:pl-5 py-1 mb-8">
-                    <p className="text-xs font-bold tracking-widest text-brand-green uppercase mb-1">
-                      Trust & Innovation
-                    </p>
                     <h4 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-snug">
                       Opening a Healthier Future with Trust and Innovation
                     </h4>
@@ -623,12 +617,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
               {/* Blue Box Area (Top-Left Text Overlay) */}
               <div className="absolute inset-0 flex items-start justify-start p-6 sm:p-10 md:p-14 lg:p-16">
-                <div className="max-w-xl lg:max-w-2xl text-left animate-fade-in-up">
-                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-pretendard font-bold text-gray-900 leading-snug tracking-tight break-keep drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
-                    Dasan Pharmaceutical <br className="sm:hidden" />
-                    Has secured high value-added business growth<br />
-                    by establishing a <span className="text-[#2f7847] font-black">Key Value Chain</span> infrastructure<br />
-                    for the entire pharmaceutical lifecycle from R&D to sales.
+                <div className="max-w-2xl lg:max-w-3xl xl:max-w-4xl text-left animate-fade-in-up">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] xl:text-[42px] font-pretendard font-extrabold text-gray-900 leading-snug tracking-tight break-keep drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)] space-y-2 sm:space-y-3 md:space-y-4">
+                    <span className="block">Dasan Pharmaceutical</span>
+                    <span className="block">Has secured high value-added business growth</span>
+                    <span className="block">
+                      by establishing a <span className="text-[#2f7847] font-black">Key Value Chain</span> infrastructure
+                    </span>
+                    <span className="block">for the entire pharmaceutical lifecycle from R&D to sales.</span>
                   </h2>
                 </div>
               </div>
@@ -652,12 +648,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  {/* 고정 표시: 해시태그 + 제목 */}
-                  <div className="flex flex-wrap gap-1.5 mb-2.5">
-                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
-                      #Core Business
-                    </span>
-                  </div>
                   <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     01. Finished Pharmaceutical Products
                   </h4>
@@ -680,12 +670,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  {/* 고정 표시: 해시태그 + 제목 */}
-                  <div className="flex flex-wrap gap-1.5 mb-2.5">
-                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
-                      #Smart CMO
-                    </span>
-                  </div>
                   <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     02. Contract Manufacturing (CMO)
                   </h4>
@@ -708,12 +692,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  {/* 고정 표시: 해시태그 + 제목 */}
-                  <div className="flex flex-wrap gap-1.5 mb-2.5">
-                    <span className="text-xs font-bold text-white bg-brand-green/90 backdrop-blur-xs px-3 py-1 rounded-full shadow-sm">
-                      #API & Intermediate
-                    </span>
-                  </div>
                   <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
                     03. API & Intermediates
                   </h4>
@@ -861,7 +839,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
             <div className="space-y-12 bg-white p-6 md:p-16 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 relative overflow-hidden">
               {/* Header */}
               <div className="text-left mb-10 relative z-10 max-w-4xl mx-auto pl-[30px] md:pl-[120px]">
-                <span className="text-brand-green font-bold tracking-widest uppercase text-sm mb-2 block animate-fade-in-up" style={{animationDelay: '100ms'}}>Our History</span>
                 <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight animate-fade-in-up" style={{animationDelay: '200ms'}}>
                   {historyIntroTitle || 'Growth History'}
                 </h3>
@@ -970,24 +947,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <div className="space-y-10 animate-fade-in-up">
-            {/* CI Hero Visual (21:9 wide screen - Global Infrastructure size) */}
-            <div 
-              style={{
-                width: '100vw',
-                marginLeft: 'calc(50% - 50vw)',
-              }}
-              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
-            >
-              <Image 
-                src="/ci_hero_pills.png" 
-                alt="Dasan Pharmaceutical CI Visual" 
-                fill
-                priority
-                unoptimized={true}
-                className="object-cover object-center"
-              />
-            </div>
-
             <div className="space-y-16 bg-white p-8 md:p-12 rounded-3xl">
               {/* Section 1: Corporate Identity & Primary Logo */}
               <div className="space-y-4">
@@ -1184,8 +1143,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     <Building2 size={28} />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Headquarters</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">HQ</h4>
+                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Seoul Office</span>
+                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">Seoul Office</h4>
                   </div>
                 </div>
                 <div className="border-t border-gray-100 pt-6 space-y-4 flex-grow relative z-10">
@@ -1209,50 +1168,65 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 </div>
                 <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
                   <div>
-                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
-                      Dasan Central R&D Center 
-                      <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">Suwon, Gyeonggi</span>
-                    </span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-4">Equipped with formulation and synthesis-related research facilities to oversee R&D</p>
+                    <span className="text-sm text-brand-green font-bold block mb-2">Dasan Central R&D Center (Suwon, Korea)</span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">Equipped with formulation and synthesis-related research facilities to oversee R&D</p>
                   </div>
                   <div className="pt-6 border-t border-dashed border-gray-200">
-                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
-                      Shenyang R&D Center, China
-                      <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-bold">Shenyang, China</span>
-                    </span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">An outpost for expanding global territory in charge of research, approval, and business development in China</p>
+                    <span className="text-sm text-brand-green font-bold block mb-2">Shenyang R&D Center (Shenyang, China)</span>
+                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">A dedicated facility for expanding global territory in charge of research, approval, and business development in China</p>
                   </div>
                 </div>
               </div>
 
-              {/* Global Production Base */}
+              {/* Global Production Facilities */}
               <div className={cardClass}>
                 <div className="flex items-center space-x-4 relative z-10 mb-6">
                   <div className={iconContainerClass}>
                     <Factory size={28} />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Production Base</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">Global Production Base</h4>
+                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Production Facilities</span>
+                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">Global Production Facilities</h4>
                   </div>
                 </div>
                 <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
-                  <div>
-                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
-                      Asan Plant 1 / Plant 2
-                      <span className="text-[11px] text-brand-green bg-brand-green/10 px-2 py-0.5 rounded-full font-bold">Asan, Chungnam</span>
-                    </span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-3">
-                      Establishment of mass production system for APIs, finished products, and solid dosage forms
-                      <span className="inline-block text-brand-blue font-bold text-[11px] ml-2 bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP Certification Completed</span>
-                    </p>
+                  {/* Domestic Production Facilities */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200/70 text-emerald-800 text-[11px] font-extrabold tracking-wider uppercase">
+                        Domestic
+                      </span>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <span className="text-sm text-brand-green font-bold block mb-1.5">Asan Plant 1 (Asan, Korea)</span>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-2">
+                          Finished pharmaceutical production headquarters, cGMP-level high-quality pharmaceutical production
+                        </p>
+                        <div className="flex items-center">
+                          <span className="inline-block text-brand-blue font-bold text-[11px] bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP Certification Completed</span>
+                        </div>
+                      </div>
+                      <div className="pt-4 border-t border-dashed border-gray-200">
+                        <span className="text-sm text-brand-green font-bold block mb-1.5">Asan Plant 2 (Asan, Korea)</span>
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">
+                          Mass production system for solid dosage forms & state-of-the-art smart automated packaging line
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="pt-6 border-t border-dashed border-gray-200">
-                    <span className="text-sm font-bold text-gray-900 block mb-2 flex items-center justify-between">
-                      Anhui Heryi Dasan
-                      <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full font-bold">Anhui, China</span>
-                    </span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">Local advanced production base in China with an annual production capacity of about 4 billion tablets</p>
+
+                  {/* Overseas Production Facilities */}
+                  <div className="pt-5 border-t border-gray-200 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-200/70 text-blue-800 text-[11px] font-extrabold tracking-wider uppercase">
+                        Overseas
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-sm text-brand-green font-bold block mb-1.5">Anhui Heryi Dasan (Anhui, China)</span>
+                      <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">Local advanced production facility in China with an annual production capacity of about 4 billion tablets</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1516,11 +1490,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
                 {/* Header & Core Intro */}
                 <div className="text-left max-w-4xl mx-auto space-y-5">
-                  <div className="inline-flex items-center space-x-2 text-brand-green text-xs font-bold uppercase tracking-wider">
-                    <Shield size={14} className="text-brand-green" />
-                    <span>Code of Ethics</span>
-                  </div>
-
                   {/* Intro Statement */}
                   <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
                     {defaultIntroParas.map((para, pIdx) => (

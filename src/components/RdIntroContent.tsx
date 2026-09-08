@@ -71,11 +71,6 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
       <section className="space-y-10 md:space-y-12">
         {/* Top Left-aligned Main Headline */}
         <div className="text-left space-y-4 pt-2">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 text-brand-green text-xs md:text-sm font-bold tracking-wide">
-            <Sparkles size={15} className="text-brand-green" />
-            <span>CENTRAL RESEARCH INSTITUTE</span>
-          </div>
-
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] font-black text-slate-900 tracking-tight leading-tight">
             다산제약은 글로벌 경쟁력을 갖춘 연구소로 거듭납니다.
           </h1>
@@ -107,7 +102,9 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
           {/* Right Description Column (Original Texts 100% Preserved) */}
           <div className="lg:col-span-8 space-y-5 text-sm sm:text-base md:text-[16.5px] text-slate-600 leading-relaxed font-normal break-keep">
             <p>
-              다산제약의 중앙연구소는 <strong className="font-bold text-slate-900 bg-emerald-50/80 text-brand-green px-1.5 py-0.5 rounded">50여명의 석·박사급 연구인력</strong>을 중심으로 합성연구소와 제제연구소의 유기적인 협력체계를 구축하고 있습니다. 유기합성 기술을 기반으로 한 원료의약품(API) 개발부터 자사의 <strong className="font-bold text-slate-900 bg-emerald-50/80 text-brand-green px-1.5 py-0.5 rounded">Multistra® 기술</strong>을 활용한 특화된 약물전달시스템(DDS) 적용 완제품 개발까지의 의약품 개발 전 과정을 아우르는 종합의약품 연구개발 역량을 확보하고 있습니다.
+              다산제약의 중앙연구소는 50여명의 석·박사급 연구인력을 중심으로 합성연구소와 제제연구소의 유기적인 협력체계를 구축하고 있습니다.
+              <br />
+              유기합성 기술을 기반으로 한 원료의약품(API) 개발부터 자사의 Multistra® 기술을 활용한 특화된 약물전달시스템(DDS) 적용 완제품 개발까지의 의약품 개발 전 과정을 아우르는 종합의약품 연구개발 역량을 확보하고 있습니다.
             </p>
             <p>
               또한 연구소 내에 30L 규모 Pilot-scale의 다목적 합성 반응 시스템과 유동층 과립제조 및 코팅이 가능한 Multilab® GPCG 시스템과 다층정 타정기 등의 제조설비와 LC-MS/MS, Differential Scanning Calorimetry, Laser Diffraction Particle Size Analyzer, Automated Flow-Through Cell Dissolution System 등의 첨단 분석 시스템을 활용하여 고도화된 의약품 연구를 수행하고 있습니다.
@@ -146,10 +143,6 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
       {/* ========================================================================= */}
       <section className="space-y-7">
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Atom size={20} className="text-brand-green" />
-            <span className="text-xs font-bold text-brand-green uppercase tracking-wider">Advanced Science</span>
-          </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             첨단 과학의 선도
           </h2>
@@ -169,11 +162,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
-            <div className="absolute inset-x-3.5 bottom-3.5 sm:inset-x-4 sm:bottom-4 p-4 sm:p-5 rounded-2xl bg-black/30 backdrop-blur-md border border-white/30 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/45 shadow-md">
-              <h3 className="text-sm sm:text-base font-bold leading-snug tracking-tight text-white drop-shadow-sm">
+            <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
+              <h3 className="text-[13px] sm:text-[14px] lg:text-[14.5px] xl:text-[15px] font-bold leading-snug tracking-tight text-white drop-shadow-sm whitespace-nowrap">
                 약물의 용해도와 방출 속도를 조절하는 제제 기술 개발
               </h3>
-              <p className="text-xs text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed">
+              <p className="text-xs sm:text-[12.5px] text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-tight whitespace-nowrap">
                 Multistra® 기반 서방형·복합제 제제 설계 및 방출제어 기술
               </p>
             </div>
@@ -189,11 +182,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
-            <div className="absolute inset-x-3.5 bottom-3.5 sm:inset-x-4 sm:bottom-4 p-4 sm:p-5 rounded-2xl bg-black/30 backdrop-blur-md border border-white/30 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/45 shadow-md">
-              <h3 className="text-sm sm:text-base font-bold leading-snug tracking-tight text-white drop-shadow-sm">
+            <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
+              <h3 className="text-[13px] sm:text-[14px] lg:text-[14.5px] xl:text-[15px] font-bold leading-snug tracking-tight text-white drop-shadow-sm whitespace-nowrap">
                 유기합성 기반 고순도 원료의약품(API) 및 신규염 개발
               </h3>
-              <p className="text-xs text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed">
+              <p className="text-xs sm:text-[12.5px] text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-tight whitespace-nowrap">
                 특허 회피 및 불순물 억제를 고려한 차별화된 합성공정 설계
               </p>
             </div>
@@ -209,11 +202,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
-            <div className="absolute inset-x-3.5 bottom-3.5 sm:inset-x-4 sm:bottom-4 p-4 sm:p-5 rounded-2xl bg-black/30 backdrop-blur-md border border-white/30 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/45 shadow-md">
-              <h3 className="text-sm sm:text-base font-bold leading-snug tracking-tight text-white drop-shadow-sm">
+            <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
+              <h3 className="text-[13px] sm:text-[14px] lg:text-[14.5px] xl:text-[15px] font-bold leading-snug tracking-tight text-white drop-shadow-sm whitespace-nowrap">
                 첨단 분석 시스템을 통한 과학적 품질 검증 및 최적화
               </h3>
-              <p className="text-xs text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed">
+              <p className="text-xs sm:text-[12.5px] text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-tight whitespace-nowrap">
                 LC-MS/MS, DSC, 입도 및 자동 용출시험을 통한 엄격한 평가
               </p>
             </div>
@@ -227,10 +220,6 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
       {/* ========================================================================= */}
       <section className="space-y-7">
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <GraduationCap size={20} className="text-brand-green" />
-            <span className="text-xs font-bold text-brand-green uppercase tracking-wider">Talent & Infrastructure</span>
-          </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             인재 육성 및 연구 인프라
           </h2>
@@ -250,11 +239,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
-            <div className="absolute inset-x-3.5 bottom-3.5 sm:inset-x-4 sm:bottom-4 p-4 sm:p-5 rounded-2xl bg-black/30 backdrop-blur-md border border-white/30 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/45 shadow-md">
-              <h3 className="text-sm sm:text-base font-bold leading-snug tracking-tight text-white drop-shadow-sm">
+            <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
+              <h3 className="text-[13px] sm:text-[14px] lg:text-[14.5px] xl:text-[15px] font-bold leading-snug tracking-tight text-white drop-shadow-sm whitespace-nowrap">
                 국내외 석학 초빙 및 학술 연구를 통한 역량 강화
               </h3>
-              <p className="text-xs text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed">
+              <p className="text-xs sm:text-[12.5px] text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-tight whitespace-nowrap">
                 50여 명 연구진의 지속적인 전문 교육 및 세미나 역량 지원
               </p>
             </div>
@@ -270,11 +259,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
-            <div className="absolute inset-x-3.5 bottom-3.5 sm:inset-x-4 sm:bottom-4 p-4 sm:p-5 rounded-2xl bg-black/30 backdrop-blur-md border border-white/30 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/45 shadow-md">
-              <h3 className="text-sm sm:text-base font-bold leading-snug tracking-tight text-white drop-shadow-sm">
+            <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
+              <h3 className="text-[13px] sm:text-[14px] lg:text-[14.5px] xl:text-[15px] font-bold leading-snug tracking-tight text-white drop-shadow-sm whitespace-nowrap">
                 글로벌 연수 및 오픈 이노베이션을 통한 경쟁력 확보
               </h3>
-              <p className="text-xs text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed">
+              <p className="text-xs sm:text-[12.5px] text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-tight whitespace-nowrap">
                 글로벌 규격 R&D 및 국내외 제약 바이오 파트너십 구축
               </p>
             </div>
@@ -290,11 +279,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
-            <div className="absolute inset-x-3.5 bottom-3.5 sm:inset-x-4 sm:bottom-4 p-4 sm:p-5 rounded-2xl bg-black/30 backdrop-blur-md border border-white/30 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/45 shadow-md">
-              <h3 className="text-sm sm:text-base font-bold leading-snug tracking-tight text-white drop-shadow-sm">
+            <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
+              <h3 className="text-[13px] sm:text-[14px] lg:text-[14.5px] xl:text-[15px] font-bold leading-snug tracking-tight text-white drop-shadow-sm whitespace-nowrap">
                 첨단 파일럿 연구 시설 및 합성 생산 인프라
               </h3>
-              <p className="text-xs text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed">
+              <p className="text-xs sm:text-[12.5px] text-white/90 font-normal drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-tight whitespace-nowrap">
                 Pilot 다목적 반응기 및 첨단 제제 생산 설비 완비
               </p>
             </div>
@@ -320,11 +309,6 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
           </div>
 
           <div className="relative z-10 space-y-4 sm:space-y-5 w-full">
-            <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-brand-green text-xs font-bold tracking-wider uppercase shadow-2xs">
-              <Dna size={14} className="text-brand-green" />
-              <span>R&D Synergy</span>
-            </div>
-
             <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-snug">
               함께 만드는 혁신
             </h3>
@@ -332,69 +316,6 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <p className="text-xs sm:text-sm md:text-base text-slate-600 font-normal leading-relaxed break-keep max-w-4xl">
               제제연구소와 합성연구소의 유기적인 협력을 바탕으로 후보물질 도출부터 고부가가치 의약품 상용화까지 독보적인 연구 시너지를 창출합니다.
             </p>
-
-            {/* Horizontal Control Buttons (VIEW ALL, A. 제제연구파트, B. 합성연구파트) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5 pt-3 max-w-2xl">
-              {/* 전체 보기 버튼 */}
-              <button 
-                type="button"
-                onClick={() => setSelectedDivision('all')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
-                  selectedDivision === 'all' 
-                    ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
-                    : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
-                }`}
-              >
-                <div className="h-6 flex items-center justify-center">
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
-                    VIEW ALL
-                  </span>
-                </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">전체 보기</p>
-              </button>
-
-              {/* A. 제제연구파트 */}
-              <button 
-                type="button"
-                onClick={() => setSelectedDivision('A')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
-                  selectedDivision === 'A' 
-                    ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
-                    : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
-                }`}
-              >
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
-                    A
-                  </span>
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
-                    FORMULATION
-                  </span>
-                </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">제제연구파트</p>
-              </button>
-
-              {/* B. 합성연구파트 */}
-              <button 
-                type="button"
-                onClick={() => setSelectedDivision('B')}
-                className={`p-3.5 sm:p-4.5 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
-                  selectedDivision === 'B' 
-                    ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
-                    : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
-                }`}
-              >
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-xs font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
-                    B
-                  </span>
-                  <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
-                    SYNTHESIS
-                  </span>
-                </div>
-                <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">합성연구파트</p>
-              </button>
-            </div>
           </div>
         </div>
 
@@ -449,10 +370,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
                           <div className={`w-11 h-11 rounded-2xl ${item.badgeColor} font-black text-lg flex items-center justify-center shadow-md shrink-0`}>
                             {item.id}
                           </div>
-                          <div className="space-y-0.5">
-                            <span className="text-xs font-extrabold uppercase tracking-widest text-brand-green block">
-                              {item.subTitle}
-                            </span>
+                          <div>
                             <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                               {item.name}
                             </h3>

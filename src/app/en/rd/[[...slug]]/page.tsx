@@ -273,8 +273,12 @@ export default async function RdCatchAllPage({ params }: Params) {
             <div className="pb-8 w-full text-center flex flex-col items-center">
               <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
                 <span>{grandRd?.name}</span>
-                <span className="text-gray-300">/</span>
-                <span className="text-gray-400">{activeMajor}</span>
+                {activeMajor && activeMajor.toLowerCase() !== grandRd?.name?.toLowerCase() && (
+                  <>
+                    <span className="text-gray-300">/</span>
+                    <span className="text-gray-400">{activeMajor}</span>
+                  </>
+                )}
               </div>
               
               <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>

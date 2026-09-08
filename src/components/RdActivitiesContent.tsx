@@ -98,11 +98,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
       <section className="space-y-6 pt-2">
         {/* Title Block */}
         <div className="flex flex-col items-start space-y-4">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 text-brand-green text-xs md:text-sm font-bold tracking-wide">
-            <Zap size={15} className="text-brand-green" />
-            <span>CORE DDS PLATFORM TECHNOLOGY</span>
-          </div>
-
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] font-black text-slate-900 tracking-tight leading-tight sm:leading-[1.3] w-full break-keep">
             다산제약은 차별화된 DDS(약물전달시스템) 설계를 통해 <br className="hidden sm:block" />
             Multi-Stra™ 라는 특화된 핵심보유기술을 완성해 나가고 있습니다.
@@ -137,11 +132,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
           </div>
 
           <div className="relative z-10 space-y-4 sm:space-y-5 w-full">
-            <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-brand-green text-xs font-bold tracking-wider uppercase shadow-2xs">
-              <Dna size={14} className="text-brand-green" />
-              <span>Integrated Formulation Power</span>
-            </div>
-
             <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-snug">
               혁신 제제 플랫폼 Multi-Stra™ 기반의 의약품 개발
             </h3>

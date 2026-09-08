@@ -38,12 +38,6 @@ export default function ScrollSafetyImage({ lang = 'ko' }: Props) {
           <div className="w-full px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 pt-8 sm:pt-10 md:pt-12 lg:pt-14 pb-8 pointer-events-auto">
             <div className="max-w-xl lg:max-w-2xl xl:max-w-3xl space-y-4 sm:space-y-6 text-left">
 
-              {/* 반투명 플로팅 뱃지 */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg mb-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span>{isEn ? 'Health & Safety Management & Human Dignity' : '안전보건경영 & 인간존중'}</span>
-              </div>
-
               {/* 메인 타이틀 */}
               <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[46px] font-black text-white tracking-tight leading-[1.25] drop-shadow-[0_3px_12px_rgba(0,0,0,0.85)]">
                 {isEn 
@@ -63,19 +57,6 @@ export default function ScrollSafetyImage({ lang = 'ko' }: Props) {
                   </>
                 )}
               </p>
-
-              {/* 하단 핵심 키워드 칩 */}
-              <div className="pt-2 flex flex-wrap gap-2.5 sm:gap-3">
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  🛡️ {isEn ? 'Safety-First Policy' : '안전보건 최우선 경영'}
-                </span>
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  🏥 {isEn ? 'Health & Response System' : '보건대응 및 건강증진체계'}
-                </span>
-                <span className="px-3.5 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md">
-                  🤝 {isEn ? 'Joint Safety Culture' : '노사가 함께하는 안전문화'}
-                </span>
-              </div>
 
             </div>
           </div>
