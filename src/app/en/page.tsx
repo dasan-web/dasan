@@ -80,13 +80,13 @@ export default async function Home() {
     <div className="w-full bg-white flex flex-col">
       <PopupWrapper />
       {/* 1. Hero Banner Section */}
-      <section id="hero" className="relative w-full h-[90vh] md:h-[calc(100vh-80px)] overflow-hidden flex items-center bg-white">
+      <section id="hero" className="relative w-full h-[90vh] md:h-[calc(100vh-80px)] overflow-hidden flex items-start pt-8 sm:pt-10 md:pt-12 lg:pt-14 bg-white">
         {/* Background DNA Helix Image - Spring Mouse Parallax & Ken Burns Zoom */}
         <HeroBackground />
 
         {/* Content Container */}
         <div className="relative z-10 w-full px-6 md:px-16 lg:px-24">
-          <div className="w-full text-left space-y-6 md:space-y-8">
+          <div className="w-full text-left space-y-5 md:space-y-6">
             {/* Main Headline */}
             <div className="space-y-2 md:space-y-3">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-tight leading-tight lg:whitespace-nowrap drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
