@@ -13,10 +13,10 @@ export default function HeroBackground() {
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950 select-none">
-      {/* 20초 무한 반복 슬로우 구름 시네마그래프 영상 (부드러운 슬로우 모션) */}
+      {/* 20초 무한 반복 슬로우 구름 시네마그래프 영상 (부드러운 슬로우 모션 & 무한 루프) */}
       <video
         ref={videoRef}
-        src="/main_clouds.mp4?v=slow"
+        src="/main_clouds.mp4?v=seamless_lake"
         poster="/main.png"
         autoPlay
         loop
