@@ -1,4 +1,4 @@
-﻿*.exe
+*.exe
 *.zip
 *.pptx
 *.pptx.bak
@@ -9,3 +9,6 @@ temp_home/
 *.py
 *.bat
 *.ps1
+scripts/
+test_*.jpg
+
