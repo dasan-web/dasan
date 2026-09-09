@@ -91,6 +91,22 @@ const locations: LocationInfo[] = [
       '와산1리 정류장 하차 후 도보 2분',
       '아산 시내버스 400번대 노선 이용'
     ]
+  },
+  {
+    id: 'china',
+    name: '중국 공장',
+    subName: 'Anhui Heryi Dasan (안휘허이다산의약유한회사)',
+    lat: 31.8616,
+    lng: 117.2849,
+    placeName: '다산제약 중국 안휘공장',
+    address: '중국 안휘성 (Anhui, China)',
+    tel: '-',
+    subway: [
+      '해외 현지 사업장으로 별도의 안내가 제공되지 않습니다.'
+    ],
+    bus: [
+      '해외 현지 사업장으로 별도의 안내가 제공되지 않습니다.'
+    ]
   }
 ];
 
@@ -180,6 +196,22 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
         '2 mins walk after getting off at Wasan 1-ri stop',
         'Use Asan city bus 400 series routes'
       ]
+    },
+    {
+      id: 'china',
+      name: 'China Plant',
+      subName: 'Anhui Heryi Dasan Pharmaceutical Co., Ltd.',
+      lat: 31.8616,
+      lng: 117.2849,
+      placeName: 'Dasan Pharmaceutical Anhui Plant',
+      address: 'Anhui, China',
+      tel: '-',
+      subway: [
+        'Overseas facility. Local transportation directions are not provided.'
+      ],
+      bus: [
+        'Overseas facility. Local transportation directions are not provided.'
+      ]
     }
   ];
 
@@ -235,6 +267,18 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
         tel: lines[29] || '041-428-9484',
         subway: (lines[30] || '').split('|').filter(Boolean),
         bus: (lines[31] || '').split('|').filter(Boolean),
+      },
+      {
+        id: 'china',
+        name: lines[32] || '중국 공장',
+        subName: lines[33] || 'Anhui Heryi Dasan (안휘허이다산의약유한회사)',
+        lat: parseFloat((lines[34] || '').split(',')[0]) || 31.8616,
+        lng: parseFloat((lines[34] || '').split(',')[1]) || 117.2849,
+        placeName: lines[35] || '다산제약 중국 안휘공장',
+        address: lines[36] || '중국 안휘성 (Anhui, China)',
+        tel: lines[37] || '-',
+        subway: (lines[38] || '해외 현지 사업장으로 별도의 안내가 제공되지 않습니다.').split('|').filter(Boolean),
+        bus: (lines[39] || '해외 현지 사업장으로 별도의 안내가 제공되지 않습니다.').split('|').filter(Boolean),
       }
     ];
   }
@@ -262,7 +306,13 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
           return (
             <button
               key={loc.id}
-              onClick={() => setActiveTab(loc.id)}
+              onClick={() => {
+                if (loc.id === 'china') {
+                  alert(isEnglish ? 'Update scheduled.' : '업데이트 예정입니다.');
+                  return;
+                }
+                setActiveTab(loc.id);
+              }}
               className={`flex items-center space-x-2.5 px-6 py-3.5 rounded-full text-sm font-black transition-all cursor-pointer border ${
                 isActive
                   ? 'bg-brand-green text-white border-brand-green shadow-green-glow'

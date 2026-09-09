@@ -36,7 +36,7 @@ export default function CoreBusinessSection() {
       type: 'detail',
       image: '/core_business_finished.png',
       tag: isEnglish ? 'Core Business' : '주요 사업영역',
-      title: isEnglish ? 'Proprietary Finished Drug Business' : '자사 완제 의약품 사업',
+      title: isEnglish ? 'Finished Drugs' : '완제 의약품',
       desc: isEnglish
         ? 'Establishing, producing, and supplying an excellent portfolio of ethical and OTC drugs centered on cardiovascular, respiratory, and urological systems.'
         : '순환기, 호흡기, 비뇨기 중심의 우수한 제품 라인업 구축 및 생산 판매',
@@ -47,7 +47,7 @@ export default function CoreBusinessSection() {
       type: 'detail',
       image: '/core_business_cmo.jpg',
       tag: isEnglish ? 'Core Business' : '주요 사업영역',
-      title: isEnglish ? 'Contract Finished Drug (CMO) Business' : '수탁 완제 의약품 (CMO) 사업',
+      title: isEnglish ? 'Contract Finished Drug (CDMO)' : '수탁 완제 의약품 개발 (CDMO)',
       desc: isEnglish
         ? 'Contract manufacturing of ethical pharmaceuticals through proprietary formulation technology and process optimization.'
         : '독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산',
@@ -58,11 +58,22 @@ export default function CoreBusinessSection() {
       type: 'detail',
       image: '/core_business_api.jpg',
       tag: isEnglish ? 'Core Business' : '주요 사업영역',
-      title: isEnglish ? 'API & Intermediate Business' : '의약품 핵심 원료 및 중간체 사업',
+      title: isEnglish ? 'API & Intermediate R&D' : '의약품 원료 및 중간체 연구개발',
       desc: isEnglish
         ? 'Development and patent acquisition of key APIs and intermediates, with DMF registration and quality control for new synthetic and imported materials.'
         : '의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF등록 관리',
       href: `${basePath}/business/api/raw`,
+    },
+    {
+      id: 'rd',
+      type: 'detail',
+      image: '/core_business_rd.jpg',
+      tag: isEnglish ? 'Core Business' : '주요 사업영역',
+      title: isEnglish ? 'New Drug Development & Clinical Research' : '신약개발 및 임상연구',
+      desc: isEnglish
+        ? 'From the discovery of innovative therapeutics such as small molecule novel compounds and RNA therapeutics to the development of new formulations and incrementally modified drugs, up to clinical trials, Dasan Pharmaceutical is leading the advancement of human health.'
+        : '저분자 신약 화합물, RNA치료제 개발과 같은 혁신 치료제 발굴부터, 신제형 개발, 개량신약 개발을 거쳐 임상 시험까지 다산제약은 혁신적인 인류 건강 증진의 선두주자로 거듭납니다.',
+      href: `${basePath}/rd/intro`,
     },
   ];
 
@@ -70,20 +81,26 @@ export default function CoreBusinessSection() {
     {
       id: 'finished',
       num: '01',
-      title: isEnglish ? 'Proprietary Finished Drug Business' : '자사 완제 의약품 사업',
+      title: isEnglish ? 'Finished Drugs' : '완제 의약품',
       targetSlide: 1,
     },
     {
       id: 'cmo',
       num: '02',
-      title: isEnglish ? 'Contract Finished Drug (CMO) Business' : '수탁 완제 의약품 (CMO) 사업',
+      title: isEnglish ? 'Contract Finished Drug (CDMO)' : '수탁 완제 의약품 개발 (CDMO)',
       targetSlide: 2,
     },
     {
       id: 'api',
       num: '03',
-      title: isEnglish ? 'API & Intermediate Business' : '의약품 핵심 원료 및 중간체 사업',
+      title: isEnglish ? 'API & Intermediate R&D' : '의약품 원료 및 중간체 연구개발',
       targetSlide: 3,
+    },
+    {
+      id: 'rd',
+      num: '04',
+      title: isEnglish ? 'New Drug Development & Clinical Research' : '신약개발 및 임상연구',
+      targetSlide: 4,
     },
   ];
 
@@ -191,14 +208,14 @@ export default function CoreBusinessSection() {
 
                   {/* Right Column: Title & 3 Stacked Buttons (5 cols) */}
                   <div className="lg:col-span-5 flex flex-col justify-between bg-white h-full">
-                    <div className="px-6 sm:px-8 lg:px-10 xl:px-12 pt-6 sm:pt-8 lg:pt-10 pb-4 sm:pb-5">
-                      <div className="inline-flex items-center gap-2 mb-3">
+                    <div className="px-6 sm:px-8 lg:px-10 xl:px-12 pt-5 sm:pt-6 lg:pt-8 pb-3 sm:pb-4">
+                      <div className="inline-flex items-center gap-2 mb-2 sm:mb-3">
                         <span className="w-2 h-2 rounded-full bg-brand-green" />
-                        <span className="text-xs sm:text-sm font-bold tracking-wider text-brand-green uppercase">
+                        <span className="text-[11px] sm:text-xs font-bold tracking-wider text-brand-green uppercase">
                           BUSINESS SECTOR
                         </span>
                       </div>
-                      <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[54px] font-black text-brand-blue tracking-tight break-keep leading-tight">
+                      <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-[42px] xl:text-[48px] font-black text-brand-blue tracking-tight break-keep leading-tight">
                         {isEnglish ? (
                           <span className="flex flex-col gap-1 sm:gap-2">
                             <span>Dasan Pharm&apos;s</span>
@@ -218,20 +235,20 @@ export default function CoreBusinessSection() {
                         <button
                           key={item.id}
                           onClick={() => setCurrentSlide(item.targetSlide)}
-                          className="group relative w-full pl-6 sm:pl-8 lg:pl-10 xl:pl-12 pr-20 sm:pr-24 py-5 sm:py-6 lg:py-6.5 xl:py-7 flex items-center justify-between border-t border-gray-200 bg-white hover:bg-emerald-50/40 transition-all duration-300 ease-out cursor-pointer overflow-hidden text-left"
+                          className="group relative w-full pl-6 sm:pl-8 lg:pl-10 xl:pl-12 pr-16 sm:pr-20 py-4 sm:py-5 lg:py-5 xl:py-5.5 flex items-center justify-between border-t border-gray-200 bg-white hover:bg-emerald-50/40 transition-all duration-300 ease-out cursor-pointer overflow-hidden text-left"
                         >
-                          <div className="flex items-center gap-3.5 sm:gap-4 relative z-10">
-                            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-50 border border-emerald-200/60 text-brand-green font-bold text-xs sm:text-sm flex items-center justify-center font-mono group-hover:bg-brand-green group-hover:text-white group-hover:border-brand-green transition-all duration-300 shrink-0">
+                          <div className="flex items-center gap-3 sm:gap-3.5 relative z-10">
+                            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-50 border border-emerald-200/60 text-brand-green font-bold text-[11px] sm:text-xs flex items-center justify-center font-mono transition-all duration-300 shrink-0">
                               {item.num}
                             </span>
-                            <span className="text-lg sm:text-xl lg:text-[22px] xl:text-[25px] font-bold tracking-tight break-keep text-gray-800 group-hover:text-brand-green transition-colors duration-300">
+                            <span className="text-base sm:text-lg lg:text-[19px] xl:text-[21px] font-bold tracking-tight break-keep text-gray-800 group-hover:text-brand-green transition-colors duration-300">
                               {item.title}
                             </span>
                           </div>
 
                           <div className="absolute right-5 sm:right-7 top-1/2 -translate-y-1/2 flex items-center justify-center">
-                            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-50 border border-gray-200 text-brand-green flex items-center justify-center shadow-2xs group-hover:scale-105 group-hover:bg-brand-green group-hover:text-white group-hover:border-brand-green group-hover:shadow-md transition-all duration-300 ease-out">
-                              <ArrowRight className="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[2.5] transition-transform duration-300 group-hover:translate-x-0.5" />
+                            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-50 border border-gray-200 text-brand-green flex items-center justify-center shadow-2xs group-hover:scale-105 group-hover:bg-brand-green group-hover:text-white group-hover:border-brand-green group-hover:shadow-md transition-all duration-300 ease-out">
+                              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] transition-transform duration-300 group-hover:translate-x-0.5" />
                             </div>
                           </div>
                         </button>

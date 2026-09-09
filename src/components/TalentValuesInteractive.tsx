@@ -259,7 +259,7 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
           <h3 className="text-2xl sm:text-3xl md:text-[32px] font-bold text-gray-900 tracking-tight leading-snug">
             {isEnglish 
               ? 'Great Medicine Comes from Great People' 
-              : '좋은 의약품은 결국 좋은 사람에게서 나옵니다'}
+              : '좋은 의약품은 좋은 사람에게서 나옵니다'}
           </h3>
         </div>
 
@@ -283,7 +283,7 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
               <p>
                 다산제약은 조선 최고의 실학자 다산 정약용 선생의 &apos;애민(愛民)&apos; 정신을 창업이념으로 삼아, 인류의 건강과 행복한 삶을 위한 의약품을 연구하고 만들어 왔습니다.
                 <br />
-                좋은 의약품은 결국 좋은 사람에게서 나온다는 믿음으로, 저희는 함께 일할 동료에게도 같은 진심과 원칙을 기대합니다.
+                좋은 의약품은 좋은 사람에게서 나온다는 믿음으로, 저희는 함께 일할 동료에게도 같은 진심과 원칙을 기대합니다.
               </p>
               <p>
                 &apos;Innovating Today for a Healthier Tomorrow&apos;, 건강한 내일을 위한 오늘의 혁신은 이런 사람들이 모였을 때 비로소 가능하다고 믿습니다.

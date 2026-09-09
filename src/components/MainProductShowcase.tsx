@@ -116,13 +116,13 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
   const line1Opacity = useTransform(smoothProgress, [0.02, 0.14, 0.44, 0.54], [0, 1, 1, 0]);
 
   // Row 2: DASAN Master CI Text
-  const line2TextOpacity = useTransform(smoothProgress, [0.12, 0.24, 0.44, 0.54], [0, 1, 1, 0]);
+  const line2TextOpacity = useTransform(smoothProgress, [0.22, 0.34, 0.44, 0.54], [0, 1, 1, 0]);
 
   // Row 2: 3D Hexagonal Pill (라인2와 함께 서서히 등장하고 줌아웃 끝까지 유지)
-  const pillOpacity = useTransform(smoothProgress, [0.12, 0.24, 0.70, 0.77], [0, 1, 1, 0]);
+  const pillOpacity = useTransform(smoothProgress, [0.22, 0.34, 0.70, 0.77], [0, 1, 1, 0]);
 
   // Row 3: 건강한 내일을 만듭니다.
-  const line3Opacity = useTransform(smoothProgress, [0.22, 0.34, 0.44, 0.54], [0, 1, 1, 0]);
+  const line3Opacity = useTransform(smoothProgress, [0.12, 0.24, 0.44, 0.54], [0, 1, 1, 0]);
 
   // 2. Hexagonal Pill Scale: 3개 라인이 다 나타난 후 정지/읽기 구간(0.34~0.44)을 지나 0.44부터 줌 확대
   const pillScale = useTransform(

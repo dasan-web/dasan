@@ -17,13 +17,19 @@ export default function HeroBackground() {
       <video
         ref={videoRef}
         src="/main_clouds.mp4?v=original_restored"
-        poster="/main.png"
+        poster="/main_poster.jpg"
         autoPlay
         loop
         muted
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+      />
+      {/* 어색한 수풀 경계선을 가려주는 나무 오버레이 패치 */}
+      <img 
+        src="/tree_patch.png" 
+        alt="" 
+        className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-10 opacity-90"
       />
 
       {/* Soft cinematic left-side gradient to ensure text readability without altering original video beauty */}

@@ -8,8 +8,10 @@ import { Building2, Award, Users, Landmark, MapPin, Calendar, Heart, ShieldAlert
 import KakaoMap from '@/components/KakaoMap';
 import LocationMapSection from '@/components/LocationMapSection';
 import PressList from '@/components/PressList';
+import InteractiveGlobalMap from '@/components/InteractiveGlobalMap';
 import HistoryAccordion from '@/components/HistoryAccordion';
 import DetailedFinancialTables from '@/components/DetailedFinancialTables';
+import ExcelDownloadButton from '@/components/ExcelDownloadButton';
 import CIDownloadButton from '@/components/CIDownloadButton';
 import PrimaryCIDownloadButton from '@/components/PrimaryCIDownloadButton';
 import ScrollVideo from '@/components/ScrollVideo';
@@ -383,9 +385,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       <>
                         {/* 상단 텍스트 영역 */}
                         <div className="w-full">
-                          <span className="text-brand-green text-xs sm:text-sm font-bold tracking-wider uppercase block mb-3">
-                            Company Overview
-                          </span>
+
                           <div 
                             className="
                               text-[15px] sm:text-[16px] text-gray-600 leading-[1.8] font-normal
@@ -434,9 +434,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     return (
                       <>
                         <div className="w-full">
-                          <span className="text-brand-green text-xs sm:text-sm font-bold tracking-wider uppercase block mb-3">
-                            Company Overview
-                          </span>
+
                           {topLines.map((line, i) => {
                             if (line.match(/^[1-9]\.\s/) || i === 0) {
                               const titleText = line.replace(/^[1-9]\.\s?/, '');
@@ -1626,52 +1624,52 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let dartUrl = 'https://dart.fss.or.kr/html/search/SearchCompanyIR3_M.html?textCrpNM=%EB%8B%A4%EC%82%B0%EC%A0%9C%EC%95%BD';
         
         let financialHeaders = ['2023년 (개별)', '2024년 (개별)', '2025년 (연결)'];
-        let salesRow = ['매출액', '79,300', '93,800', '106,900'];
-        let profitRow = ['영업이익', '2,400', '6,200', '1,400'];
+        let salesRow = ['매출액', '79,275', '92,734', '110,191'];
+        let profitRow = ['영업이익', '2,389', '6,068', '338'];
         let rdRow = ['R&D 투자액', '9,500', '12,000', '13,500'];
 
         // Detailed tables mock data
         let consolidatedBS = [
-          ['유동자산', '46,300', '52,524', '61,500'],
-          ['비유동자산', '108,300', '130,015', '140,300'],
-          ['자산총계', '154,600', '182,539', '201,800'],
-          ['유동부채', '78,200', '92,400', '101,400'],
-          ['비유동부채', '45,300', '53,800', '57,800'],
-          ['부채총계', '123,500', '146,200', '159,200'],
-          ['자본금', '10,000', '10,000', '10,000'],
-          ['자본잉여금', '8,200', '8,200', '8,200'],
-          ['기타자본', '-500', '-500', '-500'],
-          ['이익잉여금', '13,100', '18,339', '24,600'],
-          ['비지배지분', '300', '300', '300'],
-          ['자본총계', '31,100', '36,339', '42,600']
+          ['유동자산', '42,060', '49,466', '67,118'],
+          ['비유동자산', '31,197', '38,595', '43,297'],
+          ['자산총계', '73,257', '88,061', '110,415'],
+          ['유동부채', '39,071', '42,281', '61,928'],
+          ['비유동부채', '11,223', '14,582', '12,099'],
+          ['부채총계', '50,294', '56,863', '74,028'],
+          ['자본금', '1,120', '1,120', '1,120'],
+          ['자본잉여금', '3,583', '3,583', '3,583'],
+          ['기타자본', '-7,762', '-7,771', '-7,776'],
+          ['이익잉여금', '26,152', '34,248', '39,645'],
+          ['비지배지분', '-131', '17', '-185'],
+          ['자본총계', '22,962', '31,198', '36,388']
         ];
 
         let separateBS = [
-          ['유동자산', '44,500', '50,200', '59,200'],
-          ['비유동자산', '106,700', '128,200', '139,300'],
-          ['자산총계', '151,200', '178,400', '198,500'],
-          ['유동부채', '76,800', '89,500', '99,400'],
-          ['비유동부채', '43,600', '52,860', '56,800'],
-          ['부채총계', '120,400', '142,360', '156,200'],
-          ['자본금', '10,000', '10,000', '10,000'],
-          ['자본잉여금', '8,200', '8,200', '8,200'],
-          ['기타자본', '-500', '-500', '-500'],
-          ['이익잉여금', '13,100', '18,340', '24,600'],
-          ['자본총계', '30,800', '36,040', '42,300']
+          ['유동자산', '41,899', '49,031', '65,212'],
+          ['비유동자산', '31,032', '38,621', '45,426'],
+          ['자산총계', '72,931', '87,652', '110,637'],
+          ['유동부채', '38,309', '41,738', '61,197'],
+          ['비유동부채', '11,223', '14,582', '11,887'],
+          ['부채총계', '49,531', '56,320', '73,084'],
+          ['자본금', '1,120', '1,120', '1,120'],
+          ['자본잉여금', '3,583', '3,583', '3,583'],
+          ['기타자본', '-7,766', '-7,766', '-7,766'],
+          ['이익잉여금', '26,462', '34,395', '40,616'],
+          ['자본총계', '23,400', '31,333', '37,554']
         ];
 
         let consolidatedIS = [
-          ['매출액', '79,300', '93,800', '106,900'],
-          ['영업이익', '2,400', '6,200', '1,400'],
-          ['법인세차감전순이익', '2,800', '8,600', '1,300'],
-          ['당기순이익', '2,300', '7,900', '1,100']
+          ['매출액', '80,027', '93,817', '110,191'],
+          ['영업이익', '1,867', '6,161', '338'],
+          ['법인세차감전순이익', '46', '8,247', '3,238'],
+          ['당기순이익', '1,815', '8,035', '3,690']
         ];
 
         let separateIS = [
-          ['매출액', '78,500', '92,700', '105,200'],
-          ['영업이익', '2,300', '6,100', '1,300'],
-          ['법인세차감전순이익', '2,700', '8,400', '1,200'],
-          ['당기순이익', '2,200', '7,700', '1,000']
+          ['매출액', '79,275', '92,734', '106,877'],
+          ['영업이익', '2,389', '6,068', '1,399'],
+          ['법인세차감전순이익', '547', '8,150', '4,547'],
+          ['당기순이익', '2,316', '7,929', '4,937']
         ];
 
         if (currentPath === '/about/ir/announcement' && dbContent) {
@@ -1721,6 +1719,18 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 <LineChart size={22} className="flex-shrink-0" />
                 <h4 className="text-xs sm:text-base md:text-lg font-bold whitespace-nowrap tracking-tight leading-tight">{title}</h4>
               </div>
+              
+              {currentPath === '/about/ir/financial' && (
+                <ExcelDownloadButton
+                  financialHeaders={financialHeaders}
+                  salesRow={salesRow}
+                  profitRow={profitRow}
+                  consolidatedBS={consolidatedBS}
+                  separateBS={separateBS}
+                  consolidatedIS={consolidatedIS}
+                  separateIS={separateIS}
+                />
+              )}
             </div>
             <div className="space-y-3">
               <p className="text-gray-600 text-xs sm:text-sm tracking-tight leading-relaxed break-keep">{desc}</p>

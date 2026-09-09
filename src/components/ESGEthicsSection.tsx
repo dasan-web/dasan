@@ -74,10 +74,10 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
 
                     <Link 
                       href="/about/esg/environment" 
-                      className="inline-flex items-center gap-2 self-start sm:self-center px-4 py-2 rounded-full bg-slate-900 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold transition-all duration-200 group/btn shadow-xs hover:shadow-md"
+                      className="inline-flex items-center gap-1.5 self-start sm:self-center px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-900 text-slate-700 hover:text-white border border-slate-200 text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-2xs"
                     >
                       <span>{isEn ? 'Environment Policy' : '환경경영방침 바로가기'}</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
 
@@ -141,10 +141,10 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
 
                     <Link 
                       href="/about/esg/safety" 
-                      className="inline-flex items-center gap-2 self-start sm:self-center px-4 py-2 rounded-full bg-slate-900 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold transition-all duration-200 group/btn shadow-xs hover:shadow-md"
+                      className="inline-flex items-center gap-1.5 self-start sm:self-center px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-900 text-slate-700 hover:text-white border border-slate-200 text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-2xs"
                     >
                       <span>{isEn ? 'Safety Policy' : '안전보건경영방침 바로가기'}</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
 
@@ -236,10 +236,10 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                       </Link>
                       <Link 
                         href="/about/esg/code-of-ethics" 
-                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-indigo-700 text-white text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-xs hover:shadow-md"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-900 text-slate-700 hover:text-white border border-slate-200 text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-2xs"
                       >
                         <span>{isEn ? 'Code of Ethics' : '윤리강령 바로가기'}</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <ChevronRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
                   </div>
@@ -305,7 +305,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
           {/* Card 01: ISO 14001 (Deep Sage Emerald Theme) */}
           <div className="group relative bg-white rounded-3xl p-7 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
             {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-600 to-teal-500" />
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#367e47]" />
             
             {/* Ambient Corner Glow on Hover */}
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
@@ -350,7 +350,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
           {/* Card 02: ISO 45001 (Oceanic Navy Theme) */}
           <div className="group relative bg-white rounded-3xl p-7 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
             {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-sky-600 to-cyan-500" />
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-700" />
 
             {/* Ambient Corner Glow on Hover */}
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-sky-500/5 group-hover:bg-sky-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
@@ -395,7 +395,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
           {/* Card 03: ISO 37001 (Refined Warm Bronze Theme) */}
           <div className="group relative bg-white rounded-3xl p-7 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
             {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-600 to-orange-500" />
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-500" />
 
             {/* Ambient Corner Glow on Hover */}
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-amber-500/5 group-hover:bg-amber-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
@@ -440,7 +440,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
           {/* Card 04: K-ESG (Deep Charcoal Indigo Theme) */}
           <div className="group relative bg-white rounded-3xl p-7 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
             {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-600 to-slate-700" />
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-300" />
 
             {/* Ambient Corner Glow on Hover */}
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FlaskConical, Factory, ShieldCheck, Layers } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 interface TabItem {
@@ -524,13 +525,21 @@ export default function CDMOTabSection() {
         </div>
 
         {/* WHY DASAN Section Header */}
-        <div className="mt-16 sm:mt-20 md:mt-24 mb-8 text-left">
-          <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
-            WHY DASAN
-          </h3>
-          <p className="text-[15px] md:text-[16px] text-gray-600 font-medium break-keep">
-            개발부터 생산까지, 의약품의 가치를 완성하는 파트너
-          </p>
+        <div className="mt-16 sm:mt-20 md:mt-24 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="text-left">
+            <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
+              WHY DASAN
+            </h3>
+            <p className="text-[15px] md:text-[16px] text-gray-600 font-medium break-keep">
+              개발부터 생산까지, 의약품의 가치를 완성하는 파트너
+            </p>
+          </div>
+          <Link
+            href="/contact/inquiry/sales"
+            className="inline-flex items-center justify-center py-2.5 px-5 rounded-xl bg-gray-500 hover:bg-[#64ad55] text-white text-[13px] sm:text-[14px] font-bold shadow-sm transition-all duration-300 shrink-0"
+          >
+            비즈니스 영업 문의하기
+          </Link>
         </div>
 
         {/* 4 Informational Cards with Hover Effects */}

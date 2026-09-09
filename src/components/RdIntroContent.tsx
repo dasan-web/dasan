@@ -24,11 +24,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
   const divisionList = [
     {
       id: 'A',
-      name: '제제연구파트',
+      name: '제제연구',
       subTitle: 'FORMULATION DIVISION',
       icon: Layers,
       image: '/core_business_api.jpg',
-      imageAlt: '다산제약 제제연구파트 약물전달시스템 및 제형 설계',
+      imageAlt: '다산제약 제제연구 약물전달시스템 및 제형 설계',
       badgeColor: 'bg-emerald-600 text-white',
       leadDesc: '제제연구소는 의약품의 물리·화학적 특성과 약물의 방출 및 흡수 특성을 기반으로 다산제약만의 차별화된 제형 설계와 여러가지 방식의 약물전달시스템(DDS) 개발을 수행하고 있습니다.',
       detailDesc: '당사의 보유 기술을 융합한 Multistra®는 다양한 약물의 특성과 목표하는 약효 및 방출조절 특성에 적합한 제제기술의 집약체로서 새로운 제형의 제품이나 신규 복합제, 용량 개선 개량신약, 특수 방출제어 제제 등의 다양한 고부가가치 의약품 개발에 활용되고 있으며 이를 통해 다산제약만의 제품 차별화와 경쟁력 향상에 기여하고 있습니다.',
@@ -41,11 +41,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
     },
     {
       id: 'B',
-      name: '합성연구파트',
+      name: '합성연구',
       subTitle: 'SYNTHESIS DIVISION',
       icon: FlaskConical,
       image: '/core_business_cmo.jpg',
-      imageAlt: '다산제약 합성연구파트 유기합성 및 고순도 API 공정 개발',
+      imageAlt: '다산제약 합성연구 유기합성 및 고순도 API 공정 개발',
       badgeColor: 'bg-teal-700 text-white',
       leadDesc: '합성연구소는 유기합성 기술을 기반으로 원료의약품 및 의약품 개발에 필요한 핵심 합성기술과 공정기술을 연구합니다.',
       detailDesc: '신약의 후보물질, 지식재산권 확보와 특허 전략을 고려한 차별화된 원료의약품(염변경, 결정형변경, Pro-drug…)을 설계하고 고도화된 공정기술을 적용한 불순물 발생 억제 제품 등을 개발하고 상용화하는 최적의 합성공정 개발 체계를 구축하고 있습니다.',
@@ -114,8 +114,8 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-slate-100">
               <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-brand-green block">Research Power</span>
-                <p className="font-bold text-slate-900 text-xs sm:text-sm">50여 명 석·박사진</p>
-                <p className="text-[11px] text-slate-500">합성 & 제제 유기적 협력</p>
+                <p className="font-bold text-slate-900 text-[11px] sm:text-[13px] leading-tight break-keep">50여명 이상의 석·박사 연구진</p>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 leading-snug break-keep">신약발굴부터 임상실험까지<br />의약품 전주기 개발</p>
               </div>
               <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-brand-green block">DDS Platform</span>

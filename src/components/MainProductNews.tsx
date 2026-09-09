@@ -412,11 +412,11 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                         <div
                           key={`${activeTab}-${item.id}-${idx}`}
                           onClick={() => setSelectedModalItem(item)}
-                          className="relative bg-white rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group h-[340px]"
-                          style={{ height: '340px', minHeight: '340px' }}
+                          className="relative bg-white rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group h-[420px]"
+                          style={{ height: '420px', minHeight: '420px' }}
                         >
                           {/* Upper Section: Photo fills edge-to-edge (파란색 표시부분 아이콘, 보도자료, NEW 배지 제거 완료) */}
-                          <div className="relative w-full h-[255px] overflow-hidden flex flex-col justify-between p-5 sm:p-5.5 select-none shrink-0">
+                          <div className="relative w-full h-[300px] overflow-hidden flex flex-col justify-between p-5 sm:p-5.5 select-none shrink-0">
                             {/* Full Cover Photo */}
                             <img
                               src={(item as any).image || '/press_exhibition.png'}
@@ -429,9 +429,9 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                           </div>
 
                           {/* Bottom Footer: 제목과 날짜가 깔끔하게 표시되는 영역 */}
-                          <div className="relative z-10 h-[85px] pl-3.5 pr-6 sm:pl-4 sm:pr-8 lg:pl-5 lg:pr-10 flex flex-col justify-center items-start border-t border-gray-100 bg-[#f8f9fa] group-hover:bg-brand-green transition-colors duration-[1000ms] overflow-hidden">
-                            {/* 제목 한 줄 표시 (잘림 방지) */}
-                            <h3 className="text-[12px] sm:text-[13px] md:text-[13.5px] lg:text-[14px] xl:text-[14.5px] font-bold text-gray-900 group-hover:text-white leading-tight tracking-tighter transition-colors duration-[1000ms] whitespace-nowrap w-full mb-1.5">
+                          <div className="relative z-10 h-[120px] pl-3.5 pr-6 sm:pl-4 sm:pr-8 lg:pl-5 lg:pr-10 flex flex-col justify-center items-start border-t border-gray-100 bg-[#f8f9fa] group-hover:bg-brand-green transition-colors duration-[1000ms] overflow-hidden">
+                            {/* 제목 한 줄 표시 (점점점 없이, 살짝 덜 크게) */}
+                            <h3 className="text-[15px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[18.5px] font-bold text-gray-900 group-hover:text-white leading-tight tracking-tighter transition-colors duration-[1000ms] whitespace-nowrap w-full mb-4 sm:mb-5 relative z-20">
                               {item.title}
                             </h3>
 
@@ -466,8 +466,8 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                       <div
                         key={`${activeTab}-${item.id}-${idx}`}
                         onClick={() => setSelectedModalItem(item)}
-                        className="relative bg-[#f8f9fa] rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group p-6 sm:p-7 h-[340px]"
-                        style={{ height: '340px', minHeight: '340px' }}
+                        className="relative bg-[#f8f9fa] rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group p-6 sm:p-7 h-[420px]"
+                        style={{ height: '420px', minHeight: '420px' }}
                       >
                         {/* Expanding Circle Background Ripple Effect */}
                         <div
@@ -487,10 +487,10 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
 
                           {/* Title & Description */}
                           <div className="space-y-2.5 sm:space-y-3">
-                            <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-[1500ms] line-clamp-2">
+                            <h3 className="text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-extrabold text-gray-900 group-hover:text-white leading-snug tracking-tight transition-colors duration-[1500ms] whitespace-normal line-clamp-2 w-full break-keep">
                               {item.title}
                             </h3>
-                            <p className="text-xs sm:text-sm text-gray-500 group-hover:text-white/85 leading-relaxed line-clamp-3 font-normal transition-colors duration-[1500ms]">
+                            <p className="text-xs sm:text-sm text-gray-500 group-hover:text-white/85 leading-relaxed line-clamp-3 font-normal transition-colors duration-[1500ms] mt-5 sm:mt-6">
                               {plainContent}
                             </p>
                           </div>

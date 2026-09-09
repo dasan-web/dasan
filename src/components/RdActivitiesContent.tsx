@@ -173,9 +173,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                   <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     A
                   </span>
-                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
-                    TDDS Platform
-                  </span>
                 </div>
                 <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">경피 약물 전달</p>
               </button>
@@ -193,9 +190,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                 <div className="flex items-center justify-center gap-1 sm:gap-1.5 min-w-0">
                   <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     B
-                  </span>
-                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
-                    Nanonization
                   </span>
                 </div>
                 <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">100nm 나노화</p>
@@ -215,9 +209,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                   <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     C
                   </span>
-                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
-                    Release Control
-                  </span>
                 </div>
                 <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">방출 정밀제어</p>
               </button>
@@ -236,9 +227,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                   <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     D
                   </span>
-                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
-                    Multilayer Tablet
-                  </span>
                 </div>
                 <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">다층 복합정제</p>
               </button>
@@ -256,9 +244,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                 <div className="flex items-center justify-center gap-1 sm:gap-1.5 min-w-0">
                   <span className="w-5 h-5 rounded-md bg-brand-green text-white text-[10.5px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
                     E
-                  </span>
-                  <span className="text-[10px] sm:text-[10.5px] lg:text-[11px] text-brand-green font-bold uppercase tracking-tight whitespace-nowrap">
-                    Solid Dispersion
                   </span>
                 </div>
                 <p className="text-xs sm:text-[12.5px] lg:text-[13px] font-bold text-slate-800 leading-tight whitespace-nowrap">약물 고체분산체</p>
@@ -320,9 +305,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                             {item.id}
                           </div>
                           <div className="space-y-0.5">
-                            <span className="text-xs font-extrabold uppercase tracking-widest text-brand-green block">
-                              {item.subTitle}
-                            </span>
                             <h3 className="text-lg sm:text-xl md:text-[22px] font-extrabold text-slate-900 tracking-tight leading-snug">
                               {item.title}
                             </h3>

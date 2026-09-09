@@ -1551,52 +1551,52 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let dartUrl = 'https://dart.fss.or.kr/html/search/SearchCompanyIR3_M.html?textCrpNM=%EB%8B%A4%EC%82%B0%EC%A0%9C%EC%95%BD';
         
         let financialHeaders = ['2023 (Separate)', '2024 (Separate)', '2025 (Consolidated)'];
-        let salesRow = ['Sales', '79,300', '93,800', '106,900'];
-        let profitRow = ['Operating Profit', '2,400', '6,200', '1,400'];
+        let salesRow = ['Sales', '79,275', '92,734', '110,191'];
+        let profitRow = ['Operating Profit', '2,389', '6,068', '338'];
         let rdRow = ['R&D Investment', '9,500', '12,000', '13,500'];
 
         // Detailed tables mock data
         let consolidatedBS = [
-          ['Current Assets', '46,300', '52,524', '61,500'],
-          ['Non-current Assets', '108,300', '130,015', '140,300'],
-          ['Total Assets', '154,600', '182,539', '201,800'],
-          ['Current Liabilities', '78,200', '92,400', '101,400'],
-          ['Non-current Liabilities', '45,300', '53,800', '57,800'],
-          ['Total Liabilities', '123,500', '146,200', '159,200'],
-          ['Capital Stock', '10,000', '10,000', '10,000'],
-          ['Capital Surplus', '8,200', '8,200', '8,200'],
-          ['Other Capital', '-500', '-500', '-500'],
-          ['Retained Earnings', '13,100', '18,339', '24,600'],
-          ['Non-controlling Interests', '300', '300', '300'],
-          ['Total Equity', '31,100', '36,339', '42,600']
+          ['Current Assets', '42,060', '49,466', '67,118'],
+          ['Non-current Assets', '31,197', '38,595', '43,297'],
+          ['Total Assets', '73,257', '88,061', '110,415'],
+          ['Current Liabilities', '39,071', '42,281', '61,928'],
+          ['Non-current Liabilities', '11,223', '14,582', '12,099'],
+          ['Total Liabilities', '50,294', '56,863', '74,028'],
+          ['Capital Stock', '1,120', '1,120', '1,120'],
+          ['Capital Surplus', '3,583', '3,583', '3,583'],
+          ['Other Capital', '-7,762', '-7,771', '-7,776'],
+          ['Retained Earnings', '26,152', '34,248', '39,645'],
+          ['Non-controlling Interests', '-131', '17', '-185'],
+          ['Total Equity', '22,962', '31,198', '36,388']
         ];
 
         let separateBS = [
-          ['Current Assets', '44,500', '50,200', '59,200'],
-          ['Non-current Assets', '106,700', '128,200', '139,300'],
-          ['Total Assets', '151,200', '178,400', '198,500'],
-          ['Current Liabilities', '76,800', '89,500', '99,400'],
-          ['Non-current Liabilities', '43,600', '52,860', '56,800'],
-          ['Total Liabilities', '120,400', '142,360', '156,200'],
-          ['Capital Stock', '10,000', '10,000', '10,000'],
-          ['Capital Surplus', '8,200', '8,200', '8,200'],
-          ['Other Capital', '-500', '-500', '-500'],
-          ['Retained Earnings', '13,100', '18,340', '24,600'],
-          ['Total Equity', '30,800', '36,040', '42,300']
+          ['Current Assets', '41,899', '49,031', '65,212'],
+          ['Non-current Assets', '31,032', '38,621', '45,426'],
+          ['Total Assets', '72,931', '87,652', '110,637'],
+          ['Current Liabilities', '38,309', '41,738', '61,197'],
+          ['Non-current Liabilities', '11,223', '14,582', '11,887'],
+          ['Total Liabilities', '49,531', '56,320', '73,084'],
+          ['Capital Stock', '1,120', '1,120', '1,120'],
+          ['Capital Surplus', '3,583', '3,583', '3,583'],
+          ['Other Capital', '-7,766', '-7,766', '-7,766'],
+          ['Retained Earnings', '26,462', '34,395', '40,616'],
+          ['Total Equity', '23,400', '31,333', '37,554']
         ];
 
         let consolidatedIS = [
-          ['Sales', '79,300', '93,800', '106,900'],
-          ['Operating Profit', '2,400', '6,200', '1,400'],
-          ['Income before Tax', '2,800', '8,600', '1,300'],
-          ['Net Income', '2,300', '7,900', '1,100']
+          ['Sales', '80,027', '93,817', '110,191'],
+          ['Operating Profit', '1,867', '6,161', '338'],
+          ['Income before Tax', '46', '8,247', '3,238'],
+          ['Net Income', '1,815', '8,035', '3,690']
         ];
 
         let separateIS = [
-          ['Sales', '78,500', '92,700', '105,200'],
-          ['Operating Profit', '2,300', '6,100', '1,300'],
-          ['Income before Tax', '2,700', '8,400', '1,200'],
-          ['Net Income', '2,200', '7,700', '1,000']
+          ['Sales', '79,275', '92,734', '106,877'],
+          ['Operating Profit', '2,389', '6,068', '1,399'],
+          ['Income before Tax', '547', '8,150', '4,547'],
+          ['Net Income', '2,316', '7,929', '4,937']
         ];
 
         if (currentPath === '/about/ir/announcement' && dbContent) {
