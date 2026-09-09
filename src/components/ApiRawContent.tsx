@@ -12,6 +12,7 @@ import {
   Quote
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ScrollVideo from '@/components/ScrollVideo';
 
 interface ApiRawContentProps {
   dbContent?: string | null;
@@ -91,50 +92,41 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
       {/* ========================================================================= */}
       <section className="space-y-6 pt-2">
         <div className="flex flex-col items-start space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 text-brand-green text-xs font-bold tracking-wider uppercase shadow-2xs">
-            <Dna size={14} className="text-brand-green" />
-            <span>API / Active Pharmaceutical Ingredients</span>
-          </div>
+
 
           <div className="space-y-2">
             <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-900 tracking-tight leading-tight">
-              Innovation Beyond Ingredients
-            </h1>
-            <p className="text-lg sm:text-xl font-bold text-brand-green">
               원료를 넘어, 의약품의 새로운 가능성을 만듭니다.
-            </p>
+            </h1>
           </div>
 
-          <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl whitespace-pre-line break-keep font-normal">
-            다산제약은 축적된 의약품 개발 경험과 차별화된 기술력을 기반으로 고품질 원료의약품(API)을 개발하고 공급합니다.{'\n'}
-            Prodrug를 비롯한 고부가가치 원료 개발부터 안정적인 글로벌 소싱, 품질관리 및 공급망 구축까지 고객의 의약품 개발과 사업화를 위한 통합적인 API 솔루션을 제공합니다.
-          </p>
+          <div className="text-sm sm:text-base text-slate-600 leading-relaxed space-y-1 font-normal w-full">
+            <p className="break-keep lg:whitespace-nowrap">
+              다산제약은 축적된 의약품 개발 경험과 차별화된 기술력을 기반으로 고품질 원료의약품(API)을 개발하고 공급합니다.
+            </p>
+            <p className="break-keep lg:whitespace-nowrap">
+              Prodrug를 비롯한 고부가가치 원료 개발부터 안정적인 글로벌 소싱, 품질관리 및 공급망 구축까지 고객의 의약품 개발과 사업화를 위한 통합적인 API 솔루션을 제공합니다.
+            </p>
+          </div>
         </div>
 
-        {/* Video Banner (API.mp4) */}
-        <div className="w-full aspect-[21/9] sm:aspect-[21/9] rounded-[24px] sm:rounded-[32px] md:rounded-[36px] overflow-hidden shadow-xl bg-slate-900 border border-gray-100/90 relative group">
-          <video 
-            className="w-full h-full object-cover"
-            src="/API.mp4?v=2"
-            poster="/poster_api.jpg"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+        {/* Video Banner (API.mp4) with Scroll-Expansion Effect */}
+        <div className="w-full pt-2">
+          <ScrollVideo src="/API.mp4?v=2" poster="/poster_api.jpg" />
         </div>
       </section>
 
       {/* ========================================================================= */}
       {/* 2. 5대 핵심 가치 컨트롤러 버튼 & 내비게이션 바 */}
       {/* ========================================================================= */}
-      <section className="space-y-8">
+      <motion.section 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="space-y-8"
+      >
         <div className="space-y-3">
-          <span className="text-xs font-extrabold uppercase tracking-widest text-brand-green block">
-            Core Competencies & Values
-          </span>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             원료의약품 핵심 경쟁력
           </h2>
@@ -155,12 +147,12 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
                 : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
             }`}
           >
-            <div className="h-6 flex items-center justify-center">
-              <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider">
+            <div className="h-7 flex items-center justify-center">
+              <span className="text-xs sm:text-sm text-brand-green font-extrabold uppercase tracking-wider">
                 VIEW ALL
               </span>
             </div>
-            <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight">전체 보기</p>
+            <p className="text-sm sm:text-base font-bold text-slate-900 leading-tight whitespace-nowrap">전체 보기</p>
           </button>
 
           {/* 01 ~ 05 Buttons */}
@@ -175,15 +167,12 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
                   : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
               }`}
             >
-              <div className="flex items-center justify-center gap-1.5">
-                <span className="w-6 h-6 rounded-lg bg-brand-green text-white text-[11px] font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform font-mono">
+              <div className="h-7 flex items-center justify-center">
+                <span className="w-7 h-7 rounded-lg bg-brand-green text-white text-xs sm:text-sm font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform font-mono">
                   {sec.num}
                 </span>
-                <span className="text-[11px] sm:text-xs text-brand-green font-extrabold uppercase tracking-wider truncate">
-                  {sec.title.split(' ')[0]}
-                </span>
               </div>
-              <p className="text-xs sm:text-[13.5px] font-bold text-slate-800 leading-tight truncate">
+              <p className="text-sm sm:text-base font-bold text-slate-900 leading-tight whitespace-nowrap">
                 {sec.shortName}
               </p>
             </button>
@@ -204,10 +193,15 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
               {displayedSections.map((sec) => {
                 const Icon = sec.icon;
                 const isHovered = hoveredNum === sec.num;
+                const isEven = parseInt(sec.num, 10) % 2 === 0;
 
                 return (
-                  <div
+                  <motion.div
                     key={sec.num}
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     onMouseEnter={() => setHoveredNum(sec.num)}
                     onMouseLeave={() => setHoveredNum(null)}
                     className={`group relative p-6 sm:p-8 lg:p-10 rounded-[28px] sm:rounded-[32px] border transition-all duration-500 bg-white ${
@@ -218,8 +212,8 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
                   >
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                       
-                      {/* Left Column: Number, Icon, Titles (4 cols) */}
-                      <div className="lg:col-span-4 space-y-4">
+                      {/* Title & Number Column (4 cols) - Alternates left / right */}
+                      <div className={`lg:col-span-4 space-y-4 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
                         <div className="flex items-center justify-between">
                           <span className="text-4xl sm:text-5xl font-black text-slate-200 group-hover:text-emerald-300/60 transition-colors font-mono tracking-tight">
                             {sec.num}
@@ -239,8 +233,8 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
                         </div>
                       </div>
 
-                      {/* Right Column: Intro Quote Box, Body, Keywords (8 cols) */}
-                      <div className="lg:col-span-8 space-y-5">
+                      {/* Content & Quote Column (8 cols) - Alternates right / left */}
+                      <div className={`lg:col-span-8 space-y-5 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
                         
                         {/* Intro Highlight Quote Box */}
                         <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50/60 border border-emerald-100/90 text-slate-900 flex items-start gap-3 shadow-2xs">
@@ -255,34 +249,16 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
                           {sec.body}
                         </p>
 
-                        {/* Keywords Tag Pills */}
-                        <div className="pt-2 border-t border-slate-100 space-y-2">
-                          <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest block">
-                            KEYWORDS
-                          </span>
-                          <div className="flex flex-wrap gap-2">
-                            {sec.keywords.map((kw, kIdx) => (
-                              <span 
-                                key={kIdx}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] sm:text-xs font-semibold text-slate-700 shadow-2xs hover:bg-emerald-50 hover:text-brand-green transition-colors"
-                              >
-                                <CheckCircle2 size={12} className="text-brand-green shrink-0" />
-                                <span>{kw}</span>
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
                       </div>
 
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </motion.div>
           </AnimatePresence>
         </div>
-      </section>
+      </motion.section>
 
     </div>
   );

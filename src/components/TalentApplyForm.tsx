@@ -375,7 +375,7 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
               {[
                 { ko: '무관', en: 'Any' },
                 { ko: '아산 제1·2공장', en: 'Asan Plant' },
-                { ko: '중앙연구소 (용인/수원)', en: 'R&D Center (Yongin/Suwon)' },
+                { ko: '중앙연구소 (수원)', en: 'R&D Center (Suwon)' },
                 { ko: '서울사무소 (영등포)', en: 'Seoul Office (Yeongdeungpo)' },
               ].map((loc) => (
                 <button

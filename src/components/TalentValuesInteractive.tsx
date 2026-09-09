@@ -22,19 +22,19 @@ const TALENT_ITEMS_KO: TalentItem[] = [
     letter: 'D',
     word: 'Detail',
     desc: '업무의 시작부터 마지막 순간까지 최고의 완성도를 추구한다.',
-    color: '#0284c7', // Sky blue
-    lightBg: 'bg-sky-50/80',
-    borderTint: 'border-sky-200',
-    badgeBg: 'bg-sky-600',
-    badgeBorder: 'border-sky-500',
-    textColor: 'text-sky-600',
-    glowColor: 'rgba(2, 132, 199, 0.35)',
+    color: '#16a34a',
+    lightBg: 'bg-emerald-50/80',
+    borderTint: 'border-emerald-200',
+    badgeBg: 'bg-emerald-600',
+    badgeBorder: 'border-emerald-500',
+    textColor: 'text-emerald-600',
+    glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
     letter: 'A',
     word: 'Active',
     desc: '능동적으로 업무를 수행하고 상호 협력한다.',
-    color: '#16a34a', // Emerald green
+    color: '#16a34a',
     lightBg: 'bg-emerald-50/80',
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
@@ -46,37 +46,37 @@ const TALENT_ITEMS_KO: TalentItem[] = [
     letter: 'S',
     word: 'Smart',
     desc: '전문지식을 보유하고 합리적으로 판단한다.',
-    color: '#7c3aed', // Purple / Violet
-    lightBg: 'bg-violet-50/80',
-    borderTint: 'border-violet-200',
-    badgeBg: 'bg-violet-600',
-    badgeBorder: 'border-violet-500',
-    textColor: 'text-violet-600',
-    glowColor: 'rgba(124, 58, 237, 0.35)',
+    color: '#16a34a',
+    lightBg: 'bg-emerald-50/80',
+    borderTint: 'border-emerald-200',
+    badgeBg: 'bg-emerald-600',
+    badgeBorder: 'border-emerald-500',
+    textColor: 'text-emerald-600',
+    glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
     letter: 'A',
     word: 'Action',
     desc: '강력한 추진력을 바탕으로 목표한 바를 이뤄낸다.',
-    color: '#ea580c', // Orange
-    lightBg: 'bg-orange-50/80',
-    borderTint: 'border-orange-200',
-    badgeBg: 'bg-orange-600',
-    badgeBorder: 'border-orange-500',
-    textColor: 'text-orange-600',
-    glowColor: 'rgba(234, 88, 12, 0.35)',
+    color: '#16a34a',
+    lightBg: 'bg-emerald-50/80',
+    borderTint: 'border-emerald-200',
+    badgeBg: 'bg-emerald-600',
+    badgeBorder: 'border-emerald-500',
+    textColor: 'text-emerald-600',
+    glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
     letter: 'N',
     word: 'New thinking',
     desc: '고정관념을 버리고 창의적인 변화를 주도한다.',
-    color: '#db2777', // Pink / Rose
-    lightBg: 'bg-pink-50/80',
-    borderTint: 'border-pink-200',
-    badgeBg: 'bg-pink-600',
-    badgeBorder: 'border-pink-500',
-    textColor: 'text-pink-600',
-    glowColor: 'rgba(219, 39, 119, 0.35)',
+    color: '#16a34a',
+    lightBg: 'bg-emerald-50/80',
+    borderTint: 'border-emerald-200',
+    badgeBg: 'bg-emerald-600',
+    badgeBorder: 'border-emerald-500',
+    textColor: 'text-emerald-600',
+    glowColor: 'rgba(22, 163, 74, 0.35)',
   },
 ];
 
@@ -85,13 +85,13 @@ const TALENT_ITEMS_EN: TalentItem[] = [
     letter: 'D',
     word: 'Detail',
     desc: 'Pursuing the highest perfection from start to finish of every task.',
-    color: '#0284c7',
-    lightBg: 'bg-sky-50/80',
-    borderTint: 'border-sky-200',
-    badgeBg: 'bg-sky-600',
-    badgeBorder: 'border-sky-500',
-    textColor: 'text-sky-600',
-    glowColor: 'rgba(2, 132, 199, 0.35)',
+    color: '#16a34a',
+    lightBg: 'bg-emerald-50/80',
+    borderTint: 'border-emerald-200',
+    badgeBg: 'bg-emerald-600',
+    badgeBorder: 'border-emerald-500',
+    textColor: 'text-emerald-600',
+    glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
     letter: 'A',
@@ -109,37 +109,37 @@ const TALENT_ITEMS_EN: TalentItem[] = [
     letter: 'S',
     word: 'Smart',
     desc: 'Possessing professional expertise and making rational judgments.',
-    color: '#7c3aed',
-    lightBg: 'bg-violet-50/80',
-    borderTint: 'border-violet-200',
-    badgeBg: 'bg-violet-600',
-    badgeBorder: 'border-violet-500',
-    textColor: 'text-violet-600',
-    glowColor: 'rgba(124, 58, 237, 0.35)',
+    color: '#16a34a',
+    lightBg: 'bg-emerald-50/80',
+    borderTint: 'border-emerald-200',
+    badgeBg: 'bg-emerald-600',
+    badgeBorder: 'border-emerald-500',
+    textColor: 'text-emerald-600',
+    glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
     letter: 'A',
     word: 'Action',
     desc: 'Achieving goals based on strong drive and execution power.',
-    color: '#ea580c',
-    lightBg: 'bg-orange-50/80',
-    borderTint: 'border-orange-200',
-    badgeBg: 'bg-orange-600',
-    badgeBorder: 'border-orange-500',
-    textColor: 'text-orange-600',
-    glowColor: 'rgba(234, 88, 12, 0.35)',
+    color: '#16a34a',
+    lightBg: 'bg-emerald-50/80',
+    borderTint: 'border-emerald-200',
+    badgeBg: 'bg-emerald-600',
+    badgeBorder: 'border-emerald-500',
+    textColor: 'text-emerald-600',
+    glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
     letter: 'N',
     word: 'New thinking',
     desc: 'Overcoming fixed ideas to lead creative and meaningful change.',
-    color: '#db2777',
-    lightBg: 'bg-pink-50/80',
-    borderTint: 'border-pink-200',
-    badgeBg: 'bg-pink-600',
-    badgeBorder: 'border-pink-500',
-    textColor: 'text-pink-600',
-    glowColor: 'rgba(219, 39, 119, 0.35)',
+    color: '#16a34a',
+    lightBg: 'bg-emerald-50/80',
+    borderTint: 'border-emerald-200',
+    badgeBg: 'bg-emerald-600',
+    badgeBorder: 'border-emerald-500',
+    textColor: 'text-emerald-600',
+    glowColor: 'rgba(22, 163, 74, 0.35)',
   },
 ];
 
@@ -326,11 +326,11 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
                         isActive 
                           ? 'scale-125 -translate-y-1' 
                           : isAnyActive 
-                          ? 'opacity-35 scale-95' 
+                          ? 'opacity-30 scale-95' 
                           : 'opacity-90 hover:scale-110'
                       }`}
                       style={{ 
-                        color: item.color,
+                        color: isAnyActive ? (isActive ? item.color : '#94a3b8') : item.color,
                         textShadow: isActive ? `0 0 16px ${item.glowColor}` : 'none'
                       }}
                     >
@@ -377,23 +377,23 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
                 cy={originY} 
                 r={6} 
                 className="transition-colors duration-300"
-                fill={activeIndex !== null ? items[activeIndex].color : '#64ad55'} 
+                fill={activeIndex !== null ? items[activeIndex].color : '#16a34a'} 
               />
               <circle 
                 cx={originX} 
                 cy={originY} 
                 r={11} 
                 className="transition-colors duration-300 animate-pulse"
-                fill={activeIndex !== null ? `${items[activeIndex].color}33` : 'rgba(100,173,85,0.2)'} 
+                fill={activeIndex !== null ? `${items[activeIndex].color}33` : 'rgba(22, 163, 74, 0.2)'} 
               />
 
               {/* 5 Branch Lines accurately pointing to each card's center-left */}
               {items.map((item, idx) => {
                 const isActive = activeIndex === idx;
                 const isAnyActive = activeIndex !== null;
-                const strokeColor = isActive ? item.color : isAnyActive ? '#e2e8f0' : item.color;
+                const strokeColor = isActive ? item.color : isAnyActive ? '#e2e8f0' : '#86efac';
                 const strokeWidth = isActive ? 3.5 : 2;
-                const strokeOpacity = isActive ? 1 : isAnyActive ? 0.3 : 0.65;
+                const strokeOpacity = isActive ? 1 : isAnyActive ? 0.25 : 0.6;
 
                 const pos = lineCoords[idx] ?? {
                   startX: originX,

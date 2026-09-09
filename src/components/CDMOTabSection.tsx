@@ -110,7 +110,7 @@ export default function CDMOTabSection() {
 
   return (
     <div className="w-full pt-2 pb-0 mt-16 sm:mt-20 md:mt-24 mb-0">
-      <div className="max-w-5xl mx-auto px-4 md:px-0">
+      <div className="w-full max-w-full mx-auto px-4 md:px-0">
         {/* What We Develop Section Header */}
         <div className="mb-8 text-left">
           <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
@@ -127,7 +127,7 @@ export default function CDMOTabSection() {
             
             {/* Left Column: Hexagon Diagram (6 cols) */}
             <div className="lg:col-span-6 flex justify-center items-center relative py-2 w-full">
-              <div className="relative w-full aspect-square max-w-[340px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[540px] flex items-center justify-center my-2">
+              <div className="relative w-full aspect-square max-w-[340px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[540px] xl:max-w-[620px] 2xl:max-w-[680px] flex items-center justify-center my-2">
                 {/* Central Hexagon */}
                 <motion.div 
                   className="absolute left-[18%] top-[22.17%] w-[64%] h-[55.67%] z-10 overflow-hidden"

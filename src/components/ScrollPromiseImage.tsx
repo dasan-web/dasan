@@ -19,14 +19,14 @@ export default function ScrollPromiseImage({ lang = 'ko' }: Props) {
         }}
         className="relative min-h-[560px] sm:min-h-[620px] lg:h-[660px] overflow-hidden bg-slate-900 shadow-sm"
       >
-        {/* esg_tree_field.jpg Photo */}
+        {/* Original /images/ESG.jpg */}
         <Image
-          src="/esg_tree_field.jpg"
+          src="/images/ESG.jpg"
           alt={isEn ? "Dasan Pharmaceutical's Sustainable ESG Promise" : "다산제약 지속가능 ESG 약속"}
           fill
           priority
           unoptimized={true}
-          className="object-cover object-[center_right] sm:object-center"
+          className="object-cover object-[center_55%]"
         />
 
         {/* 

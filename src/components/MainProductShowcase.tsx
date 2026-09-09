@@ -424,7 +424,7 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
           }}
           className="w-full px-6 md:px-16 lg:px-24 mx-auto z-30"
         >
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8 sm:mb-10">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-12 sm:mb-16 lg:mb-20">
             <div>
               {/* 그림2 스타일: PRODUCT LIST 타이틀 및 하단 녹색 바 */}
               <div className="flex flex-col mb-3.5 w-fit">
@@ -477,7 +477,7 @@ export default function MainProductShowcase({ initialProducts }: MainProductShow
           </div>
 
         {/* Seamless Borderless Clean Product Cards */}
-          <div className="relative flex items-center pt-2 pb-2">
+          <div className="relative flex items-center pt-4 pb-4">
             
             {/* Products Grid */}
             {filteredProducts.length === 0 ? (

@@ -112,10 +112,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                   </div>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
-                  <span>Dasan Eco-Protection Initiative</span>
-                  <span className="text-emerald-700 font-bold">100% Green Compliance</span>
-                </div>
               </div>
             </div>
           </div>
@@ -179,10 +175,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                   </div>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
-                  <span>Dasan People &amp; Safety Culture</span>
-                  <span className="text-sky-700 font-bold">Zero Severe Accidents</span>
-                </div>
               </div>
 
               {/* Grand Photo Showcase (Right on Desktop) */}
@@ -275,10 +267,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                   </div>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
-                  <span>Dasan Righteous Governance Framework</span>
-                  <span className="text-indigo-700 font-bold">100% Truth &amp; Integrity</span>
-                </div>
               </div>
             </div>
           </div>
@@ -339,12 +327,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                   : '친환경 제조 생태계 구축 및 체계적인 오염물질·에너지 저감 관리 기준 충족'}
               </p>
             </div>
-
-            {/* Bottom Proof Tag */}
-            <div className="pt-4 mt-6 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 group-hover:text-emerald-700 transition-colors">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-              <span>{isEn ? 'Global ISO Accredited' : '국제표준 친환경 공인'}</span>
-            </div>
           </div>
 
           {/* Card 02: ISO 45001 (Oceanic Navy Theme) */}
@@ -385,11 +367,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               </p>
             </div>
 
-            {/* Bottom Proof Tag */}
-            <div className="pt-4 mt-6 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 group-hover:text-sky-700 transition-colors">
-              <CheckCircle2 className="w-3.5 h-3.5 text-sky-600" />
-              <span>{isEn ? 'Zero Hazard Workplace' : '중대재해 Zero 작업장'}</span>
-            </div>
           </div>
 
           {/* Card 03: ISO 37001 (Refined Warm Bronze Theme) */}
@@ -430,11 +407,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               </p>
             </div>
 
-            {/* Bottom Proof Tag */}
-            <div className="pt-4 mt-6 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 group-hover:text-amber-700 transition-colors">
-              <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
-              <span>{isEn ? 'Global Ethical Standard' : '클린 윤리경영 표준'}</span>
-            </div>
           </div>
 
           {/* Card 04: K-ESG (Deep Charcoal Indigo Theme) */}
@@ -475,11 +447,6 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               </p>
             </div>
 
-            {/* Bottom Proof Tag */}
-            <div className="pt-4 mt-6 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 group-hover:text-indigo-700 transition-colors">
-              <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />
-              <span>{isEn ? 'National Standard Benchmark' : '국가 표준 지표 충족'}</span>
-            </div>
           </div>
 
         </div>

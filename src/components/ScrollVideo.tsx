@@ -3,7 +3,21 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 
-export default function ScrollVideo() {
+interface ScrollVideoProps {
+  src?: string;
+  poster?: string;
+  unexpandedHeight?: number;
+  borderRadius?: string;
+  className?: string;
+}
+
+export default function ScrollVideo({
+  src = '/20260714.mp4',
+  poster = '/poster_overview.jpg',
+  unexpandedHeight = 500,
+  borderRadius = '2rem',
+  className = '',
+}: ScrollVideoProps = {}) {
   const triggerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [offsetLeft, setOffsetLeft] = useState(0);
@@ -76,7 +90,6 @@ export default function ScrollVideo() {
 
   const unexpandedWidth = windowWidth > 0 ? (windowWidth - currentPadding * 2) : 1200;
   // 사용자가 요청한 1200x500 크기를 적용합니다.
-  const unexpandedHeight = 500;
 
   // 가운데 정렬을 위한 x 좌표 이동값 계산
   const centerOffsetX = windowWidth > 0 ? (windowWidth - unexpandedWidth) / 2 - offsetLeft : 0;
@@ -84,12 +97,12 @@ export default function ScrollVideo() {
   // 브라우저 크기 계산 전에는 애니메이션(너비 변동)을 방지하기 위해 빈 영역 렌더링
   if (windowWidth === 0) {
     return (
-      <div ref={triggerRef} className="w-full flex flex-col mb-0" style={{ height: '500px' }}></div>
+      <div ref={triggerRef} className={`w-full flex flex-col mb-0 ${className}`} style={{ height: `${unexpandedHeight}px` }}></div>
     );
   }
 
   return (
-    <div ref={triggerRef} className="w-full flex flex-col">
+    <div ref={triggerRef} className={`w-full flex flex-col ${className}`}>
       <motion.div 
         ref={containerRef} 
         // 전체화면 시 상단 헤더(z-50)를 완전히 덮어버릴 수 있도록 확장 시에만 z-index를 90으로 상향
@@ -99,12 +112,12 @@ export default function ScrollVideo() {
         transition={{ duration: 0.6, ease: "easeInOut" }}
       >
         <motion.div 
-          initial={{ height: `${unexpandedHeight}px`, width: '100%', borderRadius: '2rem', border: '1px solid #E5E7EB' }}
+          initial={{ height: `${unexpandedHeight}px`, width: '100%', borderRadius, border: '1px solid #E5E7EB' }}
           animate={{
             width: isExpanded ? '100vw' : (windowWidth > 0 ? `${unexpandedWidth}px` : '100%'),
             // 화면 전체를 완전히 덮되, 영상 원본 비율(16:9)이 깨져서 위아래가 잘리지 않도록 동적 픽셀 높이 계산
             height: isExpanded ? (windowHeight > 0 ? `${Math.max(windowHeight, windowWidth * 9 / 16)}px` : '100vh') : `${unexpandedHeight}px`,
-            borderRadius: isExpanded ? '0rem' : '2rem',
+            borderRadius: isExpanded ? '0rem' : borderRadius,
             border: isExpanded ? '0px solid transparent' : '1px solid #E5E7EB',
             x: isExpanded ? -offsetLeft : centerOffsetX,
           }}
@@ -113,8 +126,8 @@ export default function ScrollVideo() {
         >
           <video 
             className={`w-full h-full object-cover`} 
-            src="/20260714.mp4" 
-            poster="/poster_overview.jpg"
+            src={src} 
+            poster={poster}
             autoPlay 
             loop 
             muted 

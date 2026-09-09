@@ -10,6 +10,7 @@ import FindPharmacy from '@/components/FindPharmacy';
 import ProductNewsBoard from '@/components/ProductNewsBoard';
 import CDMOTabSection from '@/components/CDMOTabSection';
 import ApiRawContent from '@/components/ApiRawContent';
+import ScrollVideo from '@/components/ScrollVideo';
 import type { Metadata } from 'next';
 
 import { query } from '@/lib/db';
@@ -144,20 +145,11 @@ export default async function BusinessCatchAllPage({ params }: Params) {
       case '/business/cdmo/quality': {
         return (
           <>
-            <div className="w-[100vw] aspect-[21/9] animate-fade-in-up bg-black overflow-hidden relative left-1/2 -translate-x-1/2 mb-4 mt-4 shadow-sm" style={{ aspectRatio: '21 / 9' }}>
-              <video 
-                className="w-full h-full object-cover"
-                src="/CDMO_219.mp4?v=clean"
-                poster="/poster_cdmo.jpg?v=clean"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-              />
+            <div className="mb-12 mt-4">
+              <ScrollVideo src="/CDMO_219.mp4?v=clean" poster="/poster_cdmo.jpg?v=clean" />
             </div>
             
-            <div className="mt-24 w-full max-w-5xl mx-auto animate-fade-in-up px-4 md:px-0 pb-20">
+            <div className="mt-24 w-full max-w-full mx-auto animate-fade-in-up px-4 md:px-0 pb-20">
               {/* Header Section */}
               <div className="flex flex-col space-y-6 mb-24 sm:mb-28">
                 <h2 className="text-[32px] md:text-[40px] font-black text-[#111] leading-[1.3] tracking-tight">
@@ -357,7 +349,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
 
   return (
     <div className="relative bg-white pt-10 md:pt-14 pb-10 min-h-screen">
-      <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-4">
+      <div className={`relative z-10 w-full ${currentPath.startsWith('/business/cdmo') || currentPath.startsWith('/business/api') ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-4`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -428,7 +420,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`w-full ${currentPath === '/business/cdmo/quality' ? 'max-w-full' : 'max-w-5xl'}`}>
+            <div className={`w-full ${currentPath.startsWith('/business/api') || currentPath.startsWith('/business/cdmo') ? 'max-w-full' : 'max-w-5xl'}`}>
               {renderContent()}
             </div>
           </div>

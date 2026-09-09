@@ -177,10 +177,9 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             {/* Header Section */}
             <div className="space-y-3 pb-8 border-b border-gray-100">
               <span className="text-xs font-black text-brand-teal tracking-wider uppercase block">API / Active Pharmaceutical Ingredients</span>
-              <h3 className="text-2xl md:text-3xl font-black text-brand-blue tracking-tight">Innovation Beyond Ingredients</h3>
-              <p className="text-base md:text-lg font-bold text-gray-800 pt-1">
+              <h3 className="text-2xl md:text-3xl font-black text-brand-blue tracking-tight pt-1">
                 Beyond ingredients, creating new possibilities for pharmaceuticals.
-              </p>
+              </h3>
               <p className="text-sm text-gray-600 leading-relaxed pt-2 whitespace-pre-line">
                 Dasan Pharmaceutical develops and supplies high-quality Active Pharmaceutical Ingredients (APIs) based on accumulated pharmaceutical development experience and differentiated technological capabilities.{'\n'}
                 From the development of high-value-added raw materials including Prodrugs to stable global sourcing, quality control, and supply chain establishment, we provide comprehensive API solutions for customer pharmaceutical development and commercialization.
@@ -207,12 +206,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                     {sec.body}
                   </p>
 
-                  <div className="pt-2">
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">KEYWORDS</span>
-                    <p className="text-xs text-gray-500 font-medium">
-                      {sec.keywords.join(' · ')}
-                    </p>
-                  </div>
+
                 </div>
               ))}
             </div>
@@ -301,7 +295,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
 
   return (
     <div className="relative bg-white py-16 md:py-24 min-h-screen">
-      <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-8">
+      <div className={`relative z-10 w-full ${currentPath.startsWith('/business/cdmo') || currentPath.startsWith('/business/api') || currentPath.startsWith('/en/business/cdmo') || currentPath.startsWith('/en/business/api') ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -372,7 +366,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className="min-h-[550px] w-full max-w-5xl">
+            <div className={`min-h-[550px] w-full ${currentPath.startsWith('/business/api') || currentPath.startsWith('/business/cdmo') || currentPath.startsWith('/en/business/api') || currentPath.startsWith('/en/business/cdmo') ? 'max-w-full' : 'max-w-5xl'}`}>
               {renderContent()}
             </div>
           </div>

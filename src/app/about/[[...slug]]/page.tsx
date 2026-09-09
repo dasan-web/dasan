@@ -8,7 +8,6 @@ import { Building2, Award, Users, Landmark, MapPin, Calendar, Heart, ShieldAlert
 import KakaoMap from '@/components/KakaoMap';
 import LocationMapSection from '@/components/LocationMapSection';
 import PressList from '@/components/PressList';
-import InteractiveGlobalMap from '@/components/InteractiveGlobalMap';
 import HistoryAccordion from '@/components/HistoryAccordion';
 import DetailedFinancialTables from '@/components/DetailedFinancialTables';
 import ExcelDownloadButton from '@/components/ExcelDownloadButton';
@@ -365,14 +364,20 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       
                       // 1.5 4대 경영 철학
                       processed = processed.replace(
-                        /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
-                        '<span class="block text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mt-10 mb-5 w-full">$1</span>'
+                        /(?:<p[^>]*>)?\s*(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?\s*(?:<\/p>)?/g,
+                        '<div class="w-full text-center mt-16 sm:mt-24 mb-6 sm:mb-8"><h3 class="!border-b-0 !border-none !pb-0 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 inline-block">$1</h3></div>'
                       );
                       
                       // 2. 다산(茶山)의 정신으로...
                       processed = processed.replace(
                         /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(다산\(茶山\)의 정신으로.*?다산제약)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
                         '<span class="block text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-8 mb-4 w-full">다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</span>'
+                      );
+
+                      // 2.5 다산제약은 조선 최고의 실학자이자... (한 줄로 표시)
+                      processed = processed.replace(
+                        /(?:<p[^>]*>)?\s*(다산제약은\s*조선\s*최고의\s*실학자이자.*?노력합니다\.?)\s*(?:<\/p>)?/g,
+                        '<p class="mb-5 text-gray-600 leading-[1.8] text-[12px] sm:text-[13px] md:text-[13.5px] lg:text-[14px] xl:text-[15px] font-normal tracking-tight whitespace-normal sm:whitespace-nowrap">$1</p>'
                       );
                       
                       return processed;
@@ -404,22 +409,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                         <div className="w-full my-6 sm:my-10">
                           <PhilosophyGraphic />
                         </div>
-
-                        {/* 하단 세부 항목 영역 */}
-                        {hasPhilosophy && afterHtml && (
-                          <div className="w-full mt-8 sm:mt-12">
-                            <div 
-                              className="
-                                text-[15px] sm:text-[16px] text-gray-600 leading-[1.8] font-normal
-                                [&_p]:leading-[1.8] [&_p]:text-[15px] sm:[&_p]:text-[16px] [&_p]:text-gray-600 [&_p]:font-normal [&_p]:mb-4 
-                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-3
-                                [&_li]:text-gray-600 [&_li]:font-normal [&_li]:text-[15px] sm:[&_li]:text-[16px] [&_li]:leading-[1.8] [&_li::marker]:text-brand-green
-                                [&_strong]:text-gray-900 [&_strong]:font-bold
-                              "
-                              dangerouslySetInnerHTML={{ __html: afterHtml }} 
-                            />
-                          </div>
-                        )}
                       </>
                     );
                   })()
@@ -441,10 +430,23 @@ export default async function AboutCatchAllPage({ params }: Params) {
                               return <h3 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-6 pb-4 border-b border-gray-200">{titleText}</h3>;
                             }
                             if (line.includes('4대 경영 철학') || line.includes('4 Major Management Philosophies')) {
-                              return <h4 key={i} className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 mt-8 mb-4">{line}</h4>;
+                              return (
+                                <div key={i} className="w-full text-center mt-16 sm:mt-24 mb-6 sm:mb-8">
+                                  <h3 className="!border-b-0 !border-none !pb-0 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 inline-block">
+                                    {line}
+                                  </h3>
+                                </div>
+                              );
                             }
                             if (line.startsWith('다산(茶山)의 정신으로') || line.includes('핵심 가치') || line.startsWith('With the spirit of Dasan')) {
                               return <h4 key={i} className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-8 mb-4">{line}</h4>;
+                            }
+                            if (line.startsWith('다산제약은 조선 최고의 실학자이자') || line.includes('조선 최고의 실학자이자')) {
+                              return (
+                                <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[12px] sm:text-[13px] md:text-[13.5px] lg:text-[14px] xl:text-[15px] font-normal tracking-tight whitespace-normal sm:whitespace-nowrap">
+                                  {line}
+                                </p>
+                              );
                             }
                             return <p key={i} className="mb-5 text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">{line}</p>;
                           })}
@@ -453,35 +455,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
                         <div className="w-full my-6 sm:my-10">
                           <PhilosophyGraphic />
                         </div>
-
-                        {bottomLines.length > 0 && (
-                          <div className="w-full mt-8 sm:mt-12">
-                            <div className="space-y-4">
-                              {bottomLines.map((line, i) => {
-                                const content = (line.startsWith('•') || line.startsWith('-') || line.startsWith('·')) ? line.substring(1).trim() : line;
-                                const splitIdx = content.indexOf(':');
-                                if (splitIdx !== -1 && splitIdx < 25) {
-                                  const title = content.substring(0, splitIdx).trim();
-                                  const desc = content.substring(splitIdx + 1).trim();
-                                  return (
-                                    <div key={i} className="flex items-start">
-                                      <span className="text-brand-green font-bold mr-3 mt-0.5 text-lg leading-none">•</span>
-                                      <p className="text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">
-                                        <strong className="text-gray-900 font-bold">{title}</strong> : {desc}
-                                      </p>
-                                    </div>
-                                  );
-                                }
-                                return (
-                                  <div key={i} className="flex items-start">
-                                    <span className="text-brand-green font-bold mr-3 mt-0.5 text-lg leading-none">•</span>
-                                    <p className="text-gray-600 leading-[1.8] text-[15px] sm:text-[16px] font-normal">{content}</p>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
                       </>
                     );
                   })()
@@ -628,14 +601,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
               </div>
             </div>
 
-            <div className="bg-white p-6 md:p-12 rounded-3xl shadow-none">
-              <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-10 pb-2 border-b border-gray-100">
+            <div className="w-full bg-white py-4 md:py-6 rounded-3xl shadow-none">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 mb-8 pb-3 border-b border-gray-100">
                 주요 사업 영역 (Core Business)
               </h3>
               
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:-mx-4 xl:-mx-8 mt-12">
+              <div className="grid grid-cols-3 gap-3 sm:gap-5 md:gap-6 lg:gap-8 mt-8 w-full">
               {/* Card 1 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
+              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
@@ -643,22 +616,21 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 {/* Light static top gradient for title contrast (No darkening on hover) */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
+                  <h4 className="text-[14px] sm:text-lg md:text-xl lg:text-[23px] xl:text-[26px] 2xl:text-[28px] font-black break-keep sm:whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
                     01. 자사 완제 의약품 사업
                   </h4>
-                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
-                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
-                    순환기, 호흡기, 비뇨기 중심의<br />
-                    <span className="whitespace-nowrap">우수한 제품 라인업 구축 및 생산·판매</span>
+                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 한 줄 표시) */}
+                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
+                    순환기, 호흡기, 비뇨기 중심의 우수한 제품 라인업 구축 및 생산·판매
                   </p>
                 </div>
               </div>
 
               {/* Card 2 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
+              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
@@ -666,21 +638,21 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 {/* Light static top gradient for title contrast (No darkening on hover) */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
+                  <h4 className="text-[14px] sm:text-lg md:text-xl lg:text-[23px] xl:text-[26px] 2xl:text-[28px] font-black break-keep sm:whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
                     02. 수탁 완제 의약품 (CMO) 사업
                   </h4>
                   {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
-                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
+                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
                     독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산
                   </p>
                 </div>
               </div>
 
               {/* Card 3 */}
-              <div className="relative w-full aspect-square rounded-[40px] overflow-hidden shadow-md group cursor-pointer">
+              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
                   style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
@@ -688,14 +660,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 {/* Light static top gradient for title contrast (No darkening on hover) */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-5 sm:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <h4 className="text-base sm:text-lg lg:text-[15px] xl:text-lg 2xl:text-xl font-black whitespace-nowrap leading-tight mb-2.5 tracking-tight">
+                  <h4 className="text-[14px] sm:text-lg md:text-xl lg:text-[23px] xl:text-[26px] 2xl:text-[28px] font-black break-keep sm:whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
                     03. 의약품 핵심 원료 및 중간체 사업
                   </h4>
                   {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
-                  <p className="text-xs sm:text-sm font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
+                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
                     의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF 등록·관리
                   </p>
                 </div>
@@ -1733,7 +1705,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
               )}
             </div>
             <div className="space-y-3">
-              <p className="text-gray-600 text-xs sm:text-sm tracking-tight leading-relaxed break-keep">{desc}</p>
+              <p className="text-gray-600 text-[13px] sm:text-sm tracking-tight leading-[1.8] break-keep whitespace-pre-line mt-1">{desc.replace(/\.\s+/g, '.\n')}</p>
             </div>
             
             {currentPath === '/about/ir/announcement' ? (
@@ -1851,7 +1823,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
   return (
     <div className={`relative bg-white pt-16 md:pt-24 ${currentPath === '/about/intro' ? 'pb-0' : 'pb-16 md:pb-24'} min-h-screen`}>
-      <div className={`relative w-full ${currentPath === '/about/greeting' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
+      <div className={`relative w-full ${currentPath === '/about/greeting' || currentPath === '/about/business-area' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -1919,7 +1891,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`min-h-[550px] w-full ${currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : 'max-w-5xl'}`}>
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-full' : currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>

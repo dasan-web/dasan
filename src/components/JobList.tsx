@@ -128,14 +128,11 @@ export default function JobList({ initialJobs }: JobListProps) {
       <TalentPoolSection isEnglish={isEnglish} />
 
       {/* 2. 진행 중인 정기/수시 공고 목록 */}
-      <div className="w-full space-y-6 pt-4 border-t border-slate-200">
+      <div className="w-full space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
           <h4 className="font-bold text-brand-blue text-base sm:text-lg">
             {isEnglish ? `Ongoing Job Openings (${jobs.length})` : `진행 중인 정기/수시 채용공고 (${jobs.length})`}
           </h4>
-          <span className="text-xs text-slate-400">
-            {isEnglish ? 'Specific hiring notices with set deadlines' : '마감 일자가 지정된 정기/공채 채용 공고'}
-          </span>
         </div>
         <div className="w-full overflow-x-auto">
         <table className="w-full min-w-[650px] border-collapse border-t-2 border-t-brand-green text-sm text-left">

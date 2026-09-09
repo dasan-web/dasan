@@ -9,7 +9,8 @@ import {
   ChevronUp, 
   GraduationCap, 
   Atom, 
-  Dna
+  Dna,
+  Pill
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -26,7 +27,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
       id: 'A',
       name: '제제연구',
       subTitle: 'FORMULATION DIVISION',
-      icon: Layers,
+      icon: Pill,
       image: '/core_business_api.jpg',
       imageAlt: '다산제약 제제연구 약물전달시스템 및 제형 설계',
       badgeColor: 'bg-emerald-600 text-white',
@@ -44,11 +45,11 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
       name: '합성연구',
       subTitle: 'SYNTHESIS DIVISION',
       icon: FlaskConical,
-      image: '/core_business_cmo.jpg',
+      image: '/rd_synthesis_lab.jpg',
       imageAlt: '다산제약 합성연구 유기합성 및 고순도 API 공정 개발',
       badgeColor: 'bg-teal-700 text-white',
       leadDesc: '합성연구소는 유기합성 기술을 기반으로 원료의약품 및 의약품 개발에 필요한 핵심 합성기술과 공정기술을 연구합니다.',
-      detailDesc: '신약의 후보물질, 지식재산권 확보와 특허 전략을 고려한 차별화된 원료의약품(염변경, 결정형변경, Pro-drug…)을 설계하고 고도화된 공정기술을 적용한 불순물 발생 억제 제품 등을 개발하고 상용화하는 최적의 합성공정 개발 체계를 구축하고 있습니다.',
+      detailDesc: '신약의 후보물질, 지식재산권 확보와 특허 전략을 고려한 차별화된 원료의약품(염변경, 결정형변경, Pro-drug)을 설계하고 고도화된 공정기술을 적용한 불순물 발생 억제 제품 등을 개발하고 상용화하는 최적의 합성공정 개발 체계를 구축하고 있습니다.',
       subFields: [
         { title: '01. 프로세스 디자인 (Process Design)', desc: '신규 후보물질의 합성경로 설계부터 공정 최적화, Scale-up 및 기술이전에 이르기까지 재현성 높은 공정을 확립합니다.' },
         { title: '02. 차별화된 원료의약품 개발', desc: '신규염(Salt), 결정형(Polymorph) 변경 및 Pro-drug 설계를 통해 유해 불순물을 억제하고 특허 전략을 확보합니다.' },
@@ -91,16 +92,16 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
         </div>
 
         {/* 2-Column Central Research Institute Overview */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 pt-4 items-start">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 pt-4 items-start w-full">
           {/* Left Title Column */}
-          <div className="lg:col-span-4 space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <div className="w-auto lg:w-[170px] xl:w-[190px] shrink-0">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight whitespace-nowrap">
               중앙 연구소
             </h2>
           </div>
 
-          {/* Right Description Column (Original Texts 100% Preserved) */}
-          <div className="lg:col-span-8 space-y-5 text-sm sm:text-base md:text-[16.5px] text-slate-600 leading-relaxed font-normal break-keep">
+          {/* Right Description Column (Original Texts 100% Preserved, expanded width) */}
+          <div className="flex-1 w-full space-y-5 text-sm sm:text-base md:text-[16.5px] text-slate-600 leading-relaxed font-normal break-keep">
             <p>
               다산제약의 중앙연구소는 50여명의 석·박사급 연구인력을 중심으로 합성연구소와 제제연구소의 유기적인 협력체계를 구축하고 있습니다.
               <br />
@@ -331,6 +332,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
               className="space-y-8"
             >
               {displayedDivisions.map((item, index) => {
+                const Icon = item.icon;
                 const isHovered = hoveredDivision === item.id;
                 const isEven = index % 2 === 1;
 
@@ -355,20 +357,15 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
                           className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
-                        
-                        {/* Corner Tag */}
-                        <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold">
-                          DIVISION {item.id}
-                        </div>
                       </div>
 
                       {/* Text Description Column (7 cols) */}
                       <div className={`lg:col-span-7 space-y-4 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
                         
-                        {/* Header with Alphabet Badge */}
-                        <div className="flex items-center gap-3.5">
-                          <div className={`w-11 h-11 rounded-2xl ${item.badgeColor} font-black text-lg flex items-center justify-center shadow-md shrink-0`}>
-                            {item.id}
+                        {/* Header with Division Icon */}
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl ${item.id === 'A' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/80' : 'bg-teal-50 text-teal-700 border border-teal-200/80'} flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-300`}>
+                            <Icon className="w-5 h-5 sm:w-5.5 sm:h-5.5 stroke-[1.8]" />
                           </div>
                           <div>
                             <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">

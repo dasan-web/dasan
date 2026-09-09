@@ -288,12 +288,6 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                           alt={item.imageAlt} 
                           className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
-                        
-                        {/* Corner Tag */}
-                        <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold">
-                          TECH {item.id}
-                        </div>
                       </div>
 
                       {/* Text Description Column (7 cols) */}
