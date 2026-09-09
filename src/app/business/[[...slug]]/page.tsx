@@ -152,35 +152,35 @@ export default async function BusinessCatchAllPage({ params }: Params) {
             <div className="mt-24 w-full max-w-full mx-auto animate-fade-in-up px-4 md:px-0 pb-20">
               {/* Header Section */}
               <div className="flex flex-col space-y-6 mb-24 sm:mb-28">
-                <h2 className="text-[32px] md:text-[40px] font-black text-[#111] leading-[1.3] tracking-tight">
+                <h2 className="text-[36px] sm:text-[42px] md:text-[48px] font-black text-[#111] leading-[1.25] tracking-tight">
                   One-stop CDMO Solution
                 </h2>
-                <div className="text-gray-500 leading-[1.8] text-[15px] md:text-[16px] space-y-3 w-full">
-                  <p className="break-keep lg:whitespace-nowrap font-medium text-[#666]">
+                <div className="text-gray-600 leading-[1.85] text-[17px] md:text-[18.5px] space-y-3 w-full">
+                  <p className="break-keep font-medium text-[#555]">
                     다산제약은 의약품 연구개발 역량과 GMP 기반 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 맞춤형 CDMO 서비스를 제공합니다.
                   </p>
-                  <p className="break-keep font-medium text-[#666]">
+                  <p className="break-keep font-medium text-[#555]">
                     <strong className="font-bold text-gray-900">Multi-Stra®</strong>를 기반으로 차별화된 제형 설계 및 약물 방출 기술을 제공합니다.
                   </p>
                 </div>
               </div>
 
               {/* Quality Title */}
-              <div className="mb-6">
-                <h3 className="text-[26px] font-black text-gray-900 tracking-tight">CDMO PROCESS</h3>
+              <div className="mb-7">
+                <h3 className="text-[28px] md:text-[32px] font-black text-gray-900 tracking-tight">CDMO PROCESS</h3>
               </div>
 
               {/* Process Flow (5 Steps: 개발, 임상, 기술이전, 품질, 생산) with Arrow Connectors */}
-              <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-2.5 pt-2">
+              <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-3 pt-2">
                 {/* Step 1: 개발 */}
-                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
-                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 01</span>
-                      <FlaskConical size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
+                      <span className="text-[12px] sm:text-[12.5px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-3 py-1 rounded-md">STEP 01</span>
+                      <FlaskConical size={24} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
                     </div>
-                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">개발</h4>
-                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                    <h4 className="text-[18px] sm:text-[19px] font-bold text-gray-900 mb-2.5 tracking-tight">개발</h4>
+                    <p className="text-[14px] sm:text-[14.5px] text-gray-600 leading-[1.7] break-keep font-normal">
                       개량신약, 제네릭 의약품의 제제 및 공정 개발 능력
                     </p>
                   </div>
@@ -195,14 +195,14 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 </div>
 
                 {/* Step 2: 임상 */}
-                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
-                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 02</span>
-                      <ClipboardCheck size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
+                      <span className="text-[12px] sm:text-[12.5px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-3 py-1 rounded-md">STEP 02</span>
+                      <ClipboardCheck size={24} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
                     </div>
-                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">임상</h4>
-                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                    <h4 className="text-[18px] sm:text-[19px] font-bold text-gray-900 mb-2.5 tracking-tight">임상</h4>
+                    <p className="text-[14px] sm:text-[14.5px] text-gray-600 leading-[1.7] break-keep font-normal">
                       소규모부터 대규모 글로벌 임상까지 다양한 규모의 임상 경험
                     </p>
                   </div>
@@ -217,14 +217,14 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 </div>
 
                 {/* Step 3: 기술이전 */}
-                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
-                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 03</span>
-                      <RefreshCw size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:rotate-45" />
+                      <span className="text-[12px] sm:text-[12.5px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-3 py-1 rounded-md">STEP 03</span>
+                      <RefreshCw size={24} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:rotate-45" />
                     </div>
-                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">기술이전</h4>
-                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                    <h4 className="text-[18px] sm:text-[19px] font-bold text-gray-900 mb-2.5 tracking-tight">기술이전</h4>
+                    <p className="text-[14px] sm:text-[14.5px] text-gray-600 leading-[1.7] break-keep font-normal">
                       연구개발된 제제 및 공정의 Scale-up을 통해 안정적인 생산으로 연결
                     </p>
                   </div>
@@ -239,14 +239,14 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 </div>
 
                 {/* Step 4: 품질 */}
-                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
-                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 04</span>
-                      <ShieldCheck size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
+                      <span className="text-[12px] sm:text-[12.5px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-3 py-1 rounded-md">STEP 04</span>
+                      <ShieldCheck size={24} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
                     </div>
-                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">품질(QA/QC)</h4>
-                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                    <h4 className="text-[18px] sm:text-[19px] font-bold text-gray-900 mb-2.5 tracking-tight">품질(QA/QC)</h4>
+                    <p className="text-[14px] sm:text-[14.5px] text-gray-600 leading-[1.7] break-keep font-normal">
                       QA·QC 체계를 기반으로 원료부터 완제품까지 전 과정의 품질 관리
                     </p>
                   </div>
@@ -261,14 +261,14 @@ export default async function BusinessCatchAllPage({ params }: Params) {
                 </div>
 
                 {/* Step 5: 생산 */}
-                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
+                <div className="flex-1 w-full bg-white border border-gray-200/70 hover:border-[#64ad55] rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md group">
                   <div>
                     <div className="flex items-center justify-between w-full mb-4">
-                      <span className="text-[11px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-2.5 py-0.5 rounded-md">STEP 05</span>
-                      <Factory size={22} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
+                      <span className="text-[12px] sm:text-[12.5px] font-black text-[#64ad55] uppercase tracking-wider bg-[#64ad55]/10 px-3 py-1 rounded-md">STEP 05</span>
+                      <Factory size={24} strokeWidth={1.5} className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110" />
                     </div>
-                    <h4 className="text-[16px] font-bold text-gray-900 mb-2 tracking-tight">생산</h4>
-                    <p className="text-[12.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                    <h4 className="text-[18px] sm:text-[19px] font-bold text-gray-900 mb-2.5 tracking-tight">생산</h4>
+                    <p className="text-[14px] sm:text-[14.5px] text-gray-600 leading-[1.7] break-keep font-normal">
                       비임상물질부터 상업 생산까지 다양한 생산 규모에 대응할 수 있는 생산 시설
                     </p>
                   </div>

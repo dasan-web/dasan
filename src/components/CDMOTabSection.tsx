@@ -113,10 +113,10 @@ export default function CDMOTabSection() {
       <div className="w-full max-w-full mx-auto px-4 md:px-0">
         {/* What We Develop Section Header */}
         <div className="mb-8 text-left">
-          <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
+          <h3 className="text-[32px] md:text-[38px] font-black text-gray-900 tracking-tight mb-2">
             What We Develop
           </h3>
-          <p className="text-[15px] md:text-[16px] text-gray-600 font-medium break-keep">
+          <p className="text-[17px] md:text-[18.5px] text-gray-600 font-medium break-keep">
             다양한 의약품 개발 및 생산 경험을 바탕으로 고객의 제품 특성에 맞는 CDMO 솔루션을 제공합니다.
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function CDMOTabSection() {
                   onClick={() => setActiveTab(0)}
                   onMouseEnter={() => setHoveredTab(0)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  className={`absolute top-0 left-[2%] w-[24%] h-[7.5%] flex flex-col justify-end pb-1 transition-all duration-300 select-none cursor-pointer z-30 ${
+                  className={`absolute top-0 left-[2%] w-[25%] h-[7.5%] flex flex-col justify-end pb-1 transition-all duration-300 select-none cursor-pointer z-30 ${
                     activeTab === 0 || hoveredTab === 0 ? 'scale-105 font-bold' : 'opacity-85'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -164,14 +164,14 @@ export default function CDMOTabSection() {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55]">01</span>
-                    <span className={`inline-flex items-center gap-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-black px-1.5 py-0.5 rounded-full transition-all duration-300 ${
+                    <span className="text-[12px] sm:text-sm md:text-base font-extrabold text-[#64ad55]">01</span>
+                    <span className={`inline-flex items-center gap-0.5 text-[8px] sm:text-[9px] md:text-[10.5px] font-black px-2 py-0.5 rounded-full transition-all duration-300 ${
                       activeTab === 0 ? 'bg-[#64ad55] text-white shadow-xs' : 'bg-[#64ad55]/15 text-[#64ad55] hover:bg-[#64ad55] hover:text-white'
                     }`}>
                       VIEW MORE +
                     </span>
                   </div>
-                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
+                  <h4 className="font-black text-[11px] sm:text-[12.5px] md:text-[14px] lg:text-[15.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
                     1st Generic품목
                   </h4>
                 </motion.div>
@@ -180,7 +180,7 @@ export default function CDMOTabSection() {
                   onClick={() => setActiveTab(0)}
                   onMouseEnter={() => setHoveredTab(0)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  className={`absolute top-[7.5%] left-[2%] w-[24%] pt-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
+                  className={`absolute top-[7.5%] left-[2%] w-[25%] pt-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
                     activeTab === 0 || hoveredTab === 0 ? 'scale-105' : 'opacity-85'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -188,7 +188,7 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.5 }}
                 >
-                  <p className="text-[8.5px] sm:text-[9.5px] md:text-[10.5px] text-gray-500 leading-relaxed font-semibold">
+                  <p className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
                     · 핵심공정 ODM품목<br />
                     · 전공정 ODM품목
                   </p>
@@ -200,7 +200,7 @@ export default function CDMOTabSection() {
                   onClick={() => setActiveTab(1)}
                   onMouseEnter={() => setHoveredTab(1)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  className={`absolute top-0 right-[2%] w-[24%] h-[7.5%] flex flex-col justify-end pb-1 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
+                  className={`absolute top-0 right-[2%] w-[25%] h-[7.5%] flex flex-col justify-end pb-1 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
                     activeTab === 1 || hoveredTab === 1 ? 'scale-105 font-bold' : 'opacity-85'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -209,14 +209,14 @@ export default function CDMOTabSection() {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
                 >
                   <div className="flex items-center justify-between flex-row-reverse">
-                    <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55]">02</span>
-                    <span className={`inline-flex items-center gap-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-black px-1.5 py-0.5 rounded-full transition-all duration-300 ${
+                    <span className="text-[12px] sm:text-sm md:text-base font-extrabold text-[#64ad55]">02</span>
+                    <span className={`inline-flex items-center gap-0.5 text-[8px] sm:text-[9px] md:text-[10.5px] font-black px-2 py-0.5 rounded-full transition-all duration-300 ${
                       activeTab === 1 ? 'bg-[#64ad55] text-white shadow-xs' : 'bg-[#64ad55]/15 text-[#64ad55] hover:bg-[#64ad55] hover:text-white'
                     }`}>
                       VIEW MORE +
                     </span>
                   </div>
-                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
+                  <h4 className="font-black text-[11px] sm:text-[12.5px] md:text-[14px] lg:text-[15.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
                     개량신약(염 변경)
                   </h4>
                 </motion.div>
@@ -225,7 +225,7 @@ export default function CDMOTabSection() {
                   onClick={() => setActiveTab(1)}
                   onMouseEnter={() => setHoveredTab(1)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  className={`absolute top-[7.5%] right-[2%] w-[24%] pt-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
+                  className={`absolute top-[7.5%] right-[2%] w-[25%] pt-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
                     activeTab === 1 || hoveredTab === 1 ? 'scale-105' : 'opacity-85'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -233,7 +233,7 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.5 }}
                 >
-                  <p className="text-[8.5px] sm:text-[9.5px] md:text-[10.5px] text-gray-500 leading-relaxed font-semibold">
+                  <p className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
                     · 핵심공정 ODM품목<br />
                     · 전공정 ODM품목
                   </p>
@@ -245,7 +245,7 @@ export default function CDMOTabSection() {
                   onClick={() => setActiveTab(2)}
                   onMouseEnter={() => setHoveredTab(2)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  className={`absolute top-[77.5%] left-[2%] w-[24%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
+                  className={`absolute top-[77.5%] left-[2%] w-[25%] h-[15%] flex flex-col justify-end pb-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
                     activeTab === 2 || hoveredTab === 2 ? 'scale-105 font-bold' : 'opacity-85'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -254,14 +254,14 @@ export default function CDMOTabSection() {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.6 }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55]">03</span>
-                    <span className={`inline-flex items-center gap-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-black px-1.5 py-0.5 rounded-full transition-all duration-300 ${
+                    <span className="text-[12px] sm:text-sm md:text-base font-extrabold text-[#64ad55]">03</span>
+                    <span className={`inline-flex items-center gap-0.5 text-[8px] sm:text-[9px] md:text-[10.5px] font-black px-2 py-0.5 rounded-full transition-all duration-300 ${
                       activeTab === 2 ? 'bg-[#64ad55] text-white shadow-xs' : 'bg-[#64ad55]/15 text-[#64ad55] hover:bg-[#64ad55] hover:text-white'
                     }`}>
                       VIEW MORE +
                     </span>
                   </div>
-                  <h4 className="font-black text-[9.5px] sm:text-[11px] md:text-[12.5px] lg:text-[13.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
+                  <h4 className="font-black text-[11px] sm:text-[12.5px] md:text-[14px] lg:text-[15.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
                     개량신약(약물방출)
                   </h4>
                 </motion.div>
@@ -270,7 +270,7 @@ export default function CDMOTabSection() {
                   onClick={() => setActiveTab(2)}
                   onMouseEnter={() => setHoveredTab(2)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  className={`absolute top-[92.5%] left-[2%] w-[24%] pt-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
+                  className={`absolute top-[92.5%] left-[2%] w-[25%] pt-1.5 transition-all duration-300 select-none cursor-pointer z-30 ${
                     activeTab === 2 || hoveredTab === 2 ? 'scale-105' : 'opacity-85'
                   }`}
                   initial={{ x: -20, opacity: 0 }}
@@ -278,7 +278,7 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.7 }}
                 >
-                  <p className="text-[8.5px] sm:text-[9.5px] md:text-[10.5px] text-gray-500 leading-relaxed font-semibold">
+                  <p className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
                     · 약물방출 조절 개량신약<br />
                     · 고함량 개량신약
                   </p>
@@ -290,7 +290,7 @@ export default function CDMOTabSection() {
                   onClick={() => setActiveTab(3)}
                   onMouseEnter={() => setHoveredTab(3)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  className={`absolute top-[77.5%] right-[2%] w-[24%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
+                  className={`absolute top-[77.5%] right-[2%] w-[25%] h-[15%] flex flex-col justify-end pb-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
                     activeTab === 3 || hoveredTab === 3 ? 'scale-105 font-bold' : 'opacity-85'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -299,14 +299,14 @@ export default function CDMOTabSection() {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.6 }}
                 >
                   <div className="flex items-center justify-between flex-row-reverse">
-                    <span className="text-[10px] sm:text-xs md:text-sm font-extrabold text-[#64ad55]">04</span>
-                    <span className={`inline-flex items-center gap-0.5 text-[7px] sm:text-[8px] md:text-[9px] font-black px-1.5 py-0.5 rounded-full transition-all duration-300 ${
+                    <span className="text-[12px] sm:text-sm md:text-base font-extrabold text-[#64ad55]">04</span>
+                    <span className={`inline-flex items-center gap-0.5 text-[8px] sm:text-[9px] md:text-[10.5px] font-black px-2 py-0.5 rounded-full transition-all duration-300 ${
                       activeTab === 3 ? 'bg-[#64ad55] text-white shadow-xs' : 'bg-[#64ad55]/15 text-[#64ad55] hover:bg-[#64ad55] hover:text-white'
                     }`}>
                       VIEW MORE +
                     </span>
                   </div>
-                  <h4 className="font-black text-[8.5px] sm:text-[9.5px] md:text-[11px] lg:text-[12px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
+                  <h4 className="font-black text-[10px] sm:text-[11.5px] md:text-[13px] lg:text-[14.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
                     개량신약(복합제 & 기타)
                   </h4>
                 </motion.div>
@@ -315,7 +315,7 @@ export default function CDMOTabSection() {
                   onClick={() => setActiveTab(3)}
                   onMouseEnter={() => setHoveredTab(3)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  className={`absolute top-[92.5%] right-[2%] w-[24%] pt-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
+                  className={`absolute top-[92.5%] right-[2%] w-[25%] pt-1.5 text-right transition-all duration-300 select-none cursor-pointer z-30 ${
                     activeTab === 3 || hoveredTab === 3 ? 'scale-105' : 'opacity-85'
                   }`}
                   initial={{ x: 20, opacity: 0 }}
@@ -323,7 +323,7 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.7 }}
                 >
-                  <p className="text-[8.5px] sm:text-[9.5px] md:text-[10.5px] text-gray-500 leading-relaxed font-semibold">
+                  <p className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
                     · 복합제제 개량신약<br />
                     · 제형변경(기타)
                   </p>
@@ -484,32 +484,32 @@ export default function CDMOTabSection() {
 
             {/* Right Column: Active Category Details Panel (6 cols) */}
             <div className="lg:col-span-6 flex flex-col h-full justify-center">
-              <div key={currentTab.id} className="bg-[#FAFBFB] rounded-2xl p-6 sm:p-8 lg:p-9 border border-gray-200/80 animate-fade-in-up h-full flex flex-col justify-between">
+              <div key={currentTab.id} className="bg-[#FAFBFB] rounded-2xl p-6 sm:p-8 lg:p-10 border border-gray-200/80 animate-fade-in-up h-full flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-3.5 mb-7 pb-5 border-b border-gray-200/80">
-                    <span className="w-9 h-9 rounded-full bg-[#64ad55] text-white font-black text-[14px] flex items-center justify-center flex-shrink-0 shadow-xs">
+                  <div className="flex items-center gap-4 mb-7 pb-5 border-b border-gray-200/80">
+                    <span className="w-10 h-10 rounded-full bg-[#64ad55] text-white font-black text-[16px] flex items-center justify-center flex-shrink-0 shadow-xs">
                       {currentTab.num}
                     </span>
-                    <h4 className="text-[20px] md:text-[22px] font-black text-gray-900 tracking-tight">
+                    <h4 className="text-[22px] md:text-[25px] font-black text-gray-900 tracking-tight">
                       {currentTab.sectionTitle}
                     </h4>
                   </div>
 
-                  <div className="space-y-7">
+                  <div className="space-y-8">
                     {currentTab.groups.map((grp, i) => (
                       <div key={i}>
-                        <div className="flex items-center gap-2 mb-2.5">
-                          <span className="w-2 h-2 rounded-full bg-[#64ad55]"></span>
-                          <span className="text-[15.5px] font-bold text-gray-900">{grp.subtitle}</span>
+                        <div className="flex items-center gap-2.5 mb-3">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#64ad55]"></span>
+                          <span className="text-[17px] sm:text-[18px] font-bold text-gray-900">{grp.subtitle}</span>
                         </div>
-                        <div className="pl-4">
+                        <div className="pl-5">
                           {grp.items.map((item, itemIdx) => (
-                            <p key={itemIdx} className="text-[14px] text-gray-700 font-medium leading-[1.85] break-keep">
+                            <p key={itemIdx} className="text-[15px] sm:text-[16px] text-gray-700 font-medium leading-[1.85] break-keep">
                               {item}
                             </p>
                           ))}
                           {grp.note && (
-                            <p className="text-[12.5px] text-gray-500 font-medium mt-1.5">
+                            <p className="text-[13.5px] sm:text-[14px] text-gray-500 font-medium mt-2">
                               {grp.note}
                             </p>
                           )}
@@ -527,16 +527,16 @@ export default function CDMOTabSection() {
         {/* WHY DASAN Section Header */}
         <div className="mt-16 sm:mt-20 md:mt-24 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="text-left">
-            <h3 className="text-[28px] md:text-[34px] font-black text-gray-900 tracking-tight mb-2">
+            <h3 className="text-[32px] md:text-[38px] font-black text-gray-900 tracking-tight mb-2">
               WHY DASAN
             </h3>
-            <p className="text-[15px] md:text-[16px] text-gray-600 font-medium break-keep">
+            <p className="text-[17px] md:text-[18.5px] text-gray-600 font-medium break-keep">
               개발부터 생산까지, 의약품의 가치를 완성하는 파트너
             </p>
           </div>
           <Link
             href="/contact/inquiry/sales"
-            className="inline-flex items-center justify-center py-2.5 px-5 rounded-xl bg-gray-500 hover:bg-[#64ad55] text-white text-[13px] sm:text-[14px] font-bold shadow-sm transition-all duration-300 shrink-0"
+            className="inline-flex items-center justify-center py-3 px-6 rounded-xl bg-gray-500 hover:bg-[#64ad55] text-white text-[14px] sm:text-[15.5px] font-bold shadow-sm transition-all duration-300 shrink-0"
           >
             비즈니스 영업 문의하기
           </Link>
@@ -549,20 +549,20 @@ export default function CDMOTabSection() {
             return (
               <div
                 key={tab.id}
-                className="text-left rounded-2xl px-4.5 py-6 sm:px-5 sm:py-6 xl:px-6 xl:py-7 flex flex-col justify-between bg-white border border-gray-200/70 hover:border-[#64ad55] shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 group select-none cursor-default"
+                className="text-left rounded-2xl px-5 py-6 sm:px-6 sm:py-7 xl:px-6 xl:py-7 flex flex-col justify-between bg-white border border-gray-200/70 hover:border-[#64ad55] shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 group select-none cursor-default"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="inline-block font-black text-[11.5px] px-3 py-1 rounded-full tracking-wider uppercase bg-[#64ad55]/10 text-[#64ad55] transition-colors group-hover:bg-[#64ad55] group-hover:text-white">
+                    <span className="inline-block font-black text-[12.5px] sm:text-[13px] px-3.5 py-1 rounded-full tracking-wider uppercase bg-[#64ad55]/10 text-[#64ad55] transition-colors group-hover:bg-[#64ad55] group-hover:text-white">
                       {tab.badge}
                     </span>
                     <Icon
-                      size={20}
+                      size={22}
                       strokeWidth={1.75}
                       className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
-                  <h4 className="text-[13px] sm:text-[13.5px] lg:text-[12.5px] xl:text-[13.8px] font-bold tracking-tight leading-snug whitespace-nowrap text-gray-900 transition-colors group-hover:text-[#64ad55]">
+                  <h4 className="text-[14.5px] sm:text-[15.5px] lg:text-[14.5px] xl:text-[16px] font-bold tracking-tight leading-snug break-keep text-gray-900 transition-colors group-hover:text-[#64ad55]">
                     {tab.cardTitle}
                   </h4>
                 </div>

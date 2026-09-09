@@ -600,11 +600,11 @@ export default async function AboutCatchAllPage({ params }: Params) {
               {/* Card 1 */}
               <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
                   style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
                 />
-                {/* Light static top gradient for title contrast (No darkening on hover) */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
+                {/* Ultra-light static top gradient for title contrast */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
                 <div 
                   className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
@@ -622,11 +622,11 @@ export default async function AboutCatchAllPage({ params }: Params) {
               {/* Card 2 */}
               <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
                   style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
                 />
-                {/* Light static top gradient for title contrast (No darkening on hover) */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
+                {/* Ultra-light static top gradient for title contrast */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
                 <div 
                   className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
@@ -644,11 +644,11 @@ export default async function AboutCatchAllPage({ params }: Params) {
               {/* Card 3 */}
               <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.08]"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
                   style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
                 />
-                {/* Light static top gradient for title contrast (No darkening on hover) */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent" />
+                {/* Ultra-light static top gradient for title contrast */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
                 <div 
                   className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
