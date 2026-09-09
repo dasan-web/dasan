@@ -614,12 +614,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
                 />
                 {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  className="absolute inset-0 p-3 sm:p-4 md:p-5 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <h4 className="text-[14px] sm:text-lg md:text-xl lg:text-[23px] xl:text-[26px] 2xl:text-[28px] font-black break-keep sm:whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
+                  <h4 className="text-[13px] sm:text-[16px] md:text-[19px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] font-black whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
                     01. 자사 완제 의약품 사업
                   </h4>
                   {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 한 줄 표시) */}
@@ -636,12 +636,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
                 />
                 {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  className="absolute inset-0 p-3 sm:p-4 md:p-5 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <h4 className="text-[14px] sm:text-lg md:text-xl lg:text-[23px] xl:text-[26px] 2xl:text-[28px] font-black break-keep sm:whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
+                  <h4 className="text-[13px] sm:text-[16px] md:text-[19px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] font-black whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
                     02. 수탁 완제 의약품 (CMO) 사업
                   </h4>
                   {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
@@ -658,12 +658,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
                 />
                 {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
                 <div 
-                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
+                  className="absolute inset-0 p-3 sm:p-4 md:p-5 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
                 >
-                  <h4 className="text-[14px] sm:text-lg md:text-xl lg:text-[23px] xl:text-[26px] 2xl:text-[28px] font-black break-keep sm:whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
+                  <h4 className="text-[12px] sm:text-[15px] md:text-[17.5px] lg:text-[22px] xl:text-[25px] 2xl:text-[28px] font-black whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
                     03. 의약품 핵심 원료 및 중간체 사업
                   </h4>
                   {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
