@@ -42,7 +42,7 @@ export default function PhilosophyGraphic() {
       cardTitle: isEnglish ? 'Ethical Management' : '정도 경영',
       desc: isEnglish
         ? 'Establishing market and customer trust by adhering to transparent and upright standards.'
-        : '투명하고 올바른 기준을 준수하며 시장과 고객의 신뢰를 구축합니다',
+        : '투명하고 올바른 기준을 준수하며 시장과 고객의 신뢰를 구축합니다.',
       icon: ShieldCheck,
       side: 'left' as const,
       yPercent: '20.0%', // 360 / 1800
@@ -55,7 +55,7 @@ export default function PhilosophyGraphic() {
       cardTitle: isEnglish ? 'Challenge & Creativity' : '도전과 창의',
       desc: isEnglish
         ? 'Pioneering new possibilities through continuous R&D innovation and specialized formulation technology.'
-        : '끊임없는 R&D 혁신과 차별화된 제제기술로 새로운 가능성을 개척합니다',
+        : '끊임없는 R&D 혁신과 차별화된 제제기술로 새로운 가능성을 개척합니다.',
       icon: Lightbulb,
       side: 'right' as const,
       yPercent: '37.7%', // 680 / 1800
@@ -68,7 +68,7 @@ export default function PhilosophyGraphic() {
       cardTitle: isEnglish ? 'Communication & Collaboration' : '소통과 협력',
       desc: isEnglish
         ? 'Pursuing mutual growth with partner companies and organic cooperation among members.'
-        : '구성원 간의 유기적인 협업과 파트너사와의 상생을 추구합니다',
+        : '구성원 간의 유기적인 협업과 파트너사와의 상생을 추구합니다.',
       icon: Users,
       side: 'left' as const,
       yPercent: '55.5%', // 1000 / 1800
@@ -81,7 +81,7 @@ export default function PhilosophyGraphic() {
       cardTitle: isEnglish ? 'Social Contribution' : '사회적 공헌',
       desc: isEnglish
         ? 'Contributing to a healthy and happy society based on the value of respect for life.'
-        : '생명 존중의 가치를 바탕으로 건강하고 행복한 사회를 만드는 데 기여합니다',
+        : '생명 존중의 가치를 바탕으로 건강하고 행복한 사회를 만드는 데 기여합니다.',
       icon: HandHeart,
       side: 'right' as const,
       yPercent: '73.3%', // 1320 / 1800
@@ -198,52 +198,116 @@ export default function PhilosophyGraphic() {
         {/* STEP 05 (FINAL DESTINATION): 행복경영 DASAN (맨 아래 - 육각형)       */}
         {/* Coords: (500, 1640) => left: 50%, top: 90.5%                      */}
         {/* ------------------------------------------------------------------ */}
-        <motion.div
-          className="absolute z-30 flex flex-col items-center -translate-x-1/2 -translate-y-1/2"
-          style={{ left: '50%', top: '90.5%' }}
-          initial={{ opacity: 0, y: 70, scale: 0.8 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Hexagon Badge with Gray Border and Drop Shadow (SVG Polygon) */}
-          <div className="relative flex items-center justify-center w-[185px] h-[160px] sm:w-[235px] sm:h-[205px] md:w-[275px] md:h-[240px] select-none hover:scale-105 transition-transform duration-500 cursor-default">
-            <svg
-              viewBox="0 0 230 200"
-              className="absolute inset-0 w-full h-full overflow-visible"
-              style={{ filter: 'drop-shadow(0px 8px 18px rgba(100, 116, 139, 0.22))' }}
-            >
-              <polygon
-                points="57.5,4 172.5,4 226,100 172.5,196 57.5,196 4,100"
-                fill="#f1f5f9"
-                stroke="#cbd5e1"
-                strokeWidth="4"
-                strokeLinejoin="round"
-              />
-            </svg>
-
-            {/* Inner Content */}
-            <div className="relative z-10 flex flex-col items-center justify-center text-center px-3 sm:px-6">
-              {/* Happiness Icon */}
-              <div className="text-[#16a34a] mb-1 sm:mb-1.5 flex items-center justify-center">
-                <Smile className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 stroke-[2.2]" />
-              </div>
-
-              {/* Main Title: 행복경영 */}
-              <h3 className="text-gray-900 font-black text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-tight leading-tight">
-                {isEnglish ? 'Happiness Management' : '행복경영'}
-              </h3>
-
-              {/* Brand Logo Text: DASAN */}
-              <span className="text-[#16a34a] font-black text-xs sm:text-sm md:text-lg tracking-widest mt-0.5 sm:mt-1">
-                DASAN
-              </span>
-            </div>
-          </div>
-        </motion.div>
+        <HexagonBadge
+          smoothPathLength={smoothPathLength}
+          isEnglish={isEnglish}
+        />
       </div>
 
     </div>
+  );
+}
+
+function HexagonBadge({
+  smoothPathLength,
+  isEnglish,
+}: {
+  smoothPathLength: MotionValue<number>;
+  isEnglish: boolean;
+}) {
+  // Hexagon background starts as white (#ffffff) and turns gray (#f1f5f9) as the descending line touches it
+  const hexagonBg = useTransform(
+    smoothPathLength,
+    [0.96, 0.995],
+    ['#ffffff', '#f1f5f9']
+  );
+
+  // Border progress: emerald-500 (#10b981) border fills from top center down both sides to bottom center
+  const borderProgress = useTransform(
+    smoothPathLength,
+    [0.96, 1.0],
+    [0, 1]
+  );
+
+  const borderOpacity = useTransform(
+    smoothPathLength,
+    [0.958, 0.962],
+    [0, 1]
+  );
+
+  return (
+    <motion.div
+      className="absolute z-30 flex flex-col items-center -translate-x-1/2 -translate-y-1/2"
+      style={{ left: '50%', top: '90.5%' }}
+      initial={{ opacity: 0, y: 70, scale: 0.8 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: false, amount: 0.3 }}
+      transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {/* Hexagon Badge with Gray Border and Drop Shadow (SVG Polygon) */}
+      <div className="relative flex items-center justify-center w-[185px] h-[160px] sm:w-[235px] sm:h-[205px] md:w-[275px] md:h-[240px] select-none hover:scale-105 transition-transform duration-500 cursor-default">
+        <svg
+          viewBox="0 0 230 200"
+          className="absolute inset-0 w-full h-full overflow-visible"
+          style={{ filter: 'drop-shadow(0px 8px 18px rgba(100, 116, 139, 0.22))' }}
+        >
+          {/* Base Hexagon Polygon (White -> Gray background, Gray border) */}
+          <motion.polygon
+            points="57.5,4 172.5,4 226,100 172.5,196 57.5,196 4,100"
+            style={{ fill: hexagonBg }}
+            stroke="#cbd5e1"
+            strokeWidth="4"
+            strokeLinejoin="round"
+          />
+
+          {/* Left half emerald green border: flows from top center (115, 4) down to bottom center (115, 196) */}
+          <motion.path
+            d="M 115 4 L 57.5 4 L 4 100 L 57.5 196 L 115 196"
+            fill="none"
+            stroke="#10b981"
+            strokeWidth="4.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{
+              pathLength: borderProgress,
+              opacity: borderOpacity,
+            }}
+          />
+
+          {/* Right half emerald green border: flows from top center (115, 4) down to bottom center (115, 196) */}
+          <motion.path
+            d="M 115 4 L 172.5 4 L 226 100 L 172.5 196 L 115 196"
+            fill="none"
+            stroke="#10b981"
+            strokeWidth="4.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{
+              pathLength: borderProgress,
+              opacity: borderOpacity,
+            }}
+          />
+        </svg>
+
+        {/* Inner Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-3 sm:px-6">
+          {/* Happiness Icon */}
+          <div className="text-[#16a34a] mb-1 sm:mb-1.5 flex items-center justify-center">
+            <Smile className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 stroke-[2.2]" />
+          </div>
+
+          {/* Main Title: 행복경영 */}
+          <h3 className="text-gray-900 font-black text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-tight leading-tight">
+            {isEnglish ? 'Happiness Management' : '행복경영'}
+          </h3>
+
+          {/* Brand Logo Text: DASAN */}
+          <span className="text-[#16a34a] font-black text-xs sm:text-sm md:text-lg tracking-widest mt-0.5 sm:mt-1">
+            DASAN
+          </span>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -309,6 +373,19 @@ function StepNode({
     [1, 1.08, 1.03]
   );
 
+  // Border progress: emerald-500 (#10b981) border fills from top to bottom symmetrically
+  const borderProgress = useTransform(
+    smoothPathLength,
+    [t - 0.025, t + 0.015],
+    [0, 1]
+  );
+
+  const borderOpacity = useTransform(
+    smoothPathLength,
+    [t - 0.027, t - 0.024],
+    [0, 1]
+  );
+
   // Description text card: fades in and slides in smoothly when line reaches the node
   const textOpacity = useTransform(
     smoothPathLength,
@@ -335,25 +412,70 @@ function StepNode({
             boxShadow: ringShadow,
             scale: circleScale,
           }}
-          className="w-[105px] h-[105px] sm:w-[145px] sm:h-[145px] md:w-[168px] md:h-[168px] rounded-full ring-4 sm:ring-6 ring-emerald-500 border-2 border-emerald-500 flex flex-col items-center justify-center p-2 sm:p-3 text-center select-none hover:scale-110 transition-transform duration-300"
+          className="relative w-[105px] h-[105px] sm:w-[145px] sm:h-[145px] md:w-[168px] md:h-[168px] rounded-full flex flex-col items-center justify-center p-2 sm:p-3 text-center select-none hover:scale-110 transition-transform duration-300 overflow-visible"
         >
-          <motion.div style={{ color: iconColor }}>
-            <Icon size={30} className="mb-1 sm:mb-1.5 sm:scale-110" />
-          </motion.div>
-
-          <motion.span
-            style={{ color: numColor }}
-            className="text-[11px] sm:text-[13px] md:text-[14px] font-black tracking-widest uppercase"
+          {/* SVG Animated Border Layer */}
+          <svg
+            viewBox="0 0 100 100"
+            className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10"
           >
-            {step.num}
-          </motion.span>
+            {/* Base gray border before line reaches */}
+            <circle
+              cx="50"
+              cy="50"
+              r="47.5"
+              fill="none"
+              stroke="#cbd5e1"
+              strokeWidth="4.5"
+            />
 
-          <motion.h4
-            style={{ color: titleColor }}
-            className="text-[14px] sm:text-[18px] md:text-[21px] font-black leading-tight"
-          >
-            {step.title}
-          </motion.h4>
+            {/* Left half emerald green border: flows from top (50, 2.5) down to bottom (50, 97.5) */}
+            <motion.path
+              d="M 50 2.5 A 47.5 47.5 0 0 0 50 97.5"
+              fill="none"
+              stroke="#10b981"
+              strokeWidth="5"
+              strokeLinecap="round"
+              style={{
+                pathLength: borderProgress,
+                opacity: borderOpacity,
+              }}
+            />
+
+            {/* Right half emerald green border: flows from top (50, 2.5) down to bottom (50, 97.5) */}
+            <motion.path
+              d="M 50 2.5 A 47.5 47.5 0 0 1 50 97.5"
+              fill="none"
+              stroke="#10b981"
+              strokeWidth="5"
+              strokeLinecap="round"
+              style={{
+                pathLength: borderProgress,
+                opacity: borderOpacity,
+              }}
+            />
+          </svg>
+
+          {/* Inner Content */}
+          <div className="relative z-20 flex flex-col items-center justify-center">
+            <motion.div style={{ color: iconColor }}>
+              <Icon size={30} className="mb-1 sm:mb-1.5 sm:scale-110" />
+            </motion.div>
+
+            <motion.span
+              style={{ color: numColor }}
+              className="text-[11px] sm:text-[13px] md:text-[14px] font-black tracking-widest uppercase"
+            >
+              {step.num}
+            </motion.span>
+
+            <motion.h4
+              style={{ color: titleColor }}
+              className="text-[14px] sm:text-[18px] md:text-[21px] font-black leading-tight"
+            >
+              {step.title}
+            </motion.h4>
+          </div>
         </motion.div>
       </motion.div>
 
