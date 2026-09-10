@@ -1,209 +1,374 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, useScroll, useSpring, useTransform, MotionValue } from 'framer-motion';
 import { LucideIcon, ShieldCheck, Lightbulb, Users, HandHeart, Smile } from 'lucide-react';
+
+interface StepItem {
+  num: string;
+  title: string;
+  desc: string;
+  icon: LucideIcon;
+  xPercent: string;
+  xPos: number;
+}
 
 export default function PhilosophyGraphic() {
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith('/en') ?? false;
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
+  const [activeNode, setActiveNode] = useState<number | null>(null);
 
-  // Directly link the long green line to vertical scroll position
+  // Directly link stream progress to vertical scroll position
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 70%', 'end 85%'],
+    offset: ['start 80%', 'end 80%'],
   });
 
-  const smoothPathLength = useSpring(scrollYProgress, {
-    stiffness: 45,
-    damping: 18,
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 50,
+    damping: 20,
     restDelta: 0.001,
   });
 
-  // Long flowing S-curve ribbon path (viewBox 0 0 1000 1800)
-  // Connects:
-  // (500, 80) 애민정신
-  // -> (250, 360) 01. 정도경영 (Left)
-  // -> (750, 680) 02. 도전과 창의 (Right)
-  // -> (250, 1000) 03. 소통과 협력 (Left)
-  // -> (750, 1320) 04. 사회적 공헌 (Right)
-  // -> (500, 1485) 05. 행복경영 육각형 상단 수평면 (Center Bottom)
-  const ribbonPath =
-    'M 500 80 C 500 200, 250 240, 250 360 C 250 500, 750 540, 750 680 C 750 820, 250 860, 250 1000 C 250 1140, 750 1180, 750 1320 C 750 1440, 500 1440, 500 1545';
+  // Animation timelines along smoothProgress (0 to 1)
+  // 1. Upper branch: Single trunk from 애민정신 splits into 4 streams (0.05 -> 0.35)
+  const upperStreamProgress = useTransform(smoothProgress, [0.05, 0.35], [0, 1]);
 
-  const steps = [
+  // 2. 4 Horizontal Circles light up (0.28 -> 0.52)
+  const circlesProgress = useTransform(smoothProgress, [0.28, 0.52], [0, 1]);
+  const horizontalRibbonProgress = useTransform(smoothProgress, [0.30, 0.55], [0, 1]);
+
+  // 3. Lower branch: 4 streams exit and converge into ONE at (500, 630) (0.45 -> 0.75)
+  const lowerStreamProgress = useTransform(smoothProgress, [0.45, 0.75], [0, 1]);
+
+  // 4. Merged single stream enters 행복경영 (0.70 -> 0.88)
+  const mergedStemProgress = useTransform(smoothProgress, [0.70, 0.88], [0, 1]);
+
+  // 5. Hexagon badge illuminates (0.82 -> 1.00)
+  const hexagonProgress = useTransform(smoothProgress, [0.82, 1.0], [0, 1]);
+
+  // 4 Core Management Philosophies - strictly horizontal at the same Y level
+  // Center coordinates in viewBox 0 0 1000 880:
+  // Y = 320 for all 4 circles
+  // X = 135, 378, 622, 865
+  const steps: StepItem[] = [
     {
       num: '01',
       title: isEnglish ? 'Ethical Management' : '정도경영',
-      cardTitle: isEnglish ? 'Ethical Management' : '정도 경영',
       desc: isEnglish
         ? 'Establishing market and customer trust by adhering to transparent and upright standards.'
         : '투명하고 올바른 기준을 준수하며 시장과 고객의 신뢰를 구축합니다.',
       icon: ShieldCheck,
-      side: 'left' as const,
-      yPercent: '20.0%', // 360 / 1800
-      xPercent: '25.0%', // 250 / 1000
-      threshold: 0.152,
+      xPercent: '13.5%',
+      xPos: 135,
     },
     {
       num: '02',
       title: isEnglish ? 'Challenge & Creativity' : '도전과 창의',
-      cardTitle: isEnglish ? 'Challenge & Creativity' : '도전과 창의',
       desc: isEnglish
         ? 'Pioneering new possibilities through continuous R&D innovation and specialized formulation technology.'
         : '끊임없는 R&D 혁신과 차별화된 제제기술로 새로운 가능성을 개척합니다.',
       icon: Lightbulb,
-      side: 'right' as const,
-      yPercent: '37.7%', // 680 / 1800
-      xPercent: '75.0%', // 750 / 1000
-      threshold: 0.393,
+      xPercent: '37.8%',
+      xPos: 378,
     },
     {
       num: '03',
       title: isEnglish ? 'Communication & Collaboration' : '소통과 협력',
-      cardTitle: isEnglish ? 'Communication & Collaboration' : '소통과 협력',
       desc: isEnglish
         ? 'Pursuing mutual growth with partner companies and organic cooperation among members.'
         : '구성원 간의 유기적인 협업과 파트너사와의 상생을 추구합니다.',
       icon: Users,
-      side: 'left' as const,
-      yPercent: '55.5%', // 1000 / 1800
-      xPercent: '25.0%', // 250 / 1000
-      threshold: 0.635,
+      xPercent: '62.2%',
+      xPos: 622,
     },
     {
       num: '04',
       title: isEnglish ? 'Social Contribution' : '사회적 공헌',
-      cardTitle: isEnglish ? 'Social Contribution' : '사회적 공헌',
       desc: isEnglish
         ? 'Contributing to a healthy and happy society based on the value of respect for life.'
         : '생명 존중의 가치를 바탕으로 건강하고 행복한 사회를 만드는 데 기여합니다.',
       icon: HandHeart,
-      side: 'right' as const,
-      yPercent: '73.3%', // 1320 / 1800
-      xPercent: '75.0%', // 750 / 1000
-      threshold: 0.876,
+      xPercent: '86.5%',
+      xPos: 865,
     },
   ];
+
+  // SVG Paths in viewBox 0 0 1000 880:
+  // Top: 애민정신 bottom center at (500, 95)
+  // Split point at (500, 160)
+  // Circle tops at Y = 252 (R = 68, center Y = 320)
+  const upperPaths = [
+    'M 500 95 L 500 160 C 500 220, 135 195, 135 252',
+    'M 500 95 L 500 160 C 500 220, 378 205, 378 252',
+    'M 500 95 L 500 160 C 500 220, 622 205, 622 252',
+    'M 500 95 L 500 160 C 500 220, 865 195, 865 252',
+  ];
+
+  // Horizontal ribbon connecting the 4 circles through their centers (Y = 320)
+  const horizontalRibbonPath = 'M 135 320 L 865 320';
+
+  // Lower streams exiting below description cards (Y = 515) and merging into (500, 630)
+  const lowerPaths = [
+    'M 135 515 C 135 580, 500 565, 500 630',
+    'M 378 515 C 378 580, 500 575, 500 630',
+    'M 622 515 C 622 580, 500 575, 500 630',
+    'M 865 515 C 865 580, 500 565, 500 630',
+  ];
+
+  // Single unified stream from merge point (500, 630) into 행복경영 Hexagon top (500, 715)
+  const mergedStemPath = 'M 500 630 L 500 715';
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-[1040px] mx-auto mt-12 sm:mt-16 mb-4 select-none px-2 sm:px-4"
+      className="relative w-full max-w-[1080px] mx-auto mt-6 sm:mt-10 mb-4 select-none px-2 sm:px-4"
       translate="no"
     >
-
-      {/* Main Long Vertical Canvas (viewBox 0 0 1000 1800) */}
-      <div className="relative w-full aspect-[1000/1800] p-4 sm:p-8 overflow-hidden">
+      {/* Canvas with proportional responsive aspect ratio [1000/880] */}
+      <div className="relative w-full aspect-[1000/980] sm:aspect-[1000/910] md:aspect-[1000/880] overflow-visible">
 
         {/* ------------------------------------------------------------------ */}
-        {/* SVG LAYER: Long Connecting Ribbon from Start down to the Hexagon   */}
+        {/* SVG LAYER: Water Streams (Gray Base Tracks + Active Green Flow)    */}
         {/* ------------------------------------------------------------------ */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible"
-          viewBox="0 0 1000 1800"
+          viewBox="0 0 1000 880"
           preserveAspectRatio="xMidYMid meet"
         >
-          <defs>
-            {/* Monochromatic Green Gradient: Light Green -> Deep Green */}
-            <linearGradient id="long-green-ribbon" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#86efac" />
-              <stop offset="25%" stopColor="#4ade80" />
-              <stop offset="55%" stopColor="#16a34a" />
-              <stop offset="85%" stopColor="#15803d" />
-              <stop offset="100%" stopColor="#14532d" />
-            </linearGradient>
+          {/* 1. Underlying Gray Base Tracks (기존 은은한 연회색 안내선 #e2e8f0) */}
+          {/* Upper 1-to-4 Split Tracks */}
+          {upperPaths.map((d, i) => (
+            <path
+              key={`upper-base-${i}`}
+              d={d}
+              fill="none"
+              stroke="#e2e8f0"
+              strokeWidth="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.8"
+            />
+          ))}
 
-            {/* Glowing Drop Shadow Filter */}
-            <filter id="ribbon-glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#22c55e" floodOpacity="0.45" />
-              <feDropShadow dx="0" dy="3" stdDeviation="12" floodColor="#15803d" floodOpacity="0.25" />
-            </filter>
-          </defs>
-
-          {/* 1. Subtle Ambient Guide Track (Faint track indicating the full length) */}
+          {/* Horizontal Connection Ribbon behind the 4 circles */}
           <path
-            d={ribbonPath}
+            d={horizontalRibbonPath}
+            fill="none"
+            stroke="#e2e8f0"
+            strokeWidth="12"
+            strokeLinecap="round"
+            opacity="0.7"
+          />
+
+          {/* Lower 4-to-1 Merge Tracks */}
+          {lowerPaths.map((d, i) => (
+            <path
+              key={`lower-base-${i}`}
+              d={d}
+              fill="none"
+              stroke="#e2e8f0"
+              strokeWidth="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.8"
+            />
+          ))}
+
+          {/* Merged Single Trunk into Hexagon */}
+          <path
+            d={mergedStemPath}
             fill="none"
             stroke="#e2e8f0"
             strokeWidth="14"
             strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.6"
+            opacity="0.8"
           />
 
-          {/* 2. Hidden Reference Path for Real-time Length Measurement */}
-          <path
-            ref={pathRef}
-            d={ribbonPath}
-            fill="none"
-            stroke="transparent"
-            strokeWidth="1"
-          />
+          {/* 2. Active Green Streams (생동감 넘치는 녹색 물줄기 #16a34a) */}
+          {/* Upper: 1 single stream from 애민정신 splits into 4 streams */}
+          {upperPaths.map((d, i) => (
+            <motion.path
+              key={`upper-active-${i}`}
+              d={d}
+              fill="none"
+              stroke="#16a34a"
+              strokeWidth="12"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ pathLength: upperStreamProgress }}
+            />
+          ))}
 
-          {/* 3. The Dynamic Long Flowing Green Ribbon (Solid flat single color: no 3D) */}
+          {/* Horizontal Connecting Ribbon behind the 4 circles (그림처럼 연결) */}
           <motion.path
-            d={ribbonPath}
+            d={horizontalRibbonPath}
             fill="none"
             stroke="#16a34a"
-            strokeWidth="16"
+            strokeWidth="12"
             strokeLinecap="round"
-            strokeLinejoin="round"
+            style={{ pathLength: horizontalRibbonProgress }}
+          />
+
+          {/* Lower: 4 streams exit downwards and converge into (500, 630) */}
+          {lowerPaths.map((d, i) => (
+            <motion.path
+              key={`lower-active-${i}`}
+              d={d}
+              fill="none"
+              stroke="#16a34a"
+              strokeWidth="12"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ pathLength: lowerStreamProgress }}
+            />
+          ))}
+
+          {/* Bottom: The 4 streams unite into ONE single stream into 행복경영 */}
+          <motion.path
+            d={mergedStemPath}
+            fill="none"
+            stroke="#16a34a"
+            strokeWidth="14"
+            strokeLinecap="round"
+            style={{ pathLength: mergedStemProgress }}
+          />
+
+          {/* Merge Convergence Node at (500, 630) */}
+          <circle cx="500" cy="630" r="10" fill="#e2e8f0" />
+          <motion.circle
+            cx="500"
+            cy="630"
+            r="10"
+            fill="#16a34a"
             style={{
-              pathLength: smoothPathLength,
+              opacity: useTransform(lowerStreamProgress, [0.85, 1], [0, 1]),
+              scale: useTransform(lowerStreamProgress, [0.85, 1], [0.8, 1.2]),
             }}
           />
         </svg>
 
         {/* ------------------------------------------------------------------ */}
-        {/* START: 애민 정신 (愛民精神) - Top Center (y: 80 / 1800 = 4.44%)      */}
+        {/* START: 애민 정신 (愛民精神) - Top Center (y: 65 / 880 = 7.4%)        */}
         {/* ------------------------------------------------------------------ */}
         <motion.div
           className="absolute z-20 flex flex-col items-center -translate-x-1/2 -translate-y-1/2"
-          style={{ left: '50%', top: '4.44%' }}
-          initial={{ opacity: 0, y: -20, scale: 0.9 }}
+          style={{ left: '50%', top: '7.4%' }}
+          initial={{ opacity: 0, y: -18, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.5 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: false, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <div className="flex items-center gap-3 sm:gap-4 px-6 sm:px-8 py-3 rounded-full bg-slate-100 text-slate-800 border-2 border-slate-300 shadow-sm select-none whitespace-nowrap shrink-0">
-            <h3 className="text-base sm:text-lg md:text-xl font-black text-gray-900 leading-none whitespace-nowrap shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3.5 px-4 sm:px-7 py-2 sm:py-2.5 rounded-full bg-slate-50 text-slate-800 border-2 border-slate-200 shadow-sm select-none whitespace-nowrap shrink-0 hover:shadow-md transition-shadow">
+            <h3 className="text-xs sm:text-base md:text-lg font-black text-gray-900 leading-none whitespace-nowrap shrink-0">
               {isEnglish ? 'Aemin (Love for the People)' : '愛民 (애민) 정신'}
             </h3>
 
-            <div className="w-[1px] h-4 bg-slate-300 shrink-0 mx-0.5 sm:mx-1" />
+            <div className="w-[1px] h-3.5 sm:h-4 bg-slate-300 shrink-0 mx-0.5" />
 
-            <span className="text-xs sm:text-sm font-semibold text-gray-600 whitespace-nowrap shrink-0">
+            <span className="text-[10px] sm:text-xs md:text-sm font-semibold text-gray-600 whitespace-nowrap shrink-0">
               {isEnglish ? 'The Root of Dasan, Love for the People' : '신뢰의 뿌리, 백성을 사랑하는 마음'}
             </span>
           </div>
         </motion.div>
 
         {/* ------------------------------------------------------------------ */}
-        {/* STEPS 01 ~ 04: One by One along the Long Green Ribbon              */}
+        {/* MIDDLE: 4대 경영철학 (4 Horizontal Circles at EXACT SAME Y = 36.4%) */}
+        {/* 01. 정도경영 | 02. 도전과 창의 | 03. 소통과 협력 | 04. 사회적 공헌     */}
         {/* ------------------------------------------------------------------ */}
-        {steps.map((step) => (
-          <StepNode
-            key={step.num}
-            step={step}
-            smoothPathLength={smoothPathLength}
-          />
-        ))}
+        {steps.map((step, idx) => {
+          const Icon = step.icon;
+          const isHovered = activeNode === idx;
+
+          return (
+            <React.Fragment key={step.num}>
+              {/* Circular Node (그림처럼 나란히 같은 위치: top: 36.4%) */}
+              <motion.div
+                className="absolute z-20 flex flex-col items-center -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                style={{ left: step.xPercent, top: '36.4%' }}
+                onMouseEnter={() => setActiveNode(idx)}
+                onMouseLeave={() => setActiveNode(null)}
+                onClick={() => setActiveNode(activeNode === idx ? null : idx)}
+              >
+                <div
+                  className={`relative w-[78px] h-[78px] sm:w-[118px] sm:h-[118px] md:w-[146px] md:h-[146px] rounded-full bg-white flex flex-col items-center justify-center p-1.5 sm:p-3 text-center select-none shadow-[0_6px_22px_rgba(0,0,0,0.07)] transition-all duration-300 border-[3.5px] sm:border-[4.5px] md:border-[5.5px] ${
+                    isHovered
+                      ? 'border-[#16a34a] scale-105 shadow-[0_10px_28px_rgba(22,163,74,0.22)]'
+                      : 'border-[#16a34a] hover:scale-105'
+                  }`}
+                >
+                  {/* SVG Animated Border Wave Effect */}
+                  <svg
+                    viewBox="0 0 100 100"
+                    className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10"
+                  >
+                    <motion.circle
+                      cx="50"
+                      cy="50"
+                      r="46"
+                      fill="none"
+                      stroke="#22c55e"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                      style={{ pathLength: circlesProgress }}
+                    />
+                  </svg>
+
+                  {/* Inner Content matching media_1789014786052.png */}
+                  <div className="relative z-20 flex flex-col items-center justify-center">
+                    {/* Icon */}
+                    <div className="text-[#16a34a] mb-0.5 sm:mb-1 transition-transform group-hover:scale-110">
+                      <Icon className="w-5 h-5 sm:w-7 sm:h-7 md:w-9 md:h-9 stroke-[2.2]" />
+                    </div>
+
+                    {/* Number: 01, 02, 03, 04 in Green */}
+                    <span className="text-[10px] sm:text-xs md:text-[13px] font-black tracking-widest text-[#16a34a] leading-none mb-0.5">
+                      {step.num}
+                    </span>
+
+                    {/* Title: 정도경영, 도전과 창의, 소통과 협력, 사회적 공헌 in Bold Black */}
+                    <h4 className="text-[9.5px] sm:text-[13px] md:text-[15.5px] font-black text-gray-900 leading-tight tracking-tight text-center whitespace-nowrap">
+                      {step.title}
+                    </h4>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Description Card (각 원형 노드 바로 아래 동일한 수평선상: top: 52.8%) */}
+              <motion.div
+                className="absolute z-20 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 w-[22%] max-w-[225px]"
+                style={{ left: step.xPercent, top: '53.0%' }}
+                onMouseEnter={() => setActiveNode(idx)}
+                onMouseLeave={() => setActiveNode(null)}
+              >
+                <div
+                  className={`w-full bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 border transition-all duration-300 text-center shadow-xs ${
+                    isHovered
+                      ? 'border-[#16a34a] shadow-md bg-emerald-50/40 -translate-y-0.5'
+                      : 'border-slate-200/90 hover:border-slate-300'
+                  }`}
+                >
+                  <p className="text-[9px] sm:text-[11px] md:text-[12.5px] font-medium text-gray-700 leading-snug sm:leading-relaxed break-keep">
+                    {step.desc}
+                  </p>
+                </div>
+              </motion.div>
+            </React.Fragment>
+          );
+        })}
 
         {/* ------------------------------------------------------------------ */}
-        {/* STEP 05 (FINAL DESTINATION): 행복경영 DASAN (맨 아래 - 육각형)       */}
-        {/* Coords: (500, 1640) => left: 50%, top: 90.5%                      */}
+        {/* BOTTOM: 행복경영 DASAN (맨 아래 - 4개 물줄기가 하나로 모이는 종착지)   */}
+        {/* Coords: (500, 790) => left: 50%, top: 88.5%                        */}
         {/* ------------------------------------------------------------------ */}
         <HexagonBadge
-          smoothPathLength={smoothPathLength}
+          smoothPathLength={hexagonProgress}
           isEnglish={isEnglish}
         />
       </div>
-
     </div>
   );
 }
@@ -215,43 +380,43 @@ function HexagonBadge({
   smoothPathLength: MotionValue<number>;
   isEnglish: boolean;
 }) {
-  // Hexagon background starts as white (#ffffff) and turns gray (#f1f5f9) as the descending line touches it
+  // Hexagon background starts as white (#ffffff) and turns softly tinted as the descending unified line fills it
   const hexagonBg = useTransform(
     smoothPathLength,
-    [0.96, 0.995],
-    ['#ffffff', '#f1f5f9']
+    [0.75, 1.0],
+    ['#ffffff', '#f8fafc']
   );
 
-  // Border progress: emerald-500 (#10b981) border fills from top center down both sides to bottom center
+  // Border progress: emerald green border fills from top center down both sides to bottom center
   const borderProgress = useTransform(
     smoothPathLength,
-    [0.96, 1.0],
+    [0.6, 1.0],
     [0, 1]
   );
 
   const borderOpacity = useTransform(
     smoothPathLength,
-    [0.958, 0.962],
+    [0.55, 0.65],
     [0, 1]
   );
 
   return (
     <motion.div
       className="absolute z-30 flex flex-col items-center -translate-x-1/2 -translate-y-1/2"
-      style={{ left: '50%', top: '90.5%' }}
-      initial={{ opacity: 0, y: 70, scale: 0.8 }}
+      style={{ left: '50%', top: '88.5%' }}
+      initial={{ opacity: 0, y: 35, scale: 0.9 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: false, amount: 0.3 }}
-      transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.7, ease: 'easeOut' }}
     >
       {/* Hexagon Badge with Gray Border and Drop Shadow (SVG Polygon) */}
-      <div className="relative flex items-center justify-center w-[185px] h-[160px] sm:w-[235px] sm:h-[205px] md:w-[275px] md:h-[240px] select-none hover:scale-105 transition-transform duration-500 cursor-default">
+      <div className="relative flex items-center justify-center w-[150px] h-[130px] sm:w-[195px] sm:h-[170px] md:w-[230px] md:h-[200px] select-none hover:scale-105 transition-transform duration-300 cursor-default">
         <svg
           viewBox="0 0 230 200"
           className="absolute inset-0 w-full h-full overflow-visible"
-          style={{ filter: 'drop-shadow(0px 8px 18px rgba(100, 116, 139, 0.22))' }}
+          style={{ filter: 'drop-shadow(0px 8px 20px rgba(100, 116, 139, 0.18))' }}
         >
-          {/* Base Hexagon Polygon (White -> Gray background, Gray border) */}
+          {/* Base Hexagon Polygon (White -> Soft Gray background, Gray border #cbd5e1) */}
           <motion.polygon
             points="57.5,4 172.5,4 226,100 172.5,196 57.5,196 4,100"
             style={{ fill: hexagonBg }}
@@ -264,8 +429,8 @@ function HexagonBadge({
           <motion.path
             d="M 115 4 L 57.5 4 L 4 100 L 57.5 196 L 115 196"
             fill="none"
-            stroke="#10b981"
-            strokeWidth="4.2"
+            stroke="#16a34a"
+            strokeWidth="4.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             style={{
@@ -278,8 +443,8 @@ function HexagonBadge({
           <motion.path
             d="M 115 4 L 172.5 4 L 226 100 L 172.5 196 L 115 196"
             fill="none"
-            stroke="#10b981"
-            strokeWidth="4.2"
+            stroke="#16a34a"
+            strokeWidth="4.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             style={{
@@ -290,19 +455,19 @@ function HexagonBadge({
         </svg>
 
         {/* Inner Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-3 sm:px-6">
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-2 sm:px-4">
           {/* Happiness Icon */}
-          <div className="text-[#16a34a] mb-1 sm:mb-1.5 flex items-center justify-center">
-            <Smile className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 stroke-[2.2]" />
+          <div className="text-[#16a34a] mb-0.5 sm:mb-1 flex items-center justify-center">
+            <Smile className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 stroke-[2.2]" />
           </div>
 
           {/* Main Title: 행복경영 */}
-          <h3 className="text-gray-900 font-black text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-tight leading-tight">
+          <h3 className="text-gray-900 font-black text-xs sm:text-lg md:text-xl lg:text-2xl tracking-tight leading-tight">
             {isEnglish ? 'Happiness Management' : '행복경영'}
           </h3>
 
           {/* Brand Logo Text: DASAN */}
-          <span className="text-[#16a34a] font-black text-xs sm:text-sm md:text-lg tracking-widest mt-0.5 sm:mt-1">
+          <span className="text-[#16a34a] font-black text-[10px] sm:text-xs md:text-sm tracking-widest mt-0.5">
             DASAN
           </span>
         </div>
@@ -310,195 +475,3 @@ function HexagonBadge({
     </motion.div>
   );
 }
-
-interface StepItem {
-  num: string;
-  title: string;
-  cardTitle: string;
-  desc: string;
-  icon: LucideIcon;
-  side: 'left' | 'right';
-  yPercent: string;
-  xPercent: string;
-  threshold: number;
-}
-
-function StepNode({
-  step,
-  smoothPathLength,
-}: {
-  step: StepItem;
-  smoothPathLength: MotionValue<number>;
-}) {
-  const Icon = step.icon;
-  const t = step.threshold;
-
-  // As the green line touches the outer edge and enters the circle, smoothly fill with the top button's light gray (#f1f5f9 / slate-100)
-  const circleBg = useTransform(
-    smoothPathLength,
-    [t - 0.025, t + 0.015],
-    ['#ffffff', '#f1f5f9']
-  );
-
-  const iconColor = useTransform(
-    smoothPathLength,
-    [t - 0.025, t + 0.015],
-    ['#16a34a', '#15803d']
-  );
-
-  const numColor = useTransform(
-    smoothPathLength,
-    [t - 0.025, t + 0.015],
-    ['#16a34a', '#15803d']
-  );
-
-  const titleColor = useTransform(
-    smoothPathLength,
-    [t - 0.025, t + 0.015],
-    ['#111827', '#0f172a']
-  );
-
-  const ringShadow = useTransform(
-    smoothPathLength,
-    [t - 0.025, t + 0.015],
-    [
-      '0 8px 24px -4px rgba(0, 0, 0, 0.06)',
-      '0 12px 28px -4px rgba(0, 0, 0, 0.12)',
-    ]
-  );
-
-  const circleScale = useTransform(
-    smoothPathLength,
-    [t - 0.03, t, t + 0.025],
-    [1, 1.08, 1.03]
-  );
-
-  // Border progress: emerald-500 (#10b981) border fills from top to bottom symmetrically
-  const borderProgress = useTransform(
-    smoothPathLength,
-    [t - 0.025, t + 0.015],
-    [0, 1]
-  );
-
-  const borderOpacity = useTransform(
-    smoothPathLength,
-    [t - 0.027, t - 0.024],
-    [0, 1]
-  );
-
-  // Description text card: fades in and slides in smoothly when line reaches the node
-  const textOpacity = useTransform(
-    smoothPathLength,
-    [t - 0.015, t + 0.035],
-    [0, 1]
-  );
-
-  const textTranslateX = useTransform(
-    smoothPathLength,
-    [t - 0.015, t + 0.035],
-    [step.side === 'left' ? -18 : 18, 0]
-  );
-
-  return (
-    <React.Fragment>
-      {/* Central Orbital Node Circle on the Line */}
-      <motion.div
-        className="absolute z-20 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-default pointer-events-auto"
-        style={{ left: step.xPercent, top: step.yPercent }}
-      >
-        <motion.div
-          style={{
-            backgroundColor: circleBg,
-            boxShadow: ringShadow,
-            scale: circleScale,
-          }}
-          className="relative w-[105px] h-[105px] sm:w-[145px] sm:h-[145px] md:w-[168px] md:h-[168px] rounded-full flex flex-col items-center justify-center p-2 sm:p-3 text-center select-none hover:scale-110 transition-transform duration-300 overflow-visible"
-        >
-          {/* SVG Animated Border Layer */}
-          <svg
-            viewBox="0 0 100 100"
-            className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10"
-          >
-            {/* Base gray border before line reaches */}
-            <circle
-              cx="50"
-              cy="50"
-              r="47.5"
-              fill="none"
-              stroke="#cbd5e1"
-              strokeWidth="4.5"
-            />
-
-            {/* Left half emerald green border: flows from top (50, 2.5) down to bottom (50, 97.5) */}
-            <motion.path
-              d="M 50 2.5 A 47.5 47.5 0 0 0 50 97.5"
-              fill="none"
-              stroke="#10b981"
-              strokeWidth="5"
-              strokeLinecap="round"
-              style={{
-                pathLength: borderProgress,
-                opacity: borderOpacity,
-              }}
-            />
-
-            {/* Right half emerald green border: flows from top (50, 2.5) down to bottom (50, 97.5) */}
-            <motion.path
-              d="M 50 2.5 A 47.5 47.5 0 0 1 50 97.5"
-              fill="none"
-              stroke="#10b981"
-              strokeWidth="5"
-              strokeLinecap="round"
-              style={{
-                pathLength: borderProgress,
-                opacity: borderOpacity,
-              }}
-            />
-          </svg>
-
-          {/* Inner Content */}
-          <div className="relative z-20 flex flex-col items-center justify-center">
-            <motion.div style={{ color: iconColor }}>
-              <Icon size={30} className="mb-1 sm:mb-1.5 sm:scale-110" />
-            </motion.div>
-
-            <motion.span
-              style={{ color: numColor }}
-              className="text-[11px] sm:text-[13px] md:text-[14px] font-black tracking-widest uppercase"
-            >
-              {step.num}
-            </motion.span>
-
-            <motion.h4
-              style={{ color: titleColor }}
-              className="text-[14px] sm:text-[18px] md:text-[21px] font-black leading-tight"
-            >
-              {step.title}
-            </motion.h4>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* Description Text Card positioned beside the Circle */}
-      <motion.div
-        className={`absolute z-20 flex items-center -translate-y-1/2 ${
-          step.side === 'left'
-            ? 'left-[40%] sm:left-[38%] md:left-[36%]'
-            : 'right-[40%] sm:right-[38%] md:right-[36%]'
-        } max-w-[56%] sm:max-w-[54%] md:max-w-[50%] pointer-events-auto`}
-        style={{
-          top: step.yPercent,
-          opacity: textOpacity,
-          x: textTranslateX,
-        }}
-      >
-        <div className="w-full bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 border border-slate-200/90 shadow-[0_6px_20px_rgba(0,0,0,0.06)] hover:shadow-lg hover:border-emerald-200 transition-all duration-300">
-          <p className="text-[11.5px] sm:text-[14px] md:text-[15.5px] font-semibold text-gray-700 leading-snug sm:leading-relaxed break-keep">
-            {step.desc}
-          </p>
-        </div>
-      </motion.div>
-    </React.Fragment>
-  );
-}
-

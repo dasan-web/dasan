@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
 export interface TalentItem {
@@ -27,7 +27,7 @@ const TALENT_ITEMS_KO: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
@@ -39,7 +39,7 @@ const TALENT_ITEMS_KO: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
@@ -51,7 +51,7 @@ const TALENT_ITEMS_KO: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
@@ -63,7 +63,7 @@ const TALENT_ITEMS_KO: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
@@ -75,7 +75,7 @@ const TALENT_ITEMS_KO: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
 ];
@@ -90,7 +90,7 @@ const TALENT_ITEMS_EN: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
@@ -102,7 +102,7 @@ const TALENT_ITEMS_EN: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
@@ -114,7 +114,7 @@ const TALENT_ITEMS_EN: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
@@ -126,7 +126,7 @@ const TALENT_ITEMS_EN: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
   {
@@ -138,7 +138,7 @@ const TALENT_ITEMS_EN: TalentItem[] = [
     borderTint: 'border-emerald-200',
     badgeBg: 'bg-emerald-600',
     badgeBorder: 'border-emerald-500',
-    textColor: 'text-emerald-600',
+    textColor: 'text-gray-900',
     glowColor: 'rgba(22, 163, 74, 0.35)',
   },
 ];
@@ -169,8 +169,12 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
   ]);
   const [originY, setOriginY] = useState<number>(190);
   const [originX, setOriginX] = useState<number>(8);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const updatePositions = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth < 768);
+    }
     if (!svgContainerRef.current) return;
     const svgRect = svgContainerRef.current.getBoundingClientRect();
     if (svgRect.width === 0 || svgRect.height === 0) return;
@@ -198,13 +202,10 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
       if (pillEl) {
         const pillRect = pillEl.getBoundingClientRect();
         targetY = pillRect.top + pillRect.height / 2 - svgRect.top;
+        targetX = pillRect.left - svgRect.left + 1;
       } else if (cardEl) {
         const cardRect = cardEl.getBoundingClientRect();
         targetY = cardRect.top + cardRect.height / 2 - svgRect.top;
-      }
-
-      if (cardEl) {
-        const cardRect = cardEl.getBoundingClientRect();
         targetX = cardRect.left - svgRect.left;
       }
 
@@ -331,7 +332,6 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
                       }`}
                       style={{ 
                         color: isAnyActive ? (isActive ? item.color : '#94a3b8') : item.color,
-                        textShadow: isActive ? `0 0 16px ${item.glowColor}` : 'none'
                       }}
                     >
                       {item.letter}
@@ -342,7 +342,7 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
                       <motion.span 
                         layoutId="activeDot"
                         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full"
-                        style={{ backgroundColor: item.color, boxShadow: `0 0 8px ${item.glowColor}` }}
+                        style={{ backgroundColor: item.color }}
                       />
                     )}
                   </button>
@@ -371,29 +371,28 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
             className="hidden md:flex relative self-stretch w-20 md:w-24 shrink-0 pointer-events-none items-center justify-center"
           >
             <svg className="w-full h-full overflow-visible" fill="none">
-              {/* Origin Circle */}
+              {/* Origin Circle (기본 연결 선색 #e2e8f0, 활성화 시 녹색 점등) */}
               <circle 
                 cx={originX} 
                 cy={originY} 
                 r={6} 
                 className="transition-colors duration-300"
-                fill={activeIndex !== null ? items[activeIndex].color : '#16a34a'} 
+                fill={activeIndex !== null ? items[activeIndex].color : '#cbd5e1'} 
               />
               <circle 
                 cx={originX} 
                 cy={originY} 
-                r={11} 
-                className="transition-colors duration-300 animate-pulse"
-                fill={activeIndex !== null ? `${items[activeIndex].color}33` : 'rgba(22, 163, 74, 0.2)'} 
+                r={10} 
+                className="transition-colors duration-300"
+                fill="none" 
+                stroke={activeIndex !== null ? items[activeIndex].color : '#e2e8f0'} 
+                strokeWidth={2}
               />
 
               {/* 5 Branch Lines accurately pointing to each card's center-left */}
               {items.map((item, idx) => {
                 const isActive = activeIndex === idx;
                 const isAnyActive = activeIndex !== null;
-                const strokeColor = isActive ? item.color : isAnyActive ? '#e2e8f0' : '#86efac';
-                const strokeWidth = isActive ? 3.5 : 2;
-                const strokeOpacity = isActive ? 1 : isAnyActive ? 0.25 : 0.6;
 
                 const pos = lineCoords[idx] ?? {
                   startX: originX,
@@ -411,37 +410,40 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
 
                 return (
                   <g key={idx}>
-                    {/* Branch line */}
+                    {/* 1. Underlying Gray Base Track (기존 회색 선) */}
                     <path 
                       d={d} 
-                      stroke={strokeColor} 
-                      strokeWidth={strokeWidth} 
+                      stroke="#e2e8f0" 
+                      strokeWidth="2.5" 
                       strokeLinecap="round" 
-                      opacity={strokeOpacity}
-                      className="transition-all duration-300 ease-out"
-                      style={{
-                        filter: isActive ? `drop-shadow(0 0 6px ${item.glowColor})` : 'none'
-                      }}
+                      opacity={isAnyActive && !isActive ? 0.35 : 0.85}
+                      className="transition-opacity duration-300"
                     />
 
-                    {/* Precise Terminal Connector Dot at the Card Edge */}
-                    <circle 
-                      cx={pos.targetX} 
-                      cy={pos.targetY} 
-                      r={isActive ? 4 : 2.5} 
-                      fill={strokeColor}
-                      opacity={strokeOpacity}
-                      className="transition-all duration-300"
-                    />
-                    {isActive && (
-                      <circle 
-                        cx={pos.targetX} 
-                        cy={pos.targetY} 
-                        r={8} 
-                        fill={`${item.color}33`}
-                        className="animate-pulse"
-                      />
-                    )}
+                    {/* 2. Active Green Water Stream (자연스럽고 일정한 유속으로 연결, 끊김 현상 제거) */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.path 
+                          key={`water-stream-${idx}`}
+                          d={d} 
+                          stroke={item.color} 
+                          strokeWidth={3} 
+                          strokeLinecap="round" 
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: 1, opacity: 1 }}
+                          exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                          transition={{ 
+                            pathLength: { 
+                              duration: 0.65, 
+                              ease: [0.25, 0.1, 0.25, 1] 
+                            },
+                            opacity: { 
+                              duration: 0.12 
+                            }
+                          }}
+                        />
+                      )}
+                    </AnimatePresence>
                   </g>
                 );
               })}
@@ -461,45 +463,53 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
                   onMouseEnter={() => setActiveIndex(idx)}
                   onMouseLeave={() => setActiveIndex(null)}
                   onClick={() => setActiveIndex(activeIndex === idx ? null : idx)}
-                  className={`p-3 sm:px-5 sm:py-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center gap-4 cursor-pointer transition-all duration-300 border ${
+                  className={`py-2.5 sm:py-3 pl-0 pr-3 rounded-2xl flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 cursor-pointer transition-all duration-300 ${
                     isActive 
-                      ? `${item.lightBg} ${item.borderTint} shadow-md` 
+                      ? 'bg-transparent' 
                       : isAnyActive 
-                      ? 'bg-white border-transparent opacity-40' 
-                      : 'bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50/50'
+                      ? 'bg-transparent opacity-40' 
+                      : 'bg-transparent'
                   }`}
                 >
-                  {/* Word Pill Badge */}
+                  {/* Word Pill Badge (기존 테두리 회색, 흰색 배경 -> 물줄기 유입 시 끊김 없이 부드럽게 녹색 물듦) */}
                   <div 
                     ref={(el) => { pillRefs.current[idx] = el; }}
-                    className={`min-w-[135px] sm:w-[150px] h-10 rounded-full flex items-center justify-center px-4 transition-all duration-300 border-2 ${
-                      isActive 
-                        ? `${item.badgeBg} ${item.badgeBorder} text-white scale-105 shadow-sm` 
-                        : `bg-white ${item.badgeBorder}`
-                    }`}
-                    style={{
-                      boxShadow: isActive ? `0 4px 14px ${item.glowColor}` : 'none'
-                    }}
+                    className="relative w-[150px] h-10 shrink-0 rounded-full select-none"
                   >
-                    <span className={`text-[15px] font-bold tracking-tight text-center transition-colors duration-300 ${
-                      isActive ? 'text-white' : 'text-gray-900'
-                    }`}>
-                      <span 
-                        className={`font-black text-base transition-colors duration-300 ${
-                          isActive ? 'text-white' : item.textColor
-                        }`}
-                      >
-                        {item.letter}
+                    {/* 1. Base Layer: White Background + Gray Border (#e2e8f0) + Clean Text (진한 볼드체 제거: font-medium) */}
+                    <div className="absolute inset-0 rounded-full bg-white border-2 border-[#e2e8f0] flex items-center justify-center px-4">
+                      <span className="text-[14.5px] sm:text-[15px] font-medium tracking-normal text-gray-600 text-center">
+                        {item.word}
                       </span>
-                      {item.word.slice(1)}
-                    </span>
+                    </div>
+
+                    {/* 2. Active Liquid Layer: Green Background (#16a34a) + Green Border (#16a34a) + White Text */}
+                    {/* GPU-accelerated clipPath sweep from left to right: perfectly smooth, zero stutter, zero disconnect */}
+                    <motion.div 
+                      className="absolute inset-0 rounded-full bg-[#16a34a] border-2 border-[#16a34a] flex items-center justify-center px-4 overflow-hidden pointer-events-none"
+                      initial={false}
+                      animate={{
+                        clipPath: isActive 
+                          ? 'inset(0% 0% 0% 0%)' 
+                          : 'inset(0% 100% 0% 0%)',
+                      }}
+                      transition={{
+                        duration: isActive ? 0.50 : 0.25,
+                        delay: isActive ? (isMobile ? 0 : 0.65) : 0,
+                        ease: [0.25, 0.1, 0.25, 1],
+                      }}
+                    >
+                      <span className="text-[14.5px] sm:text-[15px] font-medium tracking-normal text-white text-center">
+                        {item.word}
+                      </span>
+                    </motion.div>
                   </div>
 
-                  {/* Description Text */}
+                  {/* Description Text (진한 볼드체 제거: 차분하고 선명한 텍스트) */}
                   <div className={`text-sm md:text-[15px] leading-relaxed break-keep flex-1 transition-all duration-300 ${
                     isActive 
-                      ? 'text-gray-900 font-bold' 
-                      : 'text-gray-700 font-medium'
+                      ? 'text-gray-900 font-medium' 
+                      : 'text-gray-500 font-normal'
                   }`}>
                     {item.desc}
                   </div>
