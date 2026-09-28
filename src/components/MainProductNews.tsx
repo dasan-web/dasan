@@ -41,16 +41,16 @@ const defaultPressCards: DBNewsItem[] = [
   {
     id: 1,
     category: 'press',
-    image: '/press_exhibition.png',
+    image: '/press_exhibition.webp',
     title: "다산제약, 과학기술정보통신부 2026 우수 기업부설연구소 신규 지정",
     created_at: '2026-06-25',
-    content: "다산제약이 과학기술정보통신부 주관 2026년도 우수 기업부설연구소(ECR)로 최종 지정되었습니다. 이번 지정을 통해 다산제약의 독자적인 약물전달시스템(DDS) 연구 및 제제 기술 혁신을 인정받았으며, 지속적인 글로벌 R&D 투자를 통해 파이프라인 개발을 가속화할 방침입니다.",
+    content: "다산제약이 과학기술정보통신부 주관 2026년도 우수 기업부설연구소(ECR)로 최종 지정되었습니다.\n이번 지정을 통해 다산제약의 독자적인 약물전달시스템(DDS) 연구 및 제제 기술 혁신을 인정받았으며,\n지속적인 글로벌 R&D 투자를 통해 파이프라인 개발을 가속화할 방침입니다.",
     views: 142
   },
   {
     id: 2,
     category: 'press',
-    image: '/press_factory.png',
+    image: '/press_factory.webp',
     title: "흔한 DDS, CDMO? 류형선 대표 \"정밀화 제어 기술 차별화\"",
     created_at: '2026-06-24',
     content: "흔한 DDS, CDMO? 류형선 대표 \"정밀화 제어 기술 차별화\" 인터뷰... 단순 위탁 생산이 아닌 정밀 제어 DDS 기술 중심의 고부가가치 CDMO 타깃으로, 올해 연말 예비심사 청구와 함께 글로벌 공급 확대를 본격 추진합니다.",
@@ -59,7 +59,7 @@ const defaultPressCards: DBNewsItem[] = [
   {
     id: 3,
     category: 'press',
-    image: '/press_ceo.png',
+    image: '/press_ceo.webp',
     title: "다산제약, 창립 30주년 맞는 2026년 시무식 통해 실행 과제 발표",
     created_at: '2026-06-24',
     content: "다산제약이 창립 30주년을 맞아 2026년 시무식을 개최하고 지속성장을 위한 핵심 실행 과제를 선포하였습니다. 지난해 달성한 매출 1,000억원을 기반으로 AI 기반 스마트 연구 및 제조 고도화, 책임경영 강화를 적극 실천합니다.",
@@ -68,7 +68,7 @@ const defaultPressCards: DBNewsItem[] = [
   {
     id: 4,
     category: 'press',
-    image: '/press_exhibition.png',
+    image: '/press_exhibition.webp',
     title: "다산제약, CPHI Worldwide 2025 참가... 글로벌 CDMO 파트너십 확대",
     created_at: '2025-10-15',
     content: "유럽 최대 제약 바이오 박람회 CPHI에 참가하여 다산제약의 특화된 제제 기술(DDS) 및 완제 CDMO 경쟁력을 홍보하고 글로벌 제약사들과의 파트너십 계약을 추진하였습니다.",
@@ -77,7 +77,7 @@ const defaultPressCards: DBNewsItem[] = [
   {
     id: 5,
     category: 'press',
-    image: '/press_factory.png',
+    image: '/press_factory.webp',
     title: "다산제약 제2공장 스마트 GMP 자동화 생산설비 증설 준공",
     created_at: '2025-08-20',
     content: "글로벌 규격에 부합하는 최첨단 스마트 GMP 자동화 라인을 구축하여 고품질 의약품 생산 능력을 기존 대비 대폭 확충하고 안정적인 의약품 공급 기반을 마련하였습니다.",
@@ -86,7 +86,7 @@ const defaultPressCards: DBNewsItem[] = [
   {
     id: 6,
     category: 'press',
-    image: '/press_ceo.png',
+    image: '/press_ceo.webp',
     title: "다산제약, 혁신 신약 서방성 복합제 국내 특허 등록 완료",
     created_at: '2025-06-12',
     content: "독자적인 마이크로 펠렛 다층 코팅 기술을 적용한 차세대 서방형 복합 제형에 대한 국내 특허 등록을 완료함으로써 글로벌 기술 경쟁력을 입증하였습니다.",
@@ -118,7 +118,16 @@ const cleanHtmlContent = (html: string): string => {
   if (!html) return '';
   return html
     .replace(/background-color:\s*[^;"]+;?/gi, '')
-    .replace(/font-family:\s*[^;"]+;?/gi, '');
+    .replace(/font-family:\s*[^;"]+;?/gi, '')
+    .replace(/font-size:\s*[^;"]+;?/gi, '');
+};
+
+const formatSentenceLineBreaks = (text: string): string => {
+  if (!text) return '';
+  return text
+    .replace(/([.?!])[ \t]+(?!\n)/g, '$1\n')
+    .replace(/([.?!])(?=[가-힣A-Za-z])/g, '$1\n')
+    .trim();
 };
 
 export default function MainProductNews({ initialItems, initialPressNews }: MainProductNewsProps) {
@@ -167,7 +176,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
       views: item.views || 0,
       file_name: item.file_name,
       file_url: item.file_url,
-      image: item.image || (idx % 3 === 0 ? '/press_exhibition.png' : idx % 3 === 1 ? '/press_factory.png' : '/press_ceo.png'),
+      image: item.image || (idx % 3 === 0 ? '/press_exhibition.webp' : idx % 3 === 1 ? '/press_factory.webp' : '/press_ceo.webp'),
       isNew: idx === 0
     }));
   }, [initialPressNews]);
@@ -419,7 +428,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                           <div className="relative w-full h-[300px] overflow-hidden flex flex-col justify-between p-5 sm:p-5.5 select-none shrink-0">
                             {/* Full Cover Photo */}
                             <img
-                              src={(item as any).image || '/press_exhibition.png'}
+                              src={(item as any).image || '/press_exhibition.webp'}
                               alt={item.title}
                               className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                             />
@@ -550,20 +559,11 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.25 }}
-              className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-gray-100 relative overflow-hidden max-h-[90vh] flex flex-col justify-between"
+              className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-gray-100 relative overflow-hidden max-h-[90vh] flex flex-col"
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedModalItem(null)}
-                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer z-20"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="overflow-y-auto pr-1 space-y-5">
-                {/* Modal Header */}
-                <div className="flex items-center gap-2.5 pb-3 border-b border-gray-100 pr-10">
+              {/* Modal Top Header with Close Button (Fixed above scroll area to prevent any scrollbar overlap) */}
+              <div className="flex items-center justify-between px-6 sm:px-8 pt-5 sm:pt-6 pb-4 border-b border-gray-100 shrink-0 bg-white z-20">
+                <div className="flex items-center gap-2.5">
                   <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold text-white ${getCategoryMeta(selectedModalItem.category).badgeBg}`}>
                     {getCategoryMeta(selectedModalItem.category).label}
                   </span>
@@ -571,7 +571,17 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                     {selectedModalItem.date ? selectedModalItem.date.replace(/-/g, '.') : ''}
                   </span>
                 </div>
+                <button
+                  onClick={() => setSelectedModalItem(null)}
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer"
+                  aria-label="Close modal"
+                >
+                  <X className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                </button>
+              </div>
 
+              {/* Scrollable Modal Content (Scrollbar strictly contained below the header) */}
+              <div className="overflow-y-auto px-6 sm:px-8 pt-5 sm:pt-6 pb-8 sm:pb-10 space-y-5 flex-1 pr-4 sm:pr-6">
                 {/* Modal Title */}
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
                   {selectedModalItem.title}
@@ -592,14 +602,14 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                 <div className="text-xs sm:text-sm text-gray-700 leading-relaxed py-3.5 px-4.5 bg-gray-50/80 rounded-2xl border border-gray-100 font-normal">
                   {isHtml(selectedModalItem.content) ? (
                     <div
-                      className="rich-text-content space-y-2 [&_span]:!bg-transparent [&_h1]:text-base [&_h1]:font-bold [&_h1]:text-gray-900 [&_h1]:mb-2 [&_h2]:text-sm [&_h2]:font-bold [&_h2]:text-gray-800 [&_h2]:mb-1.5 [&_h3]:text-xs [&_h3]:font-semibold [&_h3]:mb-1 [&_p]:leading-relaxed [&_p]:mb-2"
+                      className="modal-rich-text text-xs sm:text-sm text-gray-700 leading-relaxed space-y-1.5 [&_h1]:!text-sm sm:[&_h1]:!text-[15px] [&_h1]:!font-bold [&_h1]:!text-gray-900 [&_h1]:!mt-1 [&_h1]:!mb-1.5 [&_h1]:!leading-snug [&_h2]:!text-xs sm:[&_h2]:!text-sm [&_h2]:!font-bold [&_h2]:!text-gray-800 [&_h2]:!mt-1 [&_h2]:!mb-1.5 [&_h2]:!leading-snug [&_h3]:!text-xs sm:[&_h3]:!text-sm [&_h3]:!font-semibold [&_h3]:!text-gray-800 [&_h3]:!mb-1 [&_p]:!text-xs sm:[&_p]:!text-sm [&_p]:!leading-relaxed [&_p]:!mb-1.5 [&_p]:!text-gray-700 [&_span]:!text-xs sm:[&_span]:!text-sm [&_span]:!bg-transparent [&_a]:!text-xs sm:[&_a]:!text-sm [&_a]:!text-brand-green [&_a]:hover:!underline [&_a]:!break-all"
                       dangerouslySetInnerHTML={{
                         __html: cleanHtmlContent(selectedModalItem.content)
                       }}
                     />
                   ) : (
-                    <div className="whitespace-pre-line">
-                      {selectedModalItem.content || (isEnglish ? 'Detailed content for this notice.' : '본 소식에 대한 세부 내용입니다.')}
+                    <div className="whitespace-pre-line text-xs sm:text-sm text-gray-700 leading-relaxed">
+                      {formatSentenceLineBreaks(selectedModalItem.content) || (isEnglish ? 'Detailed content for this notice.' : '본 소식에 대한 세부 내용입니다.')}
                     </div>
                   )}
                 </div>
@@ -623,16 +633,6 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                     </a>
                   </div>
                 )}
-              </div>
-
-              {/* Modal Footer Buttons */}
-              <div className="pt-5 mt-5 border-t border-gray-100 flex items-center justify-end">
-                <button
-                  onClick={() => setSelectedModalItem(null)}
-                  className="px-6 py-2.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
-                >
-                  {isEnglish ? 'Close' : '닫기'}
-                </button>
               </div>
             </motion.div>
           </div>

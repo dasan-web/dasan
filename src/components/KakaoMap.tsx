@@ -21,7 +21,7 @@ declare global {
 export default function KakaoMap({
   latitude = 37.5186,
   longitude = 126.8906,
-  placeName = '다산제약 서울 본사',
+  placeName = '다산제약 서울 사무실',
   address = '서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호',
   useGoogleMap = false,
 }: KakaoMapProps) {
@@ -97,16 +97,23 @@ export default function KakaoMap({
     }
   }, [scriptLoaded, apiKey]);
 
+  // Check if location is overseas
+  const isOverseas = /중국|China|Liaoning|Shenyang|Room\s*\d+/i.test(address) || (latitude > 40 && longitude > 120);
+
   // Clean address up to building number for reliable map search in Korea
   const getBaseAddress = (addr: string) => {
+    if (isOverseas) return addr;
     const match = addr.match(/^(.*?\s\d+(?:-\d+)?)/);
     return match ? match[1] : addr;
   };
   const baseAddress = getBaseAddress(address);
 
-  // Google Map Links (combining placeName and baseAddress for precise labeling and pin location)
-  const googleMapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(placeName + ' ' + baseAddress)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
-  const googleSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeName + ' ' + baseAddress)}`;
+  // Google Map Links (coordinates provide 100% accurate pin and map rendering for overseas locations)
+  const embedQuery = isOverseas ? `${latitude},${longitude}` : `${placeName} ${baseAddress}`;
+  const searchQuery = isOverseas ? `${latitude},${longitude}` : `${placeName} ${baseAddress}`;
+
+  const googleMapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(embedQuery)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+  const googleSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(searchQuery)}`;
   const googleRouteUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
 
   if (useGoogleMap) {
@@ -123,6 +130,69 @@ export default function KakaoMap({
           className="w-full h-full min-h-[320px]"
         />
         
+        {/* Overseas Location Label next to Red Pin Marker (exactly matching Image 1 Google Maps style) */}
+        {isOverseas && (
+          <div
+            className="absolute z-10 pointer-events-none select-none flex items-center"
+            style={{
+              left: 'calc(50% + 14px)',
+              top: 'calc(50% - 14px)',
+              transform: 'translateY(-50%)',
+            }}
+          >
+            <span
+              style={{
+                color: '#d93025',
+                fontSize: '13px',
+                fontWeight: '700',
+                letterSpacing: '-0.2px',
+                lineHeight: 1.2,
+                textShadow:
+                  '0 0 3px #ffffff, 0 0 3px #ffffff, 1px 1px 2px #ffffff, -1px -1px 2px #ffffff, 1px -1px 2px #ffffff, -1px 1px 2px #ffffff',
+                whiteSpace: 'nowrap',
+                fontFamily:
+                  "Roboto, -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif",
+              }}
+            >
+              {placeName}
+            </span>
+          </div>
+        )}
+
+        {/* Overseas Location Info Card on Top-Left (matching Image 1 Google Maps card style) */}
+        {isOverseas && (
+          <div
+            className="absolute top-3 left-3 z-10 bg-white/95 backdrop-blur-xs px-3.5 py-2.5 rounded-lg border border-slate-200 shadow-sm max-w-[270px] pointer-events-auto"
+            style={{
+              fontFamily:
+                "Roboto, -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif",
+            }}
+          >
+            <div className="flex items-start justify-between gap-1.5">
+              <div>
+                <h5 className="font-bold text-[13px] text-slate-800 leading-snug">
+                  {placeName}
+                </h5>
+                <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2 leading-relaxed">
+                  {address}
+                </p>
+                <span className="text-[10px] text-slate-400 mt-1 block">
+                  리뷰 없음
+                </span>
+              </div>
+              <a
+                href={googleSearchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1 text-blue-600 hover:text-blue-800 transition-colors mt-0.5"
+                title="Google Maps"
+              >
+                <ExternalLink size={14} />
+              </a>
+            </div>
+          </div>
+        )}
+
         {/* Info Banner at the top-right */}
         <div className="absolute top-3 right-3 z-10 bg-white/95 backdrop-blur-xs px-3 py-1.5 rounded-lg border border-slate-200/50 shadow-sm text-[10px] text-slate-500 flex items-center gap-1.5 max-w-max">
           <Settings size={12} className="text-slate-400 animate-spin" style={{ animationDuration: '6s' }} />

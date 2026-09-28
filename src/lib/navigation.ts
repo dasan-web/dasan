@@ -1,6 +1,7 @@
 export interface SubMenu {
   enName?: string;
   name: string;
+  tabName?: string;
   link: string;
 }
 
@@ -120,9 +121,9 @@ export const navigationData: GrandMenu[] = [
       {
         name: '고객센터', enName: 'Customer Service',
         subMenus: [
-          { name: '제품 문의', enName: 'Product Inquiry', link: '/contact/inquiry' },
-          { name: '비즈니스 문의', enName: 'Sales Inquiry', link: '/contact/inquiry/sales' },
-          { name: '부패신고 문의', enName: 'Corruption Report (Anonymous)', link: '/contact/inquiry/corruption' },
+          { name: '제품 문의', tabName: '제품 문의(일반소비자)', enName: 'Product Inquiry', link: '/contact/inquiry' },
+          { name: '비즈니스 문의', tabName: '비즈니스 문의(기업대상)', enName: 'Sales Inquiry', link: '/contact/inquiry/sales' },
+          { name: '부패신고 문의', tabName: '부패신고 문의(익명)', enName: 'Corruption Report (Anonymous)', link: '/contact/inquiry/corruption' },
           { name: '문의 확인', enName: 'Check Inquiry', link: '/contact/inquiry/check' },
         ],
       },

@@ -128,7 +128,7 @@ export default function Header() {
         className="w-full bg-white shadow-sm z-50 sticky top-0 relative"
       >
         <motion.div
-          className="absolute bottom-0 left-0 right-0 h-1 bg-brand-green origin-left z-50"
+          className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand-green origin-left z-50"
           style={{ scaleX }}
         />
         <div className="w-full px-6 md:px-16 lg:px-24">

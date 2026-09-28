@@ -158,9 +158,9 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <img 
               src="/core_business_api.jpg" 
               alt="약물의 용해도와 방출 속도를 조절하는 제제 기술 개발" 
-              className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+              className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.12] contrast-[1.02]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
             <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
@@ -178,9 +178,9 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <img 
               src="/core_business_cmo.jpg" 
               alt="유기합성 기반 고순도 원료의약품 및 신규염 개발" 
-              className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+              className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.12] contrast-[1.02]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
             <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
@@ -198,9 +198,9 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
             <img 
               src="/core_business_finished.png" 
               alt="첨단 분석 시스템을 통한 과학적 품질 검증 및 최적화" 
-              className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+              className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.12] contrast-[1.02]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
             
             {/* Frosted Glass Floating Caption Overlay */}
             <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">

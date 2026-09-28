@@ -1,23 +1,17 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React from 'react';
+
+const VIDEO_SRC = '/main_clouds.mp4?v=original_restored';
+const POSTER_SRC = '/main_poster.webp';
 
 export default function HeroBackground() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  }, []);
-
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950 select-none">
-      {/* 20초 무한 반복 슬로우 구름 시네마그래프 영상 (부드러운 슬로우 모션 - 원본 복원) */}
+      {/* 잔잔하고 우아한 원본 안개 호수 구름 영상 (dasan-sigma.vercel.app 참조) */}
       <video
-        ref={videoRef}
-        src="/main_clouds.mp4?v=original_restored"
-        poster="/main_poster.jpg"
+        src={VIDEO_SRC}
+        poster={POSTER_SRC}
         autoPlay
         loop
         muted
@@ -25,9 +19,10 @@ export default function HeroBackground() {
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
       />
-      {/* 어색한 수풀 경계선을 가려주는 나무 오버레이 패치 */}
+
+      {/* 어색한 수풀 경계선을 가려주는 나무 오버레이 패치 (초경량 24KB WebP) */}
       <img 
-        src="/tree_patch.png" 
+        src="/tree_patch.webp" 
         alt="" 
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-10 opacity-90"
       />

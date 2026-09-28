@@ -12,7 +12,8 @@ import {
   LogOut, ShieldAlert, Check, Plus, Trash2, Edit, Save, Settings, GripVertical,
   ChevronRight, ChevronDown, CheckCircle2, ListFilter, Search, Download, Globe, X,
   Heart, BookOpen, MessageSquare, LineChart,
-  CheckCircle, ShieldCheck, Truck, Layers, RotateCcw
+  CheckCircle, ShieldCheck, Truck, Layers, RotateCcw,
+  Mail, Send, UploadCloud, Image as ImageIcon
 } from 'lucide-react';
 
 
@@ -61,15 +62,53 @@ const seoSubpages: { [key: string]: { key: string; label: string }[] } = {
   ],
 };
 
+// Module-level caches to prevent screen blink on navigation
+let cachedUser: { username: string; name: string; role: string } | null = null;
+let cachedAuthChecked = false;
+let cachedSidebarOpenKeys: { [key: string]: boolean } | null = null;
+
 export default function AdminDashboardPage() {
   const router = useRouter();
   const params = useParams();
   const slugArray = (params.slug as string[]) || [];
-  const currentSubPath = slugArray.length > 0 ? slugArray.join('/') : '';
+  const initialSubPath = slugArray.length > 0 ? slugArray.join('/') : '';
+  const [currentSubPath, setCurrentSubPath] = useState<string>(initialSubPath);
 
-  // Auth checking
-  const [checkingAuth, setCheckingAuth] = useState(true);
-  const [currentUser, setCurrentUser] = useState<{ username: string; name: string; role: string } | null>(null);
+  // Sync state if params.slug changes (e.g. browser navigation or external link)
+  useEffect(() => {
+    const slug = (params.slug as string[]) || [];
+    const p = slug.length > 0 ? slug.join('/') : '';
+    setCurrentSubPath(p);
+  }, [params.slug]);
+
+  // Handle browser back/forward buttons seamlessly
+  useEffect(() => {
+    const handlePopState = () => {
+      const pathname = window.location.pathname;
+      const stripped = pathname.replace(/^\/management\/dashboard\/?/, '');
+      setCurrentSubPath(stripped);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (pathOrSubPath: string, replace = false) => {
+    const cleanSubPath = pathOrSubPath
+      .replace(/^\/management\/dashboard\/?/, '')
+      .replace(/^\//, '');
+    if (currentSubPath === cleanSubPath) return;
+    setCurrentSubPath(cleanSubPath);
+    const targetUrl = cleanSubPath ? `/management/dashboard/${cleanSubPath}` : '/management/dashboard';
+    if (replace) {
+      window.history.replaceState(null, '', targetUrl);
+    } else {
+      window.history.pushState(null, '', targetUrl);
+    }
+  };
+
+  // Auth checking with module cache to avoid flash
+  const [checkingAuth, setCheckingAuth] = useState(!cachedAuthChecked);
+  const [currentUser, setCurrentUser] = useState<{ username: string; name: string; role: string } | null>(cachedUser);
 
   // Admin users management states (super_admin only)
   const [adminUsers, setAdminUsers] = useState<any[]>([]);
@@ -91,10 +130,17 @@ export default function AdminDashboardPage() {
   const adminProductsPerPage = 10;
   const [newsList, setNewsList] = useState<any[]>([]);
   const [inquiries, setInquiries] = useState<any[]>([]);
+  const [inquiryCategoryFilter, setInquiryCategoryFilter] = useState<'all' | 'careers' | 'product' | 'sales' | 'corruption'>('all');
   const [dashboardStats, setDashboardStats] = useState<any>(null);
   const [showVisitorModal, setShowVisitorModal] = useState(false);
   const [selectedVisitorDate, setSelectedVisitorDate] = useState<string | null>(null);
   const [backupLogs, setBackupLogs] = useState<any[]>([]);
+
+  // Email resend modal states
+  const [showResendModal, setShowResendModal] = useState(false);
+  const [resendInquiry, setResendInquiry] = useState<any>(null);
+  const [resendTargetEmail, setResendTargetEmail] = useState('');
+  const [isResendingEmail, setIsResendingEmail] = useState(false);
 
   // Static content state
   const [staticContent, setStaticContent] = useState('');
@@ -107,11 +153,23 @@ export default function AdminDashboardPage() {
 
   // UI status
   const [loadingData, setLoadingData] = useState(false);
-  const [sidebarOpenKeys, setSidebarOpenKeys] = useState<{ [key: string]: boolean }>({
-    'Company': false,
-    'Innovation': false,
-    'Business': false,
-    'Connect': false,
+  const [sidebarOpenKeys, setSidebarOpenKeys] = useState<{ [key: string]: boolean }>(() => {
+    if (cachedSidebarOpenKeys) return cachedSidebarOpenKeys;
+    const initialKeys: { [key: string]: boolean } = {
+      'Company': false,
+      'Innovation': false,
+      'Business': false,
+      'Connect': false,
+    };
+    const matched = navigationData.find(grand => 
+      grand.majors.some(major => 
+        major.subMenus.some(sub => sub.link.replace(/^\//, '') === initialSubPath)
+      )
+    );
+    if (matched) {
+      initialKeys[matched.name] = true;
+    }
+    return initialKeys;
   });
 
   // Modal / Editor form states
@@ -241,6 +299,13 @@ export default function AdminDashboardPage() {
     if (currentSubPath === 'contact/careers/jobs') {
       return inquiries.filter(inq => inq.subject.startsWith('[상시 채용지원]'));
     }
+    if (currentSubPath === 'inquiries' || currentSubPath === 'contact/inquiry/check') {
+      if (inquiryCategoryFilter === 'careers') return inquiries.filter(inq => inq.subject.startsWith('[상시 채용지원]'));
+      if (inquiryCategoryFilter === 'product') return inquiries.filter(inq => inq.subject.startsWith('[제품 문의]'));
+      if (inquiryCategoryFilter === 'sales') return inquiries.filter(inq => inq.subject.startsWith('[영업 문의]'));
+      if (inquiryCategoryFilter === 'corruption') return inquiries.filter(inq => inq.subject.startsWith('[부패신고 문의]'));
+      return inquiries;
+    }
     return inquiries;
   };
   const filteredInquiries = getFilteredInquiries();
@@ -251,13 +316,19 @@ export default function AdminDashboardPage() {
       .then(res => res.json())
       .then(data => {
         if (!data.authenticated) {
+          cachedUser = null;
+          cachedAuthChecked = false;
           router.push('/management/login');
         } else {
+          cachedUser = data.user;
+          cachedAuthChecked = true;
           setCurrentUser(data.user);
           setCheckingAuth(false);
         }
       })
       .catch(() => {
+        cachedUser = null;
+        cachedAuthChecked = false;
         router.push('/management/login');
       });
   }, [router]);
@@ -267,17 +338,17 @@ export default function AdminDashboardPage() {
     if (checkingAuth || !currentUser) return;
     if (currentUser.username === 'editor3') {
       if (currentSubPath !== 'business/finished/search') {
-        router.replace('/management/dashboard/business/finished/search');
+        navigateTo('business/finished/search', true);
       }
     } else if (currentUser.role === 'connect_editor') {
       if (
         currentSubPath !== 'contact/newsroom/press' &&
         currentSubPath !== 'contact/newsroom/media'
       ) {
-        router.replace('/management/dashboard/contact/newsroom/press');
+        navigateTo('contact/newsroom/press', true);
       }
     }
-  }, [currentSubPath, currentUser, checkingAuth, router]);
+  }, [currentSubPath, currentUser, checkingAuth]);
 
   // 2. Fetch data based on the active path
   useEffect(() => {
@@ -294,10 +365,15 @@ export default function AdminDashboardPage() {
       )
     );
     if (matchedGrand) {
-      setSidebarOpenKeys(prev => ({
-        ...prev,
-        [matchedGrand.name]: true
-      }));
+      setSidebarOpenKeys(prev => {
+        if (prev[matchedGrand.name]) return prev;
+        const updated = {
+          ...prev,
+          [matchedGrand.name]: true
+        };
+        cachedSidebarOpenKeys = updated;
+        return updated;
+      });
     }
 
     const fullPath = `/${slugArray.join('/')}`;
@@ -318,7 +394,8 @@ export default function AdminDashboardPage() {
       currentSubPath === 'contact/inquiry' ||
       currentSubPath === 'contact/inquiry/sales' ||
       currentSubPath === 'contact/inquiry/corruption' ||
-      currentSubPath === 'contact/inquiry/check'
+      currentSubPath === 'contact/inquiry/check' ||
+      currentSubPath === 'inquiries'
     ) {
       fetchInquiries();
     } else if (currentSubPath === 'admin-users') {
@@ -489,10 +566,10 @@ RGB: 43, 43, 43 | HEX: #2B2B2B
 독일 및 이탈리아산 고속 블리스터(Alu-Alu, PVC/PVDC) 포장기, 카토너 카운터 일원화 라인, 실시간 온습도 조절 항온물류창고
 정제 선별 고해상도 인쇄 선별 장치, 고성능 스마트 집진 시스템`;
         } else if (key === 'about/location' && !contentVal) {
-          contentVal = `서울 본사
+          contentVal = `서울 사무실
 경영총괄, 해외 영업본부, 마케팅 전략부서
 37.5186,126.8906
-다산제약 서울 본사
+다산제약 서울 사무실
 서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호
 02-2627-5300
 2호선 문래역 3번 출구 도보 8분|2/5호선 영등포구청역 6번 출구 도보 10분
@@ -520,7 +597,15 @@ DDS 제제 연구, 유기합성 연구
 충청남도 아산시 도고면 덕암산로 381 (와산리 30번지)
 041-428-9484
 1호선 신창역(순천향대) 하차 후 택시 이동 (약 10분)|도고온천역(장항선) 하차 후 택시 이용
-와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용`;
+와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용
+중국 선양연구소
+
+41.6906,123.4779
+다산제약 중국 선양연구소
+Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179
+
+심양 트램 1·2호선 궈지롼젠위안(国际软件园, Shenyang Int’l Software Park)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 차량/택시 이동
+선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용|상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차`;
         } else if (key === 'about/esg/ethics' && !contentVal) {
           contentVal = `지속 가능한 비즈니스를 위한 ESG 선언|다산제약은 준법감시 제도를 도입하여 투명하고 정직한 경영 문화를 실천합니다.`;
         } else if (key === 'about/esg/environment' && !contentVal) {
@@ -607,10 +692,10 @@ RGB: 43, 43, 43 | HEX: #2B2B2B
 독일 및 이탈리아산 고속 블리스터(Alu-Alu, PVC/PVDC) 포장기, 카토너 카운터 일원화 라인, 실시간 온습도 조절 항온물류창고
 정제 선별 고해상도 인쇄 선별 장치, 고성능 스마트 집진 시스템`;
         } else if (key === 'about/location') {
-          contentVal = `서울 본사
+          contentVal = `서울 사무실
 경영총괄, 해외 영업본부, 마케팅 전략부서
 37.5186,126.8906
-다산제약 서울 본사
+다산제약 서울 사무실
 서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호
 02-2627-5300
 2호선 문래역 3번 출구 도보 8분|2/5호선 영등포구청역 6번 출구 도보 10분
@@ -638,7 +723,15 @@ DDS 제제 연구, 유기합성 연구
 충청남도 아산시 도고면 덕암산로 381 (와산리 30번지)
 041-428-9484
 1호선 신창역(순천향대) 하차 후 택시 이동 (약 10분)|도고온천역(장항선) 하차 후 택시 이용
-와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용`;
+와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용
+중국 선양연구소
+
+41.6906,123.4779
+다산제약 중국 선양연구소
+Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179
+
+심양 트램 1·2호선 궈지롼젠위안(国际软件园, Shenyang Int’l Software Park)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 차량/택시 이동
+선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용|상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차`;
         } else if (key === 'about/esg/ethics') {
           contentVal = `지속 가능한 비즈니스를 위한 ESG 선언|다산제약은 준법감시 제도를 도입하여 투명하고 정직한 경영 문화를 실천합니다.`;
         } else if (key === 'about/esg/environment') {
@@ -1074,6 +1167,9 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
   // Actions: Logout
   const handleLogout = async () => {
+    cachedUser = null;
+    cachedAuthChecked = false;
+    cachedSidebarOpenKeys = null;
     await fetch('/api/management/auth', { method: 'DELETE' });
     router.push('/management/login');
   };
@@ -1106,6 +1202,47 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  // Email Resend Handlers
+  const handleOpenResendModal = (inq: any) => {
+    setResendInquiry(inq);
+    const subject = inq?.subject || '';
+    if (subject.startsWith('[상시 채용지원]') || subject.startsWith('[부패신고 문의]')) {
+      setResendTargetEmail('insa@dspharm.com, jssong@dspharm.com');
+    } else if (subject.startsWith('[영업 문의]') || subject.startsWith('[1:1 문의]')) {
+      setResendTargetEmail('dssale1996@dspharm.com, jssong@dspharm.com');
+    } else {
+      setResendTargetEmail('jssong@dspharm.com');
+    }
+    setShowResendModal(true);
+  };
+
+  const handleConfirmResendEmail = async () => {
+    if (!resendInquiry) return;
+    setIsResendingEmail(true);
+    try {
+      const res = await fetch('/api/inquiries/resend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: resendInquiry.id,
+          targetEmail: resendTargetEmail,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        alert(`메일이 성공적으로 재발송되었습니다!\n수신처: ${data.recipients}`);
+        setShowResendModal(false);
+      } else {
+        alert(data.error || '메일 재발송에 실패했습니다.');
+      }
+    } catch (err: any) {
+      console.error('Resend error:', err);
+      alert('네트워크 오류가 발생했습니다: ' + (err.message || ''));
+    } finally {
+      setIsResendingEmail(false);
     }
   };
 
@@ -1284,6 +1421,10 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       currentSubPath === 'about/ir/news' ||
       currentSubPath === 'contact/careers/jobs'
     ) {
+      if (currentSubPath === 'contact/newsroom/media' && !newsFileUrl) {
+        alert('홍보사진 파일을 먼저 업로드해 주세요.');
+        return;
+      }
       url = '/api/news';
       const finalContent = currentSubPath === 'contact/careers/jobs'
         ? `${jobType}|${jobQualifications}|${jobDeadline}|${jobDescription}`
@@ -1444,10 +1585,14 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
   // Toggle Sidebar Menu Accordions
   const toggleSidebarAccordion = (key: string) => {
-    setSidebarOpenKeys(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
+    setSidebarOpenKeys(prev => {
+      const updated = {
+        ...prev,
+        [key]: !prev[key]
+      };
+      cachedSidebarOpenKeys = updated;
+      return updated;
+    });
   };
 
   const filteredAdminProducts = useMemo(() => {
@@ -1482,14 +1627,14 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
       <header className="bg-[#0a1120]/90 backdrop-blur-md border-b border-white/10 h-20 px-6 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center space-x-3">
           <button
-            onClick={() => router.push('/management/dashboard')}
+            onClick={() => navigateTo('')}
             className="font-extrabold text-sm tracking-wider text-brand-green uppercase cursor-pointer hover:opacity-80 transition-opacity"
           >
             DASAN PHARM
           </button>
           <span className="text-white/20">|</span>
           <button
-            onClick={() => router.push('/management/dashboard')}
+            onClick={() => navigateTo('')}
             className="font-bold text-xs md:text-sm text-white cursor-pointer hover:opacity-80 transition-opacity"
           >
             관리자 대시보드
@@ -1603,7 +1748,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                               return (
                                 <li key={sub.name}>
                                   <button
-                                    onClick={() => router.push(`/management/dashboard/${relativeLink}`)}
+                                    onClick={() => navigateTo(relativeLink)}
                                     className={`w-full text-left py-2 rounded-r-xl text-[11px] transition-all duration-300 cursor-pointer font-semibold border-l-[3px] ${
                                       isActive
                                         ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
@@ -1628,7 +1773,26 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
             {currentUser?.role !== 'connect_editor' && currentUser?.username !== 'editor3' && (
               <div className="pt-2.5 mt-2.5 border-t border-white/5 space-y-1">
                 <button
-                  onClick={() => router.push('/management/dashboard/seo-settings')}
+                  onClick={() => {
+                    setInquiryCategoryFilter('all');
+                    navigateTo('inquiries');
+                  }}
+                  className={`w-full flex items-center justify-between py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer border-l-[3px] ${
+                    currentSubPath === 'inquiries' || currentSubPath === 'contact/inquiry/check'
+                      ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)] pr-3'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent pl-3.5 pr-3'
+                  }`}
+                >
+                  <span>1:1 문의 / 접수 관리</span>
+                  {inquiries.length > 0 && (
+                    <span className="text-[10px] bg-rose-500/20 text-rose-400 border border-rose-500/30 px-1.5 py-0.5 rounded-full font-bold">
+                      {inquiries.length}
+                    </span>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => navigateTo('seo-settings')}
                   className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
                     currentSubPath === 'seo-settings'
                       ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
@@ -1639,7 +1803,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                 </button>
 
                 <button
-                  onClick={() => router.push('/management/dashboard/popups')}
+                  onClick={() => navigateTo('popups')}
                   className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
                     currentSubPath === 'popups'
                       ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
@@ -1653,7 +1817,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                 {currentUser?.role === 'super_admin' && (
                   <>
                     <button
-                      onClick={() => router.push('/management/dashboard/admin-users')}
+                      onClick={() => navigateTo('admin-users')}
                       className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
                         currentSubPath === 'admin-users'
                           ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
@@ -1664,7 +1828,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                     </button>
 
                     <button
-                      onClick={() => router.push('/management/dashboard/backup-settings')}
+                      onClick={() => navigateTo('backup-settings')}
                       className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
                         currentSubPath === 'backup-settings'
                           ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
@@ -1697,6 +1861,10 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                   ? '팝업 관리'
                   : currentSubPath === 'admin-users'
                   ? '관리자 계정 관리'
+                  : currentSubPath === 'backup-settings'
+                  ? '백업 설정 관리'
+                  : currentSubPath === 'inquiries' || currentSubPath === 'contact/inquiry/check'
+                  ? '1:1 문의 / 접수 관리'
                   : navigationData
                       .flatMap(g => g.majors.flatMap(m => m.subMenus))
                       .find(s => s.link.replace(/^\//, '') === currentSubPath)?.name || '관리자 메인'}
@@ -1762,7 +1930,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                        className="inline-flex items-center space-x-1.5 bg-brand-green hover:bg-brand-green-dark text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-md shadow-brand-green/10"
                      >
                        <Plus size={14} />
-                       <span>신규 등록</span>
+                       <span>{currentSubPath === 'contact/newsroom/media' ? '새 홍보사진 등록' : '신규 등록'}</span>
                      </button>
                    </>
                  )}
@@ -1778,12 +1946,13 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
           </div>
 
           {/* 3. Panel Switcher based on currentSubPath */}
-          {loadingData ? (
-            <div className="bg-[#0a1120]/60 border border-white/10 rounded-2xl p-20 text-center text-xs md:text-sm text-gray-500 font-semibold shadow-lg backdrop-blur-md">
-              데이터를 로딩 중입니다...
-            </div>
-          ) : (
-            <div className="w-full">
+          <div className={`w-full relative transition-opacity duration-150 ${loadingData ? 'opacity-60 pointer-events-none' : 'opacity-100'}`}>
+            {loadingData && (
+              <div className="absolute top-0 right-0 z-30 flex items-center space-x-2 bg-[#0a1120]/90 border border-brand-green/30 text-brand-green px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-md animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-brand-green animate-ping" />
+                <span>데이터 불러오는 중...</span>
+              </div>
+            )}
               
               {/* Case A: Products Manager */}
               {currentSubPath === 'business/finished/search' && (
@@ -2093,6 +2262,14 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                             <th className="px-5 py-4 w-[8%]">조회수</th>
                             <th className="px-5 py-4 w-[10%] text-right">관리</th>
                           </tr>
+                        ) : currentSubPath === 'contact/newsroom/media' ? (
+                          <tr>
+                            <th className="px-5 py-4 w-[12%]">사진</th>
+                            <th className="px-5 py-4 w-[48%]">홍보자료 제목</th>
+                            <th className="px-5 py-4 w-[10%]">조회수</th>
+                            <th className="px-5 py-4 w-[15%]">등록일</th>
+                            <th className="px-5 py-4 w-[15%] text-right">관리</th>
+                          </tr>
                         ) : (
                           <tr>
                             <th className="px-5 py-4 w-[15%]">구분</th>
@@ -2128,6 +2305,30 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                     <td className="px-5 py-4 text-xs text-gray-400 truncate max-w-[200px]">{jobQual}</td>
                                     <td className="px-5 py-4 font-bold text-rose-500">{jobDead}</td>
                                     <td className="px-5 py-4 font-mono text-gray-500">{n.views}</td>
+                                  </>
+                                ) : currentSubPath === 'contact/newsroom/media' ? (
+                                  <>
+                                    <td className="px-5 py-4">
+                                      {n.file_url ? (
+                                        <div className="w-16 h-11 rounded-lg overflow-hidden border border-white/10 bg-black/40 flex items-center justify-center flex-shrink-0 shadow-sm">
+                                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                                          <img
+                                            src={n.file_url}
+                                            alt={n.title}
+                                            className="w-full h-full object-cover"
+                                          />
+                                        </div>
+                                      ) : (
+                                        <div className="w-16 h-11 rounded-lg border border-dashed border-white/10 bg-white/5 flex items-center justify-center text-gray-500 text-[10px]">
+                                          사진 없음
+                                        </div>
+                                      )}
+                                    </td>
+                                    <td className="px-5 py-4 font-bold text-white">{n.title}</td>
+                                    <td className="px-5 py-4 font-mono text-gray-500">{n.views}</td>
+                                    <td className="px-5 py-4 text-xs text-gray-400">
+                                      {new Date(n.created_at).toLocaleDateString()}
+                                    </td>
                                   </>
                                 ) : (
                                   <>
@@ -2178,11 +2379,67 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
               )}
 
               {/* Case D: Inquiries View */}
-              {(currentSubPath === 'contact/inquiry/check' ||
+              {(currentSubPath === 'inquiries' ||
+                currentSubPath === 'contact/inquiry/check' ||
                 currentSubPath === 'contact/inquiry' ||
                 currentSubPath === 'contact/inquiry/sales' ||
                 currentSubPath === 'contact/inquiry/corruption') && (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="space-y-4">
+                  {(currentSubPath === 'inquiries' || currentSubPath === 'contact/inquiry/check') && (
+                    <div className="flex items-center gap-2 pb-2 overflow-x-auto text-xs">
+                      <button
+                        onClick={() => setInquiryCategoryFilter('all')}
+                        className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                          inquiryCategoryFilter === 'all'
+                            ? 'bg-brand-green text-gray-950 shadow-md font-extrabold'
+                            : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        전체 ({inquiries.length})
+                      </button>
+                      <button
+                        onClick={() => setInquiryCategoryFilter('careers')}
+                        className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                          inquiryCategoryFilter === 'careers'
+                            ? 'bg-emerald-500 text-gray-950 shadow-md font-extrabold'
+                            : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        상시 채용지원 ({inquiries.filter(i => i.subject.startsWith('[상시 채용지원]')).length})
+                      </button>
+                      <button
+                        onClick={() => setInquiryCategoryFilter('product')}
+                        className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                          inquiryCategoryFilter === 'product'
+                            ? 'bg-teal-400 text-gray-950 shadow-md font-extrabold'
+                            : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        제품 문의 ({inquiries.filter(i => i.subject.startsWith('[제품 문의]')).length})
+                      </button>
+                      <button
+                        onClick={() => setInquiryCategoryFilter('sales')}
+                        className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                          inquiryCategoryFilter === 'sales'
+                            ? 'bg-cyan-400 text-gray-950 shadow-md font-extrabold'
+                            : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        영업 문의 ({inquiries.filter(i => i.subject.startsWith('[영업 문의]')).length})
+                      </button>
+                      <button
+                        onClick={() => setInquiryCategoryFilter('corruption')}
+                        className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                          inquiryCategoryFilter === 'corruption'
+                            ? 'bg-rose-500 text-white shadow-md font-extrabold'
+                            : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        부패신고 ({inquiries.filter(i => i.subject.startsWith('[부패신고 문의]')).length})
+                      </button>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {/* Left Column: Inquiries List */}
                   <div className="lg:col-span-2 bg-[#0a1120]/65 border border-white/10 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
                     <div className="overflow-x-auto">
@@ -2190,9 +2447,9 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                         <thead className="bg-white/[0.03] border-b border-white/10 text-gray-400 font-bold uppercase tracking-wider">
                           <tr>
                             <th className="px-4 py-4 w-[25%]">작성자</th>
-                            <th className="px-4 py-4 w-[45%]">제목</th>
+                            <th className="px-4 py-4 w-[43%]">제목</th>
                             <th className="px-4 py-4 w-[20%]">작성일</th>
-                            <th className="px-4 py-4 w-[10%] text-right">삭제</th>
+                            <th className="px-4 py-4 w-[12%] text-right">관리</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5 text-gray-300 font-medium">
@@ -2229,16 +2486,26 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                     {new Date(inq.created_at).toLocaleDateString()}
                                   </td>
                                   <td className="px-4 py-4 text-right" onClick={(e) => e.stopPropagation()}>
-                                    {currentUser?.role === 'super_admin' ? (
+                                    <div className="flex items-center justify-end space-x-1.5">
                                       <button
-                                        onClick={() => handleDeleteItem(inq.id, 'inquiry')}
-                                        className="text-gray-500 hover:text-red-450 p-1 cursor-pointer transition-colors"
+                                        onClick={() => handleOpenResendModal(inq)}
+                                        className="text-gray-400 hover:text-emerald-400 p-1 cursor-pointer transition-colors"
+                                        title="알림 메일 재발송"
                                       >
-                                        <Trash2 size={14} />
+                                        <Mail size={14} />
                                       </button>
-                                    ) : (
-                                      <span className="text-[10px] text-gray-650">권한없음</span>
-                                    )}
+                                      {currentUser?.role === 'super_admin' ? (
+                                        <button
+                                          onClick={() => handleDeleteItem(inq.id, 'inquiry')}
+                                          className="text-gray-500 hover:text-red-450 p-1 cursor-pointer transition-colors"
+                                          title="삭제"
+                                        >
+                                          <Trash2 size={14} />
+                                        </button>
+                                      ) : (
+                                        <span className="text-[10px] text-gray-650">권한없음</span>
+                                      )}
+                                    </div>
                                   </td>
                                 </tr>
                               );
@@ -2256,9 +2523,21 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                   </div>
                   {/* Right Column: Inquiry detail */}
                   <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-5 shadow-2xl backdrop-blur-md space-y-4 h-fit text-white">
-                    <h3 className="text-sm font-extrabold text-white pb-2 border-b border-white/10 flex items-center space-x-1.5">
-                      <span>문의내용 상세 확인</span>
-                    </h3>
+                    <div className="pb-2 border-b border-white/10 flex items-center justify-between">
+                      <h3 className="text-sm font-extrabold text-white flex items-center space-x-1.5">
+                        <span>문의내용 상세 확인</span>
+                      </h3>
+                      {selectedInquiry && (
+                        <button
+                          onClick={() => handleOpenResendModal(selectedInquiry)}
+                          className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 transition-all cursor-pointer shadow-xs hover:border-emerald-400"
+                          title="담당자 알림 메일 재발송"
+                        >
+                          <Mail size={13} />
+                          <span>메일 재발송</span>
+                        </button>
+                      )}
+                    </div>
 
                     {selectedInquiry ? (
                       <div className="space-y-4 animate-fade-in-up">
@@ -2289,6 +2568,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                       prefix === '제품 문의' ? 'bg-brand-teal/10 text-brand-teal border border-brand-teal/20' :
                                       prefix === '영업 문의' ? 'bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20' :
                                       prefix === '부패신고' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+                                      prefix === '상시 채용' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
                                       'bg-brand-blue/10 text-brand-blue border border-brand-blue/20'
                                     }`}>
                                       {prefix}
@@ -2310,15 +2590,21 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
                         {selectedInquiry.file_url && (
                           <div className="space-y-1.5 pt-1">
-                            <span className="text-[10px] text-gray-400 uppercase block">첨부파일</span>
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] text-gray-400 uppercase">첨부파일</span>
+                              <span className="text-[10px] font-semibold text-emerald-400/90 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                                🔒 영구 보관 (관리자 전용)
+                              </span>
+                            </div>
                             <a
                               href={selectedInquiry.file_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 border border-white/15 text-emerald-400 hover:text-emerald-300 text-xs font-semibold transition-colors"
+                              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:text-emerald-200 text-xs font-semibold transition-colors w-full"
                             >
                               <span>📎</span>
-                              <span className="truncate max-w-sm">{selectedInquiry.file_name || '첨부파일 다운로드'}</span>
+                              <span className="truncate flex-1">{selectedInquiry.file_name || '첨부파일 다운로드'}</span>
+                              <span className="text-[11px] text-emerald-400/80 font-normal">다운로드 ↗</span>
                             </a>
                           </div>
                         )}
@@ -2329,6 +2615,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       </div>
                     )}
                   </div>
+                </div>
                 </div>
               )}
 
@@ -2346,6 +2633,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                currentSubPath !== 'contact/inquiry' && 
                currentSubPath !== 'contact/inquiry/sales' && 
                currentSubPath !== 'contact/inquiry/corruption' && 
+               currentSubPath !== 'inquiries' && 
                currentSubPath !== 'admin-users' && 
                currentSubPath !== 'popups' && 
                currentSubPath !== 'backup-settings' && 
@@ -3502,13 +3790,13 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                         {currentSubPath === 'about/location' && (
                           <div className="space-y-6">
                             <span className="text-xs font-bold text-gray-400 block mb-2">
-                              총 4개의 지점 정보를 관리합니다. 각 지점별로 상세한 정보를 정확히 입력해주세요.
+                              총 5개의 지점 정보를 관리합니다. 각 지점별로 상세한 정보를 정확히 입력해주세요.
                             </span>
 
-                            {[0, 1, 2, 3].map((locIdx) => {
+                            {[0, 1, 2, 3, 4].map((locIdx) => {
                               const offset = locIdx * 8;
-                              const titleColor = locIdx === 0 ? 'text-brand-teal' : locIdx === 1 ? 'text-brand-blue' : locIdx === 2 ? 'text-brand-green' : 'text-brand-cyan';
-                              const labelPrefix = locIdx === 0 ? '서울 본사' : locIdx === 1 ? '수원 R&D 중앙연구소' : locIdx === 2 ? '아산 제1공장' : '아산 제2공장';
+                              const titleColor = locIdx === 0 ? 'text-brand-teal' : locIdx === 1 ? 'text-brand-blue' : locIdx === 2 ? 'text-brand-green' : locIdx === 3 ? 'text-brand-cyan' : 'text-amber-400';
+                              const labelPrefix = locIdx === 0 ? '서울 사무실' : locIdx === 1 ? '수원 R&D 중앙연구소' : locIdx === 2 ? '아산 제1공장' : locIdx === 3 ? '아산 제2공장' : '중국 선양연구소';
 
                               return (
                                 <div key={locIdx} className="bg-white/5 p-5 rounded-xl border border-white/10 space-y-4">
@@ -3519,7 +3807,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
 
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-1">
-                                      <label className="text-[11px] text-gray-400 block font-semibold">지점 명칭 (예: 서울 본사)</label>
+                                      <label className="text-[11px] text-gray-400 block font-semibold">지점 명칭 (예: 서울 사무실)</label>
                                       <input
                                         type="text"
                                         value={(staticContent || '').split('\n')[offset] || ''}
@@ -3567,7 +3855,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                                     </div>
 
                                     <div className="space-y-1">
-                                      <label className="text-[11px] text-gray-400 block font-semibold">지도 마커 표시명 (예: 다산제약 서울 본사)</label>
+                                      <label className="text-[11px] text-gray-400 block font-semibold">지도 마커 표시명 (예: 다산제약 서울 사무실)</label>
                                       <input
                                         type="text"
                                         value={(staticContent || '').split('\n')[offset + 3] || ''}
@@ -5831,15 +6119,18 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       <p className="text-[10px] text-gray-400 group-hover:underline">개설 이후 누적 유니크 IP 수 (클릭 시 세부내역)</p>
                     </div>
                     <div 
-                      onClick={() => router.push('/management/dashboard/contact/inquiry/check')}
+                      onClick={() => {
+                        setInquiryCategoryFilter('all');
+                        navigateTo('inquiries');
+                      }}
                       className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-5 shadow-sm space-y-2 hover:border-rose-300 hover:shadow-xs transition-all cursor-pointer group"
                     >
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block group-hover:text-rose-500 transition-colors">등록된 고객 문의</span>
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block group-hover:text-rose-500 transition-colors">1:1 문의 / 접수 내역</span>
                       <div className="flex items-baseline space-x-2">
                         <span className="text-3xl font-black text-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.3)]">{inquiries.length}</span>
                         <span className="text-[10px] text-gray-400 font-bold">건</span>
                       </div>
-                      <p className="text-[10px] text-gray-400 group-hover:underline">고객 문의내역 관리 이동</p>
+                      <p className="text-[10px] text-gray-400 group-hover:underline">문의 및 채용지원 내역 관리 이동</p>
                     </div>
                     <div 
                       className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-5 shadow-sm space-y-2 hover:border-amber-300 hover:shadow-xs transition-all relative select-none"
@@ -5853,13 +6144,13 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       {/* 상시 노출형 프리미엄 세부 메뉴 버튼 */}
                       <div className="flex items-center space-x-2 pt-2.5 mt-2 border-t border-white/5 text-[10px] font-bold">
                         <button 
-                          onClick={() => router.push('/management/dashboard/business/finished/search')}
+                          onClick={() => navigateTo('business/finished/search')}
                           className="flex items-center justify-center flex-1 py-2 bg-white/5 hover:bg-brand-green/10 text-gray-300 hover:text-brand-green border border-white/10 hover:border-brand-green/30 rounded-lg transition-all cursor-pointer"
                         >
                           제품 {products.length}개
                         </button>
                         <button 
-                          onClick={() => router.push('/management/dashboard/rd/pipeline')}
+                          onClick={() => navigateTo('rd/pipeline')}
                           className="flex items-center justify-center flex-1 py-2 bg-white/5 hover:bg-brand-green/10 text-gray-300 hover:text-brand-green border border-white/10 hover:border-brand-green/30 rounded-lg transition-all cursor-pointer"
                         >
                           파이프라인 {pipelines.length}개
@@ -5992,7 +6283,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                       <div className="flex items-center justify-between border-b border-white/10 pb-3">
                         <h3 className="text-xs font-extrabold text-white uppercase tracking-wider">최근 고객 문의</h3>
                         <button 
-                          onClick={() => router.push('/management/dashboard/contact/inquiry/check')}
+                          onClick={() => navigateTo('contact/inquiry/check')}
                           className="text-[10px] text-brand-green hover:underline font-bold"
                         >
                           전체보기
@@ -6004,7 +6295,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                           <div 
                             key={inq.id} 
                             onClick={() => {
-                              router.push('/management/dashboard/contact/inquiry/check');
+                              navigateTo('contact/inquiry/check');
                             }}
                             className="pt-3 first:pt-0 group cursor-pointer space-y-1.5"
                           >
@@ -6031,7 +6322,6 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
               )}
 
             </div>
-          )}
         </main>
 
       </div>
@@ -6250,7 +6540,7 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
           <div className="bg-[#0a1120]/90 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6 shadow-2xl relative text-white backdrop-blur-xl">
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-green to-brand-cyan/50" />
             <h3 className="text-lg font-black text-white tracking-tight pb-2 border-b border-white/10">
-              {formMode === 'create' ? '신규 데이터 등록' : '데이터 정보 수정'}
+              {currentSubPath === 'contact/newsroom/media' ? (formMode === 'create' ? '새 홍보사진 등록' : '홍보사진 수정') : formMode === 'create' ? '신규 데이터 등록' : '데이터 정보 수정'}
             </h3>
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -6503,9 +6793,140 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                 </div>
               )}
 
-              {/* News / Board Form */}
+              {/* Media Room Form (홍보사진 전용) */}
+              {currentSubPath === 'contact/newsroom/media' && (
+                <div className="space-y-4 text-xs">
+                  {/* Photo Upload Area */}
+                  <div className="space-y-2">
+                    <label className="font-bold text-gray-300 flex items-center space-x-1.5">
+                      <span>홍보 사진 등록</span>
+                      <span className="text-brand-green font-bold text-[11px]">(필수)</span>
+                    </label>
+                    <input
+                      type="file"
+                      id="media-photo-upload"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+
+                        if (!file.type.startsWith('image/')) {
+                          alert('이미지 파일(JPG, PNG, WebP 등)만 업로드할 수 있습니다.');
+                          return;
+                        }
+
+                        setUploadingFile(true);
+                        const formData = new FormData();
+                        formData.append('file', file);
+
+                        try {
+                          const res = await fetch('/api/upload', {
+                            method: 'POST',
+                            body: formData,
+                          });
+
+                          if (res.ok) {
+                            const data = await res.json();
+                            setNewsFileUrl(data.url);
+                            setNewsFileName(data.name);
+                          } else {
+                            alert('사진 업로드에 실패했습니다.');
+                          }
+                        } catch (err) {
+                          console.error('File upload error:', err);
+                          alert('사진 업로드 중 오류가 발생했습니다.');
+                        } finally {
+                          setUploadingFile(false);
+                        }
+                      }}
+                    />
+
+                    {newsFileUrl ? (
+                      <div className="rounded-2xl border border-brand-green/40 bg-white/[0.03] p-4 flex flex-col md:flex-row items-center gap-4">
+                        <div className="relative w-40 h-28 rounded-xl overflow-hidden border border-white/10 bg-black/50 flex-shrink-0">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={newsFileUrl}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 space-y-2 w-full">
+                          <p className="text-gray-300 font-semibold text-xs truncate max-w-md">
+                            {newsFileName || '업로드된 사진'}
+                          </p>
+                          <div className="flex items-center space-x-2">
+                            <label
+                              htmlFor="media-photo-upload"
+                              className="px-3 py-1.5 bg-brand-green/20 border border-brand-green/40 text-brand-green rounded-lg text-xs font-bold hover:bg-brand-green/30 cursor-pointer transition-colors"
+                            >
+                              {uploadingFile ? '업로드 중...' : '사진 변경'}
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNewsFileUrl('');
+                                setNewsFileName('');
+                              }}
+                              className="px-3 py-1.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg text-xs font-bold hover:bg-red-500/20 cursor-pointer transition-colors"
+                            >
+                              사진 삭제
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <label
+                        htmlFor="media-photo-upload"
+                        className="border-2 border-dashed border-white/20 hover:border-brand-green rounded-2xl p-6 text-center cursor-pointer transition-colors bg-white/[0.02] hover:bg-brand-green/5 flex flex-col items-center justify-center space-y-2 group block"
+                      >
+                        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-brand-green group-hover:scale-110 transition-all">
+                          <UploadCloud size={20} />
+                        </div>
+                        <p className="text-xs font-bold text-gray-300 group-hover:text-brand-green transition-colors">
+                          {uploadingFile ? '사진 업로드 중...' : '클릭하여 홍보사진 파일 선택 (JPG, PNG, WebP 등)'}
+                        </p>
+                        <p className="text-[11px] text-gray-500">
+                          권장 비율 16:10, 고해상도 이미지 권장
+                        </p>
+                      </label>
+                    )}
+                  </div>
+
+                  {/* Title */}
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">
+                      홍보자료 제목 <span className="text-brand-green font-bold text-[11px]">(필수)</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={newsTitle}
+                      onChange={(e) => setNewsTitle(e.target.value)}
+                      placeholder="예: 다산제약 최첨단 cGMP 스마트 생산시설 준공식"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold"
+                    />
+                  </div>
+
+                  {/* Description / Content (Optional) */}
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">
+                      상세 설명 <span className="text-gray-500 font-normal text-[11px]">(선택 사항)</span>
+                    </label>
+                    <textarea
+                      value={newsContent}
+                      onChange={(e) => setNewsContent(e.target.value)}
+                      rows={4}
+                      placeholder="사진에 대한 설명을 입력해주세요 (선택 사항)"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold resize-none"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Standard News / Board Form */}
               {(currentSubPath === 'contact/newsroom/press' ||
-                currentSubPath === 'contact/newsroom/media' ||
                 currentSubPath === 'about/ir/announcement' ||
                 currentSubPath === 'about/ir/financial' ||
                 currentSubPath === 'about/ir/news') && (
@@ -7045,6 +7466,91 @@ Fimasartan, Dapagliflozin, Sitagliptin, Metformin 고순도 활성 성분을 직
                 className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-xl border border-white/10 transition-all cursor-pointer"
               >
                 닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Email Resend Modal */}
+      {showResendModal && resendInquiry && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
+          <div className="bg-[#0b1329] border border-white/15 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 text-white animate-fade-in-up">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="flex items-center space-x-2">
+                <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <Mail size={16} />
+                </div>
+                <h3 className="text-sm font-bold text-white">알림 메일 재발송</h3>
+              </div>
+              <button
+                onClick={() => !isResendingEmail && setShowResendModal(false)}
+                className="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs bg-white/5 p-4 rounded-xl border border-white/10">
+              <div>
+                <span className="text-[10px] text-gray-400 uppercase font-bold block mb-0.5">제목</span>
+                <span className="text-white font-semibold">{resendInquiry.subject}</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
+                <div>
+                  <span className="text-[10px] text-gray-400 uppercase font-bold block mb-0.5">작성자 / 지원자</span>
+                  <span className="text-gray-200">{resendInquiry.name}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] text-gray-400 uppercase font-bold block mb-0.5">접수 일시</span>
+                  <span className="text-gray-200">{new Date(resendInquiry.created_at).toLocaleDateString()}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-gray-300 block">
+                수신 이메일 주소 <span className="text-emerald-400">*</span>
+              </label>
+              <input
+                type="text"
+                value={resendTargetEmail}
+                onChange={(e) => setResendTargetEmail(e.target.value)}
+                placeholder="예: insa@dspharm.com, jssong@dspharm.com"
+                disabled={isResendingEmail}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 bg-white/5 focus:bg-white/10 focus:border-emerald-500 text-xs text-white outline-none transition-all placeholder:text-gray-500 font-mono"
+              />
+              <p className="text-[11px] text-gray-400">
+                쉼표(,)로 구분하여 여러 명의 수신자에게 동시에 발송할 수 있습니다.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end space-x-2 pt-2 border-t border-white/10">
+              <button
+                type="button"
+                disabled={isResendingEmail}
+                onClick={() => setShowResendModal(false)}
+                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold rounded-xl border border-white/10 transition-all cursor-pointer"
+              >
+                취소
+              </button>
+              <button
+                type="button"
+                disabled={isResendingEmail || !resendTargetEmail.trim()}
+                onClick={handleConfirmResendEmail}
+                className="inline-flex items-center space-x-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-md shadow-emerald-900/30"
+              >
+                {isResendingEmail ? (
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>발송 중...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send size={13} />
+                    <span>지금 재발송하기</span>
+                  </>
+                )}
               </button>
             </div>
           </div>

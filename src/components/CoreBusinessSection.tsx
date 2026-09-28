@@ -34,7 +34,7 @@ export default function CoreBusinessSection() {
     {
       id: 'finished',
       type: 'detail',
-      image: '/core_business_finished.png',
+      image: '/core_business_finished.webp',
       tag: isEnglish ? 'Core Business' : '주요 사업영역',
       title: isEnglish ? 'Finished Drugs' : '완제 의약품',
       desc: isEnglish
@@ -80,25 +80,25 @@ export default function CoreBusinessSection() {
   const businessItems = [
     {
       id: 'finished',
-      num: '01',
+      num: '1',
       title: isEnglish ? 'Finished Drugs' : '완제 의약품',
       targetSlide: 1,
     },
     {
       id: 'cmo',
-      num: '02',
+      num: '2',
       title: isEnglish ? 'Contract Finished Drug (CDMO)' : '수탁 완제 의약품 개발 (CDMO)',
       targetSlide: 2,
     },
     {
       id: 'api',
-      num: '03',
+      num: '3',
       title: isEnglish ? 'API & Intermediate R&D' : '의약품 원료 및 중간체 연구개발',
       targetSlide: 3,
     },
     {
       id: 'rd',
-      num: '04',
+      num: '4',
       title: isEnglish ? 'New Drug Development & Clinical Research' : '신약개발 및 임상연구',
       targetSlide: 4,
     },
@@ -199,7 +199,7 @@ export default function CoreBusinessSection() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    <div className="bg-gray-100 px-6 sm:px-8 lg:px-10 xl:px-12 h-[145px] sm:h-[155px] lg:h-[160px] flex items-center shrink-0 border-t-2 border-brand-green relative overflow-hidden">
+                    <div className="bg-gray-200 px-6 sm:px-8 lg:px-10 xl:px-12 h-[145px] sm:h-[155px] lg:h-[160px] flex items-center shrink-0 border-t-2 border-brand-green relative overflow-hidden">
                       <p className="text-lg sm:text-xl md:text-[21px] lg:text-[23px] xl:text-[25px] font-extrabold leading-snug sm:leading-normal text-gray-900 break-keep">
                         {slides[0].title}
                       </p>
@@ -209,12 +209,6 @@ export default function CoreBusinessSection() {
                   {/* Right Column: Title & 3 Stacked Buttons (5 cols) */}
                   <div className="lg:col-span-5 flex flex-col justify-between bg-white h-full">
                     <div className="px-6 sm:px-8 lg:px-10 xl:px-12 pt-5 sm:pt-6 lg:pt-8 pb-3 sm:pb-4">
-                      <div className="inline-flex items-center gap-2 mb-2 sm:mb-3">
-                        <span className="w-2 h-2 rounded-full bg-brand-green" />
-                        <span className="text-[11px] sm:text-xs font-bold tracking-wider text-brand-green uppercase">
-                          BUSINESS SECTOR
-                        </span>
-                      </div>
                       <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-[42px] xl:text-[48px] font-black text-brand-blue tracking-tight break-keep leading-tight">
                         {isEnglish ? (
                           <span className="flex flex-col gap-1 sm:gap-2">
@@ -288,8 +282,7 @@ export default function CoreBusinessSection() {
                     </button>
 
                     {/* Sub-label */}
-                    <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
-                      <span className="w-2 h-2 rounded-full bg-brand-green" />
+                    <div className="mb-3 sm:mb-4">
                       <span className="text-xs sm:text-base font-bold text-brand-green tracking-wider uppercase">
                         {slides[currentSlide].tag}
                       </span>

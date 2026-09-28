@@ -11,7 +11,7 @@ import {
   Dna,
   Quote
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import ScrollVideo from '@/components/ScrollVideo';
 
 interface ApiRawContentProps {
@@ -19,7 +19,6 @@ interface ApiRawContentProps {
 }
 
 export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
-  const [selectedNum, setSelectedNum] = useState<string>('all');
   const [hoveredNum, setHoveredNum] = useState<string | null>(null);
 
   const sections = [
@@ -32,7 +31,6 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
       badgeColor: 'bg-emerald-600 text-white',
       intro: '차별화된 원료가 의약품의 새로운 가치를 만듭니다.',
       body: 'Prodrug 및 고부가가치 원료의약품을 비롯하여 최신 제약 기술을 적용한 차별화된 API 개발을 추진합니다.\n다산제약이 보유한 제제·연구개발 역량과 원료 개발 경험을 연결하여 고객의 제품 경쟁력을 높이고 글로벌 시장 진출을 지원합니다.',
-      keywords: ['Prodrug', 'High-value API', 'Process Development', 'Innovative Technology']
     },
     {
       num: '02',
@@ -43,7 +41,6 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
       badgeColor: 'bg-teal-700 text-white',
       intro: '품질은 선택이 아니라 신뢰의 기준입니다.',
       body: '의약품의 출발점인 원료부터 엄격한 품질 기준을 적용합니다.\n원료 선정, 제조, 시험 및 공급 단계에 이르기까지 체계적인 품질관리 시스템을 기반으로 안전성과 일관성을 확보하고, 고객이 신뢰할 수 있는 원료 파트너가 되겠습니다.',
-      keywords: ['Quality Assurance', 'Reliable API', 'Traceability', 'Consistent Quality']
     },
     {
       num: '03',
@@ -54,7 +51,6 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
       badgeColor: 'bg-emerald-700 text-white',
       intro: '환경을 고려한 의약품 개발은 미래 경쟁력의 시작입니다.',
       body: '효율적인 제조공정과 친환경적인 원료 및 생산기술을 지속적으로 검토하고 도입하여 환경 부담을 줄이는 원료의약품 사업을 추구합니다.\n품질과 생산성뿐만 아니라 지속가능성까지 고려한 API 개발을 통해 더 나은 제약 산업의 미래를 만들어갑니다.',
-      keywords: ['Sustainable Chemistry', 'Eco-friendly Process', 'Green Manufacturing', 'ESG']
     },
     {
       num: '04',
@@ -65,7 +61,6 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
       badgeColor: 'bg-teal-800 text-white',
       intro: 'Supplier가 아닌, 성공을 함께 설계하는 Partner.',
       body: '다산제약 원료사업부는 단순한 원료 공급을 넘어 고객의 개발 단계와 사업 전략을 이해하는 장기적인 파트너십을 추구합니다.\n개발 초기의 원료 검토부터 상업화 이후의 안정적인 공급까지 고객의 프로젝트에 필요한 최적의 솔루션을 함께 만들어갑니다.',
-      keywords: ['Strategic Partnership', 'Customer-oriented', 'Development Support', 'Long-term Collaboration']
     },
     {
       num: '05',
@@ -76,13 +71,8 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
       badgeColor: 'bg-emerald-800 text-white',
       intro: 'Global Network. Reliable Supply.',
       body: '중국사업본부를 기반으로 중국을 비롯하여 일본, 인도 등 주요 제약 시장의 다양한 제조사 및 파트너와 장기간 구축해온 글로벌 네트워크를 보유하고 있습니다.\n검증된 해외 파트너와의 협력과 공급망 다변화를 통해 원료의 안정적인 조달과 지속적인 공급을 지원하며, 국내외 시장 환경 변화에 유연하게 대응할 수 있는 글로벌 API 공급 체계를 구축하고 있습니다.',
-      keywords: ['China', 'Japan', 'India', 'Global Sourcing', 'Supply Chain', 'Stable Supply']
     }
   ];
-
-  const displayedSections = selectedNum === 'all'
-    ? sections
-    : sections.filter(sec => sec.num === selectedNum);
 
   return (
     <div className="w-full space-y-16 md:space-y-24 text-slate-800 font-pretendard">
@@ -135,128 +125,105 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
           </p>
         </div>
 
-        {/* 6개 버튼 라인업 (전체 보기 + 01 ~ 05) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-3.5 pt-1">
-          {/* VIEW ALL */}
-          <button 
-            type="button"
-            onClick={() => setSelectedNum('all')}
-            className={`p-3.5 sm:p-4 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
-              selectedNum === 'all' 
-                ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20' 
-                : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
-            }`}
-          >
-            <div className="h-7 flex items-center justify-center">
-              <span className="text-xs sm:text-sm text-brand-green font-extrabold uppercase tracking-wider">
-                VIEW ALL
-              </span>
-            </div>
-            <p className="text-sm sm:text-base font-bold text-slate-900 leading-tight whitespace-nowrap">전체 보기</p>
-          </button>
+        {/* 5 Core Feature Cards Grid */}
+        <div className="pt-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {sections.map((sec) => {
+              const Icon = sec.icon;
+              const isHovered = hoveredNum === sec.num;
+              const isCard05 = sec.num === '05';
 
-          {/* 01 ~ 05 Buttons */}
-          {sections.map((sec) => (
-            <button
-              key={sec.num}
-              type="button"
-              onClick={() => setSelectedNum(sec.num)}
-              className={`p-3.5 sm:p-4 py-4.5 sm:py-5 rounded-2xl border shadow-2xs text-center space-y-2 transition-all cursor-pointer group ${
-                selectedNum === sec.num
-                  ? 'bg-emerald-50 border-brand-green ring-2 ring-brand-green/20'
-                  : 'bg-white/95 border-slate-200 hover:border-emerald-300 hover:shadow-md'
-              }`}
-            >
-              <div className="h-7 flex items-center justify-center">
-                <span className="w-7 h-7 rounded-lg bg-brand-green text-white text-xs sm:text-sm font-black flex items-center justify-center shadow-2xs shrink-0 group-hover:scale-105 transition-transform font-mono">
-                  {sec.num}
-                </span>
-              </div>
-              <p className="text-sm sm:text-base font-bold text-slate-900 leading-tight whitespace-nowrap">
-                {sec.shortName}
-              </p>
-            </button>
-          ))}
-        </div>
-
-        {/* 5 Core Feature Cards Grid / Stack */}
-        <div className="space-y-6 pt-2">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedNum}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.25 }}
-              className="space-y-8"
-            >
-              {displayedSections.map((sec) => {
-                const Icon = sec.icon;
-                const isHovered = hoveredNum === sec.num;
-                const isEven = parseInt(sec.num, 10) % 2 === 0;
-
+              if (isCard05) {
                 return (
                   <motion.div
                     key={sec.num}
-                    initial={{ opacity: 0, y: 35 }}
+                    initial={{ opacity: 0, y: 25 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     onMouseEnter={() => setHoveredNum(sec.num)}
                     onMouseLeave={() => setHoveredNum(null)}
-                    className={`group relative p-6 sm:p-8 lg:p-10 rounded-[28px] sm:rounded-[32px] border transition-all duration-500 bg-white ${
+                    className={`md:col-span-2 group relative p-7 sm:p-9 lg:p-10 rounded-[28px] border transition-all duration-300 bg-white ${
                       isHovered
-                        ? 'border-emerald-300 shadow-xl -translate-y-1'
-                        : 'border-slate-200/80 shadow-sm hover:border-slate-300'
+                        ? 'border-emerald-400 shadow-xl -translate-y-1'
+                        : 'border-slate-200/90 shadow-sm hover:border-slate-300'
                     }`}
                   >
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
-                      
-                      {/* Title & Number Column (4 cols) - Alternates left / right */}
-                      <div className={`lg:col-span-4 space-y-4 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-                        <div className="flex items-center justify-between">
-                          <span className="text-4xl sm:text-5xl font-black text-slate-200 group-hover:text-emerald-300/60 transition-colors font-mono tracking-tight">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start">
+                      {/* 05 Left Column (5 cols) */}
+                      <div className="md:col-span-5 space-y-4">
+                        <div className="flex items-center gap-3 flex-wrap">
+                          <span className="text-2xl sm:text-3xl md:text-4xl font-black text-brand-green/30 group-hover:text-brand-green transition-colors font-mono tracking-tight shrink-0">
                             {sec.num}
                           </span>
-                          <div className={`w-12 h-12 rounded-2xl ${sec.badgeColor} flex items-center justify-center shadow-md shrink-0`}>
-                            <Icon size={22} />
-                          </div>
-                        </div>
-
-                        <div className="space-y-1 pt-1">
-                          <span className="text-xs font-extrabold uppercase tracking-wider text-brand-green block">
+                          <h3 className="text-xl sm:text-2xl md:text-[23px] font-black text-brand-green tracking-tight break-keep">
                             {sec.subTitle}
-                          </span>
-                          <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                            {sec.title}
                           </h3>
                         </div>
-                      </div>
 
-                      {/* Content & Quote Column (8 cols) - Alternates right / left */}
-                      <div className={`lg:col-span-8 space-y-5 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
-                        
-                        {/* Intro Highlight Quote Box */}
-                        <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50/60 border border-emerald-100/90 text-slate-900 flex items-start gap-3 shadow-2xs">
-                          <Quote size={18} className="text-brand-green shrink-0 mt-0.5" />
-                          <p className="text-sm sm:text-base font-bold leading-snug">
+                        <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100/90 text-slate-900 flex items-start gap-2.5 shadow-2xs">
+                          <Quote size={16} className="text-brand-green shrink-0 mt-0.5" />
+                          <p className="text-sm font-bold leading-snug">
                             {sec.intro}
                           </p>
                         </div>
-
-                        {/* Body Paragraph */}
-                        <p className="text-xs sm:text-sm md:text-[14.5px] text-slate-600 leading-relaxed whitespace-pre-line break-keep font-normal">
-                          {sec.body}
-                        </p>
-
                       </div>
 
+                      {/* 05 Right Column (7 cols) */}
+                      <div className="md:col-span-7 flex flex-col justify-center h-full">
+                        <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line break-keep font-normal">
+                          {sec.body}
+                        </p>
+                      </div>
                     </div>
                   </motion.div>
                 );
-              })}
-            </motion.div>
-          </AnimatePresence>
+              }
+
+              // Standard Cards (01, 02, 03, 04)
+              return (
+                <motion.div
+                  key={sec.num}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  onMouseEnter={() => setHoveredNum(sec.num)}
+                  onMouseLeave={() => setHoveredNum(null)}
+                  className={`group relative p-7 sm:p-8 rounded-[28px] border transition-all duration-300 bg-white flex flex-col justify-between ${
+                    isHovered
+                      ? 'border-emerald-400 shadow-xl -translate-y-1'
+                      : 'border-slate-200/90 shadow-sm hover:border-slate-300'
+                  }`}
+                >
+                  <div className="space-y-4">
+                    {/* Top Header: Number & Subtitle */}
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className="text-2xl sm:text-3xl md:text-4xl font-black text-brand-green/30 group-hover:text-brand-green transition-colors font-mono tracking-tight shrink-0">
+                        {sec.num}
+                      </span>
+                      <h3 className="text-xl sm:text-2xl md:text-[23px] font-black text-brand-green tracking-tight break-keep">
+                        {sec.subTitle}
+                      </h3>
+                    </div>
+
+                    {/* Highlight Quote Box */}
+                    <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100/90 text-slate-900 flex items-start gap-2.5 shadow-2xs">
+                      <Quote size={16} className="text-brand-green shrink-0 mt-0.5" />
+                      <p className="text-sm font-bold leading-snug">
+                        {sec.intro}
+                      </p>
+                    </div>
+
+                    {/* Body Description */}
+                    <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line break-keep font-normal">
+                      {sec.body}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </motion.section>
 

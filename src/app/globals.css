@@ -256,6 +256,51 @@ aside h4,
 .ql-font-jua, .rich-text-content .ql-font-jua { font-family: 'Jua', sans-serif; }
 .ql-font-nanumpenscript, .rich-text-content .ql-font-nanumpenscript { font-family: 'Nanum Pen Script', cursive; }
 
+/* Modal Popup Rich Text Typography: Matches Picture 1 compact font size */
+.modal-rich-text,
+.modal-rich-text * {
+  font-size: inherit;
+}
+.modal-rich-text h1 {
+  font-size: 0.9375rem !important; /* 15px */
+  font-weight: 700 !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.35rem !important;
+  line-height: 1.5 !important;
+  color: #111827 !important;
+}
+.modal-rich-text h2 {
+  font-size: 0.875rem !important; /* 14px */
+  font-weight: 700 !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.35rem !important;
+  line-height: 1.5 !important;
+  color: #1f2937 !important;
+}
+.modal-rich-text h3 {
+  font-size: 0.8125rem !important; /* 13px */
+  font-weight: 600 !important;
+  margin-top: 0.2rem !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.5 !important;
+  color: #1f2937 !important;
+}
+.modal-rich-text p {
+  font-size: 0.875rem !important; /* 14px */
+  line-height: 1.625 !important;
+  margin-bottom: 0.35rem !important;
+  color: #374151 !important;
+}
+.modal-rich-text span {
+  background-color: transparent !important;
+  font-size: inherit !important;
+}
+.modal-rich-text a {
+  font-size: inherit !important;
+  color: #008953 !important;
+  word-break: break-all !important;
+}
+
 /* Custom Font Labels in Quill Dropdown */
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="notosanskr"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="notosanskr"]::before {

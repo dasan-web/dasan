@@ -7,6 +7,14 @@ import { ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, X, Calendar, Eye, 
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/ScrollReveal';
 
+const formatSentenceLineBreaks = (text: string): string => {
+  if (!text) return '';
+  return text
+    .replace(/([.?!])[ \t]+(?!\n)/g, '$1\n')
+    .replace(/([.?!])(?=[가-힣A-Za-z])/g, '$1\n')
+    .trim();
+};
+
 interface NewsCard {
   id: number;
   image: string;
@@ -341,20 +349,11 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.25 }}
-              className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-gray-100 relative overflow-hidden max-h-[90vh] flex flex-col justify-between"
+              className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-gray-100 relative overflow-hidden max-h-[90vh] flex flex-col"
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedCard(null)}
-                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer z-20"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="overflow-y-auto pr-1 space-y-5">
-                {/* Modal Header */}
-                <div className="flex items-center gap-2.5 pb-3 border-b border-gray-100">
+              {/* Modal Top Header with Close Button (Fixed above scroll area to prevent scrollbar overlap) */}
+              <div className="flex items-center justify-between px-6 sm:px-8 pt-5 sm:pt-6 pb-4 border-b border-gray-100 shrink-0 bg-white z-20">
+                <div className="flex items-center gap-2.5">
                   <span className="bg-brand-green text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase">
                     PRESS RELEASE
                   </span>
@@ -365,7 +364,17 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
                     {isEnglish ? 'Views' : '조회수'} {selectedCard.views || 0}
                   </span>
                 </div>
+                <button
+                  onClick={() => setSelectedCard(null)}
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer ml-3"
+                  aria-label="Close modal"
+                >
+                  <X className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                </button>
+              </div>
 
+              {/* Scrollable Modal Content (Scrollbar strictly contained below header) */}
+              <div className="overflow-y-auto px-6 sm:px-8 py-5 sm:py-6 space-y-5 flex-1 pr-4 sm:pr-6">
                 {/* Modal Title */}
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug">
                   {selectedCard.title}
@@ -384,12 +393,12 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
 
                 {/* Modal Content */}
                 <div className="text-xs sm:text-sm text-gray-700 leading-relaxed whitespace-pre-line py-3 px-4 bg-gray-50/80 rounded-2xl border border-gray-100 font-normal">
-                  {selectedCard.content ? selectedCard.content.replace(/<[^>]*>/g, '') : ''}
+                  {selectedCard.content ? formatSentenceLineBreaks(selectedCard.content.replace(/<[^>]*>/g, '')) : ''}
                 </div>
               </div>
 
               {/* Modal Footer */}
-              <div className="pt-5 mt-5 border-t border-gray-100 flex items-center justify-between">
+              <div className="px-6 sm:px-8 py-3.5 border-t border-gray-100 flex items-center justify-start shrink-0 bg-white">
                 <Link
                   href={`${basePath}/contact/newsroom/press`}
                   className="text-xs sm:text-sm font-bold text-brand-green hover:underline inline-flex items-center gap-1"
@@ -397,12 +406,6 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
                   {isEnglish ? 'Go to Newsroom' : '보도자료 게시판 바로가기'}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
-                <button
-                  onClick={() => setSelectedCard(null)}
-                  className="px-5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
-                >
-                  {isEnglish ? 'Close' : '닫기'}
-                </button>
               </div>
             </motion.div>
           </div>

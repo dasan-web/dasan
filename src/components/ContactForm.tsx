@@ -177,17 +177,14 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
 
   const config = {
     product: {
-      badge: 'PRODUCT INQUIRY',
       desc: isEnglish ? 'If you leave any questions about Dasan Pharmaceutical\'s products, the person in charge will quickly check and contact you.' : '다산제약의 제품에 대해 궁금한 사항을 남겨주시면, 담당자가 신속히 확인하여 연락 드리겠습니다.',
       subjectPlaceholder: isEnglish ? 'Please enter the title for product or partnership inquiry.' : '제품명 또는 제품 제휴 관련 문의 제목을 입력해주세요.',
     },
     sales: {
-      badge: 'SALES INQUIRY',
       desc: isEnglish ? 'If you leave an inquiry regarding Dasan Pharmaceutical\'s sales/purchase partnership and business, the relevant department will guide you promptly.' : '다산제약의 영업/구매 제휴 및 비즈니스 관련 문의를 남겨주시면, 담당 부서에서 신속히 안내 드리겠습니다.',
       subjectPlaceholder: isEnglish ? 'Please enter the title for business cooperation or sales inquiry.' : '비즈니스 협력 또는 영업 관련 문의 제목을 입력해주세요.',
     },
     corruption: {
-      badge: 'ETHICS & COMPLIANCE (ANONYMOUS)',
       desc: (
         <>
           {isEnglish ? 'Dasan Pharmaceutical practices ethical management. If there is any corruption or absurdity related to work performance, please report it safely and anonymously.' : '다산제약은 윤리경영을 실천하고 있습니다. 업무수행과 관련하여 부패 행위나 부조리한 사실이 있는 경우 익명으로 안전하게 제보해 주시기 바랍니다.'}<br />
@@ -316,9 +313,6 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
   return (
     <div className="bg-white rounded-3xl p-8 md:p-10 border border-gray-300 shadow-[0_10px_35px_rgba(0,0,0,0.02)] w-full max-w-4xl mx-auto transition-all duration-300">
       <div className="mb-8">
-        <span className="inline-block bg-brand-green/10 text-brand-green text-[10.5px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full mb-3.5">
-          {currentConfig.badge}
-        </span>
         <p className="text-sm md:text-[14.5px] text-gray-500 leading-relaxed font-medium">
           {currentConfig.desc}
         </p>

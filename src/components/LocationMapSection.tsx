@@ -22,11 +22,11 @@ interface LocationInfo {
 const locations: LocationInfo[] = [
   {
     id: 'seoul',
-    name: '서울 본사',
-    subName: '경영총괄, 해외 영업본부, 마케팅 전략부서',
+    name: '서울 사무실',
+    subName: '',
     lat: 37.5186,
     lng: 126.8906,
-    placeName: '다산제약 서울 본사',
+    placeName: '다산제약 서울 사무실',
     address: '서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호',
     tel: '02-2627-5300',
     subway: [
@@ -41,14 +41,14 @@ const locations: LocationInfo[] = [
   {
     id: 'suwon',
     name: '수원 중앙연구소',
-    subName: 'DDS 제제 연구, 유기합성 연구',
+    subName: '',
     lat: 37.266205,
     lng: 127.054366,
     placeName: '다산제약 수원 중앙연구소',
     address: '경기 수원시 영통구 신원로 304 (원천동) 이노플렉스 3동 306호',
     tel: '031-546-8200',
     subway: [
-      '수인분당선 영통역 또는 청명역 하차 후 시내버스 환승 이용',
+      '수인분당선 영통역 또는 청명역 하차 후 시내버스 환승',
       '수인분당선 망포역 4번 출구 도보 15분 (또는 버스 환승)'
     ],
     bus: [
@@ -59,7 +59,7 @@ const locations: LocationInfo[] = [
   {
     id: 'asan1',
     name: '아산 제1공장',
-    subName: '완제의약품 생산본부',
+    subName: '',
     lat: 36.7589,
     lng: 126.8687,
     placeName: '다산제약 아산 제1공장',
@@ -77,7 +77,7 @@ const locations: LocationInfo[] = [
   {
     id: 'asan2',
     name: '아산 제2공장',
-    subName: '최첨단 스마트 패키징 & 대량생산 라인',
+    subName: '',
     lat: 36.7621,
     lng: 126.8698,
     placeName: '다산제약 아산 제2공장',
@@ -94,18 +94,20 @@ const locations: LocationInfo[] = [
   },
   {
     id: 'china',
-    name: '중국 공장',
-    subName: 'Anhui Heryi Dasan (안휘허이다산의약유한회사)',
-    lat: 31.8616,
-    lng: 117.2849,
-    placeName: '다산제약 중국 안휘공장',
-    address: '중국 안휘성 (Anhui, China)',
-    tel: '-',
+    name: '중국 선양연구소',
+    subName: '',
+    lat: 41.6906,
+    lng: 123.4779,
+    placeName: '다산제약 중국 선양연구소',
+    address: 'Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179',
+    tel: '',
     subway: [
-      '해외 현지 사업장으로 별도의 안내가 제공되지 않습니다.'
+      '심양 트램 1·2호선 궈지롼젠위안(国际软件园, Shenyang Int’l Software Park)역 하차',
+      '심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 차량/택시 이동'
     ],
     bus: [
-      '해외 현지 사업장으로 별도의 안내가 제공되지 않습니다.'
+      '선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용',
+      '상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차'
     ]
   }
 ];
@@ -118,7 +120,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const loc = params.get('loc');
-    if (loc && ['seoul', 'suwon', 'asan1', 'asan2'].includes(loc)) {
+    if (loc && ['seoul', 'suwon', 'asan1', 'asan2', 'china'].includes(loc)) {
       setActiveTab(loc);
     }
   }, []);
@@ -127,44 +129,44 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
   const enLocations = [
     {
       id: 'seoul',
-      name: 'Seoul Headquarters',
-      subName: 'Management, Overseas Sales, Marketing Strategy Dept.',
+      name: 'Seoul Office',
+      subName: '',
       lat: 37.5186,
       lng: 126.8906,
-      placeName: 'Dasan Pharmaceutical Seoul Headquarters',
+      placeName: 'Dasan Pharmaceutical Seoul Office',
       address: '#1302, Woori Venture Town II, 70 Seonyu-ro, Yeongdeungpo-gu, Seoul',
       tel: '02-2627-5300',
       subway: [
         '8 mins walk from Exit 3, Mullae Stn, Line 2',
-        '10 mins walk from Exit 6, Yeongdeungpo-gu Office Stn, Lines 2/5'
+        '10 mins walk from Exit 2, Yangpyeong Stn, Line 5'
       ],
       bus: [
-        'Get off at Woori Venture Town stop',
-        'Branch 6625, 6640A / Village Yeongdeungpo05'
+        '1 min walk from Crown Confectionery stop (Yeongdeungpo 05 village bus)',
+        '3 mins walk from Mullae-dong Post Office stop'
       ]
     },
     {
       id: 'suwon',
-      name: 'Suwon R&D Center',
-      subName: 'DDS Formulation R&D, Organic Synthesis R&D',
+      name: 'Suwon Central Research Lab',
+      subName: '',
       lat: 37.266205,
       lng: 127.054366,
-      placeName: 'Dasan Pharmaceutical Suwon R&D Center',
-      address: '#306, Innoplex Bldg 3, 304 Sinwon-ro, Yeongtong-gu, Suwon-si, Gyeonggi-do',
+      placeName: 'Dasan Pharmaceutical Suwon Lab',
+      address: '#306, Building 3, Innoplex, 304 Sinwon-ro, Yeongtong-gu, Suwon-si, Gyeonggi-do',
       tel: '031-546-8200',
       subway: [
-        'Transfer to city bus after getting off at Yeongtong Stn or Cheongmyeong Stn (Suin-Bundang Line)',
-        '15 mins walk from Exit 4, Mangpo Stn (Suin-Bundang Line) (or transfer to bus)'
+        'Transfer to bus after getting off at Mangpo Stn (Suin-Bundang Line)',
+        'Transfer to bus after getting off at Maetan Gwonseon Stn (Suin-Bundang Line)'
       ],
       bus: [
-        'Get off at Innoplex stop',
-        'General 62-1, 82-1, 99 / Village 55'
+        '3 mins walk from Digital Empire 2 stop',
+        'Use Suwon city bus 39, 51, 62-1 routes'
       ]
     },
     {
       id: 'asan1',
       name: 'Asan Plant 1',
-      subName: 'Finished Products Production Center',
+      subName: '',
       lat: 36.7589,
       lng: 126.8687,
       placeName: 'Dasan Pharmaceutical Asan Plant 1',
@@ -182,7 +184,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
     {
       id: 'asan2',
       name: 'Asan Plant 2',
-      subName: 'State-of-the-art Smart Packaging & Mass Production Line',
+      subName: '',
       lat: 36.7621,
       lng: 126.8698,
       placeName: 'Dasan Pharmaceutical Asan Plant 2',
@@ -199,18 +201,20 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
     },
     {
       id: 'china',
-      name: 'China Plant',
-      subName: 'Anhui Heryi Dasan Pharmaceutical Co., Ltd.',
-      lat: 31.8616,
-      lng: 117.2849,
-      placeName: 'Dasan Pharmaceutical Anhui Plant',
-      address: 'Anhui, China',
-      tel: '-',
+      name: 'China Shenyang Lab',
+      subName: '',
+      lat: 41.6906,
+      lng: 123.4779,
+      placeName: 'Dasan Pharmaceutical China Shenyang Lab',
+      address: 'Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, China 110179',
+      tel: '',
       subway: [
-        'Overseas facility. Local transportation directions are not provided.'
+        'Shenyang Modern Tram Line 1/2: Get off at International Software Park (国际软件园) Station',
+        'Shenyang Metro Line 2: Get off at Quanyunlu or Baitahelu Station and transfer to taxi'
       ],
       bus: [
-        'Overseas facility. Local transportation directions are not provided.'
+        'Bus routes bound for Shenyang International Software Park',
+        'Get off near Building F or Shangshengou Village stop'
       ]
     }
   ];
@@ -222,11 +226,11 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
     displayLocations = [
       {
         id: 'seoul',
-        name: lines[0] || '서울 본사',
+        name: lines[0] || '서울 사무실',
         subName: lines[1] || '경영총괄, 해외 영업본부, 마케팅 전략부서',
         lat: parseFloat((lines[2] || '').split(',')[0]) || 37.5186,
         lng: parseFloat((lines[2] || '').split(',')[1]) || 126.8906,
-        placeName: lines[3] || '다산제약 서울 본사',
+        placeName: lines[3] || '다산제약 서울 사무실',
         address: lines[4] || '서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호',
         tel: lines[5] || '02-2627-5300',
         subway: (lines[6] || '').split('|').filter(Boolean),
@@ -270,18 +274,37 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
       },
       {
         id: 'china',
-        name: lines[32] || '중국 공장',
-        subName: lines[33] || 'Anhui Heryi Dasan (안휘허이다산의약유한회사)',
-        lat: parseFloat((lines[34] || '').split(',')[0]) || 31.8616,
-        lng: parseFloat((lines[34] || '').split(',')[1]) || 117.2849,
-        placeName: lines[35] || '다산제약 중국 안휘공장',
-        address: lines[36] || '중국 안휘성 (Anhui, China)',
-        tel: lines[37] || '-',
-        subway: (lines[38] || '해외 현지 사업장으로 별도의 안내가 제공되지 않습니다.').split('|').filter(Boolean),
-        bus: (lines[39] || '해외 현지 사업장으로 별도의 안내가 제공되지 않습니다.').split('|').filter(Boolean),
+        name: lines[32] || '중국 선양연구소',
+        subName: lines[33] || '',
+        lat: parseFloat((lines[34] || '').split(',')[0]) || 41.6906,
+        lng: parseFloat((lines[34] || '').split(',')[1]) || 123.4779,
+        placeName: lines[35] || '다산제약 중국 선양연구소',
+        address: lines[36] || 'Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179',
+        tel: (lines[37] && lines[37] !== '-') ? lines[37] : '',
+        subway: (lines[38] || '심양 트램 1·2호선 궈지롼젠위안(国际软件园, Shenyang Int’l Software Park)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 차량/택시 이동').split('|').filter(Boolean),
+        bus: (lines[39] || '선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용|상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차').split('|').filter(Boolean),
       }
     ];
   }
+
+  const normalizeName = (name: string) => {
+    if (name === '서울 본사') return '서울 사무실';
+    if (name === '중국 공장') return '중국 선양연구소';
+    return name;
+  };
+
+  const normalizePlaceName = (name: string) => {
+    if (!name) return '';
+    return name.replace(/서울\s*본사/g, '서울 사무실').replace(/중국\s*공장/g, '중국 선양연구소');
+  };
+
+  displayLocations = displayLocations.map((loc) => ({
+    ...loc,
+    name: normalizeName(loc.name),
+    placeName: normalizePlaceName(loc.placeName),
+    subName: '',
+    tel: loc.id === 'china' ? '' : loc.tel,
+  }));
 
   const activeLoc = displayLocations.find(loc => loc.id === activeTab) || displayLocations[0];
 
@@ -290,6 +313,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
       case 'seoul':
         return <Landmark size={size} />;
       case 'suwon':
+      case 'china':
         return <Building2 size={size} />;
       default:
         return <Factory size={size} />;
@@ -307,10 +331,6 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
             <button
               key={loc.id}
               onClick={() => {
-                if (loc.id === 'china') {
-                  alert(isEnglish ? 'Update scheduled.' : '업데이트 예정입니다.');
-                  return;
-                }
                 setActiveTab(loc.id);
               }}
               className={`flex items-center space-x-2.5 px-6 py-3.5 rounded-full text-sm font-black transition-all cursor-pointer border ${
@@ -338,13 +358,12 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
                 {activeLoc.placeName} {isEnglish ? "Directions" : "오시는 길"}
               </h4>
             </div>
-            <p className="text-xs text-gray-500 font-bold pl-7">
-              {activeLoc.subName}
-            </p>
           </div>
           <div className="text-right text-xs pl-7 md:pl-0">
             <p className="text-gray-700 font-semibold">{activeLoc.address}</p>
-            <p className="text-gray-500 font-bold mt-1">{isEnglish ? "Main Number" : "대표번호"}: {activeLoc.tel}</p>
+            {activeLoc.tel && activeLoc.tel !== '-' && (
+              <p className="text-gray-500 font-bold mt-1">{isEnglish ? "Main Number" : "대표번호"}: {activeLoc.tel}</p>
+            )}
           </div>
         </div>
 

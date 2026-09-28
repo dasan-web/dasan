@@ -306,22 +306,22 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <>
-            {/* Top Slogan */}
-            <div className="w-full text-center mb-8 animate-fade-in-up">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-pretendard font-medium text-gray-900 tracking-tight">
-                Innovation for Human Health, <span className="text-brand-green font-black">Global Healthcare Enterprise</span>
-              </h2>
+            {/* Slogan Above Video */}
+            <div className="w-full text-center pt-2 sm:pt-4 pb-8 sm:pb-10 animate-fade-in-up">
+              <p className="text-2xl sm:text-3xl md:text-4xl font-pretendard font-medium text-gray-900 tracking-tight break-keep">
+                Based on the noble mission of extending life, we create a world where mankind is happy
+              </p>
             </div>
 
             {/* Top Video Section */}
             <ScrollVideo />
 
-            <div className="space-y-16 animate-fade-in-up mt-0">
+            <div className="space-y-16 animate-fade-in-up mt-8 sm:mt-12">
 
             {/* 1. Intro Summary */}
             <div className="relative w-full pt-8 sm:pt-12 pb-16 sm:pb-20 mt-0 mb-0">
               {/* Content Container */}
-              <div className="relative z-10 max-w-5xl mx-auto">
+              <div className="relative z-10 w-full max-w-[1760px] mx-auto">
                 <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed">
                 {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
                   (() => {
@@ -358,9 +358,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     const processHtmlTitles = (html: string) => {
                       let processed = html;
                       
+                      // 1.5 4 Major Management Philosophies (integrated directly in PhilosophyGraphic stream)
                       processed = processed.replace(
                         /(?:<p[^>]*>)?\s*(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4 Major Management Philosophies|4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?\s*(?:<\/p>)?/gi,
-                        '<div class="w-full text-center mt-16 sm:mt-24 mb-6 sm:mb-8"><h3 class="!border-b-0 !border-none !pb-0 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 inline-block">$1</h3></div>'
+                        ''
                       );
                       
                       processed = processed.replace(
@@ -377,7 +378,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     return (
                       <>
                         {/* Top Text Area */}
-                        <div className="w-full">
+                        <div className="w-full max-w-5xl mx-auto">
                           <span className="text-brand-green text-xs sm:text-sm font-bold tracking-wider uppercase block mb-3">
                             Company Overview
                           </span>
@@ -412,7 +413,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                     return (
                       <>
-                        <div className="w-full">
+                        <div className="w-full max-w-5xl mx-auto">
                           <span className="text-brand-green text-xs sm:text-sm font-bold tracking-wider uppercase block mb-3">
                             Company Overview
                           </span>
@@ -422,13 +423,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                               return <h3 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-6 pb-4 border-b border-gray-200">{titleText}</h3>;
                             }
                             if (line.includes('4 Major Management Philosophies') || line.includes('4대 경영 철학')) {
-                              return (
-                                <div key={i} className="w-full text-center mt-16 sm:mt-24 mb-6 sm:mb-8">
-                                  <h3 className="!border-b-0 !border-none !pb-0 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 inline-block">
-                                    {line}
-                                  </h3>
-                                </div>
-                              );
+                              return null;
                             }
                             if (
                               line.startsWith('With the spirit of Dasan') || 
@@ -534,18 +529,47 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let bizData = {
           intro: 'We have secured high value-added business growth by establishing a Key Value Chain infrastructure for the entire pharmaceutical lifecycle from R&D to sales.',
           items: [
-            { title: '1) Own Finished Product Business', desc: 'Establishing an excellent product lineup centered on cardiovascular, respiratory, and urology, and production/sales' },
-            { title: '2) Consignment Finished Product (CMO) Business', desc: 'Consignment production of ethical drugs through proprietary formulation technology and process optimization' },
-            { title: '3) API and Intermediates Business', desc: 'Development and patent securing of key APIs and intermediates, DMF registration and management for new synthetic and imported materials' }
+            { 
+              title: 'Finished Pharmaceutical Products', 
+              desc: 'Establishing, producing, and selling excellent product lineups<br />focusing on cardiovascular, respiratory, and urological systems',
+              image: '/images/business_hero1.jpg'
+            },
+            { 
+              title: 'Contract Manufacturing (CMO)', 
+              desc: 'Contract manufacturing of prescription drugs<br />through proprietary formulation technology and process optimization',
+              image: '/images/business_hero2.jpg'
+            },
+            { 
+              title: 'API & Intermediate R&D', 
+              desc: 'Development and patent securing of key APIs and intermediates,<br />DMF registration and management for new synthetic and imported materials',
+              image: '/images/business_hero3.jpg'
+            }
           ]
         };
         if (dbContent) {
           const lines = dbContent.split('\n');
           if (lines.length > 0) {
             const introText = lines[0] || '';
-            const itemsParsed = lines.slice(1).map(line => {
+            const defaultImages = ['/images/business_hero1.jpg', '/images/business_hero2.jpg', '/images/business_hero3.jpg'];
+            const itemsParsed = lines.slice(1).map((line, idx) => {
               const parts = line.split('|');
-              return { title: parts[0] || '', desc: parts[1] || '' };
+              const rawTitle = parts[0] || '';
+              const cleanTitle = rawTitle.replace(/^(\d+[\.\)]\s*)/, '').trim();
+              let desc = parts[1] || '';
+              if (desc.includes('lineups') && !desc.includes('<br') && !desc.includes('\n')) {
+                desc = desc.replace(/lineups\s*/, 'lineups<br />');
+              }
+              if (desc.includes('drugs') && !desc.includes('<br') && !desc.includes('\n')) {
+                desc = desc.replace(/drugs\s*/, 'drugs<br />');
+              }
+              if (desc.includes('intermediates,') && !desc.includes('<br') && !desc.includes('\n')) {
+                desc = desc.replace(/intermediates,\s*/, 'intermediates,<br />');
+              }
+              return { 
+                title: cleanTitle, 
+                desc: desc,
+                image: defaultImages[idx] || '/images/business_hero1.jpg'
+              };
             }).filter(item => item.title);
             bizData = {
               intro: introText,
@@ -596,73 +620,35 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 Core Business
               </h3>
             
-            <div className="grid grid-cols-3 gap-3 sm:gap-5 md:gap-6 lg:gap-8 mt-8 w-full">
-              {/* Card 1 */}
-              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
-                  style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
-                />
-                {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
-                <div 
-                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
-                >
-                  <h4 className="text-[13px] sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-black break-keep leading-tight mb-2 sm:mb-3 tracking-tight">
-                    01. Finished Pharmaceutical Products
-                  </h4>
-                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
-                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
-                    Establishing, producing, and selling excellent product lineups focusing on cardiovascular, respiratory, and urological systems
-                  </p>
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-8 w-full">
+                {bizData.items.map((item, idx) => (
+                  <div 
+                    key={idx}
+                    className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-[24px] sm:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer"
+                  >
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.20] contrast-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+                    
+                    {/* Frosted Glass Floating Caption Overlay */}
+                    <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3.5 sm:bottom-3.5 lg:inset-x-4 lg:bottom-4 p-3.5 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
+                      <h4 className="text-[18px] sm:text-[20px] md:text-[16px] lg:text-[19.5px] xl:text-[22.5px] 2xl:text-[24px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md whitespace-nowrap">
+                        {item.title}
+                      </h4>
+                      <p className="text-[14.5px] sm:text-[15.5px] md:text-[14px] lg:text-[15.5px] xl:text-[17.5px] 2xl:text-[18px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2.5 sm:group-hover:mt-3 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
+                        {item.desc.split(/<br\s*\/?>|\n|\\n/).map((line, lIdx) => (
+                          <span key={lIdx} className="block whitespace-normal sm:whitespace-nowrap">
+                            {line.trim()}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              {/* Card 2 */}
-              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
-                  style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
-                />
-                {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
-                <div 
-                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
-                >
-                  <h4 className="text-[13px] sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-black break-keep leading-tight mb-2 sm:mb-3 tracking-tight">
-                    02. Contract Manufacturing (CMO)
-                  </h4>
-                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
-                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
-                    Contract manufacturing of prescription drugs through proprietary formulation technology and process optimization
-                  </p>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
-                  style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
-                />
-                {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-transparent" />
-                <div 
-                  className="absolute inset-0 p-3.5 sm:p-5 md:p-6 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
-                >
-                  <h4 className="text-[13px] sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-black break-keep leading-tight mb-2 sm:mb-3 tracking-tight">
-                    03. API & Intermediates
-                  </h4>
-                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
-                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
-                    Development and patent securing of key APIs and intermediates, and DMF registration/management for new synthetic and imported materials
-                  </p>
-                </div>
-              </div>
-            </div>
             </div>
           </div>
         );
@@ -686,7 +672,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
         const defaultTimelineData: TimelineEra[] = [
           {
             eraTitle: '2022 ~ Present',
-            eraSubtitle: 'Leap Phase (High Growth / High Profit Creation)',
+            eraSubtitle: 'Leap Phase',
             events: [
               { year: '2025', details: ['• Selected for Smart Eco-Plant Construction Project'] },
               { year: '2024', details: ['• Selected for Global Hidden Champion 1000+ Project', '• Selected as Leading Supply Chain Stabilizer by MFDS', '• ISO 45001 Certified', '• Established Anhui Heyi-Dasan Pharma JV in China'] },
@@ -696,7 +682,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           },
           {
             eraTitle: '2013 ~ 2021',
-            eraSubtitle: 'Growth Phase (R&D Advancement & Infrastructure Expansion)',
+            eraSubtitle: 'Growth Phase',
             events: [
               { year: '2021', details: ['• Chungnam Excellent Entrepreneur Award', '• Good Workplace Company', '• Global Hidden Champion'] },
               { year: '2020', details: ['• Selected as Promising SME by Chungnam'] },
@@ -709,7 +695,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           },
           {
             eraTitle: '1996 ~ 2011',
-            eraSubtitle: 'Establishment Phase (Securing Core Tech)',
+            eraSubtitle: 'Establishment Phase',
             events: [
               { year: '2011', details: ['• Selected as KIBO Success Company'] },
               { year: '2009', details: ['• $3M Export Tower Award'] },
@@ -1161,12 +1147,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     <div className="space-y-4">
                       <div>
                         <span className="text-sm text-brand-green font-bold block mb-1.5">Asan Plant 1 (Asan, Korea)</span>
-                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-2">
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">
                           Finished pharmaceutical production headquarters, cGMP-level high-quality pharmaceutical production
                         </p>
-                        <div className="flex items-center">
-                          <span className="inline-block text-brand-blue font-bold text-[11px] bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP Certification Completed</span>
-                        </div>
                       </div>
                       <div className="pt-4 border-t border-dashed border-gray-200">
                         <span className="text-sm text-brand-green font-bold block mb-1.5">Asan Plant 2 (Asan, Korea)</span>
@@ -1727,8 +1710,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
   };
 
   return (
-    <div className={`relative bg-white pt-16 md:pt-24 ${currentPath === '/about/intro' ? 'pb-0' : 'pb-16 md:pb-24'} min-h-screen`}>
-      <div className={`relative z-10 w-full ${currentPath === '/about/greeting' || currentPath === '/about/business-area' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
+    <div className="relative bg-white pt-16 md:pt-24 pb-16 md:pb-24 min-h-screen">
+      <div className={`relative z-10 w-full ${currentPath === '/about/greeting' || currentPath === '/about/business-area' || currentPath === '/about/overview' || currentPath === '/about' || currentPath === '/about/intro' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -1796,7 +1779,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`min-h-[550px] w-full ${currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-full' : currentPath === '/about/esg/ethics' ? 'max-w-7xl' : 'max-w-5xl'}`}>
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/intro' ? 'max-w-[1760px]' : currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-full' : currentPath === '/about/esg/ethics' ? 'max-w-7xl' : currentPath === '/about/overview' || currentPath === '/about' ? 'max-w-7xl xl:max-w-[1600px]' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>

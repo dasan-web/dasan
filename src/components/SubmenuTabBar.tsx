@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 
 interface SubMenu {
   name: string;
+  tabName?: string;
   enName?: string;
   link: string;
 }
@@ -148,7 +149,7 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
                   : 'text-gray-400 hover:text-brand-blue'
               }`}
             >
-              {isEnglish ? (sub.enName || sub.name) : sub.name}
+              {isEnglish ? (sub.enName || sub.name) : (sub.tabName || sub.name)}
             </Link>
           );
         })}

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { query } from '@/lib/db';
 import { decryptSession } from '@/lib/auth';
 import nodemailer from 'nodemailer';
+import { getBaseOrigin, generateSecureDownloadLink, renderAttachmentEmailRow } from '@/lib/secureLink';
 
 // Helper function to verify user role
 async function checkAuth(allowedRoles: string[]) {
@@ -110,12 +111,22 @@ export async function POST(request: Request) {
         recipients = 'insa@dspharm.com, jssong@dspharm.com';
       }
 
-      const fileAttachmentHtml = file_url ? `
-        <tr>
-          <td style="font-weight: bold; padding: 8px 0;">첨부파일:</td>
-          <td style="padding: 8px 0;"><a href="${file_url}" target="_blank" style="color: #1565c0; text-decoration: underline; font-weight: bold;">${file_name || '첨부파일 다운로드'}</a></td>
-        </tr>
-      ` : '';
+      let fileAttachmentHtml = '';
+      if (file_url) {
+        const origin = getBaseOrigin(request);
+        const secureDownloadUrl = generateSecureDownloadLink(
+          origin,
+          file_url,
+          file_name || '첨부파일',
+          30
+        );
+        fileAttachmentHtml = renderAttachmentEmailRow(
+          secureDownloadUrl,
+          file_name || '첨부파일',
+          new Date(),
+          30
+        );
+      }
 
       await transporter.sendMail({
         from: `"다산제약 홈페이지" <${smtpUser}>`,

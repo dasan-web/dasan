@@ -6,6 +6,7 @@ import SubmenuTabBar from '@/components/SubmenuTabBar';
 import { query } from '@/lib/db';
 import { UserCheck, HelpCircle, Briefcase, FileText, CheckCircle2, ChevronRight, ClipboardList, Stethoscope } from 'lucide-react';
 import PressList from '@/components/PressList';
+import MediaGallery from '@/components/MediaGallery';
 import JobList from '@/components/JobList';
 import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import TalentValuesInteractive from '@/components/TalentValuesInteractive';
@@ -60,6 +61,8 @@ interface NewsItem {
   content: string;
   views: number;
   created_at: string;
+  file_url?: string | null;
+  file_name?: string | null;
 }
 
 export default async function ContactCatchAllPage({ params }: Params) {
@@ -104,7 +107,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
   const getPressNews = async (category: string = 'press'): Promise<NewsItem[]> => {
     try {
       const dbNews = await query("SELECT * FROM news WHERE category = ? ORDER BY created_at DESC", [category]);
-      return dbNews;
+      return dbNews || [];
     } catch (err) {
       console.error(`Failed to query ${category} news, using fallback`, err);
       if (category === 'media') {
@@ -153,13 +156,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
               다산제약의 다양한 미디어 및 홍보 자료 피드입니다.
             </p>
             
-            {mediaNews.length > 0 ? (
-              <PressList initialNews={mediaNews} />
-            ) : (
-              <div className="text-center py-16 text-gray-400 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200">
-                등록된 홍보자료가 없습니다.
-              </div>
-            )}
+            <MediaGallery initialNews={mediaNews} />
           </div>
         );
       }

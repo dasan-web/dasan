@@ -2,13 +2,14 @@
 
 import React, { useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { motion, useScroll, useSpring, useTransform, MotionValue } from 'framer-motion';
-import { LucideIcon, ShieldCheck, Lightbulb, Users, HandHeart, Smile } from 'lucide-react';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { LucideIcon, Scale, Lightbulb, Users, HandHeart, Layers } from 'lucide-react';
 
 interface StepItem {
   num: string;
   title: string;
   desc: string;
+  descLines: string[];
   icon: LucideIcon;
   xPercent: string;
   xPos: number;
@@ -21,39 +22,89 @@ export default function PhilosophyGraphic() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeNode, setActiveNode] = useState<number | null>(null);
 
-  // Directly link stream progress to vertical scroll position
+  // Scroll-linked stream progress: Starts earlier so cards fan out while comfortably in view
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 80%', 'end 80%'],
+    offset: ['start 85%', 'end 85%'],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 50,
-    damping: 20,
+    stiffness: 40,
+    damping: 24,
     restDelta: 0.001,
   });
 
-  // Animation timelines along smoothProgress (0 to 1)
-  // 1. Upper branch: Single trunk from 애민정신 splits into 4 streams (0.05 -> 0.35)
-  const upperStreamProgress = useTransform(smoothProgress, [0.05, 0.35], [0, 1]);
+  // Animation timeline along smoothProgress (0 to 1)
+  // 1. Stem 1 (애민정신 -> 4대 경영 철학): 0% 투명도에서 은은하게 시작
+  const stem1Progress = useTransform(smoothProgress, [0.02, 0.12], [0, 1]);
+  const stem1Opacity = useTransform(smoothProgress, [0.02, 0.10], [0, 1]);
 
-  // 2. 4 Horizontal Circles light up (0.28 -> 0.52)
-  const circlesProgress = useTransform(smoothProgress, [0.28, 0.52], [0, 1]);
-  const horizontalRibbonProgress = useTransform(smoothProgress, [0.30, 0.55], [0, 1]);
+  // 1.5. 4대 경영 철학 Badge appears as water stream 1 descends towards it
+  const badgeOpacity = useTransform(smoothProgress, [0.05, 0.12], [0, 1]);
+  const badgeScale = useTransform(smoothProgress, [0.05, 0.12], [0.90, 1.0]);
 
-  // 3. Lower branch: 4 streams exit and converge into ONE at (500, 630) (0.45 -> 0.75)
-  const lowerStreamProgress = useTransform(smoothProgress, [0.45, 0.75], [0, 1]);
+  // 2. Stem 2 (4대 경영 철학 -> 분기점 510): Reaches branch point
+  const stem2Progress = useTransform(smoothProgress, [0.12, 0.22], [0, 1]);
+  const stem2Opacity = useTransform(smoothProgress, [0.12, 0.18], [0, 1]);
 
-  // 4. Merged single stream enters 행복경영 (0.70 -> 0.88)
-  const mergedStemProgress = useTransform(smoothProgress, [0.70, 0.88], [0, 1]);
+  // 2.6. MASTER CARD ("4대 경영 철학" unified card at center)
+  // Brief appearance at center [0.10 ~ 0.22], then dissolves as the 4 cards fan out [0.22 ~ 0.32]
+  const masterCardOpacity = useTransform(smoothProgress, [0.10, 0.18, 0.22, 0.32], [0, 1, 1, 0]);
+  const masterCardScale = useTransform(smoothProgress, [0.10, 0.18, 0.22, 0.32], [0.92, 1.0, 1.0, 0.94]);
+  const masterCardPointerEvents = useTransform(smoothProgress, (v) => (v <= 0.22 ? 'auto' : 'none'));
+  const masterCardDisplay = useTransform(masterCardOpacity, (v) => (v <= 0.001 ? 'none' : 'flex'));
 
-  // 5. Hexagon badge illuminates (0.82 -> 1.00)
-  const hexagonProgress = useTransform(smoothProgress, [0.82, 1.0], [0, 1]);
+  // 3. STAGE 1: 물줄기 4개 분기 & 4개 카드가 중앙에서 4개 위치로 펼쳐짐 [0.22 ~ 0.40]
+  // 분기 시 연하게 부드럽게 시작하여, 4개 카드로 가면서 점차적으로 진해져 연결 시 100%(0.40) 도달!
+  const upperStreamProgress = useTransform(smoothProgress, [0.22, 0.40], [0, 1]);
+  const upperStreamOpacity = useTransform(smoothProgress, [0.22, 0.40], [0.45, 1.0]);
 
-  // 4 Core Management Philosophies - strictly horizontal at the same Y level
-  // Center coordinates in viewBox 0 0 1000 880:
-  // Y = 320 for all 4 circles
-  // X = 135, 378, 622, 865
+  const fourCardsOpacity = useTransform(smoothProgress, [0.22, 0.30], [0, 1]);
+  const fourCardsScale = useTransform(smoothProgress, [0.22, 0.36], [0.95, 1.0]);
+  const fourCardsDisplay = useTransform(fourCardsOpacity, (v) => (v <= 0.001 ? 'none' : 'flex'));
+
+  const card1X = useTransform(smoothProgress, [0.22, 0.40], ['50%', '14.4%']);
+  const card2X = useTransform(smoothProgress, [0.22, 0.40], ['50%', '38.2%']);
+  const card3X = useTransform(smoothProgress, [0.22, 0.40], ['50%', '61.8%']);
+  const card4X = useTransform(smoothProgress, [0.22, 0.40], ['50%', '85.6%']);
+  const cardXPositions = [card1X, card2X, card3X, card4X];
+
+  const fourCardsPointerEvents = useTransform(smoothProgress, (v) => (v < 0.38 ? 'none' : 'auto'));
+
+  // 4. STAGE 2: 4개의 카드가 온전히 다 보이는 상태 유지 [0.40 ~ 0.54]
+  // 5. STAGE 3: 4개의 카드가 다 보이는 상태에서 아래 단체 사진만 먼저 깔끔하게 서서히 보임 [0.54 ~ 0.70]
+  const funnelProgress = useTransform(smoothProgress, [0.54, 0.70], [0, 1]);
+  const funnelOpacity = useTransform(funnelProgress, [0, 1], [0, 1]);
+  const funnelScale = useTransform(funnelProgress, [0, 1], [0.95, 1.0]);
+
+  // 6. STAGE 4: 스크롤 초기(0.54 ~ 0.70)에는 사진만 나오고, 스크롤을 더 내리면(0.70 ~ 0.88) 타원 모양(타원형)이 연한색으로 균일하게 표시되며 화살표로 전개
+  const greenOpacity = useTransform(smoothProgress, [0.70, 0.75], [0, 1]);
+  const funnelPathD = useTransform(
+    smoothProgress,
+    [0.70, 0.74, 0.78, 0.83, 0.88],
+    [
+      // 0.70: 타원 외곽선에 완벽히 일치 (순수 타원 모양 유지)
+      'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1337.2, 1060.0 1352.1, 1060.0 1352.1 Q 1060.0 1352.1, 1060.0 1352.1 L 1060.0 1352.1 Q 1060.0 1352.1, 1060.0 1352.1 L 925.0 1359.8 Q 900.0 1360.0, 875.0 1359.8 L 740.0 1352.1 Q 740.0 1352.1, 740.0 1352.1 L 740.0 1352.1 Q 740.0 1352.1, 740.0 1352.1 C 740.0 1352.1, 617.6 1337.2, 540.0 1317.7 Z',
+      // 0.74: 타원형 그대로 100% 매끄러운 타원 모양 유지
+      'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1337.2, 1060.0 1352.1, 1060.0 1352.1 Q 1060.0 1352.1, 1060.0 1352.1 L 1060.0 1352.1 Q 1060.0 1352.1, 1060.0 1352.1 L 925.0 1359.8 Q 900.0 1360.0, 875.0 1359.8 L 740.0 1352.1 Q 740.0 1352.1, 740.0 1352.1 L 740.0 1352.1 Q 740.0 1352.1, 740.0 1352.1 C 740.0 1352.1, 617.6 1337.2, 540.0 1317.7 Z',
+      // 0.78: 타원에서 부드럽게 유기적인 볼록 곡선으로 화살표 전개 시작 (양쪽 허리와 촉이 자연스럽게 연장)
+      'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1340.0, 1060.0 1370.0, 1060.0 1410.0 Q 1060.0 1415.0, 1065.0 1415.0 L 1075.0 1415.0 Q 1078.0 1415.0, 1078.0 1420.0 L 925.0 1425.0 Q 900.0 1435.0, 875.0 1425.0 L 722.0 1420.0 Q 722.0 1415.0, 725.0 1415.0 L 735.0 1415.0 Q 740.0 1415.0, 740.0 1410.0 C 740.0 1370.0, 617.6 1340.0, 540.0 1317.7 Z',
+      // 0.83: 화살표 줄기 형성 및 촉 확장
+      'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1338.0, 1060.0 1420.0, 1060.0 1485.0 Q 1060.0 1500.0, 1075.0 1500.0 L 1120.0 1500.0 Q 1125.0 1500.0, 1125.0 1512.0 L 925.0 1560.0 Q 900.0 1575.0, 875.0 1560.0 L 675.0 1512.0 Q 675.0 1500.0, 680.0 1500.0 L 725.0 1500.0 Q 740.0 1500.0, 740.0 1485.0 C 740.0 1420.0, 617.6 1338.0, 540.0 1317.7 Z',
+      // 0.88: 최종 화살표 완벽 완성
+      'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1337.2, 1060.0 1430.0, 1060.0 1530.0 Q 1060.0 1555.0, 1085.0 1555.0 L 1185.0 1555.0 Q 1190.0 1555.0, 1190.0 1569.0 L 925.0 1750.0 Q 900.0 1765.0, 875.0 1750.0 L 610.0 1569.0 Q 610.0 1555.0, 615.0 1555.0 L 715.0 1555.0 Q 740.0 1555.0, 740.0 1530.0 C 740.0 1430.0, 617.6 1337.2, 540.0 1317.7 Z',
+    ]
+  );
+  const dasanY = useTransform(smoothProgress, [0.72, 0.88], [1360, 1630]);
+  const dasanTextOpacity = useTransform(smoothProgress, [0.81, 0.87], [0, 1]);
+
+  // 7. STAGE 5: 행복경영 텍스트가 화살표 끝 아래에 안착 [0.88 ~ 1.00]
+  const haengbokOpacity = useTransform(smoothProgress, [0.88, 0.98], [0, 1]);
+  const haengbokScale = useTransform(smoothProgress, [0.88, 0.98], [0.88, 1.0]);
+  const haengbokY = useTransform(smoothProgress, [0.88, 0.94, 0.98], [20, -3, 0]);
+
+  // 4 Core Management Philosophies
+  // Aligned to match oval photo tips (X=145, X=1655): 260 (14.4%), 687 (38.2%), 1113 (61.8%), 1540 (85.6%)
   const steps: StepItem[] = [
     {
       num: '01',
@@ -61,9 +112,21 @@ export default function PhilosophyGraphic() {
       desc: isEnglish
         ? 'Establishing market and customer trust by adhering to transparent and upright standards.'
         : '투명하고 올바른 기준을 준수하며 시장과 고객의 신뢰를 구축합니다.',
-      icon: ShieldCheck,
-      xPercent: '13.5%',
-      xPos: 135,
+      descLines: isEnglish
+        ? [
+            'Adhering to transparent',
+            'and upright standards,',
+            'building lasting trust',
+            'with valued customers.',
+          ]
+        : [
+            '투명하고 올바른 기준을',
+            '준수하며 시장과 고객의',
+            '신뢰를 구축합니다.',
+          ],
+      icon: Scale,
+      xPercent: '14.4%',
+      xPos: 260,
     },
     {
       num: '02',
@@ -71,9 +134,21 @@ export default function PhilosophyGraphic() {
       desc: isEnglish
         ? 'Pioneering new possibilities through continuous R&D innovation and specialized formulation technology.'
         : '끊임없는 R&D 혁신과 차별화된 제제기술로 새로운 가능성을 개척합니다.',
+      descLines: isEnglish
+        ? [
+            'Pioneering possibilities',
+            'through continuous R&D',
+            'and specialized',
+            'formulation technology.',
+          ]
+        : [
+            '끊임없는 R&D 혁신과',
+            '차별화된 제제기술로',
+            '새 가능성을 개척합니다.',
+          ],
       icon: Lightbulb,
-      xPercent: '37.8%',
-      xPos: 378,
+      xPercent: '38.2%',
+      xPos: 687,
     },
     {
       num: '03',
@@ -81,9 +156,21 @@ export default function PhilosophyGraphic() {
       desc: isEnglish
         ? 'Pursuing mutual growth with partner companies and organic cooperation among members.'
         : '구성원 간의 유기적인 협업과 파트너사와의 상생을 추구합니다.',
+      descLines: isEnglish
+        ? [
+            'Pursuing mutual growth',
+            'with partner companies',
+            'and organic cooperation',
+            'among all members.',
+          ]
+        : [
+            '구성원 간의 유기적인',
+            '협업과 파트너사와의',
+            '상생을 추구합니다.',
+          ],
       icon: Users,
-      xPercent: '62.2%',
-      xPos: 622,
+      xPercent: '61.8%',
+      xPos: 1113,
     },
     {
       num: '04',
@@ -91,387 +178,496 @@ export default function PhilosophyGraphic() {
       desc: isEnglish
         ? 'Contributing to a healthy and happy society based on the value of respect for life.'
         : '생명 존중의 가치를 바탕으로 건강하고 행복한 사회를 만드는 데 기여합니다.',
+      descLines: isEnglish
+        ? [
+            'Devoted to human life,',
+            'building a healthier',
+            'and happier society',
+            'for all people.',
+          ]
+        : [
+            '생명 존중의 가치를',
+            '바탕으로 건강하고',
+            '행복한 사회에 기여합니다.',
+          ],
       icon: HandHeart,
-      xPercent: '86.5%',
-      xPos: 865,
+      xPercent: '85.6%',
+      xPos: 1540,
     },
   ];
 
-  // SVG Paths in viewBox 0 0 1000 880:
-  // Top: 애민정신 bottom center at (500, 95)
-  // Split point at (500, 160)
-  // Circle tops at Y = 252 (R = 68, center Y = 320)
-  const upperPaths = [
-    'M 500 95 L 500 160 C 500 220, 135 195, 135 252',
-    'M 500 95 L 500 160 C 500 220, 378 205, 378 252',
-    'M 500 95 L 500 160 C 500 220, 622 205, 622 252',
-    'M 500 95 L 500 160 C 500 220, 865 195, 865 252',
+  // 1. Stem 1: Bottom of 애민정신 pill (900, 95) -> Enters seamlessly into top of '4대 경영 철학' (900, 250)
+  const stem1Path = 'M 900 95 L 900 250';
+
+  // 2. Stem 2: Emerges from bottom of '4대 경영 철학' (900, 265) -> Branch point (900, 362)
+  const stem2Path = 'M 900 265 L 900 362';
+
+  // 3. Upper Delta: Branch point (900, 360) -> 4 organic curves fanning out directly from single origin -> Tops of 4 cards (X_i, 610)
+  const upperBranches = [
+    {
+      d: 'M 900 360 C 820 410, 480 445, 330 480 C 270 495, 260 540, 260 610',
+      grad: 'url(#vUpperStreamGrad)',
+    },
+    {
+      d: 'M 900 360 C 880 430, 687 480, 687 610',
+      grad: 'url(#vUpperStreamGrad)',
+    },
+    {
+      d: 'M 900 360 C 920 430, 1113 480, 1113 610',
+      grad: 'url(#vUpperStreamGrad)',
+    },
+    {
+      d: 'M 900 360 C 980 410, 1320 445, 1470 480 C 1530 495, 1540 540, 1540 610',
+      grad: 'url(#vUpperStreamGrad)',
+    },
   ];
 
-  // Horizontal ribbon connecting the 4 circles through their centers (Y = 320)
-  const horizontalRibbonPath = 'M 135 320 L 865 320';
 
-  // Lower streams exiting below description cards (Y = 515) and merging into (500, 630)
-  const lowerPaths = [
-    'M 135 515 C 135 580, 500 565, 500 630',
-    'M 378 515 C 378 580, 500 575, 500 630',
-    'M 622 515 C 622 580, 500 575, 500 630',
-    'M 865 515 C 865 580, 500 565, 500 630',
-  ];
-
-  // Single unified stream from merge point (500, 630) into 행복경영 Hexagon top (500, 715)
-  const mergedStemPath = 'M 500 630 L 500 715';
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-[1080px] mx-auto mt-6 sm:mt-10 mb-4 select-none px-2 sm:px-4"
+      className="relative w-full max-w-[960px] lg:max-w-[1080px] xl:max-w-[1180px] mx-auto mt-4 sm:mt-6 mb-6 sm:mb-8 pb-4 select-none px-2 sm:px-4"
       translate="no"
     >
-      {/* Canvas with proportional responsive aspect ratio [1000/880] */}
-      <div className="relative w-full aspect-[1000/980] sm:aspect-[1000/910] md:aspect-[1000/880] overflow-visible">
+      {/* Canvas with proportional responsive aspect ratio [1800/1980] */}
+      <div className="relative w-full aspect-[1800/1980] overflow-visible">
 
         {/* ------------------------------------------------------------------ */}
-        {/* SVG LAYER: Water Streams (Gray Base Tracks + Active Green Flow)    */}
+        {/* SVG LAYER: Water Streams (Soft/Light at top -> Rich/Deep at 4 cards) */}
         {/* ------------------------------------------------------------------ */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible"
-          viewBox="0 0 1000 880"
+          viewBox="0 0 1800 1980"
           preserveAspectRatio="xMidYMid meet"
         >
-          {/* 1. Underlying Gray Base Tracks (기존 은은한 연회색 안내선 #e2e8f0) */}
-          {/* Upper 1-to-4 Split Tracks */}
-          {upperPaths.map((d, i) => (
-            <path
-              key={`upper-base-${i}`}
-              d={d}
-              fill="none"
-              stroke="#e2e8f0"
-              strokeWidth="10"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              opacity="0.8"
-            />
-          ))}
+          <defs>
+            {/* Stem 1 Gradient: 40% -> 50% tint equivalent (from 애민정신 to 4대 경영 철학) */}
+            <linearGradient id="vStem1Grad" x1="0" y1="95" x2="0" y2="250" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#a2dab7" />
+              <stop offset="100%" stopColor="#8cd4a4" />
+            </linearGradient>
 
-          {/* Horizontal Connection Ribbon behind the 4 circles */}
-          <path
-            d={horizontalRibbonPath}
-            fill="none"
-            stroke="#e2e8f0"
-            strokeWidth="12"
-            strokeLinecap="round"
-            opacity="0.7"
-          />
+            {/* Stem 2 & Upper Delta Branches: Smooth unified vertical gradient */}
+            {/* Starts from soft light green (#8cd4a4) at badge exit (y=265), maintains #8cd4a4 through branch origin (y=360), */}
+            {/* then gracefully enriches to brand green (#16a34a) as it reaches the 4 cards (y=610). */}
+            {/* 100% opaque solid colors prevent any dark alpha multiplication at the branch junction. */}
+            <linearGradient id="vUpperStreamGrad" x1="0" y1="265" x2="0" y2="610" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#8cd4a4" />
+              <stop offset="28%" stopColor="#8cd4a4" />
+              <stop offset="55%" stopColor="#48b770" />
+              <stop offset="80%" stopColor="#25aa58" />
+              <stop offset="100%" stopColor="#16a34a" />
+            </linearGradient>
+          </defs>
 
-          {/* Lower 4-to-1 Merge Tracks */}
-          {lowerPaths.map((d, i) => (
-            <path
-              key={`lower-base-${i}`}
-              d={d}
-              fill="none"
-              stroke="#e2e8f0"
-              strokeWidth="10"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              opacity="0.8"
-            />
-          ))}
-
-          {/* Merged Single Trunk into Hexagon */}
-          <path
-            d={mergedStemPath}
-            fill="none"
-            stroke="#e2e8f0"
-            strokeWidth="14"
-            strokeLinecap="round"
-            opacity="0.8"
-          />
-
-          {/* 2. Active Green Streams (생동감 넘치는 녹색 물줄기 #16a34a) */}
-          {/* Upper: 1 single stream from 애민정신 splits into 4 streams */}
-          {upperPaths.map((d, i) => (
-            <motion.path
-              key={`upper-active-${i}`}
-              d={d}
-              fill="none"
-              stroke="#16a34a"
-              strokeWidth="12"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{ pathLength: upperStreamProgress }}
-            />
-          ))}
-
-          {/* Horizontal Connecting Ribbon behind the 4 circles (그림처럼 연결) */}
+          {/* Stem 1: From 애민정신 down to 4대 경영 철학 */}
           <motion.path
-            d={horizontalRibbonPath}
+            d={stem1Path}
             fill="none"
-            stroke="#16a34a"
-            strokeWidth="12"
+            stroke="url(#vStem1Grad)"
+            strokeWidth="18"
             strokeLinecap="round"
-            style={{ pathLength: horizontalRibbonProgress }}
-          />
-
-          {/* Lower: 4 streams exit downwards and converge into (500, 630) */}
-          {lowerPaths.map((d, i) => (
-            <motion.path
-              key={`lower-active-${i}`}
-              d={d}
-              fill="none"
-              stroke="#16a34a"
-              strokeWidth="12"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{ pathLength: lowerStreamProgress }}
-            />
-          ))}
-
-          {/* Bottom: The 4 streams unite into ONE single stream into 행복경영 */}
-          <motion.path
-            d={mergedStemPath}
-            fill="none"
-            stroke="#16a34a"
-            strokeWidth="14"
-            strokeLinecap="round"
-            style={{ pathLength: mergedStemProgress }}
-          />
-
-          {/* Merge Convergence Node at (500, 630) */}
-          <circle cx="500" cy="630" r="10" fill="#e2e8f0" />
-          <motion.circle
-            cx="500"
-            cy="630"
-            r="10"
-            fill="#16a34a"
             style={{
-              opacity: useTransform(lowerStreamProgress, [0.85, 1], [0, 1]),
-              scale: useTransform(lowerStreamProgress, [0.85, 1], [0.8, 1.2]),
+              pathLength: stem1Progress,
+              opacity: stem1Opacity,
             }}
           />
+
+          {/* Stem 2: From 4대 경영 철학 down to Branch point */}
+          <motion.path
+            d={stem2Path}
+            fill="none"
+            stroke="url(#vUpperStreamGrad)"
+            strokeWidth="18"
+            strokeLinecap="butt"
+            style={{
+              pathLength: stem2Progress,
+              opacity: stem2Opacity,
+            }}
+          />
+
+          {/* Upper Delta: 4 curved water streams flowing to 4 cards */}
+          {/* Group-level opacity ensures isolated buffer compositing without alpha stacking at the fork */}
+          <motion.g style={{ opacity: upperStreamOpacity }}>
+            {upperBranches.map((item, i) => (
+              <motion.path
+                key={`upper-active-${i}`}
+                d={item.d}
+                fill="none"
+                stroke="url(#vUpperStreamGrad)"
+                strokeWidth="18"
+                strokeLinecap="butt"
+                style={{
+                  pathLength: upperStreamProgress,
+                }}
+              />
+            ))}
+          </motion.g>
         </svg>
 
         {/* ------------------------------------------------------------------ */}
-        {/* START: 애민 정신 (愛民精神) - Top Center (y: 65 / 880 = 7.4%)        */}
+        {/* 1. START: 애민 정신 (愛民精神) - Top Center (y: 80 / 1980 = 4.0%)    */}
         {/* ------------------------------------------------------------------ */}
         <motion.div
           className="absolute z-20 flex flex-col items-center -translate-x-1/2 -translate-y-1/2"
-          style={{ left: '50%', top: '7.4%' }}
+          style={{ left: '50%', top: '4.0%' }}
           initial={{ opacity: 0, y: -18, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: false, amount: 0.4 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <div className="flex items-center gap-2 sm:gap-3.5 px-4 sm:px-7 py-2 sm:py-2.5 rounded-full bg-slate-50 text-slate-800 border-2 border-slate-200 shadow-sm select-none whitespace-nowrap shrink-0 hover:shadow-md transition-shadow">
-            <h3 className="text-xs sm:text-base md:text-lg font-black text-gray-900 leading-none whitespace-nowrap shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 md:px-8 py-1.5 sm:py-2 md:py-2.5 rounded-full bg-slate-50 text-slate-800 border-2 border-slate-200 shadow-md select-none whitespace-nowrap shrink-0 hover:shadow-lg transition-shadow">
+            <h3
+              className={`font-black text-gray-900 leading-none whitespace-nowrap shrink-0 ${
+                isEnglish
+                  ? 'text-[7.5px] sm:text-[9.5px] md:text-[11.5px] lg:text-[13px] xl:text-[14.5px]'
+                  : 'text-[10px] sm:text-[13.5px] md:text-[16px] lg:text-[18.5px] xl:text-[21px]'
+              }`}
+            >
               {isEnglish ? 'Aemin (Love for the People)' : '愛民 (애민) 정신'}
             </h3>
 
-            <div className="w-[1px] h-3.5 sm:h-4 bg-slate-300 shrink-0 mx-0.5" />
+            <div className="w-[1.5px] h-3.5 sm:h-4.5 md:h-5 lg:h-5.5 bg-slate-300 shrink-0 mx-1 sm:mx-1.5" />
 
-            <span className="text-[10px] sm:text-xs md:text-sm font-semibold text-gray-600 whitespace-nowrap shrink-0">
+            <span className="text-[9px] sm:text-xs md:text-sm lg:text-[14.5px] font-semibold text-gray-600 whitespace-nowrap shrink-0">
               {isEnglish ? 'The Root of Dasan, Love for the People' : '신뢰의 뿌리, 백성을 사랑하는 마음'}
             </span>
           </div>
         </motion.div>
 
         {/* ------------------------------------------------------------------ */}
-        {/* MIDDLE: 4대 경영철학 (4 Horizontal Circles at EXACT SAME Y = 36.4%) */}
-        {/* 01. 정도경영 | 02. 도전과 창의 | 03. 소통과 협력 | 04. 사회적 공헌     */}
+        {/* 2. 4대 경영 철학 Badge - Appears gradually as water flows down       */}
+        {/* ------------------------------------------------------------------ */}
+        <motion.div
+          className="absolute z-20 flex flex-col items-center -translate-x-1/2 -translate-y-1/2"
+          style={{
+            left: '50%',
+            top: '13.0%',
+            opacity: badgeOpacity,
+            scale: badgeScale,
+          }}
+        >
+          <div className="px-4 sm:px-6 md:px-7 py-1 sm:py-1.5 md:py-2 rounded-full bg-white/95 border-2 border-slate-300 shadow-sm backdrop-blur-sm flex items-center justify-center select-none">
+            <span
+              className={`font-black text-gray-900 tracking-tight whitespace-nowrap ${
+                isEnglish
+                  ? 'text-[7.5px] sm:text-[9.5px] md:text-[11.5px] lg:text-[13px] xl:text-[14.5px]'
+                  : 'text-[10px] sm:text-[13.5px] md:text-[16px] lg:text-[18.5px] xl:text-[21px]'
+              }`}
+            >
+              {isEnglish ? '4 Major Management Philosophies' : '4대 경영 철학'}
+            </span>
+          </div>
+        </motion.div>
+
+        {/* ------------------------------------------------------------------ */}
+        {/* 2.8. MASTER CARD: "4대 경영 철학" Representative Card at Center    */}
+        {/* Displayed during Stage 1 [0.22 ~ 0.35], then divides into 4 cards  */}
+        {/* ------------------------------------------------------------------ */}
+        <motion.div
+          className="absolute flex flex-col items-center -translate-x-1/2 -translate-y-1/2 z-[35]"
+          style={{
+            left: '50%',
+            top: '37.1%',
+            opacity: masterCardOpacity,
+            scale: masterCardScale,
+            pointerEvents: masterCardPointerEvents,
+            display: masterCardDisplay,
+          }}
+        >
+          <div className="relative w-[58px] sm:w-[88px] md:w-[112px] lg:w-[148px] xl:w-[164px] min-h-[66px] sm:min-h-[96px] md:min-h-[120px] lg:min-h-[146px] xl:min-h-[158px] rounded-xl sm:rounded-2xl md:rounded-[1.15rem] overflow-hidden select-none bg-white border-2 border-slate-300 shadow-md transition-all duration-300">
+            <div className="absolute inset-0 flex flex-col items-center justify-between p-1.5 sm:p-2.5 md:p-3 text-center">
+              {/* Card Top: Title (Top pill removed as requested) */}
+              <div className="flex flex-col items-center w-full pt-0.5">
+                <h4
+                  className={`font-black text-gray-900 leading-tight tracking-tight whitespace-nowrap ${
+                    isEnglish
+                      ? 'text-[7px] sm:text-[9px] md:text-[11px] lg:text-[12.5px] xl:text-[14px]'
+                      : 'text-[9px] sm:text-[12px] md:text-[14px] lg:text-[16.5px] xl:text-[18.5px]'
+                  }`}
+                >
+                  {isEnglish ? '4 Major Philosophies' : '4대 경영 철학'}
+                </h4>
+              </div>
+
+              {/* Card Center: 4-Core Icon */}
+              <div className="w-6 h-6 sm:w-7.5 sm:h-7.5 md:w-8.5 md:h-8.5 lg:w-9.5 lg:h-9.5 xl:w-10.5 xl:h-10.5 rounded-full bg-emerald-50 border border-emerald-300 flex items-center justify-center text-[#16a34a] shadow-inner my-0.5">
+                <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 lg:w-4.5 lg:h-4.5 xl:w-5 xl:h-5 stroke-[2.2]" />
+              </div>
+
+              {/* Card Bottom: 4 Philosophies Summary */}
+              <div className="flex flex-col items-center w-full pb-0.5">
+                <p
+                  className={`font-black text-gray-900 leading-tight tracking-tight text-center ${
+                    isEnglish
+                      ? 'text-[5px] sm:text-[6.5px] md:text-[8px] lg:text-[9.5px] xl:text-[11px]'
+                      : 'text-[6px] sm:text-[8px] md:text-[10px] lg:text-[12px] xl:text-[13.5px] whitespace-nowrap'
+                  }`}
+                >
+                  {isEnglish ? 'Integrity · Challenge · Synergy · Care' : '정도 · 창의 · 협력 · 공헌'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ------------------------------------------------------------------ */}
+        {/* 3. 4 CARDS: 4대 경영철학 (정도경영 | 도전과 창의 | 소통과 협력 | 사회적 공헌) */}
+        {/* Appear gradually as water streams flow into each card              */}
+        {/* 3D Flip from left to right on hover (그림 1 -> 그림 2)             */}
         {/* ------------------------------------------------------------------ */}
         {steps.map((step, idx) => {
           const Icon = step.icon;
           const isHovered = activeNode === idx;
+          const cardX = cardXPositions[idx];
 
           return (
-            <React.Fragment key={step.num}>
-              {/* Circular Node (그림처럼 나란히 같은 위치: top: 36.4%) */}
-              <motion.div
-                className="absolute z-20 flex flex-col items-center -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                style={{ left: step.xPercent, top: '36.4%' }}
-                onMouseEnter={() => setActiveNode(idx)}
-                onMouseLeave={() => setActiveNode(null)}
-                onClick={() => setActiveNode(activeNode === idx ? null : idx)}
+            <motion.div
+              key={step.num}
+              className={`absolute flex flex-col items-center -translate-x-1/2 -translate-y-1/2 cursor-pointer ${
+                isHovered ? 'z-40' : 'z-30'
+              }`}
+              style={{
+                left: cardX,
+                top: '37.1%',
+                opacity: fourCardsOpacity,
+                scale: fourCardsScale,
+                pointerEvents: fourCardsPointerEvents,
+                display: fourCardsDisplay,
+              }}
+              onMouseEnter={() => setActiveNode(idx)}
+              onMouseLeave={() => setActiveNode(null)}
+              onClick={() => setActiveNode(activeNode === idx ? null : idx)}
+            >
+              {/* 3D Perspective Container */}
+              <div
+                className="relative w-[58px] sm:w-[88px] md:w-[112px] lg:w-[148px] xl:w-[164px] h-[66px] sm:h-[96px] md:h-[120px] lg:h-[146px] xl:h-[158px] select-none"
+                style={{ perspective: 1200 }}
               >
-                <div
-                  className={`relative w-[78px] h-[78px] sm:w-[118px] sm:h-[118px] md:w-[146px] md:h-[146px] rounded-full bg-white flex flex-col items-center justify-center p-1.5 sm:p-3 text-center select-none shadow-[0_6px_22px_rgba(0,0,0,0.07)] transition-all duration-300 border-[3.5px] sm:border-[4.5px] md:border-[5.5px] ${
-                    isHovered
-                      ? 'border-[#16a34a] scale-105 shadow-[0_10px_28px_rgba(22,163,74,0.22)]'
-                      : 'border-[#16a34a] hover:scale-105'
-                  }`}
+                {/* 3D Flipping Card Body: Flips from Left to Right (rotateY: 0 -> 180) */}
+                <motion.div
+                  className="w-full h-full relative"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                  }}
+                  initial={false}
+                  animate={{
+                    rotateY: isHovered ? 180 : 0,
+                    scale: isHovered ? 1.05 : 1.0,
+                  }}
+                  transition={{
+                    duration: 1.1,
+                    ease: [0.4, 0.0, 0.2, 1],
+                  }}
                 >
-                  {/* SVG Animated Border Wave Effect */}
-                  <svg
-                    viewBox="0 0 100 100"
-                    className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10"
+                  {/* 1. FRONT FACE (그림 1: 상단은 불투명 화이트로 물줄기 투과 완벽 차단, 하단은 반투명 글래스 유지) */}
+                  <div
+                    className="absolute inset-0 w-full h-full rounded-xl sm:rounded-2xl md:rounded-[1.15rem] bg-gradient-to-b from-white from-35% via-white/85 via-60% to-white/50 backdrop-blur-[1px] border-2 border-slate-300/80 shadow-lg flex flex-col items-center justify-center gap-0.5 sm:gap-1 md:gap-1.5 p-1 sm:p-1.5 md:p-2 text-center overflow-hidden transition-colors"
+                    style={{
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
+                      transform: 'rotateY(0deg)',
+                    }}
                   >
-                    <motion.circle
-                      cx="50"
-                      cy="50"
-                      r="46"
-                      fill="none"
-                      stroke="#22c55e"
-                      strokeWidth="3.5"
-                      strokeLinecap="round"
-                      style={{ pathLength: circlesProgress }}
-                    />
-                  </svg>
-
-                  {/* Inner Content matching media_1789014786052.png */}
-                  <div className="relative z-20 flex flex-col items-center justify-center">
-                    {/* Icon */}
-                    <div className="text-[#16a34a] mb-0.5 sm:mb-1 transition-transform group-hover:scale-110">
-                      <Icon className="w-5 h-5 sm:w-7 sm:h-7 md:w-9 md:h-9 stroke-[2.2]" />
+                    {/* Card Top: Title with subtle protective white glow */}
+                    <div className="flex flex-col items-center w-full">
+                      <h4
+                        className={`font-black text-gray-950 leading-tight tracking-tight whitespace-nowrap drop-shadow-[0_1px_2px_rgba(255,255,255,0.95)] ${
+                          isEnglish
+                            ? 'text-[7px] sm:text-[9px] md:text-[11px] lg:text-[13px] xl:text-[14.5px]'
+                            : 'text-[9px] sm:text-[12.5px] md:text-[15px] lg:text-[17px] xl:text-[19px]'
+                        }`}
+                      >
+                        {step.title}
+                      </h4>
                     </div>
 
-                    {/* Number: 01, 02, 03, 04 in Green */}
-                    <span className="text-[10px] sm:text-xs md:text-[13px] font-black tracking-widest text-[#16a34a] leading-none mb-0.5">
-                      {step.num}
-                    </span>
+                    {/* Card Center: Icon with subtle protective white glow */}
+                    <div className="text-[#16a34a] flex items-center justify-center drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]">
+                      <Icon className="w-3.5 h-3.5 sm:w-5.5 sm:h-5.5 md:w-6.5 md:h-6.5 lg:w-7.5 lg:h-7.5 xl:w-9 xl:h-9 stroke-[2.2]" />
+                    </div>
+                  </div>
 
-                    {/* Title: 정도경영, 도전과 창의, 소통과 협력, 사회적 공헌 in Bold Black */}
-                    <h4 className="text-[9.5px] sm:text-[13px] md:text-[15.5px] font-black text-gray-900 leading-tight tracking-tight text-center whitespace-nowrap">
+                  {/* 2. BACK FACE (그림 2: 선명한 에메랄드 그린 배경, 고대비 순백색 텍스트, 흐림 없는 또렷한 가독성) */}
+                  <div
+                    className="absolute inset-0 w-full h-full rounded-xl sm:rounded-2xl md:rounded-[1.15rem] bg-[#19934c] border-2 sm:border-[3px] border-[#137a3d] shadow-xl shadow-emerald-950/30 flex flex-col items-center justify-center p-1 sm:p-1.5 md:p-2 text-center overflow-hidden"
+                    style={{
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
+                      transform: 'rotateY(180deg) translateZ(1px)',
+                    }}
+                  >
+                    {/* Title in Crisp Pure White */}
+                    <h4
+                      className={`text-white font-black leading-tight tracking-tight mb-1 sm:mb-1.5 md:mb-2 text-center whitespace-nowrap ${
+                        isEnglish
+                          ? 'text-[7.5px] sm:text-[9.5px] md:text-[11px] lg:text-[13px] xl:text-[14.5px]'
+                          : 'text-[9px] sm:text-[12px] md:text-[14px] lg:text-[16px] xl:text-[18px]'
+                      }`}
+                    >
                       {step.title}
                     </h4>
-                  </div>
-                </div>
-              </motion.div>
 
-              {/* Description Card (각 원형 노드 바로 아래 동일한 수평선상: top: 52.8%) */}
-              <motion.div
-                className="absolute z-20 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 w-[22%] max-w-[225px]"
-                style={{ left: step.xPercent, top: '53.0%' }}
-                onMouseEnter={() => setActiveNode(idx)}
-                onMouseLeave={() => setActiveNode(null)}
-              >
-                <div
-                  className={`w-full bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-3.5 border transition-all duration-300 text-center shadow-xs ${
-                    isHovered
-                      ? 'border-[#16a34a] shadow-md bg-emerald-50/40 -translate-y-0.5'
-                      : 'border-slate-200/90 hover:border-slate-300'
-                  }`}
-                >
-                  <p className="text-[9px] sm:text-[11px] md:text-[12.5px] font-medium text-gray-700 leading-snug sm:leading-relaxed break-keep">
-                    {step.desc}
-                  </p>
-                </div>
-              </motion.div>
-            </React.Fragment>
+                    {/* Description in Crisp Extrabold White - Clean & Legible */}
+                    <div className="w-full text-center px-1 sm:px-1.5 md:px-2 space-y-0.5 sm:space-y-1">
+                      {step.descLines.map((line, lIdx) => (
+                        <p
+                          key={lIdx}
+                          className={`text-white font-extrabold leading-tight whitespace-nowrap tracking-tighter text-center ${
+                            isEnglish
+                              ? 'text-[5.5px] sm:text-[7px] md:text-[8px] lg:text-[9.5px] xl:text-[10.5px]'
+                              : 'text-[6px] sm:text-[7.5px] md:text-[9px] lg:text-[10.5px] xl:text-[11.5px]'
+                          }`}
+                        >
+                          {line}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
           );
         })}
 
         {/* ------------------------------------------------------------------ */}
-        {/* BOTTOM: 행복경영 DASAN (맨 아래 - 4개 물줄기가 하나로 모이는 종착지)   */}
-        {/* Coords: (500, 790) => left: 50%, top: 88.5%                        */}
+        {/* 4. BOTTOM: Native Vector 3D Funnel with Team Photo, 행복경영 & DASAN */}
+        {/* Directly beneath the 4 cards (top: 47.8% in 1800x1720)             */}
         {/* ------------------------------------------------------------------ */}
-        <HexagonBadge
-          smoothPathLength={hexagonProgress}
-          isEnglish={isEnglish}
-        />
+        <motion.div
+          className="absolute inset-0 z-20 pointer-events-none"
+          style={{
+            opacity: funnelOpacity,
+            scale: funnelScale,
+            transformOrigin: '50% 60%',
+          }}
+        >
+          <div className="relative w-full h-full flex flex-col items-center">
+            {/* Native SVG 3D Funnel & Arrow Vector Shape in 1800x1980 Canvas */}
+            <svg
+              viewBox="0 0 1800 1980"
+              className="w-full h-full overflow-visible select-none drop-shadow-[0_20px_40px_rgba(15,23,42,0.12)] pointer-events-auto"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                {/* Drop Shadows */}
+                <filter id="vRingShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="#064e20" floodOpacity="0.16" />
+                </filter>
+                <filter id="vArrowShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="#064e20" floodOpacity="0.22" />
+                </filter>
+                <filter id="vTextShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="2.5" floodColor="#000000" floodOpacity="0.45" />
+                </filter>
+
+                {/* Arrow Body Gradient: Continuous gradient across entire 1010-1765 height */}
+                <linearGradient id="vArrowBodyGrad" x1="0" y1="1010" x2="0" y2="1765" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#60c080" />
+                  <stop offset="25%" stopColor="#4fb572" />
+                  <stop offset="55%" stopColor="#3fa864" />
+                  <stop offset="85%" stopColor="#2f9d55" />
+                  <stop offset="100%" stopColor="#24934a" />
+                </linearGradient>
+
+                {/* Oval Clip Path for Team Photo - Fixed 100% full coverage of outer ellipse */}
+                <clipPath id="vPhotoClip">
+                  <ellipse cx="900" cy="1010" rx="755" ry="280" />
+                </clipPath>
+
+                {/* Clip strictly to lower half y >= 1010 so no tails can ever peek above photo equator during motion */}
+                <clipPath id="vBottomHalfClip">
+                  <rect x="0" y="1010" width="1800" height="970" />
+                </clipPath>
+              </defs>
+
+              {/* Ambient Backdrop Glow */}
+              <ellipse cx="900" cy="1010" rx="745" ry="280" fill="#22c55e" opacity="0.06" filter="blur(35px)" />
+
+              {/* 1. LAYER 1: Base Drop Shadow behind Photo */}
+              <g filter="url(#vRingShadow)">
+                <ellipse cx="900" cy="1010" rx="755" ry="280" fill="#ffffff" />
+              </g>
+
+              {/* 2. LAYER 2: 타원은 사진 아래 온전히 고정되고, 스크롤을 내리면 타원에서 화살표까지 부드럽게 흘러내리듯 연결 */}
+              <g clipPath="url(#vBottomHalfClip)">
+                <motion.g filter="url(#vArrowShadow)" style={{ opacity: greenOpacity }}>
+                  {/* 1. 타원 테두리 림 (스크롤 초기에는 사진만 노출, 스크롤을 더 내리면 온전한 타원 모양으로 등장) */}
+                  <path
+                    d="
+                      M 145 1010
+                      A 755 280 0 0 0 1655 1010
+                      A 755 350 0 0 1 145 1010
+                      Z
+                    "
+                    fill="url(#vArrowBodyGrad)"
+                  />
+
+                  {/* 2. 타원형 바닥에서 화살표로 매끄럽게 연결되어 흘러나오는 경로 */}
+                  <motion.path
+                    d={funnelPathD}
+                    fill="url(#vArrowBodyGrad)"
+                  />
+
+                  {/* Crisp White Vector Typography: DASAN inside Arrow */}
+                  <motion.text
+                    x="900"
+                    y={dasanY}
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    fill="#ffffff"
+                    fontFamily="'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+                    fontWeight="900"
+                    fontSize="54"
+                    letterSpacing="3px"
+                    filter="url(#vTextShadow)"
+                    style={{ opacity: dasanTextOpacity }}
+                  >
+                    DASAN
+                  </motion.text>
+                </motion.g>
+              </g>
+
+              {/* 3. LAYER 3: 테두리에 맞춘 사진 (그대로 고정, 100% 채움) */}
+              <g clipPath="url(#vPhotoClip)">
+                <image
+                  href="/funnel_team_meeting.png"
+                  x="145"
+                  y="730"
+                  width="1510"
+                  height="560"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+              </g>
+
+              {/* 5. LAYER 5: 행복경영 Typography Below Arrow Tip (Reveals at the very end of scroll) */}
+              <motion.g
+                style={{
+                  opacity: haengbokOpacity,
+                  scale: haengbokScale,
+                  y: haengbokY,
+                  transformOrigin: '900px 1885px',
+                }}
+              >
+                <text
+                  x="900"
+                  y="1885"
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill="#22a058"
+                  fontFamily="'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+                  fontWeight="900"
+                  fontSize={isEnglish ? 38 : 66}
+                  letterSpacing={isEnglish ? '-0.5px' : '-1.5px'}
+                >
+                  {isEnglish ? 'Happiness Management' : '행복경영'}
+                </text>
+              </motion.g>
+            </svg>
+          </div>
+        </motion.div>
       </div>
     </div>
-  );
-}
-
-function HexagonBadge({
-  smoothPathLength,
-  isEnglish,
-}: {
-  smoothPathLength: MotionValue<number>;
-  isEnglish: boolean;
-}) {
-  // Hexagon background starts as white (#ffffff) and turns softly tinted as the descending unified line fills it
-  const hexagonBg = useTransform(
-    smoothPathLength,
-    [0.75, 1.0],
-    ['#ffffff', '#f8fafc']
-  );
-
-  // Border progress: emerald green border fills from top center down both sides to bottom center
-  const borderProgress = useTransform(
-    smoothPathLength,
-    [0.6, 1.0],
-    [0, 1]
-  );
-
-  const borderOpacity = useTransform(
-    smoothPathLength,
-    [0.55, 0.65],
-    [0, 1]
-  );
-
-  return (
-    <motion.div
-      className="absolute z-30 flex flex-col items-center -translate-x-1/2 -translate-y-1/2"
-      style={{ left: '50%', top: '88.5%' }}
-      initial={{ opacity: 0, y: 35, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: false, amount: 0.3 }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
-    >
-      {/* Hexagon Badge with Gray Border and Drop Shadow (SVG Polygon) */}
-      <div className="relative flex items-center justify-center w-[150px] h-[130px] sm:w-[195px] sm:h-[170px] md:w-[230px] md:h-[200px] select-none hover:scale-105 transition-transform duration-300 cursor-default">
-        <svg
-          viewBox="0 0 230 200"
-          className="absolute inset-0 w-full h-full overflow-visible"
-          style={{ filter: 'drop-shadow(0px 8px 20px rgba(100, 116, 139, 0.18))' }}
-        >
-          {/* Base Hexagon Polygon (White -> Soft Gray background, Gray border #cbd5e1) */}
-          <motion.polygon
-            points="57.5,4 172.5,4 226,100 172.5,196 57.5,196 4,100"
-            style={{ fill: hexagonBg }}
-            stroke="#cbd5e1"
-            strokeWidth="4"
-            strokeLinejoin="round"
-          />
-
-          {/* Left half emerald green border: flows from top center (115, 4) down to bottom center (115, 196) */}
-          <motion.path
-            d="M 115 4 L 57.5 4 L 4 100 L 57.5 196 L 115 196"
-            fill="none"
-            stroke="#16a34a"
-            strokeWidth="4.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{
-              pathLength: borderProgress,
-              opacity: borderOpacity,
-            }}
-          />
-
-          {/* Right half emerald green border: flows from top center (115, 4) down to bottom center (115, 196) */}
-          <motion.path
-            d="M 115 4 L 172.5 4 L 226 100 L 172.5 196 L 115 196"
-            fill="none"
-            stroke="#16a34a"
-            strokeWidth="4.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{
-              pathLength: borderProgress,
-              opacity: borderOpacity,
-            }}
-          />
-        </svg>
-
-        {/* Inner Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-2 sm:px-4">
-          {/* Happiness Icon */}
-          <div className="text-[#16a34a] mb-0.5 sm:mb-1 flex items-center justify-center">
-            <Smile className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 stroke-[2.2]" />
-          </div>
-
-          {/* Main Title: 행복경영 */}
-          <h3 className="text-gray-900 font-black text-xs sm:text-lg md:text-xl lg:text-2xl tracking-tight leading-tight">
-            {isEnglish ? 'Happiness Management' : '행복경영'}
-          </h3>
-
-          {/* Brand Logo Text: DASAN */}
-          <span className="text-[#16a34a] font-black text-[10px] sm:text-xs md:text-sm tracking-widest mt-0.5">
-            DASAN
-          </span>
-        </div>
-      </div>
-    </motion.div>
   );
 }

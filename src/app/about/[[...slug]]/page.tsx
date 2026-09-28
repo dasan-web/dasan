@@ -311,22 +311,22 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         return (
           <>
-            {/* 상단 인트로 슬로건 */}
-            <div className="w-full text-center mb-8 animate-fade-in-up">
-              <h2 className="text-3xl md:text-4xl font-pretendard font-medium text-gray-900 tracking-tight">
-                인류의 행복을 창출하는 <span className="text-brand-green font-black">Global Healthcare 기업</span>
-              </h2>
+            {/* 영상 위 슬로건 */}
+            <div className="w-full text-center pt-2 sm:pt-4 pb-8 sm:pb-10 animate-fade-in-up">
+              <p className="text-3xl md:text-4xl font-pretendard font-medium text-gray-700 tracking-tight break-keep leading-snug">
+                우리는 <strong className="font-extrabold text-gray-950">생명연장</strong>이라는 고귀한 사명을 바탕으로 인류가 <strong className="font-extrabold text-gray-950">행복한 세상</strong>을 만든다.
+              </p>
             </div>
 
             {/* 상단 영상 영역 (스크롤 애니메이션 적용). 상위 컨테이너의 애니메이션(transform) 제약을 벗어나 z-index가 정상 작동하게 분리합니다. */}
             <ScrollVideo />
 
-            <div className="space-y-16 animate-fade-in-up mt-0">
+            <div className="space-y-16 animate-fade-in-up mt-8 sm:mt-12">
 
             {/* 1. Intro Summary */}
             <div className="relative w-full pt-8 sm:pt-12 pb-16 sm:pb-20 mt-0 mb-0">
               {/* Content Container */}
-              <div className="relative z-10 max-w-5xl mx-auto">
+              <div className="relative z-10 w-full max-w-[1760px] mx-auto">
                 <div className="space-y-4 text-gray-800 text-sm md:text-base leading-relaxed">
                 {introBody.includes('<p') || introBody.includes('<br') || introBody.includes('<h') ? (
                   (() => {
@@ -362,10 +362,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     const processHtmlTitles = (html: string) => {
                       let processed = html;
                       
-                      // 1.5 4대 경영 철학
+                      // 1.5 4대 경영 철학 (그래픽 내 물줄기 중앙에 배치되므로 외부 중복 제목 제거)
                       processed = processed.replace(
                         /(?:<p[^>]*>)?\s*(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?\s*(?:<\/p>)?/g,
-                        '<div class="w-full text-center mt-16 sm:mt-24 mb-6 sm:mb-8"><h3 class="!border-b-0 !border-none !pb-0 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 inline-block">$1</h3></div>'
+                        ''
                       );
                       
                       // 2. 다산(茶山)의 정신으로...
@@ -389,7 +389,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     return (
                       <>
                         {/* 상단 텍스트 영역 */}
-                        <div className="w-full">
+                        <div className="w-full max-w-5xl mx-auto">
 
                           <div 
                             className="
@@ -422,7 +422,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                     return (
                       <>
-                        <div className="w-full">
+                        <div className="w-full max-w-5xl mx-auto">
 
                           {topLines.map((line, i) => {
                             if (line.match(/^[1-9]\.\s/) || i === 0) {
@@ -430,13 +430,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                               return <h3 key={i} className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-6 pb-4 border-b border-gray-200">{titleText}</h3>;
                             }
                             if (line.includes('4대 경영 철학') || line.includes('4 Major Management Philosophies')) {
-                              return (
-                                <div key={i} className="w-full text-center mt-16 sm:mt-24 mb-6 sm:mb-8">
-                                  <h3 className="!border-b-0 !border-none !pb-0 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 inline-block">
-                                    {line}
-                                  </h3>
-                                </div>
-                              );
+                              return null;
                             }
                             if (line.startsWith('다산(茶山)의 정신으로') || line.includes('핵심 가치') || line.startsWith('With the spirit of Dasan')) {
                               return <h4 key={i} className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-8 mb-4">{line}</h4>;
@@ -545,18 +539,48 @@ export default async function AboutCatchAllPage({ params }: Params) {
         let bizData = {
           intro: '연구개발(R&D)부터 판매까지 의약품 전 주기의 Key Value Chain 인프라를 구축하여 고부가가치 사업 성장성을 확보하고 있습니다',
           items: [
-            { title: '1) 자사 완제 의약품 사업', desc: '순환기, 호흡기, 비뇨기 중심의 우수한 제품 라인업 구축 및 생산·판매' },
-            { title: '2) 수탁 완제 의약품 (CMO) 사업', desc: '독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산' },
-            { title: '3) 의약품 핵심 원료 및 중간체 사업', desc: '의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF 등록·관리' }
+            { 
+              title: '자사 완제 의약품 사업', 
+              desc: '순환기, 호흡기, 비뇨기 중심의<br />우수한 제품 라인업 구축 및 생산·판매',
+              image: '/images/business_hero1.jpg'
+            },
+            { 
+              title: '수탁 완제 의약품 (CMO) 사업', 
+              desc: '독자적인 제제기술 및 공정 최적화를 통한<br />전문의약품 수탁 생산',
+              image: '/images/business_hero2.jpg'
+            },
+            { 
+              title: '의약품 핵심 원료 및 중간체 사업', 
+              desc: '의약품 핵심 원료 및 중간체 개발 및 특허 확보,<br />신규 합성 및 신규 수입 원료 DMF 등록관리',
+              image: '/images/business_hero3.jpg'
+            }
           ]
         };
         if (dbContent) {
           const lines = dbContent.split('\n');
           if (lines.length > 0) {
             const introText = lines[0] || '';
-            const itemsParsed = lines.slice(1).map(line => {
+            const defaultImages = ['/images/business_hero1.jpg', '/images/business_hero2.jpg', '/images/business_hero3.jpg'];
+            const itemsParsed = lines.slice(1).map((line, idx) => {
               const parts = line.split('|');
-              return { title: parts[0] || '', desc: parts[1] || '' };
+              const rawTitle = parts[0] || '';
+              // Strip numbering prefixes like "1) ", "01. ", "1. ", etc.
+              const cleanTitle = rawTitle.replace(/^(\d+[\.\)]\s*)/, '').trim();
+              let desc = parts[1] || '';
+              if (desc.includes('비뇨기 중심의') && !desc.includes('<br') && !desc.includes('\n')) {
+                desc = desc.replace(/비뇨기 중심의\s*/, '비뇨기 중심의<br />');
+              }
+              if (desc.includes('최적화를 통한') && !desc.includes('<br') && !desc.includes('\n')) {
+                desc = desc.replace(/최적화를 통한\s*/, '최적화를 통한<br />');
+              }
+              if (desc.includes('특허 확보,') && !desc.includes('<br') && !desc.includes('\n')) {
+                desc = desc.replace(/특허 확보,\s*/, '특허 확보,<br />');
+              }
+              return { 
+                title: cleanTitle, 
+                desc: desc,
+                image: defaultImages[idx] || '/images/business_hero1.jpg'
+              };
             }).filter(item => item.title);
             bizData = {
               intro: introText,
@@ -606,73 +630,35 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 주요 사업 영역 (Core Business)
               </h3>
               
-              <div className="grid grid-cols-3 gap-3 sm:gap-5 md:gap-6 lg:gap-8 mt-8 w-full">
-              {/* Card 1 */}
-              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
-                  style={{ backgroundImage: "url('/images/business_hero1.jpg')" }}
-                />
-                {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
-                <div 
-                  className="absolute inset-0 p-3 sm:p-4 md:p-5 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
-                >
-                  <h4 className="text-[13px] sm:text-[16px] md:text-[19px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] font-black whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
-                    01. 자사 완제 의약품 사업
-                  </h4>
-                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 한 줄 표시) */}
-                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
-                    순환기, 호흡기, 비뇨기 중심의 우수한 제품 라인업 구축 및 생산·판매
-                  </p>
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-8 w-full">
+                {bizData.items.map((item, idx) => (
+                  <div 
+                    key={idx}
+                    className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-[24px] sm:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer"
+                  >
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.20] contrast-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+                    
+                    {/* Frosted Glass Floating Caption Overlay */}
+                    <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3.5 sm:bottom-3.5 lg:inset-x-4 lg:bottom-4 p-3.5 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
+                      <h4 className="text-[18px] sm:text-[20px] md:text-[16px] lg:text-[19.5px] xl:text-[22.5px] 2xl:text-[24px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md whitespace-nowrap">
+                        {item.title}
+                      </h4>
+                      <p className="text-[14.5px] sm:text-[15.5px] md:text-[14px] lg:text-[15.5px] xl:text-[17.5px] 2xl:text-[18px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2.5 sm:group-hover:mt-3 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
+                        {item.desc.split(/<br\s*\/?>|\n|\\n/).map((line, lIdx) => (
+                          <span key={lIdx} className="block whitespace-normal sm:whitespace-nowrap">
+                            {line.trim()}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              {/* Card 2 */}
-              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
-                  style={{ backgroundImage: "url('/images/business_hero2.jpg')" }}
-                />
-                {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
-                <div 
-                  className="absolute inset-0 p-3 sm:p-4 md:p-5 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
-                >
-                  <h4 className="text-[13px] sm:text-[16px] md:text-[19px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] font-black whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
-                    02. 수탁 완제 의약품 (CMO) 사업
-                  </h4>
-                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
-                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
-                    독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산
-                  </p>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl lg:rounded-[36px] overflow-hidden shadow-md group cursor-pointer">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 brightness-[1.22] contrast-[1.02]"
-                  style={{ backgroundImage: "url('/images/business_hero3.jpg')" }}
-                />
-                {/* Ultra-light static top gradient for title contrast */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
-                <div 
-                  className="absolute inset-0 p-3 sm:p-4 md:p-5 lg:p-7 flex flex-col text-white transition-all duration-500 ease-out" 
-                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.85)' }}
-                >
-                  <h4 className="text-[12px] sm:text-[15px] md:text-[17.5px] lg:text-[22px] xl:text-[25px] 2xl:text-[28px] font-black whitespace-nowrap leading-tight mb-2 sm:mb-3 tracking-tight">
-                    03. 의약품 핵심 원료 및 중간체 사업
-                  </h4>
-                  {/* 호버 시 표시: 상세 설명 (카드 어두워짐 없이 부드럽게 표시) */}
-                  <p className="hidden sm:block text-xs md:text-sm lg:text-base font-semibold break-keep leading-relaxed tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out pointer-events-none">
-                    의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF 등록·관리
-                  </p>
-                </div>
-              </div>
-            </div>
             </div>
           </div>
         );
@@ -696,7 +682,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
         const defaultTimelineData: TimelineEra[] = [
           {
             eraTitle: '2022 ~ Present',
-            eraSubtitle: '도약기 (고성장/고수익 창출)',
+            eraSubtitle: '도약기',
             events: [
               { year: '2025', details: ['• 환경부 한국환경공단 스마트생태공장 구축 사업 선정'] },
               { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정 / 식약처 공급망 안정화 선도 사업자 선정 / 안전보건경영시스템(ISO 45001) 인증 획득 / 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
@@ -706,7 +692,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           },
           {
             eraTitle: '2013 ~ 2021',
-            eraSubtitle: '성장기 (R&D 고도화 및 생산 인프라 확장)',
+            eraSubtitle: '성장기',
             events: [
               { year: '2021', details: ['• 충청남도 우수기업인상 수상 / 좋은 일자리 기업 선정 / 글로벌 강소기업 선정'] },
               { year: '2020', details: ['• 충청남도 유망 중소기업 선정'] },
@@ -719,7 +705,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
           },
           {
             eraTitle: '1996 ~ 2011',
-            eraSubtitle: '설립기 (원천기술 확보)',
+            eraSubtitle: '설립기',
             events: [
               { year: '2011', details: ['• \'KIBO 성공기업\' 선정'] },
               { year: '2009', details: ['• 300만불 수출탑 수상'] },
@@ -1188,12 +1174,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     <div className="space-y-4">
                       <div>
                         <span className="text-sm text-brand-green font-bold block mb-1.5">아산 제1공장 (충남 아산시)</span>
-                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed mb-2">
+                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">
                           원료 및 완제의약품 생산본부, cGMP 수준의 우수 의약품 생산
                         </p>
-                        <div className="flex items-center">
-                          <span className="inline-block text-brand-blue font-bold text-[11px] bg-brand-blue/5 px-2.5 py-1 rounded">MHLW, GMP 인증 완료</span>
-                        </div>
                       </div>
                       <div className="pt-4 border-t border-dashed border-gray-200">
                         <span className="text-sm text-brand-green font-bold block mb-1.5">아산 제2공장 (충남 아산시)</span>
@@ -1822,8 +1805,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
   };
 
   return (
-    <div className={`relative bg-white pt-16 md:pt-24 ${currentPath === '/about/intro' ? 'pb-0' : 'pb-16 md:pb-24'} min-h-screen`}>
-      <div className={`relative w-full ${currentPath === '/about/greeting' || currentPath === '/about/business-area' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
+    <div className="relative bg-white pt-16 md:pt-24 pb-16 md:pb-24 min-h-screen">
+      <div className={`relative w-full ${currentPath === '/about/greeting' || currentPath === '/about/business-area' || currentPath === '/about/overview' || currentPath === '/about' || currentPath === '/about/intro' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -1891,7 +1874,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`min-h-[550px] w-full ${currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-full' : currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : 'max-w-5xl'}`}>
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/intro' ? 'max-w-[1760px]' : currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-full' : currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : currentPath === '/about/overview' || currentPath === '/about' ? 'max-w-7xl xl:max-w-[1600px]' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>

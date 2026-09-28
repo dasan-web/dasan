@@ -12,6 +12,8 @@ import { query } from '@/lib/db';
 import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 
+export const revalidate = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/main']);

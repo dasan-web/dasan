@@ -8,10 +8,23 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadToCloudinary = (buffer: Buffer, folder: string): Promise<any> => {
+const uploadToCloudinary = (buffer: Buffer, folder: string, filename: string): Promise<any> => {
   return new Promise((resolve, reject) => {
+    const lastDotIndex = filename.lastIndexOf('.');
+    const ext = lastDotIndex !== -1 ? filename.slice(lastDotIndex) : '';
+    const base = lastDotIndex !== -1 ? filename.slice(0, lastDotIndex) : filename;
+    const cleanBase = base.replace(/[^a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ._-]/g, '_');
+    const uniquePublicId = `${cleanBase}_${Date.now()}${ext}`;
+
     const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: folder, resource_type: 'auto' },
+      {
+        folder: folder,
+        resource_type: 'auto',
+        use_filename: true,
+        unique_filename: true,
+        filename_override: filename,
+        public_id: uniquePublicId,
+      },
       (error, result) => {
         if (error) reject(error);
         else resolve(result);
@@ -33,8 +46,8 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Standard upload to Cloudinary
-    const result = await uploadToCloudinary(buffer, 'dasan');
+    // Standard upload to Cloudinary with filename preserved
+    const result = await uploadToCloudinary(buffer, 'dasan', file.name);
 
     return NextResponse.json({
       url: result.secure_url,

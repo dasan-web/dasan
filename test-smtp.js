@@ -32,11 +32,8 @@ async function testSMTP(user, pass) {
 }
 
 async function run() {
-  console.log('Testing admin@dspharm.com...');
-  await testSMTP('admin@dspharm.com', '2a8R8-lqU{O{xnz+9Lh3');
-  
-  console.log('\\nTesting insa@dspharm.com...');
-  await testSMTP('insa@dspharm.com', 'dasan337!');
+  console.log('Testing admin@dspharm.com with app password...');
+  await testSMTP('admin@dspharm.com', 'x}]ayW0Y8;:by:[_Sce&');
 }
 
 run();

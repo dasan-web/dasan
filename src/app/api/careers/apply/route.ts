@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import nodemailer from 'nodemailer';
+import { getBaseOrigin, generateSecureDownloadLink, renderAttachmentEmailRow } from '@/lib/secureLink';
 
 export async function POST(request: Request) {
   try {
@@ -15,11 +16,37 @@ export async function POST(request: Request) {
       memo = '',
       file_url = null,
       file_name = null,
+      recaptchaToken,
     } = body;
 
     if (!name || !email || !phone) {
       return NextResponse.json(
         { error: '성명, 이메일, 연락처는 필수 입력 항목입니다.' },
+        { status: 400 }
+      );
+    }
+
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { error: '자동가입 방지 체크(reCAPTCHA)가 누락되었습니다.' },
+        { status: 400 }
+      );
+    }
+
+    // Verify reCAPTCHA token with Google
+    const secretKey = '6LdRVT0tAAAAAIydIJLhsveG1wiGGncrpetxPN7z';
+    const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${secretKey}&response=${recaptchaToken}`,
+    });
+    const verifyData = await verifyRes.json();
+    
+    if (!verifyData.success) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA 인증에 실패했습니다. 다시 시도해주세요.' },
         { status: 400 }
       );
     }
@@ -33,7 +60,7 @@ export async function POST(request: Request) {
 - 연락처: ${phone}
 - 이메일: ${email}
 - 희망 근무지: ${location}
-- 첨부 서류: ${file_name ? `${file_name} (${file_url})` : '미첨부'}
+- 첨부 서류: ${file_name ? `${file_name}` : '미첨부'}
 
 [자기소개 및 주요 경력]
 ${memo || '내용 없음'}
@@ -57,6 +84,11 @@ ${memo || '내용 없음'}
 
     // Send email notification to HR (insa@dspharm.com)
     try {
+      const origin = getBaseOrigin(request);
+      const secureDownloadUrl = file_url
+        ? generateSecureDownloadLink(origin, file_url, file_name || '이력서첨부파일', 30)
+        : null;
+
       const smtpUser = process.env.SMTP_USER || 'admin@dspharm.com';
       const smtpPass = process.env.SMTP_PASSWORD || 'dasan337!';
 
@@ -70,12 +102,9 @@ ${memo || '내용 없음'}
         },
       });
 
-      const fileAttachmentHtml = file_url ? `
-        <tr>
-          <td style="font-weight: bold; padding: 8px 0;">이력서/첨부파일:</td>
-          <td style="padding: 8px 0;"><a href="${file_url}" target="_blank" style="color: #1565c0; text-decoration: underline; font-weight: bold;">${file_name || '첨부파일 다운로드'}</a></td>
-        </tr>
-      ` : '';
+      const fileAttachmentHtml = secureDownloadUrl
+        ? renderAttachmentEmailRow(secureDownloadUrl, file_name || '이력서첨부파일', new Date(), 30)
+        : '';
 
       await transporter.sendMail({
         from: `"다산제약 채용시스템" <${smtpUser}>`,

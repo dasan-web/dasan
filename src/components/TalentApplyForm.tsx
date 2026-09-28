@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { 
   Send, 
   Upload, 
@@ -80,6 +81,35 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
   const [memo, setMemo] = useState('');
   const [agreed, setAgreed] = useState(false);
 
+  const formatPhoneNumber = (val: string) => {
+    const numOnly = val.replace(/[^0-9]/g, '');
+    let formatted = numOnly;
+    if (numOnly.length > 3) {
+      if (numOnly.startsWith('02')) {
+        if (numOnly.length <= 5) {
+          formatted = `${numOnly.slice(0, 2)}-${numOnly.slice(2)}`;
+        } else if (numOnly.length <= 9) {
+          formatted = `${numOnly.slice(0, 2)}-${numOnly.slice(2, 5)}-${numOnly.slice(5)}`;
+        } else {
+          formatted = `${numOnly.slice(0, 2)}-${numOnly.slice(2, 6)}-${numOnly.slice(6, 10)}`;
+        }
+      } else {
+        if (numOnly.length <= 6) {
+          formatted = `${numOnly.slice(0, 3)}-${numOnly.slice(3)}`;
+        } else if (numOnly.length <= 10) {
+          formatted = `${numOnly.slice(0, 3)}-${numOnly.slice(3, 6)}-${numOnly.slice(6)}`;
+        } else {
+          formatted = `${numOnly.slice(0, 3)}-${numOnly.slice(3, 7)}-${numOnly.slice(7, 11)}`;
+        }
+      }
+    }
+    return formatted.slice(0, 13);
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(formatPhoneNumber(e.target.value));
+  };
+
   // File Upload State
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
@@ -93,12 +123,16 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
 
+  // ReCAPTCHA State
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (!selected) return;
 
-    if (selected.size > 15 * 1024 * 1024) {
-      setUploadError(isEnglish ? 'File size must not exceed 15MB.' : '파일 크기는 15MB를 초과할 수 없습니다.');
+    if (selected.size > 3 * 1024 * 1024) {
+      setUploadError(isEnglish ? 'File size must not exceed 3MB.' : '파일 크기는 최대 3MB까지 가능합니다.');
       return;
     }
 
@@ -138,6 +172,11 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
       return;
     }
 
+    if (!recaptchaToken) {
+      alert(isEnglish ? 'Please check the "I am not a robot" reCAPTCHA.' : '로봇인지 아닌지 체크해 주세요.');
+      return;
+    }
+
     setSubmitting(true);
     setSubmitStatus('idle');
 
@@ -155,6 +194,7 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
           memo: memo.trim(),
           file_url: fileUrl || null,
           file_name: fileName || null,
+          recaptchaToken,
         }),
       });
 
@@ -176,6 +216,8 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
       setFileName('');
       setFileUrl('');
       setAgreed(false);
+      setRecaptchaToken(null);
+      recaptchaRef.current?.reset();
     } catch (err: any) {
       setSubmitStatus('error');
       setSubmitMessage(err.message || (isEnglish ? 'An error occurred during submission.' : '지원서 접수 중 오류가 발생했습니다.'));
@@ -342,8 +384,9 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
                 type="tel"
                 required
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={handlePhoneChange}
                 placeholder="010-1234-5678"
+                maxLength={13}
                 className="w-full text-xs sm:text-sm border border-slate-200 rounded-xl px-3.5 py-3 text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
               />
             </div>
@@ -402,7 +445,7 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
                 <span>{isEnglish ? 'Resume & Portfolio Attachment' : '이력서 / 자기소개서 첨부파일'}</span>
               </span>
               <span className="text-[11px] text-slate-400 font-normal">
-                {isEnglish ? 'PDF, DOCX, HWP, ZIP up to 15MB' : 'PDF, Word, HWP, ZIP (최대 15MB)'}
+                {isEnglish ? 'PDF, DOCX, HWP, ZIP up to 3MB' : 'PDF, Word, HWP, ZIP (최대 3MB)'}
               </span>
             </label>
 
@@ -494,6 +537,16 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
                 ? 'Collected Items: Name, Phone, Email, Preferred Location, Resume details / Purpose: Recruitment evaluation and talent pool management / Retention Period: Up to 2 years from submission (Destroyed immediately upon applicant request).'
                 : '수집항목: 성명, 연락처, 이메일, 희망근무지, 이력서 기재사항 / 수집목적: 다산제약 인재 채용 전형 진행 및 인재풀 관리 / 보유기간: 접수일로부터 최대 2년 (지원자 요청 시 즉시 파기)'}
             </p>
+          </div>
+
+          {/* ReCAPTCHA */}
+          <div className="flex justify-start">
+            <ReCAPTCHA
+              hl={isEnglish ? "en" : "ko"}
+              ref={recaptchaRef}
+              sitekey="6LdRVT0tAAAAAD5Ug_N3IhbggKeT1vj5jwVlki88"
+              onChange={(token) => setRecaptchaToken(token)}
+            />
           </div>
 
           {/* Submit Action Buttons */}

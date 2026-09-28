@@ -64,9 +64,9 @@ export async function POST(request: Request) {
       }
     }
 
-    if (!category || !title || !content) {
+    if (!category || !title || (category !== 'media' && !content)) {
       return NextResponse.json(
-        { error: '카테고리, 제목, 내용은 필수 입력 사항입니다.' },
+        { error: '카테고리, 제목은 필수 입력 사항입니다.' },
         { status: 400 }
       );
     }
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
     const result = await query(insertSql, [
       category,
       title,
-      content,
+      content || '',
       file_url || null,
       file_name || null
     ]);
@@ -114,7 +114,7 @@ export async function PUT(request: Request) {
       }
     }
 
-    if (!id || !category || !title || !content) {
+    if (!id || !category || !title || (category !== 'media' && !content)) {
       return NextResponse.json(
         { error: 'ID 및 필수 입력 사항 누락' },
         { status: 400 }
@@ -129,7 +129,7 @@ export async function PUT(request: Request) {
     await query(updateSql, [
       category,
       title,
-      content,
+      content || '',
       views || 0,
       file_url || null,
       file_name || null,
