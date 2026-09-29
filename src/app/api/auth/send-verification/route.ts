@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
     // Send email using SMTP
     const smtpUser = process.env.SMTP_USER || 'admin@dspharm.com';
-    const smtpPass = process.env.SMTP_PASSWORD || 'dasan337!';
+    const smtpPass = process.env.SMTP_PASSWORD || '*UZyO0Ku51g(CrByzE4}';
 
     try {
       const transporter = nodemailer.createTransport({

@@ -90,7 +90,7 @@ ${memo || '내용 없음'}
         : null;
 
       const smtpUser = process.env.SMTP_USER || 'admin@dspharm.com';
-      const smtpPass = process.env.SMTP_PASSWORD || 'dasan337!';
+      const smtpPass = process.env.SMTP_PASSWORD || '*UZyO0Ku51g(CrByzE4}';
 
       const transporter = nodemailer.createTransport({
         host: 'smtp.mailplug.co.kr',

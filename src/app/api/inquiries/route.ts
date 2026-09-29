@@ -91,7 +91,7 @@ export async function POST(request: Request) {
     // Send email notification dynamically based on SMTP configurations
     try {
       const smtpUser = process.env.SMTP_USER || 'admin@dspharm.com';
-      const smtpPass = process.env.SMTP_PASSWORD || 'dasan337!';
+      const smtpPass = process.env.SMTP_PASSWORD || '*UZyO0Ku51g(CrByzE4}';
 
       const transporter = nodemailer.createTransport({
         host: 'smtp.mailplug.co.kr',
