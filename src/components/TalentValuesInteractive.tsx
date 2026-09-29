@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import { parseTalentData, TalentData, DEFAULT_TALENT_DATA, DEFAULT_TALENT_DATA_EN } from '@/lib/talent';
 
 export interface TalentItem {
   letter: string;
@@ -145,11 +146,30 @@ const TALENT_ITEMS_EN: TalentItem[] = [
 
 interface Props {
   isEnglish?: boolean;
+  dbContent?: string | null;
+  data?: TalentData;
 }
 
-export default function TalentValuesInteractive({ isEnglish = false }: Props) {
+export default function TalentValuesInteractive({ isEnglish = false, dbContent = null, data }: Props) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const items = isEnglish ? TALENT_ITEMS_EN : TALENT_ITEMS_KO;
+
+  const talentData = useMemo(() => {
+    if (data) return data;
+    return parseTalentData(dbContent, isEnglish);
+  }, [data, dbContent, isEnglish]);
+
+  const items: TalentItem[] = useMemo(() => {
+    const baseItems = isEnglish ? TALENT_ITEMS_EN : TALENT_ITEMS_KO;
+    return baseItems.map((base, idx) => {
+      const parsedItem = talentData.items?.[idx];
+      return {
+        ...base,
+        letter: parsedItem?.letter || base.letter,
+        word: parsedItem?.word || base.word,
+        desc: parsedItem?.desc || base.desc,
+      };
+    });
+  }, [talentData, isEnglish]);
 
   const svgContainerRef = useRef<HTMLDivElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
@@ -257,41 +277,20 @@ export default function TalentValuesInteractive({ isEnglish = false }: Props) {
       >
         {/* Top Header (Left-aligned) */}
         <div className="space-y-2.5 border-b border-gray-100 pb-5">
-          <h3 className="text-2xl sm:text-3xl md:text-[32px] font-bold text-gray-900 tracking-tight leading-snug">
-            {isEnglish 
-              ? 'Great Medicine Comes from Great People' 
-              : '좋은 의약품은 좋은 사람에게서 나옵니다'}
+          <h3 className="text-2xl sm:text-3xl md:text-[32px] font-bold text-gray-900 tracking-tight leading-snug whitespace-pre-wrap">
+            {talentData.philosophyTitle}
           </h3>
         </div>
 
         {/* Body Text (Left-aligned, NO BOLD) */}
         <div className="space-y-4 text-base md:text-[16px] text-gray-600 leading-[1.9] font-normal break-keep">
-          {isEnglish ? (
-            <>
-              <p>
-                Dasan Pharmaceutical was founded on the philosophy of &apos;Aemin (Love for the People)&apos; inspired by Dasan Jeong Yak-yong, the greatest practical scholar of the Joseon Dynasty, researching and developing pharmaceuticals for humanity&apos;s health and happy life.
-                <br />
-                Believing that good medicine ultimately comes from good people, we expect the same sincerity and principles from the colleagues who join us.
-              </p>
-              <p>
-                &apos;Innovating Today for a Healthier Tomorrow&apos;, we believe that innovation today for a healthier tomorrow is only possible when such individuals come together.
-                <br />
-                Dasan Pharmaceutical awaits talented individuals who resonate with this value and wish to grow together with us.
-              </p>
-            </>
-          ) : (
-            <>
-              <p>
-                다산제약은 조선 최고의 실학자 다산 정약용 선생의 &apos;애민(愛民)&apos; 정신을 창업이념으로 삼아, 인류의 건강과 행복한 삶을 위한 의약품을 연구하고 만들어 왔습니다.
-                <br />
-                좋은 의약품은 좋은 사람에게서 나온다는 믿음으로, 저희는 함께 일할 동료에게도 같은 진심과 원칙을 기대합니다.
-              </p>
-              <p>
-                &apos;Innovating Today for a Healthier Tomorrow&apos;, 건강한 내일을 위한 오늘의 혁신은 이런 사람들이 모였을 때 비로소 가능하다고 믿습니다.
-                <br />
-                다산제약은 이 가치에 공감하고 함께 성장해 나갈 인재를 기다립니다.
-              </p>
-            </>
+          <p className="whitespace-pre-line">
+            {talentData.philosophyP1}
+          </p>
+          {talentData.philosophyP2 && (
+            <p className="whitespace-pre-line">
+              {talentData.philosophyP2}
+            </p>
           )}
         </div>
       </motion.div>

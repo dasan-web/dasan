@@ -5,9 +5,10 @@ import Image from 'next/image';
 
 interface Props {
   lang?: 'ko' | 'en';
+  imageUrl?: string;
 }
 
-export default function ScrollPromiseImage({ lang = 'ko' }: Props) {
+export default function ScrollPromiseImage({ lang = 'ko', imageUrl }: Props) {
   const isEn = lang === 'en';
 
   return (
@@ -19,9 +20,9 @@ export default function ScrollPromiseImage({ lang = 'ko' }: Props) {
         }}
         className="relative min-h-[560px] sm:min-h-[620px] lg:h-[660px] overflow-hidden bg-slate-900 shadow-sm"
       >
-        {/* Original /images/ESG.jpg */}
+        {/* Original /images/ESG.jpg or custom uploaded imageUrl */}
         <Image
-          src="/images/ESG.jpg"
+          src={imageUrl || "/images/ESG.jpg"}
           alt={isEn ? "Dasan Pharmaceutical's Sustainable ESG Promise" : "다산제약 지속가능 ESG 약속"}
           fill
           priority

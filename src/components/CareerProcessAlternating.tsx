@@ -12,9 +12,12 @@ import {
   Check 
 } from 'lucide-react';
 
+import { parseCareerProcessData, CareerProcessData } from '@/lib/careerProcess';
+
 interface Props {
   isEnglish?: boolean;
   dbContent?: string | null;
+  data?: CareerProcessData;
 }
 
 interface StepItem {
@@ -160,178 +163,80 @@ function ProcessStepCard({
   );
 }
 
-export default function CareerProcessAlternating({ isEnglish = false, dbContent = null }: Props) {
+export default function CareerProcessAlternating({ isEnglish = false, dbContent = null, data }: Props) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const lines = dbContent ? dbContent.split(/\r?\n/) : [];
-  const mainTitle = lines[0] || (isEnglish ? 'Recruitment Process Guide' : '채용 프로세스 안내');
-  const intro = lines[1] || (isEnglish 
-    ? 'Dasan Pharmaceutical carefully reviews the precious documents and sincere potential of every applicant.'
-    : '다산제약은 지원자 한 분 한 분의 소중한 서류와 인성을 세밀히 검토하고 있습니다.');
+  const processData = React.useMemo(() => {
+    if (data) return data;
+    return parseCareerProcessData(dbContent, isEnglish);
+  }, [data, dbContent, isEnglish]);
 
-  const stepsKo: StepItem[] = [
+  const mainTitle = processData.mainTitle;
+  const intro = processData.intro;
+
+  const STEP_STYLES = [
     {
-      id: 'step-1',
-      stepNumber: '01',
-      title: lines[2] || '서류 전형',
-      subTitle: lines[3] || '기본 요건 및 직무 적합성 검토',
-      desc: '지원자의 직무 적합성과 전문성, 성장 잠재력 및 제출 서류의 충실도를 종합적으로 검토하여 1차 선발을 진행합니다.',
-      tags: ['온라인 입사지원', '자격 요건 검토', '직무 역량 심사'],
+      icon: FileText,
       badgeBg: 'bg-sky-600',
       containerBg: 'bg-gradient-to-br from-sky-50/80 via-sky-50/30 to-white',
       containerBorder: 'border-sky-100',
       shadowColor: 'shadow-sky-600/30',
-      icon: FileText
     },
     {
-      id: 'step-2',
-      stepNumber: '02',
-      title: '인적성검사',
-      subTitle: '종합 인적성 평가 및 역량 진단',
-      desc: '다산제약의 핵심 인재상 부합도와 기본 인성, 직무 수행에 필요한 논리적 사고력 및 문제 해결 역량을 온라인으로 진단합니다.',
-      tags: ['온라인 인성검사', '직무 적성 진단', '핵심가치 적합도'],
+      icon: ClipboardList,
       badgeBg: 'bg-teal-600',
       containerBg: 'bg-gradient-to-br from-teal-50/80 via-teal-50/30 to-white',
       containerBorder: 'border-teal-100',
       shadowColor: 'shadow-teal-600/30',
-      icon: ClipboardList
     },
     {
-      id: 'step-3',
-      stepNumber: '03',
-      title: lines[4] || '1차 실무 면접',
-      subTitle: lines[5] || '직무 적합성 및 실무 역량 평가',
-      desc: '해당 부서 현업 실무진과의 심층 면접을 통해 지원 분야의 전문 지식, 실무 수행 능력, 협업 및 커뮤니케이션 역량을 집중 검증합니다.',
-      tags: ['실무진 심층 면접', '전문 역량 검증', '직무 인터뷰'],
+      icon: Briefcase,
       badgeBg: 'bg-indigo-600',
       containerBg: 'bg-gradient-to-br from-indigo-50/80 via-indigo-50/30 to-white',
       containerBorder: 'border-indigo-100',
       shadowColor: 'shadow-indigo-600/30',
-      icon: Briefcase
     },
     {
-      id: 'step-4',
-      stepNumber: '04',
-      title: lines[6] || '2차 임원 면접',
-      subTitle: lines[7] || '인성 및 미래 가치 평가',
-      desc: '경영진과의 종합 면접을 통해 다산제약의 기업 문화 및 비전과의 부합도, 직업관, 미래 성장 가능성을 다각도로 평가합니다.',
-      tags: ['경영진 종합 면접', '인성 및 가치관', '미래 성장성'],
+      icon: UserCheck,
       badgeBg: 'bg-purple-600',
       containerBg: 'bg-gradient-to-br from-purple-50/80 via-purple-50/30 to-white',
       containerBorder: 'border-purple-100',
       shadowColor: 'shadow-purple-600/30',
-      icon: UserCheck
     },
     {
-      id: 'step-5',
-      stepNumber: '05',
-      title: '채용 검진',
-      subTitle: '건강 검진 실시',
-      desc: '입사 전 안전하고 건강한 근무 환경 조성을 위하여 지정 전문 의료기관에서 채용 건강 검진을 진행합니다.',
-      tags: ['지정 검진 기관', '신체 건강 진단', '안전한 근무 지원'],
+      icon: Stethoscope,
       badgeBg: 'bg-rose-500',
       containerBg: 'bg-gradient-to-br from-rose-50/80 via-rose-50/30 to-white',
       containerBorder: 'border-rose-100',
       shadowColor: 'shadow-rose-500/30',
-      icon: Stethoscope
     },
     {
-      id: 'step-6',
-      stepNumber: '06',
-      title: lines[8] || '최종 합격',
-      subTitle: lines[9] || '처우 조율 및 온보딩',
-      desc: '최종 합격을 진심으로 축하드리며, 처우 협의 및 입사일을 조율하고 다산제약의 새로운 가족으로 힘찬 첫걸음을 함께 시작합니다.',
-      tags: ['입사 처우 협의', '입사일 확정', '웰컴 온보딩'],
+      icon: CheckCircle2,
       badgeBg: 'bg-emerald-600',
       containerBg: 'bg-gradient-to-br from-emerald-50/80 via-emerald-50/30 to-white',
       containerBorder: 'border-emerald-100',
       shadowColor: 'shadow-emerald-600/30',
-      icon: CheckCircle2
-    }
+    },
   ];
 
-  const stepsEn: StepItem[] = [
-    {
-      id: 'step-1',
-      stepNumber: '01',
-      title: lines[2] || 'Document Screening',
-      subTitle: lines[3] || 'Basic Qualifications Review',
-      desc: 'We comprehensively review applicants\' job suitability, professional qualifications, growth potential, and the integrity of submitted documents for primary selection.',
-      tags: ['Online Application', 'Qualification Review', 'Competency Assessment'],
-      badgeBg: 'bg-sky-600',
-      containerBg: 'bg-gradient-to-br from-sky-50/80 via-sky-50/30 to-white',
-      containerBorder: 'border-sky-100',
-      shadowColor: 'shadow-sky-600/30',
-      icon: FileText
-    },
-    {
-      id: 'step-2',
-      stepNumber: '02',
-      title: 'Personality & Aptitude Test',
-      subTitle: 'Comprehensive Aptitude Assessment',
-      desc: 'We diagnose applicants\' alignment with Dasan\'s core values, integrity, logical problem-solving abilities, and practical aptitude through an online examination.',
-      tags: ['Online Assessment', 'Aptitude Test', 'Core Values Alignment'],
-      badgeBg: 'bg-teal-600',
-      containerBg: 'bg-gradient-to-br from-teal-50/80 via-teal-50/30 to-white',
-      containerBorder: 'border-teal-100',
-      shadowColor: 'shadow-teal-600/30',
-      icon: ClipboardList
-    },
-    {
-      id: 'step-3',
-      stepNumber: '03',
-      title: lines[4] || '1st Practical Interview',
-      subTitle: lines[5] || 'Job Fit & Working Competency',
-      desc: 'Through in-depth interviews with working-level practitioners, we verify applicants\' specialized knowledge, practical job capabilities, and collaborative communication skills.',
-      tags: ['Practitioner Interview', 'Practical Competency', 'Job Verification'],
-      badgeBg: 'bg-indigo-600',
-      containerBg: 'bg-gradient-to-br from-indigo-50/80 via-indigo-50/30 to-white',
-      containerBorder: 'border-indigo-100',
-      shadowColor: 'shadow-indigo-600/30',
-      icon: Briefcase
-    },
-    {
-      id: 'step-4',
-      stepNumber: '04',
-      title: lines[6] || '2nd Executive Interview',
-      subTitle: lines[7] || 'Personality & Future Potential',
-      desc: 'Through comprehensive interviews with executive leadership, we evaluate alignment with company vision, professional ethics, teamwork, and long-term growth potential.',
-      tags: ['Executive Leadership', 'Corporate Culture', 'Future Potential'],
-      badgeBg: 'bg-purple-600',
-      containerBg: 'bg-gradient-to-br from-purple-50/80 via-purple-50/30 to-white',
-      containerBorder: 'border-purple-100',
-      shadowColor: 'shadow-purple-600/30',
-      icon: UserCheck
-    },
-    {
-      id: 'step-5',
-      stepNumber: '05',
-      title: 'Health Examination',
-      subTitle: 'Pre-employment Medical Checkup',
-      desc: 'Prior to joining, candidates undergo a routine medical examination at designated healthcare institutions to ensure a healthy and safe work environment.',
-      tags: ['Designated Clinic', 'Health Checkup', 'Safe Workplace'],
-      badgeBg: 'bg-rose-500',
-      containerBg: 'bg-gradient-to-br from-rose-50/80 via-rose-50/30 to-white',
-      containerBorder: 'border-rose-100',
-      shadowColor: 'shadow-rose-500/30',
-      icon: Stethoscope
-    },
-    {
-      id: 'step-6',
-      stepNumber: '06',
-      title: lines[8] || 'Final Acceptance',
-      subTitle: lines[9] || 'Offer & Welcome Onboarding',
-      desc: 'Congratulations on your final acceptance! We coordinate employment conditions, finalize starting dates, and welcome you as a proud new member of Dasan Pharmaceutical.',
-      tags: ['Offer Coordination', 'Start Date Finalized', 'Welcome Onboarding'],
-      badgeBg: 'bg-emerald-600',
-      containerBg: 'bg-gradient-to-br from-emerald-50/80 via-emerald-50/30 to-white',
-      containerBorder: 'border-emerald-100',
-      shadowColor: 'shadow-emerald-600/30',
-      icon: CheckCircle2
-    }
-  ];
-
-  const steps = isEnglish ? stepsEn : stepsKo;
+  const steps: StepItem[] = React.useMemo(() => {
+    return processData.steps.map((st, idx) => {
+      const style = STEP_STYLES[idx] || STEP_STYLES[0];
+      return {
+        id: `step-${idx + 1}`,
+        stepNumber: st.stepNumber || `0${idx + 1}`,
+        title: st.title,
+        subTitle: st.subTitle,
+        desc: st.desc,
+        tags: st.tags || [],
+        badgeBg: style.badgeBg,
+        containerBg: style.containerBg,
+        containerBorder: style.containerBorder,
+        shadowColor: style.shadowColor,
+        icon: style.icon,
+      };
+    });
+  }, [processData]);
 
   return (
     <div className="space-y-12 animate-fade-in-up py-4">

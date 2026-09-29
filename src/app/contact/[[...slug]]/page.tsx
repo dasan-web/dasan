@@ -164,7 +164,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
       case '/contact/careers/talent': {
         return (
           <div className="animate-fade-in-up py-4">
-            <TalentValuesInteractive isEnglish={false} />
+            <TalentValuesInteractive isEnglish={false} dbContent={dbContent} />
           </div>
         );
       }

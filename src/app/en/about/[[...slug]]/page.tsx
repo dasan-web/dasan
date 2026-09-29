@@ -1184,10 +1184,19 @@ export default async function AboutCatchAllPage({ params }: Params) {
           </div>
         );
 
-      case '/about/location':
+      case '/about/location': {
+        const lines = (dbContent || '').split('\n');
+        const l40 = lines[40]?.trim();
+        const l32 = lines[32]?.trim();
+        const customHero = (l40 && (l40.startsWith('/') || l40.startsWith('http')))
+          ? l40
+          : (l32 && (l32.startsWith('/uploads/') || l32.startsWith('http')))
+          ? l32
+          : '/location_hero.jpg';
+
         return (
           <div className="space-y-10 animate-fade-in-up">
-            {/* Location Hero Visual (21:9 Wide Screen - Same format as Global Infra / History / CI) */}
+            {/* 찾아오시는 길 대표 비주얼 (21:9 와이드 화면 - 글로벌 인프라/연혁/CI 동일 규격) */}
             <div 
               style={{
                 width: '100vw',
@@ -1196,8 +1205,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
               className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
             >
               <Image 
-                src="/location_hero.jpg" 
-                alt="DASAN Directions and Location Visual" 
+                src={customHero} 
+                alt="다산제약 찾아오시는 길 비주얼" 
                 fill
                 priority
                 unoptimized={true}
@@ -1208,6 +1217,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             <LocationMapSection dbContent={dbContent} />
           </div>
         );
+      }
 
       case '/about/esg/ethics':
         return (

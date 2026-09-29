@@ -25,6 +25,8 @@ import ScrollAntiCorruptionImage from '@/components/ScrollAntiCorruptionImage';
 import ScrollEthicsImage from '@/components/ScrollEthicsImage';
 import ScrollGreetingImage from '@/components/ScrollGreetingImage';
 import { query } from '@/lib/db';
+import { parseGreetingData } from '@/lib/greeting';
+import { parseEsgData } from '@/lib/esg';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -461,13 +463,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
           </>
         );
 
-      case '/about/greeting':
+      case '/about/greeting': {
+        const greetingData = parseGreetingData(dbContent);
         return (
           <div className="animate-fade-in-up mt-4 sm:mt-6 bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-3xl shadow-none w-full">
             {/* Header Title */}
             <div className="mb-8 sm:mb-12 pb-4 border-b border-gray-100">
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
-                CEO 메시지
+                {greetingData.title || 'CEO 메시지'}
               </h3>
             </div>
 
@@ -479,8 +482,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   {/* Large Photo Frame */}
                   <div className="relative aspect-[3/4.2] w-full rounded-2xl overflow-hidden shadow-md bg-slate-900 group">
                     <img 
-                      src="/images/ceo_greeting.webp" 
-                      alt="다산제약 대표이사 류형선" 
+                      src={greetingData.imageUrl || '/images/ceo_greeting.webp'} 
+                      alt={greetingData.signerName ? `다산제약 ${greetingData.signerTitle} ${greetingData.signerName}` : '다산제약 대표이사 류형선'} 
                       className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                   </div>
@@ -491,41 +494,44 @@ export default async function AboutCatchAllPage({ params }: Params) {
               <div className="flex-1 w-full min-w-0 flex flex-col justify-between pt-1">
                 <div>
                   {/* Slogan Banner */}
-                  <div className="border-l-4 border-brand-green pl-4 sm:pl-5 py-1 mb-8">
-                    <h4 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-snug">
-                      신뢰와 혁신으로 열어가는 더 건강한 미래
-                    </h4>
-                  </div>
+                  {greetingData.slogan && (
+                    <div className="border-l-4 border-brand-green pl-4 sm:pl-5 py-1 mb-8">
+                      <h4 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-snug">
+                        {greetingData.slogan}
+                      </h4>
+                    </div>
+                  )}
 
                   {/* Paragraphs */}
                   <div className="space-y-6 text-gray-700 text-[15px] sm:text-base md:text-[16.5px] leading-[1.95] tracking-normal font-normal break-keep">
-                    <p className="font-semibold text-gray-900 text-base sm:text-lg leading-relaxed">
-                      다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다.
-                    </p>
-                    <p>
-                      1996년 첫 발을 내딛은 다산제약은 &apos;차별화된 의약품 연구개발&apos;이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다. 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다.
-                    </p>
-                    <p>
-                      우리는 다산 정약용 선생의 실사구시(實事求是) 정신을 이어받아 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 고품질 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다.
-                    </p>
-                    <p>
-                      나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 앞장서겠습니다.
-                    </p>
-                    <p>
-                      다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 &apos;글로벌 헬스케어 리더&apos;로 끊임없이 도약할 것을 약속드립니다.
-                    </p>
-                    <p className="text-gray-600 pt-2">
-                      새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다. 감사합니다.
-                    </p>
+                    {greetingData.greeting && (
+                      <p className="font-semibold text-gray-900 text-base sm:text-lg leading-relaxed">
+                        {greetingData.greeting}
+                      </p>
+                    )}
+                    {greetingData.body && (greetingData.body.includes('<p') || greetingData.body.includes('<h') || greetingData.body.includes('<br')) ? (
+                      <div 
+                        className="space-y-6 [&_p]:leading-[1.95] [&_p]:text-gray-700 [&_strong]:font-bold [&_strong]:text-gray-900 [&_h4]:font-bold [&_h4]:text-gray-900 [&_h4]:text-xl" 
+                        dangerouslySetInnerHTML={{ __html: greetingData.body }} 
+                      />
+                    ) : (
+                      <div className="space-y-6">
+                        {(greetingData.body || '').split('\n\n').map((para, i) => (
+                          <p key={i} className="whitespace-pre-line leading-[1.95]">{para}</p>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* CEO Signature Block */}
                 <div className="mt-14 pt-8 border-t border-gray-100 flex justify-end items-end">
                   <div className="flex items-end gap-3">
-                    <span className="text-gray-500 font-medium text-sm pb-1.5">대표이사</span>
+                    <span className="text-gray-500 font-medium text-sm pb-1.5">
+                      {greetingData.signerTitle || '대표이사'}
+                    </span>
                     <span className="text-gray-900 font-bold text-3xl md:text-4xl tracking-[0.18em] font-serif">
-                      류 형 선
+                      {greetingData.signerName || '류 형 선'}
                     </span>
                   </div>
                 </div>
@@ -533,6 +539,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
           </div>
         );
+      }
 
       case '/about/business-area':
         // Parse business-area data
@@ -579,7 +586,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
               return { 
                 title: cleanTitle, 
                 desc: desc,
-                image: defaultImages[idx] || '/images/business_hero1.jpg'
+                image: parts[2] || defaultImages[idx] || '/images/business_hero1.jpg'
               };
             }).filter(item => item.title);
             bizData = {
@@ -1205,7 +1212,16 @@ export default async function AboutCatchAllPage({ params }: Params) {
           </div>
         );
 
-      case '/about/location':
+      case '/about/location': {
+        const lines = (dbContent || '').split('\n');
+        const l40 = lines[40]?.trim();
+        const l32 = lines[32]?.trim();
+        const customHero = (l40 && (l40.startsWith('/') || l40.startsWith('http')))
+          ? l40
+          : (l32 && (l32.startsWith('/uploads/') || l32.startsWith('http')))
+          ? l32
+          : '/location_hero.jpg';
+
         return (
           <div className="space-y-10 animate-fade-in-up">
             {/* 찾아오시는 길 대표 비주얼 (21:9 와이드 화면 - 글로벌 인프라/연혁/CI 동일 규격) */}
@@ -1217,7 +1233,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
               className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-12 md:mb-16"
             >
               <Image 
-                src="/location_hero.jpg" 
+                src={customHero} 
                 alt="다산제약 찾아오시는 길 비주얼" 
                 fill
                 priority
@@ -1229,18 +1245,37 @@ export default async function AboutCatchAllPage({ params }: Params) {
             <LocationMapSection dbContent={dbContent} />
           </div>
         );
+      }
 
-      case '/about/esg/ethics':
+      case '/about/esg/ethics': {
+        const parts = (dbContent || '').split('|');
+        let customHeroImage: string | undefined = undefined;
+        let htmlBody = '';
+        if (parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'))) {
+          customHeroImage = parts[1];
+          htmlBody = parts.slice(2).join('|');
+        } else if (parts.length >= 2) {
+          htmlBody = parts.slice(1).join('|');
+        }
+
         return (
           <>
             {/* 기업 개요와 동일한 크기 및 스크롤 확장 효과를 제공하는 Promise.png 이미지 */}
-            <ScrollPromiseImage lang="ko" />
+            <ScrollPromiseImage lang="ko" imageUrl={customHeroImage} />
 
             <div className="space-y-16 animate-fade-in-up mt-16">
-              <ESGEthicsSection lang="ko" />
+              {htmlBody && (htmlBody.includes('<h') || htmlBody.includes('<p') || htmlBody.includes('<div')) ? (
+                <div 
+                  className="w-full bg-white font-pretendard text-slate-800"
+                  dangerouslySetInnerHTML={{ __html: htmlBody }}
+                />
+              ) : (
+                <ESGEthicsSection lang="ko" />
+              )}
             </div>
           </>
         );
+      }
       case '/about/esg/environment': {
         const defaultTitle = '환경경영방침';
         const defaultCoreStatement = '다산제약은 모든 경영활동에서 환경보전을 기업의 핵심 가치로 삼고, 깨끗하고 안전한 환경을 조성하여 지속가능한 성장을 실현하고자 한다.';
@@ -1278,7 +1313,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
                 {/* 6 Action Items */}
                 <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
-                  {defaultItems.map((item, idx) => (
+                  {defaultItems.map((item: string, idx: number) => (
                     <div 
                       key={idx} 
                       className="flex items-start space-x-4 py-4.5 sm:py-5 group"
@@ -1315,6 +1350,18 @@ export default async function AboutCatchAllPage({ params }: Params) {
       }
 
       case '/about/esg/code-of-ethics': {
+        const parts = (dbContent || '').split('|');
+        let customHero: string | undefined = undefined;
+        let htmlBody = '';
+        if (parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'))) {
+          customHero = parts[1];
+          htmlBody = parts.slice(2).join('|');
+        } else if (parts.length >= 2) {
+          htmlBody = parts.slice(1).join('|');
+        } else {
+          htmlBody = parts[0] || '';
+        }
+
         const defaultTitle = '윤리 강령';
         const defaultIntroParas = [
           '다산제약은 인류의 건강 증진이라는 숭고한 사명을 가지고 있습니다. 이 중요한 사명을 수행함에 있어, 우리는 글로벌 최고 수준의 윤리 의식과 투명한 경영이 무엇보다 중요하다고 믿습니다.',
@@ -1369,7 +1416,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
         return (
           <>
             {/* 윤리강령 상단 배너 배치 */}
-            <ScrollEthicsImage lang="ko" />
+            <ScrollEthicsImage lang="ko" imageUrl={customHero} />
 
             <div className="space-y-16 animate-fade-in-up mt-16">
               <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
@@ -1428,26 +1475,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
       }
 
       case '/about/esg/anti-corruption': {
-        const defaultTitle = '부패방지 방침';
-        const defaultIntro = '다산제약은 제제기술 연구와 우수한 의약품 생산을 통해 인류의 건강과 행복에 기여하고, 사업추진에 있어 투명한 절차와 신뢰를 바탕으로 업무를 처리하기 위하여 부패방지경영시스템을 도입하며, 모든 임직원은 부패방지 방침을 인식하고 다음 사항을 준수한다.';
-
-        const defaultItems = [
-          '부패방지경영시스템 구축과 당사 윤리경영의 추진은 본 방침을 토대로 하며, 당사의 모든 업무는 본 방침에 적합하여야 한다.',
-          '부정청탁 및 금품 등 수수를 포함한 모든 부패 행위를 금지한다.',
-          '부패방지를 위한 모든 법규, 내부규정 및 관련 국제표준을 철저히 준수한다.',
-          '부패가능성 및 부패 행위에 대하여 즉시 신고하며, 이에 대한 기밀 준수와 그로 인한 보복이나 인사상의 피해가 발생하지 않도록 한다.',
-          '본 방침은 적절한 언어로 의사소통 되고 모든 이해관계자가 인식할 수 있도록 전파 및 공유한다.',
-          '본 방침 달성을 위하여 부패방지 목표를 수립하고 지속적으로 개선한다.',
-          '부패방지 책임자는 부패 및 뇌물수수 방지와 관련된 독립적인 책임과 권한을 부여받으며, 당사 부패방지 업무에 대한 신뢰를 제고한다.',
-          '본 방침을 위반하거나 위반을 발견하고도 합리적인 조치를 취하지 않은 경우 당사 규정에 따라 징계조치를 취할 수 있다.'
-        ];
-
-        const defaultDate = '2025년 03월 04일';
+        const esg = parseEsgData(dbContent, 'about/esg/anti-corruption');
 
         return (
           <>
             {/* 부패방지방침 상단 배너 배치 */}
-            <ScrollAntiCorruptionImage lang="ko" />
+            <ScrollAntiCorruptionImage lang="ko" imageUrl={esg.imageUrl} />
 
             <div className="space-y-16 animate-fade-in-up mt-16">
               <div className="animate-fade-in-up bg-white p-6 sm:p-10 md:p-14 rounded-3xl font-pretendard">
@@ -1456,14 +1489,14 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   {/* Intro Statement */}
                   <div className="text-base sm:text-lg text-gray-700 leading-[1.75] font-normal break-keep tracking-[-0.015em]">
                     <p>
-                      {defaultIntro}
+                      {esg.statement}
                     </p>
                   </div>
                 </div>
 
                 {/* 8 Action Items */}
                 <div className="max-w-4xl mx-auto mt-8 sm:mt-10 divide-y divide-gray-100 border-t border-b border-gray-100">
-                  {defaultItems.map((item, idx) => (
+                  {esg.items.map((item: string, idx: number) => (
                     <div 
                       key={idx} 
                       className="flex items-start space-x-4 py-4.5 sm:py-5 group"
@@ -1481,15 +1514,15 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 {/* Formal Footer Sign-off Block */}
                 <div className="max-w-4xl mx-auto mt-8 sm:mt-10 pt-8 sm:pt-10 text-center space-y-4">
                   <p className="text-sm sm:text-base font-semibold text-gray-400 tracking-wider">
-                    {defaultDate}
+                    {esg.date}
                   </p>
                   
                   <div className="space-y-1.5">
                     <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
-                      주식회사 다산제약
+                      {esg.signerCompany}
                     </p>
                     <p className="text-base sm:text-lg font-bold text-gray-800">
-                      대표이사 <span className="font-black text-gray-900 ml-1">류 형 선</span>
+                      대표이사 <span className="font-black text-gray-900 ml-1">{esg.signerName}</span>
                     </p>
                   </div>
                 </div>

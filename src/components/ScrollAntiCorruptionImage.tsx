@@ -5,9 +5,10 @@ import Image from 'next/image';
 
 interface Props {
   lang?: 'ko' | 'en';
+  imageUrl?: string;
 }
 
-export default function ScrollAntiCorruptionImage({ lang = 'ko' }: Props) {
+export default function ScrollAntiCorruptionImage({ lang = 'ko', imageUrl }: Props) {
   const isEn = lang === 'en';
 
   return (
@@ -21,7 +22,7 @@ export default function ScrollAntiCorruptionImage({ lang = 'ko' }: Props) {
       >
         {/* Anti-Corruption Banner Photo */}
         <Image
-          src="/images/anticorruption_banner.png"
+          src={imageUrl || "/images/anticorruption_banner.png"}
           alt={isEn ? "Dasan Pharmaceutical's Anti-Corruption Policy" : "다산제약 부패방지방침"}
           fill
           priority

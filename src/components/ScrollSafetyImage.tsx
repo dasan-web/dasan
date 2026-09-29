@@ -5,9 +5,10 @@ import Image from 'next/image';
 
 interface Props {
   lang?: 'ko' | 'en';
+  imageUrl?: string;
 }
 
-export default function ScrollSafetyImage({ lang = 'ko' }: Props) {
+export default function ScrollSafetyImage({ lang = 'ko', imageUrl }: Props) {
   const isEn = lang === 'en';
 
   return (
@@ -21,7 +22,7 @@ export default function ScrollSafetyImage({ lang = 'ko' }: Props) {
       >
         {/* Safety Banner Photo */}
         <Image
-          src="/images/safety_banner.jpg"
+          src={imageUrl || "/images/safety_banner.jpg"}
           alt={isEn ? "Dasan Pharmaceutical's Health & Safety Policy" : "다산제약 안전보건경영방침"}
           fill
           priority

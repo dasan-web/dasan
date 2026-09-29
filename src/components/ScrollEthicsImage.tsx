@@ -5,9 +5,10 @@ import Image from 'next/image';
 
 interface Props {
   lang?: 'ko' | 'en';
+  imageUrl?: string;
 }
 
-export default function ScrollEthicsImage({ lang = 'ko' }: Props) {
+export default function ScrollEthicsImage({ lang = 'ko', imageUrl }: Props) {
   const isEn = lang === 'en';
 
   return (
@@ -21,7 +22,7 @@ export default function ScrollEthicsImage({ lang = 'ko' }: Props) {
       >
         {/* Code of Ethics Banner Photo */}
         <Image
-          src="/images/ethics_banner.jpg"
+          src={imageUrl || "/images/ethics_banner.jpg"}
           alt={isEn ? "Dasan Pharmaceutical's Code of Ethics" : "다산제약 윤리강령"}
           fill
           priority

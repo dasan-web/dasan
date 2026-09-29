@@ -5,9 +5,10 @@ import Image from 'next/image';
 
 interface Props {
   lang?: 'ko' | 'en';
+  imageUrl?: string;
 }
 
-export default function ScrollEnvironmentImage({ lang = 'ko' }: Props) {
+export default function ScrollEnvironmentImage({ lang = 'ko', imageUrl }: Props) {
   const isEn = lang === 'en';
 
   return (
@@ -21,7 +22,7 @@ export default function ScrollEnvironmentImage({ lang = 'ko' }: Props) {
       >
         {/* Environment Banner Photo */}
         <Image
-          src="/images/environment_banner.png"
+          src={imageUrl || "/images/environment_banner.png"}
           alt={isEn ? "Dasan Pharmaceutical's Environmental Management Policy" : "다산제약 환경경영방침"}
           fill
           priority

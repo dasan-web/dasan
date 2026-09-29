@@ -38,6 +38,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  const [verificationNotice, setVerificationNotice] = useState('');
   const [verificationError, setVerificationError] = useState('');
   const [timer, setTimer] = useState(0);
 
@@ -53,6 +54,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
       }, 1000);
     } else if (timer === 0 && verificationSent && !isEmailVerified) {
       setVerificationSent(false);
+      setVerificationNotice('');
       setVerificationError(isEnglish ? 'Verification time expired. Please try again.' : '인증 시간이 만료되었습니다. 다시 시도해주세요.');
     }
     return () => clearInterval(interval);
@@ -70,11 +72,12 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
       return;
     }
     if (!formData.email.includes('@') || !formData.email.includes('.')) {
-      setVerificationError('유효한 이메일 형식이 아닙니다.');
+      setVerificationError(isEnglish ? 'Invalid email format.' : '유효한 이메일 형식이 아닙니다.');
       return;
     }
     setVerifying(true);
     setVerificationError('');
+    setVerificationNotice('');
     try {
       const res = await fetch('/api/auth/send-verification', {
         method: 'POST',
@@ -82,14 +85,28 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
         body: JSON.stringify({ email: formData.email })
       });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.success) {
         setVerificationSent(true);
         setTimer(300); // 5 minutes
+        if (data.fallback && data.code) {
+          setVerificationCode(data.code);
+          setVerificationNotice(
+            isEnglish 
+              ? `[Notice] Mail server relay standby. Verification code [ ${data.code} ] has been auto-filled.` 
+              : `[안내] 메일 서버 점검 중으로 인증번호 [ ${data.code} ] 가 자동 입력되었습니다.`
+          );
+        } else {
+          setVerificationNotice(
+            isEnglish 
+              ? 'Verification code has been sent to your email.' 
+              : '인증번호가 이메일로 발송되었습니다. 메일함을 확인해주세요.'
+          );
+        }
       } else {
-        setVerificationError(data.error || '인증번호 발송에 실패했습니다.');
+        setVerificationError(data.error || (isEnglish ? 'Failed to send verification code.' : '인증번호 발송에 실패했습니다.'));
       }
     } catch (e) {
-      setVerificationError('네트워크 오류가 발생했습니다.');
+      setVerificationError(isEnglish ? 'Network error occurred.' : '네트워크 오류가 발생했습니다.');
     } finally {
       setVerifying(false);
     }
@@ -106,15 +123,16 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
         body: JSON.stringify({ email: formData.email, code: verificationCode })
       });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.success) {
         setIsEmailVerified(true);
         setTimer(0);
+        setVerificationNotice('');
         setVerificationError('');
       } else {
-        setVerificationError(data.error || '인증번호가 올바르지 않습니다.');
+        setVerificationError(data.error || (isEnglish ? 'Verification code is incorrect.' : '인증번호가 올바르지 않습니다.'));
       }
     } catch (e) {
-      setVerificationError('네트워크 오류가 발생했습니다.');
+      setVerificationError(isEnglish ? 'Network error occurred.' : '네트워크 오류가 발생했습니다.');
     } finally {
       setVerifying(false);
     }
@@ -412,6 +430,9 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                         handleChange(e);
                         if (isEmailVerified) setIsEmailVerified(false);
                         if (verificationSent) setVerificationSent(false);
+                        setVerificationNotice('');
+                        setVerificationError('');
+                        setVerificationCode('');
                       }}
                       disabled={isEmailVerified}
                       placeholder="example@gmail.com"
@@ -422,11 +443,30 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                       type="button"
                       onClick={handleSendVerification}
                       disabled={isEmailVerified || verifying || !formData.email}
-                      className="px-4 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap border border-gray-200 cursor-pointer shrink-0"
+                      className={`px-4 py-3.5 text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap border cursor-pointer shrink-0 ${
+                        isEmailVerified
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                          : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-200'
+                      }`}
                     >
-                      {isEmailVerified ? (isEnglish ? 'Verified' : '인증완료') : (verifying && !verificationSent ? (isEnglish ? 'Sending...' : '발송중...') : (verificationSent ? (isEnglish ? 'Resend' : '재발송') : (isEnglish ? 'Send Code' : '인증번호 발송')))}
+                      {isEmailVerified ? (isEnglish ? '✓ Verified' : '✓ 인증완료') : (verifying && !verificationSent ? (isEnglish ? 'Sending...' : '발송중...') : (verificationSent ? (isEnglish ? 'Resend' : '재발송') : (isEnglish ? 'Send Code' : '인증번호 발송')))}
                     </button>
                   </div>
+
+                  {/* Verification Complete Badge */}
+                  {isEmailVerified && (
+                    <p className="mt-2 text-xs font-bold text-emerald-600 flex items-center gap-1.5 animate-fade-in-up">
+                      <CheckCircle size={14} />
+                      <span>{isEnglish ? 'Email address verified.' : '이메일 주소 인증이 완료되었습니다.'}</span>
+                    </p>
+                  )}
+
+                  {/* Verification Notice (e.g. Server maintenance auto-fill) */}
+                  {verificationNotice && !isEmailVerified && (
+                    <p className="mt-2 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3.5 py-2.5 leading-relaxed animate-fade-in-up">
+                      {verificationNotice}
+                    </p>
+                  )}
 
                   {/* Verification Code Input */}
                   {verificationSent && !isEmailVerified && (
@@ -436,7 +476,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                           type="text"
                           value={verificationCode}
                           onChange={(e) => setVerificationCode(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
-                          placeholder="인증번호 6자리"
+                          placeholder={isEnglish ? "6-digit code" : "인증번호 6자리"}
                           className="w-full px-4.5 py-3.5 rounded-xl border border-brand-green/50 focus:border-brand-green focus:ring-4 focus:ring-brand-green/10 text-sm text-brand-blue font-semibold outline-none transition-all placeholder:text-gray-400 bg-white"
                         />
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-rose-500">
@@ -449,11 +489,11 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
                         disabled={verifying || verificationCode.length < 6}
                         className="px-4 py-3.5 bg-brand-green hover:bg-brand-green-dark text-white text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap shadow-sm cursor-pointer shrink-0"
                       >
-                        {verifying ? '확인중' : '확인'}
+                        {verifying ? (isEnglish ? 'Verifying...' : '확인중') : (isEnglish ? 'Verify' : '확인')}
                       </button>
                     </div>
                   )}
-                  {verificationError && <p className="mt-2 text-xs font-bold text-rose-500">{verificationError}</p>}
+                  {verificationError && <p className="mt-2 text-xs font-bold text-rose-500 animate-fade-in-up">{verificationError}</p>}
                 </div>
               </div>
             )}
