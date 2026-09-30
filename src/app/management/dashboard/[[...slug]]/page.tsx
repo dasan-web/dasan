@@ -7430,16 +7430,16 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                           </div>
                         ) : (currentSubPath === 'business/api' || currentSubPath === 'business/api/raw' || currentSubPath === 'business/api/intermediates') ? (
                           /* 19. Business API */
-                          <div className="bg-white p-6 sm:p-10 rounded-2xl text-gray-800 space-y-6 shadow-sm border border-gray-150 text-left">
-                            <ApiRawContent dbContent={staticContent} />
+                          <div className="bg-white p-6 sm:p-10 rounded-2xl text-gray-800 space-y-6 shadow-sm border border-gray-150 text-left overflow-hidden">
+                            <ApiRawContent dbContent={staticContent} isPreview={true} />
                           </div>
                         ) : (currentSubPath === 'business/cdmo' ||
                              currentSubPath === 'business/cdmo/quality' || 
                              currentSubPath === 'business/cdmo/advantages' || 
                              currentSubPath === 'business/cdmo/logistics') ? (
                           /* 20. Business CDMO */
-                          <div className="bg-white p-6 sm:p-10 rounded-2xl text-gray-800 space-y-6 shadow-sm border border-gray-150 text-left">
-                            <CdmoContent dbContent={staticContent} />
+                          <div className="bg-white p-6 sm:p-10 rounded-2xl text-gray-800 space-y-6 shadow-sm border border-gray-150 text-left overflow-hidden">
+                            <CdmoContent dbContent={staticContent} isPreview={true} />
                           </div>
                         ) : currentSubPath === 'contact/careers/talent' ? (
                           /* 21. Careers: Talent */

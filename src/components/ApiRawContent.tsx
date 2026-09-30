@@ -15,6 +15,7 @@ import { parseBusinessApiData } from '@/lib/businessApi';
 
 interface ApiRawContentProps {
   dbContent?: string | null;
+  isPreview?: boolean;
 }
 
 const cardMeta = [
@@ -25,7 +26,7 @@ const cardMeta = [
   { icon: Globe2, badgeColor: 'bg-emerald-800 text-white' }
 ];
 
-export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
+export default function ApiRawContent({ dbContent, isPreview = false }: ApiRawContentProps) {
   const [hoveredNum, setHoveredNum] = useState<string | null>(null);
   const data = parseBusinessApiData(dbContent);
 
@@ -61,7 +62,7 @@ export default function ApiRawContent({ dbContent }: ApiRawContentProps) {
 
         {/* Video Banner (API.mp4) with Scroll-Expansion Effect */}
         <div className="w-full pt-2">
-          <ScrollVideo src="/API.mp4?v=2" poster="/poster_api.jpg" />
+          <ScrollVideo src="/API.mp4?v=2" poster="/poster_api.jpg" isPreview={isPreview} />
         </div>
       </section>
 

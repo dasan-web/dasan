@@ -16,9 +16,10 @@ import { parseBusinessCdmoData } from '@/lib/businessCdmo';
 
 interface CdmoContentProps {
   dbContent?: string | null;
+  isPreview?: boolean;
 }
 
-export default function CdmoContent({ dbContent }: CdmoContentProps) {
+export default function CdmoContent({ dbContent, isPreview = false }: CdmoContentProps) {
   const data = parseBusinessCdmoData(dbContent);
 
   const stepIcons = [
@@ -32,7 +33,7 @@ export default function CdmoContent({ dbContent }: CdmoContentProps) {
   return (
     <>
       <div className="mb-12 mt-4">
-        <ScrollVideo src="/CDMO_219.mp4?v=clean" poster="/poster_cdmo.jpg?v=clean" />
+        <ScrollVideo src="/CDMO_219.mp4?v=clean" poster="/poster_cdmo.jpg?v=clean" isPreview={isPreview} />
       </div>
       
       <div className="mt-24 w-full max-w-full mx-auto animate-fade-in-up px-4 md:px-0 pb-20">

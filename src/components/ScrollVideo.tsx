@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
 interface ScrollVideoProps {
   src?: string;
@@ -9,6 +10,7 @@ interface ScrollVideoProps {
   unexpandedHeight?: number;
   borderRadius?: string;
   className?: string;
+  isPreview?: boolean;
 }
 
 export default function ScrollVideo({
@@ -17,7 +19,30 @@ export default function ScrollVideo({
   unexpandedHeight = 500,
   borderRadius = '2rem',
   className = '',
+  isPreview = false,
 }: ScrollVideoProps = {}) {
+  const pathname = usePathname();
+  const isManagement = pathname?.includes('/management');
+  const disabled = isPreview || isManagement;
+
+  // 관리자 대시보드 미리보기 또는 isPreview 상태에서는 전체화면 확장을 비활성화하고 카드 내부에 고정
+  if (disabled) {
+    return (
+      <div className={`w-full rounded-2xl overflow-hidden shadow-sm bg-black border border-gray-200 relative aspect-video ${className}`}>
+        <video 
+          className="w-full h-full object-cover" 
+          src={src} 
+          poster={poster}
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          preload="auto"
+        />
+      </div>
+    );
+  }
+
   const triggerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [offsetLeft, setOffsetLeft] = useState(0);
