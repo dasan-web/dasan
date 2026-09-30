@@ -102,8 +102,8 @@ const locations: LocationInfo[] = [
     address: 'Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179',
     tel: '',
     subway: [
-      '심양 트램 1·2호선 궈지롼젠위안(国际软件园, Shenyang Int’l Software Park)역 하차',
-      '심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 차량/택시 이동'
+      '심양 트램 1·2호선 궈지롼젠위안(国际软件园)역 하차',
+      '심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 택시 이동'
     ],
     bus: [
       '선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용',
@@ -281,7 +281,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
         placeName: lines[35] || '다산제약 중국 선양연구소',
         address: lines[36] || 'Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179',
         tel: (lines[37] && lines[37] !== '-') ? lines[37] : '',
-        subway: (lines[38] || '심양 트램 1·2호선 궈지롼젠위안(国际软件园, Shenyang Int’l Software Park)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 차량/택시 이동').split('|').filter(Boolean),
+        subway: (lines[38] || '심양 트램 1·2호선 궈지롼젠위안(国际软件园)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 택시 이동').split('|').filter(Boolean),
         bus: (lines[39] || '선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용|상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차').split('|').filter(Boolean),
       }
     ];
@@ -382,12 +382,12 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
         {/* Transportation Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-gray-600 pt-2">
           {/* Subway Section */}
-          <div className="p-5 bg-[#FAFBFB] border border-gray-200 rounded-2xl space-y-3">
+          <div className="p-4.5 sm:p-5 bg-[#FAFBFB] border border-gray-200 rounded-2xl space-y-3">
             <div className="flex items-center space-x-2 text-brand-green font-bold">
               <Train size={18} />
               <h5 className="text-brand-blue text-sm font-extrabold">{isEnglish ? "By Subway/Train" : "지하철/철도 이용 시"}</h5>
             </div>
-            <ul className="space-y-1.5 pl-6 list-disc text-gray-600 font-semibold">
+            <ul className="space-y-1.5 pl-4.5 sm:pl-5 list-disc text-gray-600 font-semibold break-keep">
               {activeLoc.subway.map((item, idx) => (
                 <li key={idx} className="leading-relaxed">{item}</li>
               ))}
@@ -395,12 +395,12 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
           </div>
 
           {/* Bus Section */}
-          <div className="p-5 bg-[#FAFBFB] border border-gray-200 rounded-2xl space-y-3">
+          <div className="p-4.5 sm:p-5 bg-[#FAFBFB] border border-gray-200 rounded-2xl space-y-3">
             <div className="flex items-center space-x-2 text-brand-green font-bold">
               <BusFront size={18} />
               <h5 className="text-brand-blue text-sm font-extrabold">{isEnglish ? "By Bus" : "버스 이용 시"}</h5>
             </div>
-            <ul className="space-y-1.5 pl-6 list-disc text-gray-600 font-semibold">
+            <ul className="space-y-1.5 pl-4.5 sm:pl-5 list-disc text-gray-600 font-semibold break-keep">
               {activeLoc.bus.map((item, idx) => (
                 <li key={idx} className="leading-relaxed">{item}</li>
               ))}
