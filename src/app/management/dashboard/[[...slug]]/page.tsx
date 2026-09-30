@@ -124,16 +124,19 @@ let cachedSidebarOpenKeys: { [key: string]: boolean } | null = null;
 export default function AdminDashboardPage() {
   const router = useRouter();
   const params = useParams();
-  const slugArray = (params.slug as string[]) || [];
-  const initialSubPath = slugArray.length > 0 ? slugArray.join('/') : '';
-  const [currentSubPath, setCurrentSubPath] = useState<string>(initialSubPath);
+  const slugParam = params?.slug;
+  const routeSubPath = useMemo(() => {
+    if (!slugParam) return '';
+    if (Array.isArray(slugParam)) return slugParam.join('/');
+    return String(slugParam);
+  }, [slugParam]);
+  const initialSubPath = routeSubPath;
+  const [currentSubPath, setCurrentSubPath] = useState<string>(routeSubPath);
 
-  // Sync state if params.slug changes (e.g. browser navigation or external link)
+  // Sync state if route changes (e.g. browser navigation or external link)
   useEffect(() => {
-    const slug = (params.slug as string[]) || [];
-    const p = slug.length > 0 ? slug.join('/') : '';
-    setCurrentSubPath(p);
-  }, [params.slug]);
+    setCurrentSubPath(routeSubPath);
+  }, [routeSubPath]);
 
   // Handle browser back/forward buttons seamlessly
   useEffect(() => {
@@ -154,9 +157,9 @@ export default function AdminDashboardPage() {
     setCurrentSubPath(cleanSubPath);
     const targetUrl = cleanSubPath ? `/management/dashboard/${cleanSubPath}` : '/management/dashboard';
     if (replace) {
-      window.history.replaceState(null, '', targetUrl);
+      router.replace(targetUrl, { scroll: false });
     } else {
-      window.history.pushState(null, '', targetUrl);
+      router.push(targetUrl, { scroll: false });
     }
   };
 
@@ -455,8 +458,6 @@ export default function AdminDashboardPage() {
         return updated;
       });
     }
-
-    const fullPath = `/${slugArray.join('/')}`;
 
     // Decide what to fetch
     if (currentSubPath === 'rd/pipeline') {
