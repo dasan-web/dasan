@@ -299,17 +299,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
 
             <div>
-              {/* Header: Index & Category Badge */}
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-black tracking-widest text-slate-300 group-hover:text-emerald-600 transition-colors duration-300">
-                  01
-                </span>
-                <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200/70 uppercase tracking-wider">
-                  Environment
-                </span>
-              </div>
-
-              {/* Blue Box Icon: Globe2 */}
+              {/* Box Icon: Globe2 */}
               <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-emerald-700 mb-5 shadow-2xs">
                 <Globe2 className="w-7 h-7" />
               </div>
@@ -338,17 +328,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-sky-500/5 group-hover:bg-sky-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
 
             <div>
-              {/* Header: Index & Category Badge */}
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-black tracking-widest text-slate-300 group-hover:text-sky-600 transition-colors duration-300">
-                  02
-                </span>
-                <span className="text-[11px] font-bold text-sky-800 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200/70 uppercase tracking-wider">
-                  Health &amp; Safety
-                </span>
-              </div>
-
-              {/* Blue Box Icon: ShieldCheck */}
+              {/* Box Icon: ShieldCheck */}
               <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-sky-700 mb-5 shadow-2xs">
                 <ShieldCheck className="w-7 h-7" />
               </div>
@@ -378,17 +358,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-amber-500/5 group-hover:bg-amber-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
 
             <div>
-              {/* Header: Index & Category Badge */}
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-black tracking-widest text-slate-300 group-hover:text-amber-600 transition-colors duration-300">
-                  03
-                </span>
-                <span className="text-[11px] font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/70 uppercase tracking-wider">
-                  Integrity &amp; Ethics
-                </span>
-              </div>
-
-              {/* Blue Box Icon: ShieldAlert */}
+              {/* Box Icon: ShieldAlert */}
               <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-amber-700 mb-5 shadow-2xs">
                 <ShieldAlert className="w-7 h-7" />
               </div>
@@ -418,17 +388,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
 
             <div>
-              {/* Header: Index & Category Badge */}
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-black tracking-widest text-slate-300 group-hover:text-indigo-600 transition-colors duration-300">
-                  04
-                </span>
-                <span className="text-[11px] font-bold text-indigo-800 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-200/70 uppercase tracking-wider">
-                  Governance
-                </span>
-              </div>
-
-              {/* Blue Box Icon: Award */}
+              {/* Box Icon: Award */}
               <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-indigo-700 mb-5 shadow-2xs">
                 <Award className="w-7 h-7" />
               </div>
