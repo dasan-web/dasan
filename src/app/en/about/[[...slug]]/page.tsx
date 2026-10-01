@@ -1219,17 +1219,24 @@ export default async function AboutCatchAllPage({ params }: Params) {
         );
       }
 
-      case '/about/esg/ethics':
+      case '/about/esg/ethics': {
+        const parts = (dbContent || '').split('|');
+        let customHeroImage: string | undefined = undefined;
+        if (parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'))) {
+          customHeroImage = parts[1];
+        }
+
         return (
           <>
             {/* 기업 개요와 동일한 크기 및 스크롤 확장 효과를 제공하는 Promise.png 이미지 */}
-            <ScrollPromiseImage lang="en" />
+            <ScrollPromiseImage lang="en" imageUrl={customHeroImage} />
 
             <div className="space-y-16 animate-fade-in-up mt-16">
               <ESGEthicsSection lang="en" />
             </div>
           </>
         );
+      }
       case '/about/esg/environment':
         return (
           <>

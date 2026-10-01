@@ -27,6 +27,7 @@ import { parseRdIntroData, serializeRdIntroData, DEFAULT_RD_INTRO_DATA, RdIntroD
 import { parseRdActivitiesData, serializeRdActivitiesData, DEFAULT_RD_ACTIVITIES_DATA, RdActivitiesData } from '@/lib/rdActivities';
 import ApiRawContent from '@/components/ApiRawContent';
 import CdmoContent from '@/components/CdmoContent';
+import ESGEthicsSection from '@/components/ESGEthicsSection';
 import { parseBusinessApiData, serializeBusinessApiData, DEFAULT_BUSINESS_API_DATA, BusinessApiData } from '@/lib/businessApi';
 import { parseBusinessCdmoData, serializeBusinessCdmoData, DEFAULT_BUSINESS_CDMO_DATA, BusinessCdmoData } from '@/lib/businessCdmo';
 
@@ -3429,45 +3430,59 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                 </div>
                               );
                             })()}
-                            <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">제목 (Title)</label>
-                              <input
-                                type="text"
-                                value={staticContent.split('|')[0] || ''}
-                                onChange={(e) => {
-                                  const parts = (staticContent || '').split('|');
-                                  const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
-                                  if (hasImg) {
-                                    parts[0] = e.target.value;
-                                    setStaticContent(parts.join('|'));
-                                  } else {
-                                    if (parts.length < 2) parts.push('');
-                                    parts[0] = e.target.value;
-                                    setStaticContent(parts.join('|'));
-                                  }
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 focus:border-brand-green focus:bg-white/[0.07] focus:shadow-md focus:shadow-brand-green/5 transition-all"
-                                placeholder="제목을 입력하세요 (줄바꿈이 필요한 경우 \n 입력)."
-                              />
-                            </div>
-                            <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">내용 (Content)</label>
-                              <div className="min-h-[150px] bg-white text-gray-900 rounded-xl overflow-hidden border border-white/10">
-                                <RichTextEditor
-                                  value={staticContent.split('|').slice(1).join('|') || ''}
-                                  onChange={(value) => {
-                                    const parts = (staticContent || '').split('|');
-                                    const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
-                                    if (hasImg) {
-                                      setStaticContent((parts[0] || '') + '|' + parts[1] + '|' + value);
-                                    } else {
-                                      setStaticContent((parts[0] || '') + '|' + value);
-                                    }
-                                  }}
-                                  placeholder="내용을 입력하세요."
-                                />
+                            {currentSubPath === 'about/esg/ethics' ? (
+                              <div className="bg-brand-green/10 border border-brand-green/20 rounded-xl p-4 text-xs text-gray-300 space-y-2">
+                                <div className="flex items-center gap-1.5 font-bold text-brand-green">
+                                  <Sparkles size={14} />
+                                  <span>ESG 지속가능경영 고도화 디자인 적용 페이지</span>
+                                </div>
+                                <p className="leading-relaxed text-gray-400">
+                                  지속가능경영 페이지는 상단 대표 비주얼 사진과 함께 친환경(E), 사회적 책임(S), 정도경영(G)의 대형 쇼케이스 카드 및 공인 인증(ISO 14001, ISO 45001, ISO 37001, K-ESG) 규격이 체계적으로 자동 구성되어 제공됩니다. 상단 사진 변경 시 사용자 페이지와 우측 실시간 미리보기에 즉시 반영됩니다.
+                                </p>
                               </div>
-                            </div>
+                            ) : (
+                              <>
+                                <div className="space-y-1">
+                                  <label className="text-[11px] font-bold text-gray-400 block">제목 (Title)</label>
+                                  <input
+                                    type="text"
+                                    value={staticContent.split('|')[0] || ''}
+                                    onChange={(e) => {
+                                      const parts = (staticContent || '').split('|');
+                                      const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
+                                      if (hasImg) {
+                                        parts[0] = e.target.value;
+                                        setStaticContent(parts.join('|'));
+                                      } else {
+                                        if (parts.length < 2) parts.push('');
+                                        parts[0] = e.target.value;
+                                        setStaticContent(parts.join('|'));
+                                      }
+                                    }}
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 focus:border-brand-green focus:bg-white/[0.07] focus:shadow-md focus:shadow-brand-green/5 transition-all"
+                                    placeholder="제목을 입력하세요 (줄바꿈이 필요한 경우 \n 입력)."
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-[11px] font-bold text-gray-400 block">내용 (Content)</label>
+                                  <div className="min-h-[150px] bg-white text-gray-900 rounded-xl overflow-hidden border border-white/10">
+                                    <RichTextEditor
+                                      value={staticContent.split('|').slice(1).join('|') || ''}
+                                      onChange={(value) => {
+                                        const parts = (staticContent || '').split('|');
+                                        const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
+                                        if (hasImg) {
+                                          setStaticContent((parts[0] || '') + '|' + parts[1] + '|' + value);
+                                        } else {
+                                          setStaticContent((parts[0] || '') + '|' + value);
+                                        }
+                                      }}
+                                      placeholder="내용을 입력하세요."
+                                    />
+                                  </div>
+                                </div>
+                              </>
+                            )}
                           </div>
                         )}
 
@@ -7054,7 +7069,6 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                               const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
                               const title = parts[0] || '지속가능경영 (ESG Management)';
                               const heroImage = hasImg ? parts[1] : '/images/ESG.jpg';
-                              const htmlBody = hasImg ? parts.slice(2).join('|') : parts.slice(1).join('|');
                               return (
                                 <div className="space-y-6">
                                   <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
@@ -7067,19 +7081,9 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                   <div className="relative aspect-[21/8] rounded-xl overflow-hidden shadow-sm bg-slate-900">
                                     <img src={heroImage} alt="ESG Hero Banner" className="w-full h-full object-cover object-center" />
                                   </div>
-                                  {/* Rich Content: if HTML, render via dangerouslySetInnerHTML so tags like <div style="..."> render properly! */}
-                                  {htmlBody && (htmlBody.includes('<p') || htmlBody.includes('<h') || htmlBody.includes('<div') || htmlBody.includes('<ul')) ? (
-                                    <div 
-                                      className="prose prose-sm max-w-none text-gray-800 leading-relaxed [&_h3]:text-base sm:[&_h3]:text-lg [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:mt-6 [&_h3]:mb-3 [&_h4]:text-sm sm:[&_h4]:text-base [&_h4]:font-bold [&_h4]:text-gray-800 [&_h4]:mt-4 [&_h4]:mb-2 [&_p]:text-xs sm:[&_p]:text-[13px] [&_p]:text-gray-600 [&_p]:leading-[1.8] [&_ul]:list-none [&_ul]:p-0"
-                                      dangerouslySetInnerHTML={{ __html: htmlBody }}
-                                    />
-                                  ) : (
-                                    <div className="space-y-4">
-                                      {(htmlBody || '').split('\n\n').map((para: string, i: number) => (
-                                        <p key={i} className="text-xs sm:text-[13px] text-gray-700 leading-relaxed whitespace-pre-wrap">{para}</p>
-                                      ))}
-                                    </div>
-                                  )}
+                                  <div className="pt-2">
+                                    <ESGEthicsSection lang="ko" />
+                                  </div>
                                 </div>
                               );
                             })()}
