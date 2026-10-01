@@ -1493,7 +1493,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   
                   <div className="space-y-1.5">
                     <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
-                      CEO & President, Dasan Pharmaceutical Co., Ltd.
+                      Dasan Pharmaceutical Co., Ltd.
+                    </p>
+                    <p className="text-base sm:text-lg font-bold text-gray-800">
+                      CEO &amp; President <span className="font-black text-gray-900 ml-1">Hyoung-seon Ryu</span>
                     </p>
                   </div>
                 </div>

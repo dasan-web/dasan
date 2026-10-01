@@ -1453,7 +1453,10 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   
                   <div className="space-y-1.5">
                     <p className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">
-                      주식회사 다산제약 대표이사
+                      주식회사 다산제약
+                    </p>
+                    <p className="text-base sm:text-lg font-bold text-gray-800">
+                      대표이사 <span className="font-black text-gray-900 ml-1">류 형 선</span>
                     </p>
                   </div>
                 </div>
