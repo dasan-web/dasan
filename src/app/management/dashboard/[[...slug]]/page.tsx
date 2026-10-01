@@ -121,29 +121,30 @@ R&D 투자액 | 9,500 | 12,000 | 13,500
 let cachedUser: { username: string; name: string; role: string } | null = null;
 let cachedAuthChecked = false;
 let cachedSidebarOpenKeys: { [key: string]: boolean } | null = null;
+const staticContentCache = new Map<string, string>();
 
 export default function AdminDashboardPage() {
   const router = useRouter();
   const params = useParams();
-  const slugParam = params?.slug;
-  const routeSubPath = useMemo(() => {
-    if (!slugParam) return '';
-    if (Array.isArray(slugParam)) return slugParam.join('/');
-    return String(slugParam);
-  }, [slugParam]);
-  const initialSubPath = routeSubPath;
-  const [currentSubPath, setCurrentSubPath] = useState<string>(routeSubPath);
 
-  // Sync state if route changes (e.g. browser navigation or external link)
-  useEffect(() => {
-    setCurrentSubPath(routeSubPath);
-  }, [routeSubPath]);
+  // Instant client-side subpath resolution without server routing flashes
+  const initialSubPath = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      const pathname = window.location.pathname;
+      return pathname.replace(/^\/management\/dashboard\/?/, '').replace(/^\//, '');
+    }
+    const slugParam = params?.slug;
+    if (Array.isArray(slugParam)) return slugParam.join('/');
+    return slugParam ? String(slugParam) : '';
+  }, []);
+
+  const [currentSubPath, setCurrentSubPath] = useState<string>(initialSubPath);
 
   // Handle browser back/forward buttons seamlessly
   useEffect(() => {
     const handlePopState = () => {
       const pathname = window.location.pathname;
-      const stripped = pathname.replace(/^\/management\/dashboard\/?/, '');
+      const stripped = pathname.replace(/^\/management\/dashboard\/?/, '').replace(/^\//, '');
       setCurrentSubPath(stripped);
     };
     window.addEventListener('popstate', handlePopState);
@@ -158,9 +159,9 @@ export default function AdminDashboardPage() {
     setCurrentSubPath(cleanSubPath);
     const targetUrl = cleanSubPath ? `/management/dashboard/${cleanSubPath}` : '/management/dashboard';
     if (replace) {
-      router.replace(targetUrl, { scroll: false });
+      window.history.replaceState(null, '', targetUrl);
     } else {
-      router.push(targetUrl, { scroll: false });
+      window.history.pushState(null, '', targetUrl);
     }
   };
 
@@ -608,7 +609,9 @@ export default function AdminDashboardPage() {
   };
 
   const fetchStaticContent = async (key: string) => {
-    setLoadingData(true);
+    if (staticContentCache.has(key)) {
+      setStaticContent(staticContentCache.get(key)!);
+    }
     try {
       const res = await fetch(`/api/management/contents?page_key=${key}`, { cache: 'no-store' });
       if (res.ok) {
@@ -822,6 +825,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
         } else if (key === 'contact/careers/process') {
           contentVal = serializeCareerProcessData(DEFAULT_CAREER_PROCESS_DATA);
         }
+        staticContentCache.set(key, contentVal);
         setStaticContent(contentVal);
         setIsHidden(false);
       }
@@ -2006,13 +2010,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
           </div>
 
           {/* 3. Panel Switcher based on currentSubPath */}
-          <div className={`w-full relative transition-opacity duration-150 ${loadingData ? 'opacity-60 pointer-events-none' : 'opacity-100'}`}>
-            {loadingData && (
-              <div className="absolute top-0 right-0 z-30 flex items-center space-x-2 bg-[#0a1120]/90 border border-brand-green/30 text-brand-green px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-md animate-pulse">
-                <span className="w-2 h-2 rounded-full bg-brand-green animate-ping" />
-                <span>데이터 불러오는 중...</span>
-              </div>
-            )}
+          <div className="w-full relative">
               
               {/* Case A: Products Manager */}
               {currentSubPath === 'business/finished/search' && (
@@ -2634,7 +2632,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                     </div>
 
                     {selectedInquiry ? (
-                      <div className="space-y-4 animate-fade-in-up">
+                      <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-3 text-xs bg-white/5 p-3.5 rounded-lg border border-white/10 font-semibold">
                           <div>
                             <span className="text-[10px] text-gray-400 uppercase block">작성자</span>
@@ -7530,7 +7528,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
 
               {/* Case F: SEO Settings CMS Editor */}
               {currentSubPath === 'seo-settings' && (
-                <div className="space-y-6 animate-fade-in-up">
+                <div className="space-y-6">
                   {/* Sub-tabs for SEO pages */}
                   <div className="flex flex-wrap gap-2 pb-4 border-b border-white/10">
                     {[
@@ -7706,7 +7704,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
               )}
               {/* Case G: Admin Users Management (Super Admin Only) */}
               {currentSubPath === 'admin-users' && currentUser?.role === 'super_admin' && (
-                <div className="space-y-6 animate-fade-in-up">
+                <div className="space-y-6">
                   <div className="flex items-center justify-between pb-4 border-b border-white/10">
                     <h3 className="text-sm font-extrabold text-white">
                       등록된 관리자 계정 목록
@@ -7799,7 +7797,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
 
               {/* Case Backup: Backup Settings (Super Admin Only) */}
               {currentSubPath === 'backup-settings' && currentUser?.role === 'super_admin' && (
-                <div className="space-y-6 animate-fade-in-up">
+                <div className="space-y-6">
                   <div className="flex items-center justify-between pb-4 border-b border-white/10">
                     <h3 className="text-sm font-extrabold text-white">
                       데이터베이스 및 첨부파일 백업
@@ -7880,7 +7878,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
 
               {/* Case H: Popups Management */}
               {currentSubPath === 'popups' && (
-                <div className="space-y-6 animate-fade-in-up">
+                <div className="space-y-6">
                   <div className="flex items-center justify-between pb-4 border-b border-white/10">
                     <h3 className="text-sm font-extrabold text-white">
                       팝업 관리
@@ -8012,7 +8010,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
 
               {/* Case Landing: Dashboard Summary Overview */}
               {currentSubPath === '' && (
-                <div className="space-y-8 animate-fade-in-up">
+                <div className="space-y-8">
                   {/* Stats Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-5 shadow-sm space-y-2">
