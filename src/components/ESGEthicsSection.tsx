@@ -310,7 +310,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               </div>
 
               {/* Blue Box Icon: Globe2 */}
-              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 group-hover:scale-105 transition-all duration-300 mb-5 shadow-2xs">
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-emerald-700 mb-5 shadow-2xs">
                 <Globe2 className="w-7 h-7" />
               </div>
 
@@ -349,7 +349,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               </div>
 
               {/* Blue Box Icon: ShieldCheck */}
-              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-sky-700 group-hover:bg-sky-600 group-hover:text-white group-hover:border-sky-600 group-hover:scale-105 transition-all duration-300 mb-5 shadow-2xs">
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-sky-700 mb-5 shadow-2xs">
                 <ShieldCheck className="w-7 h-7" />
               </div>
 
@@ -389,7 +389,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               </div>
 
               {/* Blue Box Icon: ShieldAlert */}
-              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-amber-700 group-hover:bg-amber-600 group-hover:text-white group-hover:border-amber-600 group-hover:scale-105 transition-all duration-300 mb-5 shadow-2xs">
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-amber-700 mb-5 shadow-2xs">
                 <ShieldAlert className="w-7 h-7" />
               </div>
 
@@ -429,7 +429,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               </div>
 
               {/* Blue Box Icon: Award */}
-              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-600 group-hover:scale-105 transition-all duration-300 mb-5 shadow-2xs">
+              <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-indigo-700 mb-5 shadow-2xs">
                 <Award className="w-7 h-7" />
               </div>
 
