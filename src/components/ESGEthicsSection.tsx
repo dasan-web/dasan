@@ -92,8 +92,8 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
 
                   {/* Action Bullets */}
                   <div className="space-y-3.5">
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed group/item">
-                      <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                      <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
                       <div className="break-keep">
@@ -101,8 +101,8 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed group/item">
-                      <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                      <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
                       <div className="break-keep">
@@ -155,8 +155,8 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
 
                   {/* Action Bullets */}
                   <div className="space-y-3.5">
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed group/item">
-                      <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700 group-hover/item:bg-sky-600 group-hover/item:text-white transition-colors">
+                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                      <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
                       <div className="break-keep">
@@ -164,8 +164,8 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed group/item">
-                      <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700 group-hover/item:bg-sky-600 group-hover/item:text-white transition-colors">
+                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                      <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
                       <div className="break-keep">
@@ -247,8 +247,8 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
 
                   {/* Action Bullets */}
                   <div className="space-y-3.5">
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed group/item">
-                      <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700 group-hover/item:bg-indigo-600 group-hover/item:text-white transition-colors">
+                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                      <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
                       <div className="break-keep">
@@ -256,8 +256,8 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed group/item">
-                      <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700 group-hover/item:bg-indigo-600 group-hover/item:text-white transition-colors">
+                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                      <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                       </div>
                       <div className="break-keep">
