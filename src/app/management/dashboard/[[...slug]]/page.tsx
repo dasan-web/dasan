@@ -2359,7 +2359,18 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                         {jobType}
                                       </span>
                                     </td>
-                                    <td className="px-5 py-4 font-bold text-white">{n.title}</td>
+                                    <td className="px-5 py-4 font-bold text-white">
+                                      {currentUser?.role !== 'viewer' ? (
+                                        <span
+                                          onClick={() => openEditModal(n, 'news')}
+                                          className="cursor-pointer hover:text-brand-green hover:underline transition-colors"
+                                        >
+                                          {n.title}
+                                        </span>
+                                      ) : (
+                                        n.title
+                                      )}
+                                    </td>
                                     <td className="px-5 py-4 text-xs text-gray-400 truncate max-w-[200px]">{jobQual}</td>
                                     <td className="px-5 py-4 font-bold text-rose-500">{jobDead}</td>
                                     <td className="px-5 py-4 font-mono text-gray-500">{n.views}</td>
@@ -2368,7 +2379,10 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                   <>
                                     <td className="px-5 py-4">
                                       {n.file_url ? (
-                                        <div className="w-16 h-11 rounded-lg overflow-hidden border border-white/10 bg-black/40 flex items-center justify-center flex-shrink-0 shadow-sm">
+                                        <div 
+                                          onClick={() => currentUser?.role !== 'viewer' && openEditModal(n, 'news')}
+                                          className="w-16 h-11 rounded-lg overflow-hidden border border-white/10 bg-black/40 flex items-center justify-center flex-shrink-0 shadow-sm cursor-pointer hover:opacity-80 transition-opacity"
+                                        >
                                           {/* eslint-disable-next-line @next/next/no-img-element */}
                                           <img
                                             src={n.file_url}
@@ -2382,7 +2396,18 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                         </div>
                                       )}
                                     </td>
-                                    <td className="px-5 py-4 font-bold text-white">{n.title}</td>
+                                    <td className="px-5 py-4 font-bold text-white">
+                                      {currentUser?.role !== 'viewer' ? (
+                                        <span
+                                          onClick={() => openEditModal(n, 'news')}
+                                          className="cursor-pointer hover:text-brand-green hover:underline transition-colors"
+                                        >
+                                          {n.title}
+                                        </span>
+                                      ) : (
+                                        n.title
+                                      )}
+                                    </td>
                                     <td className="px-5 py-4 font-mono text-gray-500">{n.views}</td>
                                     <td className="px-5 py-4 text-xs text-gray-400">
                                       {new Date(n.created_at).toLocaleDateString()}
@@ -2395,7 +2420,18 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                         {getNewsCategoryLabel(n.category)}
                                       </span>
                                     </td>
-                                    <td className="px-5 py-4 font-bold text-white">{n.title}</td>
+                                    <td className="px-5 py-4 font-bold text-white">
+                                      {currentUser?.role !== 'viewer' ? (
+                                        <span
+                                          onClick={() => openEditModal(n, 'news')}
+                                          className="cursor-pointer hover:text-brand-green hover:underline transition-colors"
+                                        >
+                                          {n.title}
+                                        </span>
+                                      ) : (
+                                        n.title
+                                      )}
+                                    </td>
                                     <td className="px-5 py-4 font-mono text-gray-500">{n.views}</td>
                                     <td className="px-5 py-4 text-xs text-gray-400">
                                       {new Date(n.created_at).toLocaleDateString()}
@@ -7892,7 +7928,28 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                     {p.is_active ? '활성' : '비활성'}
                                   </span>
                                 </td>
-                                <td className="px-5 py-4 font-bold text-white">{p.title}</td>
+                                <td className="px-5 py-4 font-bold text-white">
+                                  <span
+                                    onClick={() => {
+                                      setFormMode('edit');
+                                      setActiveItem(p);
+                                      setPopupTitle(p.title);
+                                      setPopupContent(p.content || '');
+                                      setPopupLinkUrl(p.link_url || '');
+                                      setPopupStartDate(p.start_date ? new Date(p.start_date).toISOString().slice(0, 10) : '');
+                                      setPopupEndDate(p.end_date ? new Date(p.end_date).toISOString().slice(0, 10) : '');
+                                      setPopupIsActive(!!p.is_active);
+                                      setPopupWidth(p.width || 400);
+                                      setPopupHeight(p.height || 400);
+                                      setPopupTop(p.top_pos || 100);
+                                      setPopupLeft(p.left_pos || 100);
+                                      setShowFormModal(true);
+                                    }}
+                                    className="cursor-pointer hover:text-brand-green hover:underline transition-colors"
+                                  >
+                                    {p.title}
+                                  </span>
+                                </td>
                                 <td className="px-5 py-4 text-xs text-gray-400">
                                   {p.start_date ? new Date(p.start_date).toLocaleDateString() : '무기한'} ~ <br/>
                                   {p.end_date ? new Date(p.end_date).toLocaleDateString() : '무기한'}
