@@ -1250,12 +1250,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
       case '/about/esg/ethics': {
         const parts = (dbContent || '').split('|');
         let customHeroImage: string | undefined = undefined;
-        let htmlBody = '';
         if (parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'))) {
           customHeroImage = parts[1];
-          htmlBody = parts.slice(2).join('|');
-        } else if (parts.length >= 2) {
-          htmlBody = parts.slice(1).join('|');
         }
 
         return (
@@ -1264,14 +1260,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             <ScrollPromiseImage lang="ko" imageUrl={customHeroImage} />
 
             <div className="space-y-16 animate-fade-in-up mt-16">
-              {htmlBody && (htmlBody.includes('<h') || htmlBody.includes('<p') || htmlBody.includes('<div')) ? (
-                <div 
-                  className="w-full bg-white font-pretendard text-slate-800"
-                  dangerouslySetInnerHTML={{ __html: htmlBody }}
-                />
-              ) : (
-                <ESGEthicsSection lang="ko" />
-              )}
+              <ESGEthicsSection lang="ko" />
             </div>
           </>
         );
