@@ -204,6 +204,7 @@ export default function AdminDashboardPage() {
   // Static content state
   const [staticContent, setStaticContent] = useState('');
   const [isHidden, setIsHidden] = useState(false);
+  const [isMainProductsHidden, setIsMainProductsHidden] = useState(false);
   const [savingStatic, setSavingStatic] = useState(false);
   const [activeIntroTab, setActiveIntroTab] = useState('about/intro');
   const [activeSeoTab, setActiveSeoTab] = useState('seo/main');
@@ -239,6 +240,7 @@ export default function AdminDashboardPage() {
     const initialKeys: { [key: string]: boolean } = {
       'Company': false,
       'Innovation': false,
+      'Product': false,
       'Business': false,
       'CDMO': false,
       'Connect': false,
@@ -466,6 +468,7 @@ export default function AdminDashboardPage() {
       fetchPipelines();
     } else if (currentSubPath === 'business/finished/search') {
       fetchProducts();
+      fetchMainProductsSetting();
     } else if (
       currentSubPath === 'contact/newsroom/press' ||
       currentSubPath === 'contact/newsroom/media' ||
@@ -487,12 +490,18 @@ export default function AdminDashboardPage() {
       fetchPopups();
     } else if (currentSubPath === 'backup-settings') {
       fetchBackupLogs();
+    } else if (currentSubPath === 'main-settings') {
+      fetchMainProductsSetting();
     } else if (currentSubPath === '') {
       fetchInquiries();
       fetchProducts();
       fetchPipelines();
       fetchDashboardStats();
+      fetchMainProductsSetting();
     } else if (currentSubPath !== '') {
+      if (currentSubPath === 'seo-settings') {
+        fetchMainProductsSetting();
+      }
       // It's a static content page (e.g. about/intro, about/esg/ethics, etc.)
       const keyToLoad = currentSubPath === 'about/intro' 
         ? activeIntroTab 
@@ -731,7 +740,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
       } else {
         let contentVal = '';
         if (key === 'about/greeting') {
-          contentVal = `CEO 메시지 (CEO Message)|<h4><strong>신뢰와 혁신으로 열어가는 더 건강한 미래</strong></h4><p>다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다</p><p>1996년 첫 발을 내딛은 다산제약은 '차별화된 의약품 연구개발'이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다</p><p>우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다</p><p>나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다</p><p>다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 '글로벌 헬스케어 리더'로 끊임없이 도약할 것을 약속드립니다</p><p>새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다</p><p>감사합니다</p>`;
+          contentVal = `CEO 메시지|<h4><strong>신뢰와 혁신으로 열어가는 더 건강한 미래</strong></h4><p>다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다.</p><p>1996년 첫 발을 내딛은 다산제약은 '차별화된 의약품 연구개발'이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다. 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다.</p><p>우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다.</p><p>나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다.</p><p>다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 '글로벌 헬스케어 리더'로 끊임없이 도약할 것을 약속드립니다.</p><p>새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다.</p><p>감사합니다.</p>`;
         } else if (key === 'about/ci') {
           contentVal = `다산제약의 CI는 독자적인 연구 플랫폼과 신약 파이프라인 개발을 향한 끝없는 도전, 그리고 인류의 건강을 최우선으로 생각하는 핵심 이념을 시각적으로 형상화하고 있습니다.
 다산제약의 심볼은 과학과 생명의 조화로운 결합을 나타냅니다. 육각형 구조는 신약 개발 및 연구의 정밀한 화학적 결합과 견고한 기술력을 의미하며, 내부에 배치된 초록 나뭇잎은 인류의 생명 건강 증진과 친환경 미래 생명공학 리더로 성장하겠다는 비전을 상징합니다.
@@ -991,6 +1000,44 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
       alert('저장 중 오류 발생');
     } finally {
       setSavingStatic(false);
+    }
+  };
+
+  // Actions: Main Products Showcase Visibility
+  const fetchMainProductsSetting = async () => {
+    try {
+      const res = await fetch('/api/management/contents?page_key=main/products', { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        setIsMainProductsHidden(data.is_hidden === 1 || data.is_hidden === true);
+      }
+    } catch (err) {
+      console.error('Failed to fetch main/products setting:', err);
+    }
+  };
+
+  const handleToggleMainProducts = async (hidden: boolean) => {
+    setIsMainProductsHidden(hidden);
+    try {
+      const res = await fetch('/api/management/contents', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          page_key: 'main/products', 
+          content: '',
+          is_hidden: hidden ? 1 : 0
+        }),
+      });
+      if (res.ok) {
+        // Success
+      } else {
+        alert('설정 변경에 실패했습니다.');
+        setIsMainProductsHidden(!hidden);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('설정 변경 중 오류 발생');
+      setIsMainProductsHidden(!hidden);
     }
   };
 
@@ -1719,7 +1766,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
             {navigationData
               .map((grand) => {
                 if (currentUser?.username === 'editor3') {
-                  if (grand.name !== 'Business') return null;
+                  if (grand.name !== 'Business' && grand.name !== 'Product') return null;
                   const filteredMajors = grand.majors
                     .filter((major) => major.name === '완제의약품')
                     .map((major) => ({
@@ -1855,6 +1902,17 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                 </button>
 
                 <button
+                  onClick={() => navigateTo('main-settings')}
+                  className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
+                    currentSubPath === 'main-settings'
+                      ? 'bg-gradient-to-r from-brand-green/15 via-brand-green/5 to-transparent text-brand-green border-brand-green font-extrabold pl-4 shadow-[inset_1px_0_10px_rgba(0,212,178,0.05)]'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent pl-3.5'
+                  }`}
+                >
+                  <span>메인페이지 섹션 관리</span>
+                </button>
+
+                <button
                   onClick={() => navigateTo('seo-settings')}
                   className={`w-full text-left py-2 rounded-r-xl text-[11px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer block border-l-[3px] ${
                     currentSubPath === 'seo-settings'
@@ -1920,6 +1978,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
               <h2 className="text-2xl font-black text-white tracking-tight">
                 {currentSubPath === 'seo-settings'
                   ? 'SEO 설정 관리'
+                  : currentSubPath === 'main-settings'
+                  ? '메인페이지 섹션 관리'
                   : currentSubPath === 'popups'
                   ? '팝업 관리'
                   : currentSubPath === 'admin-users'
@@ -2015,6 +2075,46 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
               {/* Case A: Products Manager */}
               {currentSubPath === 'business/finished/search' && (
                 <div className="space-y-4">
+                  {/* 메인페이지 PRODUCT LIST 쇼케이스 섹션 노출 토글 배너 */}
+                  <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${
+                        isMainProductsHidden ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' : 'bg-brand-green/10 border-brand-green/20 text-brand-green'
+                      }`}>
+                        <Sparkles className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-extrabold text-white">메인페이지 PRODUCT LIST 쇼케이스 섹션 노출</span>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                            isMainProductsHidden 
+                              ? 'bg-rose-500/15 text-rose-400 border-rose-500/30' 
+                              : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                          }`}>
+                            {isMainProductsHidden ? '현재 숨김 상태' : '현재 정상 노출 상태'}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-gray-400 mt-0.5">
+                          메인페이지의 '기술과 혁신으로' 인트로 애니메이션 및 대표 완제의약품 쇼케이스(PRODUCT LIST) 섹션의 노출 여부입니다.
+                        </p>
+                      </div>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer select-none shrink-0 self-end sm:self-center">
+                      <input
+                        type="checkbox"
+                        checked={isMainProductsHidden}
+                        onChange={(e) => handleToggleMainProducts(e.target.checked)}
+                        className="sr-only peer"
+                      />
+                      <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-400 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                      <span className={`ml-3 text-[11px] font-black min-w-[65px] ${
+                        isMainProductsHidden ? 'text-amber-400' : 'text-brand-green'
+                      }`}>
+                        {isMainProductsHidden ? '숨김 처리됨' : '정상 노출'}
+                      </span>
+                    </label>
+                  </div>
+
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2">
                     <div className="flex items-center text-white text-sm font-bold">
                       총 제품수: <span className="text-brand-green ml-1">{filteredAdminProducts.length}</span>개
@@ -2727,7 +2827,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                currentSubPath !== 'admin-users' && 
                currentSubPath !== 'popups' && 
                currentSubPath !== 'backup-settings' && 
-               currentSubPath !== 'seo-settings' && (
+               currentSubPath !== 'seo-settings' && 
+               currentSubPath !== 'main-settings' && (
                 <div className="space-y-6">
                   {/* Sub-tabs for intro page key sub-components */}
                   {currentSubPath === 'about/intro' && (
@@ -5493,7 +5594,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                     value={cdmoData.desc2}
                                     onChange={(e) => updateCdmo(prev => ({ ...prev, desc2: e.target.value }))}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 min-h-[70px] resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                    placeholder="Multi-Stra®를 기반으로 차별화된 제형 설계 및 약물 방출 기술을 제공합니다."
+                                    placeholder="Multi-Stra® 기반의 제형 기술을 활용하여 제품 특성에 맞는 개발 및 생산 솔루션을 제공합니다."
                                   />
                                 </div>
                               </div>
@@ -7647,7 +7748,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                         </div>
 
                         {/* Menu Show/Hide Toggler Option */}
-                        {activeSeoSubpage !== 'seo/main' && (
+                        {activeSeoSubpage !== 'seo/main' ? (
                           <div className="pt-4 border-t border-white/10 flex items-center justify-between">
                             <div className="space-y-0.5">
                               <span className="text-[11px] font-bold text-gray-400 block">메뉴 노출 설정</span>
@@ -7663,6 +7764,25 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                               <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-400 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
                               <span className="ml-3 text-[11px] font-extrabold text-white">
                                 {isHidden ? '숨김 처리됨' : '정상 노출'}
+                              </span>
+                            </label>
+                          </div>
+                        ) : (
+                          <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                            <div className="space-y-0.5">
+                              <span className="text-[11px] font-bold text-gray-400 block">메인페이지 PRODUCT LIST 쇼케이스 섹션 노출 설정</span>
+                              <span className="text-[9px] text-gray-500 block">메인페이지에서 '기술과 혁신으로' 애니메이션 및 대표의약품 5종 쇼케이스(PRODUCT LIST)를 숨김 처리합니다.</span>
+                            </div>
+                            <label className="relative inline-flex items-center cursor-pointer select-none">
+                              <input
+                                type="checkbox"
+                                checked={isMainProductsHidden}
+                                onChange={(e) => handleToggleMainProducts(e.target.checked)}
+                                className="sr-only peer"
+                              />
+                              <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-400 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                              <span className={`ml-3 text-[11px] font-extrabold ${isMainProductsHidden ? 'text-amber-400' : 'text-brand-green'}`}>
+                                {isMainProductsHidden ? '숨김 처리됨' : '정상 노출'}
                               </span>
                             </label>
                           </div>
@@ -8003,6 +8123,86 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                           )}
                         </tbody>
                       </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Case MainSettings: 메인페이지 섹션 노출 관리 */}
+              {currentSubPath === 'main-settings' && (
+                <div className="space-y-6">
+                  <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl p-6 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/10 mb-6">
+                      <div>
+                        <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+                          <Layers className="w-5 h-5 text-brand-green" />
+                          메인페이지 섹션 노출 관리
+                        </h3>
+                        <p className="text-xs text-gray-400 mt-1">
+                          메인페이지(국문 / 영문)에 노출되는 주요 섹션의 표시 여부를 자유롭게 제어합니다.
+                        </p>
+                      </div>
+                      <a
+                        href="/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors cursor-pointer self-start sm:self-auto"
+                      >
+                        <Globe className="w-3.5 h-3.5 text-brand-green" />
+                        <span>메인페이지 바로가기</span>
+                      </a>
+                    </div>
+
+                    {/* Section 1: PRODUCT LIST 쇼케이스 */}
+                    <div className="bg-[#0d1527] border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="flex items-start gap-4">
+                          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 mt-0.5 border ${
+                            isMainProductsHidden 
+                              ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' 
+                              : 'bg-brand-green/10 border-brand-green/20 text-brand-green'
+                          }`}>
+                            <Sparkles className="w-6 h-6" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2.5 flex-wrap">
+                              <h4 className="text-sm font-bold text-white">
+                                제품리스트 (PRODUCT LIST) 쇼케이스 섹션
+                              </h4>
+                              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${
+                                isMainProductsHidden
+                                  ? 'bg-rose-500/15 text-rose-400 border-rose-500/30'
+                                  : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                              }`}>
+                                {isMainProductsHidden ? '현재 숨김 처리됨' : '현재 정상 노출 중'}
+                              </span>
+                            </div>
+                            <p className="text-xs text-gray-300 leading-relaxed">
+                              메인 화면 스크롤 시 나타나는 <strong className="text-brand-green">"기술과 혁신으로 DASAN 건강한 내일을 만듭니다"</strong> 인트로 애니메이션과 <strong className="text-white">PRODUCT LIST 대표 완제의약품 5종 쇼케이스</strong> 영역입니다.
+                            </p>
+                            <p className="text-[11px] text-gray-500">
+                              * 숨김 처리 시 사용자 메인 화면(국문/영문)에서 해당 섹션과 우측 플로팅 네비게이터의 '제품리스트' 버튼이 자동으로 숨겨집니다.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-end shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-white/5">
+                          <label className="relative inline-flex items-center cursor-pointer select-none">
+                            <input
+                              type="checkbox"
+                              checked={isMainProductsHidden}
+                              onChange={(e) => handleToggleMainProducts(e.target.checked)}
+                              className="sr-only peer"
+                            />
+                            <div className="w-12 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-400 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                            <span className={`ml-3 text-xs font-black min-w-[70px] ${
+                              isMainProductsHidden ? 'text-amber-400' : 'text-brand-green'
+                            }`}>
+                              {isMainProductsHidden ? '숨김 처리됨' : '정상 노출'}
+                            </span>
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -97,6 +97,14 @@ export default function ProductSearch() {
   const itemsPerPage = 8;
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && !window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, []);
+
+  useEffect(() => {
     fetch('/api/products', { cache: 'no-store' })
       .then(res => {
         if (!res.ok) return null;

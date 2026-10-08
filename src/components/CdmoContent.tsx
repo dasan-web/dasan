@@ -62,7 +62,15 @@ export default function CdmoContent({ dbContent, isPreview = false }: CdmoConten
         {/* Process Flow (5 Steps) with Arrow Connectors */}
         <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-3 pt-2">
           {data.steps.map((stepItem, idx) => {
-            const Icon = stepIcons[idx] || FlaskConical;
+            const getIcon = () => {
+              if (stepItem.title.includes('개발')) return FlaskConical;
+              if (stepItem.title.includes('임상')) return ClipboardCheck;
+              if (stepItem.title.includes('기술이전')) return RefreshCw;
+              if (stepItem.title.includes('품질')) return ShieldCheck;
+              if (stepItem.title.includes('생산')) return Factory;
+              return stepIcons[idx] || FlaskConical;
+            };
+            const Icon = getIcon();
             const isLast = idx === data.steps.length - 1;
 
             return (

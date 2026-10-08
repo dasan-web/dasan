@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import KakaoMap from './KakaoMap';
-import { Landmark, Building2, Factory, Train, BusFront } from 'lucide-react';
+import { Landmark, Building2, Factory, Train, BusFront, ArrowRight } from 'lucide-react';
 
 interface LocationInfo {
   id: string;
@@ -333,13 +333,12 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
               onClick={() => {
                 setActiveTab(loc.id);
               }}
-              className={`flex items-center space-x-2.5 px-6 py-3.5 rounded-full text-sm font-black transition-all cursor-pointer border ${
+              className={`inline-flex items-center justify-center px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer border group shrink-0 ${
                 isActive
                   ? 'bg-brand-green text-white border-brand-green shadow-green-glow'
-                  : 'bg-[#FAFBFB] text-gray-650 border-gray-200 hover:bg-gray-50 hover:text-brand-green'
+                  : 'bg-white text-gray-900 border-gray-300 hover:bg-brand-green hover:text-white hover:border-brand-green hover:shadow-green-glow'
               }`}
             >
-              {getIcon(loc.id, 16)}
               <span>{loc.name}</span>
             </button>
           );

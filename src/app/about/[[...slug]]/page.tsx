@@ -7,6 +7,7 @@ import SubmenuTabBar from '@/components/SubmenuTabBar';
 import { Building2, Award, Users, Landmark, MapPin, Calendar, Heart, ShieldAlert, LineChart, Target, Shield, Zap, TrendingUp, Sparkles, Quote, BookOpen, MessageSquare, Factory, Download, Leaf } from 'lucide-react';
 import KakaoMap from '@/components/KakaoMap';
 import LocationMapSection from '@/components/LocationMapSection';
+import GlobalFacilitiesMap from '@/components/GlobalFacilitiesMap';
 import PressList from '@/components/PressList';
 import HistoryAccordion from '@/components/HistoryAccordion';
 import DetailedFinancialTables from '@/components/DetailedFinancialTables';
@@ -298,15 +299,15 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
         // 기업개요 페이지에서 CEO 메시지 특화 문구 및 단락 제거
         introBody = introBody
-          .replace(/CEO\s*메시지\s*\(CEO\s*Message\)/gi, '')
+          .replace(/CEO\s*메시지(\s*\(CEO\s*Message\))?/gi, '')
           .replace(/신뢰와 혁신으로 열어가는 더 건강한 미래/gi, '')
-          .replace(/다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다/gi, '')
-          .replace(/1996년 첫 발을 내딛은 다산제약은 '차별화된 의약품 연구개발'이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다/gi, '')
-          .replace(/우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다/gi, '')
-          .replace(/나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다/gi, '')
-          .replace(/다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 '글로벌 헬스케어 리더'로 끊임없이 도약할 것을 약속드립니다/gi, '')
-          .replace(/새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다/gi, '')
-          .replace(/<p[^>]*>\s*감사합니다\s*<\/p>/gi, '')
+          .replace(/다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다\.?/gi, '')
+          .replace(/1996년 첫 발을 내딛은 다산제약은 '차별화된 의약품 연구개발'이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다\.?\s*우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다\.?/gi, '')
+          .replace(/우리는 다산 정약용 선생의 실사구시(\(實事求是\))?\s*정신을 (바탕으로|이어받아) 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 (고품질 )?의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다\.?/gi, '')
+          .replace(/나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 (기여하겠습니다|앞장서겠습니다)\.?/gi, '')
+          .replace(/다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 '글로벌 헬스케어 리더'로 끊임없이 도약할 것을 약속드립니다\.?/gi, '')
+          .replace(/새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다\.?/gi, '')
+          .replace(/<p[^>]*>\s*감사합니다\.?\s*<\/p>/gi, '')
           .replace(/끊임없이\s*노력합니다(?!\.)/g, '끊임없이 노력합니다.');
 
 
@@ -408,7 +409,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                         </div>
 
                         {/* 중앙 4대 경영 철학 그래픽 */}
-                        <div className="w-full my-6 sm:my-10">
+                        <div className="w-full my-2 sm:my-4">
                           <PhilosophyGraphic />
                         </div>
                       </>
@@ -448,7 +449,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                           })}
                         </div>
 
-                        <div className="w-full my-6 sm:my-10">
+                        <div className="w-full my-2 sm:my-4">
                           <PhilosophyGraphic />
                         </div>
                       </>
@@ -549,17 +550,26 @@ export default async function AboutCatchAllPage({ params }: Params) {
             { 
               title: '자사 완제 의약품 사업', 
               desc: '순환기, 호흡기, 비뇨기 중심의<br />우수한 제품 라인업 구축 및 생산·판매',
-              image: '/images/business_hero1.jpg'
+              image: '/images/business_hero1.jpg',
+              link: '/business/finished/search'
             },
             { 
               title: '수탁 완제 의약품 (CMO) 사업', 
               desc: '독자적인 제제기술 및 공정 최적화를 통한<br />전문의약품 수탁 생산',
-              image: '/images/business_hero2.jpg'
+              image: '/images/business_hero2.jpg',
+              link: '/business/cdmo'
             },
             { 
               title: '의약품 핵심 원료 및 중간체 사업', 
               desc: '의약품 핵심 원료 및 중간체 개발 및 특허 확보,<br />신규 합성 및 신규 수입 원료 DMF 등록관리',
-              image: '/images/business_hero3.jpg'
+              image: '/images/business_hero3.jpg',
+              link: '/business/api/raw'
+            },
+            { 
+              title: '신약 및 신제형개발, 임상연구', 
+              desc: '저분자 신약 및 혁신 치료제 발굴부터,<br />신제형 개발, 개량신약 및 임상시험 연구',
+              image: '/images/business_hero4.jpg',
+              link: '/rd/activities'
             }
           ]
         };
@@ -567,7 +577,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
           const lines = dbContent.split('\n');
           if (lines.length > 0) {
             const introText = lines[0] || '';
-            const defaultImages = ['/images/business_hero1.jpg', '/images/business_hero2.jpg', '/images/business_hero3.jpg'];
+            const defaultImages = ['/images/business_hero1.jpg', '/images/business_hero2.jpg', '/images/business_hero3.jpg', '/images/business_hero4.jpg'];
+            const defaultLinks = ['/business/finished/search', '/business/cdmo', '/business/api/raw', '/rd/activities'];
             const itemsParsed = lines.slice(1).map((line, idx) => {
               const parts = line.split('|');
               const rawTitle = parts[0] || '';
@@ -583,10 +594,17 @@ export default async function AboutCatchAllPage({ params }: Params) {
               if (desc.includes('특허 확보,') && !desc.includes('<br') && !desc.includes('\n')) {
                 desc = desc.replace(/특허 확보,\s*/, '특허 확보,<br />');
               }
+              if (desc.includes('신제형 개발,') && !desc.includes('<br') && !desc.includes('\n')) {
+                desc = desc.replace(/신제형 개발,\s*/, '신제형 개발,<br />');
+              }
+              if (desc.includes('특수제형플랫폼,') && !desc.includes('<br') && !desc.includes('\n')) {
+                desc = desc.replace(/특수제형플랫폼,\s*/, '특수제형플랫폼,<br />');
+              }
               return { 
                 title: cleanTitle, 
                 desc: desc,
-                image: parts[2] || defaultImages[idx] || '/images/business_hero1.jpg'
+                image: parts[2] || defaultImages[idx] || '/images/business_hero1.jpg',
+                link: parts[3] || defaultLinks[idx] || '/business/finished/search'
               };
             }).filter(item => item.title);
             bizData = {
@@ -632,39 +650,56 @@ export default async function AboutCatchAllPage({ params }: Params) {
               </div>
             </div>
 
-            <div className="w-full bg-white py-4 md:py-6 rounded-3xl shadow-none">
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="w-screen px-2 bg-white py-4 md:py-6"
+            >
               <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 mb-8 pb-3 border-b border-gray-100">
                 주요 사업 영역 (Core Business)
               </h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-8 w-full">
-                {bizData.items.map((item, idx) => (
-                  <div 
-                    key={idx}
-                    className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-[24px] sm:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer"
-                  >
-                    <img 
-                      src={item.image} 
-                      alt={item.title} 
-                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.20] contrast-[1.03]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
-                    
-                    {/* Frosted Glass Floating Caption Overlay */}
-                    <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3.5 sm:bottom-3.5 lg:inset-x-4 lg:bottom-4 p-3.5 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
-                      <h4 className="text-[18px] sm:text-[20px] md:text-[16px] lg:text-[19.5px] xl:text-[22.5px] 2xl:text-[24px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md whitespace-nowrap">
-                        {item.title}
-                      </h4>
-                      <p className="text-[14.5px] sm:text-[15.5px] md:text-[14px] lg:text-[15.5px] xl:text-[17.5px] 2xl:text-[18px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2.5 sm:group-hover:mt-3 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
-                        {item.desc.split(/<br\s*\/?>|\n|\\n/).map((line, lIdx) => (
-                          <span key={lIdx} className="block whitespace-normal sm:whitespace-nowrap">
-                            {line.trim()}
-                          </span>
-                        ))}
-                      </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 xl:gap-7 mt-8 w-full">
+                {bizData.items.map((item, idx) => {
+                  const cardEl = (
+                    <div 
+                      className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-[24px] sm:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer w-full h-full"
+                    >
+                      <img 
+                        src={item.image} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.20] contrast-[1.03]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+                      
+                      {/* Frosted Glass Floating Caption Overlay */}
+                      <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3.5 sm:bottom-3.5 lg:inset-x-2.5 xl:inset-x-3.5 lg:bottom-2.5 xl:bottom-3.5 p-3 sm:p-3.5 lg:p-3 xl:p-4 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
+                        <h4 className="text-[14px] sm:text-[15.5px] md:text-[14px] lg:text-[14.5px] xl:text-[16.5px] 2xl:text-[18px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md break-keep">
+                          {item.title}
+                        </h4>
+                        <p className="text-[12px] sm:text-[13px] md:text-[12px] lg:text-[12.5px] xl:text-[13.5px] 2xl:text-[14.5px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2 sm:group-hover:mt-2.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
+                          {item.desc.split(/<br\s*\/?>|\n|\\n/).map((line, lIdx) => (
+                            <span key={lIdx} className="block whitespace-normal">
+                              {line.trim()}
+                            </span>
+                          ))}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+
+                  return item.link ? (
+                    <Link key={idx} href={item.link} className="block w-full">
+                      {cardEl}
+                    </Link>
+                  ) : (
+                    <div key={idx} className="block w-full">
+                      {cardEl}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -818,8 +853,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 )}
               </div>
 
-              {/* Timeline Container */}
-              <HistoryAccordion timelineData={timelineData} />
+              {/* Timeline Container with Category Filter and Sales Chart */}
+              <HistoryAccordion timelineData={timelineData} isEn={false} />
             </div>
           </div>
         );
@@ -1076,17 +1111,6 @@ export default async function AboutCatchAllPage({ params }: Params) {
           );
         }
 
-        const MapIconSVG = (
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5">
-            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        );
-
-        const cardClass = "bg-white rounded-3xl p-6 md:p-8 border border-gray-200 hover:border-brand-green/50 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden flex flex-col group";
-        const iconContainerClass = "p-3 bg-gray-50 group-hover:bg-brand-green/10 rounded-2xl transition-colors duration-300 text-gray-400 group-hover:text-brand-green";
-        const buttonClass = "inline-flex flex-1 items-center justify-center text-[12px] font-bold text-gray-500 group-hover:text-brand-green bg-gray-50 group-hover:bg-brand-green/5 px-4 py-2.5 rounded-xl transition-all duration-300 border border-gray-200 group-hover:border-brand-green/30 hover:!bg-brand-green hover:!text-white";
-
         return (
           <div className="space-y-10 animate-fade-in-up">
             {/* 글로벌 인프라 대표 비주얼 (21:9 와이드 화면) */}
@@ -1107,7 +1131,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
               />
             </div>
             
-            <div className="text-left mb-10">
+            <div className="text-left mb-8">
               <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4 pb-2 border-b border-gray-100">
                 글로벌 인프라 (Global Infrastructure)
               </h3>
@@ -1115,100 +1139,9 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 {facIntro}
               </p>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-              
-              {/* 본사 (HQ) */}
-              <div className={cardClass}>
-                <div className="flex items-center space-x-4 relative z-10 mb-6">
-                  <div className={iconContainerClass}>
-                    <Building2 size={28} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Seoul Office</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">서울사무소</h4>
-                  </div>
-                </div>
-                <div className="border-t border-gray-100 pt-6 space-y-4 flex-grow relative z-10">
-                  <div>
-                    <span className="text-sm text-brand-green font-bold block mb-2">서울 영등포구 선유로 70</span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">경영, 영업, 구매, 사업개발 등 지속 가능한 미래 성장 전략 수립</p>
-                  </div>
-                </div>
-                </div>
 
-              {/* R&D 네트워크 */}
-              <div className={cardClass}>
-                <div className="flex items-center space-x-4 relative z-10 mb-6">
-                  <div className={iconContainerClass}>
-                    <Zap size={28} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">R&D Network</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">R&D 네트워크</h4>
-                  </div>
-                </div>
-                <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
-                  <div>
-                    <span className="text-sm text-brand-green font-bold block mb-2">다산 중앙연구소 (경기 수원시)</span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">제제 및 합성 관련 연구시설을 갖추고 연구개발 총괄</p>
-                  </div>
-                  <div className="pt-6 border-t border-dashed border-gray-200">
-                    <span className="text-sm text-brand-green font-bold block mb-2">중국 심양연구소 (중국 심양시)</span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">중국 내 연구, 허가, 사업개발을 담당하는 글로벌 영토 확장의 전초시설</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 글로벌 생산시설 */}
-              <div className={cardClass}>
-                <div className="flex items-center space-x-4 relative z-10 mb-6">
-                  <div className={iconContainerClass}>
-                    <Factory size={28} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Production Base</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">글로벌 생산시설</h4>
-                  </div>
-                </div>
-                <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
-                  {/* 국내 생산시설 */}
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200/70 text-emerald-800 text-[11px] font-extrabold tracking-wider uppercase">
-                        국내
-                      </span>
-                    </div>
-                    <div className="space-y-4">
-                      <div>
-                        <span className="text-sm text-brand-green font-bold block mb-1.5">아산 제1공장 (충남 아산시)</span>
-                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">
-                          원료 및 완제의약품 생산본부, cGMP 수준의 우수 의약품 생산
-                        </p>
-                      </div>
-                      <div className="pt-4 border-t border-dashed border-gray-200">
-                        <span className="text-sm text-brand-green font-bold block mb-1.5">아산 제2공장 (충남 아산시)</span>
-                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">
-                          내용고형제 대량 생산 체제 및 최첨단 스마트 자동화 패키징 라인 구축
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 해외 생산시설 */}
-                  <div className="pt-5 border-t border-gray-200 space-y-3">
-                    <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-200/70 text-blue-800 text-[11px] font-extrabold tracking-wider uppercase">
-                        해외
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-sm text-brand-green font-bold block mb-1.5">Anhui Heryi Dasan (중국 안휘성)</span>
-                      <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">연간 약 40억 정의 생산 능력을 갖춘 중국 현지 전진 생산 시설</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* 글로벌 거점 인터랙티브 지도 (중국 선양 및 한국 서울, 수원, 아산 거점 5곳) */}
+            <GlobalFacilitiesMap />
           </div>
         );
 
@@ -1830,7 +1763,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   };
 
   return (
-    <div className="relative bg-white pt-16 md:pt-24 pb-16 md:pb-24 min-h-screen">
+    <div className="relative bg-white pt-16 md:pt-24 pb-16 md:pb-24 min-h-screen overflow-x-clip">
       <div className={`relative w-full ${currentPath === '/about/greeting' || currentPath === '/about/business-area' || currentPath === '/about/overview' || currentPath === '/about' || currentPath === '/about/intro' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">

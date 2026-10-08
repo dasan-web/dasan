@@ -193,7 +193,7 @@ export default function PressReleaseSlider({ initialNews }: PressReleaseSliderPr
               {/* View All Button */}
               <Link
                 href={`${basePath}/contact/newsroom/press`}
-                className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white text-xs lg:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer"
+                className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs lg:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer"
               >
                 <span>{isEnglish ? 'View All' : '전체보기'}</span>
                 <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />

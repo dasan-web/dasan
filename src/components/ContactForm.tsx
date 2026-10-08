@@ -258,19 +258,19 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
 
     if (!isNameValid || !isEmailValid || !formData.subject || !formData.content || (isCorruption && !formData.password)) {
       setStatus('error');
-      setMessage('필수 항목을 모두 작성해주세요.');
+      setMessage(isEnglish ? 'Please fill in all required fields.' : '필수 항목을 모두 작성해주세요.');
       setLoading(false);
       return;
     }
 
     if (!isCorruption && !isEmailVerified) {
-      alert('이메일주소 인증이 안되었으니, 확인해주세요.');
+      alert(isEnglish ? 'Please complete email address verification first.' : '이메일주소 인증이 안되었으니, 확인해주세요.');
       setLoading(false);
       return;
     }
 
     if (!recaptchaToken) {
-      alert('로봇인지 아닌지 체크해 주세요.');
+      alert(isEnglish ? 'Please complete the reCAPTCHA verification.' : '로봇인지 아닌지 체크해 주세요.');
       setLoading(false);
       return;
     }
@@ -296,7 +296,7 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
 
       if (res.ok) {
         setStatus('success');
-        setMessage(result.message || '문의가 정상적으로 등록되었습니다.');
+        setMessage(isEnglish ? 'Your inquiry has been successfully submitted.' : (result.message || '문의가 정상적으로 등록되었습니다.'));
         setFormData({
           name: '',
           email: '',
@@ -318,11 +318,11 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
         }
         setRecaptchaToken(null);
       } else {
-        throw new Error(result.error || '등록 중 오류가 발생했습니다.');
+        throw new Error(result.error || (isEnglish ? 'An error occurred during submission.' : '등록 중 오류가 발생했습니다.'));
       }
     } catch (err: any) {
       setStatus('error');
-      setMessage(err.message || '서버와의 통신에 실패했습니다.');
+      setMessage(err.message || (isEnglish ? 'Failed to communicate with the server.' : '서버와의 통신에 실패했습니다.'));
     } finally {
       setLoading(false);
     }
@@ -341,13 +341,13 @@ export default function ContactForm({ inquiryType = 'product' }: ContactFormProp
           <div className="inline-flex items-center justify-center p-3.5 bg-emerald-100/80 rounded-full text-emerald-600">
             <CheckCircle size={32} />
           </div>
-          <h4 className="text-xl font-extrabold text-emerald-800">접수 완료!</h4>
+          <h4 className="text-xl font-extrabold text-emerald-800">{isEnglish ? 'Submission Complete!' : '접수 완료!'}</h4>
           <p className="text-sm text-emerald-700 max-w-md mx-auto font-medium">{message}</p>
           <button
             onClick={() => setStatus('idle')}
             className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full text-sm font-bold transition-all shadow-md hover:shadow-emerald-600/10 cursor-pointer"
           >
-            새 문의 작성하기
+            {isEnglish ? 'Submit Another Inquiry' : '새 문의 작성하기'}
           </button>
         </div>
       ) : (

@@ -12,7 +12,8 @@ import { query } from '@/lib/db';
 import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -38,6 +39,17 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   let pressNews = [];
   let products = [];
+  let isProductsHidden = false;
+
+  try {
+    const settingResult = await query("SELECT is_hidden FROM admin_contents WHERE page_key = 'main/products'");
+    if (settingResult && settingResult.length > 0) {
+      isProductsHidden = settingResult[0].is_hidden === 1 || settingResult[0].is_hidden === true || settingResult[0].is_hidden === '1';
+    }
+  } catch (err) {
+    console.error('Failed to fetch main/products visibility:', err);
+  }
+
   try {
     pressNews = await query(
       "SELECT * FROM news WHERE category = 'press' ORDER BY created_at DESC LIMIT 20"
@@ -128,13 +140,13 @@ export default async function Home() {
       <CoreBusinessSection />
 
       {/* 3. Finished Products Showcase Section */}
-      <MainProductShowcase initialProducts={products} />
+      {!isProductsHidden && <MainProductShowcase initialProducts={products} />}
 
       {/* 3. News Section (Product News & Press Release with Tabs) */}
       <MainProductNews initialPressNews={pressNews} />
 
       {/* Floating dot page navigator */}
-      <ScrollNav />
+      <ScrollNav hideProducts={isProductsHidden} />
 
       {/* 4. Inquiry Bottom Banner */}
       <ScrollReveal>

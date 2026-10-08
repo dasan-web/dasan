@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다산제약 홈페이지 데이터베이스 ERD</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h2, p {
+            text-align: center;
+            color: #333;
+            margin: 10px 0;
+        }
+        .instruction {
+            text-align: center;
+            font-size: 0.9em;
+            color: #d9534f;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            width: 95%;
+            height: 75vh; /* 화면의 75% 높이를 할당하여 다이어그램이 잘리지 않도록 함 */
+            padding: 10px;
+        }
+        #mermaid-container {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        /* SVG 크기 강제 제어 */
+        #mermaid-container svg {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+        }
+    </style>
+</head>
+<body>
+    <h2>다산제약 홈페이지 데이터베이스 ERD</h2>
+    <p>사용자 홈페이지 및 관리자 홈페이지 DB (1:1, 1:N 관계 포함)</p>
+
+    
+    <div class="container">
+        <!-- 이곳에 렌더링된 SVG가 들어갑니다 -->
+        <div id="mermaid-container"></div>
+    </div>
+
+    <!-- 다이어그램 원본 코드 (화면엔 안보임) -->
+    <script type="text/template" id="mermaid-code">
+erDiagram
+    inquiries {
+        int id PK "Auto Increment"
+        varchar name "50 - 작성자명"
+        varchar email "100 - 이메일"
+        varchar phone "20 - 연락처 (선택)"
+        varchar subject "200 - 문의 제목"
+        text content "문의 본문 내용"
+        timestamp created_at "등록 일시"
+    }
+
+    news {
+        int id PK "Auto Increment"
+        varchar category "50 - press / ir 등"
+        varchar title "200 - 게시글 제목"
+        text content "게시글 본문 내용"
+        int views "조회수"
+        varchar file_url "255 - 첨부파일 경로"
+        varchar file_name "255 - 첨부파일명"
+        timestamp created_at "작성 일시"
+    }
+
+    pipeline {
+        int id PK "Auto Increment"
+        varchar category "100 - 개량신약 / 퍼스트제네릭 등"
+        varchar project_name "100 - 프로젝트명"
+        varchar disease "200 - 적응증 (질환명)"
+        varchar phase "50 - 개발 단계"
+        varchar partner "100 - 파트너사"
+        timestamp updated_at "수정 일시"
+    }
+
+    products {
+        int id PK "Auto Increment"
+        varchar name "100 - 의약품 한글명"
+        varchar english_name "150 - 의약품 영문명"
+        varchar type "50 - 전문의약품 / 일반의약품"
+        varchar efficacy "100 - 효능군"
+        varchar consonant "10 - 자음 (초성 검색용)"
+        varchar file_url "255 - 이미지/문서 경로"
+        varchar file_name "255 - 파일명"
+    }
+
+    admin_contents {
+        varchar page_key PK "100 - 페이지 식별 키"
+        varchar page_title "200 - 페이지 제목"
+        text content "페이지 설명 및 본문 데이터"
+        tinyint is_hidden "숨김 여부 (0/1)"
+        timestamp updated_at "최종 수정 일시"
+    }
+
+    visitor_logs {
+        int id PK "Auto Increment"
+        varchar ip "50 - 접속자 IP"
+        varchar device "150 - 브라우저/기기 정보"
+        varchar page "150 - 접속한 페이지 경로"
+        timestamp created_at "접속 시간"
+    }
+
+    daily_visitors {
+        date visit_date PK "접속 일자"
+        int visitor_count "당일 순 방문자수"
+    }
+
+    admin_users {
+        int id PK "Auto Increment"
+        varchar username UK "50 - 로그인 아이디"
+        varchar password "255 - 암호화된 패스워드"
+        varchar name "50 - 관리자 이름"
+        varchar role "30 - 권한 (super_admin / editor / viewer)"
+        timestamp created_at "생성 일시"
+    }
+
+    popups {
+        int id PK "Auto Increment"
+        varchar title "255 - 팝업 제목"
+        text content "팝업 내용"
+        varchar link_url "255 - 연결 링크"
+        datetime start_date "노출 시작일"
+        datetime end_date "노출 종료일"
+        boolean is_active "활성화 여부"
+        int width "가로 크기"
+        int height "세로 크기"
+        int top_pos "상단 위치"
+        int left_pos "좌측 위치"
+        timestamp created_at "등록 일시"
+    }
+
+    email_verifications {
+        int id PK "Auto Increment"
+        varchar email "인증 대상 이메일"
+        varchar code "인증 번호"
+        datetime expires_at "만료 일시"
+        boolean is_verified "인증 완료 여부"
+        timestamp created_at "생성 일시"
+    }
+
+    daily_visitors ||--|{ visitor_logs : "1:N (일자별 상세 로그)"
+    admin_users ||--|{ news : "1:N (게시글 작성)"
+    admin_users ||--|{ admin_contents : "1:N (콘텐츠 편집)"
+    admin_users ||--|{ products : "1:N (제품 등록)"
+    admin_users ||--|{ pipeline : "1:N (파이프라인 관리)"
+    admin_users ||--|{ popups : "1:N (팝업 관리)"
+    
+    email_verifications ||--o{ inquiries : "1:N (인증 이메일로 문의)"
+    visitor_logs ||--|{ inquiries : "1:N (동일 IP 문의 등록)"
+    
+    pipeline ||--|| products : "1:1 (연구완료 및 제품 상용화)"
+    </script>
+
+    <!-- 라이브러리 로드 -->
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        
+        mermaid.initialize({ 
+            startOnLoad: false, 
+            theme: 'default', 
+            maxTextSize: 90000,
+            flowchart: { curve: 'step' }, // flowchart 기반의 직각 선 설정
+            er: { curve: 'step' }         // erDiagram 직각 선 설정 시도
+        });
+        
+        async function renderAndZoom() {
+            try {
+                // 1. 숨겨진 템플릿에서 코드 가져오기
+                const code = document.getElementById('mermaid-code').textContent.trim();
+                
+                // 2. Mermaid를 사용해 코드를 SVG로 직접 렌더링
+                const { svg } = await mermaid.render('graphDiv', code);
+                
+                // 3. 컨테이너에 렌더링된 SVG 삽입
+                const container = document.getElementById('mermaid-container');
+                container.innerHTML = svg;
+
+                // 4. svg-pan-zoom 라이브러리 적용
+                const svgElement = container.querySelector('svg');
+                if (svgElement) {
+                    svgPanZoom(svgElement, {
+                        zoomEnabled: true,
+                        controlIconsEnabled: false,
+                        fit: true,        // 화면에 딱 맞게
+                        center: true,     // 중앙 정렬
+                        minZoom: 0.1,     // 더 많이 축소할 수 있도록 허용
+                        maxZoom: 10
+                    });
+                }
+            } catch (err) {
+                console.error("Mermaid 렌더링 에러:", err);
+            }
+        }
+
+        renderAndZoom();
+    </script>
+</body>
+</html>

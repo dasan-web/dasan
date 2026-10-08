@@ -14,34 +14,34 @@ export interface BusinessCdmoData {
 
 export const DEFAULT_BUSINESS_CDMO_DATA: BusinessCdmoData = {
   title: 'One-stop CDMO Solution',
-  desc1: '다산제약은 의약품 연구개발 역량과 GMP 기반 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 맞춤형 CDMO 서비스를 제공합니다.',
-  desc2: 'Multi-Stra®를 기반으로 차별화된 제형 설계 및 약물 방출 기술을 제공합니다.',
+  desc1: '다산제약은 의약품 연구개발 역량과 GMP 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 전 과정을 지원합니다.',
+  desc2: 'Multi-Stra® 기반의 제형 기술을 활용하여 제품 특성에 맞는 개발 및 생산 솔루션을 제공합니다.',
   processTitle: 'CDMO PROCESS',
   steps: [
     {
       step: 'STEP 01',
       title: '개발',
-      desc: '개량신약, 제네릭 의약품의 제제 및 공정 개발 능력'
+      desc: '개량신약 및 제네릭 의약품의 제제·공정 개발을 지원합니다.'
     },
     {
       step: 'STEP 02',
-      title: '임상',
-      desc: '소규모부터 대규모 글로벌 임상까지 다양한 규모의 임상 경험'
+      title: '기술이전',
+      desc: '제품 개발 기술을 고객사에 이전하여 안정적인 생산으로 연결합니다.'
     },
     {
       step: 'STEP 03',
-      title: '기술이전',
-      desc: '연구개발된 제제 및 공정의 Scale-up을 통해 안정적인 생산으로 연결'
+      title: '임상',
+      desc: '임상1상, 생동시험, 글로벌 임상까지 다양한 임상용 의약품 생산 경험을 보유하고 있습니다.'
     },
     {
       step: 'STEP 04',
-      title: '품질(QA/QC)',
-      desc: 'QA·QC 체계를 기반으로 원료부터 완제품까지 전 과정의 품질 관리'
+      title: '생산',
+      desc: '비임상물질부터 상업 생산까지 다양한 규모의 의약품 생산을 지원합니다.'
     },
     {
       step: 'STEP 05',
-      title: '생산',
-      desc: '비임상물질부터 상업 생산까지 다양한 생산 규모에 대응할 수 있는 생산 시설'
+      title: '품질(QA/QC)',
+      desc: 'QA·QC 체계를 기반으로 원료부터 완제품까지 전 과정의 품질을 관리합니다.'
     }
   ]
 };

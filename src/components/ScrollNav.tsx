@@ -1,43 +1,49 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import { usePathname } from 'next/navigation';
 
-export default function ScrollNav() {
+export default function ScrollNav({ hideProducts = false }: { hideProducts?: boolean }) {
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith('/en');
 
-  const sections = [
-    { 
-      id: 'hero', 
-      label: isEnglish ? 'Intro' : '소개',
-      activeColor: 'bg-white border-2 border-gray-400 shadow-[0_0_12px_rgba(255,255,255,0.9)] ring-2 ring-gray-400/50',
-      inactiveColor: 'bg-white/70 border border-gray-400/60 shadow-2xs hover:bg-white',
-      pingColor: 'bg-white/40 border border-gray-300'
-    },
-    { 
-      id: 'core-business', 
-      label: isEnglish ? 'Core Business' : '주요 사업영역',
-      activeColor: 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.9)] ring-2 ring-amber-300',
-      inactiveColor: 'bg-amber-400/60 hover:bg-amber-400',
-      pingColor: 'bg-amber-400/30 border border-amber-300'
-    },
-    { 
-      id: 'products', 
-      label: isEnglish ? 'Product List' : '제품리스트',
-      activeColor: 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.9)] ring-2 ring-red-400',
-      inactiveColor: 'bg-red-500/60 hover:bg-red-500',
-      pingColor: 'bg-red-500/30 border border-red-400'
-    },
-    { 
-      id: 'product-news', 
-      label: isEnglish ? 'News (Press, Product)' : '뉴스(보도자료,제품소식)',
-      activeColor: 'bg-brand-green shadow-green-glow ring-2 ring-green-400',
-      inactiveColor: 'bg-brand-green/60 hover:bg-brand-green',
-      pingColor: 'bg-brand-green/25 border border-brand-green/35'
+  const sections = useMemo(() => {
+    const list = [
+      { 
+        id: 'hero', 
+        label: isEnglish ? 'Intro' : '소개',
+        activeColor: 'bg-white border-2 border-gray-400 shadow-[0_0_12px_rgba(255,255,255,0.9)] ring-2 ring-gray-400/50',
+        inactiveColor: 'bg-white/70 border border-gray-400/60 shadow-2xs hover:bg-white',
+        pingColor: 'bg-white/40 border border-gray-300'
+      },
+      { 
+        id: 'core-business', 
+        label: isEnglish ? 'Core Business' : '주요 사업영역',
+        activeColor: 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.9)] ring-2 ring-amber-300',
+        inactiveColor: 'bg-amber-400/60 hover:bg-amber-400',
+        pingColor: 'bg-amber-400/30 border border-amber-300'
+      },
+      { 
+        id: 'products', 
+        label: isEnglish ? 'Product List' : '제품리스트',
+        activeColor: 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.9)] ring-2 ring-red-400',
+        inactiveColor: 'bg-red-500/60 hover:bg-red-500',
+        pingColor: 'bg-red-500/30 border border-red-400'
+      },
+      { 
+        id: 'product-news', 
+        label: isEnglish ? 'News (Press, Product)' : '뉴스(보도자료,제품소식)',
+        activeColor: 'bg-brand-green shadow-green-glow ring-2 ring-green-400',
+        inactiveColor: 'bg-brand-green/60 hover:bg-brand-green',
+        pingColor: 'bg-brand-green/25 border border-brand-green/35'
+      }
+    ];
+    if (hideProducts) {
+      return list.filter(item => item.id !== 'products');
     }
-  ];
+    return list;
+  }, [isEnglish, hideProducts]);
 
   const [activeSection, setActiveSection] = useState('hero');
 

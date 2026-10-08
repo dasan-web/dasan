@@ -123,10 +123,11 @@ export default function PipelineChart() {
   }, [pipelineList]);
 
   return (
-    <div className="w-full overflow-x-auto">
-      <table className="w-full min-w-[900px] border-collapse border border-gray-200 text-sm font-sans">
-        {/* Table Head */}
-        <thead>
+    <div className="w-full bg-white rounded-[24px] sm:rounded-[32px] lg:rounded-[36px] border border-gray-200 shadow-[0_12px_36px_rgba(0,0,0,0.10),0_3px_12px_rgba(0,0,0,0.06)] overflow-hidden">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full min-w-[900px] border-collapse text-sm font-sans">
+          {/* Table Head */}
+          <thead>
           <tr className="bg-[#1F4E78] text-white">
             <th className={`border border-gray-300 px-4 py-6 text-center font-bold ${hideProjectName ? 'w-[18%]' : 'w-[15%]'}`}>{t('분류')}</th>
             {!hideProjectName && (
@@ -222,5 +223,6 @@ export default function PipelineChart() {
         </tbody>
       </table>
     </div>
+  </div>
   );
 }

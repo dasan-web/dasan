@@ -391,5 +391,26 @@ aside h4,
   animation: float-medium 12s ease-in-out infinite;
 }
 
+/* Leaflet Tile Seams / Checkerboard Grid Line Removal (지도 타일 바둑판 실선 방지) */
+.leaflet-container {
+  background: transparent !important;
+  outline: none !important;
+}
 
+.leaflet-container img.leaflet-tile {
+  mix-blend-mode: normal !important;
+  max-width: none !important;
+  max-height: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  outline: 1px solid transparent !important;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 
+.leaflet-tile {
+  border: none !important;
+  outline: 1px solid transparent !important;
+}

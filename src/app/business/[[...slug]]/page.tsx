@@ -79,14 +79,14 @@ export default async function BusinessCatchAllPage({ params }: Params) {
     console.error('Failed to load db content:', err);
   }
 
-  let activeTitle = 'Business';
+  let activeTitle = 'Product';
   let activeMajor = '완제의약품';
   let activeMajorObj = null;
   
   const isCdmo = currentPath.startsWith('/business/cdmo');
   const targetGrand = isCdmo
     ? navigationData.find(g => g.name === 'CDMO')
-    : navigationData.find(g => g.name === 'Business');
+    : navigationData.find(g => g.name === 'Product' || g.name === 'Business');
 
   if (targetGrand) {
     for (const major of targetGrand.majors) {

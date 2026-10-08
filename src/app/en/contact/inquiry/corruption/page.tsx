@@ -8,26 +8,26 @@ import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    let results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/contact/inquiry/corruption']);
+    let results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/contact/inquiry/corruption']);
     if (!results || results.length === 0 || !results[0].content) {
-      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/contact']);
+      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/contact']);
     }
 
     if (results && results.length > 0 && results[0].content) {
       const [title, keywords, description] = results[0].content.split('|');
       return {
-        title: title || '부패신고 문의(익명) | 다산제약',
-        keywords: keywords || '다산제약 부패신고, 윤리경영 제보, 부조리 신고',
-        description: description || '다산제약의 윤리경영 제보 및 부패신고 문의(익명) 페이지입니다. 제보자의 신원은 철저히 보장됩니다.',
+        title: title || 'Corruption Report (Anonymous) | DASAN Pharmaceutical',
+        keywords: keywords || 'DASAN Pharmaceutical, Corruption Report, Whistleblowing, Ethical Management',
+        description: description || 'Ethical management reporting and anonymous corruption report inquiry page of DASAN Pharmaceutical. Informant identity is strictly confidential.',
       };
     }
   } catch (e) {
     console.error('Failed to load contact corruption inquiry page metadata:', e);
   }
   return {
-    title: '부패신고 문의(익명) | 다산제약',
-    description: '다산제약의 윤리경영 제보 및 부패신고 문의(익명) 페이지입니다. 제보자의 신원은 철저히 보장됩니다.',
-    keywords: '다산제약 부패신고, 윤리경영 제보, 부조리 신고',
+    title: 'Corruption Report (Anonymous) | DASAN Pharmaceutical',
+    description: 'Ethical management reporting and anonymous corruption report inquiry page of DASAN Pharmaceutical. Informant identity is strictly confidential.',
+    keywords: 'DASAN Pharmaceutical, Corruption Report, Whistleblowing, Ethical Management',
   };
 }
 
@@ -37,7 +37,7 @@ export default function ContactCorruptionInquiryPage() {
   const activeMajor = 'Customer Service';
   
   const grandContact = navigationData.find(g => g.name === 'Connect');
-  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor) || null;
+  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor || m.enName === activeMajor) || null;
 
   return (
     <div className="relative bg-white py-16 md:py-24 min-h-screen">

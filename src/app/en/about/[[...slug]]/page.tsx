@@ -7,6 +7,7 @@ import SubmenuTabBar from '@/components/SubmenuTabBar';
 import { Building2, Award, Users, Landmark, MapPin, Calendar, Heart, ShieldAlert, LineChart, Target, Shield, Zap, TrendingUp, Sparkles, Quote, BookOpen, MessageSquare, Factory, Download } from 'lucide-react';
 import KakaoMap from '@/components/KakaoMap';
 import LocationMapSection from '@/components/LocationMapSection';
+import GlobalFacilitiesMap from '@/components/GlobalFacilitiesMap';
 import PressList from '@/components/PressList';
 import HistoryAccordion from '@/components/HistoryAccordion';
 import DetailedFinancialTables from '@/components/DetailedFinancialTables';
@@ -75,7 +76,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   const slug = resolvedParams.slug || [];
   
   if (slug.length === 0) {
-    redirect('/about/greeting');
+    redirect('/en/about/greeting');
   }
 
   const currentPath = `/about/${slug.join('/')}`;
@@ -397,7 +398,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                         </div>
 
                         {/* Central Philosophy Graphic */}
-                        <div className="w-full my-6 sm:my-10">
+                        <div className="w-full my-2 sm:my-4">
                           <PhilosophyGraphic />
                         </div>
                       </>
@@ -436,7 +437,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                           })}
                         </div>
 
-                        <div className="w-full my-6 sm:my-10">
+                        <div className="w-full my-2 sm:my-4">
                           <PhilosophyGraphic />
                         </div>
                       </>
@@ -532,17 +533,26 @@ export default async function AboutCatchAllPage({ params }: Params) {
             { 
               title: 'Finished Pharmaceutical Products', 
               desc: 'Establishing, producing, and selling excellent product lineups<br />focusing on cardiovascular, respiratory, and urological systems',
-              image: '/images/business_hero1.jpg'
+              image: '/images/business_hero1.jpg',
+              link: '/en/business/finished/search'
             },
             { 
               title: 'Contract Manufacturing (CMO)', 
               desc: 'Contract manufacturing of prescription drugs<br />through proprietary formulation technology and process optimization',
-              image: '/images/business_hero2.jpg'
+              image: '/images/business_hero2.jpg',
+              link: '/en/business/cdmo'
             },
             { 
               title: 'API & Intermediate R&D', 
               desc: 'Development and patent securing of key APIs and intermediates,<br />DMF registration and management for new synthetic and imported materials',
-              image: '/images/business_hero3.jpg'
+              image: '/images/business_hero3.jpg',
+              link: '/en/business/api/raw'
+            },
+            { 
+              title: 'New Drug & Formulation R&D, Clinical Research', 
+              desc: 'Discovery of innovative therapeutics, novel platforms,<br />incrementally modified drugs and clinical research',
+              image: '/images/business_hero4.jpg',
+              link: '/en/rd/activities'
             }
           ]
         };
@@ -550,7 +560,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
           const lines = dbContent.split('\n');
           if (lines.length > 0) {
             const introText = lines[0] || '';
-            const defaultImages = ['/images/business_hero1.jpg', '/images/business_hero2.jpg', '/images/business_hero3.jpg'];
+            const defaultImages = ['/images/business_hero1.jpg', '/images/business_hero2.jpg', '/images/business_hero3.jpg', '/images/business_hero4.jpg'];
+            const defaultLinks = ['/en/business/finished/search', '/en/business/cdmo', '/en/business/api/raw', '/en/rd/activities'];
             const itemsParsed = lines.slice(1).map((line, idx) => {
               const parts = line.split('|');
               const rawTitle = parts[0] || '';
@@ -568,7 +579,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
               return { 
                 title: cleanTitle, 
                 desc: desc,
-                image: defaultImages[idx] || '/images/business_hero1.jpg'
+                image: parts[2] || defaultImages[idx] || '/images/business_hero1.jpg',
+                link: parts[3] || defaultLinks[idx] || '/en/business/finished/search'
               };
             }).filter(item => item.title);
             bizData = {
@@ -615,39 +627,56 @@ export default async function AboutCatchAllPage({ params }: Params) {
               </div>
             </div>
 
-            <div className="w-full bg-white py-4 md:py-6 rounded-3xl shadow-none">
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="w-screen px-2 bg-white py-4 md:py-6"
+            >
               <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 mb-8 pb-3 border-b border-gray-100">
                 Core Business
               </h3>
             
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-8 w-full">
-                {bizData.items.map((item, idx) => (
-                  <div 
-                    key={idx}
-                    className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-[24px] sm:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer"
-                  >
-                    <img 
-                      src={item.image} 
-                      alt={item.title} 
-                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.20] contrast-[1.03]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
-                    
-                    {/* Frosted Glass Floating Caption Overlay */}
-                    <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3.5 sm:bottom-3.5 lg:inset-x-4 lg:bottom-4 p-3.5 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
-                      <h4 className="text-[18px] sm:text-[20px] md:text-[16px] lg:text-[19.5px] xl:text-[22.5px] 2xl:text-[24px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md whitespace-nowrap">
-                        {item.title}
-                      </h4>
-                      <p className="text-[14.5px] sm:text-[15.5px] md:text-[14px] lg:text-[15.5px] xl:text-[17.5px] 2xl:text-[18px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2.5 sm:group-hover:mt-3 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
-                        {item.desc.split(/<br\s*\/?>|\n|\\n/).map((line, lIdx) => (
-                          <span key={lIdx} className="block whitespace-normal sm:whitespace-nowrap">
-                            {line.trim()}
-                          </span>
-                        ))}
-                      </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 xl:gap-7 mt-8 w-full">
+                {bizData.items.map((item, idx) => {
+                  const cardEl = (
+                    <div 
+                      className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-[24px] sm:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer w-full h-full"
+                    >
+                      <img 
+                        src={item.image} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.20] contrast-[1.03]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+                      
+                      {/* Frosted Glass Floating Caption Overlay */}
+                      <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3.5 sm:bottom-3.5 lg:inset-x-2.5 xl:inset-x-3.5 lg:bottom-2.5 xl:bottom-3.5 p-3 sm:p-3.5 lg:p-3 xl:p-4 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
+                        <h4 className="text-[14px] sm:text-[15.5px] md:text-[14px] lg:text-[14.5px] xl:text-[16.5px] 2xl:text-[18px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md break-keep">
+                          {item.title}
+                        </h4>
+                        <p className="text-[12px] sm:text-[13px] md:text-[12px] lg:text-[12.5px] xl:text-[13.5px] 2xl:text-[14.5px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2 sm:group-hover:mt-2.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
+                          {item.desc.split(/<br\s*\/?>|\n|\\n/).map((line, lIdx) => (
+                            <span key={lIdx} className="block whitespace-normal">
+                              {line.trim()}
+                            </span>
+                          ))}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+
+                  return item.link ? (
+                    <Link key={idx} href={item.link} className="block w-full">
+                      {cardEl}
+                    </Link>
+                  ) : (
+                    <div key={idx} className="block w-full">
+                      {cardEl}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -798,8 +827,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 )}
               </div>
 
-              {/* Timeline Container */}
-              <HistoryAccordion timelineData={timelineData} />
+              {/* Timeline Container with Category Filter and Sales Chart */}
+              <HistoryAccordion timelineData={timelineData} isEn={true} />
             </div>
           </div>
         );
@@ -1049,138 +1078,37 @@ export default async function AboutCatchAllPage({ params }: Params) {
           );
         }
 
-        const MapIconSVG = (
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5">
-            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        );
-
-        const cardClass = "bg-white rounded-3xl p-6 md:p-8 border border-gray-200 hover:border-brand-green/50 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden flex flex-col group";
-        const iconContainerClass = "p-3 bg-gray-50 group-hover:bg-brand-green/10 rounded-2xl transition-colors duration-300 text-gray-400 group-hover:text-brand-green";
-        const buttonClass = "inline-flex flex-1 items-center justify-center text-[12px] font-bold text-gray-500 group-hover:text-brand-green bg-gray-50 group-hover:bg-brand-green/5 px-4 py-2.5 rounded-xl transition-all duration-300 border border-gray-200 group-hover:border-brand-green/30 hover:!bg-brand-green hover:!text-white";
-
         return (
           <div className="space-y-10 animate-fade-in-up">
-            {/* Factory Overview Image */}
-            <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-lg relative mb-24">
+            {/* Global Infrastructure Representative Visual (21:9 wide screen) */}
+            <div 
+              style={{
+                width: '100vw',
+                marginLeft: 'calc(50% - 50vw)',
+              }}
+              className="relative w-screen aspect-[21/9] min-h-[380px] max-h-[680px] overflow-hidden bg-slate-900 shadow-md mb-16 sm:mb-20"
+            >
               <Image 
-                src="/press_factory.png" 
-                alt="Dasan Pharmaceutical Global Production Base" 
+                src="/global_infrastructure_highway.jpg" 
+                alt="Dasan Pharmaceutical Global Infrastructure Hub" 
                 fill
+                priority
                 unoptimized={true}
-                className="object-cover"
+                className="object-cover object-center"
               />
             </div>
             
-            <div className="text-left mb-10">
-              <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4">
+            <div className="text-left mb-8">
+              <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-4 pb-2 border-b border-gray-100">
                 Global Infrastructure
               </h3>
               <p className="text-gray-500 text-[15px] leading-relaxed max-w-3xl font-medium">
                 {facIntro}
               </p>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-              
-              {/* HQ (HQ) */}
-              <div className={cardClass}>
-                <div className="flex items-center space-x-4 relative z-10 mb-6">
-                  <div className={iconContainerClass}>
-                    <Building2 size={28} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Seoul Office</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">Seoul Office</h4>
-                  </div>
-                </div>
-                <div className="border-t border-gray-100 pt-6 space-y-4 flex-grow relative z-10">
-                  <div>
-                    <span className="text-sm text-brand-green font-bold block mb-2">70 Seonyu-ro, Yeongdeungpo-gu, Seoul</span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">Establishment of management, sales, purchasing, business development, and sustainable future growth strategies</p>
-                  </div>
-                </div>
-                </div>
 
-              {/* R&D Network */}
-              <div className={cardClass}>
-                <div className="flex items-center space-x-4 relative z-10 mb-6">
-                  <div className={iconContainerClass}>
-                    <Zap size={28} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">R&D Network</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">R&D Network</h4>
-                  </div>
-                </div>
-                <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
-                  <div>
-                    <span className="text-sm text-brand-green font-bold block mb-2">Dasan Central R&D Center (Suwon, Korea)</span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">Equipped with formulation and synthesis-related research facilities to oversee R&D</p>
-                  </div>
-                  <div className="pt-6 border-t border-dashed border-gray-200">
-                    <span className="text-sm text-brand-green font-bold block mb-2">Shenyang R&D Center (Shenyang, China)</span>
-                    <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">A dedicated facility for expanding global territory in charge of research, approval, and business development in China</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Global Production Facilities */}
-              <div className={cardClass}>
-                <div className="flex items-center space-x-4 relative z-10 mb-6">
-                  <div className={iconContainerClass}>
-                    <Factory size={28} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block mb-0.5">Production Facilities</span>
-                    <h4 className="font-black text-gray-900 text-xl group-hover:text-brand-green transition-colors">Global Production Facilities</h4>
-                  </div>
-                </div>
-                <div className="border-t border-gray-100 pt-6 space-y-6 relative z-10 flex-grow">
-                  {/* Domestic Production Facilities */}
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200/70 text-emerald-800 text-[11px] font-extrabold tracking-wider uppercase">
-                        Domestic
-                      </span>
-                    </div>
-                    <div className="space-y-4">
-                      <div>
-                        <span className="text-sm text-brand-green font-bold block mb-1.5">Asan Plant 1 (Asan, Korea)</span>
-                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">
-                          Finished pharmaceutical production headquarters, cGMP-level high-quality pharmaceutical production
-                        </p>
-                      </div>
-                      <div className="pt-4 border-t border-dashed border-gray-200">
-                        <span className="text-sm text-brand-green font-bold block mb-1.5">Asan Plant 2 (Asan, Korea)</span>
-                        <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">
-                          Mass production system for solid dosage forms & state-of-the-art smart automated packaging line
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Overseas Production Facilities */}
-                  <div className="pt-5 border-t border-gray-200 space-y-3">
-                    <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-200/70 text-blue-800 text-[11px] font-extrabold tracking-wider uppercase">
-                        Overseas
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-sm text-brand-green font-bold block mb-1.5">Anhui Heryi Dasan (Anhui, China)</span>
-                      <p className="text-[13.5px] text-gray-600 font-medium leading-relaxed">Local advanced production facility in China with an annual production capacity of about 4 billion tablets</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            {/* Directions & Map */}
-            <div className="mt-20 pt-16 border-t border-gray-200 w-full">
-              <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-8">Location</h3>
-              <LocationMapSection hideBackButton={true} />
-            </div>
+            {/* Global Interactive Map (China Shenyang & Korea Seoul, Suwon, Asan 1 & 2) */}
+            <GlobalFacilitiesMap isEnglish={true} />
           </div>
         );
 
@@ -1730,7 +1658,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
   };
 
   return (
-    <div className="relative bg-white pt-16 md:pt-24 pb-16 md:pb-24 min-h-screen">
+    <div className="relative bg-white pt-16 md:pt-24 pb-16 md:pb-24 min-h-screen overflow-x-clip">
       <div className={`relative z-10 w-full ${currentPath === '/about/greeting' || currentPath === '/about/business-area' || currentPath === '/about/overview' || currentPath === '/about' || currentPath === '/about/intro' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
@@ -1799,7 +1727,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`min-h-[550px] w-full ${currentPath === '/about/intro' ? 'max-w-[1760px]' : currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-full' : currentPath === '/about/esg/ethics' ? 'max-w-7xl' : currentPath === '/about/overview' || currentPath === '/about' ? 'max-w-7xl xl:max-w-[1600px]' : 'max-w-5xl'}`}>
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/intro' ? 'max-w-[1760px]' : currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-full' : currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : currentPath === '/about/overview' || currentPath === '/about' ? 'max-w-7xl xl:max-w-[1600px]' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>

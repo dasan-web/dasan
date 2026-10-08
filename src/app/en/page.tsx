@@ -12,6 +12,9 @@ import { query } from '@/lib/db';
 import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/main']);
@@ -36,6 +39,17 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   let pressNews = [];
   let products = [];
+  let isProductsHidden = false;
+
+  try {
+    const settingResult = await query("SELECT is_hidden FROM admin_contents WHERE page_key = 'main/products'");
+    if (settingResult && settingResult.length > 0) {
+      isProductsHidden = settingResult[0].is_hidden === 1 || settingResult[0].is_hidden === true;
+    }
+  } catch (err) {
+    console.error('Failed to fetch main/products visibility:', err);
+  }
+
   try {
     pressNews = await query(
       "SELECT * FROM news WHERE category = 'press' ORDER BY created_at DESC LIMIT 20"
@@ -108,7 +122,7 @@ export default async function Home() {
             {/* Learn More Button */}
             <div className="pt-4 md:pt-6">
               <Link
-                href="/about/intro"
+                href="/en/about/intro"
                 className="inline-flex items-center gap-2.5 bg-white text-brand-green hover:bg-brand-green hover:text-white font-pretendard font-bold px-9 py-4 lg:px-11 lg:py-4.5 rounded-full transition-all duration-300 text-sm lg:text-base shadow-[0_4px_16px_rgba(0,0,0,0.2)] hover:shadow-green-glow hover:-translate-y-0.5 group cursor-pointer"
               >
                 <span>Learn More</span>
@@ -126,13 +140,13 @@ export default async function Home() {
       <CoreBusinessSection />
 
       {/* 3. Finished Products Showcase Section */}
-      <MainProductShowcase initialProducts={products} />
+      {!isProductsHidden && <MainProductShowcase initialProducts={products} />}
 
       {/* 3. News Section (Product News & Press Release with Tabs) */}
       <MainProductNews initialPressNews={pressNews} />
 
       {/* Floating dot page navigator */}
-      <ScrollNav />
+      <ScrollNav hideProducts={isProductsHidden} />
 
       {/* 4. Inquiry Bottom Banner */}
       <ScrollReveal>
@@ -163,7 +177,7 @@ export default async function Home() {
               </div>
               <div>
                 <Link
-                  href="/contact/inquiry"
+                  href="/en/contact/inquiry"
                   className="inline-block bg-white hover:bg-gray-50 text-brand-green font-pretendard font-semibold px-8 py-2.5 md:px-10 md:py-3 rounded-full transition-all duration-200 text-xs md:text-sm shadow-sm hover:shadow-md cursor-pointer"
                 >
                   Contact Us

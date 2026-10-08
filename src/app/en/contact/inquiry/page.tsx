@@ -8,26 +8,26 @@ import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    let results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/contact/inquiry']);
+    let results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/contact/inquiry']);
     if (!results || results.length === 0 || !results[0].content) {
-      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/contact']);
+      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/contact']);
     }
 
     if (results && results.length > 0 && results[0].content) {
       const [title, keywords, description] = results[0].content.split('|');
       return {
-        title: title || '1:1 고객 문의 | 다산제약',
-        keywords: keywords || '다산제약 1:1 문의, 고객지원, 제휴 문의, CDMO 문의',
-        description: description || '다산제약에 궁금한 점을 문의하시면 친절하게 답변해 드립니다. 제약 위탁개발(CDMO), 원료 공급, 일반 제휴 문의.',
+        title: title || 'Product Inquiry | DASAN Pharmaceutical',
+        keywords: keywords || 'DASAN Pharmaceutical, Product Inquiry, Customer Support, Contact',
+        description: description || 'Please contact DASAN Pharmaceutical for product inquiries. We will guide you promptly.',
       };
     }
   } catch (e) {
     console.error('Failed to load contact inquiry page metadata:', e);
   }
   return {
-    title: '1:1 고객 문의 | 다산제약',
-    description: '다산제약에 궁금한 점을 문의하시면 친절하게 답변해 드립니다. 제약 위탁개발(CDMO), 원료 공급, 일반 제휴 문의.',
-    keywords: '다산제약 1:1 문의, 고객지원, 제휴 문의, CDMO 문의',
+    title: 'Product Inquiry | DASAN Pharmaceutical',
+    description: 'Please contact DASAN Pharmaceutical for product inquiries. We will guide you promptly.',
+    keywords: 'DASAN Pharmaceutical, Product Inquiry, Customer Support, Contact',
   };
 }
 
@@ -37,7 +37,7 @@ export default function ContactInquiryPage() {
   const activeMajor = 'Customer Service';
   
   const grandContact = navigationData.find(g => g.name === 'Connect');
-  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor) || null;
+  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor || m.enName === activeMajor) || null;
 
   return (
     <div className="relative bg-white py-16 md:py-24 min-h-screen">

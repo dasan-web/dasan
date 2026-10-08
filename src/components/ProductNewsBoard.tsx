@@ -221,6 +221,14 @@ export default function ProductNewsBoard({
   // Expanded row ID
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && !window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, []);
+
   // Category filter tabs
   const categories = useMemo(() => {
     if (isEnglish) {

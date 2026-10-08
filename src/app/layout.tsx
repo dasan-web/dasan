@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
+import React, { Suspense } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ScrollToTop from '@/components/ScrollToTop';
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ['latin'],
@@ -22,8 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" suppressHydrationWarning className={`${notoSansKr.variable} h-full scroll-smooth`}>
+    <html lang="ko" suppressHydrationWarning className={`${notoSansKr.variable} h-full`}>
       <body suppressHydrationWarning className="min-h-full flex flex-col font-sans bg-white antialiased">
+        <Suspense fallback={null}>
+          <ScrollToTop />
+        </Suspense>
         <Header />
         <main className="flex-grow">
           {children}

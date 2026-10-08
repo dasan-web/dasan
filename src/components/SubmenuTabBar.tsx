@@ -8,6 +8,7 @@ interface SubMenu {
   name: string;
   tabName?: string;
   enName?: string;
+  enTabName?: string;
   link: string;
 }
 
@@ -149,7 +150,7 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
                   : 'text-gray-400 hover:text-brand-blue'
               }`}
             >
-              {isEnglish ? (sub.enName || sub.name) : (sub.tabName || sub.name)}
+              {isEnglish ? (sub.enTabName || sub.enName || sub.name) : (sub.tabName || sub.name)}
             </Link>
           );
         })}

@@ -6,12 +6,29 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
+interface ActionLink {
+  label: string;
+  href: string;
+  isPrimary?: boolean;
+}
+
+interface SlideItem {
+  id: string;
+  type: string;
+  image: string;
+  tag: string;
+  title: React.ReactNode;
+  desc?: React.ReactNode;
+  href?: string;
+  actionLinks?: ActionLink[];
+}
+
 export default function CoreBusinessSection() {
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith('/en');
   const basePath = isEnglish ? '/en' : '';
 
-  const slides = [
+  const slides: SlideItem[] = [
     {
       id: 'factory',
       type: 'overview',
@@ -37,10 +54,38 @@ export default function CoreBusinessSection() {
       image: '/core_business_finished.webp',
       tag: isEnglish ? 'Core Business' : '주요 사업영역',
       title: isEnglish ? 'Finished Drugs' : '완제 의약품',
-      desc: isEnglish
-        ? 'Establishing, producing, and supplying an excellent portfolio of ethical and OTC drugs centered on cardiovascular, respiratory, and urological systems.'
-        : '순환기, 호흡기, 비뇨기 중심의 우수한 제품 라인업 구축 및 생산 판매',
+      desc: isEnglish ? (
+        <div className="flex flex-col space-y-2 sm:space-y-3">
+          <p className="leading-relaxed">
+            We establish a robust portfolio of high-efficacy prescription (ETC) and OTC pharmaceuticals centered on key therapeutic areas including cardiovascular, respiratory, gastrointestinal, and urological systems.
+          </p>
+          <p className="leading-relaxed">
+            Through c-GMP-compliant advanced manufacturing facilities and rigorous quality control, we reliably produce and supply safe, high-quality medicines to healthcare institutions nationwide.
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col space-y-2 sm:space-y-3">
+          <p className="leading-relaxed">
+            순환기, 호흡기, 소화기, 비뇨기 등 주요 만성질환 및 치료 영역을 중심으로 우수한 효능의 전문의약품(ETC)과 일반의약품(OTC) 제품 라인업을 구축하고 있습니다.
+          </p>
+          <p className="leading-relaxed">
+            c-GMP 수준의 첨단 제조 시설과 엄격한 품질관리를 통해 안전하고 신뢰할 수 있는 고품질 의약품을 전국 의료기관 및 약국에 안정적으로 생산·공급합니다.
+          </p>
+        </div>
+      ),
       href: `${basePath}/business/finished/search`,
+      actionLinks: [
+        {
+          label: isEnglish ? 'Product Search Details' : '제품검색 자세히 보기',
+          href: `${basePath}/business/finished/search`,
+          isPrimary: true,
+        },
+        {
+          label: isEnglish ? 'Product News Details' : '제품소식 자세히 보기',
+          href: `${basePath}/business/finished/news`,
+          isPrimary: false,
+        },
+      ],
     },
     {
       id: 'cmo',
@@ -48,10 +93,33 @@ export default function CoreBusinessSection() {
       image: '/core_business_cmo.jpg',
       tag: isEnglish ? 'Core Business' : '주요 사업영역',
       title: isEnglish ? 'Contract Finished Drug (CDMO)' : '수탁 완제 의약품 개발 (CDMO)',
-      desc: isEnglish
-        ? 'Contract manufacturing of ethical pharmaceuticals through proprietary formulation technology and process optimization.'
-        : '독자적인 제제기술 및 공정 최적화를 통한 전문의약품 수탁 생산',
+      desc: isEnglish ? (
+        <div className="flex flex-col space-y-2 sm:space-y-3">
+          <p className="leading-relaxed">
+            Based on proprietary formulation platforms including Multi-Stra® and process optimization capabilities, we provide comprehensive one-stop CDMO solutions spanning formulation development, clinical batch manufacturing, and commercial mass production.
+          </p>
+          <p className="leading-relaxed">
+            Equipped with German Glatt fluid-bed coaters and state-of-the-art automated packaging lines, we manufacture high-precision finished pharmaceuticals customized to our global and domestic partners' demands.
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col space-y-2 sm:space-y-3">
+          <p className="leading-relaxed">
+            Multi-Stra® 등 다산제약만의 독자적인 특수 제형 제제기술과 공정 최적화 역량을 기반으로, 개량신약 및 제네릭 완제의약품의 개발부터 상업화 대량 생산까지 전 주기 원스톱 솔루션을 제공합니다.
+          </p>
+          <p className="leading-relaxed">
+            독일 Glatt 유동층 코팅 설비와 최첨단 자동화 스마트 패키징 라인을 통해 국내외 파트너사의 다양한 요구에 부합하는 최고 품질의 의약품을 위탁 제조합니다.
+          </p>
+        </div>
+      ),
       href: `${basePath}/business/cdmo`,
+      actionLinks: [
+        {
+          label: isEnglish ? 'CDMO Details' : 'CDMO 자세히 보기',
+          href: `${basePath}/business/cdmo`,
+          isPrimary: true,
+        },
+      ],
     },
     {
       id: 'api',
@@ -59,21 +127,62 @@ export default function CoreBusinessSection() {
       image: '/core_business_api.jpg',
       tag: isEnglish ? 'Core Business' : '주요 사업영역',
       title: isEnglish ? 'API & Intermediate R&D' : '의약품 원료 및 중간체 연구개발',
-      desc: isEnglish
-        ? 'Development and patent acquisition of key APIs and intermediates, with DMF registration and quality control for new synthetic and imported materials.'
-        : '의약품 핵심 원료 및 중간체 개발 및 특허 확보, 신규 합성 및 신규 수입 원료 DMF등록 관리',
+      desc: isEnglish ? (
+        <div className="flex flex-col space-y-2 sm:space-y-3">
+          <p className="leading-relaxed">
+            We drive the research, development, and patent acquisition of high-value APIs and synthetic intermediates including prodrugs, managing global-standard DMF registrations with systematic regulatory precision.
+          </p>
+          <p className="leading-relaxed">
+            Supported by high-precision analytical testing, rigorous QA systems, and a competitive global sourcing network, we deliver trusted, optimized API solutions to pharmaceutical manufacturers worldwide.
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col space-y-2 sm:space-y-3">
+          <p className="leading-relaxed">
+            Prodrug를 비롯한 고부가가치 의약품 핵심 원료 및 합성 중간체의 연구개발과 독자적 특허 확보를 주도하며, 글로벌 규격의 신규 합성·수입 원료 DMF 등록을 체계적으로 관리합니다.
+          </p>
+          <p className="leading-relaxed">
+            고정밀 분석 시험과 엄격한 품질보증 시스템, 경쟁력 있는 글로벌 소싱 네트워크를 바탕으로 국내외 완제의약품 제조사에 신뢰성 높은 최적의 API 솔루션을 공급합니다.
+          </p>
+        </div>
+      ),
       href: `${basePath}/business/api/raw`,
+      actionLinks: [
+        {
+          label: isEnglish ? 'API Details' : 'API 자세히 보기',
+          href: `${basePath}/business/api/raw`,
+          isPrimary: true,
+        },
+      ],
     },
     {
       id: 'rd',
       type: 'detail',
       image: '/core_business_rd.jpg',
       tag: isEnglish ? 'Core Business' : '주요 사업영역',
-      title: isEnglish ? 'New Drug Development & Clinical Research' : '신약개발 및 임상연구',
-      desc: isEnglish
-        ? 'From the discovery of innovative therapeutics such as small molecule novel compounds and RNA therapeutics to the development of new formulations and incrementally modified drugs, up to clinical trials, Dasan Pharmaceutical is leading the advancement of human health.'
-        : '저분자 신약 화합물, RNA치료제 개발과 같은 혁신 치료제 발굴부터, 신제형 개발, 개량신약 개발을 거쳐 임상 시험까지 다산제약은 혁신적인 인류 건강 증진의 선두주자로 거듭납니다.',
+      title: isEnglish ? 'New Drug & Formulation Development, Clinical Research' : '신약 및 신제형개발, 임상연구',
+      desc: isEnglish ? (
+        <p className="leading-relaxed">
+          From the discovery of innovative therapeutics such as small molecule novel compounds and RNA therapeutics to new formulation development, specialized formulation platforms, incrementally modified drugs, and clinical trials, Dasan Pharmaceutical is leading the advancement of human health, continuously investing in research and development.
+        </p>
+      ) : (
+        <p className="leading-relaxed">
+          저분자 신약 화합물, RNA치료제 개발과 같은 혁신 치료제 발굴부터, 신제형 개발, 특수제형플랫폼, 개량신약, 임상 시험까지 다산제약은 혁신적인 인류 건강 증진의 선두주자로, 지속적으로 연구개발에 투자하고 있습니다.
+        </p>
+      ),
       href: `${basePath}/rd/intro`,
+      actionLinks: [
+        {
+          label: isEnglish ? 'R&D Activities Details' : '연구 활동 자세히 보기',
+          href: `${basePath}/rd/activities`,
+          isPrimary: true,
+        },
+        {
+          label: isEnglish ? 'Pipeline Details' : '파이프라인 자세히 보기',
+          href: `${basePath}/rd/pipeline`,
+          isPrimary: false,
+        },
+      ],
     },
   ];
 
@@ -99,13 +208,14 @@ export default function CoreBusinessSection() {
     {
       id: 'rd',
       num: '4',
-      title: isEnglish ? 'New Drug Development & Clinical Research' : '신약개발 및 임상연구',
+      title: isEnglish ? 'New Drug & Formulation Development, Clinical Research' : '신약 및 신제형개발, 임상연구',
       targetSlide: 4,
     },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextSlide = () => {
@@ -116,9 +226,9 @@ export default function CoreBusinessSection() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  // Auto slide timer
+  // Auto slide timer (pauses when user hovers or isPlaying is false)
   useEffect(() => {
-    if (isPlaying) {
+    if (isPlaying && !isHovered) {
       timerRef.current = setInterval(() => {
         nextSlide();
       }, 5000);
@@ -128,7 +238,7 @@ export default function CoreBusinessSection() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPlaying, currentSlide]);
+  }, [isPlaying, isHovered, currentSlide]);
 
   return (
     <section id="core-business" className="pt-20 sm:pt-28 md:pt-32 lg:pt-36 pb-14 md:pb-20 bg-white relative font-pretendard">
@@ -175,6 +285,8 @@ export default function CoreBusinessSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             className="w-full bg-white rounded-[24px] sm:rounded-[32px] lg:rounded-[36px] border border-gray-200 shadow-[0_12px_36px_rgba(0,0,0,0.10),0_3px_12px_rgba(0,0,0,0.06)] overflow-hidden"
           >
             <AnimatePresence mode="wait">
@@ -275,10 +387,10 @@ export default function CoreBusinessSection() {
                     <button
                       onClick={() => setCurrentSlide(0)}
                       aria-label={isEnglish ? 'View All Business Areas' : '주요 사업영역 전체보기'}
-                      className="absolute top-6 sm:top-8 lg:top-10 right-6 sm:right-8 lg:right-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-gray-500 hover:text-brand-green hover:bg-emerald-50 border border-gray-200 transition-all duration-300 cursor-pointer focus:outline-none group"
+                      className="absolute top-6 sm:top-8 lg:top-10 right-6 sm:right-8 lg:right-10 inline-flex items-center gap-2 px-5 sm:px-6 py-2 sm:py-2.5 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs sm:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer focus:outline-none"
                     >
                       <span>{isEnglish ? 'Overview' : '전체보기'}</span>
-                      <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </button>
 
                     {/* Sub-label */}
@@ -293,14 +405,27 @@ export default function CoreBusinessSection() {
                       {slides[currentSlide].title}
                     </h3>
 
-                    {/* Description (Single line for finished/cmo) */}
-                    <p className={`text-base sm:text-lg lg:text-[17.5px] xl:text-[19px] text-gray-600 font-normal leading-relaxed break-keep ${
-                      slides[currentSlide].id === 'finished' || slides[currentSlide].id === 'cmo'
-                        ? 'lg:whitespace-nowrap'
-                        : ''
-                    }`}>
+                    {/* Description */}
+                    <div className="text-sm sm:text-base lg:text-[15.5px] xl:text-[17px] text-gray-600 font-normal leading-relaxed break-keep">
                       {slides[currentSlide].desc}
-                    </p>
+                    </div>
+
+                    {/* User Requested: 자세히 보기 링크 버튼들 (바깥쪽 테두리 회색 적용) */}
+                    {slides[currentSlide].actionLinks && slides[currentSlide].actionLinks.length > 0 && (
+                      <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4 items-center">
+                        {slides[currentSlide].actionLinks.map((link, lIdx) => (
+                          <Link
+                            key={lIdx}
+                            href={link.href}
+                            scroll={true}
+                            className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs sm:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
+                          >
+                            <span>{link.label}</span>
+                            <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}

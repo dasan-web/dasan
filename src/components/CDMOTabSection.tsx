@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FlaskConical, Factory, ShieldCheck, Layers } from 'lucide-react';
+import { FlaskConical, Factory, ShieldCheck, Layers, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 interface TabItem {
@@ -11,6 +12,7 @@ interface TabItem {
   num: string;
   badge: string;
   cardTitle: string;
+  cardDesc?: string;
   icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
   sectionTitle: string;
   groups: {
@@ -26,6 +28,7 @@ const tabData: TabItem[] = [
     num: '01',
     badge: 'TECHNOLOGY',
     cardTitle: 'Multi-Stra® 기반 제형 및 MUPS 기술',
+    cardDesc: '축적된 제제 기술을 바탕으로 제품 특성에 맞는 제형을 설계하고, 차별화된 의약품 개발을 지원합니다.',
     icon: FlaskConical,
     sectionTitle: '1st Generic 품목',
     groups: [
@@ -47,7 +50,8 @@ const tabData: TabItem[] = [
     id: 'manufacturing',
     num: '02',
     badge: 'MANUFACTURING',
-    cardTitle: 'GMP 기반 생산 인프라',
+    cardTitle: 'GMP 기반 생산 역량',
+    cardDesc: 'GMP 기준에 부합하는 생산 인프라와 제조 역량을 바탕으로 개발 제품의 안정적인 생산을 지원합니다.',
     icon: Factory,
     sectionTitle: '개량신약(염 변경)',
     groups: [
@@ -66,7 +70,8 @@ const tabData: TabItem[] = [
     id: 'quality',
     num: '03',
     badge: 'QUALITY CONTROL',
-    cardTitle: '체계적인 품질관리',
+    cardTitle: '체계적인 품질관리 시스템',
+    cardDesc: '원료 입고부터 제조, 시험, 완제품까지 체계적인 품질관리를 통해 일관된 품질을 유지합니다.',
     icon: ShieldCheck,
     sectionTitle: '개량신약(약물방출)',
     groups: [
@@ -85,7 +90,8 @@ const tabData: TabItem[] = [
     id: 'one-stop',
     num: '04',
     badge: 'ONE-STOP',
-    cardTitle: '개발부터 생산까지 연계',
+    cardTitle: '개발부터 생산까지 One-Stop',
+    cardDesc: '연구개발부터 기술이전, 생산, 품질관리까지 전 과정을 연계하여 지원합니다.',
     icon: Layers,
     sectionTitle: '개량신약(복합제)&기타',
     groups: [
@@ -103,6 +109,9 @@ const tabData: TabItem[] = [
 ];
 
 export default function CDMOTabSection() {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
+  const basePath = isEnglish ? '/en' : '';
   const [activeTab, setActiveTab] = useState<number>(0);
   const [hoveredTab, setHoveredTab] = useState<number | null>(null);
 
@@ -535,10 +544,11 @@ export default function CDMOTabSection() {
             </p>
           </div>
           <Link
-            href="/contact/inquiry/sales"
-            className="inline-flex items-center justify-center py-3 px-6 rounded-xl bg-gray-500 hover:bg-[#64ad55] text-white text-[14px] sm:text-[15.5px] font-bold shadow-sm transition-all duration-300 shrink-0"
+            href={`${basePath}/contact/inquiry/sales`}
+            className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs sm:text-sm md:text-[14.5px] font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
           >
-            비즈니스 영업 문의하기
+            <span>{isEnglish ? 'Business Sales Inquiry' : '비즈니스 영업 문의하기'}</span>
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
 
@@ -562,9 +572,14 @@ export default function CDMOTabSection() {
                       className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
-                  <h4 className="text-[14.5px] sm:text-[15.5px] lg:text-[14.5px] xl:text-[16px] font-bold tracking-tight leading-snug break-keep text-gray-900 transition-colors group-hover:text-[#64ad55]">
+                  <h4 className="text-[16px] sm:text-[17px] lg:text-[15.5px] xl:text-[17px] font-bold tracking-tight leading-snug break-keep text-gray-900 mb-2.5 transition-colors group-hover:text-[#64ad55]">
                     {tab.cardTitle}
                   </h4>
+                  {tab.cardDesc && (
+                    <p className="text-[13px] sm:text-[13.5px] lg:text-[13px] xl:text-[13.5px] text-gray-600 leading-[1.65] break-keep font-normal">
+                      {tab.cardDesc}
+                    </p>
+                  )}
                 </div>
               </div>
             );

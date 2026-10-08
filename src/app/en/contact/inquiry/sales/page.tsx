@@ -8,36 +8,36 @@ import type { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    let results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/contact/inquiry/sales']);
+    let results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/contact/inquiry/sales']);
     if (!results || results.length === 0 || !results[0].content) {
-      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/contact']);
+      results = await query('SELECT content FROM admin_contents WHERE page_key = ?', ['seo/en/contact']);
     }
 
     if (results && results.length > 0 && results[0].content) {
       const [title, keywords, description] = results[0].content.split('|');
       return {
-        title: title || '영업 문의 | 다산제약',
-        keywords: keywords || '다산제약 영업 문의, 구매 제휴, 비즈니스 협력',
-        description: description || '다산제약의 영업 및 비즈니스 관련 문의를 남겨주시면 담당 부서에서 신속히 연락 드리겠습니다.',
+        title: title || 'Business Inquiry | DASAN Pharmaceutical',
+        keywords: keywords || 'DASAN Pharmaceutical, Business Inquiry, Sales Inquiry, Partnership',
+        description: description || 'Please submit your sales, purchase partnership, or business cooperation inquiry, and the relevant department will contact you promptly.',
       };
     }
   } catch (e) {
     console.error('Failed to load contact sales inquiry page metadata:', e);
   }
   return {
-    title: '영업 문의 | 다산제약',
-    description: '다산제약의 영업 및 비즈니스 관련 문의를 남겨주시면 담당 부서에서 신속히 연락 드리겠습니다.',
-    keywords: '다산제약 영업 문의, 구매 제휴, 비즈니스 협력',
+    title: 'Business Inquiry | DASAN Pharmaceutical',
+    description: 'Please submit your sales, purchase partnership, or business cooperation inquiry, and the relevant department will contact you promptly.',
+    keywords: 'DASAN Pharmaceutical, Business Inquiry, Sales Inquiry, Partnership',
   };
 }
 
 export default function ContactSalesInquiryPage() {
   const currentPath = '/contact/inquiry/sales';
-  const activeTitle = 'Sales Inquiry';
+  const activeTitle = 'Business Inquiry';
   const activeMajor = 'Customer Service';
   
   const grandContact = navigationData.find(g => g.name === 'Connect');
-  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor) || null;
+  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor || m.enName === activeMajor) || null;
 
   return (
     <div className="relative bg-white py-16 md:py-24 min-h-screen">

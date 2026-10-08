@@ -76,15 +76,15 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
 
         {/* 2-Column Central Research Institute Overview */}
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 pt-4 items-start w-full">
-          {/* Left Title Column */}
-          <div className="w-auto lg:w-[170px] xl:w-[190px] shrink-0">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight whitespace-nowrap">
+          {/* Left Title Column - One single line (whitespace-nowrap) without fixed width limit to prevent overlap */}
+          <div className="shrink-0">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight whitespace-nowrap">
               {data.centerTitle}
             </h2>
           </div>
 
           {/* Right Description Column (Original Texts 100% Preserved, expanded width) */}
-          <div className="flex-1 w-full space-y-5 text-sm sm:text-base md:text-[16.5px] text-slate-600 leading-relaxed font-normal break-keep">
+          <div className="flex-1 min-w-0 w-full space-y-5 text-sm sm:text-base md:text-[16.5px] text-slate-600 leading-relaxed font-normal break-keep">
             <p className="whitespace-pre-line">
               {data.centerDesc1}
             </p>

@@ -70,7 +70,7 @@ export default async function ContactCatchAllPage({ params }: Params) {
   const slug = resolvedParams.slug || [];
 
   if (slug.length === 0) {
-    redirect('/contact/newsroom/press');
+    redirect('/en/contact/newsroom/press');
   }
 
   const currentPath = `/contact/${slug.join('/')}`;
@@ -194,10 +194,10 @@ export default async function ContactCatchAllPage({ params }: Params) {
   };
 
   return (
-    <div className="relative bg-white py-16 md:py-24 min-h-screen">
-      <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 mt-8">
+    <div className="relative bg-white pt-8 pb-14 md:pt-10 md:pb-18 min-h-screen">
+      <div className={`relative z-10 w-full ${currentPath.startsWith('/en/contact/careers') ? 'px-4 sm:px-6 md:px-8 lg:px-12 max-w-[1850px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-2 md:mt-4`}>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           
           {/* Left Sidebar Submenu (PC) - Hidden by user request to remove left frame */}
           <aside className="lg:col-span-1 pr-6 border-r border-gray-100 hidden space-y-8">
@@ -244,23 +244,23 @@ export default async function ContactCatchAllPage({ params }: Params) {
           </aside>
 
           {/* Right Main Content - Expanded to full width (col-span-5) to remove sidebar frame space */}
-          <div className="lg:col-span-5 space-y-8 flex flex-col items-center w-full">
+          <div className="lg:col-span-5 space-y-6 flex flex-col items-center w-full">
             {/* Header - Centered for symmetry */}
-            <div className="pb-8 w-full text-center flex flex-col items-center">
-              <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-3">
+            <div className="pb-4 md:pb-6 w-full text-center flex flex-col items-center">
+              <div className="flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest text-brand-green mb-2.5">
                 <span>{grandContact?.name}</span>
                 <span className="text-gray-300">/</span>
                 <span className="text-gray-400">{activeMajor}</span>
               </div>
               
-              <h2 className="text-3xl md:text-4xl font-black text-brand-blue tracking-tight text-center mb-6">{activeTitle}</h2>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-brand-blue tracking-tight text-center mb-4">{activeTitle}</h2>
 
               {/* Premium Glassmorphic Tab Bar with Sliding Animation */}
               <SubmenuTabBar subMenus={activeMajorObj?.subMenus || []} currentPath={currentPath} />
             </div>
 
-            {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className="min-h-[550px] w-full max-w-5xl">
+            {/* Dynamic Content - Width expanded to fill space for careers */}
+            <div className={`w-full ${currentPath.startsWith('/en/contact/careers') ? 'max-w-full' : 'max-w-6xl'}`}>
               {await renderContent()}
             </div>
           </div>

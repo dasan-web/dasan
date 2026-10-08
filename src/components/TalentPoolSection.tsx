@@ -190,10 +190,6 @@ export default function TalentPoolSection({ isEnglish = false }: TalentPoolSecti
       {/* 1. Header Banner & Introduction (Clean White with Gray Border) */}
       <div className="relative rounded-3xl bg-white border border-slate-200/90 p-8 sm:p-10 md:p-12 shadow-xs">
         <div className="max-w-3xl space-y-4 text-left">
-          <span className="text-xs font-bold text-brand-green uppercase tracking-wider block">
-            {isEnglish ? 'Talent Pool · Continuous Hiring' : '상시 인재풀 등록 · 상시 채용'}
-          </span>
-
           <h3 className="text-2xl sm:text-3xl md:text-[34px] font-black text-slate-900 tracking-tight leading-snug">
             {isEnglish ? (
               <>Innovate Together with Dasan,<br /><span className="text-emerald-600">Anytime, Anywhere.</span></>

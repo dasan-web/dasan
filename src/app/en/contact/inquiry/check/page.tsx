@@ -38,7 +38,7 @@ export default function InquiryCheckPage() {
       let url = `/api/inquiries?email=${encodeURIComponent(email)}`;
       if (email === 'anonymous@dspharm.com') {
         if (!password) {
-          setError('익명 문의 조회를 위해 비밀번호를 입력해 주세요.');
+          setError('Please enter your password for anonymous inquiry lookup.');
           setLoading(false);
           return;
         }
@@ -51,10 +51,10 @@ export default function InquiryCheckPage() {
       if (res.ok) {
         setInquiries(data);
       } else {
-        throw new Error(data.error || '조회 중 오류가 발생했습니다.');
+        throw new Error(data.error || 'An error occurred during lookup.');
       }
     } catch (err: any) {
-      setError(err.message || '문의 내역을 가져오는데 실패했습니다.');
+      setError(err.message || 'Failed to retrieve inquiry history.');
     } finally {
       setLoading(false);
     }
@@ -64,7 +64,7 @@ export default function InquiryCheckPage() {
   const activeTitle = 'Check Inquiry';
   const activeMajor = 'Customer Service';
   const grandContact = navigationData.find(g => g.name === 'Connect');
-  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor) || null;
+  const activeMajorObj = grandContact?.majors.find(m => m.name === activeMajor || m.enName === activeMajor) || null;
 
   return (
     <div className="relative bg-white py-16 md:py-24 min-h-screen">
@@ -183,7 +183,7 @@ export default function InquiryCheckPage() {
                         type="password"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value); setSearched(false); }}
-                        placeholder="익명 문의 조회용 비밀번호 입력"
+                        placeholder="Enter password for anonymous inquiry"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/20 text-sm text-brand-blue outline-none transition-all placeholder:text-gray-400"
                       />
@@ -217,11 +217,11 @@ export default function InquiryCheckPage() {
                     <div className="text-center py-6 text-rose-500 text-sm">{error}</div>
                   ) : inquiries.length === 0 ? (
                     <div className="text-center py-12 text-gray-400 text-sm">
-                      입력하신 이메일({email})로 등록된 문의 내역이 없습니다.
+                      No inquiries found registered with the entered email ({email}).
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <h4 className="text-sm font-bold text-brand-blue mb-4">조회 결과 (총 {inquiries.length}건)</h4>
+                      <h4 className="text-sm font-bold text-brand-blue mb-4">Search Results (Total {inquiries.length})</h4>
                       
                       <div className="divide-y divide-gray-100">
                         {inquiries.map((item) => {
@@ -245,10 +245,10 @@ export default function InquiryCheckPage() {
                                     <div className="flex items-center space-x-3 text-xs text-gray-400 mt-1">
                                       <span className="flex items-center space-x-1">
                                         <Calendar size={12} />
-                                        <span>{dateObj.toLocaleDateString('ko-KR')}</span>
+                                        <span>{dateObj.toLocaleDateString('en-US')}</span>
                                       </span>
                                       <span>•</span>
-                                      <span>작성자: {item.name}</span>
+                                      <span>Author: {item.name}</span>
                                     </div>
                                   </div>
                                 </div>
@@ -257,7 +257,7 @@ export default function InquiryCheckPage() {
                                 <div>
                                   <span className="inline-flex items-center space-x-1 text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-full">
                                     <CheckCircle2 size={12} />
-                                    <span>접수 Completed</span>
+                                    <span>Received</span>
                                   </span>
                                 </div>
                               </div>
@@ -266,14 +266,14 @@ export default function InquiryCheckPage() {
                               {isExpanded && (
                                 <div className="mt-4 ml-14 p-5 bg-brand-gray-light/40 rounded-lg border border-gray-100 text-sm space-y-4 animate-fade-in-up">
                                   <div className="space-y-1">
-                                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">문의 내용</span>
+                                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Inquiry Details</span>
                                     <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{item.content}</p>
                                   </div>
                                   
                                   <div className="border-t border-gray-200/70 pt-4 space-y-1">
-                                    <span className="text-[10px] text-brand-teal font-bold uppercase tracking-wider block">답변 정보</span>
+                                    <span className="text-[10px] text-brand-teal font-bold uppercase tracking-wider block">Response Info</span>
                                     <div className="text-gray-500 italic text-xs">
-                                      접수된 문의는 순차적으로 내부 담당자가 검토 중에 있습니다. 기재해주신 이메일({item.email}) 또는 연락처로 회신을 드릴 예정입니다.
+                                      Submitted inquiries are reviewed sequentially by our team. We will reply to your registered email ({item.email}) or contact number.
                                     </div>
                                   </div>
                                 </div>

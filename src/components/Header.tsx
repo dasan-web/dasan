@@ -57,7 +57,6 @@ export default function Header() {
       })
       .map(grand => {
         const filteredMajors = grand.majors
-          .filter(major => !(isEnglish && major.enName === 'Customer Service'))
           .map(major => {
             const filteredSubMenus = major.subMenus.filter(sub => {
               const relativeLink = sub.link.replace(/^\//, '');
@@ -154,8 +153,16 @@ export default function Header() {
                 const colCount = grand.majors.length;
                 const hasDropdown = grand.majors.some(m => m.subMenus && m.subMenus.length > 0);
                 
+                const isConnect = grand.link === '/contact' || grand.name === 'Connect';
                 // 각 대메뉴별 시작점/끝점 정렬 클래스 지정
                 const alignClass = '-left-6 origin-top-left';
+                const dropdownWidth = isConnect
+                  ? '600px'
+                  : colCount === 1
+                  ? '240px'
+                  : colCount === 2
+                  ? '480px'
+                  : '700px';
 
                 const checkPath = pathname.replace(/^\/en/, '') || '/';
                 const isActive = grand.link === '/business'
@@ -187,9 +194,9 @@ export default function Header() {
                     {/* Localized Dropdown Menu Wrapper with Hover Bridge (CSS Hover - Aligned) */}
                     {hasDropdown && (
                       <div
-                        className={`absolute top-20 ${alignClass} pt-4 z-50 ${activeGrand===grand.name ? 'opacity-100 visible pointer-events-auto translate-y-0' : 'opacity-0 invisible pointer-events-none translate-y-1'} group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 transition-all duration-200 ease-out will-change-[opacity,transform]`}
+                        className={`absolute top-20 ${alignClass} pt-4 z-50 max-w-[calc(100vw-2rem)] ${activeGrand===grand.name ? 'opacity-100 visible pointer-events-auto translate-y-0' : 'opacity-0 invisible pointer-events-none translate-y-1'} group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-0 transition-all duration-200 ease-out will-change-[opacity,transform]`}
                         style={{
-                          width: colCount === 1 ? '240px' : colCount === 2 ? '480px' : '700px'
+                          width: dropdownWidth
                         }}
                       >
                         <div 

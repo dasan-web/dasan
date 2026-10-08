@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   ArrowRight, 
   ChevronLeft, 
@@ -14,7 +14,8 @@ import {
   Calendar, 
   X, 
   Download,
-  Newspaper
+  Newspaper,
+  Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -134,6 +135,8 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith('/en');
   const basePath = isEnglish ? '/en' : '';
+  const router = useRouter();
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   // Tab State: 'pressRelease' or 'productNews'
   const [activeTab, setActiveTab] = useState<'pressRelease' | 'productNews'>('pressRelease');
@@ -141,6 +144,17 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
   const [startIndex, setStartIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [selectedModalItem, setSelectedModalItem] = useState<any | null>(null);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = searchKeyword.trim();
+    const isOnlyJamo = /^[ㄱ-ㅎㅏ-ㅣ\s]+$/.test(trimmed);
+    if (trimmed && !isOnlyJamo) {
+      router.push(`${basePath}/business/finished/search?q=${encodeURIComponent(trimmed)}`);
+    } else {
+      router.push(`${basePath}/business/finished/search`);
+    }
+  };
 
   // Check initial hash on mount (e.g. #product-news)
   useEffect(() => {
@@ -274,7 +288,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                       ? `${basePath}/business/finished/news` 
                       : `${basePath}/contact/newsroom/press`
                   }
-                  className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white text-xs lg:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
+                  className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs lg:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
                 >
                   <span>{isEnglish ? 'View All' : '전체보기'}</span>
                   <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -545,6 +559,39 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
               </motion.div>
             </AnimatePresence>
           </div>
+        </div>
+
+        {/* User Requested: 뉴스 카드 하단 우측 제품 검색창 (입력창 내부에 '다산제약 제품에 대한 검색 기능입니다' 표시) */}
+        <div className="flex justify-end items-center mt-6 sm:mt-8 md:mt-10 w-full">
+          <form 
+            onSubmit={handleSearchSubmit}
+            className="relative flex items-center w-full sm:w-96 md:w-[440px] lg:w-[480px] bg-gray-50/90 hover:bg-white focus-within:bg-white border border-gray-200/90 focus-within:border-brand-green focus-within:ring-4 focus-within:ring-brand-green/10 rounded-full px-4.5 py-2.5 sm:py-3 transition-all duration-300 shadow-2xs focus-within:shadow-md shrink-0"
+          >
+            <Search className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gray-400 focus-within:text-brand-green shrink-0 mr-2.5 transition-colors" />
+            <input
+              type="text"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              placeholder={isEnglish ? "Search Dasan Pharmaceutical products..." : "다산제약 제품에 대한 검색 기능입니다"}
+              className="w-full bg-transparent text-xs sm:text-[14px] font-medium text-gray-900 placeholder:text-gray-400 outline-none pr-2"
+            />
+            {searchKeyword && (
+              <button
+                type="button"
+                onClick={() => setSearchKeyword('')}
+                className="text-gray-400 hover:text-gray-600 p-1 mr-1 transition-colors cursor-pointer"
+                aria-label="Clear search"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+            <button
+              type="submit"
+              className="bg-brand-green hover:bg-brand-green-dark text-white rounded-full px-4.5 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-bold transition-all hover:shadow-xs active:scale-95 shrink-0 cursor-pointer"
+            >
+              {isEnglish ? 'Search' : '검색'}
+            </button>
+          </form>
         </div>
       </ScrollReveal>
 
