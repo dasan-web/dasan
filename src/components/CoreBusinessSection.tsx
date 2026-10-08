@@ -216,7 +216,14 @@ export default function CoreBusinessSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
+  const [isReturning, setIsReturning] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleBackToOverview = () => {
+    setIsReturning(true);
+    setCurrentSlide(0);
+    setTimeout(() => setIsReturning(false), 400);
+  };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -302,11 +309,11 @@ export default function CoreBusinessSection() {
                 >
                   {/* Left Column: Factory Image & Navy Banner (7 cols) */}
                   <div className="lg:col-span-7 flex flex-col h-full overflow-hidden">
-                    <div className="relative w-full aspect-[21/9] lg:aspect-auto flex-1 overflow-hidden bg-gray-100 group">
+                    <div className="relative w-full aspect-[21/9] lg:aspect-auto flex-1 overflow-hidden bg-gray-100">
                       <img
                         src="/core_business_factory.jpg"
                         alt={isEnglish ? 'Dasan Pharmaceutical Asan Plant' : '다산제약 아산공장 전경'}
-                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                        className="w-full h-full object-cover object-center"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                     </div>
@@ -373,59 +380,94 @@ export default function CoreBusinessSection() {
                   className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[620px] xl:h-[640px]"
                 >
                   {/* Left Column: 6 cols */}
-                  <div className="lg:col-span-6 relative overflow-hidden bg-gray-100 min-h-[320px] sm:min-h-[380px] lg:min-h-full h-full group">
+                  <div className="lg:col-span-6 relative overflow-hidden bg-gray-100 min-h-[320px] sm:min-h-[380px] lg:min-h-full h-full">
                     <img
                       src={slides[currentSlide].image}
                       alt={slides[currentSlide].title as string}
-                      className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="w-full h-full object-cover object-center absolute inset-0"
                     />
                   </div>
 
                   {/* Right Column: 6 cols */}
-                  <div className="lg:col-span-6 relative p-8 sm:p-10 lg:p-12 xl:p-14 flex flex-col justify-center bg-white h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full">
-                    {/* Top Right Corner Action Button: Click to return to Overview */}
-                    <button
-                      onClick={() => setCurrentSlide(0)}
-                      aria-label={isEnglish ? 'View All Business Areas' : '주요 사업영역 전체보기'}
-                      className="absolute top-6 sm:top-8 lg:top-10 right-6 sm:right-8 lg:right-10 inline-flex items-center gap-2 px-5 sm:px-6 py-2 sm:py-2.5 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs sm:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer focus:outline-none"
-                    >
-                      <span>{isEnglish ? 'Overview' : '전체보기'}</span>
-                      <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                    </button>
-
-                    {/* Sub-label */}
-                    <div className="mb-3 sm:mb-4">
-                      <span className="text-xs sm:text-base font-bold text-brand-green tracking-wider uppercase">
-                        {slides[currentSlide].tag}
-                      </span>
-                    </div>
-
-                    {/* Big Title */}
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[42px] font-black text-brand-blue tracking-tight leading-tight mb-4 sm:mb-6 break-keep">
-                      {slides[currentSlide].title}
-                    </h3>
-
-                    {/* Description */}
-                    <div className="text-sm sm:text-base lg:text-[15.5px] xl:text-[17px] text-gray-600 font-normal leading-relaxed break-keep">
-                      {slides[currentSlide].desc}
-                    </div>
-
-                    {/* User Requested: 자세히 보기 링크 버튼들 (바깥쪽 테두리 회색 적용) */}
-                    {slides[currentSlide].actionLinks && slides[currentSlide].actionLinks.length > 0 && (
-                      <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4 items-center">
-                        {slides[currentSlide].actionLinks.map((link, lIdx) => (
-                          <Link
-                            key={lIdx}
-                            href={link.href}
-                            scroll={true}
-                            className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs sm:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
-                          >
-                            <span>{link.label}</span>
-                            <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                          </Link>
-                        ))}
+                  <div className="lg:col-span-6 relative pt-5 sm:pt-6 lg:pt-6 xl:pt-7 pb-8 sm:pb-10 lg:pb-12 xl:pb-14 px-4 sm:px-6 lg:px-6 xl:px-8 flex flex-col justify-between bg-white h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full">
+                    {/* Top Section: 4대 주요 사업영역 텍스트 버튼 & 처음 화면으로 가기 화살표 버튼 (한 줄 정렬, 막대그래프 스크롤바 완전 제거) */}
+                    <div className="mb-4 sm:mb-6 flex items-center justify-between gap-1.5 sm:gap-2 w-full">
+                      {/* 4대 주요 사업영역 텍스트 버튼 (한 줄로 다 보이게 정렬) */}
+                      <div className="flex items-center gap-1 sm:gap-1.5 xl:gap-2 flex-nowrap min-w-0 flex-1 overflow-x-auto no-scrollbar py-0.5">
+                        {businessItems.map((item) => {
+                          const isActive = currentSlide === item.targetSlide;
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              onClick={() => setCurrentSlide(item.targetSlide)}
+                              className={`inline-flex items-center justify-center px-2 sm:px-2.5 xl:px-3 py-1 sm:py-1.5 rounded-full text-[10.5px] sm:text-[11px] lg:text-[11px] xl:text-xs font-semibold tracking-tight transition-all duration-300 cursor-pointer border select-none whitespace-nowrap shrink-0 shadow-none ${
+                                isActive
+                                  ? 'bg-brand-green text-white border-brand-green font-bold'
+                                  : 'bg-white text-gray-700 border-gray-300 hover:border-brand-green hover:text-brand-green hover:bg-emerald-50/40'
+                              }`}
+                            >
+                              <span>{item.title}</span>
+                            </button>
+                          );
+                        })}
                       </div>
-                    )}
+
+                      {/* 처음 화면으로 가기 화살표 디자인 버튼 (우측 상단 동일한 줄에 위치, 누르면 녹색 전환 및 처음 화면 이동) */}
+                      <button
+                        type="button"
+                        onClick={handleBackToOverview}
+                        aria-label={isEnglish ? 'Back to Overview' : '처음 화면으로 가기'}
+                        className={`w-8 h-8 sm:w-8.5 sm:h-8.5 xl:w-9 xl:h-9 rounded-full border flex items-center justify-center transition-all duration-300 shadow-none group cursor-pointer shrink-0 focus:outline-none relative ${
+                          isReturning
+                            ? 'bg-brand-green text-white border-brand-green scale-105'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-brand-green hover:text-white hover:border-brand-green active:scale-95'
+                        }`}
+                      >
+                        <ArrowRight className="w-4 h-4 stroke-[2.5] transition-transform duration-300 group-hover:translate-x-0.5" />
+                        
+                        {/* Hover Tooltip (단일 툴팁만 깔끔하게 노출, 클릭 시 즉시 숨김) */}
+                        <span className="absolute right-0 top-full mt-1.5 hidden group-hover:flex group-active:hidden items-center px-2.5 py-1 bg-gray-900/90 text-white text-[11px] font-medium rounded-md whitespace-nowrap shadow-md pointer-events-none z-30 animate-fade-in">
+                          {isEnglish ? 'Back to Overview' : '처음 화면으로 가기'}
+                        </span>
+                      </button>
+                    </div>
+
+                    <div className="my-auto">
+                      {/* Sub-label */}
+                      <div className="mb-3 sm:mb-4">
+                        <span className="text-xs sm:text-base font-bold text-brand-green tracking-wider uppercase">
+                          {slides[currentSlide].tag}
+                        </span>
+                      </div>
+
+                      {/* Big Title */}
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[42px] font-black text-brand-blue tracking-tight leading-tight mb-4 sm:mb-6 break-keep">
+                        {slides[currentSlide].title}
+                      </h3>
+
+                      {/* Description */}
+                      <div className="text-sm sm:text-base lg:text-[15.5px] xl:text-[17px] text-gray-600 font-normal leading-relaxed break-keep">
+                        {slides[currentSlide].desc}
+                      </div>
+
+                      {/* User Requested: 자세히 보기 링크 버튼들 (바깥쪽 테두리 회색 적용) */}
+                      {slides[currentSlide].actionLinks && slides[currentSlide].actionLinks.length > 0 && (
+                        <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4 items-center">
+                          {slides[currentSlide].actionLinks.map((link, lIdx) => (
+                            <Link
+                              key={lIdx}
+                              href={link.href}
+                              scroll={true}
+                              className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs sm:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
+                            >
+                              <span>{link.label}</span>
+                              <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               )}

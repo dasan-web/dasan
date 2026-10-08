@@ -98,7 +98,7 @@ export default function KakaoMap({
   }, [scriptLoaded, apiKey]);
 
   // Check if location is overseas
-  const isOverseas = /중국|China|Liaoning|Shenyang|Room\s*\d+/i.test(address) || (latitude > 40 && longitude > 120);
+  const isOverseas = /중국|中国|China|Liaoning|Shenyang|Anhui|안휘|안후이|Tianchang|톈창|Room\s*\d+/i.test(address) || (latitude > 40 && longitude > 120) || (latitude < 33.5 && longitude < 125);
 
   // Clean address up to building number for reliable map search in Korea
   const getBaseAddress = (addr: string) => {

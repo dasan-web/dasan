@@ -109,6 +109,24 @@ const locations: LocationInfo[] = [
       '선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용',
       '상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차'
     ]
+  },
+  {
+    id: 'anhui',
+    name: '중국 안휘성 공장',
+    subName: '',
+    lat: 32.787400,
+    lng: 118.985600,
+    placeName: '다산제약 중국 안휘성 공장 (안휘허이다산의약)',
+    address: '中国安徽省天长市杨村镇工业园 (또는 안후이성 추주시 톈창시 양춘진 공업단지)',
+    tel: '',
+    subway: [
+      '난징 루커우 국제공항(NKG) 또는 톈창시 시외버스터미널 연계 차량 이동',
+      '고속철도 추저우역(滁州站) 또는 난징남역(南京南站) 하차 후 차량 이동'
+    ],
+    bus: [
+      '톈창시(天长市) 버스터미널에서 양춘진(杨村镇) 방면 시내버스 또는 차량 이용',
+      '양춘진 공업단지(杨村镇工业园 / 康达路) 하차'
+    ]
   }
 ];
 
@@ -120,7 +138,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const loc = params.get('loc');
-    if (loc && ['seoul', 'suwon', 'asan1', 'asan2', 'china'].includes(loc)) {
+    if (loc && ['seoul', 'suwon', 'asan1', 'asan2', 'china', 'anhui'].includes(loc)) {
       setActiveTab(loc);
     }
   }, []);
@@ -215,6 +233,24 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
       bus: [
         'Bus routes bound for Shenyang International Software Park',
         'Get off near Building F or Shangshengou Village stop'
+      ]
+    },
+    {
+      id: 'anhui',
+      name: 'Anhui Plant (China)',
+      subName: '',
+      lat: 32.787400,
+      lng: 118.985600,
+      placeName: 'Dasan Pharmaceutical China Anhui Plant',
+      address: 'Kangda Road, Yangcun Town Industrial Zone, Tianchang City, Anhui Province, China',
+      tel: '',
+      subway: [
+        'Nanjing Lukou International Airport (NKG) / Tianchang Coach Terminal transfer',
+        'High-speed rail Chuzhou Station or Nanjing South Station + taxi transfer'
+      ],
+      bus: [
+        'From Tianchang Bus Terminal take bus or taxi toward Yangcun Town',
+        'Get off at Yangcun Town Industrial Zone (Kangda Road)'
       ]
     }
   ];

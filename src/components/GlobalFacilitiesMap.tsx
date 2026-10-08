@@ -363,6 +363,66 @@ const FACILITIES_DATA: FacilityLocation[] = [
     },
     googleSearchUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Shenyang International Software Park Building F9'),
     googleRouteUrl: 'https://www.google.com/maps/dir/?api=1&destination=41.698403,123.481515'
+  },
+  {
+    id: 'anhui',
+    shortName: '중국 안휘성 공장',
+    enShortName: 'Anhui Plant (China)',
+    name: '다산제약 중국 안휘성 공장 (Anhui Plant)',
+    enName: 'Dasan Pharmaceutical China Anhui Plant',
+    category: '글로벌 생산 거점',
+    enCategory: 'Global Manufacturing Plant',
+    pic3Tag: 'PRODUCTION BASE · 해외',
+    pic3Title: '중국 안휘성 공장 (안휘허이다산의약)',
+    pic3Desc: '중국 및 글로벌 시장 공급을 위한 첨단 의약품 생산 제조 거점',
+    enPic3Tag: 'PRODUCTION BASE · OVERSEAS',
+    enPic3Title: 'China Anhui Plant (Anhui Heyi Dasan Pharma)',
+    enPic3Desc: 'State-of-the-art pharmaceutical manufacturing base supplying the Chinese and global markets',
+    country: '중국',
+    countryBadge: '해외 생산 거점',
+    enCountryBadge: 'Overseas Plant',
+    lat: 32.787400,
+    lng: 118.985600,
+    labelPositionClass: 'top-5 left-1/2 -translate-x-1/2',
+    address: '中国安徽省天长市杨村镇工业园 (안후이성 추주시 톈창시 양춘진 공업단지)',
+    enAddress: 'Kangda Road, Yangcun Town Industrial Zone, Tianchang City, Anhui Province, China',
+    tel: '-',
+    role: '중국 현지 및 글로벌 시장을 겨냥한 고품질 완제의약품 생산 및 기술 현지화 제조 거점',
+    enRole: 'High-quality finished pharmaceutical production and local manufacturing base for Chinese and global markets.',
+    description: '다산제약의 선진 제제기술과 현지 생산 인프라를 결합한 합작 생산기지로서, 우수한 품질의 의약품을 중국 전역 및 글로벌 시장에 안정적으로 생산·공급합니다.',
+    enDescription: 'A joint manufacturing base combining Dasan Pharmaceutical advanced formulation technology with local infrastructure to supply high-quality pharmaceuticals across China and global markets.',
+    keyFeatures: [
+      '다산제약 제제기술 기반 고품질 완제의약품 제조',
+      '중국 NMPA 규격에 부합하는 첨단 cGMP 생산 라인 구축',
+      '거대 중국 및 아시아 시장 진출을 위한 핵심 공급망 거점'
+    ],
+    enKeyFeatures: [
+      'High-quality finished pharmaceutical production based on Dasan DDS formulation technology',
+      'Advanced cGMP production lines compliant with China NMPA standards',
+      'Strategic supply chain hub accelerating expansion into China and Asian markets'
+    ],
+    transport: {
+      subway: [
+        '난징 루커우 국제공항(NKG) 또는 톈창시 시외버스터미널 연계 차량 이동',
+        '고속철도 추저우역(滁州站) 또는 난징남역(南京南站) 하차 후 차량 이동'
+      ],
+      bus: [
+        '톈창시(天长市) 버스터미널에서 양춘진(杨村镇) 방면 시내버스 또는 차량 이용',
+        '양춘진 공업단지(杨村镇工业园 / 康达路) 하차'
+      ]
+    },
+    enTransport: {
+      subway: [
+        'Nanjing Lukou International Airport (NKG) / Tianchang Coach Terminal transfer',
+        'High-speed rail Chuzhou Station or Nanjing South Station + taxi transfer'
+      ],
+      bus: [
+        'From Tianchang Bus Terminal take bus or taxi toward Yangcun Town',
+        'Get off at Yangcun Town Industrial Zone (Kangda Road)'
+      ]
+    },
+    googleSearchUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Kangda Road Yangcun Town Tianchang Anhui China'),
+    googleRouteUrl: 'https://www.google.com/maps/dir/?api=1&destination=32.787400,118.985600'
   }
 ];
 
@@ -381,8 +441,8 @@ const getFacilityIcon = (id: string, size: number = 16) => {
 const resetToOverview = (map: any, animate: boolean = false) => {
   if (!map) return;
   const width = (map.getSize && typeof map.getSize === 'function') ? (map.getSize().x || 1200) : 1200;
-  const zoom = width < 640 ? 1.2 : width < 960 ? 1.6 : 2;
-  const center: [number, number] = [20.0, 30.0];
+  const zoom = width < 640 ? 3.6 : width < 960 ? 4.2 : 5;
+  const center: [number, number] = [38.5, 124.0];
 
   if (animate && typeof map.flyTo === 'function') {
     map.flyTo(center, zoom, { duration: 1.2, easeLinearity: 0.25 });
@@ -444,7 +504,17 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
         console.error(e);
       }
     }
+    // Ensure the facility detail panel is visible when selected
+    setTimeout(() => {
+      const panel = document.getElementById('facility-detail-panel');
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }, 120);
   };
+
+  const handleSelectFacilityRef = useRef(handleSelectFacility);
+  handleSelectFacilityRef.current = handleSelectFacility;
 
   // Switch between Google Roadmap and Google Hybrid Satellite
   const handleToggleMapType = async (type: 'roadmap' | 'satellite') => {
@@ -496,10 +566,10 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
         });
       }
 
-      // Initial center matching user screenshot (World map with Europe/Asia/Africa/Americas)
+      // Initial center matching user screenshot (East Asia: Korea, Shenyang, Japan, Eastern China)
       const containerWidth = mapContainerRef.current?.clientWidth || 1200;
-      const initialCenter: [number, number] = [20.0, 30.0];
-      const initialZoom = containerWidth < 640 ? 1.2 : containerWidth < 960 ? 1.6 : 2;
+      const initialCenter: [number, number] = [38.5, 124.0];
+      const initialZoom = containerWidth < 640 ? 3.6 : containerWidth < 960 ? 4.2 : 5;
 
       const map = L.map(mapContainerRef.current, {
         center: initialCenter,
@@ -526,33 +596,40 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
       }).addTo(map);
       currentTileLayerRef.current = initialLayer;
 
-      // Custom Red Dot Pointer Marker Creation
+      // Custom Red Dot Pointer Marker Creation with generous click targets
       FACILITIES_DATA.forEach((loc) => {
         const displayName = isEnglish ? loc.enShortName : loc.shortName;
 
-        // Custom HTML for Compact Red Dot Pointer without text labels
+        // Custom HTML for Compact Red Dot Pointer with 36x36px clickable target
         const customHtml = `
           <div 
-            class="dasan-pointer-wrapper group cursor-pointer relative flex items-center justify-center" 
+            class="dasan-pointer-wrapper group cursor-pointer relative flex items-center justify-center select-none" 
             id="marker-${loc.id}" 
-            style="width: 14px; height: 14px;"
+            style="width: 36px; height: 36px;"
           >
+            <!-- Large transparent clickable hit circle -->
+            <div class="absolute inset-0 rounded-full cursor-pointer"></div>
+
             <!-- Outer Subtle Pulse Wave -->
-            <div class="absolute -inset-0.5 rounded-full bg-red-600/25 animate-ping pointer-events-none"></div>
+            <div class="absolute w-5 h-5 rounded-full bg-red-600/30 animate-ping pointer-events-none"></div>
             
             <!-- Compact Red Dot Pointer -->
-            <div class="relative w-2 h-2 rounded-full bg-red-600 border border-white shadow-[0_0_4px_rgba(220,38,38,0.95)] transition-transform duration-150 transform group-hover:scale-140"></div>
+            <div class="relative w-2.5 h-2.5 rounded-full bg-red-600 border border-white shadow-[0_0_5px_rgba(220,38,38,1)] transition-transform duration-150 transform group-hover:scale-150 pointer-events-none"></div>
           </div>
         `;
 
         const icon = L.divIcon({
           html: customHtml,
           className: 'custom-dasan-marker',
-          iconSize: [14, 14],
-          iconAnchor: [7, 7]
+          iconSize: [36, 36],
+          iconAnchor: [18, 18]
         });
 
-        const marker = L.marker([loc.lat, loc.lng], { icon }).addTo(map);
+        const marker = L.marker([loc.lat, loc.lng], { 
+          icon,
+          interactive: true,
+          bubblingMouseEvents: false 
+        }).addTo(map);
 
         // Hover Tooltip: Displays facility name when cursor hovers over the dot
         const tooltipHtml = `
@@ -564,16 +641,41 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
 
         marker.bindTooltip(tooltipHtml, {
           direction: 'top',
-          offset: [0, -7],
+          offset: [0, -18],
           opacity: 1,
           className: 'dasan-facility-tooltip'
         });
 
-        marker.on('click', () => {
-          handleSelectFacility(loc.id, loc.lat, loc.lng, 18);
+        marker.on('click', (e: any) => {
+          if (e && e.originalEvent) {
+            e.originalEvent.stopPropagation();
+          }
+          handleSelectFacilityRef.current(loc.id, loc.lat, loc.lng, 17);
         });
 
         markersRef.current[loc.id] = marker;
+      });
+
+      // Proximity click handler on the map canvas:
+      // Catches clicks anywhere within 40 pixels of any marker, guaranteeing seamless clicking even when zoomed out
+      map.on('click', (e: any) => {
+        if (!e.latlng) return;
+        const clickPoint = map.latLngToContainerPoint(e.latlng);
+        let closestLoc: any = null;
+        let minDistance = 40; // 40px radius
+
+        FACILITIES_DATA.forEach((loc) => {
+          const locPoint = map.latLngToContainerPoint([loc.lat, loc.lng]);
+          const dist = Math.hypot(clickPoint.x - locPoint.x, clickPoint.y - locPoint.y);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestLoc = loc;
+          }
+        });
+
+        if (closestLoc) {
+          handleSelectFacilityRef.current(closestLoc.id, closestLoc.lat, closestLoc.lng, 17);
+        }
       });
 
       const updateDetailMode = (detailed: boolean) => {
@@ -686,6 +788,14 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
         }
         .leaflet-tooltip-bottom.dasan-facility-tooltip::before {
           border-bottom-color: rgba(15, 23, 42, 0.95) !important;
+        }
+        .custom-dasan-marker {
+          cursor: pointer !important;
+          background: transparent !important;
+          border: none !important;
+        }
+        .custom-dasan-marker:hover {
+          z-index: 9999 !important;
         }
       `}</style>
 
