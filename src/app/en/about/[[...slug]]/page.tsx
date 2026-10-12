@@ -317,7 +317,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             {/* Top Video Section */}
             <ScrollVideo />
 
-            <div className="space-y-16 animate-fade-in-up mt-8 sm:mt-12">
+            <div className="space-y-16 mt-8 sm:mt-12">
 
             {/* 1. Intro Summary */}
             <div className="relative w-full pt-8 sm:pt-12 pb-16 sm:pb-20 mt-0 mb-0">
@@ -398,7 +398,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                         </div>
 
                         {/* Central Philosophy Graphic */}
-                        <div className="w-full my-2 sm:my-4">
+                        <div className="w-full my-6 sm:my-10">
                           <PhilosophyGraphic />
                         </div>
                       </>
@@ -437,7 +437,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                           })}
                         </div>
 
-                        <div className="w-full my-2 sm:my-4">
+                        <div className="w-full my-6 sm:my-10">
                           <PhilosophyGraphic />
                         </div>
                       </>
@@ -489,7 +489,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                   </div>
 
                   {/* Paragraphs */}
-                  <div className="space-y-6 text-gray-700 text-[15px] sm:text-base md:text-[16.5px] leading-[1.95] tracking-normal font-normal">
+                  <div className="space-y-4 sm:space-y-5 text-gray-700 text-[15px] sm:text-base md:text-[16.5px] leading-relaxed tracking-normal font-normal">
                     <p className="font-semibold text-gray-900 text-base sm:text-lg leading-relaxed">
                       We extend our deepest gratitude to all our customers, shareholders, and partners visiting Dasan Pharmaceutical.
                     </p>
@@ -627,36 +627,31 @@ export default async function AboutCatchAllPage({ params }: Params) {
               </div>
             </div>
 
-            <div 
-              style={{
-                width: '100vw',
-                marginLeft: 'calc(50% - 50vw)',
-              }}
-              className="w-screen px-2 bg-white py-4 md:py-6"
-            >
+            {/* Core Business Section (Generous side whitespace & uniform card sizing) */}
+            <div className="w-full bg-white py-4 md:py-6">
               <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 mb-8 pb-3 border-b border-gray-100">
                 Core Business
               </h3>
             
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 xl:gap-7 mt-8 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-5 xl:gap-6 mt-8 w-full">
                 {bizData.items.map((item, idx) => {
                   const cardEl = (
                     <div 
-                      className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-[24px] sm:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer w-full h-full"
+                      className="group relative aspect-[4/3] rounded-[24px] sm:rounded-[28px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer w-full h-full"
                     >
                       <img 
                         src={item.image} 
                         alt={item.title} 
-                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.20] contrast-[1.03]"
+                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.18] contrast-[1.03]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                       
                       {/* Frosted Glass Floating Caption Overlay */}
-                      <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3.5 sm:bottom-3.5 lg:inset-x-2.5 xl:inset-x-3.5 lg:bottom-2.5 xl:bottom-3.5 p-3 sm:p-3.5 lg:p-3 xl:p-4 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
-                        <h4 className="text-[14px] sm:text-[15.5px] md:text-[14px] lg:text-[14.5px] xl:text-[16.5px] 2xl:text-[18px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md break-keep">
+                      <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 lg:inset-x-2.5 xl:inset-x-3.5 lg:bottom-2.5 xl:bottom-3.5 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
+                        <h4 className="text-[13px] sm:text-[14px] md:text-[13.5px] lg:text-[13px] xl:text-[15px] 2xl:text-[16.5px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md break-keep min-h-[38px] sm:min-h-[42px] flex items-center">
                           {item.title}
                         </h4>
-                        <p className="text-[12px] sm:text-[13px] md:text-[12px] lg:text-[12.5px] xl:text-[13.5px] 2xl:text-[14.5px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2 sm:group-hover:mt-2.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
+                        <p className="text-[11.5px] sm:text-[12px] md:text-[11.5px] lg:text-[11.5px] xl:text-[12.5px] 2xl:text-[13.5px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
                           {item.desc.split(/<br\s*\/?>|\n|\\n/).map((line, lIdx) => (
                             <span key={lIdx} className="block whitespace-normal">
                               {line.trim()}
@@ -1659,7 +1654,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
 
   return (
     <div className="relative bg-white pt-16 md:pt-24 pb-16 md:pb-24 min-h-screen overflow-x-clip">
-      <div className={`relative z-10 w-full ${currentPath === '/about/greeting' || currentPath === '/about/business-area' || currentPath === '/about/overview' || currentPath === '/about' || currentPath === '/about/intro' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
+      <div className={`relative z-10 w-full ${currentPath === '/about/greeting' || currentPath === '/about/overview' || currentPath === '/about' || currentPath === '/about' || currentPath === '/about/intro' ? 'px-2 sm:px-4 md:px-6 lg:px-8 max-w-[1800px] mx-auto' : 'px-6 md:px-16 lg:px-24'} mt-8`}>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           
@@ -1727,7 +1722,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
             </div>
 
             {/* Dynamic Content - Width centered and bounded for clean layout */}
-            <div className={`min-h-[550px] w-full ${currentPath === '/about/intro' ? 'max-w-[1760px]' : currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-full' : currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : currentPath === '/about/overview' || currentPath === '/about' ? 'max-w-7xl xl:max-w-[1600px]' : 'max-w-5xl'}`}>
+            <div className={`min-h-[550px] w-full ${currentPath === '/about/intro' ? 'max-w-[1760px]' : currentPath === '/about/greeting' ? 'max-w-[1760px]' : currentPath === '/about/business-area' ? 'max-w-7xl xl:max-w-[1600px] mx-auto' : currentPath === '/about/esg/ethics' || currentPath === '/about/facilities' ? 'max-w-7xl' : currentPath === '/about/overview' || currentPath === '/about' ? 'max-w-7xl xl:max-w-[1600px]' : 'max-w-5xl'}`}>
               {renderContent(dbContent, competenciesContent, visionContent, valuesContent, philosophyContent, cultureContent)}
             </div>
           </div>

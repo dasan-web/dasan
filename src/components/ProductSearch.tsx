@@ -24,7 +24,7 @@ interface Product {
   storage_method?: string | null;
   packaging_unit?: string | null;
   insurance_code?: string | null;
-  insurance_price?: number | null;
+  insurance_price?: string | number | null;
   precautions?: string | null;
 }
 

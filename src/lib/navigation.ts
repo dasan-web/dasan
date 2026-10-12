@@ -34,7 +34,6 @@ export const navigationData: GrandMenu[] = [
           { name: '연혁', enName: 'History', link: '/about/history' },
           { name: 'CI', enName: 'CI', link: '/about/ci' },
           { name: '글로벌 인프라', enName: 'Global Infrastructure', link: '/about/facilities' },
-          { name: '찾아오시는길', enName: 'Location', link: '/about/location' },
         ],
       },
       {

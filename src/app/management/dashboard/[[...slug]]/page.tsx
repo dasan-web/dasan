@@ -282,7 +282,7 @@ export default function AdminDashboardPage() {
   const [prodStorageMethod, setProdStorageMethod] = useState('');
   const [prodPackagingUnit, setProdPackagingUnit] = useState('');
   const [prodInsuranceCode, setProdInsuranceCode] = useState('');
-  const [prodInsurancePrice, setProdInsurancePrice] = useState<number | ''>('');
+  const [prodInsurancePrice, setProdInsurancePrice] = useState('');
   const [prodPrecautions, setProdPrecautions] = useState('');
   const [uploadingProdFile, setUploadingProdFile] = useState(false);
 
@@ -1415,7 +1415,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
       setProdStorageMethod(item.storage_method || '');
       setProdPackagingUnit(item.packaging_unit || '');
       setProdInsuranceCode(item.insurance_code || '');
-      setProdInsurancePrice(item.insurance_price !== null && item.insurance_price !== undefined ? item.insurance_price : '');
+      setProdInsurancePrice(item.insurance_price !== null && item.insurance_price !== undefined ? String(item.insurance_price) : '');
       setProdPrecautions(item.precautions || '');
     } else if (type === 'pipeline') {
       setPipeCategory(item.category);
@@ -1488,7 +1488,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
         storage_method: prodStorageMethod,
         packaging_unit: prodPackagingUnit,
         insurance_code: prodInsuranceCode,
-        insurance_price: prodInsurancePrice === '' ? null : prodInsurancePrice,
+        insurance_price: prodInsurancePrice.trim() === '' ? null : prodInsurancePrice.trim(),
         precautions: prodPrecautions,
       };
       if (formMode === 'edit') bodyData.id = activeItem.id;
@@ -8781,7 +8781,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                     </div>
                     <div className="flex-1 space-y-1">
                       <label className="font-bold text-gray-400 block">보험약가(원)</label>
-                      <input type="number" value={prodInsurancePrice} onChange={(e) => setProdInsurancePrice(e.target.value === '' ? '' : Number(e.target.value))} placeholder="보험약가" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
+                      <input type="text" value={prodInsurancePrice} onChange={(e) => setProdInsurancePrice(e.target.value)} placeholder="보험약가 (예: 700, 비급여 등)" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
                     </div>
                   </div>
                   <div className="space-y-1">

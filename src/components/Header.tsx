@@ -29,7 +29,7 @@ export default function Header() {
   const [activeGrand, setActiveGrand] = useState<string | null>(null);
   const [hoveredGrand, setHoveredGrand] = useState<string | null>(null);
 
-  const [hiddenSlugs, setHiddenSlugs] = useState<string[]>(['business/finished/pharmacy']);
+  const [hiddenSlugs, setHiddenSlugs] = useState<string[]>(['business/finished/pharmacy', 'about/location']);
 
   // Fetch hidden menus on mount
   useEffect(() => {

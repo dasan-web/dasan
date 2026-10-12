@@ -22,7 +22,7 @@ export default function SubmenuTabBar({ subMenus, currentPath }: SubmenuTabBarPr
   const [hoverCoords, setHoverCoords] = useState<{ left: number; top: number; width: number; opacity: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<HTMLAnchorElement>(null);
-  const [hiddenSlugs, setHiddenSlugs] = useState<string[]>(['business/finished/pharmacy']);
+  const [hiddenSlugs, setHiddenSlugs] = useState<string[]>(['business/finished/pharmacy', 'about/location']);
   const pathname = usePathname();
   const isEnglish = pathname ? pathname.startsWith('/en') : false;
   const basePath = isEnglish ? '/en' : '';

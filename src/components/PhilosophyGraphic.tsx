@@ -19,87 +19,91 @@ export default function PhilosophyGraphic() {
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith('/en') ?? false;
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [activeNode, setActiveNode] = useState<number | null>(null);
 
-  // Scroll-linked stream progress: Starts earlier so cards fan out while comfortably in view
+  // Outer container scroll progress: starts when entering viewport, pins while sticky
   const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start 85%', 'end 85%'],
+    target: trackRef,
+    offset: ['start 85%', 'end end'],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 75,
-    damping: 20,
+    stiffness: 45,
+    damping: 24,
     restDelta: 0.001,
   });
 
-  // Compressed, smooth animation timeline along smoothProgress (0 to 1)
-  // 1. Stem 1 (애민정신 -> 4대 경영 철학): [0.01 ~ 0.06]
-  const stem1Progress = useTransform(smoothProgress, [0.01, 0.06], [0, 1]);
-  const stem1Opacity = useTransform(smoothProgress, [0.01, 0.05], [0, 1]);
+  // Animation timeline along smoothProgress (0 to 1)
+  // 1. Stem 1 (애민정신 -> 4대 경영 철학): 0% 투명도에서 은은하게 시작
+  const stem1Progress = useTransform(smoothProgress, [0.02, 0.12], [0, 1]);
+  const stem1Opacity = useTransform(smoothProgress, [0.02, 0.10], [0, 1]);
 
-  // 1.5. 4대 경영 철학 Badge: [0.02 ~ 0.06]
-  const badgeOpacity = useTransform(smoothProgress, [0.02, 0.06], [0, 1]);
-  const badgeScale = useTransform(smoothProgress, [0.02, 0.06], [0.92, 1.0]);
+  // 1.5. 4대 경영 철학 Badge appears as water stream 1 descends towards it
+  const badgeOpacity = useTransform(smoothProgress, [0.04, 0.12], [0, 1]);
+  const badgeScale = useTransform(smoothProgress, [0.04, 0.12], [0.90, 1.0]);
 
-  // 2. Stem 2 (4대 경영 철학 -> 분기점): [0.06 ~ 0.11]
-  const stem2Progress = useTransform(smoothProgress, [0.06, 0.11], [0, 1]);
-  const stem2Opacity = useTransform(smoothProgress, [0.06, 0.10], [0, 1]);
+  // 2. Stem 2 (4대 경영 철학 -> 분기점 510): Reaches branch point
+  const stem2Progress = useTransform(smoothProgress, [0.10, 0.18], [0, 1]);
+  const stem2Opacity = useTransform(smoothProgress, [0.10, 0.16], [0, 1]);
 
-  // 2.6. MASTER CARD ("4대 경영 철학" unified card at center): [0.04 ~ 0.16]
-  const masterCardOpacity = useTransform(smoothProgress, [0.04, 0.08, 0.11, 0.16], [0, 1, 1, 0]);
-  const masterCardScale = useTransform(smoothProgress, [0.04, 0.08, 0.11, 0.16], [0.92, 1.0, 1.0, 0.94]);
-  const masterCardPointerEvents = useTransform(smoothProgress, (v) => (v <= 0.11 ? 'auto' : 'none'));
+  // 2.6. MASTER CARD ("4대 경영 철학" unified card at center)
+  // Brief appearance at center [0.08 ~ 0.26], then dissolves as the 4 cards fan out
+  const masterCardOpacity = useTransform(smoothProgress, [0.08, 0.15, 0.18, 0.28], [0, 1, 1, 0]);
+  const masterCardScale = useTransform(smoothProgress, [0.08, 0.15, 0.18, 0.28], [0.92, 1.0, 1.0, 0.94]);
+  const masterCardPointerEvents = useTransform(smoothProgress, (v) => (v <= 0.18 ? 'auto' : 'none'));
   const masterCardDisplay = useTransform(masterCardOpacity, (v) => (v <= 0.001 ? 'none' : 'flex'));
 
-  // 3. STAGE 1: 물줄기 4개 분기 & 4개 카드가 중앙에서 4개 위치로 펼쳐짐: [0.11 ~ 0.22]
-  const upperStreamProgress = useTransform(smoothProgress, [0.11, 0.22], [0, 1]);
-  const upperStreamOpacity = useTransform(smoothProgress, [0.11, 0.22], [0.45, 1.0]);
+  // 3. STAGE 1: 물줄기 4개 분기 & 4개 카드가 중앙에서 4개 위치로 펼쳐짐 [0.16 ~ 0.30]
+  const upperStreamProgress = useTransform(smoothProgress, [0.16, 0.30], [0, 1]);
+  const upperStreamOpacity = useTransform(smoothProgress, [0.16, 0.30], [0.45, 1.0]);
 
-  const fourCardsOpacity = useTransform(smoothProgress, [0.11, 0.16], [0, 1]);
-  const fourCardsScale = useTransform(smoothProgress, [0.11, 0.20], [0.95, 1.0]);
+  const fourCardsOpacity = useTransform(smoothProgress, [0.16, 0.24], [0, 1]);
+  const fourCardsScale = useTransform(smoothProgress, [0.16, 0.28], [0.95, 1.0]);
   const fourCardsDisplay = useTransform(fourCardsOpacity, (v) => (v <= 0.001 ? 'none' : 'flex'));
 
-  const card1X = useTransform(smoothProgress, [0.11, 0.22], ['50%', '14.4%']);
-  const card2X = useTransform(smoothProgress, [0.11, 0.22], ['50%', '38.2%']);
-  const card3X = useTransform(smoothProgress, [0.11, 0.22], ['50%', '61.8%']);
-  const card4X = useTransform(smoothProgress, [0.11, 0.22], ['50%', '85.6%']);
+  const card1X = useTransform(smoothProgress, [0.16, 0.30], ['50%', '14.4%']);
+  const card2X = useTransform(smoothProgress, [0.16, 0.30], ['50%', '38.2%']);
+  const card3X = useTransform(smoothProgress, [0.16, 0.30], ['50%', '61.8%']);
+  const card4X = useTransform(smoothProgress, [0.16, 0.30], ['50%', '85.6%']);
   const cardXPositions = [card1X, card2X, card3X, card4X];
 
-  const fourCardsPointerEvents = useTransform(smoothProgress, (v) => (v < 0.20 ? 'none' : 'auto'));
+  const fourCardsPointerEvents = useTransform(smoothProgress, (v) => (v < 0.28 ? 'none' : 'auto'));
 
-  // 4. STAGE 2: 4개 카드가 펼쳐짐과 동시에 아래 단체 사진이 자연스럽게 안착: [0.14 ~ 0.24]
-  // 스크롤 지연(대기 구간)을 제거하여 적은 스크롤로도 사진과 카드가 즉각 표시되도록 최적화
-  const funnelProgress = useTransform(smoothProgress, [0.14, 0.24], [0, 1]);
+  // 4. STAGE 2: 그림 1 -> 그림 2로 부드럽게 세로 프레이밍 전환 [0.18 ~ 0.35]
+  // 0.35부터 1.00까지는 세로 위치가 -21%로 완벽히 정지 고정! (행복경영이 잘리지 않고 위로 여유있게 배치)
+  const canvasY = useTransform(smoothProgress, [0.18, 0.35], ['0%', '-21%']);
+
+  // 5. STAGE 3: 단체 사진 등장 [0.22 ~ 0.36] - 그림 2 도달 시 온전히 선명하게 노출
+  const funnelProgress = useTransform(smoothProgress, [0.22, 0.36], [0, 1]);
   const funnelOpacity = useTransform(funnelProgress, [0, 1], [0, 1]);
   const funnelScale = useTransform(funnelProgress, [0, 1], [0.95, 1.0]);
 
-  // 5. STAGE 3: 타원형 림 및 화살표 전개: [0.24 ~ 0.40]
-  const greenOpacity = useTransform(smoothProgress, [0.24, 0.28], [0, 1]);
+  // 6. STAGE 4: 그림 2 정지 상태에서 타원형 녹색 림 등장 [0.45 ~ 0.52] 후 화살표로 매끄럽게 전개 [0.52 ~ 0.76]
+  const greenOpacity = useTransform(smoothProgress, [0.45, 0.52], [0, 1]);
   const funnelPathD = useTransform(
     smoothProgress,
-    [0.24, 0.27, 0.31, 0.36, 0.40],
+    [0.52, 0.57, 0.63, 0.70, 0.76],
     [
-      // 타원 외곽선에 완벽히 일치 (순수 타원 모양 유지)
+      // 0.52: 타원 외곽선에 완벽히 일치 (순수 타원 모양 유지)
       'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1337.2, 1060.0 1352.1, 1060.0 1352.1 Q 1060.0 1352.1, 1060.0 1352.1 L 1060.0 1352.1 Q 1060.0 1352.1, 1060.0 1352.1 L 925.0 1359.8 Q 900.0 1360.0, 875.0 1359.8 L 740.0 1352.1 Q 740.0 1352.1, 740.0 1352.1 L 740.0 1352.1 Q 740.0 1352.1, 740.0 1352.1 C 740.0 1352.1, 617.6 1337.2, 540.0 1317.7 Z',
-      // 타원형 그대로 100% 매끄러운 타원 모양 유지
+      // 0.57: 타원형 그대로 100% 매끄러운 타원 모양 유지
       'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1337.2, 1060.0 1352.1, 1060.0 1352.1 Q 1060.0 1352.1, 1060.0 1352.1 L 1060.0 1352.1 Q 1060.0 1352.1, 1060.0 1352.1 L 925.0 1359.8 Q 900.0 1360.0, 875.0 1359.8 L 740.0 1352.1 Q 740.0 1352.1, 740.0 1352.1 L 740.0 1352.1 Q 740.0 1352.1, 740.0 1352.1 C 740.0 1352.1, 617.6 1337.2, 540.0 1317.7 Z',
-      // 타원에서 부드럽게 유기적인 볼록 곡선으로 화살표 전개 시작
+      // 0.63: 타원에서 부드럽게 유기적인 볼록 곡선으로 화살표 전개 시작
       'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1340.0, 1060.0 1370.0, 1060.0 1410.0 Q 1060.0 1415.0, 1065.0 1415.0 L 1075.0 1415.0 Q 1078.0 1415.0, 1078.0 1420.0 L 925.0 1425.0 Q 900.0 1435.0, 875.0 1425.0 L 722.0 1420.0 Q 722.0 1415.0, 725.0 1415.0 L 735.0 1415.0 Q 740.0 1415.0, 740.0 1410.0 C 740.0 1370.0, 617.6 1340.0, 540.0 1317.7 Z',
-      // 화살표 줄기 형성 및 촉 확장
+      // 0.70: 화살표 줄기 형성 및 촉 확장
       'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1338.0, 1060.0 1420.0, 1060.0 1485.0 Q 1060.0 1500.0, 1075.0 1500.0 L 1120.0 1500.0 Q 1125.0 1500.0, 1125.0 1512.0 L 925.0 1560.0 Q 900.0 1575.0, 875.0 1560.0 L 675.0 1512.0 Q 675.0 1500.0, 680.0 1500.0 L 725.0 1500.0 Q 740.0 1500.0, 740.0 1485.0 C 740.0 1420.0, 617.6 1338.0, 540.0 1317.7 Z',
-      // 최종 화살표 완벽 완성
+      // 0.76: 최종 화살표 완벽 완성
       'M 540.0 1256.1 A 755 280 0 0 0 1260.0 1256.1 L 1260.0 1317.7 C 1182.4 1337.2, 1060.0 1430.0, 1060.0 1530.0 Q 1060.0 1555.0, 1085.0 1555.0 L 1185.0 1555.0 Q 1190.0 1555.0, 1190.0 1569.0 L 925.0 1750.0 Q 900.0 1765.0, 875.0 1750.0 L 610.0 1569.0 Q 610.0 1555.0, 615.0 1555.0 L 715.0 1555.0 Q 740.0 1555.0, 740.0 1530.0 C 740.0 1430.0, 617.6 1337.2, 540.0 1317.7 Z',
     ]
   );
-  const dasanY = useTransform(smoothProgress, [0.26, 0.40], [1360, 1630]);
-  const dasanTextOpacity = useTransform(smoothProgress, [0.33, 0.38], [0, 1]);
+  const dasanY = useTransform(smoothProgress, [0.55, 0.76], [1360, 1630]);
+  const dasanTextOpacity = useTransform(smoothProgress, [0.63, 0.71], [0, 1]);
 
-  // 6. STAGE 4: 행복경영 텍스트 안착: [0.38 ~ 0.45]
-  const haengbokOpacity = useTransform(smoothProgress, [0.38, 0.45], [0, 1]);
-  const haengbokScale = useTransform(smoothProgress, [0.38, 0.45], [0.88, 1.0]);
-  const haengbokY = useTransform(smoothProgress, [0.38, 0.41, 0.45], [20, -3, 0]);
+  // 7. STAGE 5: 행복경영 텍스트가 화살표 끝 바로 아래에 완벽 안착 [0.76 ~ 0.88]
+  const haengbokOpacity = useTransform(smoothProgress, [0.76, 0.88], [0, 1]);
+  const haengbokScale = useTransform(smoothProgress, [0.76, 0.88], [0.88, 1.0]);
+  const haengbokY = useTransform(smoothProgress, [0.76, 0.84, 0.88], [15, -2, 0]);
 
   // 4 Core Management Philosophies
   // Aligned to match oval photo tips (X=145, X=1655): 260 (14.4%), 687 (38.2%), 1113 (61.8%), 1540 (85.6%)
@@ -224,12 +228,23 @@ export default function PhilosophyGraphic() {
 
   return (
     <div
-      ref={containerRef}
-      className="relative w-full max-w-[880px] lg:max-w-[980px] xl:max-w-[1060px] mx-auto mt-2 sm:mt-4 mb-4 sm:mb-6 pb-2 select-none px-2 sm:px-4"
+      ref={trackRef}
+      className="relative w-full h-[260vh] -mt-2 sm:-mt-4 select-none"
       translate="no"
     >
-      {/* Canvas with proportional responsive aspect ratio [1800/1980] */}
-      <div className="relative w-full aspect-[1800/1980] overflow-visible">
+      {/* Sticky Viewport Frame: Locks right under the sticky header */}
+      <div className="sticky top-20 sm:top-24 w-full h-[calc(100vh-5rem)] sm:h-[calc(100vh-6rem)] flex flex-col justify-start items-center overflow-hidden pt-1 sm:pt-2">
+        {/* Animated Inner Canvas Container: Transitions from Picture 1 to Picture 2, then locks stationary */}
+        <motion.div
+          className="relative w-full max-w-[820px] lg:max-w-[880px] xl:max-w-[940px] mx-auto select-none px-2 sm:px-4"
+          style={{
+            y: canvasY,
+            maxHeight: 'calc((100vh - 6.5rem) * 1.15)',
+            aspectRatio: '1800 / 1980',
+          }}
+        >
+          {/* Canvas with proportional responsive aspect ratio [1800/1980] */}
+          <div className="relative w-full aspect-[1800/1980] overflow-visible">
 
         {/* ------------------------------------------------------------------ */}
         {/* SVG LAYER: Water Streams (Soft/Light at top -> Rich/Deep at 4 cards) */}
@@ -645,12 +660,12 @@ export default function PhilosophyGraphic() {
                   opacity: haengbokOpacity,
                   scale: haengbokScale,
                   y: haengbokY,
-                  transformOrigin: '900px 1825px',
+                  transformOrigin: '900px 1820px',
                 }}
               >
                 <text
                   x="900"
-                  y="1825"
+                  y="1820"
                   textAnchor="middle"
                   dominantBaseline="central"
                   fill="#22a058"
@@ -666,6 +681,8 @@ export default function PhilosophyGraphic() {
           </div>
         </motion.div>
       </div>
-    </div>
-  );
+    </motion.div>
+  </div>
+</div>
+);
 }

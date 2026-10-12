@@ -41,7 +41,7 @@ async function migrate() {
       "storage_method VARCHAR(255) DEFAULT NULL",
       "packaging_unit VARCHAR(255) DEFAULT NULL",
       "insurance_code VARCHAR(100) DEFAULT NULL",
-      "insurance_price INT DEFAULT NULL",
+      "insurance_price VARCHAR(255) DEFAULT NULL",
       "precautions TEXT DEFAULT NULL"
     ];
 
@@ -88,7 +88,7 @@ async function migrate() {
       const storage_method = row['저장방법'] || null;
       const packaging_unit = row['포장단위'] || null;
       const insurance_code = row['보험코드'] ? String(row['보험코드']) : null;
-      const insurance_price = row['보험약가(원)'] ? Number(row['보험약가(원)']) : null;
+      const insurance_price = row['보험약가(원)'] !== undefined && row['보험약가(원)'] !== null && String(row['보험약가(원)']).trim() !== '' ? String(row['보험약가(원)']).trim() : null;
       const precautions = row['의약정보/주의사항'] || null;
       
       const efficacy = category || '기타'; // 기존 efficacy 필드 대응용

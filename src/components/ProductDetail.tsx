@@ -12,6 +12,15 @@ const getOptimizedImageUrl = (url?: string | null, width = 800) => {
   return url;
 };
 
+const formatInsurancePrice = (val: any) => {
+  if (val === null || val === undefined || val === '') return '';
+  const str = String(val).trim();
+  if (/^\d+(\.\d+)?$/.test(str)) {
+    return `${Number(str).toLocaleString()}원`;
+  }
+  return str;
+};
+
 export interface ProductDetailProps {
   productId: string;
   isEnglish?: boolean;
@@ -171,7 +180,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
                     {isEnglish ? 'Price' : '보험약가'}
                   </span>
                   <span className="text-xs sm:text-sm font-bold text-slate-800 break-keep leading-snug">
-                    {product.insurance_price.toLocaleString()}원
+                    {formatInsurancePrice(product.insurance_price)}
                   </span>
                 </div>
               )}

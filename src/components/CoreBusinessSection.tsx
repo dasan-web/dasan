@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { ArrowRight, ArrowUp, ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
 interface ActionLink {
   label: string;
@@ -424,10 +424,10 @@ export default function CoreBusinessSection() {
                             : 'bg-white text-gray-700 border-gray-300 hover:bg-brand-green hover:text-white hover:border-brand-green active:scale-95'
                         }`}
                       >
-                        <ArrowRight className="w-4 h-4 stroke-[2.5] transition-transform duration-300 group-hover:translate-x-0.5" />
+                        <ArrowUp className="w-4 h-4 stroke-[2.5] transition-transform duration-300 group-hover:-translate-y-0.5" />
                         
-                        {/* Hover Tooltip (단일 툴팁만 깔끔하게 노출, 클릭 시 즉시 숨김) */}
-                        <span className="absolute right-0 top-full mt-1.5 hidden group-hover:flex group-active:hidden items-center px-2.5 py-1 bg-gray-900/90 text-white text-[11px] font-medium rounded-md whitespace-nowrap shadow-md pointer-events-none z-30 animate-fade-in">
+                        {/* Hover Tooltip (단일 툴팁만 깔끔하게 노출, 클릭 시 즉시 숨김, 하얀색 배경 및 검정색 글자) */}
+                        <span className="absolute right-0 top-full mt-1.5 hidden group-hover:flex group-active:hidden items-center px-2.5 py-1 bg-white text-black border border-gray-200 text-[11px] font-semibold rounded-md whitespace-nowrap shadow-md pointer-events-none z-30 animate-fade-in">
                           {isEnglish ? 'Back to Overview' : '처음 화면으로 가기'}
                         </span>
                       </button>

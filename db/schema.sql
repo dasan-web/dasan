@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS products (
     storage_method VARCHAR(255) DEFAULT NULL,
     packaging_unit VARCHAR(255) DEFAULT NULL,
     insurance_code VARCHAR(100) DEFAULT NULL,
-    insurance_price INT DEFAULT NULL,
+    insurance_price VARCHAR(255) DEFAULT NULL,
     precautions TEXT DEFAULT NULL
 );
 
