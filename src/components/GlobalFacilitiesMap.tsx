@@ -381,11 +381,11 @@ const FACILITIES_DATA: FacilityLocation[] = [
     country: '중국',
     countryBadge: '해외 생산 거점',
     enCountryBadge: 'Overseas Plant',
-    lat: 32.787400,
-    lng: 118.985600,
+    lat: 32.674439,
+    lng: 118.916379,
     labelPositionClass: 'top-5 left-1/2 -translate-x-1/2',
-    address: '中国安徽省天长市杨村镇工业园 (안후이성 추주시 톈창시 양춘진 공업단지)',
-    enAddress: 'Kangda Road, Yangcun Town Industrial Zone, Tianchang City, Anhui Province, China',
+    address: '安徽省滁州市天长市滁州高新技术产业开发区经十一路8号 (안후이성 추저우시 톈창시 추저우 고신기술산업개발구 징11로 8호)',
+    enAddress: 'No. 8, Jing 11th Road, Chuzhou High-tech Industrial Development Zone, Tianchang City, Chuzhou City, Anhui Province, China',
     tel: '-',
     role: '중국 현지 및 글로벌 시장을 겨냥한 고품질 완제의약품 생산 및 기술 현지화 제조 거점',
     enRole: 'High-quality finished pharmaceutical production and local manufacturing base for Chinese and global markets.',
@@ -407,8 +407,8 @@ const FACILITIES_DATA: FacilityLocation[] = [
         '고속철도 추저우역(滁州站) 또는 난징남역(南京南站) 하차 후 차량 이동'
       ],
       bus: [
-        '톈창시(天长市) 버스터미널에서 양춘진(杨村镇) 방면 시내버스 또는 차량 이용',
-        '양춘진 공업단지(杨村镇工业园 / 康达路) 하차'
+        '톈창시(天长市) 시외버스터미널 또는 시내에서 고신기술개발구(高新区) 방면 시내버스 또는 택시 이용',
+        '추저우 고신기술산업개발구 징11로(经十一路) 방면 하차'
       ]
     },
     enTransport: {
@@ -417,12 +417,12 @@ const FACILITIES_DATA: FacilityLocation[] = [
         'High-speed rail Chuzhou Station or Nanjing South Station + taxi transfer'
       ],
       bus: [
-        'From Tianchang Bus Terminal take bus or taxi toward Yangcun Town',
-        'Get off at Yangcun Town Industrial Zone (Kangda Road)'
+        'From Tianchang Coach Terminal or downtown, take a local bus or taxi toward Chuzhou High-tech Zone',
+        'Get off near Jing 11th Road (Chuzhou High-tech Industrial Development Zone)'
       ]
     },
-    googleSearchUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Kangda Road Yangcun Town Tianchang Anhui China'),
-    googleRouteUrl: 'https://www.google.com/maps/dir/?api=1&destination=32.787400,118.985600'
+    googleSearchUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('No. 8 Jing 11th Road Chuzhou High-tech Industrial Development Zone Tianchang Anhui China'),
+    googleRouteUrl: 'https://www.google.com/maps/dir/?api=1&destination=32.674439,118.916379'
   }
 ];
 

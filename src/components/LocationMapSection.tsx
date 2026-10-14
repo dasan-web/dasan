@@ -114,18 +114,18 @@ const locations: LocationInfo[] = [
     id: 'anhui',
     name: '중국 안휘성 공장',
     subName: '',
-    lat: 32.787400,
-    lng: 118.985600,
+    lat: 32.674439,
+    lng: 118.916379,
     placeName: '다산제약 중국 안휘성 공장 (안휘허이다산의약)',
-    address: '中国安徽省天长市杨村镇工业园 (또는 안후이성 추주시 톈창시 양춘진 공업단지)',
+    address: '安徽省滁州市天长市滁州高新技术产业开发区经十一路8号 (안후이성 추저우시 톈창시 추저우 고신기술산업개발구 징11로 8호)',
     tel: '',
     subway: [
       '난징 루커우 국제공항(NKG) 또는 톈창시 시외버스터미널 연계 차량 이동',
       '고속철도 추저우역(滁州站) 또는 난징남역(南京南站) 하차 후 차량 이동'
     ],
     bus: [
-      '톈창시(天长市) 버스터미널에서 양춘진(杨村镇) 방면 시내버스 또는 차량 이용',
-      '양춘진 공업단지(杨村镇工业园 / 康达路) 하차'
+      '톈창시(天长市) 시외버스터미널 또는 시내에서 고신기술개발구(高新区) 방면 시내버스 또는 택시 이용',
+      '추저우 고신기술산업개발구 징11로(经十一路) 방면 하차'
     ]
   }
 ];
@@ -239,18 +239,18 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
       id: 'anhui',
       name: 'Anhui Plant (China)',
       subName: '',
-      lat: 32.787400,
-      lng: 118.985600,
+      lat: 32.674439,
+      lng: 118.916379,
       placeName: 'Dasan Pharmaceutical China Anhui Plant',
-      address: 'Kangda Road, Yangcun Town Industrial Zone, Tianchang City, Anhui Province, China',
+      address: 'No. 8, Jing 11th Road, Chuzhou High-tech Industrial Development Zone, Tianchang City, Chuzhou City, Anhui Province, China',
       tel: '',
       subway: [
         'Nanjing Lukou International Airport (NKG) / Tianchang Coach Terminal transfer',
         'High-speed rail Chuzhou Station or Nanjing South Station + taxi transfer'
       ],
       bus: [
-        'From Tianchang Bus Terminal take bus or taxi toward Yangcun Town',
-        'Get off at Yangcun Town Industrial Zone (Kangda Road)'
+        'From Tianchang Coach Terminal or downtown, take a local bus or taxi toward Chuzhou High-tech Zone',
+        'Get off near Jing 11th Road (Chuzhou High-tech Industrial Development Zone)'
       ]
     }
   ];
@@ -319,6 +319,18 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
         tel: (lines[37] && lines[37] !== '-') ? lines[37] : '',
         subway: (lines[38] || '심양 트램 1·2호선 궈지롼젠위안(国际软件园)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 택시 이동').split('|').filter(Boolean),
         bus: (lines[39] || '선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용|상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차').split('|').filter(Boolean),
+      },
+      {
+        id: 'anhui',
+        name: lines[40] || (isEnglish ? 'Anhui Plant (China)' : '중국 안휘성 공장'),
+        subName: lines[41] || '',
+        lat: parseFloat((lines[42] || '').split(',')[0]) || 32.674439,
+        lng: parseFloat((lines[42] || '').split(',')[1]) || 118.916379,
+        placeName: lines[43] || (isEnglish ? 'Dasan Pharmaceutical China Anhui Plant' : '다산제약 중국 안휘성 공장 (안휘허이다산의약)'),
+        address: lines[44] || (isEnglish ? 'No. 8, Jing 11th Road, Chuzhou High-tech Industrial Development Zone, Tianchang City, Chuzhou City, Anhui Province, China' : '安徽省滁州市天长市滁州高新技术产业开发区经十一路8号 (안후이성 추저우시 톈창시 추저우 고신기술산업개발구 징11로 8호)'),
+        tel: (lines[45] && lines[45] !== '-') ? lines[45] : '',
+        subway: (lines[46] || (isEnglish ? 'Nanjing Lukou International Airport (NKG) / Tianchang Coach Terminal transfer|High-speed rail Chuzhou Station or Nanjing South Station + taxi transfer' : '난징 루커우 국제공항(NKG) 또는 톈창시 시외버스터미널 연계 차량 이동|고속철도 추저우역(滁州站) 또는 난징남역(南京南站) 하차 후 차량 이동')).split('|').filter(Boolean),
+        bus: (lines[47] || (isEnglish ? 'From Tianchang Coach Terminal or downtown, take a local bus or taxi toward Chuzhou High-tech Zone|Get off near Jing 11th Road (Chuzhou High-tech Industrial Development Zone)' : '톈창시(天长市) 시외버스터미널 또는 시내에서 고신기술개발구(高新区) 방면 시내버스 또는 택시 이용|추저우 고신기술산업개발구 징11로(经十一路) 방면 하차')).split('|').filter(Boolean),
       }
     ];
   }
@@ -339,7 +351,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
     name: normalizeName(loc.name),
     placeName: normalizePlaceName(loc.placeName),
     subName: '',
-    tel: loc.id === 'china' ? '' : loc.tel,
+    tel: (loc.id === 'china' || loc.id === 'anhui') ? '' : loc.tel,
   }));
 
   const activeLoc = displayLocations.find(loc => loc.id === activeTab) || displayLocations[0];
