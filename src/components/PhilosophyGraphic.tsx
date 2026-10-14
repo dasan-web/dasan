@@ -70,9 +70,7 @@ export default function PhilosophyGraphic() {
 
   const fourCardsPointerEvents = useTransform(smoothProgress, (v) => (v < 0.28 ? 'none' : 'auto'));
 
-  // 4. STAGE 2: 그림 1 -> 그림 2로 부드럽게 세로 프레이밍 전환 [0.18 ~ 0.35]
-  // 0.35부터 1.00까지는 세로 위치가 -21%로 완벽히 정지 고정! (행복경영이 잘리지 않고 위로 여유있게 배치)
-  const canvasY = useTransform(smoothProgress, [0.18, 0.35], ['0%', '-21%']);
+  // 4. STAGE 2: 애민정신이 스크롤 중에도 상단에 선명하게 유지되도록 위치 고정 (올라가지 않음)
 
   // 5. STAGE 3: 단체 사진 등장 [0.22 ~ 0.36] - 그림 2 도달 시 온전히 선명하게 노출
   const funnelProgress = useTransform(smoothProgress, [0.22, 0.36], [0, 1]);
@@ -233,13 +231,11 @@ export default function PhilosophyGraphic() {
       translate="no"
     >
       {/* Sticky Viewport Frame: Locks right under the sticky header */}
-      <div className="sticky top-20 sm:top-24 w-full h-[calc(100vh-5rem)] sm:h-[calc(100vh-6rem)] flex flex-col justify-start items-center overflow-hidden pt-1 sm:pt-2">
-        {/* Animated Inner Canvas Container: Transitions from Picture 1 to Picture 2, then locks stationary */}
+      <div className="sticky top-20 sm:top-24 w-full h-[calc(100vh-5rem)] sm:h-[calc(100vh-6rem)] flex flex-col justify-start items-center overflow-visible pt-1 sm:pt-2">
+        {/* Animated Inner Canvas Container: Stationary and spacious desktop proportions */}
         <motion.div
-          className="relative w-full max-w-[820px] lg:max-w-[880px] xl:max-w-[940px] mx-auto select-none px-2 sm:px-4"
+          className="relative w-full max-w-[880px] lg:max-w-[960px] xl:max-w-[1020px] mx-auto select-none px-2 sm:px-4"
           style={{
-            y: canvasY,
-            maxHeight: 'calc((100vh - 6.5rem) * 1.15)',
             aspectRatio: '1800 / 1980',
           }}
         >
@@ -327,7 +323,7 @@ export default function PhilosophyGraphic() {
           style={{ left: '50%', top: '4.0%' }}
           initial={{ opacity: 0, y: -18, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.4 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
           <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 md:px-8 py-1.5 sm:py-2 md:py-2.5 rounded-full bg-slate-50 text-slate-800 border-2 border-slate-200 shadow-md select-none whitespace-nowrap shrink-0 hover:shadow-lg transition-shadow">
