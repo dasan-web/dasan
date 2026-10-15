@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const VIDEO_SRC = '/main_clouds.mp4?v=original_restored';
+const VIDEO_SRC = '/main_clouds.mp4?v=40s_smooth';
 const POSTER_SRC = '/main_poster.webp';
 
 export default function HeroBackground() {
