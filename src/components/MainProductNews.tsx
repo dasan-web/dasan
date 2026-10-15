@@ -561,12 +561,13 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
           </div>
         </div>
 
-        {/* User Requested: 뉴스 카드 하단 우측 제품 검색창 (입력창 내부에 '다산제약 제품에 대한 검색 기능입니다' 표시) */}
-        <div className="flex justify-end items-center mt-6 sm:mt-8 md:mt-10 w-full">
-          <form 
-            onSubmit={handleSearchSubmit}
-            className="relative flex items-center w-full sm:w-96 md:w-[440px] lg:w-[480px] bg-gray-50/90 hover:bg-white focus-within:bg-white border border-gray-200/90 focus-within:border-brand-green focus-within:ring-4 focus-within:ring-brand-green/10 rounded-full px-4.5 py-2.5 sm:py-3 transition-all duration-300 shadow-2xs focus-within:shadow-md shrink-0"
-          >
+        {/* User Requested: 뉴스 카드 하단 우측 제품 검색창 (3번째 카드 폭과 완벽히 일치하도록 그리드 정렬) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-6 sm:mt-8 md:mt-10 w-full">
+          <div className="md:col-start-3 w-full">
+            <form 
+              onSubmit={handleSearchSubmit}
+              className="relative flex items-center w-full bg-gray-50/90 hover:bg-white focus-within:bg-white border border-gray-200/90 focus-within:border-brand-green focus-within:ring-4 focus-within:ring-brand-green/10 rounded-full px-4.5 py-2.5 sm:py-3 transition-all duration-300 shadow-2xs focus-within:shadow-md"
+            >
             <Search className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gray-400 focus-within:text-brand-green shrink-0 mr-2.5 transition-colors" />
             <input
               type="text"
@@ -592,6 +593,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
               {isEnglish ? 'Search' : '검색'}
             </button>
           </form>
+          </div>
         </div>
       </ScrollReveal>
 
