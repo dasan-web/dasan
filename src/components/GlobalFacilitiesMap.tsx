@@ -884,11 +884,6 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
               {getFacilityIcon(selectedLoc.id, 28)}
             </div>
             <div className="space-y-1.5">
-              {Boolean(isEnglish ? selectedLoc.enPic3Tag : selectedLoc.pic3Tag) && (
-                <span className="text-[10.5px] text-gray-400 font-extrabold uppercase tracking-widest block">
-                  {isEnglish ? selectedLoc.enPic3Tag : selectedLoc.pic3Tag}
-                </span>
-              )}
               <h4 className="font-black text-gray-900 text-xl sm:text-2xl text-brand-blue">
                 {isEnglish ? selectedLoc.enPic3Title : selectedLoc.pic3Title}
               </h4>
