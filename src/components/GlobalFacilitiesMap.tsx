@@ -7,7 +7,6 @@ import {
   Landmark,
   Zap, 
   MapPin, 
-  Phone, 
   Train, 
   BusFront, 
   Layers,
@@ -898,15 +897,6 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
                   <MapPin size={14} className="shrink-0 text-gray-400" />
                   {isEnglish ? selectedLoc.enAddress : selectedLoc.address}
                 </span>
-                {selectedLoc.tel && selectedLoc.tel !== '-' && (
-                  <span className="text-gray-500 font-semibold flex items-center gap-1.5">
-                    <Phone size={13} className="shrink-0 text-gray-400" />
-                    <span>{isEnglish ? "Tel: " : "대표번호: "}</span>
-                    <span className="text-gray-600">
-                      {selectedLoc.tel}
-                    </span>
-                  </span>
-                )}
               </div>
             </div>
           </div>
