@@ -230,7 +230,7 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                     onMouseLeave={() => setHoveredId(null)}
                     className={`group relative p-6 sm:p-8 rounded-[28px] sm:rounded-[32px] border transition-all duration-500 bg-white ${
                       isHovered 
-                        ? 'border-emerald-300 shadow-xl -translate-y-1' 
+                        ? 'border-slate-300 shadow-xl -translate-y-1' 
                         : 'border-slate-200/80 shadow-sm hover:border-slate-300'
                     }`}
                   >
@@ -270,7 +270,7 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                           {item.tags.map((tag, idx) => (
                             <span 
                               key={idx}
-                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-50 text-slate-700 border border-slate-200/80 group-hover:bg-emerald-50 group-hover:border-emerald-200 group-hover:text-brand-green transition-colors"
+                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-50 text-slate-700 border border-slate-200/80 transition-colors"
                             >
                               <CheckCircle2 size={13} className="text-brand-green" />
                               <span>{tag}</span>
