@@ -68,10 +68,10 @@ const FACILITIES_DATA: FacilityLocation[] = [
     enName: 'Dasan Pharmaceutical Seoul Office',
     category: '본사 거점',
     enCategory: 'Headquarters',
-    pic3Tag: 'SEOUL OFFICE',
+    pic3Tag: '',
     pic3Title: '서울사무실',
     pic3Desc: '경영, 영업, 구매, 사업개발 등 지속 가능한 미래 성장 전략 수립',
-    enPic3Tag: 'SEOUL OFFICE',
+    enPic3Tag: '',
     enPic3Title: 'Seoul Office',
     enPic3Desc: 'Establishment of management, sales, purchasing, business development, and sustainable future growth strategies',
     country: '대한민국',
@@ -885,9 +885,11 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
               {getFacilityIcon(selectedLoc.id, 28)}
             </div>
             <div className="space-y-1.5">
-              <span className="text-[10.5px] text-gray-400 font-extrabold uppercase tracking-widest block">
-                {isEnglish ? selectedLoc.enPic3Tag : selectedLoc.pic3Tag}
-              </span>
+              {Boolean(isEnglish ? selectedLoc.enPic3Tag : selectedLoc.pic3Tag) && (
+                <span className="text-[10.5px] text-gray-400 font-extrabold uppercase tracking-widest block">
+                  {isEnglish ? selectedLoc.enPic3Tag : selectedLoc.pic3Tag}
+                </span>
+              )}
               <h4 className="font-black text-gray-900 text-xl sm:text-2xl text-brand-blue">
                 {isEnglish ? selectedLoc.enPic3Title : selectedLoc.pic3Title}
               </h4>
@@ -900,9 +902,9 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
                   <span className="text-gray-500 font-semibold flex items-center gap-1.5">
                     <Phone size={13} className="shrink-0 text-gray-400" />
                     <span>{isEnglish ? "Tel: " : "대표번호: "}</span>
-                    <a href={`tel:${selectedLoc.tel}`} className="text-gray-600 hover:text-brand-blue hover:underline">
+                    <span className="text-gray-600">
                       {selectedLoc.tel}
-                    </a>
+                    </span>
                   </span>
                 )}
               </div>
