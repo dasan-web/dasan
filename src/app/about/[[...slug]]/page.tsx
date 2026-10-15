@@ -670,8 +670,8 @@ export default async function AboutCatchAllPage({ params }: Params) {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                       
                       {/* Frosted Glass Floating Caption Overlay */}
-                      <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 lg:inset-x-2.5 xl:inset-x-3.5 lg:bottom-2.5 xl:bottom-3.5 p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
-                        <h4 className="text-[13px] sm:text-[14px] md:text-[13.5px] lg:text-[13px] xl:text-[15px] 2xl:text-[16.5px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md break-keep min-h-[38px] sm:min-h-[42px] flex items-center">
+                      <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 lg:inset-x-2.5 xl:inset-x-3.5 lg:bottom-2.5 xl:bottom-3.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
+                        <h4 className="text-[13px] sm:text-[14px] md:text-[13.5px] lg:text-[13px] xl:text-[15px] 2xl:text-[16.5px] font-extrabold leading-snug tracking-tight text-white drop-shadow-md break-keep">
                           {item.title}
                         </h4>
                         <p className="text-[11.5px] sm:text-[12px] md:text-[11.5px] lg:text-[11.5px] xl:text-[12.5px] 2xl:text-[13.5px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-48 group-hover:opacity-100 group-hover:mt-2 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
