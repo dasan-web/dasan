@@ -222,21 +222,11 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
             </h3>
             
             <div className="bg-slate-50/70 rounded-2xl p-6 sm:p-8 border border-slate-100/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 transition-all">
-              <div className="space-y-1.5 max-w-2xl">
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100/80 text-emerald-800 border border-emerald-200/60">
-                    {isEnglish ? 'KPIC' : '약학정보원'}
-                  </span>
-                  <h4 className="text-base sm:text-lg font-bold text-slate-900">
-                    {isEnglish ? 'Comprehensive Pharmaceutical Information' : '의약품 상세 약학정보'}
-                  </h4>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed break-keep">
-                  {isEnglish 
-                    ? 'View comprehensive drug information including ingredients, administration, dosage, and patient guidance on the official KPIC portal.' 
-                    : '약학정보원에서 제공하는 원료약품 및 분량, 효능효과, 용법용량, 사용상의 주의사항 등 공인된 상세 정보를 확인하실 수 있습니다.'}
-                </p>
-              </div>
+              <p className="text-sm md:text-base font-medium text-slate-800 leading-relaxed break-keep max-w-2xl">
+                {isEnglish 
+                  ? 'View comprehensive drug information including ingredients, administration, dosage, and patient guidance on the official KPIC portal.' 
+                  : '약학정보원에서 제공하는 원료약품 및 분량, 효능효과, 용법용량, 사용상의 주의사항 등 공인된 상세 정보를 확인하실 수 있습니다.'}
+              </p>
 
               <a 
                 href={product.drug_info_url || `https://www.health.kr/searchDrug/search_total.asp?search_word=${encodeURIComponent(product.name)}`}
