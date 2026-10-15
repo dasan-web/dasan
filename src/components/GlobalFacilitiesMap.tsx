@@ -908,9 +908,6 @@ export default function GlobalFacilitiesMap({ isEnglish = false }: { isEnglish?:
                   </span>
                 )}
               </div>
-              <p className="text-[13.5px] sm:text-[14px] text-gray-600 font-medium leading-relaxed pt-1 break-keep pl-5">
-                {isEnglish ? selectedLoc.enPic3Desc : selectedLoc.pic3Desc}
-              </p>
             </div>
           </div>
         </div>
