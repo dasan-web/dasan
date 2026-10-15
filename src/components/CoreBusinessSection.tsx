@@ -217,35 +217,28 @@ export default function CoreBusinessSection() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [progressKey, setProgressKey] = useState(0);
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+    setProgressKey((prev) => prev + 1);
+  };
 
   const handleBackToOverview = () => {
     setIsReturning(true);
-    setCurrentSlide(0);
+    goToSlide(0);
     setTimeout(() => setIsReturning(false), 400);
   };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setProgressKey((prev) => prev + 1);
   };
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setProgressKey((prev) => prev + 1);
   };
-
-  // Auto slide timer (pauses when user hovers or isPlaying is false)
-  useEffect(() => {
-    if (isPlaying && !isHovered) {
-      timerRef.current = setInterval(() => {
-        nextSlide();
-      }, 5000);
-    } else if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isPlaying, isHovered, currentSlide]);
 
   return (
     <section id="core-business" className="pt-20 sm:pt-28 md:pt-32 lg:pt-36 pb-14 md:pb-20 bg-white relative font-pretendard">
@@ -347,7 +340,7 @@ export default function CoreBusinessSection() {
                       {businessItems.map((item) => (
                         <button
                           key={item.id}
-                          onClick={() => setCurrentSlide(item.targetSlide)}
+                          onClick={() => goToSlide(item.targetSlide)}
                           className="group relative w-full pl-6 sm:pl-8 lg:pl-10 xl:pl-12 pr-16 sm:pr-20 py-4 sm:py-5 lg:py-5 xl:py-5.5 flex items-center justify-between border-t border-gray-200 bg-white hover:bg-emerald-50/40 transition-all duration-300 ease-out cursor-pointer overflow-hidden text-left"
                         >
                           <div className="flex items-center gap-3 sm:gap-3.5 relative z-10">
@@ -400,7 +393,7 @@ export default function CoreBusinessSection() {
                             <button
                               key={item.id}
                               type="button"
-                              onClick={() => setCurrentSlide(item.targetSlide)}
+                              onClick={() => goToSlide(item.targetSlide)}
                               className={`inline-flex items-center justify-center px-2 sm:px-2.5 xl:px-3 py-1 sm:py-1.5 rounded-full text-[10.5px] sm:text-[11px] lg:text-[11px] xl:text-xs font-semibold tracking-tight transition-all duration-300 cursor-pointer border select-none whitespace-nowrap shrink-0 shadow-none ${
                                 isActive
                                   ? 'bg-brand-green text-white border-brand-green font-bold'
@@ -476,20 +469,36 @@ export default function CoreBusinessSection() {
         </div>
 
         {/* Picture 1 Style: Bottom Slider Pagination Bars & Play/Pause Controller */}
-        <div className="mt-8 flex items-center justify-center gap-2.5 sm:gap-3">
+        <div 
+          className="mt-8 flex items-center justify-center gap-2.5 sm:gap-3"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           {slides.map((slide, index) => {
             const isActive = currentSlide === index;
             return (
               <button
                 key={slide.id}
-                onClick={() => setCurrentSlide(index)}
+                onClick={() => goToSlide(index)}
                 aria-label={`Slide ${index + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                className={`h-2 rounded-full overflow-hidden transition-all duration-300 cursor-pointer relative bg-gray-200 ${
                   isActive
-                    ? 'w-10 sm:w-12 bg-brand-green'
-                    : 'w-7 sm:w-8 bg-gray-200 hover:bg-gray-300'
+                    ? 'w-10 sm:w-12'
+                    : 'w-7 sm:w-8 hover:bg-gray-300'
                 }`}
-              />
+              >
+                {isActive && (
+                  <div
+                    key={`slide-progress-${currentSlide}-${progressKey}`}
+                    onAnimationEnd={nextSlide}
+                    className="absolute inset-y-0 left-0 bg-brand-green rounded-full"
+                    style={{
+                      animation: 'coreBusinessProgress 5s linear forwards',
+                      animationPlayState: isPlaying && !isHovered ? 'running' : 'paused',
+                    }}
+                  />
+                )}
+              </button>
             );
           })}
 
@@ -506,6 +515,13 @@ export default function CoreBusinessSection() {
             )}
           </button>
         </div>
+
+        <style>{`
+          @keyframes coreBusinessProgress {
+            from { width: 0%; }
+            to { width: 100%; }
+          }
+        `}</style>
       </div>
     </section>
   );
