@@ -41,6 +41,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       insurance_code: p.insurance_code || '',
       insurance_price: p.insurance_price || null,
       precautions: p.precautions || '',
+      drug_info_url: p.drug_info_url || '',
       created_at: p.created_at,
     };
 

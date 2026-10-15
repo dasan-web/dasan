@@ -26,6 +26,7 @@ interface Product {
   insurance_code?: string | null;
   insurance_price?: string | number | null;
   precautions?: string | null;
+  drug_info_url?: string | null;
 }
 
 

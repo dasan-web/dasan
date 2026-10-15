@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldAlert } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 const getOptimizedImageUrl = (url?: string | null, width = 800) => {
   if (!url) return '';
@@ -214,85 +214,41 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
             </div>
           </div>
 
-          {/* Section B: Detailed Specifications Grid Table */}
+          {/* Section B: Drug Information (의약품 세부 정보 / 약학정보) */}
           <div className="space-y-4">
             <h3 className="text-xl font-black text-slate-900 flex items-center gap-2.5">
               <span className="w-2.5 h-2.5 rounded-full bg-brand-green"></span>
               {isEnglish ? 'Detailed Information' : '의약품 세부 정보'}
             </h3>
             
-            <div className="border border-slate-200/80 rounded-2xl overflow-hidden divide-y divide-slate-200/60 bg-white shadow-xs">
-              
-              {product.ingredient_detail && (
-                <div className="grid grid-cols-1 md:grid-cols-12 p-4 sm:p-5 hover:bg-slate-50/60 transition-colors">
-                  <div className="md:col-span-3 font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center mb-1 md:mb-0">
-                    {isEnglish ? 'Composition' : '성분 / 함량 상세'}
-                  </div>
-                  <div className="md:col-span-9 text-sm md:text-[15px] font-medium text-slate-800 leading-relaxed whitespace-pre-wrap">
-                    {product.ingredient_detail}
-                  </div>
+            <div className="bg-slate-50/70 rounded-2xl p-6 sm:p-8 border border-slate-100/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 transition-all">
+              <div className="space-y-1.5 max-w-2xl">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100/80 text-emerald-800 border border-emerald-200/60">
+                    {isEnglish ? 'KPIC' : '약학정보원'}
+                  </span>
+                  <h4 className="text-base sm:text-lg font-bold text-slate-900">
+                    {isEnglish ? 'Comprehensive Pharmaceutical Information' : '의약품 상세 약학정보'}
+                  </h4>
                 </div>
-              )}
+                <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed break-keep">
+                  {isEnglish 
+                    ? 'View comprehensive drug information including ingredients, administration, dosage, and patient guidance on the official KPIC portal.' 
+                    : '약학정보원에서 제공하는 원료약품 및 분량, 효능효과, 용법용량, 사용상의 주의사항 등 공인된 상세 정보를 확인하실 수 있습니다.'}
+                </p>
+              </div>
 
-              {product.usage_capacity && (
-                <div className="grid grid-cols-1 md:grid-cols-12 p-4 sm:p-5 hover:bg-slate-50/60 transition-colors">
-                  <div className="md:col-span-3 font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center mb-1 md:mb-0">
-                    {isEnglish ? 'Dosage & Admin' : '용법 · 용량'}
-                  </div>
-                  <div className="md:col-span-9 text-sm md:text-[15px] font-medium text-slate-800 leading-relaxed whitespace-pre-wrap">
-                    {product.usage_capacity}
-                  </div>
-                </div>
-              )}
-
-              {product.reference_drug && (
-                <div className="grid grid-cols-1 md:grid-cols-12 p-4 sm:p-5 hover:bg-slate-50/60 transition-colors">
-                  <div className="md:col-span-3 font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center mb-1 md:mb-0">
-                    {isEnglish ? 'Reference Drug' : '대조약'}
-                  </div>
-                  <div className="md:col-span-9 text-sm md:text-[15px] font-medium text-slate-800">
-                    {product.reference_drug}
-                  </div>
-                </div>
-              )}
-
-              {product.storage_method && (
-                <div className="grid grid-cols-1 md:grid-cols-12 p-4 sm:p-5 hover:bg-slate-50/60 transition-colors">
-                  <div className="md:col-span-3 font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center mb-1 md:mb-0">
-                    {isEnglish ? 'Storage Method' : '저장방법'}
-                  </div>
-                  <div className="md:col-span-9 text-sm md:text-[15px] font-medium text-slate-800">
-                    {product.storage_method}
-                  </div>
-                </div>
-              )}
-
-              {product.packaging_unit && (
-                <div className="grid grid-cols-1 md:grid-cols-12 p-4 sm:p-5 hover:bg-slate-50/60 transition-colors">
-                  <div className="md:col-span-3 font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center mb-1 md:mb-0">
-                    {isEnglish ? 'Packaging Unit' : '포장단위'}
-                  </div>
-                  <div className="md:col-span-9 text-sm md:text-[15px] font-medium text-slate-800">
-                    {product.packaging_unit}
-                  </div>
-                </div>
-              )}
-
+              <a 
+                href={product.drug_info_url || `https://www.health.kr/searchDrug/search_total.asp?search_word=${encodeURIComponent(product.name)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-brand-green hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-xs hover:shadow transition-all shrink-0 cursor-pointer group whitespace-nowrap"
+              >
+                <span>{isEnglish ? 'View Drug Details' : '약학정보 바로가기'}</span>
+                <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
             </div>
           </div>
-
-          {/* Section C: Precautions Callout Box */}
-          {product.precautions && (
-            <div className="space-y-4">
-              <h3 className="text-xl font-black text-amber-900 flex items-center gap-2.5">
-                <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0" />
-                {isEnglish ? 'Precautions for Use' : '사용상의 주의사항'}
-              </h3>
-              <div className="bg-amber-50/60 border border-amber-200/70 rounded-2xl p-6 sm:p-8 text-sm font-medium text-amber-950 leading-relaxed whitespace-pre-wrap">
-                {product.precautions}
-              </div>
-            </div>
-          )}
 
         </div>
 

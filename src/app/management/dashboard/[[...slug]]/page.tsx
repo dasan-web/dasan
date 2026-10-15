@@ -284,6 +284,7 @@ export default function AdminDashboardPage() {
   const [prodInsuranceCode, setProdInsuranceCode] = useState('');
   const [prodInsurancePrice, setProdInsurancePrice] = useState('');
   const [prodPrecautions, setProdPrecautions] = useState('');
+  const [prodDrugInfoUrl, setProdDrugInfoUrl] = useState('');
   const [uploadingProdFile, setUploadingProdFile] = useState(false);
 
   // Pipeline fields
@@ -1361,6 +1362,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
     setProdInsuranceCode('');
     setProdInsurancePrice('');
     setProdPrecautions('');
+    setProdDrugInfoUrl('');
 
     setPipeCategory('개량신약');
     setPipeProject('');
@@ -1417,6 +1419,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
       setProdInsuranceCode(item.insurance_code || '');
       setProdInsurancePrice(item.insurance_price !== null && item.insurance_price !== undefined ? String(item.insurance_price) : '');
       setProdPrecautions(item.precautions || '');
+      setProdDrugInfoUrl(item.drug_info_url || '');
     } else if (type === 'pipeline') {
       setPipeCategory(item.category);
       setPipeProject(item.project_name);
@@ -1490,6 +1493,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
         insurance_code: prodInsuranceCode,
         insurance_price: prodInsurancePrice.trim() === '' ? null : prodInsurancePrice.trim(),
         precautions: prodPrecautions,
+        drug_info_url: prodDrugInfoUrl,
       };
       if (formMode === 'edit') bodyData.id = activeItem.id;
     } else if (currentSubPath === 'rd/pipeline') {
@@ -8787,6 +8791,10 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                   <div className="space-y-1">
                     <label className="font-bold text-gray-400 block">의약정보/주의사항</label>
                     <textarea value={prodPrecautions} onChange={(e) => setProdPrecautions(e.target.value)} placeholder="의약정보/주의사항" className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold min-h-[80px]" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="font-bold text-gray-400 block">약학정보원 상세 링크 (URL)</label>
+                    <input type="text" value={prodDrugInfoUrl} onChange={(e) => setProdDrugInfoUrl(e.target.value)} placeholder="https://www.health.kr/drug/..." className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold" />
                   </div>
                   <div className="space-y-1 mt-2">
                     <label className="font-bold text-gray-400 block">첨부파일(제품 안내 브로셔/설명서 등)</label>
