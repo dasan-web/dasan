@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ExternalLink } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const getOptimizedImageUrl = (url?: string | null, width = 800) => {
   if (!url) return '';
@@ -223,19 +223,27 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
             
             <div className="bg-slate-50/70 rounded-2xl p-6 sm:p-8 border border-slate-100/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 transition-all">
               <p className="text-sm md:text-base font-medium text-slate-800 leading-relaxed break-keep max-w-2xl">
-                {isEnglish 
-                  ? 'View comprehensive drug information including ingredients, administration, dosage, and patient guidance on the official KPIC portal.' 
-                  : '약학정보원에서 제공하는 원료약품 및 분량, 효능효과, 용법용량, 사용상의 주의사항 등 공인된 상세 정보를 확인하실 수 있습니다.'}
+                {isEnglish ? (
+                  <>
+                    View comprehensive drug information including ingredients, administration, dosage,<br className="hidden sm:inline" />
+                    and patient guidance on the official KPIC portal.
+                  </>
+                ) : (
+                  <>
+                    약학정보원에서 제공하는 원료약품 및 분량, 효능효과, 용법용량, 사용상의 주의사항 등<br />
+                    공인된 상세 정보를 확인하실 수 있습니다.
+                  </>
+                )}
               </p>
 
               <a 
                 href={product.drug_info_url || `https://www.health.kr/searchDrug/search_total.asp?search_word=${encodeURIComponent(product.name)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-brand-green hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-xs hover:shadow transition-all shrink-0 cursor-pointer group whitespace-nowrap"
+                className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 bg-white border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs lg:text-sm font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0 whitespace-nowrap shadow-xs"
               >
                 <span>{isEnglish ? 'View Drug Details' : '약학정보 바로가기'}</span>
-                <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowRight className="w-3.5 h-3.5 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </div>
           </div>
