@@ -283,12 +283,15 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
                         {/* 4 Detailed Sub-Fields */}
                         <div className="pt-3 border-t border-slate-100">
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-                            {item.subFields.map((field, fIdx) => (
-                              <div key={fIdx} className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
-                                <span className="font-bold text-brand-green block">{field.title}</span>
-                                <p className="text-[11.5px] text-slate-600 leading-relaxed">{field.desc}</p>
-                              </div>
-                            ))}
+                            {item.subFields.map((field, fIdx) => {
+                              const formattedTitle = field.title.replace(/^0([1-9]\.)/, '$1');
+                              return (
+                                <div key={fIdx} className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                                  <span className="font-bold text-brand-green block">{formattedTitle}</span>
+                                  <p className="text-[11.5px] text-slate-600 leading-relaxed">{field.desc}</p>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       </div>

@@ -133,10 +133,10 @@ export const DEFAULT_RD_INTRO_DATA: RdIntroData = {
       leadDesc: '제제연구소는 의약품의 물리·화학적 특성과 약물의 방출 및 흡수 특성을 기반으로 다산제약만의 차별화된 제형 설계와 여러가지 방식의 약물전달시스템(DDS) 개발을 수행하고 있습니다.',
       detailDesc: '당사의 보유 기술을 융합한 Multistra®는 다양한 약물의 특성과 목표하는 약효 및 방출조절 특성에 적합한 제제기술의 집약체로서 새로운 제형의 제품이나 신규 복합제, 용량 개선 개량신약, 특수 방출제어 제제 등의 다양한 고부가가치 의약품 개발에 활용되고 있으며 이를 통해 다산제약만의 제품 차별화와 경쟁력 향상에 기여하고 있습니다.',
       subFields: [
-        { title: '01. Multistra® 기반 DDS 기술', desc: '약물의 물리·화학적 특성에 맞춰 방출속도를 정밀 제어하고 최적의 제형을 설계하여 차별화된 개량신약을 개발합니다.' },
-        { title: '02. 다양한 제형 및 복합제 개발', desc: '서로 다른 유효성분을 하나의 제형으로 구현하는 다층정 설계 및 서방화 기술로 복용 편의성을 획기적으로 개선합니다.' },
-        { title: '03. 제제설계에서 상업생산까지', desc: 'Glatt사 Multilab® GPCG 유동층 코팅 및 HATA 다층정 타정기를 활용하여 Lab Scale부터 상업생산까지 재현성을 확보합니다.' },
-        { title: '04. 과학적 분석을 통한 최적화', desc: 'HPLC, GC, DSC 열분석, 입도분석 및 Automated Dissolution 시스템을 통해 고도화된 품질특성을 검증합니다.' }
+        { title: '1. Multistra® 기반 DDS 기술', desc: '약물의 물리·화학적 특성에 맞춰 방출속도를 정밀 제어하고 최적의 제형을 설계하여 차별화된 개량신약을 개발합니다.' },
+        { title: '2. 다양한 제형 및 복합제 개발', desc: '서로 다른 유효성분을 하나의 제형으로 구현하는 다층정 설계 및 서방화 기술로 복용 편의성을 획기적으로 개선합니다.' },
+        { title: '3. 제제설계에서 상업생산까지', desc: 'Glatt사 Multilab® GPCG 유동층 코팅 및 HATA 다층정 타정기를 활용하여 Lab Scale부터 상업생산까지 재현성을 확보합니다.' },
+        { title: '4. 과학적 분석을 통한 최적화', desc: 'HPLC, GC, DSC 열분석, 입도분석 및 Automated Dissolution 시스템을 통해 고도화된 품질특성을 검증합니다.' }
       ]
     },
     {
@@ -146,10 +146,10 @@ export const DEFAULT_RD_INTRO_DATA: RdIntroData = {
       leadDesc: '합성연구소는 유기합성 기술을 기반으로 원료의약품 및 의약품 개발에 필요한 핵심 합성기술과 공정기술을 연구합니다.',
       detailDesc: '신약의 후보물질, 지식재산권 확보와 특허 전략을 고려한 차별화된 원료의약품(염변경, 결정형변경, Pro-drug)을 설계하고 고도화된 공정기술을 적용한 불순물 발생 억제 제품 등을 개발하고 상용화하는 최적의 합성공정 개발 체계를 구축하고 있습니다.',
       subFields: [
-        { title: '01. 프로세스 디자인 (Process Design)', desc: '신규 후보물질의 합성경로 설계부터 공정 최적화, Scale-up 및 기술이전에 이르기까지 재현성 높은 공정을 확립합니다.' },
-        { title: '02. 차별화된 원료의약품 개발', desc: '신규염(Salt), 결정형(Polymorph) 변경 및 Pro-drug 설계를 통해 유해 불순물을 억제하고 특허 전략을 확보합니다.' },
-        { title: '03. Lab에서 Commercial Scale까지', desc: '30L~50L Pilot-scale 다목적 반응 시스템을 활용하여 공정변수를 최적화하고 상업생산 안정성을 확보합니다.' },
-        { title: '04. 고순도 원료의약품 공정개발', desc: '합성단계별 불순물 생성을 체계적으로 억제하여 최종 제품의 안전성과 유효성을 보장하는 고순도 API를 제조합니다.' }
+        { title: '1. 프로세스 디자인 (Process Design)', desc: '신규 후보물질의 합성경로 설계부터 공정 최적화, Scale-up 및 기술이전에 이르기까지 재현성 높은 공정을 확립합니다.' },
+        { title: '2. 차별화된 원료의약품 개발', desc: '신규염(Salt), 결정형(Polymorph) 변경 및 Pro-drug 설계를 통해 유해 불순물을 억제하고 특허 전략을 확보합니다.' },
+        { title: '3. Lab에서 Commercial Scale까지', desc: '30L~50L Pilot-scale 다목적 반응 시스템을 활용하여 공정변수를 최적화하고 상업생산 안정성을 확보합니다.' },
+        { title: '4. 고순도 원료의약품 공정개발', desc: '합성단계별 불순물 생성을 체계적으로 억제하여 최종 제품의 안전성과 유효성을 보장하는 고순도 API를 제조합니다.' }
       ]
     }
   ]
@@ -188,7 +188,15 @@ export function parseRdIntroData(raw: string | null | undefined): RdIntroData {
         synergySectionTitle: parsed.synergySectionTitle || DEFAULT_RD_INTRO_DATA.synergySectionTitle,
         synergySectionDesc: parsed.synergySectionDesc || DEFAULT_RD_INTRO_DATA.synergySectionDesc,
         divisions: Array.isArray(parsed.divisions) && parsed.divisions.length > 0
-          ? parsed.divisions
+          ? parsed.divisions.map((d: any) => ({
+              ...d,
+              subFields: Array.isArray(d.subFields)
+                ? d.subFields.map((f: any) => ({
+                    ...f,
+                    title: typeof f.title === 'string' ? f.title.replace(/^0([1-9]\.)/, '$1') : f.title
+                  }))
+                : d.subFields
+            }))
           : DEFAULT_RD_INTRO_DATA.divisions
       };
     } catch (e) {
