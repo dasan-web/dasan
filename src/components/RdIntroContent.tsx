@@ -136,7 +136,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
                 
                 {/* Frosted Glass Floating Caption Overlay */}
-                <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
+                <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
                   <h3 className="text-[13px] sm:text-[14px] lg:text-[14.5px] xl:text-[15px] font-bold leading-snug tracking-tight text-white drop-shadow-sm whitespace-nowrap">
                     {card.title}
                   </h3>
@@ -178,7 +178,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                 
                 {/* Frosted Glass Floating Caption Overlay */}
-                <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
+                <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-3 sm:bottom-3 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-black/40 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/55 shadow-md">
                   <h3 className="text-[13px] sm:text-[14px] lg:text-[14.5px] xl:text-[15px] font-bold leading-snug tracking-tight text-white drop-shadow-sm whitespace-nowrap">
                     {card.title}
                   </h3>
