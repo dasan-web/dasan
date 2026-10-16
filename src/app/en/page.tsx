@@ -8,7 +8,6 @@ import HeroBackground from '@/components/HeroBackground';
 import ScrollNav from '@/components/ScrollNav';
 import PopupWrapper from '@/components/PopupWrapper';
 import CoreBusinessSection from '@/components/CoreBusinessSection';
-import MainSloganIntro from '@/components/MainSloganIntro';
 import { query } from '@/lib/db';
 import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -137,10 +136,7 @@ export default async function Home() {
         <ScrollIndicator />
       </section>
 
-      {/* 2. Slogan Intro Animation (Figure 1) */}
-      <MainSloganIntro isEnglish={true} />
-
-      {/* 3. Core Business Section (Figure 2) */}
+      {/* 2. Slogan Intro & Core Business Section (Figure 1 -> Figure 2) */}
       <CoreBusinessSection />
 
       {/* 3. Finished Products Showcase Section */}

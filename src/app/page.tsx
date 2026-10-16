@@ -8,7 +8,6 @@ import HeroBackground from '@/components/HeroBackground';
 import ScrollNav from '@/components/ScrollNav';
 import PopupWrapper from '@/components/PopupWrapper';
 import CoreBusinessSection from '@/components/CoreBusinessSection';
-import MainSloganIntro from '@/components/MainSloganIntro';
 import { query } from '@/lib/db';
 import { ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -137,10 +136,7 @@ export default async function Home() {
         <ScrollIndicator />
       </section>
 
-      {/* 2. Slogan Intro Animation (그림 1: 기술과 혁신으로 DASAN 건강한 내일을 만듭니다) */}
-      <MainSloganIntro />
-
-      {/* 3. Core Business Section (그림 2) */}
+      {/* 2. Slogan Intro & Core Business Section (그림 1 슬로건 애니메이션 -> 그림 2 Core Business 연동) */}
       <CoreBusinessSection />
 
       {/* 3. Finished Products Showcase Section */}

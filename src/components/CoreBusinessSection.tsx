@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import { ArrowRight, ArrowUp, ArrowUpRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
 interface ActionLink {
@@ -240,24 +240,126 @@ export default function CoreBusinessSection() {
     setProgressKey((prev) => prev + 1);
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Raw Scroll Progress
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end']
+  });
+
+  // Ultra-Smooth Physics Spring Easing
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 30,
+    mass: 0.1,
+    restDelta: 0.001,
+  });
+
+  // 1. Line-by-line sequential fade-in (그림 1: 기술과 혁신으로 -> 건강한 내일을 만듭니다 -> DASAN 로고)
+  const line1Opacity = useTransform(smoothProgress, [0.02, 0.12, 0.44, 0.54], [0, 1, 1, 0]);
+  const line3Opacity = useTransform(smoothProgress, [0.12, 0.22, 0.44, 0.54], [0, 1, 1, 0]);
+  const line2TextOpacity = useTransform(smoothProgress, [0.22, 0.32, 0.44, 0.54], [0, 1, 1, 0]);
+  
+  const hexOpacity = useTransform(smoothProgress, [0.22, 0.32, 0.68, 0.77], [0, 1, 1, 0]);
+  const hexScale = useTransform(
+    smoothProgress, 
+    [0.0, 0.44, 0.56, 0.67, 0.77], 
+    [1, 1, 3.2, 14, 50]
+  );
+  const hexX = useTransform(
+    smoothProgress,
+    [0.44, 0.58],
+    ['0%', '-29.3%']
+  );
+
+  const hexFilter = useTransform(smoothProgress, (p) => {
+    if (p <= 0.44) return 'brightness(1) saturate(1)';
+    if (p >= 0.77) return 'brightness(2.2) saturate(0)';
+    const t = (p - 0.44) / (0.77 - 0.44);
+    const b = 1 + (2.2 - 1) * t;
+    const s = 1 - t;
+    return `brightness(${b.toFixed(3)}) saturate(${s.toFixed(3)})`;
+  });
+
+  // 2. Core Business section opacity & reveal (그림 2: 육각형이 화면을 채운 그 자리에 바로 등장!)
+  const contentOpacity = useTransform(smoothProgress, [0.68, 0.86], [0, 1]);
+  const contentY = useTransform(smoothProgress, [0.68, 0.86], [35, 0]);
+  const contentPointerEvents = useTransform(smoothProgress, (v) => (v > 0.70 ? 'auto' : 'none'));
+
   return (
-    <section id="core-business" className="pt-20 sm:pt-28 md:pt-32 lg:pt-36 pb-14 md:pb-20 bg-white relative font-pretendard">
-      <div className="w-full px-6 md:px-16 lg:px-24 mx-auto">
-        {/* Section Headline */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="mb-8 flex flex-col items-start"
-        >
-          <div className="flex flex-col">
-            <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-brand-green tracking-tight">
-              Core Business
-            </h2>
-            <div className="w-full h-1.5 bg-brand-green mt-2 rounded-full" />
+    <section 
+      id="core-business" 
+      ref={containerRef}
+      className="relative h-[290vh] font-pretendard select-none bg-white"
+    >
+      {/* Sticky Fullscreen Stage */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center">
+        
+        {/* ========================================================================= */}
+        {/* 1. SCROLL-EXPANDING HEXAGON & 3-LINE SLOGAN LAYER (그림 1) */}
+        {/* ========================================================================= */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20 px-6">
+          <div className="flex flex-col items-center text-center max-w-4xl 2xl:max-w-6xl 3xl:max-w-7xl w-full">
+            {/* 1. 기술과 혁신으로 */}
+            <motion.h3 
+              style={{ opacity: line1Opacity }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-tight"
+            >
+              {isEnglish ? 'Through Technology and Innovation,' : '기술과 혁신으로'}
+            </motion.h3>
+
+            {/* 2. DASAN 로고 */}
+            <div className="relative select-none my-4 sm:my-5 lg:my-6 2xl:my-8 h-[42px] sm:h-[52px] md:h-[66px] lg:h-[78px] 2xl:h-[88px] aspect-[1024/388] flex items-center justify-center">
+              <motion.div style={{ opacity: line2TextOpacity }} className="absolute inset-0 w-full h-full pointer-events-none">
+                <img src="/dasan_exact_text_layer.png" alt="DASAN Pharmaceutical" className="w-full h-full object-contain select-none pointer-events-none" style={{ imageRendering: '-webkit-optimize-contrast' }} />
+              </motion.div>
+              <motion.div 
+                style={{ 
+                  opacity: hexOpacity,
+                  scale: hexScale,
+                  x: hexX,
+                  filter: hexFilter,
+                  transformOrigin: '79.3% 50.4%',
+                  willChange: 'transform, opacity, filter',
+                  transform: 'translateZ(0)'
+                }}
+                className="absolute inset-0 w-full h-full pointer-events-none origin-[79.3%_50.4%]"
+              >
+                <img src="/dasan_exact_hex_layer.png" alt="DASAN Symbol" className="w-full h-full object-contain select-none pointer-events-none" style={{ imageRendering: '-webkit-optimize-contrast' }} />
+              </motion.div>
+            </div>
+
+            {/* 3. 건강한 내일을 만듭니다. */}
+            <motion.h3 
+              style={{ opacity: line3Opacity }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-tight"
+            >
+              {isEnglish ? 'We create a healthier tomorrow.' : '건강한 내일을 만듭니다.'}
+            </motion.h3>
           </div>
-        </motion.div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 2. REVEALED CORE BUSINESS SECTION (그림 2) */}
+        {/* ========================================================================= */}
+        <motion.div
+          style={{ 
+            opacity: contentOpacity, 
+            y: contentY,
+            pointerEvents: contentPointerEvents as any
+          }}
+          className="w-full px-6 md:px-16 lg:px-24 mx-auto z-30"
+        >
+          {/* Section Headline */}
+          <div className="mb-3 sm:mb-4 lg:mb-5 flex flex-col items-start">
+            <div className="flex flex-col">
+              <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold text-brand-green tracking-tight">
+                Core Business
+              </h2>
+              <div className="w-full h-1.5 bg-brand-green mt-2 rounded-full" />
+            </div>
+          </div>
 
         {/* Outer Relative Wrapper (Card stays 100% Full Width, Buttons float in Outer Margins) */}
         <div className="relative w-full">
@@ -298,7 +400,7 @@ export default function CoreBusinessSection() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[620px] xl:h-[640px]"
+                  className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[550px] xl:h-[580px] 2xl:h-[620px]"
                 >
                   {/* Left Column: Factory Image & Navy Banner (7 cols) */}
                   <div className="lg:col-span-7 flex flex-col h-full overflow-hidden">
@@ -311,7 +413,7 @@ export default function CoreBusinessSection() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    <div className="bg-gray-200 px-6 sm:px-8 lg:px-10 xl:px-12 h-[145px] sm:h-[155px] lg:h-[160px] flex items-center shrink-0 border-t-2 border-brand-green relative overflow-hidden">
+                    <div className="bg-gray-200 px-6 sm:px-8 lg:px-10 xl:px-12 h-[125px] sm:h-[135px] lg:h-[140px] flex items-center shrink-0 border-t-2 border-brand-green relative overflow-hidden">
                       <p className="text-lg sm:text-xl md:text-[21px] lg:text-[23px] xl:text-[25px] font-extrabold leading-snug sm:leading-normal text-gray-900 break-keep">
                         {slides[0].title}
                       </p>
@@ -370,7 +472,7 @@ export default function CoreBusinessSection() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[620px] xl:h-[640px]"
+                  className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[550px] xl:h-[580px] 2xl:h-[620px]"
                 >
                   {/* Left Column: 6 cols */}
                   <div className="lg:col-span-6 relative overflow-hidden bg-gray-100 min-h-[320px] sm:min-h-[380px] lg:min-h-full h-full">
@@ -522,6 +624,7 @@ export default function CoreBusinessSection() {
             to { width: 100%; }
           }
         `}</style>
+        </motion.div>
       </div>
     </section>
   );
