@@ -400,7 +400,7 @@ export default function CoreBusinessSection() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[490px] xl:h-[520px] 2xl:h-[560px]"
+                  className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[550px] xl:h-[580px] 2xl:h-[620px]"
                 >
                   {/* Left Column: Factory Image & Navy Banner (7 cols) */}
                   <div className="lg:col-span-7 flex flex-col h-full overflow-hidden">
@@ -413,8 +413,8 @@ export default function CoreBusinessSection() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    <div className="bg-gray-200 px-6 sm:px-8 lg:px-10 xl:px-12 h-[105px] sm:h-[115px] lg:h-[120px] flex items-center shrink-0 border-t-2 border-brand-green relative overflow-hidden">
-                      <p className="text-base sm:text-lg md:text-[19px] lg:text-[20px] xl:text-[22px] font-extrabold leading-snug sm:leading-normal text-gray-900 break-keep">
+                    <div className="bg-gray-200 px-6 sm:px-8 lg:px-10 xl:px-12 h-[120px] sm:h-[130px] lg:h-[135px] flex items-center shrink-0 border-t-2 border-brand-green relative overflow-hidden">
+                      <p className="text-base sm:text-lg md:text-[20px] lg:text-[21px] xl:text-[23px] font-extrabold leading-snug sm:leading-normal text-gray-900 break-keep">
                         {slides[0].title}
                       </p>
                     </div>
@@ -422,8 +422,8 @@ export default function CoreBusinessSection() {
 
                   {/* Right Column: Title & 3 Stacked Buttons (5 cols) */}
                   <div className="lg:col-span-5 flex flex-col justify-between bg-white h-full">
-                    <div className="px-6 sm:px-8 lg:px-10 xl:px-12 pt-4 sm:pt-5 lg:pt-6 pb-2 sm:pb-3">
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[36px] xl:text-[40px] font-black text-brand-blue tracking-tight break-keep leading-tight">
+                    <div className="px-6 sm:px-8 lg:px-10 xl:px-12 pt-5 sm:pt-6 lg:pt-7 pb-3 sm:pb-4">
+                      <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] xl:text-[44px] font-black text-brand-blue tracking-tight break-keep leading-tight">
                         {isEnglish ? (
                           <span className="flex flex-col gap-1 sm:gap-2">
                             <span>Dasan Pharm&apos;s</span>
@@ -443,19 +443,19 @@ export default function CoreBusinessSection() {
                         <button
                           key={item.id}
                           onClick={() => goToSlide(item.targetSlide)}
-                          className="group relative w-full pl-6 sm:pl-8 lg:pl-10 xl:pl-12 pr-16 sm:pr-20 py-3 sm:py-3.5 lg:py-3.5 xl:py-4 flex items-center justify-between border-t border-gray-200 bg-white hover:bg-emerald-50/40 transition-all duration-300 ease-out cursor-pointer overflow-hidden text-left"
+                          className="group relative w-full pl-6 sm:pl-8 lg:pl-10 xl:pl-12 pr-16 sm:pr-20 py-3.5 sm:py-4 lg:py-4.5 xl:py-5 flex items-center justify-between border-t border-gray-200 bg-white hover:bg-emerald-50/40 transition-all duration-300 ease-out cursor-pointer overflow-hidden text-left"
                         >
                           <div className="flex items-center gap-3 sm:gap-3.5 relative z-10">
                             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-50 border border-emerald-200/60 text-brand-green font-bold text-[11px] sm:text-xs flex items-center justify-center font-mono transition-all duration-300 shrink-0">
                               {item.num}
                             </span>
-                            <span className="text-base sm:text-lg lg:text-[18px] xl:text-[20px] font-bold tracking-tight break-keep text-gray-800 group-hover:text-brand-green transition-colors duration-300">
+                            <span className="text-base sm:text-lg lg:text-[19px] xl:text-[21px] font-bold tracking-tight break-keep text-gray-800 group-hover:text-brand-green transition-colors duration-300">
                               {item.title}
                             </span>
                           </div>
 
                           <div className="absolute right-5 sm:right-7 top-1/2 -translate-y-1/2 flex items-center justify-center">
-                            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-50 border border-gray-200 text-brand-green flex items-center justify-center shadow-2xs group-hover:scale-105 group-hover:bg-brand-green group-hover:text-white group-hover:border-brand-green group-hover:shadow-md transition-all duration-300 ease-out">
+                            <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-slate-50 border border-gray-200 text-brand-green flex items-center justify-center shadow-2xs group-hover:scale-105 group-hover:bg-brand-green group-hover:text-white group-hover:border-brand-green group-hover:shadow-md transition-all duration-300 ease-out">
                               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5] transition-transform duration-300 group-hover:translate-x-0.5" />
                             </div>
                           </div>
@@ -472,7 +472,7 @@ export default function CoreBusinessSection() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[490px] xl:h-[520px] 2xl:h-[560px]"
+                  className="grid grid-cols-1 lg:grid-cols-12 w-full lg:h-[550px] xl:h-[580px] 2xl:h-[620px]"
                 >
                   {/* Left Column: 6 cols */}
                   <div className="lg:col-span-6 relative overflow-hidden bg-gray-100 min-h-[320px] sm:min-h-[380px] lg:min-h-full h-full">
@@ -484,7 +484,7 @@ export default function CoreBusinessSection() {
                   </div>
 
                   {/* Right Column: 6 cols */}
-                  <div className="lg:col-span-6 relative pt-4 sm:pt-5 lg:pt-5 xl:pt-6 pb-5 sm:pb-6 lg:pb-7 xl:pb-8 px-4 sm:px-6 lg:px-6 xl:px-8 flex flex-col justify-between bg-white h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full">
+                  <div className="lg:col-span-6 relative pt-5 sm:pt-6 lg:pt-6 xl:pt-7 pb-6 sm:pb-7 lg:pb-8 xl:pb-10 px-4 sm:px-6 lg:px-6 xl:px-8 flex flex-col justify-between bg-white h-full min-h-[320px] sm:min-h-[380px] lg:min-h-full">
                     {/* Top Section: 4대 주요 사업영역 텍스트 버튼 & 처음 화면으로 가기 화살표 버튼 (한 줄 정렬, 막대그래프 스크롤바 완전 제거) */}
                     <div className="mb-3 sm:mb-4 flex items-center justify-between gap-1.5 sm:gap-2 w-full">
                       {/* 4대 주요 사업영역 텍스트 버튼 (한 줄로 다 보이게 정렬) */}
