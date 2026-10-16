@@ -67,7 +67,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
         {/* Central Rounded Cinematic Banner */}
         <div className="w-full aspect-[21/9] sm:aspect-[21/9] rounded-[24px] sm:rounded-[32px] md:rounded-[36px] overflow-hidden shadow-2xl bg-black border border-gray-100/90 relative group">
           <img 
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="w-full h-full object-cover"
             src="/poster_rd.jpg"
             alt="DASAN Pharmaceutical R&D CENTER"
           />
@@ -131,7 +131,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
                 <img 
                   src={cardImg} 
                   alt={card.title} 
-                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.12] contrast-[1.02]"
+                  className="w-full h-full object-cover object-center brightness-[1.12] contrast-[1.02]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
                 
@@ -173,7 +173,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
                 <img 
                   src={cardImg} 
                   alt={card.title} 
-                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                 
@@ -254,7 +254,7 @@ export default function RdIntroContent({ dbContent }: RdIntroContentProps) {
                         <img 
                           src={item.image} 
                           alt={item.imageAlt} 
-                          className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                          className="w-full h-full object-cover object-center"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
                       </div>
