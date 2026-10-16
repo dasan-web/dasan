@@ -595,7 +595,10 @@ export default function CoreBusinessSection() {
                     onAnimationEnd={nextSlide}
                     className="absolute inset-y-0 left-0 bg-brand-green rounded-full"
                     style={{
-                      animation: 'coreBusinessProgress 10s linear forwards',
+                      animationName: 'coreBusinessProgress',
+                      animationDuration: '10s',
+                      animationTimingFunction: 'linear',
+                      animationFillMode: 'forwards',
                       animationPlayState: isPlaying && !isHovered ? 'running' : 'paused',
                     }}
                   />
