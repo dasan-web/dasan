@@ -64,7 +64,7 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
           <img 
             src="/rd_activities_hero.jpg?v=3" 
             alt="다산제약 첨단 DDS 제제 연구소 - 정밀 용액 제제 분석 연구" 
-            className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            className="w-full h-full object-cover object-center"
           />
         </div>
       </section>
@@ -241,7 +241,7 @@ export default function RdActivitiesContent({ dbContent }: RdActivitiesContentPr
                         <img 
                           src={item.image} 
                           alt={item.imageAlt} 
-                          className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                          className="w-full h-full object-cover object-center"
                         />
                       </div>
 
