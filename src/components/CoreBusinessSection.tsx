@@ -218,6 +218,7 @@ export default function CoreBusinessSection() {
   const [isHovered, setIsHovered] = useState(false);
   const [isReturning, setIsReturning] = useState(false);
   const [progressKey, setProgressKey] = useState(0);
+  const [isSectionActive, setIsSectionActive] = useState(false);
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
@@ -256,42 +257,55 @@ export default function CoreBusinessSection() {
     restDelta: 0.001,
   });
 
+  // Keep Core Business strictly on Slide 0 (Figure 2 Overview) until the user scrolls past Figure 1 into Core Business
+  useEffect(() => {
+    const unsubscribe = smoothProgress.on('change', (latest) => {
+      if (latest < 0.50) {
+        setIsSectionActive(false);
+        setCurrentSlide(0);
+      } else {
+        setIsSectionActive(true);
+      }
+    });
+    return () => unsubscribe();
+  }, [smoothProgress]);
+
   // 1. Line-by-line sequential fade-in (그림 1: 기술과 혁신으로 -> 건강한 내일을 만듭니다 -> DASAN 로고)
-  const line1Opacity = useTransform(smoothProgress, [0.02, 0.12, 0.44, 0.54], [0, 1, 1, 0]);
-  const line3Opacity = useTransform(smoothProgress, [0.12, 0.22, 0.44, 0.54], [0, 1, 1, 0]);
-  const line2TextOpacity = useTransform(smoothProgress, [0.22, 0.32, 0.44, 0.54], [0, 1, 1, 0]);
+  const line1Opacity = useTransform(smoothProgress, [0.02, 0.10, 0.38, 0.48], [0, 1, 1, 0]);
+  const line3Opacity = useTransform(smoothProgress, [0.08, 0.16, 0.38, 0.48], [0, 1, 1, 0]);
+  const line2TextOpacity = useTransform(smoothProgress, [0.15, 0.23, 0.38, 0.48], [0, 1, 1, 0]);
   
-  const hexOpacity = useTransform(smoothProgress, [0.22, 0.32, 0.68, 0.77], [0, 1, 1, 0]);
+  const hexOpacity = useTransform(smoothProgress, [0.15, 0.23, 0.56, 0.64], [0, 1, 1, 0]);
   const hexScale = useTransform(
     smoothProgress, 
-    [0.0, 0.44, 0.56, 0.67, 0.77], 
+    [0.0, 0.38, 0.48, 0.56, 0.64], 
     [1, 1, 3.2, 14, 50]
   );
   const hexX = useTransform(
     smoothProgress,
-    [0.44, 0.58],
+    [0.38, 0.49],
     ['0%', '-29.3%']
   );
 
   const hexFilter = useTransform(smoothProgress, (p) => {
-    if (p <= 0.44) return 'brightness(1) saturate(1)';
-    if (p >= 0.77) return 'brightness(2.2) saturate(0)';
-    const t = (p - 0.44) / (0.77 - 0.44);
+    if (p <= 0.38) return 'brightness(1) saturate(1)';
+    if (p >= 0.64) return 'brightness(2.2) saturate(0)';
+    const t = (p - 0.38) / (0.64 - 0.38);
     const b = 1 + (2.2 - 1) * t;
     const s = 1 - t;
     return `brightness(${b.toFixed(3)}) saturate(${s.toFixed(3)})`;
   });
 
-  // 2. Core Business section opacity & reveal (그림 2: 육각형이 화면을 채운 그 자리에 바로 등장!)
-  const contentOpacity = useTransform(smoothProgress, [0.68, 0.86], [0, 1]);
-  const contentY = useTransform(smoothProgress, [0.68, 0.86], [35, 0]);
-  const contentPointerEvents = useTransform(smoothProgress, (v) => (v > 0.70 ? 'auto' : 'none'));
+  // 2. Core Business section opacity & reveal (그림 1 이후 그림 2가 첫 화면으로 확실하게 안착!)
+  const contentOpacity = useTransform(smoothProgress, [0.50, 0.60], [0, 1]);
+  const contentY = useTransform(smoothProgress, [0.50, 0.60], [30, 0]);
+  const contentPointerEvents = useTransform(smoothProgress, (v) => (v > 0.52 ? 'auto' : 'none'));
 
   return (
     <section 
       id="core-business" 
       ref={containerRef}
-      className="relative h-[290vh] font-pretendard select-none bg-white"
+      className="relative h-[320vh] font-pretendard select-none bg-white"
     >
       {/* Sticky Stage: Positioned directly below Header (Header is h-24 = 96px) so content is never clipped */}
       <div className="sticky top-24 h-[calc(100vh-6rem)] w-full overflow-hidden flex flex-col justify-center items-center">
@@ -589,7 +603,7 @@ export default function CoreBusinessSection() {
                     : 'w-7 sm:w-8 hover:bg-gray-300'
                 }`}
               >
-                {isActive && (
+                {isActive && isSectionActive && (
                   <div
                     key={`slide-progress-${currentSlide}-${progressKey}`}
                     onAnimationEnd={nextSlide}
