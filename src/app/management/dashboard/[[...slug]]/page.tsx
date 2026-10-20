@@ -9,7 +9,7 @@ import RdActivitiesContent from '@/components/RdActivitiesContent';
 import { useRouter, useParams } from 'next/navigation';
 import { navigationData, GrandMenu } from '@/lib/navigation';
 import { parseGreetingData, DEFAULT_GREETING_DATA, GreetingData } from '@/lib/greeting';
-import { parseEsgData, DEFAULT_ESG_DATA, EsgData, DEFAULT_CODE_OF_ETHICS_HTML } from '@/lib/esg';
+import { parseEsgData, DEFAULT_ESG_DATA, EsgData, DEFAULT_CODE_OF_ETHICS_HTML, parseCodeOfEthicsData, DEFAULT_CODE_OF_ETHICS_DATA, CodeOfEthicsData, parseEsgEthicsOverviewData, DEFAULT_ESG_ETHICS_OVERVIEW_DATA, EsgEthicsOverviewData } from '@/lib/esg';
 import { 
   LogOut, ShieldAlert, Check, Plus, Trash2, Edit, Save, Settings, GripVertical,
   ChevronRight, ChevronDown, CheckCircle2, ListFilter, Search, Download, Globe, X,
@@ -28,6 +28,10 @@ import { parseRdActivitiesData, serializeRdActivitiesData, DEFAULT_RD_ACTIVITIES
 import ApiRawContent from '@/components/ApiRawContent';
 import CdmoContent from '@/components/CdmoContent';
 import ESGEthicsSection from '@/components/ESGEthicsSection';
+import HistoryAccordion from '@/components/HistoryAccordion';
+import GlobalFacilitiesMap from '@/components/GlobalFacilitiesMap';
+import LocationMapSection from '@/components/LocationMapSection';
+import PhilosophyGraphic from '@/components/PhilosophyGraphic';
 import { parseBusinessApiData, serializeBusinessApiData, DEFAULT_BUSINESS_API_DATA, BusinessApiData } from '@/lib/businessApi';
 import { parseBusinessCdmoData, serializeBusinessCdmoData, DEFAULT_BUSINESS_CDMO_DATA, BusinessCdmoData } from '@/lib/businessCdmo';
 
@@ -299,6 +303,7 @@ export default function AdminDashboardPage() {
   const [newsContent, setNewsContent] = useState('');
   const [newsFileUrl, setNewsFileUrl] = useState('');
   const [newsFileName, setNewsFileName] = useState('');
+  const [newsSubCategory, setNewsSubCategory] = useState<string>('신제품');
   const [uploadingFile, setUploadingFile] = useState(false);
   const [uploadingCiLogo, setUploadingCiLogo] = useState(false);
   const [uploadingHeroBanner, setUploadingHeroBanner] = useState(false);
@@ -474,7 +479,8 @@ export default function AdminDashboardPage() {
       currentSubPath === 'contact/newsroom/press' ||
       currentSubPath === 'contact/newsroom/media' ||
       currentSubPath === 'about/ir/news' ||
-      currentSubPath === 'contact/careers/jobs'
+      currentSubPath === 'contact/careers/jobs' ||
+      currentSubPath === 'business/finished/news'
     ) {
       fetchNews(getNewsCategory(currentSubPath));
     } else if (
@@ -520,6 +526,7 @@ export default function AdminDashboardPage() {
 
   // news category mapper
   const getNewsCategory = (path: string) => {
+    if (path === 'business/finished/news') return 'product';
     if (path === 'contact/newsroom/press') return 'press';
     if (path === 'contact/newsroom/media') return 'media';
     if (path === 'about/ir/announcement') return 'announcement';
@@ -535,6 +542,7 @@ export default function AdminDashboardPage() {
     if (cat === 'announcement') return '공시정보';
     if (cat === 'financial') return '재무정보';
     if (cat === 'ir') return 'IR News';
+    if (cat === 'product') return '제품소식';
     if (cat === 'jobs') return '채용공고';
     return '글';
   };
@@ -622,111 +630,169 @@ export default function AdminDashboardPage() {
     if (staticContentCache.has(key)) {
       setStaticContent(staticContentCache.get(key)!);
     }
+    const defaultCiContent = [
+      '육각형 심볼은 분자 구조와 함께 안정성과 신뢰를 상징하며, 대각선으로 절제된 워드마크는 혁신성과 기술적 진보를 표현합니다. 내부의 흐름형 그래픽(그라데이션-잎)은 생명과 기술의 연결을 의미하고, 그린 컬러는 생명·친환경·신뢰의 가치를 담고 있습니다.',
+      '',
+      'DASAN GREEN',
+      'RGB: 0, 137, 83 | HEX: #008953',
+      '#008953',
+      '생명력, 인류의 건강, 지속가능한 경영 가치 상징',
+      'DASAN CHARCOAL',
+      'RGB: 99, 102, 106 | HEX: #63666A',
+      '#63666A',
+      '기술적인 전문성, 정직한 기업 경영과 신뢰성 상징',
+      '/clear_space_grid.png',
+      '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다, 대내외 다양한 커뮤니케이션에 최우선으로 사용합니다.<br/>다산제약의 메인 로고는 각 형태에 따라 비례를 조정한 것이므로, 글자와 도형의 형태, 굵기, 비례 등을 임의로 변경할 수 없습니다.',
+      '시그니처 조합형(가로 , 세로, 워드마크)',
+      '로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해 단독 적용 시 최소 사용 여백을 유지해야 합니다. 표시된 심볼 주변 공간은 최소 여백을 나타내며 이 공간에는 다른 요소가 나타나지 않도록 적용하여야 합니다.<br/><strong>(서브 로고형도 동일하게 적용합니다.)</strong><br/><br/>최소 공간 규정의 기준 단위(X)는 심볼(육각형)의 절반 높이를 기준으로 설정한 가상선과 워드마크(DASAN) 상단 간의 거리에서 도출하였습니다. 이는 심볼과 워드마크간의 구조적 비례 관계를 반영한 값으로, 로고의 일체감과 시각적 균형을 유지하기 위한 기준입니다.',
+      'Dasan Light Green',
+      'RGB: 132, 189, 0 | HEX: #84BD00',
+      '#84BD00',
+      '생동감과 확장성을 담은 컬러로, 브랜드에 유연한 흐름과 밝은 에너지를 더해주는 보조 컬러',
+      '/clear_space_grid.png'
+    ].join('\n');
+
+    const defaultFacilitiesContent = [
+      '연구개발에서 생산, 글로벌 시장 진출까지 유기적으로 연결된 다산제약의 핵심 거점입니다.',
+      '수원 중앙연구소',
+      '경기 수원시 영통구 신원로 304 (원천동) 이노플렉스 3동 306호',
+      '약물전달시스템(DDS) 플랫폼 설계, 복합 개량신약 제제 연구, 원료의약품(API) 고효율 합성 공정 개발',
+      '고해상도 분광광도계, 초고성능 액체크로마토그래피(UPLC), 나노 입자 입도분석기 등 최첨단 제제 분석 설비 보유',
+      '아산 제1공장',
+      '충청남도 아산시 도고면 덕암산로 342',
+      '완제의약품 (정제, 캡슐제, 유동층 과립제품 등)',
+      '독일 Glatt社 최첨단 유동층 코팅기 (GPCG-300, GPCG-120), 초고속 이중정 타정기, 중앙 자동화 컨트롤 모니터링 시스템',
+      '연간 최대 9억 정 규모 고형제 생산 라인',
+      '아산 제2공장',
+      '충청남도 아산시 도고면 덕암산로 381',
+      '의약품 포장 공정 자동화 및 스마트 물류창고',
+      '독일 및 이탈리아산 고속 블리스터(Alu-Alu, PVC/PVDC) 포장기, 카토너 카운터 일원화 라인, 실시간 온습도 조절 항온물류창고',
+      '정제 선별 고해상도 인쇄 선별 장치, 고성능 스마트 집진 시스템',
+      '/global_infrastructure_highway.jpg'
+    ].join('\n');
+
+    const defaultLocationContent = [
+      '서울 사무실',
+      '경영총괄, 해외 영업본부, 마케팅 전략부서',
+      '37.5186,126.8906',
+      '다산제약 서울 사무실',
+      '서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호',
+      '02-2627-5300',
+      '2호선 문래역 3번 출구 도보 8분|2/5호선 영등포구청역 6번 출구 도보 10분',
+      '우리벤처타운 정류장 하차|지선 6625, 6640A번 / 마을 영등포05번',
+      '수원 중앙연구소',
+      'DDS 제제 연구, 유기합성 연구',
+      '37.266205,127.054366',
+      '다산제약 수원 중앙연구소',
+      '경기 수원시 영통구 신원로 304 (원천동) 이노플렉스 3동 306호',
+      '031-546-8200',
+      '수인분당선 영통역 또는 청명역 하차 후 시내버스 환승 이용|수인분당선 망포역 4번 출구 도보 15분 (또는 버스 환승)',
+      '이노플렉스 정류장 하차|일반 62-1, 82-1, 99번 / 마을 55번',
+      '아산 제1공장',
+      '완제의약품 생산본부',
+      '36.7589,126.8687',
+      '다산제약 아산 제1공장',
+      '충청남도 아산시 도고면 덕암산로 342 (와산리 10번지)',
+      '041-543-5311',
+      '1호선 신창역(순천향대) 하차 후 택시 이동 (약 10분)|도고온천역(장항선) 하차 후 택시 이용',
+      '와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용',
+      '아산 제2공장',
+      '최첨단 스마트 패키징 & 대량생산 라인',
+      '36.7621,126.8698',
+      '다산제약 아산 제2공장',
+      '충청남도 아산시 도고면 덕암산로 381 (와산리 30번지)',
+      '041-428-9484',
+      '1호선 신창역(순천향대) 하차 후 택시 이동 (약 10분)|도고온천역(장항선) 하차 후 택시 이용',
+      '와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용',
+      '중국 선양연구소',
+      '',
+      '41.6906,123.4779',
+      '다산제약 중국 선양연구소',
+      'Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179',
+      '',
+      '심양 트램 1·2호선 궈지롼젠위안(国际软件园)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 택시 이동',
+      '선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용|상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차',
+      '중국 안휘성 공장',
+      '',
+      '32.674439,118.916379',
+      '다산제약 중국 안휘성 공장 (안휘허이다산의약)',
+      '安徽省滁州市天长市滁州高新技术产业开发区经十一路8号 (안후이성 추저우시 톈창시 추저우 고신기술산업개발구 징11로 8호)',
+      '',
+      '난징 루커우 국제공항(NKG) 또는 톈창시 시외버스터미널 연계 차량 이동|고속철도 추저우역(滁州站) 또는 난징남역(南京南站) 하차 후 차량 이동',
+      '톈창시(天长市) 시외버스터미널 또는 시내에서 고신기술개발구(高新区) 방면 시내버스 또는 택시 이용|추저우 고신기술산업개발구 징11로(经十一路) 방면 하차',
+      '/location_hero.jpg'
+    ].join('\n');
+
+    const defaultHistoryContent = [
+      '성장 연혁 (History)|원천기술 확보에서 글로벌 고성장·고수익 창출 기업으로 도약해 온 다산제약의 발자취입니다',
+      'ERA:2022 ~ Present|도약기',
+      'YEAR:2025|• 환경부 한국환경공단 스마트생태공장 구축 사업 선정',
+      "YEAR:2024|• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정 / 식약처 공급망 안정화 선도 사업자 선정 / 안전보건경영시스템(ISO 45001) 인증 획득 / 중국 '안휘허이다산의약유한회사' 합작법인 설립",
+      'YEAR:2023|• 부패방지경영시스템(ISO 37001) 인증 획득',
+      'YEAR:2022|• 무역의날 산자부 장관표창 및 700만불 수출탑 수상 / 혁신성장 유공중소기업 장관상 수상 / 의약품수출분야 보건복지부 장관상 수상 / 4년 연속 청년친화 강소기업 선정',
+      'ERA:2013 ~ 2021|성장기',
+      'YEAR:2021|• 충청남도 우수기업인상 수상 / 좋은 일자리 기업 선정 / 글로벌 강소기업 선정',
+      'YEAR:2020|• 충청남도 유망 중소기업 선정',
+      'YEAR:2019|• 매출 500억 원 달성 / 아산 제2공장 완공 / 심양연구소(중국 랴오닝성) 확장',
+      'YEAR:2018|• 중앙연구소 통합 개소',
+      'YEAR:2017|• 사명 변경 ("주식회사 다산제약")',
+      'YEAR:2016|• 중앙연구소 확장 이전',
+      'YEAR:2013|• 완제의약품 물류센터 완공 / 벤처기업 중소기업청장상 표창 / 합성연구소 확장 이전',
+      'ERA:1996 ~ 2011|설립기',
+      "YEAR:2011|• 'KIBO 성공기업' 선정",
+      'YEAR:2009|• 300만불 수출탑 수상',
+      'YEAR:2008|• 매출 100억 원 달성 / KGMP 인증',
+      'YEAR:2007|• 기술혁신형중소기업(INNO-BIZ) 인증 / 3D Clean 사업장 인증',
+      'YEAR:2002|• BGMP 인증',
+      'YEAR:2001|• 원료의약품 공장 준공 및 제조업 허가 취득 / 기업부설연구소 인가',
+      'YEAR:1996|• 주식회사 다산메디켐 설립'
+    ].join('\n');
+
+    const defaultGreetingContent = `CEO 메시지|<h4><strong>신뢰와 혁신으로 열어가는 더 건강한 미래</strong></h4><p>다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다.</p>${DEFAULT_GREETING_DATA.body}`;
+    const defaultIntroContent = `기업 이념 및 핵심가치|<p><strong>다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</strong></p><p>다산제약은 조선 최고의 실학자이자 사상가인 다산 정약용 선생의 애민 정신과 실사구시의 학문적 태도를 기업 경영의 근간으로 삼아 인류의 건강과 행복에 기여하고자 끊임없이 노력합니다.</p>`;
+
     try {
       const res = await fetch(`/api/management/contents?page_key=${key}`, { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         let contentVal = (data.content || '').replace(/\r\n/g, '\n');
 
-        // ESG path check and auto-formatting if missing pipe
-        if ((key === 'about/esg/ethics' || key === 'about/esg/environment' || key === 'about/esg/safety') && contentVal && !contentVal.includes('|')) {
+        // ESG path check and auto-formatting if missing pipe (only for non-JSON strings)
+        if (key === 'about/esg/ethics' && contentVal && !contentVal.includes('|') && !contentVal.trim().startsWith('{')) {
           contentVal = `지속 가능한 비즈니스를 위한 ESG 선언|${contentVal}`;
         }
 
-        if (key === 'about/ir/announcement' && !contentVal) {
+        if (key === 'about/intro' && !contentVal) {
+          contentVal = defaultIntroContent;
+        } else if (key === 'about/greeting' && !contentVal) {
+          contentVal = defaultGreetingContent;
+        } else if (key === 'about/history' && !contentVal) {
+          contentVal = defaultHistoryContent;
+        } else if (key === 'about/ir/announcement' && !contentVal) {
           contentVal = DEFAULT_ANNOUNCEMENT_CONTENT;
         } else if (key === 'about/ir/financial' && !contentVal) {
           contentVal = DEFAULT_FINANCIAL_CONTENT;
         } else if (key === 'about/ci' && !contentVal) {
-          contentVal = `다산제약의 CI는 독자적인 연구 플랫폼과 신약 파이프라인 개발을 향한 끝없는 도전, 그리고 인류의 건강을 최우선으로 생각하는 핵심 이념을 시각적으로 형상화하고 있습니다.
-다산제약의 심볼은 과학과 생명의 조화로운 결합을 나타냅니다. 육각형 구조는 신약 개발 및 연구의 정밀한 화학적 결합과 견고한 기술력을 의미하며, 내부에 배치된 초록 나뭇잎은 인류의 생명 건강 증진과 친환경 미래 생명공학 리더로 성장하겠다는 비전을 상징합니다.
-DASAN GREEN
-RGB: 116, 184, 22 | HEX: #74B816
-#74B816
-생명력, 인류의 건강, 지속가능한 경영 가치 상징
-DASAN CHARCOAL
-RGB: 43, 43, 43 | HEX: #2B2B2B
-#2B2B2B
-기술적인 전문성, 정직한 기업 경영과 신뢰성 상징`;
+          contentVal = defaultCiContent;
         } else if (key === 'about/facilities' && !contentVal) {
-          contentVal = `다산제약은 고난도 제형 연구를 선도하는 수원 R&D 중앙연구소와 선진 GMP(KGMP) 규격에 부합하는 아산 제1, 2공장을 가동하여 연구개발에서 생산에 이르는 완성도 높은 제약 솔루션을 제공합니다.
-수원 중앙연구소
-경기 수원시 영통구 신원로 304(원천동) 이노플렉스 3동 306호
-약물전달시스템(DDS) 플랫폼 설계, 복합 개량신약 제제 연구, 원료의약품(API) 고효율 합성 공정 개발
-고해상도 분광광도계, 초고성능 액체크로마토그래피(UPLC), 나노 입자 입도분석기 등 최첨단 제제 분석 설비 보유
-아산 제1공장
-충청남도 아산시 도고면 덕암산로 342
-완제의약품 (정제, 캡슐제, 유동층 과립제품 등)
-독일 Glatt社 최첨단 유동층 코팅기 (GPCG-300, GPCG-120), 초고속 이중정 타정기, 중앙 자동화 컨트롤 모니터링 시스템
-연간 최대 9억 정 규모 고형제 생산 라인
-아산 제2공장
-충청남도 아산시 도고면 덕암산로 381
-의약품 포장 공정 자동화 및 스마트 물류창고
-독일 및 이탈리아산 고속 블리스터(Alu-Alu, PVC/PVDC) 포장기, 카토너 카운터 일원화 라인, 실시간 온습도 조절 항온물류창고
-정제 선별 고해상도 인쇄 선별 장치, 고성능 스마트 집진 시스템`;
+          contentVal = defaultFacilitiesContent;
         } else if (key === 'about/location' && !contentVal) {
-          contentVal = `서울 사무실
-경영총괄, 해외 영업본부, 마케팅 전략부서
-37.5186,126.8906
-다산제약 서울 사무실
-서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호
-02-2627-5300
-2호선 문래역 3번 출구 도보 8분|2/5호선 영등포구청역 6번 출구 도보 10분
-우리벤처타운 정류장 하차|지선 6625, 6640A번 / 마을 영등포05번
-수원 중앙연구소
-DDS 제제 연구, 유기합성 연구
-37.266205,127.054366
-다산제약 수원 중앙연구소
-경기 수원시 영통구 신원로 304 (원천동) 이노플렉스 3동 306호
-031-546-8200
-수인분당선 영통역 또는 청명역 하차 후 시내버스 환승 이용|수인분당선 망포역 4번 출구 도보 15분 (또는 버스 환승)
-이노플렉스 정류장 하차|일반 62-1, 82-1, 99번 / 마을 55번
-아산 제1공장
-완제의약품 생산본부
-36.7589,126.8687
-다산제약 아산 제1공장
-충청남도 아산시 도고면 덕암산로 342 (와산리 10번지)
-041-543-5311
-1호선 신창역(순천향대) 하차 후 택시 이동 (약 10분)|도고온천역(장항선) 하차 후 택시 이용
-와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용
-아산 제2공장
-최첨단 스마트 패키징 & 대량생산 라인
-36.7621,126.8698
-다산제약 아산 제2공장
-충청남도 아산시 도고면 덕암산로 381 (와산리 30번지)
-041-428-9484
-1호선 신창역(순천향대) 하차 후 택시 이동 (약 10분)|도고온천역(장항선) 하차 후 택시 이용
-와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용
-중국 선양연구소
-
-41.6906,123.4779
-다산제약 중국 선양연구소
-Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179
-
-심양 트램 1·2호선 궈지롼젠위안(国际软件园, Shenyang Int’l Software Park)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 차량/택시 이동
-선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용|상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차`;
-        } else if (key === 'about/esg/ethics' && !contentVal) {
-          contentVal = `지속 가능한 비즈니스를 위한 ESG 선언|다산제약은 준법감시 제도를 도입하여 투명하고 정직한 경영 문화를 실천합니다.`;
-        } else if (key === 'about/esg/environment' && !contentVal) {
-          contentVal = `지속 가능한 비즈니스를 위한 ESG 선언|친환경 원료 합성 공정 및 폐기물 감소 솔루션을 통해 지구 환경 보존에 기여합니다.`;
+          contentVal = defaultLocationContent;
+        } else if (key === 'about/esg/ethics') {
+          contentVal = JSON.stringify(parseEsgEthicsOverviewData(contentVal), null, 2);
         } else if (key === 'about/esg/safety' && !contentVal) {
           contentVal = JSON.stringify(DEFAULT_ESG_DATA['about/esg/safety']);
         } else if (key === 'about/esg/environment' && !contentVal) {
           contentVal = JSON.stringify(DEFAULT_ESG_DATA['about/esg/environment']);
         } else if (key === 'about/esg/anti-corruption' && !contentVal) {
           contentVal = JSON.stringify(DEFAULT_ESG_DATA['about/esg/anti-corruption']);
-        } else if (key === 'about/esg/code-of-ethics' && !contentVal) {
-          contentVal = '윤리 강령|' + DEFAULT_CODE_OF_ETHICS_HTML;
-        } else if (key === 'about/ir/announcement' && !contentVal) {
-          contentVal = `주주 중심 경영과 공정한 기업 가치 평가|다산제약의 경영 실적 및 투자 공시 자료는 관련 법령에 의거하여 명확하고 성실하게 공개되고 있습니다. 주주 및 투자자 여러분의 이해를 돕기 위해 실시간 재무 핵심 지표를 제공합니다.|https://dart.fss.or.kr/html/search/SearchCompanyIR3_M.html?textCrpNM=%EB%8B%A4%EC%82%B0%EC%A0%9C%EC%95%BD`;
-        } else if (key === 'about/ir/financial' && !contentVal) {
-          contentVal = `주주 중심 경영과 공정한 기업 가치 평가\n다산제약의 경영 실적 및 투자 공시 자료는 관련 법령에 의거하여 명확하고 성실하게 공개되고 있습니다. 주주 및 투자자 여러분의 이해를 돕기 위해 실시간 재무 핵심 지표를 제공합니다.\n2023년 (개별)|2024년 (개별)|2025년 (연결)|2026년 (목표)\n매출액|793|938|1,069|1,400\n영업이익|24|62|14|85\nR&D 투자액|95|120|135|160`;
+        } else if (key === 'about/esg/code-of-ethics') {
+          contentVal = JSON.stringify(parseCodeOfEthicsData(contentVal), null, 2);
         } else if (key === 'rd/intro') {
           contentVal = serializeRdIntroData(parseRdIntroData(contentVal));
         } else if (key === 'rd/activities') {
           contentVal = serializeRdActivitiesData(parseRdActivitiesData(contentVal));
-        } else if (key === 'business/finished/news' && !contentVal) {
-          contentVal = `신제품 출시|복합 고혈압 개량신약 '피마사탄/암로디핀' 출시 승인|자체 DDS 특허 서방성 과립 코팅 기술을 사용해 환자의 복용 크기를 축소시킨 고혈압 치료제 판매가 시작되었습니다.`;
+
         } else if (key === 'business/api' || key === 'business/api/raw' || key === 'business/api/intermediates') {
           contentVal = serializeBusinessApiData(parseBusinessApiData(contentVal));
         } else if (key === 'business/cdmo' || key === 'business/cdmo/quality' || key === 'business/cdmo/advantages' || key === 'business/cdmo/logistics') {
@@ -735,97 +801,75 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
           contentVal = serializeTalentData(DEFAULT_TALENT_DATA);
         } else if (key === 'contact/careers/process' && !contentVal) {
           contentVal = serializeCareerProcessData(DEFAULT_CAREER_PROCESS_DATA);
+        } else if (key === 'about/business-area') {
+          const defaultBizLines = [
+            '다산제약은 연구개발(R&D)부터 판매까지<br />의약품 전 주기의 Key Value Chain 인프라를 구축하여<br />고부가가치 사업 성장성을 확보하고 있습니다.',
+            '자사 완제 의약품 사업|순환기, 호흡기, 비뇨기 중심의<br />우수한 제품 라인업 구축 및 생산·판매|/images/business_hero1.jpg|/business/finished/search',
+            '수탁 완제 의약품 (CMO) 사업|독자적인 제제기술 및 공정 최적화를 통한<br />전문의약품 수탁 생산|/images/business_hero2.jpg|/business/cdmo',
+            '의약품 핵심 원료 및 중간체 사업|의약품 핵심 원료 및 중간체 개발 및 특허 확보,<br />신규 합성 및 신규 수입 원료 DMF 등록관리|/images/business_hero3.jpg|/business/api/raw',
+            '신약 및 신제형개발, 임상연구|저분자 신약 및 혁신 치료제 발굴부터,<br />신제형 개발, 개량신약 및 임상시험 연구|/images/business_hero4.jpg|/rd/activities'
+          ];
+          if (!contentVal) {
+            contentVal = defaultBizLines.join('\n');
+          } else {
+            const lines = contentVal.split('\n');
+            const introParts = (lines[0] || '').split('|');
+            if (!introParts[0] || introParts[0].trim() === '연구개발(R&D)부터 판매까지 의약품 전 주기의 Key Value Chain 인프라를 구축하여 고부가가치 사업 성장성을 확보하고 있습니다') {
+              introParts[0] = defaultBizLines[0];
+              lines[0] = introParts.join('|');
+            }
+            for (let i = 1; i <= 4; i++) {
+              if (!lines[i] || !lines[i].trim()) {
+                lines[i] = defaultBizLines[i];
+              }
+            }
+            contentVal = lines.slice(0, 5).join('\n');
+          }
         }
+        staticContentCache.set(key, contentVal);
         setStaticContent(contentVal);
         setIsHidden(data.is_hidden === 1 || data.is_hidden === true);
       } else {
         let contentVal = '';
-        if (key === 'about/greeting') {
-          contentVal = `CEO 메시지|<h4><strong>신뢰와 혁신으로 열어가는 더 건강한 미래</strong></h4><p>다산제약 홈페이지를 방문해 주신 고객과 주주, 그리고 협력사 여러분을 진심으로 환영합니다.</p><p>1996년 첫 발을 내딛은 다산제약은 '차별화된 의약품 연구개발'이라는 확고한 신념을 바탕으로 대한민국 제약 산업과 함께 성장해 왔습니다. 우수한 제조 기술력과 엄격한 품질 관리를 기반으로 국내외 시장에서 두터운 신뢰를 쌓을 수 있었던 것은 모두 여러분의 변함없는 성원 덕분입니다.</p><p>우리는 다산 정약용 선생의 실사구시 정신을 바탕으로 최첨단 제조 공정 도입과 선진화된 인프라 구축을 통해 글로벌 기준에 부합하는 의약품을 생산하고 있으며, 급변하는 제약 바이오 환경에 발맞추어 보다 신속하고 유연한 경영 체계를 확립해 나가고 있습니다.</p><p>나아가 임직원 모두가 창의적으로 역량을 발휘할 수 있는 조직 문화를 바탕으로, 현장에서 창출된 가치를 고객 및 주주 여러분과 함께 나누며 건강한 사회를 만드는 데 기여하겠습니다.</p><p>다산제약은 현실에 안주하지 않고, 질병으로 고통받는 이들에게 희망을 전하며 인류의 건강하고 행복한 삶에 기여하는 '글로벌 헬스케어 리더'로 끊임없이 도약할 것을 약속드립니다.</p><p>새롭게 단장한 공간에서 다산제약이 열어갈 원대한 미래와 도전을 계속해서 따뜻한 시선으로 지켜봐 주시기 바랍니다.</p><p>감사합니다.</p>`;
+        if (key === 'about/intro') {
+          contentVal = defaultIntroContent;
+        } else if (key === 'about/business-area') {
+          contentVal = [
+            '다산제약은 연구개발(R&D)부터 판매까지<br />의약품 전 주기의 Key Value Chain 인프라를 구축하여<br />고부가가치 사업 성장성을 확보하고 있습니다.',
+            '자사 완제 의약품 사업|순환기, 호흡기, 비뇨기 중심의<br />우수한 제품 라인업 구축 및 생산·판매|/images/business_hero1.jpg|/business/finished/search',
+            '수탁 완제 의약품 (CMO) 사업|독자적인 제제기술 및 공정 최적화를 통한<br />전문의약품 수탁 생산|/images/business_hero2.jpg|/business/cdmo',
+            '의약품 핵심 원료 및 중간체 사업|의약품 핵심 원료 및 중간체 개발 및 특허 확보,<br />신규 합성 및 신규 수입 원료 DMF 등록관리|/images/business_hero3.jpg|/business/api/raw',
+            '신약 및 신제형개발, 임상연구|저분자 신약 및 혁신 치료제 발굴부터,<br />신제형 개발, 개량신약 및 임상시험 연구|/images/business_hero4.jpg|/rd/activities'
+          ].join('\n');
+        } else if (key === 'about/greeting') {
+          contentVal = defaultGreetingContent;
+        } else if (key === 'about/history') {
+          contentVal = defaultHistoryContent;
         } else if (key === 'about/ci') {
-          contentVal = `다산제약의 CI는 독자적인 연구 플랫폼과 신약 파이프라인 개발을 향한 끝없는 도전, 그리고 인류의 건강을 최우선으로 생각하는 핵심 이념을 시각적으로 형상화하고 있습니다.
-다산제약의 심볼은 과학과 생명의 조화로운 결합을 나타냅니다. 육각형 구조는 신약 개발 및 연구의 정밀한 화학적 결합과 견고한 기술력을 의미하며, 내부에 배치된 초록 나뭇잎은 인류의 생명 건강 증진과 친환경 미래 생명공학 리더로 성장하겠다는 비전을 상징합니다.
-DASAN GREEN
-RGB: 116, 184, 22 | HEX: #74B816
-#74B816
-생명력, 인류의 건강, 지속가능한 경영 가치 상징
-DASAN CHARCOAL
-RGB: 43, 43, 43 | HEX: #2B2B2B
-#2B2B2B
-기술적인 전문성, 정직한 기업 경영과 신뢰성 상징`;
+          contentVal = defaultCiContent;
         } else if (key === 'about/facilities') {
-          contentVal = `다산제약은 고난도 제형 연구를 선도하는 수원 R&D 중앙연구소와 선진 GMP(KGMP) 규격에 부합하는 아산 제1, 2공장을 가동하여 연구개발에서 생산에 이르는 완성도 높은 제약 솔루션을 제공합니다.
-수원 중앙연구소
-경기 수원시 영통구 신원로 304(원천동) 이노플렉스 3동 306호
-약물전달시스템(DDS) 플랫폼 설계, 복합 개량신약 제제 연구, 원료의약품(API) 고효율 합성 공정 개발
-고해상도 분광광도계, 초고성능 액체크로마토그래피(UPLC), 나노 입자 입도분석기 등 최첨단 제제 분석 설비 보유
-아산 제1공장
-충청남도 아산시 도고면 덕암산로 342
-완제의약품 (정제, 캡슐제, 유동층 과립제품 등)
-독일 Glatt社 최첨단 유동층 코팅기 (GPCG-300, GPCG-120), 초고속 이중정 타정기, 중앙 자동화 컨트롤 모니터링 시스템
-연간 최대 9억 정 규모 고형제 생산 라인
-아산 제2공장
-충청남도 아산시 도고면 덕암산로 381
-의약품 포장 공정 자동화 및 스마트 물류창고
-독일 및 이탈리아산 고속 블리스터(Alu-Alu, PVC/PVDC) 포장기, 카토너 카운터 일원화 라인, 실시간 온습도 조절 항온물류창고
-정제 선별 고해상도 인쇄 선별 장치, 고성능 스마트 집진 시스템`;
+          contentVal = defaultFacilitiesContent;
         } else if (key === 'about/location') {
-          contentVal = `서울 사무실
-경영총괄, 해외 영업본부, 마케팅 전략부서
-37.5186,126.8906
-다산제약 서울 사무실
-서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호
-02-2627-5300
-2호선 문래역 3번 출구 도보 8분|2/5호선 영등포구청역 6번 출구 도보 10분
-우리벤처타운 정류장 하차|지선 6625, 6640A번 / 마을 영등포05번
-수원 중앙연구소
-DDS 제제 연구, 유기합성 연구
-37.266205,127.054366
-다산제약 수원 중앙연구소
-경기 수원시 영통구 신원로 304 (원천동) 이노플렉스 3동 306호
-031-546-8200
-수인분당선 영통역 또는 청명역 하차 후 시내버스 환승 이용|수인분당선 망포역 4번 출구 도보 15분 (또는 버스 환승)
-이노플렉스 정류장 하차|일반 62-1, 82-1, 99번 / 마을 55번
-아산 제1공장
-완제의약품 생산본부
-36.7589,126.8687
-다산제약 아산 제1공장
-충청남도 아산시 도고면 덕암산로 342 (와산리 10번지)
-041-543-5311
-1호선 신창역(순천향대) 하차 후 택시 이동 (약 10분)|도고온천역(장항선) 하차 후 택시 이용
-와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용
-아산 제2공장
-최첨단 스마트 패키징 & 대량생산 라인
-36.7621,126.8698
-다산제약 아산 제2공장
-충청남도 아산시 도고면 덕암산로 381 (와산리 30번지)
-041-428-9484
-1호선 신창역(순천향대) 하차 후 택시 이동 (약 10분)|도고온천역(장항선) 하차 후 택시 이용
-와산1리 정류장 하차 후 도보 2분|아산 시내버스 400번대 노선 이용
-중국 선양연구소
-
-41.6906,123.4779
-다산제약 중국 선양연구소
-Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179
-
-심양 트램 1·2호선 궈지롼젠위안(国际软件园, Shenyang Int’l Software Park)역 하차|심양 지하철 2호선 취안윈루(全运路)역 또는 백탑하(白塔河路)역 하차 후 차량/택시 이동
-선양국제소프트웨어파크(Shenyang International Software Park) 방면 버스 이용|상성거우(上深沟, Shangshengou) 또는 소프트웨어파크 F동 인근 하차`;
+          contentVal = defaultLocationContent;
         } else if (key === 'about/esg/ethics') {
-          contentVal = `지속 가능한 비즈니스를 위한 ESG 선언|다산제약은 준법감시 제도를 도입하여 투명하고 정직한 경영 문화를 실천합니다.`;
+          contentVal = JSON.stringify(DEFAULT_ESG_ETHICS_OVERVIEW_DATA, null, 2);
         } else if (key === 'about/esg/environment') {
-          contentVal = `지속 가능한 비즈니스를 위한 ESG 선언|친환경 원료 합성 공정 및 폐기물 감소 솔루션을 통해 지구 환경 보존에 기여합니다.`;
+          contentVal = JSON.stringify(DEFAULT_ESG_DATA['about/esg/environment']);
         } else if (key === 'about/esg/safety') {
-          contentVal = `지속 가능한 비즈니스를 위한 ESG 선언|임직원의 안전한 근무 환경을 보장하기 위해 산업안전보건 지침을 철저히 준수합니다.`;
+          contentVal = JSON.stringify(DEFAULT_ESG_DATA['about/esg/safety']);
+        } else if (key === 'about/esg/anti-corruption') {
+          contentVal = JSON.stringify(DEFAULT_ESG_DATA['about/esg/anti-corruption']);
+        } else if (key === 'about/esg/code-of-ethics') {
+          contentVal = JSON.stringify(DEFAULT_CODE_OF_ETHICS_DATA, null, 2);
         } else if (key === 'about/ir/announcement') {
-          contentVal = `주주 중심 경영과 공정한 기업 가치 평가|다산제약의 경영 실적 및 투자 공시 자료는 관련 법령에 의거하여 명확하고 성실하게 공개되고 있습니다. 주주 및 투자자 여러분의 이해를 돕기 위해 실시간 재무 핵심 지표를 제공합니다.|https://dart.fss.or.kr/html/search/SearchCompanyIR3_M.html?textCrpNM=%EB%8B%A4%EC%82%B0%EC%A0%9C%EC%95%BD`;
+          contentVal = DEFAULT_ANNOUNCEMENT_CONTENT;
         } else if (key === 'about/ir/financial') {
-          contentVal = `주주 중심 경영과 공정한 기업 가치 평가\n다산제약의 경영 실적 및 투자 공시 자료는 관련 법령에 의거하여 명확하고 성실하게 공개되고 있습니다. 주주 및 투자자 여러분의 이해를 돕기 위해 실시간 재무 핵심 지표를 제공합니다.\n2023년 (개별)|2024년 (개별)|2025년 (연결)|2026년 (목표)\n매출액|793|938|1,069|1,400\n영업이익|24|62|14|85\nR&D 투자액|95|120|135|160`;
+          contentVal = DEFAULT_FINANCIAL_CONTENT;
         } else if (key === 'rd/intro') {
           contentVal = serializeRdIntroData(DEFAULT_RD_INTRO_DATA);
         } else if (key === 'rd/activities') {
           contentVal = serializeRdActivitiesData(DEFAULT_RD_ACTIVITIES_DATA);
-        } else if (key === 'business/finished/news') {
-          contentVal = `신제품 출시|복합 고혈압 개량신약 '피마사탄/암로디핀' 출시 승인|자체 DDS 특허 서방성 과립 코팅 기술을 사용해 환자의 복용 크기를 축소시킨 고혈압 치료제 판매가 시작되었습니다.`;
+
         } else if (key === 'business/api' || key === 'business/api/raw' || key === 'business/api/intermediates') {
           contentVal = serializeBusinessApiData(DEFAULT_BUSINESS_API_DATA);
         } else if (key === 'business/cdmo' || key === 'business/cdmo/quality' || key === 'business/cdmo/advantages' || key === 'business/cdmo/logistics') {
@@ -1374,6 +1418,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
     setNewsContent('');
     setNewsFileUrl('');
     setNewsFileName('');
+    setNewsSubCategory('신제품');
 
     setJobType('신입/경력');
     setJobQualifications('');
@@ -1431,6 +1476,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
       setNewsContent(item.content);
       setNewsFileUrl(item.file_url || '');
       setNewsFileName(item.file_name || '');
+      setNewsSubCategory(item.sub_category || '신제품');
 
       if (currentSubPath === 'contact/careers/jobs') {
         const parts = (item.content || '').split('|');
@@ -1510,7 +1556,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
       currentSubPath === 'contact/newsroom/press' ||
       currentSubPath === 'contact/newsroom/media' ||
       currentSubPath === 'about/ir/news' ||
-      currentSubPath === 'contact/careers/jobs'
+      currentSubPath === 'contact/careers/jobs' ||
+      currentSubPath === 'business/finished/news'
     ) {
       if (currentSubPath === 'contact/newsroom/media' && !newsFileUrl) {
         alert('홍보사진 파일을 먼저 업로드해 주세요.');
@@ -1523,6 +1570,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
 
       bodyData = {
         category: getNewsCategory(currentSubPath),
+        sub_category: currentSubPath === 'business/finished/news' ? (newsSubCategory || '신제품') : undefined,
         title: newsTitle,
         content: finalContent,
         file_url: newsFileUrl,
@@ -1568,7 +1616,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
           currentSubPath === 'contact/newsroom/press' ||
           currentSubPath === 'contact/newsroom/media' ||
           currentSubPath === 'about/ir/news' ||
-          currentSubPath === 'contact/careers/jobs'
+          currentSubPath === 'contact/careers/jobs' ||
+          currentSubPath === 'business/finished/news'
         ) {
           fetchNews(getNewsCategory(currentSubPath));
         }
@@ -1595,7 +1644,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
       currentSubPath === 'contact/newsroom/press' ||
       currentSubPath === 'contact/newsroom/media' ||
       currentSubPath === 'about/ir/news' ||
-      currentSubPath === 'contact/careers/jobs'
+      currentSubPath === 'contact/careers/jobs' ||
+      currentSubPath === 'business/finished/news'
     ) {
       if (currentSubPath === 'contact/careers/jobs') {
         headers = ['번호', '채용구분', '공고명', '자격요건', '마감일', '조회수', '등록일'];
@@ -1615,6 +1665,17 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
           ];
         });
         filename = `채용공고_리스트_${new Date().toISOString().slice(0, 10)}.csv`;
+      } else if (currentSubPath === 'business/finished/news') {
+        headers = ['번호', '구분', '제품소식 제목', '조회수', '첨부파일명', '등록일'];
+        rows = newsList.map(n => [
+          n.id,
+          n.sub_category || '신제품',
+          n.title,
+          n.views,
+          n.file_name || '없음',
+          n.created_at ? new Date(n.created_at).toLocaleDateString() : ''
+        ]);
+        filename = `제품소식_리스트_${new Date().toISOString().slice(0, 10)}.csv`;
       } else {
         headers = ['번호', '구분', '제목', '조회수', '첨부파일명', '등록일'];
         rows = newsList.map(n => [
@@ -2006,7 +2067,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                currentSubPath === 'contact/newsroom/press' ||
                currentSubPath === 'contact/newsroom/media' ||
                currentSubPath === 'about/ir/news' ||
-               currentSubPath === 'contact/careers/jobs') && (
+               currentSubPath === 'contact/careers/jobs' ||
+               currentSubPath === 'business/finished/news') && (
                <div className="flex items-center space-x-2 ml-auto sm:ml-0">
                  {(currentUser?.role !== 'viewer' || (currentSubPath === 'business/finished/search' && currentUser?.username === 'editor3')) && (
                    <>
@@ -2058,7 +2120,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                        className="inline-flex items-center space-x-1.5 bg-brand-green hover:bg-brand-green-dark text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer shadow-md shadow-brand-green/10"
                      >
                        <Plus size={14} />
-                       <span>{currentSubPath === 'contact/newsroom/media' ? '새 홍보사진 등록' : '신규 등록'}</span>
+                       <span>{currentSubPath === 'contact/newsroom/media' ? '새 홍보사진 등록' : currentSubPath === 'business/finished/news' ? '신규 제품소식 등록' : '신규 등록'}</span>
                      </button>
                    </>
                  )}
@@ -2408,7 +2470,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
               {(currentSubPath === 'contact/newsroom/press' ||
                 currentSubPath === 'contact/newsroom/media' ||
                 currentSubPath === 'about/ir/news' ||
-                currentSubPath === 'contact/careers/jobs') && (
+                currentSubPath === 'contact/careers/jobs' ||
+                currentSubPath === 'business/finished/news') && (
                 <div className="bg-[#0a1120]/65 border border-white/10 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs md:text-sm">
@@ -2429,6 +2492,16 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                             <th className="px-5 py-4 w-[10%]">조회수</th>
                             <th className="px-5 py-4 w-[15%]">등록일</th>
                             <th className="px-5 py-4 w-[15%] text-right">관리</th>
+                          </tr>
+                        ) : currentSubPath === 'business/finished/news' ? (
+                          <tr>
+                            <th className="px-5 py-4 w-[8%]">No.</th>
+                            <th className="px-5 py-4 w-[12%]">구분</th>
+                            <th className="px-5 py-4 w-[45%]">제품소식 제목</th>
+                            <th className="px-5 py-4 w-[15%]">첨부파일</th>
+                            <th className="px-5 py-4 w-[8%] text-center">조회수</th>
+                            <th className="px-5 py-4 w-[12%]">등록일</th>
+                            <th className="px-5 py-4 w-[10%] text-right">관리</th>
                           </tr>
                         ) : (
                           <tr>
@@ -2513,6 +2586,45 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                     <td className="px-5 py-4 font-mono text-gray-500">{n.views}</td>
                                     <td className="px-5 py-4 text-xs text-gray-400">
                                       {new Date(n.created_at).toLocaleDateString()}
+                                    </td>
+                                  </>
+                                ) : currentSubPath === 'business/finished/news' ? (
+                                  <>
+                                    <td className="px-5 py-4 text-gray-500 font-mono text-xs">{n.id}</td>
+                                    <td className="px-5 py-4">
+                                      <span className={`px-2.5 py-1 rounded text-[11px] font-bold ${
+                                        n.sub_category === '신제품' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' :
+                                        n.sub_category === '허가변경' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' :
+                                        n.sub_category === '낱알변경' ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' :
+                                        'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                                      }`}>
+                                        {n.sub_category || '신제품'}
+                                      </span>
+                                    </td>
+                                    <td className="px-5 py-4 font-bold text-white">
+                                      {currentUser?.role !== 'viewer' ? (
+                                        <span
+                                          onClick={() => openEditModal(n, 'news')}
+                                          className="cursor-pointer hover:text-brand-green hover:underline transition-colors"
+                                        >
+                                          {n.title}
+                                        </span>
+                                      ) : (
+                                        n.title
+                                      )}
+                                    </td>
+                                    <td className="px-5 py-4 text-xs text-gray-400">
+                                      {n.file_name ? (
+                                        <span className="inline-flex items-center gap-1 text-brand-green/80 truncate max-w-[150px]" title={n.file_name}>
+                                          📎 {n.file_name}
+                                        </span>
+                                      ) : (
+                                        <span className="text-gray-600">-</span>
+                                      )}
+                                    </td>
+                                    <td className="px-5 py-4 text-center font-mono text-xs text-gray-400">{n.views || 0}</td>
+                                    <td className="px-5 py-4 text-xs text-gray-400">
+                                      {n.created_at ? new Date(n.created_at).toLocaleDateString() : ''}
                                     </td>
                                   </>
                                 ) : (
@@ -2818,6 +2930,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
               {/* Case E: Static Text Content CMS Editor */}
               {currentSubPath !== '' && 
                currentSubPath !== 'business/finished/search' && 
+               currentSubPath !== 'business/finished/news' && 
                currentSubPath !== 'rd/pipeline' && 
                currentSubPath !== 'contact/newsroom/press' && 
                currentSubPath !== 'contact/newsroom/media' && 
@@ -2834,38 +2947,6 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                currentSubPath !== 'seo-settings' && 
                currentSubPath !== 'main-settings' && (
                 <div className="space-y-6">
-                  {/* Sub-tabs for intro page key sub-components */}
-                  {currentSubPath === 'about/intro' && (
-                    <div className="flex flex-wrap gap-2 pb-4 border-b border-white/10">
-                       {[
-                        { key: 'about/intro', label: '회사소개 본문' },
-                        { key: 'about/intro/competencies', label: '핵심역량' },
-                        { key: 'about/intro/vision', label: '비전/미션' },
-                        { key: 'about/intro/values', label: '핵심가치' },
-                        { key: 'about/intro/philosophy', label: '경영철학' },
-                        { key: 'about/intro/culture', label: '건강한 문화' }
-                      ].map(tab => {
-                        const isActive = activeIntroTab === tab.key;
-                        return (
-                          <button
-                            key={tab.key}
-                            onClick={() => {
-                              setActiveIntroTab(tab.key);
-                              fetchStaticContent(tab.key);
-                            }}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                              isActive 
-                                ? 'bg-brand-green text-white shadow-md shadow-brand-green/10'
-                                : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/10'
-                            }`}
-                          >
-                            {tab.label}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     {/* Left: Content Editor Form */}
                     <div className={`${
@@ -2878,16 +2959,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                       <div className="flex items-center justify-between pb-2 border-b border-white/10">
                         <h3 className="text-sm font-extrabold text-white">
                           {currentSubPath === 'about/intro'
-                            ? `문구 에디터 (${
-                                [
-                                  { key: 'about/intro', label: '회사소개 본문' },
-                                  { key: 'about/intro/competencies', label: '핵심역량' },
-                                  { key: 'about/intro/vision', label: '비전/미션' },
-                                  { key: 'about/intro/values', label: '핵심가치' },
-                                  { key: 'about/intro/philosophy', label: '경영철학' },
-                                  { key: 'about/intro/culture', label: '건강한 문화' }
-                                ].find(t => t.key === activeIntroTab)?.label || '회사소개 본문'
-                              })`
+                            ? '문구 에디터 (기업개요)'
                             : currentSubPath === 'about/ci' ? 'CI 소개'
                             : currentSubPath === 'about/ir/announcement' ? '공시정보 관리'
                             : currentSubPath === 'about/ir/financial' ? '재무정보 관리'
@@ -3393,97 +3465,13 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                          currentSubPath !== 'business/cdmo/logistics' &&
                          currentSubPath !== 'contact/careers/talent' &&
                          currentSubPath !== 'contact/careers/process' &&
+                          currentSubPath !== 'about/esg/ethics' &&
                           currentSubPath !== 'about/esg/environment' &&
                           currentSubPath !== 'about/esg/safety' &&
-                          currentSubPath !== 'about/esg/anti-corruption' && (
+                          currentSubPath !== 'about/esg/anti-corruption' &&
+                          currentSubPath !== 'about/esg/code-of-ethics' && (
                           <div className="space-y-4">
                             {/* Case ESG: Ethics (지속가능경영) 대표 히어로 배너 사진 업로드 */}
-                            {/* Case ESG: Code of Ethics (윤리강령) 대표 히어로 배너 사진 업로드 */}
-                            {currentSubPath === 'about/esg/code-of-ethics' && (() => {
-                              const parts = (staticContent || '').split('|');
-                              const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
-                              const currentHero = hasImg ? parts[1] : '/images/ethics_banner.jpg';
-                              return (
-                                <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3 mb-2">
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-[10px] font-bold text-brand-green uppercase flex items-center gap-1.5">
-                                      <ImageIcon size={14} />
-                                      <span>윤리강령 대표 비주얼 사진 (상단 21:9 와이드)</span>
-                                    </span>
-                                    <span className="text-[9px] text-gray-400">사용자 페이지 상단 와이드 화면에 노출됩니다</span>
-                                  </div>
-                                  <div className="flex flex-col sm:flex-row items-center gap-4">
-                                    <div className="w-full sm:w-44 aspect-[21/9] rounded-lg overflow-hidden bg-slate-900 border border-white/15 relative shrink-0">
-                                      <img
-                                        src={currentHero}
-                                        alt="Code of Ethics Hero Banner Preview"
-                                        className="w-full h-full object-cover"
-                                      />
-                                    </div>
-                                    <div className="flex-1 space-y-2 w-full text-center sm:text-left">
-                                      <div className="flex flex-wrap items-center gap-2">
-                                        <input
-                                          type="file"
-                                          accept="image/*"
-                                          id="esg-ethics-code-upload"
-                                          className="hidden"
-                                          disabled={uploadingHeroBanner}
-                                          onChange={async (e) => {
-                                            const file = e.target.files?.[0];
-                                            if (!file) return;
-                                            setUploadingHeroBanner(true);
-                                            try {
-                                              const formData = new FormData();
-                                              formData.append('file', file);
-                                              const res = await fetch('/api/upload', { method: 'POST', body: formData });
-                                              if (res.ok) {
-                                                const data = await res.json();
-                                                const curParts = (staticContent || '').split('|');
-                                                const curTitle = curParts[0] || '윤리 강령';
-                                                const curBody = curParts.length >= 3 && (curParts[1].startsWith('/') || curParts[1].startsWith('http')) ? curParts.slice(2).join('|') : curParts.slice(1).join('|');
-                                                setStaticContent(`${curTitle}|${data.url}|${curBody}`);
-                                              } else {
-                                                alert('사진 업로드 실패');
-                                              }
-                                            } catch (err) {
-                                              console.error(err);
-                                              alert('업로드 중 오류 발생');
-                                            } finally {
-                                              setUploadingHeroBanner(false);
-                                            }
-                                          }}
-                                        />
-                                        <label
-                                          htmlFor="esg-ethics-code-upload"
-                                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-green hover:bg-brand-green-dark text-white rounded-lg text-xs font-bold cursor-pointer transition-colors"
-                                        >
-                                          <UploadCloud size={13} />
-                                          <span>{uploadingHeroBanner ? '업로드 중...' : '대표 사진 업로드 / 변경'}</span>
-                                        </label>
-                                        {hasImg && (
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              const curParts = (staticContent || '').split('|');
-                                              const curTitle = curParts[0] || '윤리 강령';
-                                              const curBody = curParts.slice(2).join('|');
-                                              setStaticContent(`${curTitle}|${curBody}`);
-                                            }}
-                                            className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-white/10 hover:bg-white/15 text-gray-300 rounded-lg text-[11px] font-medium transition-colors"
-                                          >
-                                            <RotateCcw size={12} />
-                                            <span>기본 사진으로 복원</span>
-                                          </button>
-                                        )}
-                                      </div>
-                                      <p className="text-[9px] text-gray-400">
-                                        권장 규격: 21:9 와이드 비율 (1920x820px 이상 고해상도)
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })()}
                             {currentSubPath === 'about/esg/ethics' && (() => {
                               const parts = (staticContent || '').split('|');
                               const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
@@ -3606,7 +3594,11 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                   <label className="text-[11px] font-bold text-gray-400 block">내용 (Content)</label>
                                   <div className="min-h-[150px] bg-white text-gray-900 rounded-xl overflow-hidden border border-white/10">
                                     <RichTextEditor
-                                      value={staticContent.split('|').slice(1).join('|') || ''}
+                                      value={(() => {
+                                        const parts = (staticContent || '').split('|');
+                                        const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
+                                        return hasImg ? parts.slice(2).join('|') : parts.slice(1).join('|') || '';
+                                      })()}
                                       onChange={(value) => {
                                         const parts = (staticContent || '').split('|');
                                         const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
@@ -3663,7 +3655,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                               <div className="flex items-center space-x-3">
                                 <div className="bg-white rounded-lg p-2 flex items-center justify-center min-h-[50px] w-24 border border-white/10">
                                   <img
-                                    src={(staticContent || '').split('\n')[10] || '/dasan_logo_raw.png'}
+                                    src={(staticContent || '').split('\n')[10] || '/clear_space_grid.png'}
                                     alt="CI Logo Preview"
                                     className="object-contain max-h-[40px]"
                                   />
@@ -3949,8 +3941,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                         )}
 
                         {/* 공장 및 연구소 정적 페이지 */}
-                        {currentSubPath === 'about/facilities' && (
-                          <div className="space-y-6">
+                        {currentSubPath === 'about/facilities' && (
+                          <div className="space-y-6">
                             {/* 글로벌 인프라 대표 히어로 배너 사진 업로드 */}
                             <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
                               <div className="flex items-center justify-between">
@@ -4273,8 +4265,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                         )}
 
                         {/* 찾아오시는 길 정적 페이지 */}
-                        {currentSubPath === 'about/location' && (
-                          <div className="space-y-6">
+                        {currentSubPath === 'about/location' && (
+                          <div className="space-y-6">
                             {/* 찾아오시는 길 대표 히어로 배너 사진 업로드 */}
                             <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
                               <div className="flex items-center justify-between">
@@ -4289,6 +4281,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                   <img
                                     src={(() => {
                                       const lines = (staticContent || '').split('\n');
+                                      const l48 = lines[48]?.trim();
+                                      if (l48 && (l48.startsWith('/') || l48.startsWith('http'))) return l48;
                                       const l40 = lines[40]?.trim();
                                       if (l40 && (l40.startsWith('/') || l40.startsWith('http'))) return l40;
                                       const l32 = lines[32]?.trim();
@@ -4318,8 +4312,11 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                           if (res.ok) {
                                             const data = await res.json();
                                             const lines = (staticContent || '').split('\n');
-                                            while (lines.length <= 40) lines.push('');
-                                            lines[40] = data.url;
+                                            while (lines.length <= 48) lines.push('');
+                                            if (lines[40] && (lines[40].startsWith('/') || lines[40].startsWith('http'))) {
+                                              lines[40] = '중국 안휘성 공장';
+                                            }
+                                            lines[48] = data.url;
                                             setStaticContent(lines.join('\n'));
                                           } else {
                                             alert('사진 업로드 실패');
@@ -4341,9 +4338,11 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                     </label>
                                     {(() => {
                                       const lines = (staticContent || '').split('\n');
+                                      const l48 = lines[48]?.trim();
                                       const l40 = lines[40]?.trim();
                                       const l32 = lines[32]?.trim();
-                                      const hasCustom = (l40 && (l40.startsWith('/') || l40.startsWith('http')) && l40 !== '/location_hero.jpg') ||
+                                      const hasCustom = (l48 && (l48.startsWith('/') || l48.startsWith('http')) && l48 !== '/location_hero.jpg') ||
+                                                        (l40 && (l40.startsWith('/') || l40.startsWith('http')) && l40 !== '/location_hero.jpg') ||
                                                         (l32 && (l32.startsWith('/uploads/') || l32.startsWith('http')));
                                       if (!hasCustom) return null;
                                       return (
@@ -4351,8 +4350,11 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                           type="button"
                                           onClick={() => {
                                             const lines = (staticContent || '').split('\n');
-                                            while (lines.length <= 40) lines.push('');
-                                            lines[40] = '/location_hero.jpg';
+                                            while (lines.length <= 48) lines.push('');
+                                            lines[48] = '/location_hero.jpg';
+                                            if (lines[40] && (lines[40].startsWith('/') || lines[40].startsWith('http'))) {
+                                              lines[40] = '중국 안휘성 공장';
+                                            }
                                             if (lines[32] && (lines[32].startsWith('/uploads/') || lines[32].startsWith('http'))) {
                                               lines[32] = '중국 선양연구소';
                                             }
@@ -4373,13 +4375,13 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                               </div>
                             </div>
                             <span className="text-xs font-bold text-gray-400 block mb-2">
-                              총 5개의 지점 정보를 관리합니다. 각 지점별로 상세한 정보를 정확히 입력해주세요.
+                              총 6개의 지점 정보를 관리합니다. 각 지점별로 상세한 정보를 정확히 입력해주세요.
                             </span>
 
-                            {[0, 1, 2, 3, 4].map((locIdx) => {
+                            {[0, 1, 2, 3, 4, 5].map((locIdx) => {
                               const offset = locIdx * 8;
-                              const titleColor = locIdx === 0 ? 'text-brand-teal' : locIdx === 1 ? 'text-brand-blue' : locIdx === 2 ? 'text-brand-green' : locIdx === 3 ? 'text-brand-cyan' : 'text-amber-400';
-                              const labelPrefix = locIdx === 0 ? '서울 사무실' : locIdx === 1 ? '수원 R&D 중앙연구소' : locIdx === 2 ? '아산 제1공장' : locIdx === 3 ? '아산 제2공장' : '중국 선양연구소';
+                              const titleColor = locIdx === 0 ? 'text-brand-teal' : locIdx === 1 ? 'text-brand-blue' : locIdx === 2 ? 'text-brand-green' : locIdx === 3 ? 'text-brand-cyan' : locIdx === 4 ? 'text-amber-400' : 'text-purple-400';
+                              const labelPrefix = locIdx === 0 ? '서울 사무실' : locIdx === 1 ? '수원 중앙연구소' : locIdx === 2 ? '아산 제1공장' : locIdx === 3 ? '아산 제2공장' : locIdx === 4 ? '중국 선양연구소' : '중국 안휘성 공장';
 
                               return (
                                 <div key={locIdx} className="bg-white/5 p-5 rounded-xl border border-white/10 space-y-4">
@@ -4827,7 +4829,6 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                         <tbody className="divide-y divide-white/5">
                                           {renderRowInputs(3, '매출액', true)}
                                           {renderRowInputs(4, '영업이익', true)}
-                                          {renderRowInputs(5, 'R&D 투자액', false)}
                                         </tbody>
                                       </table>
                                     </div>
@@ -5249,6 +5250,40 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                           className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green min-h-[70px]"
                                         />
                                       </div>
+                                      <div className="space-y-2 pt-2 border-t border-white/10">
+                                        <label className="text-[10px] font-bold text-brand-green block">세부 연구 분야 (4대 항목)</label>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                          {(div.subFields || []).map((sf, sfIdx) => (
+                                            <div key={sfIdx} className="p-2.5 rounded-lg bg-white/5 border border-white/10 space-y-1.5">
+                                              <input
+                                                type="text"
+                                                value={sf.title}
+                                                onChange={(e) => updateRdIntro(prev => {
+                                                  const newDivs = [...prev.divisions];
+                                                  const newSubFields = [...(newDivs[dIdx].subFields || [])];
+                                                  newSubFields[sfIdx] = { ...newSubFields[sfIdx], title: e.target.value };
+                                                  newDivs[dIdx] = { ...newDivs[dIdx], subFields: newSubFields };
+                                                  return { ...prev, divisions: newDivs };
+                                                })}
+                                                className="w-full bg-black/30 border border-white/10 rounded p-1.5 text-xs font-bold text-white outline-none focus:border-brand-green"
+                                                placeholder="세부 분야명"
+                                              />
+                                              <textarea
+                                                value={sf.desc}
+                                                onChange={(e) => updateRdIntro(prev => {
+                                                  const newDivs = [...prev.divisions];
+                                                  const newSubFields = [...(newDivs[dIdx].subFields || [])];
+                                                  newSubFields[sfIdx] = { ...newSubFields[sfIdx], desc: e.target.value };
+                                                  newDivs[dIdx] = { ...newDivs[dIdx], subFields: newSubFields };
+                                                  return { ...prev, divisions: newDivs };
+                                                })}
+                                                className="w-full bg-black/30 border border-white/10 rounded p-1.5 text-[11px] text-gray-200 outline-none focus:border-brand-green min-h-[54px]"
+                                                placeholder="세부 분야 설명"
+                                              />
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
                                     </div>
                                   ))}
                                 </div>
@@ -5328,11 +5363,24 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                 <h4 className="text-xs font-bold text-brand-green">3. 5대 핵심 기술 (5 Core Technologies)</h4>
                                 <div className="space-y-3">
                                   {actData.techList.map((tech, tIdx) => (
-                                    <div key={tech.id} className="p-3.5 rounded-xl bg-black/20 border border-white/10 space-y-2">
+                                    <div key={tech.id} className="p-3.5 rounded-xl bg-black/20 border border-white/10 space-y-2.5">
                                       <span className="text-xs font-bold text-brand-green">{tech.id}. {tech.title}</span>
-                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                                         <div>
-                                          <label className="text-[10px] text-gray-400 block">단축 타이틀</label>
+                                          <label className="text-[10px] text-gray-400 block">전체 타이틀 (상세 헤더)</label>
+                                          <input
+                                            type="text"
+                                            value={tech.title}
+                                            onChange={(e) => updateActivities(prev => {
+                                              const newTechs = [...prev.techList];
+                                              newTechs[tIdx] = { ...newTechs[tIdx], title: e.target.value };
+                                              return { ...prev, techList: newTechs };
+                                            })}
+                                            className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green"
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="text-[10px] text-gray-400 block">단축 타이틀 (상단 탭)</label>
                                           <input
                                             type="text"
                                             value={tech.shortTitle}
@@ -5370,6 +5418,21 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                           className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green min-h-[60px]"
                                         />
                                       </div>
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] text-gray-400 block">해시태그 (쉼표로 구분)</label>
+                                        <input
+                                          type="text"
+                                          value={(tech.tags || []).join(', ')}
+                                          onChange={(e) => updateActivities(prev => {
+                                            const newTechs = [...prev.techList];
+                                            const nextTags = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                                            newTechs[tIdx] = { ...newTechs[tIdx], tags: nextTags };
+                                            return { ...prev, techList: newTechs };
+                                          })}
+                                          className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green"
+                                          placeholder="#다층코팅, #제어방출, #복합제"
+                                        />
+                                      </div>
                                     </div>
                                   ))}
                                 </div>
@@ -5378,55 +5441,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                           );
                         })()}
 
-                        {/* 제품소식 정적 페이지 */}
-                        {currentSubPath === 'business/finished/news' && (
-                          <div className="space-y-4">
-                            <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">태그 (Tag)</label>
-                              <input
-                                type="text"
-                                value={(staticContent || '').split('|')[0] || ''}
-                                onChange={(e) => {
-                                  const parts = (staticContent || '').split('|');
-                                  while (parts.length < 3) parts.push('');
-                                  parts[0] = e.target.value;
-                                  setStaticContent(parts.join('|'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                placeholder="태그를 입력하세요 (예: 신제품 출시)."
-                              />
-                            </div>
-                            <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">제목 (Title)</label>
-                              <input
-                                type="text"
-                                value={(staticContent || '').split('|')[1] || ''}
-                                onChange={(e) => {
-                                  const parts = (staticContent || '').split('|');
-                                  while (parts.length < 3) parts.push('');
-                                  parts[1] = e.target.value;
-                                  setStaticContent(parts.join('|'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                placeholder="제목을 입력하세요."
-                              />
-                            </div>
-                            <div className="space-y-1">
-                              <label className="text-[11px] font-bold text-gray-400 block">상세 설명 (Description)</label>
-                              <textarea
-                                value={(staticContent || '').split('|')[2] || ''}
-                                onChange={(e) => {
-                                  const parts = (staticContent || '').split('|');
-                                  while (parts.length < 3) parts.push('');
-                                  parts[2] = e.target.value;
-                                  setStaticContent(parts.join('|'));
-                                }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-4 text-xs md:text-sm text-white placeholder-gray-500 min-h-[150px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                placeholder="상세 설명 내용을 입력하세요."
-                              />
-                            </div>
-                          </div>
-                        )}
+
 
                         {/* 원료의약품(API) / 중간체 정적 페이지 */}
                         {(currentSubPath === 'business/api' || currentSubPath === 'business/api/raw' || currentSubPath === 'business/api/intermediates') && (() => {
@@ -5438,6 +5453,25 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
 
                           return (
                             <div className="space-y-6">
+                              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                                <div>
+                                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                                    <Sparkles size={16} className="text-brand-green" />
+                                    원료의약품(API) 콘텐츠 설정
+                                  </h3>
+                                  <p className="text-[11px] text-gray-400 mt-0.5">
+                                    사용자 페이지 원료의약품 비전 및 5대 핵심 경쟁력 카드를 실시간 편집합니다.
+                                  </p>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => setStaticContent(serializeBusinessApiData(DEFAULT_BUSINESS_API_DATA))}
+                                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
+                                >
+                                  <RotateCcw size={12} />
+                                  기본값 복원
+                                </button>
+                              </div>
                               {/* Section 1: Hero Header */}
                               <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-4">
                                 <span className="text-xs font-bold text-brand-green uppercase tracking-wider block">
@@ -5568,6 +5602,25 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
 
                           return (
                             <div className="space-y-6">
+                              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                                <div>
+                                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                                    <Sparkles size={16} className="text-brand-green" />
+                                    CDMO 솔루션 콘텐츠 설정
+                                  </h3>
+                                  <p className="text-[11px] text-gray-400 mt-0.5">
+                                    사용자 페이지 CDMO 헤더, 5대 프로세스, What We Develop & WHY DASAN 영역을 실시간 편집합니다.
+                                  </p>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => setStaticContent(serializeBusinessCdmoData(DEFAULT_BUSINESS_CDMO_DATA))}
+                                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
+                                >
+                                  <RotateCcw size={12} />
+                                  기본값 복원
+                                </button>
+                              </div>
                               {/* Section 1: Main Title & Descriptions */}
                               <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-4">
                                 <span className="text-xs font-bold text-brand-green uppercase tracking-wider block">
@@ -5658,13 +5711,247 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                   </div>
                                 ))}
                               </div>
+
+                              {/* Section 4: What We Develop 영역 */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-4">
+                                <span className="text-xs font-bold text-brand-green uppercase tracking-wider block">
+                                  What We Develop 섹션 설정 (육각 다이어그램 & 4대 개발 품목군)
+                                </span>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">What We Develop 타이틀</label>
+                                    <input
+                                      type="text"
+                                      value={cdmoData.whatWeDevelopTitle}
+                                      onChange={(e) => updateCdmo(prev => ({ ...prev, whatWeDevelopTitle: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                      placeholder="What We Develop"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">What We Develop 설명 문구</label>
+                                    <input
+                                      type="text"
+                                      value={cdmoData.whatWeDevelopDesc}
+                                      onChange={(e) => updateCdmo(prev => ({ ...prev, whatWeDevelopDesc: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                      placeholder="다양한 의약품 개발 및 생산 경험을 바탕으로 고객의 제품 특성에 맞는 CDMO 솔루션을 제공합니다."
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="space-y-3 pt-3 border-t border-white/10">
+                                  <span className="text-xs font-bold text-gray-300 block">4대 개발 품목군 및 탭 상세 (01 ~ 04)</span>
+                                  {(cdmoData.tabs || []).map((tab, tIdx) => (
+                                    <div key={tab.id || tIdx} className="p-3.5 rounded-xl bg-black/20 border border-white/10 space-y-3">
+                                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                                        <span className="text-xs font-bold text-brand-green">
+                                          {tab.num || `0${tIdx + 1}`}. {tab.sectionTitle}
+                                        </span>
+                                        <span className="text-[10px] text-gray-400">
+                                          육각형 다이어그램 및 탭 우측 상세 패널 연동
+                                        </span>
+                                      </div>
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] font-bold text-gray-400 block">탭 및 다이어그램 제목 (Section Title)</label>
+                                        <input
+                                          type="text"
+                                          value={tab.sectionTitle}
+                                          onChange={(e) => updateCdmo(prev => {
+                                            const nextTabs = [...prev.tabs];
+                                            nextTabs[tIdx] = { ...nextTabs[tIdx], sectionTitle: e.target.value };
+                                            return { ...prev, tabs: nextTabs };
+                                          })}
+                                          className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green"
+                                        />
+                                      </div>
+                                      <div className="space-y-2 pt-1">
+                                        <label className="text-[10px] font-bold text-gray-400 block">하위 세부 품목 그룹 ({tab.groups?.length || 0}개)</label>
+                                        {(tab.groups || []).map((grp, gIdx) => (
+                                          <div key={gIdx} className="p-2.5 rounded bg-white/5 border border-white/10 space-y-1.5">
+                                            <div className="space-y-1">
+                                              <label className="text-[9px] text-gray-400 block">하위 분류 제목 (Subtitle)</label>
+                                              <input
+                                                type="text"
+                                                value={grp.subtitle}
+                                                onChange={(e) => updateCdmo(prev => {
+                                                  const nextTabs = [...prev.tabs];
+                                                  const nextGroups = [...(nextTabs[tIdx].groups || [])];
+                                                  nextGroups[gIdx] = { ...nextGroups[gIdx], subtitle: e.target.value };
+                                                  nextTabs[tIdx] = { ...nextTabs[tIdx], groups: nextGroups };
+                                                  return { ...prev, tabs: nextTabs };
+                                                })}
+                                                className="w-full bg-black/30 border border-white/10 rounded p-1.5 text-xs font-bold text-white outline-none focus:border-brand-green"
+                                                placeholder="예: 핵심공정 ODM품목"
+                                              />
+                                            </div>
+                                            <div className="space-y-1">
+                                              <label className="text-[9px] text-gray-400 block">품목 리스트 (쉼표로 구분)</label>
+                                              <textarea
+                                                value={(grp.items || []).join(', ')}
+                                                onChange={(e) => updateCdmo(prev => {
+                                                  const nextTabs = [...prev.tabs];
+                                                  const nextGroups = [...(nextTabs[tIdx].groups || [])];
+                                                  nextGroups[gIdx] = { ...nextGroups[gIdx], items: [e.target.value] };
+                                                  nextTabs[tIdx] = { ...nextTabs[tIdx], groups: nextGroups };
+                                                  return { ...prev, tabs: nextTabs };
+                                                })}
+                                                className="w-full bg-black/30 border border-white/10 rounded p-1.5 text-[11px] text-gray-200 outline-none focus:border-brand-green min-h-[44px]"
+                                                placeholder="품목 리스트 (쉼표로 구분)"
+                                              />
+                                            </div>
+                                            <div className="space-y-1">
+                                              <label className="text-[9px] text-gray-400 block">하단 참고 문구 (Note, 선택사항)</label>
+                                              <input
+                                                type="text"
+                                                value={grp.note || ''}
+                                                onChange={(e) => updateCdmo(prev => {
+                                                  const nextTabs = [...prev.tabs];
+                                                  const nextGroups = [...(nextTabs[tIdx].groups || [])];
+                                                  nextGroups[gIdx] = { ...nextGroups[gIdx], note: e.target.value };
+                                                  nextTabs[tIdx] = { ...nextTabs[tIdx], groups: nextGroups };
+                                                  return { ...prev, tabs: nextTabs };
+                                                })}
+                                                className="w-full bg-black/30 border border-white/10 rounded p-1.5 text-[11px] text-gray-300 outline-none focus:border-brand-green"
+                                                placeholder="예: *공동개발 품목이며 다산에서 핵심기술 진행"
+                                              />
+                                            </div>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Section 5: WHY DASAN 영역 (4대 핵심 역량 카드 & 영업 문의) */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-4">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-xs font-bold text-brand-green uppercase tracking-wider block">
+                                    WHY DASAN 섹션 설정 (핵심 역량 4대 카드 & 영업 문의)
+                                  </span>
+                                  <span className="text-[10px] text-gray-400">
+                                    미리보기 하단 4개 카드 및 문의 버튼에 실시간 반영
+                                  </span>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">WHY DASAN 타이틀</label>
+                                    <input
+                                      type="text"
+                                      value={cdmoData.whyDasanTitle}
+                                      onChange={(e) => updateCdmo(prev => ({ ...prev, whyDasanTitle: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                      placeholder="WHY DASAN"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">WHY DASAN 설명 문구</label>
+                                    <input
+                                      type="text"
+                                      value={cdmoData.whyDasanDesc}
+                                      onChange={(e) => updateCdmo(prev => ({ ...prev, whyDasanDesc: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                      placeholder="개발부터 생산까지, 의약품의 가치를 완성하는 파트너"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">영업 문의 버튼 문구</label>
+                                    <input
+                                      type="text"
+                                      value={cdmoData.whyDasanBtnText || '비즈니스 영업 문의하기'}
+                                      onChange={(e) => updateCdmo(prev => ({ ...prev, whyDasanBtnText: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                      placeholder="비즈니스 영업 문의하기"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">영업 문의 버튼 이동 링크</label>
+                                    <input
+                                      type="text"
+                                      value={cdmoData.whyDasanBtnLink || '/contact/inquiry/sales'}
+                                      onChange={(e) => updateCdmo(prev => ({ ...prev, whyDasanBtnLink: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                      placeholder="/contact/inquiry/sales"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="space-y-3 pt-3 border-t border-white/10">
+                                  <span className="text-xs font-bold text-gray-300 block">WHY DASAN 4대 핵심 역량 카드 관리</span>
+                                  {(cdmoData.tabs || []).map((tab, tIdx) => (
+                                    <div key={tab.id || tIdx} className="p-3.5 rounded-xl bg-black/20 border border-white/10 space-y-3">
+                                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                                        <div className="flex items-center gap-2">
+                                          <span className="w-5 h-5 rounded-full bg-brand-green/20 text-brand-green font-bold text-[10px] flex items-center justify-center">
+                                            {tIdx + 1}
+                                          </span>
+                                          <span className="text-xs font-bold text-white">
+                                            카드 0{tIdx + 1}: {tab.cardTitle || tab.badge}
+                                          </span>
+                                        </div>
+                                        <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2 py-0.5 rounded uppercase">
+                                          {tab.badge}
+                                        </span>
+                                      </div>
+
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div className="space-y-1">
+                                          <label className="text-[10px] font-bold text-gray-400 block">배지 텍스트 (Badge)</label>
+                                          <input
+                                            type="text"
+                                            value={tab.badge}
+                                            onChange={(e) => updateCdmo(prev => {
+                                              const nextTabs = [...prev.tabs];
+                                              nextTabs[tIdx] = { ...nextTabs[tIdx], badge: e.target.value };
+                                              return { ...prev, tabs: nextTabs };
+                                            })}
+                                            className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green"
+                                            placeholder="예: TECHNOLOGY, MANUFACTURING 등"
+                                          />
+                                        </div>
+
+                                        <div className="space-y-1">
+                                          <label className="text-[10px] font-bold text-gray-400 block">역량명 / 카드 제목 (Card Title)</label>
+                                          <input
+                                            type="text"
+                                            value={tab.cardTitle}
+                                            onChange={(e) => updateCdmo(prev => {
+                                              const nextTabs = [...prev.tabs];
+                                              nextTabs[tIdx] = { ...nextTabs[tIdx], cardTitle: e.target.value };
+                                              return { ...prev, tabs: nextTabs };
+                                            })}
+                                            className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green"
+                                            placeholder="예: Multi-Stra® 기반 제형 및 MUPS 기술"
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] font-bold text-gray-400 block">상세 설명 (Card Description)</label>
+                                        <textarea
+                                          value={tab.cardDesc}
+                                          onChange={(e) => updateCdmo(prev => {
+                                            const nextTabs = [...prev.tabs];
+                                            nextTabs[tIdx] = { ...nextTabs[tIdx], cardDesc: e.target.value };
+                                            return { ...prev, tabs: nextTabs };
+                                          })}
+                                          className="w-full bg-white/5 border border-white/10 rounded p-2.5 text-xs text-white outline-none focus:border-brand-green min-h-[60px] resize-y"
+                                          placeholder="카드에 표시될 상세 설명 문구를 입력하세요."
+                                        />
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
                             </div>
                           );
                         })()}
 
                         {/* 사업영역 정적 페이지 */}
-                        {currentSubPath === 'about/business-area' && (
-                          <div className="space-y-4">
+                        {currentSubPath === 'about/business-area' && (
+                          <div className="space-y-4">
                             {/* 사업영역 대표 히어로 배너 사진 업로드 */}
                             <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
                               <div className="flex items-center justify-between">
@@ -5747,24 +6034,34 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                             <div className="space-y-1">
                               <label className="text-[11px] font-bold text-gray-400 block">소개글 설명 (Intro)</label>
                               <textarea
-                                value={(staticContent || '').split('\n')[0] || ''}
+                                value={((staticContent || '').split('\n')[0]?.split('|')[0] || '다산제약은 연구개발(R&D)부터 판매까지\n의약품 전 주기의 Key Value Chain 인프라를 구축하여\n고부가가치 사업 성장성을 확보하고 있습니다.').replace(/<br\s*\/?>/gi, '\n')}
                                 onChange={(e) => {
                                   const lines = (staticContent || '').split('\n');
-                                  lines[0] = e.target.value;
+                                  const firstParts = (lines[0] || '').split('|');
+                                  firstParts[0] = e.target.value.replace(/\n/g, '<br />');
+                                  lines[0] = firstParts.join('|');
                                   setStaticContent(lines.join('\n'));
                                 }}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3.5 text-xs md:text-sm text-white placeholder-gray-500 min-h-[80px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3.5 text-xs md:text-sm text-white placeholder-gray-500 min-h-[85px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
                                 placeholder="사업영역 메인 소개글을 입력하세요."
                               />
                             </div>
-                            {[1, 2, 3].map((idx) => {
+                            {[1, 2, 3, 4].map((idx) => {
+                              const defaultItems = [
+                                { title: '자사 완제 의약품 사업', desc: '순환기, 호흡기, 비뇨기 중심의<br />우수한 제품 라인업 구축 및 생산·판매', image: '/images/business_hero1.jpg', link: '/business/finished/search' },
+                                { title: '수탁 완제 의약품 (CMO) 사업', desc: '독자적인 제제기술 및 공정 최적화를 통한<br />전문의약품 수탁 생산', image: '/images/business_hero2.jpg', link: '/business/cdmo' },
+                                { title: '의약품 핵심 원료 및 중간체 사업', desc: '의약품 핵심 원료 및 중간체 개발 및 특허 확보,<br />신규 합성 및 신규 수입 원료 DMF 등록관리', image: '/images/business_hero3.jpg', link: '/business/api/raw' },
+                                { title: '신약 및 신제형개발, 임상연구', desc: '저분자 신약 및 혁신 치료제 발굴부터,<br />신제형 개발, 개량신약 및 임상시험 연구', image: '/images/business_hero4.jpg', link: '/rd/activities' }
+                              ];
+                              const defItem = defaultItems[idx - 1];
                               const line = (staticContent || '').split('\n')[idx] || '';
                               const lineParts = line.split('|');
-                              const title = lineParts[0] || '';
-                              const desc = lineParts[1] || '';
+                              const title = (lineParts[0] || defItem.title).replace(/^(\d+[\.\)]\s*)/, '').trim();
+                              const rawDesc = lineParts[1] || defItem.desc;
+                              const desc = rawDesc.replace(/<br\s*\/?>/gi, '\n');
                               return (
                                 <div key={idx} className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
-                                  <span className="text-[10px] font-bold text-brand-green uppercase">세부 사업 #{idx}</span>
+                                  <span className="text-[10px] font-bold text-brand-green uppercase">주요 사업 영역 #{idx}</span>
                                   <div className="space-y-1">
                                     <label className="text-[11px] text-gray-400 block">사업 제목</label>
                                     <input
@@ -5772,15 +6069,20 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                       value={title}
                                       onChange={(e) => {
                                         const lines = (staticContent || '').split('\n');
-                                        while (lines.length <= idx) lines.push('');
-                                        const currentLineParts = lines[idx].split('|');
+                                        while (lines.length <= idx) {
+                                          const d = defaultItems[lines.length - 1];
+                                          lines.push(d ? `${d.title}|${d.desc}|${d.image}|${d.link}` : '');
+                                        }
+                                        const currentLineParts = (lines[idx] || '').split('|');
                                         currentLineParts[0] = e.target.value;
-                                        if (currentLineParts.length < 2) currentLineParts.push('');
+                                        if (!currentLineParts[1]) currentLineParts[1] = defItem.desc;
+                                        if (!currentLineParts[2]) currentLineParts[2] = defItem.image;
+                                        if (!currentLineParts[3]) currentLineParts[3] = defItem.link;
                                         lines[idx] = currentLineParts.join('|');
                                         setStaticContent(lines.join('\n'));
                                       }}
                                       className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                      placeholder="사업명(예: 1. 원료의약품 개발 및 공급)을 입력하세요."
+                                      placeholder="사업명을 입력하세요."
                                     />
                                   </div>
                                   <div className="space-y-1">
@@ -5789,10 +6091,15 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                       value={desc}
                                       onChange={(e) => {
                                         const lines = (staticContent || '').split('\n');
-                                        while (lines.length <= idx) lines.push('');
-                                        const currentLineParts = lines[idx].split('|');
-                                        if (currentLineParts.length < 2) currentLineParts.push('');
-                                        currentLineParts[1] = e.target.value;
+                                        while (lines.length <= idx) {
+                                          const d = defaultItems[lines.length - 1];
+                                          lines.push(d ? `${d.title}|${d.desc}|${d.image}|${d.link}` : '');
+                                        }
+                                        const currentLineParts = (lines[idx] || '').split('|');
+                                        if (!currentLineParts[0]) currentLineParts[0] = defItem.title;
+                                        currentLineParts[1] = e.target.value.replace(/\n/g, '<br />');
+                                        if (!currentLineParts[2]) currentLineParts[2] = defItem.image;
+                                        if (!currentLineParts[3]) currentLineParts[3] = defItem.link;
                                         lines[idx] = currentLineParts.join('|');
                                         setStaticContent(lines.join('\n'));
                                       }}
@@ -5807,8 +6114,8 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                         )}
 
                         {/* 연혁 정적 페이지 */}
-                        {currentSubPath === 'about/history' && (
-                          <div className="space-y-4">
+                        {currentSubPath === 'about/history' && (
+                          <div className="space-y-4">
                             {/* 연혁 대표 히어로 배너 사진 업로드 */}
                             <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
                               <div className="flex items-center justify-between">
@@ -5914,12 +6221,13 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                               <label className="text-[11px] font-bold text-gray-400 block">소개글 설명 (Intro)</label>
                               <div className="bg-white rounded-xl overflow-hidden text-gray-900">
                                 <RichTextEditor
-                                  value={(staticContent || '').split('\n')[0]?.split('|').slice(1).join('|') || ''}
+                                  value={(staticContent || '').split('\n')[0]?.split('|')[1] || ''}
                                   onChange={(val) => {
                                     const lines = (staticContent || '').split('\n');
                                     const parts = (lines[0] || '').split('|');
                                     const title = parts[0] || '';
-                                    lines[0] = title + '|' + val;
+                                    const heroUrl = parts[2] || '';
+                                    lines[0] = heroUrl ? `${title}|${val}|${heroUrl}` : `${title}|${val}`;
                                     setStaticContent(lines.join('\n'));
                                   }}
                                 />
@@ -6268,8 +6576,301 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                               </div>
                             </div>
                           );
-                        })()}
-                        {/* Case ESG: Ethics, Environment, Safety */}
+                        })()}
+                        {/* Case ESG: 지속가능경영 (about/esg/ethics) */}
+                        {currentSubPath === 'about/esg/ethics' && (() => {
+                          const ethicsOverview = parseEsgEthicsOverviewData(staticContent);
+                          const updateOverview = (updater: (prev: EsgEthicsOverviewData) => EsgEthicsOverviewData) => {
+                            const next = updater(ethicsOverview);
+                            setStaticContent(JSON.stringify(next, null, 2));
+                          };
+
+                          return (
+                            <div className="space-y-6">
+                              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                                <div>
+                                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                                    <Sparkles size={16} className="text-brand-green" />
+                                    지속가능경영 콘텐츠 설정
+                                  </h3>
+                                  <p className="text-[11px] text-gray-400 mt-0.5">
+                                    상단 대표 비주얼 및 배너 문구, ESG 영역별 실천 과제(E·S·G), 공인 인증 체계를 실시간 편집합니다.
+                                  </p>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => setStaticContent(JSON.stringify(DEFAULT_ESG_ETHICS_OVERVIEW_DATA, null, 2))}
+                                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
+                                >
+                                  <RotateCcw size={12} />
+                                  기본값 복원
+                                </button>
+                              </div>
+
+                              {/* 1. 상단 대표 비주얼 사진 & 배너 문구 */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-4">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[11px] font-bold text-brand-green uppercase flex items-center gap-1.5">
+                                    <ImageIcon size={14} />
+                                    <span>1. 상단 대표 비주얼 사진 & 배너 문구</span>
+                                  </span>
+                                  <span className="text-[10px] text-gray-400">사용자 페이지 상단 21:9 와이드 영역에 노출됩니다</span>
+                                </div>
+                                <div className="flex flex-col sm:flex-row items-center gap-4">
+                                  <div className="w-full sm:w-48 aspect-[21/9] rounded-lg overflow-hidden bg-slate-900 border border-white/15 relative shrink-0">
+                                    <img
+                                      src={ethicsOverview.imageUrl || '/images/ESG.jpg'}
+                                      alt="ESG Hero Banner Preview"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                  <div className="flex-1 space-y-2 w-full text-center sm:text-left">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        id="esg-overview-hero-file"
+                                        className="hidden"
+                                        disabled={uploadingHeroBanner}
+                                        onChange={async (e) => {
+                                          const file = e.target.files?.[0];
+                                          if (!file) return;
+                                          setUploadingHeroBanner(true);
+                                          try {
+                                            const formData = new FormData();
+                                            formData.append('file', file);
+                                            const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                                            if (res.ok) {
+                                              const data = await res.json();
+                                              updateOverview(prev => ({ ...prev, imageUrl: data.url }));
+                                            } else {
+                                              alert('사진 업로드에 실패했습니다.');
+                                            }
+                                          } catch (err) {
+                                            console.error(err);
+                                            alert('업로드 중 오류가 발생했습니다.');
+                                          } finally {
+                                            setUploadingHeroBanner(false);
+                                          }
+                                        }}
+                                      />
+                                      <label
+                                        htmlFor="esg-overview-hero-file"
+                                        className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-brand-green hover:bg-brand-green-dark text-white rounded-xl text-xs font-bold cursor-pointer transition-colors shadow-sm"
+                                      >
+                                        <UploadCloud size={14} />
+                                        <span>{uploadingHeroBanner ? '업로드 중...' : '대표 사진 업로드 / 변경'}</span>
+                                      </label>
+                                      {ethicsOverview.imageUrl && ethicsOverview.imageUrl !== '/images/ESG.jpg' && (
+                                        <button
+                                          type="button"
+                                          onClick={() => updateOverview(prev => ({ ...prev, imageUrl: '/images/ESG.jpg' }))}
+                                          className="inline-flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/15 text-gray-300 rounded-xl text-xs font-medium transition-colors"
+                                        >
+                                          <RotateCcw size={13} />
+                                          <span>기본 사진으로 복원</span>
+                                        </button>
+                                      )}
+                                    </div>
+                                    <p className="text-[10px] text-gray-400">
+                                      권장 규격: 21:9 와이드 비율 (1920x820px 이상 고해상도)
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="space-y-3 pt-2 border-t border-white/10">
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">상단 배너 메인 타이틀 (Hero Title)</label>
+                                    <input
+                                      type="text"
+                                      value={ethicsOverview.heroTitle}
+                                      onChange={(e) => updateOverview(prev => ({ ...prev, heroTitle: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 focus:border-brand-green focus:bg-white/[0.07] transition-all font-medium"
+                                      placeholder="바른 경영으로 내일을 치유하는 다산제약의 약속"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">상단 배너 설명 문구 (Hero Description)</label>
+                                    <textarea
+                                      value={ethicsOverview.heroDesc}
+                                      onChange={(e) => updateOverview(prev => ({ ...prev, heroDesc: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 min-h-[70px] leading-relaxed resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
+                                      placeholder="다산제약은 창업이념인 '애민(愛民)' 정신을 바탕으로..."
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* 2. ESG 영역별 실천 과제 (E, S, G) */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-4">
+                                <span className="text-xs font-bold text-brand-green block">2. ESG 영역별 실천 과제 섹션</span>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">섹션 타이틀</label>
+                                    <input
+                                      type="text"
+                                      value={ethicsOverview.pillarSectionTitle}
+                                      onChange={(e) => updateOverview(prev => ({ ...prev, pillarSectionTitle: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">섹션 설명 문구</label>
+                                    <input
+                                      type="text"
+                                      value={ethicsOverview.pillarSectionDesc}
+                                      onChange={(e) => updateOverview(prev => ({ ...prev, pillarSectionDesc: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="space-y-4 pt-2 border-t border-white/10">
+                                  {ethicsOverview.pillars.map((pillar, pIdx) => (
+                                    <div key={pillar.id || pIdx} className="p-3.5 rounded-xl bg-black/20 border border-white/10 space-y-3">
+                                      <span className="text-xs font-bold text-brand-green">{pillar.id} 영역: {pillar.title}</span>
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] text-gray-400 block">카드 제목</label>
+                                        <input
+                                          type="text"
+                                          value={pillar.title}
+                                          onChange={(e) => updateOverview(prev => {
+                                            const nextPillars = [...prev.pillars];
+                                            nextPillars[pIdx] = { ...nextPillars[pIdx], title: e.target.value };
+                                            return { ...prev, pillars: nextPillars };
+                                          })}
+                                          className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green"
+                                        />
+                                      </div>
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] text-gray-400 block">핵심 선언 인용문 (Quote)</label>
+                                        <textarea
+                                          value={pillar.quote}
+                                          onChange={(e) => updateOverview(prev => {
+                                            const nextPillars = [...prev.pillars];
+                                            nextPillars[pIdx] = { ...nextPillars[pIdx], quote: e.target.value };
+                                            return { ...prev, pillars: nextPillars };
+                                          })}
+                                          className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white outline-none focus:border-brand-green min-h-[55px]"
+                                        />
+                                      </div>
+                                      <div className="space-y-2">
+                                        <label className="text-[10px] font-bold text-gray-300 block">세부 실천 항목</label>
+                                        {(pillar.bullets || []).map((b, bIdx) => (
+                                          <div key={bIdx} className="grid grid-cols-1 md:grid-cols-3 gap-2 bg-white/5 p-2.5 rounded-lg border border-white/10">
+                                            <div>
+                                              <label className="text-[10px] text-gray-400 block">강조 키워드</label>
+                                              <input
+                                                type="text"
+                                                value={b.bold}
+                                                onChange={(e) => updateOverview(prev => {
+                                                  const nextPillars = [...prev.pillars];
+                                                  const nextBullets = [...(nextPillars[pIdx].bullets || [])];
+                                                  nextBullets[bIdx] = { ...nextBullets[bIdx], bold: e.target.value };
+                                                  nextPillars[pIdx] = { ...nextPillars[pIdx], bullets: nextBullets };
+                                                  return { ...prev, pillars: nextPillars };
+                                                })}
+                                                className="w-full bg-black/30 border border-white/10 rounded p-1.5 text-xs font-bold text-white outline-none focus:border-brand-green"
+                                              />
+                                            </div>
+                                            <div className="md:col-span-2">
+                                              <label className="text-[10px] text-gray-400 block">상세 설명</label>
+                                              <input
+                                                type="text"
+                                                value={b.text}
+                                                onChange={(e) => updateOverview(prev => {
+                                                  const nextPillars = [...prev.pillars];
+                                                  const nextBullets = [...(nextPillars[pIdx].bullets || [])];
+                                                  nextBullets[bIdx] = { ...nextBullets[bIdx], text: e.target.value };
+                                                  nextPillars[pIdx] = { ...nextPillars[pIdx], bullets: nextBullets };
+                                                  return { ...prev, pillars: nextPillars };
+                                                })}
+                                                className="w-full bg-black/30 border border-white/10 rounded p-1.5 text-xs text-gray-200 outline-none focus:border-brand-green"
+                                              />
+                                            </div>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* 3. 공인된 지속가능경영 표준 인증 (4 Cards) */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-4">
+                                <span className="text-xs font-bold text-brand-green block">3. 공인된 지속가능경영 표준 인증 섹션</span>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">인증 섹션 타이틀</label>
+                                    <input
+                                      type="text"
+                                      value={ethicsOverview.certSectionTitle}
+                                      onChange={(e) => updateOverview(prev => ({ ...prev, certSectionTitle: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                    />
+                                  </div>
+                                  <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-400 block">인증 섹션 설명 문구</label>
+                                    <input
+                                      type="text"
+                                      value={ethicsOverview.certSectionDesc}
+                                      onChange={(e) => updateOverview(prev => ({ ...prev, certSectionDesc: e.target.value }))}
+                                      className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-2.5 text-xs text-white focus:border-brand-green"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-white/10">
+                                  {ethicsOverview.certs.map((cert, cIdx) => (
+                                    <div key={cIdx} className="p-3 rounded-xl bg-black/20 border border-white/10 space-y-2">
+                                      <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                          <label className="text-[10px] text-gray-400 block">인증 코드명</label>
+                                          <input
+                                            type="text"
+                                            value={cert.code}
+                                            onChange={(e) => updateOverview(prev => {
+                                              const nextCerts = [...prev.certs];
+                                              nextCerts[cIdx] = { ...nextCerts[cIdx], code: e.target.value };
+                                              return { ...prev, certs: nextCerts };
+                                            })}
+                                            className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs font-bold text-white outline-none focus:border-brand-green"
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="text-[10px] text-gray-400 block">인증 명칭</label>
+                                          <input
+                                            type="text"
+                                            value={cert.subTitle}
+                                            onChange={(e) => updateOverview(prev => {
+                                              const nextCerts = [...prev.certs];
+                                              nextCerts[cIdx] = { ...nextCerts[cIdx], subTitle: e.target.value };
+                                              return { ...prev, certs: nextCerts };
+                                            })}
+                                            className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-white outline-none focus:border-brand-green"
+                                          />
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <label className="text-[10px] text-gray-400 block">인증 설명</label>
+                                        <textarea
+                                          value={cert.desc}
+                                          onChange={(e) => updateOverview(prev => {
+                                            const nextCerts = [...prev.certs];
+                                            nextCerts[cIdx] = { ...nextCerts[cIdx], desc: e.target.value };
+                                            return { ...prev, certs: nextCerts };
+                                          })}
+                                          className="w-full bg-white/5 border border-white/10 rounded p-1.5 text-xs text-gray-200 outline-none focus:border-brand-green min-h-[48px]"
+                                        />
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })()}
+
+                        {/* Case ESG: Environment, Safety, Anti-corruption */}
                         {(currentSubPath === 'about/esg/environment' || currentSubPath === 'about/esg/safety' || currentSubPath === 'about/esg/anti-corruption') && (() => {
                           const esgData = parseEsgData(staticContent, currentSubPath);
                           const defaultEsg = DEFAULT_ESG_DATA[currentSubPath] || DEFAULT_ESG_DATA['about/esg/environment'];
@@ -6358,9 +6959,31 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                 </div>
                               </div>
 
+                              {/* 1-B. 상단 배너 오버레이 문구 */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
+                                <span className="text-[11px] font-bold text-brand-green block">상단 와이드 배너 오버레이 문구</span>
+                                <div className="space-y-1">
+                                  <label className="text-[10px] text-gray-400 block">배너 메인 타이틀 (Hero Title)</label>
+                                  <input
+                                    type="text"
+                                    value={esgData.heroTitle || ''}
+                                    onChange={(e) => updateEsg('heroTitle', e.target.value)}
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-[10px] text-gray-400 block">배너 서브 설명 (Hero Subtitle)</label>
+                                  <textarea
+                                    value={esgData.heroSubtitle || ''}
+                                    onChange={(e) => updateEsg('heroSubtitle', e.target.value)}
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green min-h-[56px]"
+                                  />
+                                </div>
+                              </div>
+
                               {/* 2. 타이틀 입력 */}
                               <div className="space-y-1">
-                                <label className="text-[11px] font-bold text-gray-400 block">메인 타이틀 (Title)</label>
+                                <label className="text-[11px] font-bold text-gray-400 block">본문 카드 타이틀 (Title)</label>
                                 <input
                                   type="text"
                                   value={esgData.title}
@@ -6460,6 +7083,217 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                     onChange={(e) => updateEsg('signerName', e.target.value)}
                                     className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green focus:bg-white/[0.07] transition-all"
                                     placeholder="류 형 선"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })()}
+
+                        {/* Case ESG: Code of Ethics (윤리강령) */}
+                        {currentSubPath === 'about/esg/code-of-ethics' && (() => {
+                          const ethicsData = parseCodeOfEthicsData(staticContent);
+                          const updateEthics = (updater: (prev: CodeOfEthicsData) => CodeOfEthicsData) => {
+                            const next = updater(ethicsData);
+                            setStaticContent(JSON.stringify(next, null, 2));
+                          };
+
+                          return (
+                            <div className="space-y-6">
+                              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                                <div>
+                                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                                    <Sparkles size={16} className="text-brand-green" />
+                                    윤리강령 콘텐츠 설정
+                                  </h3>
+                                  <p className="text-[11px] text-gray-400 mt-0.5">
+                                    상단 대표 배너, 서문 문단, 5대 윤리강령 원칙 및 서명란을 실시간 편집합니다.
+                                  </p>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => setStaticContent(JSON.stringify(DEFAULT_CODE_OF_ETHICS_DATA, null, 2))}
+                                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
+                                >
+                                  <RotateCcw size={12} />
+                                  기본값 복원
+                                </button>
+                              </div>
+
+                              {/* 1. 상단 대표 히어로 배너 사진 업로드 */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[11px] font-bold text-brand-green uppercase flex items-center gap-1.5">
+                                    <ImageIcon size={14} />
+                                    <span>윤리강령 대표 비주얼 사진 (상단 21:9 와이드)</span>
+                                  </span>
+                                  <span className="text-[10px] text-gray-400">사용자 페이지 상단 21:9 와이드 영역에 노출됩니다</span>
+                                </div>
+                                <div className="flex flex-col sm:flex-row items-center gap-4">
+                                  <div className="w-full sm:w-48 aspect-[21/9] rounded-lg overflow-hidden bg-slate-900 border border-white/15 relative shrink-0">
+                                    <img
+                                      src={ethicsData.imageUrl || '/images/ethics_banner.jpg'}
+                                      alt="Code of Ethics Banner Preview"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                  <div className="flex-1 space-y-2 w-full text-center sm:text-left">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        id="ethics-code-hero-file"
+                                        className="hidden"
+                                        disabled={uploadingHeroBanner}
+                                        onChange={async (e) => {
+                                          const file = e.target.files?.[0];
+                                          if (!file) return;
+                                          setUploadingHeroBanner(true);
+                                          try {
+                                            const formData = new FormData();
+                                            formData.append('file', file);
+                                            const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                                            if (res.ok) {
+                                              const data = await res.json();
+                                              updateEthics(prev => ({ ...prev, imageUrl: data.url }));
+                                            } else {
+                                              alert('사진 업로드에 실패했습니다.');
+                                            }
+                                          } catch (err) {
+                                            console.error(err);
+                                            alert('업로드 중 오류가 발생했습니다.');
+                                          } finally {
+                                            setUploadingHeroBanner(false);
+                                          }
+                                        }}
+                                      />
+                                      <label
+                                        htmlFor="ethics-code-hero-file"
+                                        className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-brand-green hover:bg-brand-green-dark text-white rounded-xl text-xs font-bold cursor-pointer transition-colors shadow-sm"
+                                      >
+                                        <UploadCloud size={14} />
+                                        <span>{uploadingHeroBanner ? '업로드 중...' : '배너 사진 업로드 / 변경'}</span>
+                                      </label>
+                                      {ethicsData.imageUrl && ethicsData.imageUrl !== '/images/ethics_banner.jpg' && (
+                                        <button
+                                          type="button"
+                                          onClick={() => updateEthics(prev => ({ ...prev, imageUrl: '/images/ethics_banner.jpg' }))}
+                                          className="inline-flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/15 text-gray-300 rounded-xl text-xs font-medium transition-colors"
+                                        >
+                                          <RotateCcw size={13} />
+                                          <span>기본 사진으로 복원</span>
+                                        </button>
+                                      )}
+                                    </div>
+                                    <p className="text-[10px] text-gray-400">
+                                      권장 크기: 21:9 비율 (1920x820px 이상 고해상도 JPG/PNG/WebP)
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* 1-B. 상단 배너 오버레이 문구 */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
+                                <span className="text-xs font-bold text-brand-green block">상단 와이드 배너 오버레이 문구</span>
+                                <div className="space-y-1">
+                                  <label className="text-[10px] text-gray-400 block">배너 메인 타이틀 (Hero Title)</label>
+                                  <input
+                                    type="text"
+                                    value={ethicsData.heroTitle || ''}
+                                    onChange={(e) => updateEthics(prev => ({ ...prev, heroTitle: e.target.value }))}
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-[10px] text-gray-400 block">배너 서브 설명 (Hero Subtitle)</label>
+                                  <textarea
+                                    value={ethicsData.heroSubtitle || ''}
+                                    onChange={(e) => updateEthics(prev => ({ ...prev, heroSubtitle: e.target.value }))}
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green min-h-[56px]"
+                                  />
+                                </div>
+                              </div>
+
+                              {/* 2. 서문 문단 (Intro Paragraphs) */}
+                              <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
+                                <span className="text-xs font-bold text-brand-green block">윤리강령 서문 ({ethicsData.introParas.length}개 문단)</span>
+                                {ethicsData.introParas.map((para, pIdx) => (
+                                  <div key={pIdx} className="space-y-1">
+                                    <label className="text-[10px] text-gray-400 block">서문 문단 {pIdx + 1}</label>
+                                    <textarea
+                                      value={para}
+                                      onChange={(e) => {
+                                        const nextParas = [...ethicsData.introParas];
+                                        nextParas[pIdx] = e.target.value;
+                                        updateEthics(prev => ({ ...prev, introParas: nextParas }));
+                                      }}
+                                      className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green min-h-[60px] leading-relaxed resize-y"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+
+                              {/* 3. 5대 윤리강령 원칙 */}
+                              <div className="space-y-4">
+                                <span className="text-xs font-bold text-brand-green block">5대 핵심 원칙 및 세부 지침</span>
+                                {ethicsData.sections.map((sec, sIdx) => (
+                                  <div key={sIdx} className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-3">
+                                    <div className="flex items-center gap-2">
+                                      <span className="w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                                        {sIdx + 1}
+                                      </span>
+                                      <input
+                                        type="text"
+                                        value={sec.title}
+                                        onChange={(e) => {
+                                          const nextSecs = [...ethicsData.sections];
+                                          nextSecs[sIdx] = { ...sec, title: e.target.value };
+                                          updateEthics(prev => ({ ...prev, sections: nextSecs }));
+                                        }}
+                                        className="flex-1 bg-white/5 border border-white/10 rounded-lg p-2 text-xs text-white font-bold outline-none focus:border-brand-green"
+                                        placeholder={`원칙 ${sIdx + 1} 제목`}
+                                      />
+                                    </div>
+                                    <div className="space-y-2 pl-7">
+                                      {sec.bullets.map((b, bIdx) => (
+                                        <div key={bIdx} className="flex items-start gap-2">
+                                          <span className="text-gray-400 font-bold text-xs mt-1.5">•</span>
+                                          <textarea
+                                            value={b}
+                                            onChange={(e) => {
+                                              const nextSecs = [...ethicsData.sections];
+                                              const nextBullets = [...sec.bullets];
+                                              nextBullets[bIdx] = e.target.value;
+                                              nextSecs[sIdx] = { ...sec, bullets: nextBullets };
+                                              updateEthics(prev => ({ ...prev, sections: nextSecs }));
+                                            }}
+                                            className="flex-1 bg-black/20 border border-white/10 rounded-lg p-2 text-xs text-gray-200 outline-none focus:border-brand-green min-h-[48px] resize-y"
+                                          />
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              {/* 4. 공표일자 및 서명인 정보 */}
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-white/10">
+                                <div className="space-y-1">
+                                  <label className="text-[11px] font-bold text-gray-400 block">제정/개정 일자</label>
+                                  <input
+                                    type="text"
+                                    value={ethicsData.date}
+                                    onChange={(e) => updateEthics(prev => ({ ...prev, date: e.target.value }))}
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green"
+                                  />
+                                </div>
+                                <div className="space-y-1">
+                                  <label className="text-[11px] font-bold text-gray-400 block">대표이사 성명</label>
+                                  <input
+                                    type="text"
+                                    value={ethicsData.signerName}
+                                    onChange={(e) => updateEthics(prev => ({ ...prev, signerName: e.target.value }))}
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-brand-green"
                                   />
                                 </div>
                               </div>
@@ -6601,14 +7435,11 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                       {/* CEO Signature Block */}
                                       <div className="mt-8 pt-4 border-t border-gray-100 flex justify-end items-end">
                                         <div className="flex items-end gap-2.5">
-                                          <span className="text-[11px] font-bold text-gray-500">
-                                            {data.signerCompany || '주식회사 다산제약'}
-                                          </span>
-                                          <span className="text-[11px] font-bold text-gray-700">
+                                          <span className="text-gray-500 font-medium text-xs pb-1">
                                             {data.signerTitle || '대표이사'}
                                           </span>
-                                          <span className="text-base sm:text-lg font-black text-gray-900 tracking-wider">
-                                            {data.signerName || '류형선'}
+                                          <span className="text-gray-900 font-bold text-xl sm:text-2xl tracking-[0.18em] font-serif">
+                                            {data.signerName || '류 형 선'}
                                           </span>
                                         </div>
                                       </div>
@@ -6620,20 +7451,26 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                           </div>
                         ) : currentSubPath === 'about/business-area' ? (
                           /* 2. Business Area */
-                          <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150">
+                          <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150 font-pretendard">
                             {(() => {
                               const lines = (staticContent || '').split('\n');
                               const introParts = (lines[0] || '').split('|');
-                              const intro = introParts[0] || '연구개발(R&D)부터 판매까지 의약품 전 주기의 Key Value Chain 인프라를 구축하여 고부가가치 사업 성장성을 확보하고 있습니다';
+                              const defaultIntro = '다산제약은 연구개발(R&D)부터 판매까지<br />의약품 전 주기의 Key Value Chain 인프라를 구축하여<br />고부가가치 사업 성장성을 확보하고 있습니다.';
+                              let intro = (introParts[0] || '').trim() || defaultIntro;
+                              if (intro === '연구개발(R&D)부터 판매까지 의약품 전 주기의 Key Value Chain 인프라를 구축하여 고부가가치 사업 성장성을 확보하고 있습니다') {
+                                intro = defaultIntro;
+                              }
+                              const introLines = intro.split(/<br\s*\/?>|\n/).filter(Boolean);
                               const heroImg = introParts[1] || '/images/business_hero.jpg';
 
                               const defaultCards = [
-                                { title: '자사 완제 의약품 사업', desc: '순환기, 호흡기, 비뇨기 중심의\n우수한 제품 라인업 구축 및 생산·판매', image: '/images/business_hero1.jpg' },
-                                { title: '수탁 완제 의약품 (CMO) 사업', desc: '독자적인 제제기술 및 공정 최적화를 통한\n전문의약품 수탁 생산', image: '/images/business_hero2.jpg' },
-                                { title: '의약품 핵심 원료 및 중간체 사업', desc: '의약품 핵심 원료 및 중간체 개발 및 특허 확보,\n신규 합성 및 신규 수입 원료 DMF 등록관리', image: '/images/business_hero3.jpg' }
+                                { title: '자사 완제 의약품 사업', desc: '순환기, 호흡기, 비뇨기 중심의<br />우수한 제품 라인업 구축 및 생산·판매', image: '/images/business_hero1.jpg' },
+                                { title: '수탁 완제 의약품 (CMO) 사업', desc: '독자적인 제제기술 및 공정 최적화를 통한<br />전문의약품 수탁 생산', image: '/images/business_hero2.jpg' },
+                                { title: '의약품 핵심 원료 및 중간체 사업', desc: '의약품 핵심 원료 및 중간체 개발 및 특허 확보,<br />신규 합성 및 신규 수입 원료 DMF 등록관리', image: '/images/business_hero3.jpg' },
+                                { title: '신약 및 신제형개발, 임상연구', desc: '저분자 신약 및 혁신 치료제 발굴부터,<br />신제형 개발, 개량신약 및 임상시험 연구', image: '/images/business_hero4.jpg' }
                               ];
 
-                              const cards = [1, 2, 3].map((cardIdx) => {
+                              const cards = [1, 2, 3, 4].map((cardIdx) => {
                                 const line = lines[cardIdx] || '';
                                 const parts = line.split('|');
                                 const defaultItem = defaultCards[cardIdx - 1];
@@ -6646,76 +7483,126 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
 
                               return (
                                 <div className="space-y-6">
-                                  <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
-                                    <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">주요 사업 영역 (Core Business)</h3>
-                                    <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">
-                                      실시간 미리보기
-                                    </span>
-                                  </div>
-
-                                  {/* Top Hero Banner Mockup */}
-                                  <div className="relative aspect-[21/8] rounded-xl overflow-hidden shadow-sm bg-slate-900">
+                                  {/* Top Hero Banner Mockup (21:9 와이드 화면 - 상단 좌측 텍스트 오버레이) */}
+                                  <div className="relative aspect-[21/9] rounded-xl overflow-hidden shadow-sm bg-slate-900">
                                     <img src={heroImg} alt="Business Hero" className="w-full h-full object-cover object-center" />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/40 to-transparent flex items-center p-4">
-                                      <div className="max-w-xs space-y-1">
-                                        <span className="text-[9px] font-extrabold text-[#2f7847] uppercase tracking-wider block">Key Value Chain</span>
-                                        <p className="text-xs sm:text-sm font-extrabold text-gray-900 leading-snug break-keep">
-                                          {intro}
-                                        </p>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent pointer-events-none" />
+                                    <div className="absolute inset-0 flex items-start justify-start p-4 sm:p-6">
+                                      <div className="max-w-xl text-left">
+                                        <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-pretendard font-extrabold text-gray-900 leading-snug tracking-tight break-keep drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)] space-y-1.5 sm:space-y-2">
+                                          {introLines.map((line, lIdx) => {
+                                            if (line.includes('Key Value Chain')) {
+                                              const [before, after] = line.split('Key Value Chain');
+                                              return (
+                                                <span key={lIdx} className="block">
+                                                  {before}<span className="text-[#2f7847] font-black">Key Value Chain</span>{after}
+                                                </span>
+                                              );
+                                            }
+                                            return (
+                                              <span key={lIdx} className="block">{line}</span>
+                                            );
+                                          })}
+                                        </h2>
                                       </div>
                                     </div>
                                   </div>
 
-                                  {/* 3 Business Cards */}
-                                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-                                    {cards.map((card, idx) => (
-                                      <div key={idx} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm border border-gray-150 bg-slate-100 group">
-                                        <img src={card.image} alt={card.title} className="w-full h-full object-cover object-center brightness-105" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-                                        <div className="absolute inset-x-2.5 bottom-2.5 p-2.5 rounded-xl bg-black/55 backdrop-blur-sm border border-white/20 text-white">
-                                          <h5 className="text-xs sm:text-[13px] font-extrabold text-white leading-tight mb-1 truncate">
-                                            {card.title}
-                                          </h5>
-                                          <p className="text-[10px] text-white/90 font-medium leading-relaxed whitespace-pre-line line-clamp-3">
-                                            {card.desc.replace(/<br\s*\/?>/g, '\n')}
-                                          </p>
+                                  {/* 주요 사업 영역 섹션 (사용자 페이지와 동일하게 히어로 배너 하단에 제목 및 4열 카드 배치) */}
+                                  <div className="pt-2">
+                                    <div className="pb-3 mb-5 border-b border-gray-100 flex items-center justify-between">
+                                      <h3 className="text-base sm:text-lg md:text-xl font-black text-gray-900 tracking-tight">주요 사업 영역 (Core Business)</h3>
+                                      <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">
+                                        실시간 미리보기
+                                      </span>
+                                    </div>
+
+                                    {/* 4 Business Cards (4-Column Grid & Frosted Glass Hover Caption matching User Page) */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                                      {cards.map((card, idx) => (
+                                        <div key={idx} className="group relative aspect-[4/3] rounded-[18px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-slate-100 border border-gray-100 cursor-pointer w-full h-full">
+                                          <img
+                                            src={card.image}
+                                            alt={card.title}
+                                            className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 brightness-[1.18] contrast-[1.03]"
+                                          />
+                                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+
+                                          {/* Frosted Glass Floating Caption Overlay */}
+                                          <div className="absolute inset-x-2 bottom-2 px-2.5 py-1.5 rounded-xl bg-black/45 backdrop-blur-md border border-white/25 text-white transition-all duration-400 group-hover:-translate-y-1 group-hover:bg-black/60 shadow-lg">
+                                            <h5 className="text-[11px] sm:text-xs font-extrabold leading-snug tracking-tight text-white drop-shadow-md break-keep">
+                                              {card.title}
+                                            </h5>
+                                            <p className="text-[10px] text-white/95 font-medium drop-shadow-xs max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100 group-hover:mt-1.5 transition-all duration-500 ease-out overflow-hidden leading-relaxed break-keep">
+                                              {card.desc.split(/<br\s*\/?>|\n|\\n/).map((line, lIdx) => (
+                                                <span key={lIdx} className="block whitespace-normal">
+                                                  {line.trim()}
+                                                </span>
+                                              ))}
+                                            </p>
+                                          </div>
                                         </div>
-                                      </div>
-                                    ))}
+                                      ))}
+                                    </div>
                                   </div>
                                 </div>
                               );
                             })()}
                           </div>
-                        ) : currentSubPath === 'about/intro' && activeIntroTab === 'about/intro' ? (
-                          /* 3. Company Intro: Main Tab */
+                        ) : currentSubPath === 'about/intro' ? (
+                          /* 3. Company Intro: Matches User Page 100% (Top Slogan + Video Banner + Intro Summary + 4대 경영 철학 Graphic) */
                           <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150 font-pretendard">
                             {(() => {
                               const parts = (staticContent || '').split('|');
                               const title = (parts[0] || '인류의 건강을 위한 혁신,다산제약').replace(/^[1-9]\.\s?/, '').trim();
-                              const body = parts.slice(1).join('|') || '(입력된 문구가 여기에 표시됩니다)';
+                              let body = parts.slice(1).join('|') || '(입력된 문구가 여기에 표시됩니다)';
+
+                              // Strip redundant '4대 경영 철학' line so it matches the User Page where PhilosophyGraphic renders it
+                              body = body.replace(
+                                /(?:<p[^>]*>)?\s*(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(4대 경영 철학)\s*(?:<\/strong>|<\/b>|<\/span>)?\s*(?:<\/p>)?/g,
+                                ''
+                              );
+                              body = body.replace(
+                                /(?:<strong[^>]*>|<b>|<span[^>]*>)?\s*(다산\(茶山\)의 정신으로.*?다산제약)\s*(?:<\/strong>|<\/b>|<\/span>)?/g,
+                                '<span class="block text-sm sm:text-base font-bold text-gray-900 mt-5 mb-2 w-full">다산(茶山)의 정신으로 인류의 건강한 내일을 여는 다산제약</span>'
+                              );
 
                               return (
-                                <div className="space-y-5">
+                                <div className="space-y-6">
                                   {/* Top Slogan */}
                                   <div className="text-center py-2 border-b border-gray-100">
-                                    <p className="text-xs sm:text-sm font-medium text-gray-700 leading-snug">
+                                    <p className="text-sm sm:text-base font-medium text-gray-700 leading-snug">
                                       우리는 <strong className="font-extrabold text-gray-950">생명연장</strong>이라는 고귀한 사명을 바탕으로 인류가 <strong className="font-extrabold text-gray-950">행복한 세상</strong>을 만든다.
                                     </p>
                                   </div>
 
+                                  {/* Video Banner matching ScrollVideo on User Page */}
+                                  <div className="relative aspect-[21/9] rounded-xl overflow-hidden shadow-sm bg-slate-900">
+                                    <video
+                                      src="/videos/dasan_intro.mp4"
+                                      autoPlay
+                                      muted
+                                      loop
+                                      playsInline
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+
                                   {/* Title */}
-                                  <div className="border-l-4 border-brand-green pl-3.5 py-0.5">
-                                    <h4 className="text-sm sm:text-base font-black text-gray-900 tracking-tight leading-snug">
+                                  <div className="pb-3 border-b border-gray-200 flex items-center justify-between">
+                                    <h4 className="text-base sm:text-lg md:text-xl font-black text-gray-900 tracking-tight leading-snug">
                                       {title}
                                     </h4>
+                                    <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full shrink-0">
+                                      실시간 미리보기
+                                    </span>
                                   </div>
 
                                   {/* Body with exact user page typography */}
-                                  <div className="text-gray-700 text-xs sm:text-[13px] leading-[1.85] font-normal break-keep">
+                                  <div className="text-gray-600 text-xs sm:text-[13.5px] leading-[1.85] font-normal break-keep">
                                     {(body.includes('<p') || body.includes('<h') || body.includes('<br')) ? (
                                       <div 
-                                        className="space-y-3 [&_p]:leading-[1.85] [&_p]:text-gray-700 [&_strong]:font-bold [&_strong]:text-gray-900 [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:text-sm [&_h4]:font-bold [&_h4]:text-gray-900"
+                                        className="space-y-3 [&_p]:leading-[1.85] [&_p]:text-gray-600 [&_strong]:font-bold [&_strong]:text-gray-900 [&_h3]:font-black [&_h3]:text-gray-900 [&_h3]:text-sm [&_h4]:font-bold [&_h4]:text-gray-900"
                                         dangerouslySetInnerHTML={{ __html: body }}
                                       />
                                     ) : (
@@ -6726,174 +7613,17 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                       </div>
                                     )}
                                   </div>
+
+                                  {/* 4대 경영 철학 Graphic matching User Page */}
+                                  <div className="w-full pt-2">
+                                    <PhilosophyGraphic />
+                                  </div>
                                 </div>
                               );
                             })()}
                           </div>
-                        ) : currentSubPath === 'about/intro' && activeIntroTab === 'about/intro/competencies' ? (
-                          /* 4. Company Intro: Competencies */
-                          <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150 font-pretendard">
-                            <div className="space-y-4">
-                              <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
-                                <h4 className="text-sm sm:text-base font-black text-gray-900">핵심역량 (Core Competencies)</h4>
-                                <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">미리보기</span>
-                              </div>
-                              <div className="grid grid-cols-1 gap-3">
-                                {(staticContent || '').split('\n').map((line, idx) => {
-                                  const parts = line.split('|');
-                                  if (!parts[0]) return null;
-                                  const icons = [<Award size={20} key="1" />, <Building2 size={20} key="2" />, <Users size={20} key="3" />];
-                                  const colors = ['bg-teal-50 text-teal-600 border-teal-100', 'bg-cyan-50 text-cyan-600 border-cyan-100', 'bg-blue-50 text-blue-600 border-blue-100'];
-                                  return (
-                                    <div key={idx} className="p-4 rounded-xl border border-gray-150 bg-white hover:border-brand-green/40 transition-all flex items-start space-x-3.5 shadow-2xs">
-                                      <div className={`p-2.5 rounded-xl border ${colors[idx % 3]} shrink-0`}>
-                                        {icons[idx % 3]}
-                                      </div>
-                                      <div className="flex-1 min-w-0">
-                                        <h5 className="font-extrabold text-gray-900 text-xs sm:text-sm mb-1">{parts[0]}</h5>
-                                        <p className="text-[11px] sm:text-xs text-gray-600 leading-relaxed font-normal whitespace-pre-line">{parts[1] || ''}</p>
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          </div>
-                        ) : currentSubPath === 'about/intro' && activeIntroTab === 'about/intro/vision' ? (
-                          /* 5. Company Intro: Vision */
-                          <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150 font-pretendard">
-                            <div className="space-y-4">
-                              <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
-                                <h4 className="text-sm sm:text-base font-black text-gray-900">비전 및 미션 (Vision & Mission)</h4>
-                                <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">미리보기</span>
-                              </div>
-                              {(() => {
-                                const lines = (staticContent || '').split('\n').filter(l => l.includes('|'));
-                                const mParts = lines[0]?.split('|') || [];
-                                const vParts = lines[1]?.split('|') || [];
-                                return (
-                                  <div className="space-y-3.5">
-                                    <div className="p-4 rounded-xl border border-gray-150 bg-slate-50/70 space-y-1.5">
-                                      <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/70 border border-emerald-200 px-2 py-0.5 rounded uppercase">Our Mission</span>
-                                      <h5 className="font-black text-gray-900 text-xs sm:text-sm mt-1">{mParts[0] || '인류의 건강과 행복한 삶에 공헌'}</h5>
-                                      <p className="text-[11px] sm:text-xs text-gray-600 leading-relaxed font-normal whitespace-pre-line">{mParts[1] || ''}</p>
-                                    </div>
-                                    <div className="p-4 rounded-xl border border-gray-150 bg-slate-50/70 space-y-1.5">
-                                      <span className="text-[10px] font-bold text-teal-700 bg-teal-100/70 border border-teal-200 px-2 py-0.5 rounded uppercase">Our Vision</span>
-                                      <h5 className="font-black text-gray-900 text-xs sm:text-sm mt-1">{vParts[0] || 'DDS 기술 혁신 기반의 글로벌 헬스케어 리더'}</h5>
-                                      <p className="text-[11px] sm:text-xs text-gray-600 leading-relaxed font-normal whitespace-pre-line">{vParts[1] || ''}</p>
-                                    </div>
-                                  </div>
-                                );
-                              })()}
-                            </div>
-                          </div>
-                        ) : currentSubPath === 'about/intro' && activeIntroTab === 'about/intro/values' ? (
-                          /* 6. Company Intro: Values */
-                          <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150 font-pretendard">
-                            <div className="space-y-4">
-                              <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
-                                <h4 className="text-sm sm:text-base font-black text-gray-900">핵심가치 (Core Values - DASAN)</h4>
-                                <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">미리보기</span>
-                              </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                {(staticContent || '').split('\n').map((line, idx) => {
-                                  const parts = line.split('|');
-                                  if (!parts[0]) return null;
-                                  return (
-                                    <div key={idx} className="p-3.5 rounded-xl border border-gray-150 bg-slate-50/60 hover:bg-white transition-all space-y-2">
-                                      <div className="w-7 h-7 rounded-lg bg-brand-green text-white flex items-center justify-center font-black text-xs shadow-xs">
-                                        {parts[0].trim().charAt(0).toUpperCase()}
-                                      </div>
-                                      <div>
-                                        <h5 className="font-black text-gray-900 text-xs sm:text-sm">{parts[0]}</h5>
-                                        <span className="text-[10px] text-brand-green font-bold block">{parts[1] || ''}</span>
-                                      </div>
-                                      <p className="text-[11px] text-gray-600 leading-normal font-normal">{parts[2] || ''}</p>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          </div>
-                        ) : currentSubPath === 'about/intro' && activeIntroTab === 'about/intro/philosophy' ? (
-                          /* 7. Company Intro: Philosophy */
-                          <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150 font-pretendard">
-                            <div className="space-y-4">
-                              <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
-                                <h4 className="text-sm sm:text-base font-black text-gray-900">경영철학 (Philosophy)</h4>
-                                <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">미리보기</span>
-                              </div>
-                              {(() => {
-                                const lines = (staticContent || '').split('\n');
-                                const quote = lines[0] || '사람이 중심이 되는 기술, 정직으로 만드는 건강한 내일';
-                                const pillars = lines.slice(1).filter(l => l.includes('|'));
-                                return (
-                                  <div className="space-y-4">
-                                    <div className="border-l-4 border-brand-green pl-3.5 py-1.5 bg-emerald-50/50 rounded-r-xl">
-                                      <p className="text-xs sm:text-sm font-extrabold italic text-gray-900">&quot;{quote}&quot;</p>
-                                    </div>
-                                    <div className="space-y-2.5">
-                                      {pillars.map((p, idx) => {
-                                        const parts = p.split('|');
-                                        return (
-                                          <div key={idx} className="p-3.5 rounded-xl border border-gray-150 bg-white hover:border-brand-green/40 transition-all shadow-2xs">
-                                            <div className="flex items-center gap-2 mb-1">
-                                              <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-extrabold rounded">0{idx + 1}</span>
-                                              <h5 className="font-extrabold text-gray-900 text-xs sm:text-sm">{parts[0]}</h5>
-                                            </div>
-                                            <p className="text-[11px] sm:text-xs text-gray-600 leading-relaxed font-normal pl-7">{parts[1] || ''}</p>
-                                          </div>
-                                        );
-                                      })}
-                                    </div>
-                                  </div>
-                                );
-                              })()}
-                            </div>
-                          </div>
-                        ) : currentSubPath === 'about/intro' && activeIntroTab === 'about/intro/culture' ? (
-                          /* 8. Company Intro: Culture */
-                          <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150 font-pretendard">
-                            <div className="space-y-4">
-                              {(() => {
-                                const lines = (staticContent || '').split('\n');
-                                let mainTitle = lines[0] || '다산인의 건강한 문화';
-                                let subText = lines[1] || '일할 때는 뜨겁게 몰입하고, 서로를 신뢰하고 배려하는 일터';
-                                const items = lines.slice(2).map(l => {
-                                  const parts = l.split('|');
-                                  return { title: parts[0] || '', desc: parts[1] || '' };
-                                }).filter(item => item.title);
-
-                                return (
-                                  <div className="space-y-4">
-                                    <div className="pb-3 border-b border-gray-100">
-                                      <span className="text-[9px] font-extrabold text-brand-green uppercase tracking-wider block mb-1">Corporate Culture</span>
-                                      <h4 className="text-sm sm:text-base font-black text-gray-900">{mainTitle}</h4>
-                                      <p className="text-xs text-gray-600 mt-1 font-normal leading-relaxed">{subText}</p>
-                                    </div>
-                                    <div className="grid grid-cols-1 gap-3">
-                                      {(items.length > 0 ? items : [
-                                        { title: '유연하고 자율적인 몰입', desc: '시차출퇴근제 운영 및 자유로운 휴가 문화로 업무 몰입 극대화' },
-                                        { title: '배움과 성장의 기회', desc: '직무 교육 및 국내외 유수 학회/박람회 참가 전폭 지원' },
-                                        { title: '수평적 소통과 배려', desc: '타운홀 미팅과 상호 존중하는 피드백 문화 지향' }
-                                      ]).map((it, idx) => (
-                                        <div key={idx} className="p-3.5 rounded-xl border border-gray-150 bg-slate-50/60 hover:bg-white transition-all space-y-1">
-                                          <h5 className="font-extrabold text-gray-900 text-xs sm:text-sm flex items-center gap-1.5">
-                                            <CheckCircle2 size={14} className="text-brand-green" />
-                                            <span>{it.title}</span>
-                                          </h5>
-                                          <p className="text-[11px] text-gray-600 leading-relaxed font-normal pl-5">{it.desc}</p>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                );
-                              })()}
-                            </div>
-                          </div>
                         ) : currentSubPath === 'about/history' ? (
-                          /* 9. History */
+                          /* 9. History: Matches User Page 100% (21:9 Spiral Hero + Header + HistoryAccordion) */
                           <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150">
                             {(() => {
                               const lines = (staticContent || '').split('\n');
@@ -6901,7 +7631,9 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                               const parts = introLine.split('|');
                               const historyTitle = parts[0] || '성장 연혁 (History)';
                               const historyIntro = parts[1] || '원천기술 확보에서 글로벌 고성장·고수익 창출 기업으로 도약해 온 다산제약의 발자취입니다';
-                              const historyHero = parts[2] || '/history_hero_spiral.png';
+                              const historyHero = (parts[2] && (parts[2].trim().startsWith('/') || parts[2].trim().startsWith('http')))
+                                ? parts[2].trim()
+                                : '/history_hero_spiral.png';
 
                               const eras: { eraTitle: string; eraSubtitle: string; events: { year: string; details: string[] }[] }[] = [];
                               let currentEra: { eraTitle: string; eraSubtitle: string; events: { year: string; details: string[] }[] } | null = null;
@@ -6917,7 +7649,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                 } else if (line.startsWith('YEAR:') && currentEra) {
                                   const yearStr = line.substring(5);
                                   const [yearLabel, detailsStr] = yearStr.split('|');
-                                  const details = detailsStr ? detailsStr.split(/<br\s*\/?>/).map(s => s.trim()) : [];
+                                  const details = detailsStr ? detailsStr.split(/<br\s*\/?>/).map(s => s.trim()).filter(Boolean) : [];
                                   currentEra.events.push({ year: yearLabel || '', details });
                                 }
                               }
@@ -6927,156 +7659,218 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                   eraTitle: '2022 ~ Present',
                                   eraSubtitle: '도약기',
                                   events: [
-                                    { year: '2025', details: ['환경부 한국환경공단 스마트생태공장 구축 사업 선정'] },
-                                    { year: '2024', details: ['글로벌강소기업 1000+ 프로젝트 선정 / ISO 45001 획득 / 중국 합작법인 설립'] },
-                                    { year: '2023', details: ['부패방지경영시스템(ISO 37001) 인증 획득'] },
-                                    { year: '2022', details: ['무역의날 700만불 수출탑 수상 / 청년친화 강소기업 선정'] }
+                                    { year: '2025', details: ['• 환경부 한국환경공단 스마트생태공장 구축 사업 선정'] },
+                                    { year: '2024', details: ['• 중소벤처기업부 글로벌강소기업 1000+ 프로젝트 선정 / 식약처 공급망 안정화 선도 사업자 선정 / 안전보건경영시스템(ISO 45001) 인증 획득 / 중국 \'안휘허이다산의약유한회사\' 합작법인 설립'] },
+                                    { year: '2023', details: ['• 부패방지경영시스템(ISO 37001) 인증 획득'] },
+                                    { year: '2022', details: ['• 무역의날 산자부 장관표창 및 700만불 수출탑 수상 / 혁신성장 유공중소기업 장관상 수상 / 의약품수출분야 보건복지부 장관상 수상 / 4년 연속 청년친화 강소기업 선정'] }
                                   ]
                                 },
                                 {
                                   eraTitle: '2013 ~ 2021',
                                   eraSubtitle: '성장기',
                                   events: [
-                                    { year: '2021', details: ['충청남도 우수기업인상 수상 / 글로벌 강소기업 선정'] },
-                                    { year: '2019', details: ['매출 500억 원 달성 / 아산 제2공장 완공 / 심양연구소 확장'] },
-                                    { year: '2017', details: ['사명 변경 (주식회사 다산제약)'] }
+                                    { year: '2021', details: ['• 충청남도 우수기업인상 수상 / 좋은 일자리 기업 선정 / 글로벌 강소기업 선정'] },
+                                    { year: '2020', details: ['• 충청남도 유망 중소기업 선정'] },
+                                    { year: '2019', details: ['• 매출 500억 원 달성 / 아산 제2공장 완공 / 심양연구소(중국 랴오닝성) 확장'] },
+                                    { year: '2018', details: ['• 중앙연구소 통합 개소'] },
+                                    { year: '2017', details: ['• 사명 변경 ("주식회사 다산제약")'] },
+                                    { year: '2016', details: ['• 중앙연구소 확장 이전'] },
+                                    { year: '2013', details: ['• 완제의약품 물류센터 완공 / 벤처기업 중소기업청장상 표창 / 합성연구소 확장 이전'] }
                                   ]
                                 },
                                 {
                                   eraTitle: '1996 ~ 2011',
                                   eraSubtitle: '설립기',
                                   events: [
-                                    { year: '2008', details: ['매출 100억 원 달성 / KGMP 인증'] },
-                                    { year: '2001', details: ['원료의약품 공장 준공 및 제조업 허가 취득'] },
-                                    { year: '1996', details: ['주식회사 다산메디켐 설립'] }
+                                    { year: '2011', details: ['• \'KIBO 성공기업\' 선정'] },
+                                    { year: '2009', details: ['• 300만불 수출탑 수상'] },
+                                    { year: '2008', details: ['• 매출 100억 원 달성 / KGMP 인증'] },
+                                    { year: '2007', details: ['• 기술혁신형중소기업(INNO-BIZ) 인증 / 3D Clean 사업장 인증'] },
+                                    { year: '2002', details: ['• BGMP 인증'] },
+                                    { year: '2001', details: ['• 원료의약품 공장 준공 및 제조업 허가 취득 / 기업부설연구소 인가'] },
+                                    { year: '1996', details: ['• 주식회사 다산메디켐 설립'] }
                                   ]
                                 }
                               ];
 
                               return (
                                 <div className="space-y-6">
+                                  {/* 21:9 Spiral Hero Banner matching User Page */}
+                                  <div className="relative aspect-[21/9] rounded-xl overflow-hidden shadow-sm bg-slate-900">
+                                    <img src={historyHero} alt="History Hero" className="w-full h-full object-cover object-center" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/40 to-transparent flex items-start justify-start p-4 sm:p-6">
+                                      <div className="max-w-xs text-left">
+                                        <p className="text-sm sm:text-base md:text-lg font-medium text-gray-900 leading-tight tracking-tight drop-shadow-[0_1px_3px_rgba(255,255,255,0.9)]">
+                                          신뢰와 혁신으로<br />
+                                          미래를 향한 <span className="text-[#3a8b54] font-black">DASAN</span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+
                                   <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
                                     <div>
                                       <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">{historyTitle}</h3>
-                                      <p className="text-xs text-gray-500 mt-0.5">{historyIntro}</p>
+                                      {(typeof historyIntro === 'string' && (historyIntro.includes('<p') || historyIntro.includes('<h'))) ? (
+                                        <div dangerouslySetInnerHTML={{ __html: historyIntro }} className="text-xs text-gray-600 mt-1 [&_p]:text-gray-600" />
+                                      ) : (
+                                        <p className="text-xs text-gray-600 mt-1">{historyIntro}</p>
+                                      )}
                                     </div>
                                     <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full shrink-0">
                                       실시간 미리보기
                                     </span>
                                   </div>
 
-                                  <div className="relative aspect-[21/8] rounded-xl overflow-hidden shadow-sm bg-slate-900">
-                                    <img src={historyHero} alt="History Hero" className="w-full h-full object-cover object-center" />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/40 to-transparent flex items-center p-4">
-                                      <div className="max-w-xs space-y-1">
-                                        <span className="text-[9px] font-extrabold text-[#3a8b54] uppercase tracking-wider block">History</span>
-                                        <p className="text-xs sm:text-sm font-black text-gray-900 leading-snug">
-                                          신뢰와 혁신으로 미래를 향한 <span className="text-[#3a8b54]">DASAN</span>
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="relative pl-6 space-y-6 border-l-2 border-gray-200">
-                                    {displayEras.map((era, eIdx) => (
-                                      <div key={eIdx} className="space-y-3 relative">
-                                        <div className="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-brand-green border-[3px] border-white shadow-sm" />
-                                        <div className="flex items-center gap-2">
-                                          <span className="px-2.5 py-0.5 bg-brand-green/10 text-brand-green font-extrabold text-xs rounded-full">
-                                            {era.eraSubtitle}
-                                          </span>
-                                          <h4 className="font-black text-gray-900 text-xs sm:text-sm">{era.eraTitle}</h4>
-                                        </div>
-
-                                        <div className="space-y-2 pl-2">
-                                          {era.events.map((ev, evIdx) => (
-                                            <div key={evIdx} className="flex items-start gap-2 text-xs">
-                                              <span className="font-black text-gray-900 shrink-0 w-12">{ev.year}</span>
-                                              <div className="text-gray-600 leading-relaxed font-normal flex-1">
-                                                {ev.details.map((d, dIdx) => (
-                                                  <p key={dIdx} className="whitespace-pre-line">{d}</p>
-                                                ))}
-                                              </div>
-                                            </div>
-                                          ))}
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
+                                  {/* Interactive HistoryAccordion with category filter and top-to-bottom cascade matching User Page */}
+                                  <HistoryAccordion timelineData={displayEras} isEn={false} />
                                 </div>
                               );
                             })()}
                           </div>
                         ) : currentSubPath === 'about/ci' ? (
-                          /* 10. CI */
+                          /* 10. CI: Matches User Page 100% */
                           <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150">
                             {(() => {
                               const lines = (staticContent || '').split('\n');
-                              const ciIntro = lines[0] || '육각형 심볼은 분자 구조와 함께 안정성과 신뢰를 상징하며, 대각선으로 절제된 워드마크는 혁신성과 기술적 진보를 표현합니다.';
-                              const ciSymbol = lines[1] || '내부의 흐름형 그래픽은 생명과 기술의 연결을 의미하고, 그린 컬러는 생명·친환경·신뢰의 가치를 담고 있습니다.';
-                              const primaryLogoDesc = lines[11] || '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다.';
-                              const clearSpaceDesc = lines[13] || '로고 최상의 시각적 효과와 식별을 위해 최소 사용 여백을 유지해야 합니다.';
-                              const customLogo = lines[18] || lines[10] || '/clear_space_grid.png';
+                              const ciIntro = lines[0] || '육각형 심볼은 분자 구조와 함께 안정성과 신뢰를 상징하며, 대각선으로 절제된 워드마크는 혁신성과 기술적 진보를 표현합니다. 내부의 흐름형 그래픽(그라데이션-잎)은 생명과 기술의 연결을 의미하고, 그린 컬러는 생명·친환경·신뢰의 가치를 담고 있습니다.';
+                              const ciSymbol = lines[1] || '';
+                              const primaryLogoDesc = lines[11] || '다산제약 브랜드 아이덴티티를 대표하는 메인 로고입니다, 대내외 다양한 커뮤니케이션에 최우선으로 사용합니다.\n다산제약의 메인 로고는 각 형태에 따라 비례를 조정한 것이므로, 글자와 도형의 형태, 굵기, 비례 등을 임의로 변경할 수 없습니다.';
+                              const customLogo = (lines[10] && (lines[10].trim().startsWith('/') || lines[10].trim().startsWith('http')))
+                                ? lines[10].trim()
+                                : '/clear_space_grid.png';
 
-                              const greenHex = lines[4] || '#008953';
-                              const lGreenHex = lines[16] || '#84BD00';
-                              const charcoalHex = lines[8] || '#63666A';
+                              const colors = [
+                                {
+                                  name: lines[2] || 'DASAN GREEN',
+                                  desc: lines[5] || '생명력, 인류의 건강, 지속가능한 경영 가치 상징',
+                                  cmyk: '90,30,90,0',
+                                  rgb: lines[3]?.includes('|') ? lines[3].split('|')[0]?.replace('RGB:', '').trim() : '0, 137, 83',
+                                  pantone: '3425 C',
+                                  hex: lines[4] || '#008953'
+                                },
+                                {
+                                  name: lines[14] || 'Dasan Light Green',
+                                  desc: lines[17] || '생동감과 확장성을 담은 컬러로, 브랜드에 유연한 흐름과 밝은 에너지를 더해주는 보조 컬러',
+                                  cmyk: '50,0,100,0',
+                                  rgb: lines[15]?.includes('|') ? lines[15].split('|')[0]?.replace('RGB:', '').trim() : '132, 189, 0',
+                                  pantone: '376 C',
+                                  hex: lines[16] || '#84BD00'
+                                },
+                                {
+                                  name: lines[6] || 'DASAN CHARCOAL',
+                                  desc: lines[9] || '기술적인 전문성, 정직한 기업 경영과 신뢰성 상징',
+                                  cmyk: '0,0,0,70',
+                                  rgb: lines[7]?.includes('|') ? lines[7].split('|')[0]?.replace('RGB:', '').trim() : '99, 102, 106',
+                                  pantone: 'Cool Gray 10 C',
+                                  hex: lines[8] || '#63666A'
+                                }
+                              ];
 
                               return (
-                                <div className="space-y-6">
+                                <div className="space-y-8">
                                   <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
-                                    <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">CI 소개 (Corporate Identity)</h3>
+                                    <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">CI 소개</h3>
                                     <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">
                                       실시간 미리보기
                                     </span>
                                   </div>
 
-                                  <div className="space-y-2 text-xs sm:text-[13px] leading-relaxed text-gray-700">
-                                    <h4 className="font-extrabold text-[#2A5C43] text-xs sm:text-sm">Corporate Identity</h4>
-                                    <p className="whitespace-pre-line font-normal">{ciIntro}</p>
+                                  <div className="space-y-2 text-xs sm:text-[13.5px] leading-relaxed text-gray-600">
+                                    <h4 className="font-bold text-[#2A5C43] text-sm sm:text-base">Corporate Identity</h4>
+                                    {(typeof ciIntro === 'string' && (ciIntro.includes('<p') || ciIntro.includes('<h') || ciIntro.includes('<br'))) ? (
+                                      <div dangerouslySetInnerHTML={{ __html: ciIntro }} className="[&_p]:text-gray-600 [&_p]:leading-relaxed [&_p]:whitespace-pre-line" />
+                                    ) : (
+                                      <p className="whitespace-pre-line font-normal">{ciIntro}</p>
+                                    )}
                                   </div>
 
-                                  <div className="p-4 rounded-xl bg-slate-50/70 border border-gray-150 space-y-1">
-                                    <h5 className="font-bold text-[#2A5C43] text-xs">심볼마크의 의미</h5>
-                                    <p className="text-xs text-gray-600 leading-relaxed font-normal whitespace-pre-line">{ciSymbol}</p>
-                                  </div>
-
-                                  <div className="p-4 rounded-xl border border-gray-150 bg-white space-y-3">
-                                    <div className="flex items-center justify-between">
-                                      <h5 className="font-bold text-gray-900 text-xs">Primary Logo</h5>
-                                      <span className="text-[10px] font-bold text-brand-green bg-brand-green/10 px-2 py-0.5 rounded">표준 규정</span>
+                                  {ciSymbol && (
+                                    <div className="p-4 rounded-xl bg-gray-50 border border-gray-100 space-y-1">
+                                      <h5 className="font-bold text-[#2A5C43] text-xs sm:text-sm">심볼마크의 의미</h5>
+                                      {(typeof ciSymbol === 'string' && (ciSymbol.includes('<p') || ciSymbol.includes('<h') || ciSymbol.includes('<br'))) ? (
+                                        <div dangerouslySetInnerHTML={{ __html: ciSymbol }} className="text-xs text-gray-600 leading-relaxed whitespace-pre-line" />
+                                      ) : (
+                                        <p className="text-xs text-gray-600 leading-relaxed font-normal whitespace-pre-line">{ciSymbol}</p>
+                                      )}
                                     </div>
-                                    <p className="text-[11px] text-gray-500 leading-relaxed whitespace-pre-line">{primaryLogoDesc}</p>
-                                    <div className="bg-slate-50 border border-gray-100 rounded-xl p-4 flex items-center justify-center min-h-[120px]">
-                                      <img src={customLogo} alt="Primary Logo" className="max-h-[70px] object-contain" />
+                                  )}
+
+                                  {/* Primary Logo Section */}
+                                  <div className="space-y-3">
+                                    <h4 className="font-bold text-[#2A5C43] text-sm sm:text-base">Primary Logo</h4>
+                                    {(typeof primaryLogoDesc === 'string' && (primaryLogoDesc.includes('<p') || primaryLogoDesc.includes('<h') || primaryLogoDesc.includes('<br'))) ? (
+                                      <div dangerouslySetInnerHTML={{ __html: primaryLogoDesc }} className="text-xs text-gray-600 leading-relaxed whitespace-pre-line" />
+                                    ) : (
+                                      <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-line">{primaryLogoDesc}</p>
+                                    )}
+                                    <div className="p-5 rounded-2xl border border-gray-100 shadow-xs bg-white space-y-4">
+                                      <div className="bg-white rounded-xl p-4 flex items-center justify-center min-h-[160px]">
+                                        <img src={customLogo} alt="Primary Logo" className="max-h-[140px] object-contain" />
+                                      </div>
+                                      <div className="border-t border-gray-100 pt-4 flex flex-col gap-2">
+                                        <div className="flex items-center space-x-2 text-xs">
+                                          <span className="font-bold text-white bg-[#2A5C43] px-2.5 py-0.5 rounded-full text-[10px]">인쇄용</span>
+                                          <span className="text-gray-700 font-medium">가로기준 권장: 30mm이상, 최소: 25mm</span>
+                                        </div>
+                                        <div className="flex items-center space-x-2 text-xs">
+                                          <span className="font-bold text-white bg-[#50A5D6] px-2.5 py-0.5 rounded-full text-[10px]">디지털</span>
+                                          <span className="text-gray-700 font-medium">가로기준 권장: 130px이상, 최소 120px</span>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <p className="text-[10px] text-gray-400 leading-normal">{clearSpaceDesc}</p>
+                                    <p className="text-[11px] text-gray-500 leading-relaxed">
+                                      로고 활용 시 규정된 최소 사이즈 미만의 사용을 금합니다. 모바일 애플리케이션 등 작게 적용될 수 밖에 없는 매체에서는 주어진 공간에서 최대한 크게 보일 수 있게 적용합니다.
+                                    </p>
                                   </div>
 
-                                  <div className="p-4 rounded-xl border border-gray-150 bg-slate-50/70 space-y-3">
-                                    <h5 className="font-bold text-gray-900 text-xs">전용 색상 (Color System)</h5>
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                      <div className="p-3 bg-white rounded-xl border border-gray-150 space-y-2">
-                                        <div className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: greenHex }} />
-                                        <div>
-                                          <span className="font-extrabold text-xs text-gray-900 block">DASAN GREEN</span>
-                                          <span className="text-[10px] text-gray-500 font-mono block">{greenHex}</span>
+                                  {/* Clear Space Section */}
+                                  <div className="pt-4 border-t border-gray-100 space-y-2.5">
+                                    <h4 className="font-bold text-[#2A5C43] text-sm sm:text-base">Clear Space</h4>
+                                    <p className="text-xs text-gray-600 leading-relaxed break-keep">
+                                      로고 최상의 시각적 효과 가독성 및 식별을 보장하기 위해 단독 적용 시 최소 사용 여백을 유지해야 합니다. 표시된 심볼 주변 공간은 최소 여백을 나타내며 이 공간에는 다른 요소가 나타나지 않도록 적용하여야 합니다.<br />
+                                      <strong>(서브 로고형도 동일하게 적용합니다.)</strong>
+                                    </p>
+                                    <p className="text-xs text-gray-600 leading-relaxed break-keep">
+                                      최소 공간 규정의 기준 단위(X)는 심볼(육각형)의 절반 높이를 기준으로 설정한 가상선과 워드마크(DASAN) 상단 간의 거리에서 도출하였습니다. 이는 심볼과 워드마크간의 구조적 비례 관계를 반영한 값으로, 로고의 일체감과 시각적 균형을 유지하기 위한 기준입니다.
+                                    </p>
+                                    <div className="pt-1">
+                                      <span className="bg-[#2A5C43] text-white inline-block px-3 py-1 rounded-full text-[11px] font-bold mb-2">외부 사용자 Tip</span>
+                                      <ol className="list-decimal list-inside text-gray-700 space-y-1 text-xs font-medium">
+                                        <li>심볼(육각형) 높이를 잽니다.</li>
+                                        <li>그 절반 위치에 가상의 수평선을 긋습니다.</li>
+                                        <li>그 선부터 DASAN 상단까지 거리 = X</li>
+                                      </ol>
+                                    </div>
+                                  </div>
+
+                                  {/* Primary Color Section */}
+                                  <div className="pt-4 border-t border-gray-100 space-y-3">
+                                    <h4 className="font-bold text-[#2A5C43] text-sm sm:text-base">Primary Color</h4>
+                                    <p className="text-xs text-gray-600 leading-relaxed break-keep">
+                                      색상은 브랜드 아이덴티티를 전달하는 핵심적인 요소로 일관성 있는 이미지 구축을 위하여 지정된 색상 값을 참고하여 사용하는 것을 권장합니다.
+                                    </p>
+                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                                      {colors.map((c, i) => (
+                                        <div key={i} className="rounded-2xl p-4 text-white flex flex-col justify-between shadow-sm" style={{ backgroundColor: c.hex }}>
+                                          <div>
+                                            <h5 className="text-sm font-bold mb-1.5">{c.name}</h5>
+                                            <p className="text-[11px] opacity-90 leading-relaxed mb-4 break-keep font-medium">{c.desc}</p>
+                                          </div>
+                                          <div className="flex justify-between text-[10px] font-mono bg-black/10 p-2.5 rounded-xl gap-2">
+                                            <div className="flex-1 min-w-0">
+                                              <span className="inline-block border border-white/40 rounded-full px-1.5 py-0.5 text-[9px] mb-1.5 text-center w-full bg-white/5 whitespace-nowrap">인쇄 기준용</span>
+                                              <p className="mb-0.5 whitespace-nowrap tracking-tighter">CMYK: {c.cmyk}</p>
+                                              <p className="whitespace-nowrap tracking-tighter">Pantone: {c.pantone}</p>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                              <span className="inline-block border border-white/40 rounded-full px-1.5 py-0.5 text-[9px] mb-1.5 text-center w-full bg-white/5 whitespace-nowrap">디지털 화면용</span>
+                                              <p className="mb-0.5 whitespace-nowrap tracking-tighter">RGB: {c.rgb}</p>
+                                              <p className="whitespace-nowrap tracking-tighter">HEX: {c.hex}</p>
+                                            </div>
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div className="p-3 bg-white rounded-xl border border-gray-150 space-y-2">
-                                        <div className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: lGreenHex }} />
-                                        <div>
-                                          <span className="font-extrabold text-xs text-gray-900 block">Light Green</span>
-                                          <span className="text-[10px] text-gray-500 font-mono block">{lGreenHex}</span>
-                                        </div>
-                                      </div>
-                                      <div className="p-3 bg-white rounded-xl border border-gray-150 space-y-2">
-                                        <div className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: charcoalHex }} />
-                                        <div>
-                                          <span className="font-extrabold text-xs text-gray-900 block">CHARCOAL</span>
-                                          <span className="text-[10px] text-gray-500 font-mono block">{charcoalHex}</span>
-                                        </div>
-                                      </div>
+                                      ))}
                                     </div>
                                   </div>
                                 </div>
@@ -7084,87 +7878,51 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                             })()}
                           </div>
                         ) : currentSubPath === 'about/facilities' ? (
-                          /* 11. Facilities */
+                          /* 11. Facilities: Matches User Page 100% (21:9 Hero + Header + GlobalFacilitiesMap) */
                           <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150">
                             {(() => {
                               const lines = (staticContent || '').split('\n');
                               const intro = lines[0] || '연구개발에서 생산, 글로벌 시장 진출까지 유기적으로 연결된 다산제약의 핵심 거점입니다.';
-                              const heroImg = lines[15] || '/global_infrastructure_highway.jpg';
+                              const heroImg = (lines[15] && (lines[15].trim().startsWith('/') || lines[15].trim().startsWith('http')))
+                                ? lines[15].trim()
+                                : '/global_infrastructure_highway.jpg';
 
                               return (
                                 <div className="space-y-6">
+                                  <div className="relative aspect-[21/9] rounded-xl overflow-hidden shadow-sm bg-slate-900">
+                                    <img src={heroImg} alt="Facilities Hero" className="w-full h-full object-cover object-center" />
+                                  </div>
+
                                   <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
                                     <div>
                                       <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">글로벌 인프라 (Global Infrastructure)</h3>
-                                      <p className="text-xs text-gray-500 mt-0.5">{intro}</p>
+                                      <p className="text-xs text-gray-500 mt-1">{intro}</p>
                                     </div>
                                     <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full shrink-0">
                                       실시간 미리보기
                                     </span>
                                   </div>
 
-                                  <div className="relative aspect-[21/8] rounded-xl overflow-hidden shadow-sm bg-slate-900">
-                                    <img src={heroImg} alt="Facilities Hero" className="w-full h-full object-cover object-center" />
-                                  </div>
-
-                                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-                                    <div className="p-4 rounded-xl border border-gray-150 bg-white space-y-2 shadow-2xs">
-                                      <div className="flex items-center gap-2">
-                                        <div className="p-2 rounded-lg bg-teal-50 text-teal-600"><Building2 size={18} /></div>
-                                        <div>
-                                          <span className="text-[9px] text-gray-400 font-extrabold uppercase block">Seoul Office</span>
-                                          <h5 className="font-extrabold text-xs text-gray-900">서울사무소</h5>
-                                        </div>
-                                      </div>
-                                      <p className="text-[11px] text-gray-600 leading-relaxed font-normal">경영, 영업, 구매, 사업개발 등 미래 성장 전략 수립</p>
-                                    </div>
-
-                                    <div className="p-4 rounded-xl border border-gray-150 bg-white space-y-2 shadow-2xs">
-                                      <div className="flex items-center gap-2">
-                                        <div className="p-2 rounded-lg bg-cyan-50 text-cyan-600"><Zap size={18} /></div>
-                                        <div>
-                                          <span className="text-[9px] text-gray-400 font-extrabold uppercase block">R&D Network</span>
-                                          <h5 className="font-extrabold text-xs text-gray-900">R&D 네트워크</h5>
-                                        </div>
-                                      </div>
-                                      <p className="text-[11px] text-gray-600 leading-relaxed font-normal">다산 중앙연구소(수원) 및 중국 심양연구소 운영</p>
-                                    </div>
-
-                                    <div className="p-4 rounded-xl border border-gray-150 bg-white space-y-2 shadow-2xs">
-                                      <div className="flex items-center gap-2">
-                                        <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600"><Factory size={18} /></div>
-                                        <div>
-                                          <span className="text-[9px] text-gray-400 font-extrabold uppercase block">Production Base</span>
-                                          <h5 className="font-extrabold text-xs text-gray-900">글로벌 생산시설</h5>
-                                        </div>
-                                      </div>
-                                      <p className="text-[11px] text-gray-600 leading-relaxed font-normal">아산 제1·2공장 및 중국 합작법인 글로벌 대량 생산 체제</p>
-                                    </div>
-                                  </div>
+                                  <GlobalFacilitiesMap />
                                 </div>
                               );
                             })()}
                           </div>
                         ) : currentSubPath === 'about/location' ? (
-                          /* 12. Location */
+                          /* 12. Location: Matches User Page 100% (21:9 Hero + LocationMapSection with 6 tabs) */
                           <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150">
                             {(() => {
                               const lines = (staticContent || '').split('\n');
+                              const l48 = lines[48]?.trim();
                               const l40 = lines[40]?.trim();
                               const l32 = lines[32]?.trim();
-                              const heroImg = (l40 && (l40.startsWith('/') || l40.startsWith('http')))
+                              const heroImg = (l48 && (l48.startsWith('/') || l48.startsWith('http')))
+                                ? l48
+                                : (l40 && (l40.startsWith('/') || l40.startsWith('http')))
                                 ? l40
                                 : (l32 && (l32.startsWith('/uploads/') || l32.startsWith('http')))
                                 ? l32
                                 : '/location_hero.jpg';
-
-                              const locations = [
-                                { name: lines[0] || '서울 사무실', subName: lines[1] || '경영총괄, 해외 영업본부, 마케팅 전략부서', address: lines[4] || '서울특별시 영등포구 선유로 70 우리벤처타운 II 1302호', phone: lines[5] || '02-2627-5300' },
-                                { name: lines[8] || '수원 중앙연구소', subName: lines[9] || 'DDS 제제 연구, 유기합성 연구', address: lines[12] || '경기 수원시 영통구 신원로 304 (원천동) 이노플렉스 3동 306호', phone: lines[13] || '031-546-8200' },
-                                { name: lines[16] || '아산 제1공장', subName: lines[17] || '완제의약품 생산본부', address: lines[20] || '충청남도 아산시 도고면 덕암산로 342 (와산리 10번지)', phone: lines[21] || '041-543-5311' },
-                                { name: lines[24] || '아산 제2공장', subName: lines[25] || '최첨단 스마트 패키징 & 대량생산 라인', address: lines[28] || '충청남도 아산시 도고면 덕암산로 381 (와산리 30번지)', phone: lines[29] || '041-428-9484' },
-                                { name: lines[32] || '중국 선양연구소', subName: lines[33] || '중국 현지 R&D 센터', address: lines[36] || 'Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning, 중국 110179', phone: lines[37] || '-' }
-                              ];
 
                               return (
                                 <div className="space-y-6">
@@ -7175,27 +7933,11 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                     </span>
                                   </div>
 
-                                  <div className="relative aspect-[21/8] rounded-xl overflow-hidden shadow-sm bg-slate-900">
+                                  <div className="relative aspect-[21/9] rounded-xl overflow-hidden shadow-sm bg-slate-900">
                                     <img src={heroImg} alt="Location Hero" className="w-full h-full object-cover object-center" />
                                   </div>
 
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                                    {locations.map((loc, idx) => (
-                                      <div key={idx} className="p-4 rounded-xl border border-gray-150 bg-slate-50/60 hover:bg-white transition-all space-y-2 shadow-2xs">
-                                        <div className="flex items-center justify-between border-b border-gray-200 pb-1.5">
-                                          <h5 className="font-extrabold text-xs sm:text-sm text-gray-900 flex items-center gap-1.5">
-                                            <MapPin size={14} className="text-brand-green" />
-                                            <span>{loc.name}</span>
-                                          </h5>
-                                          <span className="text-[10px] text-gray-500 font-medium">{loc.subName}</span>
-                                        </div>
-                                        <div className="text-[11px] text-gray-600 space-y-1 font-normal">
-                                          <p><strong className="text-gray-800 font-semibold">주소:</strong> {loc.address}</p>
-                                          <p><strong className="text-gray-800 font-semibold">전화:</strong> {loc.phone}</p>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
+                                  <LocationMapSection dbContent={staticContent} />
                                 </div>
                               );
                             })()}
@@ -7204,63 +7946,98 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                           /* 13-A. ESG: 지속가능경영 */
                           <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150">
                             {(() => {
-                              const parts = (staticContent || '').split('|');
-                              const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
-                              const title = parts[0] || '지속가능경영 (ESG Management)';
-                              const heroImage = hasImg ? parts[1] : '/images/ESG.jpg';
+                              const ethicsOverview = parseEsgEthicsOverviewData(staticContent);
                               return (
                                 <div className="space-y-6">
                                   <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
-                                    <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">{title}</h3>
+                                    <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">지속가능경영</h3>
                                     <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">
                                       실시간 미리보기
                                     </span>
                                   </div>
-                                  {/* Hero Banner Visual */}
-                                  <div className="relative aspect-[21/8] rounded-xl overflow-hidden shadow-sm bg-slate-900">
-                                    <img src={heroImage} alt="ESG Hero Banner" className="w-full h-full object-cover object-center" />
+                                  {/* Hero Banner Visual (matches ScrollPromiseImage on User Page) */}
+                                  <div className="relative aspect-[21/9] rounded-2xl overflow-hidden shadow-md bg-slate-900">
+                                    <img src={ethicsOverview.imageUrl || '/images/ESG.jpg'} alt="ESG Hero Banner" className="w-full h-full object-cover object-center" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent pointer-events-none" />
+                                    <div className="absolute inset-0 flex flex-col justify-start items-start p-5 sm:p-8 z-10 pointer-events-none">
+                                      <div className="max-w-xl space-y-2 text-left">
+                                        <h2 className="text-base sm:text-xl font-bold text-white tracking-tight leading-[1.3] drop-shadow-md break-keep">
+                                          {ethicsOverview.heroTitle}
+                                        </h2>
+                                        <p className="text-white/95 text-xs sm:text-sm font-medium leading-relaxed drop-shadow break-keep whitespace-pre-line">
+                                          {ethicsOverview.heroDesc}
+                                        </p>
+                                      </div>
+                                    </div>
                                   </div>
                                   <div className="pt-2">
-                                    <ESGEthicsSection lang="ko" />
+                                    <ESGEthicsSection lang="ko" data={ethicsOverview} />
                                   </div>
                                 </div>
                               );
                             })()}
                           </div>
                         ) : currentSubPath === 'about/esg/code-of-ethics' ? (
-                          /* 13-C. ESG: 윤리강령 */
+                          /* 13-C. ESG: 윤리강령 (사용자 페이지와 100% 동일한 구조) */
                           <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150">
                             {(() => {
-                              const parts = (staticContent || '').split('|');
-                              const hasImg = parts.length >= 3 && (parts[1].startsWith('/') || parts[1].startsWith('http'));
-                              const title = parts[0] || '윤리 강령';
-                              const heroImage = hasImg ? parts[1] : '/images/ethics_banner.jpg';
-                              const htmlBody = hasImg ? parts.slice(2).join('|') : parts.slice(1).join('|') || DEFAULT_CODE_OF_ETHICS_HTML;
+                              const codeData = parseCodeOfEthicsData(staticContent);
                               return (
                                 <div className="space-y-6">
                                   <div className="pb-3 border-b border-gray-100 flex items-center justify-between">
-                                    <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">{title}</h3>
+                                    <h3 className="text-base sm:text-lg font-black text-gray-900 tracking-tight">윤리 강령</h3>
                                     <span className="text-[10px] font-semibold text-brand-green bg-brand-green/10 px-2.5 py-0.5 rounded-full">
                                       실시간 미리보기
                                     </span>
                                   </div>
-                                  {/* Hero Banner Visual */}
-                                  <div className="relative aspect-[21/8] rounded-xl overflow-hidden shadow-sm bg-slate-900">
-                                    <img src={heroImage} alt="Code of Ethics Banner" className="w-full h-full object-cover object-center" />
+                                  {/* Hero Banner Visual (matches ScrollEthicsImage on User Page) */}
+                                  <div className="relative aspect-[21/9] rounded-2xl overflow-hidden shadow-md bg-slate-900">
+                                    <img src={codeData.imageUrl || '/images/ethics_banner.jpg'} alt="Code of Ethics Banner" className="w-full h-full object-cover object-center" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent pointer-events-none" />
+                                    <div className="absolute inset-0 flex flex-col justify-start items-start p-5 sm:p-8 z-10 pointer-events-none">
+                                      <div className="max-w-xl space-y-2 text-left">
+                                        <h2 className="text-base sm:text-xl font-bold text-white tracking-tight leading-[1.3] drop-shadow-md break-keep">
+                                          {codeData.heroTitle || '글로벌 최고 수준의 윤리의식과 투명경영'}
+                                        </h2>
+                                        <p className="text-white/95 text-xs sm:text-sm font-medium leading-relaxed drop-shadow break-keep whitespace-pre-line">
+                                          {codeData.heroSubtitle || '다산제약은 모든 사업 활동에서 정직성, 공정성, 책임감을 최우선 가치로 삼고, 국내외 법규와 국제 표준을 철저히 준수하며 신뢰받는 미래를 만들어갑니다.'}
+                                        </p>
+                                      </div>
+                                    </div>
                                   </div>
-                                  {/* Rich Content */}
-                                  {htmlBody && (htmlBody.includes('<p') || htmlBody.includes('<h') || htmlBody.includes('<div') || htmlBody.includes('<ul')) ? (
-                                    <div 
-                                      className="prose prose-sm max-w-none text-gray-800 leading-relaxed [&_h4]:text-sm sm:[&_h4]:text-base [&_h4]:font-bold [&_h4]:text-gray-900 [&_p]:text-xs sm:[&_p]:text-[13px] [&_p]:text-gray-600 [&_p]:leading-[1.8] [&_ul]:list-none [&_ul]:p-0"
-                                      dangerouslySetInnerHTML={{ __html: htmlBody }}
-                                    />
-                                  ) : (
-                                    <div className="space-y-4">
-                                      {(htmlBody || '').split('\n\n').map((para: string, i: number) => (
-                                        <p key={i} className="text-xs sm:text-[13px] text-gray-700 leading-relaxed whitespace-pre-wrap">{para}</p>
+                                  {/* Structured White Card Content (Matches User Page 100%) */}
+                                  <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 max-w-4xl mx-auto">
+                                    <div className="space-y-4 text-gray-800 text-xs sm:text-sm leading-[1.85] font-normal mb-8 break-keep">
+                                      {codeData.introParas.map((para, idx) => (
+                                        <p key={idx} className="whitespace-pre-line">{para}</p>
                                       ))}
                                     </div>
-                                  )}
+                                    <div className="divide-y divide-gray-100 border-t border-b border-gray-100">
+                                      {codeData.sections.map((sec, idx) => (
+                                        <div key={idx} className="py-5 space-y-2.5">
+                                          <div className="flex items-start gap-3">
+                                            <span className="w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                                              {idx + 1}
+                                            </span>
+                                            <h4 className="text-sm sm:text-base font-bold text-gray-900">{sec.title}</h4>
+                                          </div>
+                                          <ul className="space-y-2 text-gray-600 text-xs sm:text-[13px] leading-[1.8] pl-8">
+                                            {sec.bullets.map((bullet, bIdx) => (
+                                              <li key={bIdx} className="flex items-start gap-2.5">
+                                                <span className="text-gray-400 mt-1.5 text-[10px]">•</span>
+                                                <span className="flex-1">{bullet}</span>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <div className="mt-10 pt-8 text-center space-y-2">
+                                      <p className="text-gray-400 font-semibold text-xs sm:text-sm mb-3">{codeData.date}</p>
+                                      <p className="text-sm sm:text-base font-black text-gray-900 tracking-tight">{codeData.signerCompany}</p>
+                                      <p className="text-xs sm:text-sm font-bold text-gray-800">{codeData.signerTitle} <span className="font-black text-gray-900 ml-1">{codeData.signerName}</span></p>
+                                    </div>
+                                  </div>
                                 </div>
                               );
                             })()}
@@ -7270,6 +8047,20 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                           <div className="bg-white p-5 sm:p-7 rounded-2xl text-gray-800 shadow-sm border border-gray-150">
                             {(() => {
                               const esgData = parseEsgData(staticContent, currentSubPath);
+                              const heroOverlay = currentSubPath === 'about/esg/environment'
+                                ? {
+                                    title: '자연과 인류의 지속 가능한 미래를 위한 환경경영',
+                                    sub: '다산제약은 모든 경영활동에서 환경보전을 기업의 핵심 가치로 삼고, 친환경적 공정과 철저한 환경오염 예방을 통해 깨끗하고 안전한 환경을 만들어갑니다.'
+                                  }
+                                : currentSubPath === 'about/esg/safety'
+                                ? {
+                                    title: '생명 존중과 안전을 최우선으로 하는 일터',
+                                    sub: '다산제약은 함께 일하는 모든 사람의 생명과 안전을 경영의 최우선 가치로 삼고, 철저한 안전보건 관리체계 구축과 예방 활동을 통해 안심하고 일할 수 있는 건강한 일터를 만들어갑니다.'
+                                  }
+                                : {
+                                    title: '정직과 신뢰로 투명한 미래를 여는 부패방지경영',
+                                    sub: '다산제약은 사업 추진 전 과정에서 공정하고 투명한 절차를 준수하며, 어떠한 부패 행위도 용납하지 않는 무관용 원칙을 바탕으로 신뢰받는 제약 바이오 기업으로 도약합니다.'
+                                  };
 
                               return (
                                 <div className="space-y-6">
@@ -7281,43 +8072,53 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                                   </div>
 
                                   {esgData.imageUrl && (
-                                    <div className="relative aspect-[21/8] rounded-xl overflow-hidden shadow-sm bg-slate-900">
+                                    <div className="relative aspect-[21/9] rounded-2xl overflow-hidden shadow-md bg-slate-900">
                                       <img src={esgData.imageUrl} alt="ESG Banner" className="w-full h-full object-cover object-center" />
+                                      <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent pointer-events-none" />
+                                      <div className="absolute inset-0 flex flex-col justify-start items-start p-5 sm:p-8 z-10 pointer-events-none">
+                                        <div className="max-w-xl space-y-2 text-left">
+                                          <h2 className="text-base sm:text-xl font-bold text-white tracking-tight leading-[1.3] drop-shadow-md break-keep">
+                                            {esgData.heroTitle || heroOverlay.title}
+                                          </h2>
+                                          <p className="text-white/95 text-xs sm:text-sm font-medium leading-relaxed drop-shadow break-keep whitespace-pre-line">
+                                            {esgData.heroSubtitle || heroOverlay.sub}
+                                          </p>
+                                        </div>
+                                      </div>
                                     </div>
                                   )}
 
-                                  <div className="space-y-2 border-l-4 border-emerald-600 pl-3.5 py-0.5">
-                                    {esgData.statement && (esgData.statement.includes('<p') || esgData.statement.includes('<div') || esgData.statement.includes('<h')) ? (
-                                      <div className="text-xs sm:text-sm font-semibold text-gray-900 leading-relaxed" dangerouslySetInnerHTML={{ __html: esgData.statement }} />
-                                    ) : (
-                                      <p className="text-xs sm:text-sm font-semibold text-gray-900 leading-relaxed whitespace-pre-line">
-                                        {esgData.statement}
-                                      </p>
-                                    )}
-                                    {esgData.bridgeText && (
-                                      <p className="text-[11px] sm:text-xs text-gray-600 font-normal">
-                                        {esgData.bridgeText}
-                                      </p>
-                                    )}
-                                  </div>
+                                  <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 max-w-4xl mx-auto">
+                                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-6 tracking-tight">{esgData.title}</h3>
+                                    <div className="space-y-4 text-gray-800 text-xs sm:text-sm leading-[1.85] font-normal mb-6 break-keep">
+                                      {esgData.statement && (esgData.statement.includes('<p') || esgData.statement.includes('<div') || esgData.statement.includes('<h')) ? (
+                                        <div className="prose prose-sm max-w-none text-gray-800 leading-[1.85]" dangerouslySetInnerHTML={{ __html: esgData.statement }} />
+                                      ) : (
+                                        <p className="whitespace-pre-line">{esgData.statement}</p>
+                                      )}
+                                      {esgData.bridgeText && (
+                                        <p className="pt-1 font-normal text-gray-700">{esgData.bridgeText}</p>
+                                      )}
+                                    </div>
 
-                                  <div className="divide-y divide-gray-100 border-t border-b border-gray-100">
-                                    {esgData.items.map((item: string, idx: number) => (
-                                      <div key={idx} className="flex items-start gap-3 py-3">
-                                        <span className="w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
-                                          {idx + 1}
-                                        </span>
-                                        <p className="text-xs sm:text-[13px] text-gray-700 leading-relaxed font-normal flex-1 whitespace-pre-line">
-                                          {item}
-                                        </p>
-                                      </div>
-                                    ))}
-                                  </div>
+                                    <div className="divide-y divide-gray-100 border-t border-b border-gray-100 my-6">
+                                      {esgData.items.map((item: string, idx: number) => (
+                                        <div key={idx} className="flex items-start gap-3 py-3.5">
+                                          <span className="w-5 h-5 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                                            {idx + 1}
+                                          </span>
+                                          <p className="text-xs sm:text-[13px] text-gray-700 leading-[1.75] font-normal flex-1 whitespace-pre-line">
+                                            {item}
+                                          </p>
+                                        </div>
+                                      ))}
+                                    </div>
 
-                                  <div className="text-center pt-2 space-y-1.5">
-                                    <p className="text-xs font-semibold text-gray-400">{esgData.date}</p>
-                                    <p className="text-sm font-black text-gray-900">{esgData.signerCompany}</p>
-                                    <p className="text-xs font-bold text-gray-800">대표이사 <span className="font-black text-gray-900 ml-1">{esgData.signerName}</span></p>
+                                    <div className="mt-8 pt-4 text-center space-y-2">
+                                      <p className="text-xs font-semibold text-gray-400 mb-3">{esgData.date}</p>
+                                      <p className="text-sm sm:text-base font-black text-gray-900 tracking-tight">{esgData.signerCompany}</p>
+                                      <p className="text-xs sm:text-sm font-bold text-gray-800">대표이사 <span className="font-black text-gray-900 ml-1">{esgData.signerName}</span></p>
+                                    </div>
                                   </div>
                                 </div>
                               );
@@ -7552,25 +8353,6 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
                           /* 17. RD Activities */
                           <div className="bg-white p-6 rounded-xl text-gray-800 space-y-4 shadow-sm border border-gray-150">
                             <RdActivitiesContent dbContent={staticContent} />
-                          </div>
-                        ) : currentSubPath === 'business/finished/news' ? (
-                          /* 18. Business Finished News */
-                          <div className="bg-white p-6 rounded-xl text-gray-800 space-y-4 shadow-sm border border-gray-150">
-                            {(() => {
-                              const parts = (staticContent || '').split('|');
-                              const tag = parts[0] || '신제품 출시';
-                              const title = parts[1] || "복합 고혈압 개량신약 '피마사탄/암로디핀' 출시 승인";
-                              const desc = parts[2] || '자체 DDS 특허 서방성 과립 코팅 기술을 사용해 환자의 복용 크기를 축소시킨 고혈압 치료제 판매가 시작되었습니다.';
-                              return (
-                                <div className="space-y-6">
-                                  <div className="p-6 rounded-xl bg-gray-50 space-y-2 border border-gray-100">
-                                    <span className="text-[10px] bg-teal-50 text-teal-600 border border-teal-200/50 px-2 py-0.5 rounded font-bold uppercase">{tag}</span>
-                                    <h4 className="font-bold text-gray-900 text-sm">{title}</h4>
-                                    <p className="text-xs text-gray-500 whitespace-pre-wrap leading-relaxed">{desc}</p>
-                                  </div>
-                                </div>
-                              );
-                            })()}
                           </div>
                         ) : (currentSubPath === 'business/api' || currentSubPath === 'business/api/raw' || currentSubPath === 'business/api/intermediates') ? (
                           /* 19. Business API */
@@ -8674,7 +9456,7 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
           <div className="bg-[#0a1120]/90 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6 shadow-2xl relative text-white backdrop-blur-xl">
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-green to-brand-cyan/50" />
             <h3 className="text-lg font-black text-white tracking-tight pb-2 border-b border-white/10">
-              {currentSubPath === 'contact/newsroom/media' ? (formMode === 'create' ? '새 홍보사진 등록' : '홍보사진 수정') : formMode === 'create' ? '신규 데이터 등록' : '데이터 정보 수정'}
+              {currentSubPath === 'contact/newsroom/media' ? (formMode === 'create' ? '새 홍보사진 등록' : '홍보사진 수정') : currentSubPath === 'business/finished/news' ? (formMode === 'create' ? '신규 제품소식 등록' : '제품소식 수정') : formMode === 'create' ? '신규 데이터 등록' : '데이터 정보 수정'}
             </h3>
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -9067,8 +9849,24 @@ Room 310, Building F9, Shangshengou Village, Hunnan District, Shenyang, Liaoning
               {(currentSubPath === 'contact/newsroom/press' ||
                 currentSubPath === 'about/ir/announcement' ||
                 currentSubPath === 'about/ir/financial' ||
-                currentSubPath === 'about/ir/news') && (
+                currentSubPath === 'about/ir/news' ||
+                currentSubPath === 'business/finished/news') && (
                 <div className="space-y-4 text-xs">
+                  {currentSubPath === 'business/finished/news' && (
+                    <div className="space-y-1">
+                      <label className="font-bold text-gray-400 block">구분</label>
+                      <select
+                        value={newsSubCategory}
+                        onChange={(e) => setNewsSubCategory(e.target.value)}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white focus:border-brand-green focus:bg-white/[0.07] transition-all font-semibold"
+                      >
+                        <option value="신제품" className="bg-[#0a1120] text-white">신제품</option>
+                        <option value="허가변경" className="bg-[#0a1120] text-white">허가변경</option>
+                        <option value="낱알변경" className="bg-[#0a1120] text-white">낱알변경</option>
+                        <option value="기타변경" className="bg-[#0a1120] text-white">기타변경</option>
+                      </select>
+                    </div>
+                  )}
                   <div className="space-y-1">
                     <label className="font-bold text-gray-400 block">제목</label>
                     <input

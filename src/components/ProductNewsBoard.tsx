@@ -207,6 +207,28 @@ export default function ProductNewsBoard({
   initialItems = sampleNewsItems,
   isEnglish = false,
 }: ProductNewsBoardProps) {
+  const [newsItems, setNewsItems] = useState<ProductNewsItem[]>(initialItems);
+
+  React.useEffect(() => {
+    fetch('/api/news?category=product')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setNewsItems(data.map((n: any) => ({
+            id: n.id,
+            category: n.sub_category || '신제품',
+            title: n.title,
+            date: n.created_at ? new Date(n.created_at).toISOString().slice(0, 10) : '',
+            views: n.views || 0,
+            content: n.content,
+            file_url: n.file_url,
+            file_name: n.file_name,
+          })));
+        }
+      })
+      .catch(err => console.error(err));
+  }, []);
+
   // Category state
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
 
@@ -251,7 +273,7 @@ export default function ProductNewsBoard({
 
   // Filtered dataset
   const filteredItems = useMemo(() => {
-    return initialItems.filter((item) => {
+    return newsItems.filter((item) => {
       if (selectedCategory !== '전체' && item.category !== selectedCategory) {
         return false;
       }
@@ -273,7 +295,7 @@ export default function ProductNewsBoard({
         );
       }
     });
-  }, [initialItems, selectedCategory, searchField, searchQuery]);
+  }, [newsItems, selectedCategory, searchField, searchQuery]);
 
   // Pagination calculations
   const totalItems = filteredItems.length;

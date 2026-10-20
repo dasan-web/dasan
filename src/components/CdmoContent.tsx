@@ -112,7 +112,7 @@ export default function CdmoContent({ dbContent, isPreview = false }: CdmoConten
         </div>
 
         {/* Interactive WHY DASAN & Detailed Tab Section */}
-        <CDMOTabSection />
+        <CDMOTabSection data={data} />
       </div>
     </>
   );

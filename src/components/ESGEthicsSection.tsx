@@ -10,20 +10,27 @@ import {
   ShieldCheck, 
   ShieldAlert, 
   Award, 
-  ArrowRight, 
   CheckCircle2, 
-  Sparkles, 
   Globe2,
-  Building2,
   ChevronRight
 } from 'lucide-react';
+import { EsgEthicsOverviewData, DEFAULT_ESG_ETHICS_OVERVIEW_DATA } from '@/lib/esg';
 
 interface Props {
   lang?: 'ko' | 'en';
+  data?: EsgEthicsOverviewData;
 }
 
-export default function ESGEthicsSection({ lang = 'ko' }: Props) {
+export default function ESGEthicsSection({ lang = 'ko', data }: Props) {
   const isEn = lang === 'en';
+  const d = data || DEFAULT_ESG_ETHICS_OVERVIEW_DATA;
+  const pillarE = d.pillars?.[0] || DEFAULT_ESG_ETHICS_OVERVIEW_DATA.pillars[0];
+  const pillarS = d.pillars?.[1] || DEFAULT_ESG_ETHICS_OVERVIEW_DATA.pillars[1];
+  const pillarG = d.pillars?.[2] || DEFAULT_ESG_ETHICS_OVERVIEW_DATA.pillars[2];
+  const cert0 = d.certs?.[0] || DEFAULT_ESG_ETHICS_OVERVIEW_DATA.certs[0];
+  const cert1 = d.certs?.[1] || DEFAULT_ESG_ETHICS_OVERVIEW_DATA.certs[1];
+  const cert2 = d.certs?.[2] || DEFAULT_ESG_ETHICS_OVERVIEW_DATA.certs[2];
+  const cert3 = d.certs?.[3] || DEFAULT_ESG_ETHICS_OVERVIEW_DATA.certs[3];
 
   return (
     <div className="w-full bg-white font-pretendard text-slate-800 animate-fade-in-up">
@@ -32,12 +39,12 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
       <section className="mb-20 sm:mb-28">
         <div className="flex flex-col mb-10 sm:mb-12">
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-            {isEn ? 'Action Tasks by ESG Pillars' : 'ESG 영역별 실천 과제'}
+            {isEn ? 'Action Tasks by ESG Pillars' : d.pillarSectionTitle}
           </h3>
           <p className="text-sm sm:text-base text-slate-500 mt-2.5 font-normal max-w-none break-keep">
             {isEn 
               ? 'We implement transparent and responsible sustainability management across Environment, Social, and Governance with large-scale high-tech infrastructure.'
-              : '환경(E), 사회(S), 지배구조(G) 전 과정에 걸쳐 투명하고 책임 있는 지속가능경영을 이행하며, 첨단 현장 중심의 실천을 이어가고 있습니다.'}
+              : d.pillarSectionDesc}
           </p>
         </div>
 
@@ -50,7 +57,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               {/* Grand Photo Showcase */}
               <div className="relative lg:col-span-5 xl:col-span-5 h-80 sm:h-96 md:h-[440px] lg:h-auto min-h-[360px] lg:min-h-[480px] overflow-hidden bg-slate-100">
                 <Image
-                  src="/esg_environment_leaf.png"
+                  src={pillarE.imageUrl || "/esg_environment_leaf.png"}
                   alt={isEn ? "Dasan Pharmaceutical Eco-friendly Environmental Management" : "다산제약 친환경 생태 경영"}
                   fill
                   className="object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -67,7 +74,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                       </div>
                       <div>
                         <h4 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                          {isEn ? 'Eco-friendly Management (E)' : '친환경 경영 (E)'}
+                          {isEn ? 'Eco-friendly Management (E)' : pillarE.title}
                         </h4>
                       </div>
                     </div>
@@ -86,29 +93,43 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                     <p className="text-[14.5px] sm:text-[15.5px] text-slate-700 font-medium leading-relaxed break-keep">
                       {isEn 
                         ? 'Protecting human health begins with creating a healthy planet. Dasan Pharmaceutical is building an eco-friendly manufacturing ecosystem that minimizes environmental impact.'
-                        : '인류의 건강을 지키는 시작은 건강한 지구를 만드는 것에서 출발합니다. 다산제약은 환경 영향을 최소화하는 친환경 생산 생태계를 조성하고 있습니다.'}
+                        : pillarE.quote}
                     </p>
                   </div>
 
                   {/* Action Bullets */}
                   <div className="space-y-3.5">
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
-                      <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="break-keep">
-                        <strong className="font-bold text-slate-900">{isEn ? 'ISO 14001 Certification' : 'ISO 14001(환경경영시스템) 인증 획득'}</strong> : {isEn ? 'Systematically operating an environmental management system meeting global standards.' : '글로벌 기준에 부합하는 환경경영 체계를 체계적으로 운영하고 있습니다.'}
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
-                      <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="break-keep">
-                        <strong className="font-bold text-slate-900">{isEn ? 'Smart Eco-Factory Construction' : '스마트생태공장 구축'}</strong> : {isEn ? 'Selected for the Ministry of Environment support project, reducing pollutants and enhancing energy efficiency.' : '환경부·한국환경공단 지원 사업에 선정되어 오염물질 배출 저감, 에너지 효율 제고 등 친환경 제조 인프라 고도화를 실천하고 있습니다.'}
-                      </div>
-                    </div>
+                    {isEn ? (
+                      <>
+                        <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">ISO 14001 Certification</strong> : Systematically operating an environmental management system meeting global standards.
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">Smart Eco-Factory Construction</strong> : Selected for the Ministry of Environment support project, reducing pollutants and enhancing energy efficiency.
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      (pillarE.bullets || []).map((b, bIdx) => (
+                        <div key={bIdx} className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-emerald-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">{b.bold}</strong> : {b.text}
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -130,7 +151,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                       </div>
                       <div>
                         <h4 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                          {isEn ? 'Social Responsibility & Safety (S)' : '사회적 책임 및 안전 경영 (S)'}
+                          {isEn ? 'Social Responsibility & Safety (S)' : pillarS.title}
                         </h4>
                       </div>
                     </div>
@@ -149,29 +170,43 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                     <p className="text-[14.5px] sm:text-[15.5px] text-slate-700 font-medium leading-relaxed break-keep">
                       {isEn 
                         ? 'Employee safety is the foundation of quality, and employee growth is corporate competitiveness. Dasan Pharmaceutical realizes shared value where everyone is safe and happy.'
-                        : '임직원의 안전이 곧 품질의 근간이며, 임직원의 성장이 곧 기업의 경쟁력입니다. 다산제약은 모두가 안전하고 행복한 상생의 가치를 실현합니다.'}
+                        : pillarS.quote}
                     </p>
                   </div>
 
                   {/* Action Bullets */}
                   <div className="space-y-3.5">
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
-                      <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="break-keep">
-                        <strong className="font-bold text-slate-900">{isEn ? 'ISO 45001 Certification' : 'ISO 45001(안전보건경영시스템) 인증 획득'}</strong> : {isEn ? 'Proactively identifying hazards to maintain a "Zero Severe Accidents" workplace.' : '현장의 위험 요인을 선제적으로 관리하고 예방하여 \'중대재해 Zero\'의 안전한 작업 환경을 유지합니다.'}
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
-                      <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="break-keep">
-                        <strong className="font-bold text-slate-900">{isEn ? 'Great Workplace Culture' : '일하기 좋은 일터 지향'}</strong> : {isEn ? 'Selected as Youth-Friendly Hidden Champion, promoting work-life balance and healthy organizational culture.' : '청년친화 강소기업 및 좋은 일자리 기업 선정을 바탕으로, 안전하고 일과 삶이 조화를 이루는 건강한 조직 문화를 만들어갑니다.'}
-                      </div>
-                    </div>
+                    {isEn ? (
+                      <>
+                        <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">ISO 45001 Certification</strong> : Proactively identifying hazards to maintain a &quot;Zero Severe Accidents&quot; workplace.
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">Great Workplace Culture</strong> : Selected as Youth-Friendly Hidden Champion, promoting work-life balance and healthy organizational culture.
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      (pillarS.bullets || []).map((b, bIdx) => (
+                        <div key={bIdx} className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-sky-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">{b.bold}</strong> : {b.text}
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -180,7 +215,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               {/* Grand Photo Showcase (Right on Desktop) */}
               <div className="relative lg:col-span-5 xl:col-span-5 order-1 lg:order-2 h-80 sm:h-96 md:h-[440px] lg:h-auto min-h-[360px] lg:min-h-[480px] overflow-hidden bg-slate-100">
                 <Image
-                  src="/esg_social_hands.png"
+                  src={pillarS.imageUrl || "/esg_social_hands.png"}
                   alt={isEn ? "Dasan Pharmaceutical Social Responsibility and Shared Value" : "다산제약 사회적 책임 및 상생 가치"}
                   fill
                   className="object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -196,7 +231,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
               {/* Grand Photo Showcase */}
               <div className="relative lg:col-span-5 xl:col-span-5 h-80 sm:h-96 md:h-[440px] lg:h-auto min-h-[360px] lg:min-h-[480px] overflow-hidden bg-slate-100">
                 <Image
-                  src="/esg_governance_lab.png"
+                  src={pillarG.imageUrl || "/esg_governance_lab.png"}
                   alt={isEn ? "Dasan Pharmaceutical Advanced Quality & Governance Production" : "다산제약 정도경영 및 첨단 제조·품질 관리 인프라"}
                   fill
                   className="object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -213,7 +248,7 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                       </div>
                       <div>
                         <h4 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                          {isEn ? 'Transparent Governance (G)' : '투명하고 투철한 정도 경영 (G)'}
+                          {isEn ? 'Transparent Governance (G)' : pillarG.title}
                         </h4>
                       </div>
                     </div>
@@ -241,29 +276,43 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
                     <p className="text-[14.5px] sm:text-[15.5px] text-slate-700 font-medium leading-relaxed break-keep">
                       {isEn 
                         ? 'Inheriting the spirit of "Seeking Truth from Facts" from scholar Jeong Yak-yong (Dasan), we prove market trust not through empty slogans, but through transparent and upright governance processes.'
-                        : '다산(茶山) 정약용 선생의 \'실사구시\' 정신을 계승하여 공리공론이 아닌, 투명하고 청렴한 경영 프로세스로 시장의 신뢰를 증명합니다.'}
+                        : pillarG.quote}
                     </p>
                   </div>
 
                   {/* Action Bullets */}
                   <div className="space-y-3.5">
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
-                      <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="break-keep">
-                        <strong className="font-bold text-slate-900">{isEn ? 'ISO 37001 Certification' : 'ISO 37001(부패방지경영시스템) 인증 획득'}</strong> : {isEn ? 'Establishing an anti-corruption and ethical management system to rigorously control risks.' : '전사적인 부패방지 방침과 윤리경영 체계를 확립하여 리스크를 철저히 통제하고 투명한 거래 문화를 주도합니다.'}
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
-                      <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                      </div>
-                      <div className="break-keep">
-                        <strong className="font-bold text-slate-900">{isEn ? 'Meeting K-ESG Indicators' : 'K-ESG 지표 공식 만족'}</strong> : {isEn ? 'Securing governance standards meeting the Korean ESG guidelines to maximize shareholder value.' : '한국형 ESG 가이드라인(K-ESG) 기준을 충족하는 지배구조 체계와 공시 역량을 확보하여, 상장 기업에 걸맞은 주주 가치 극대화와 투명 경영을 이어갑니다.'}
-                      </div>
-                    </div>
+                    {isEn ? (
+                      <>
+                        <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">ISO 37001 Certification</strong> : Establishing an anti-corruption and ethical management system to rigorously control risks.
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">Meeting K-ESG Indicators</strong> : Securing governance standards meeting the Korean ESG guidelines to maximize shareholder value.
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      (pillarG.bullets || []).map((b, bIdx) => (
+                        <div key={bIdx} className="flex items-start gap-3 text-sm sm:text-[14.5px] text-slate-600 leading-relaxed">
+                          <div className="w-5 h-5 rounded-full bg-indigo-50 border border-indigo-200/80 flex items-center justify-center flex-shrink-0 mt-0.5 text-indigo-700">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="break-keep">
+                            <strong className="font-bold text-slate-900">{b.bold}</strong> : {b.text}
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -278,135 +327,104 @@ export default function ESGEthicsSection({ lang = 'ko' }: Props) {
       <section className="pt-10 border-t border-slate-200/80">
         <div className="flex flex-col mb-10">
           <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            {isEn ? 'Certified Sustainable Management Standards' : '공인된 지속가능경영 표준 인증'}
+            {isEn ? 'Certified Sustainable Management Standards' : d.certSectionTitle}
           </h3>
           <p className="text-sm sm:text-base text-slate-500 mt-2 font-normal">
             {isEn 
               ? 'Dasan Pharmaceutical has acquired authoritative certifications by strictly complying with international ISO standards and government guidelines.'
-              : '국제 표준(ISO) 및 국가 가이드라인을 엄격히 준수하여 획득한 공신력 있는 인증 체계입니다.'}
+              : d.certSectionDesc}
           </p>
         </div>
 
         {/* 4 Premium Insignia Cards with Dedicated Domain Icons */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-          {/* Card 01: ISO 14001 (Deep Sage Emerald Theme) */}
+          {/* Card 01: ISO 14001 */}
           <div className="group relative bg-white rounded-3xl p-7 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            {/* Top Accent Line */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#367e47]" />
-            
-            {/* Ambient Corner Glow on Hover */}
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
-
             <div>
-              {/* Box Icon: Globe2 */}
               <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-emerald-700 mb-5 shadow-2xs">
                 <Globe2 className="w-7 h-7" />
               </div>
-
-              {/* Title & Subtitle */}
               <h5 className="text-2xl font-black text-slate-900 tracking-tight mb-1.5">
-                ISO 14001
+                {cert0.code}
               </h5>
               <div className="text-sm font-bold text-emerald-950 mb-2.5">
-                {isEn ? 'Environmental Management' : '환경경영시스템 인증'}
+                {isEn ? 'Environmental Management' : cert0.subTitle}
               </div>
               <p className="text-xs text-slate-500 leading-relaxed">
                 {isEn 
                   ? 'Eco-friendly manufacturing processes and systematic energy/waste management.' 
-                  : '친환경 제조 생태계 구축 및 체계적인 오염물질·에너지 저감 관리 기준 충족'}
+                  : cert0.desc}
               </p>
             </div>
           </div>
 
-          {/* Card 02: ISO 45001 (Oceanic Navy Theme) */}
+          {/* Card 02: ISO 45001 */}
           <div className="group relative bg-white rounded-3xl p-7 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            {/* Top Accent Line */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-700" />
-
-            {/* Ambient Corner Glow on Hover */}
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-sky-500/5 group-hover:bg-sky-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
-
             <div>
-              {/* Box Icon: ShieldCheck */}
               <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-sky-700 mb-5 shadow-2xs">
                 <ShieldCheck className="w-7 h-7" />
               </div>
-
-              {/* Title & Subtitle */}
               <h5 className="text-2xl font-black text-slate-900 tracking-tight mb-1.5">
-                ISO 45001
+                {cert1.code}
               </h5>
               <div className="text-sm font-bold text-sky-950 mb-2.5">
-                {isEn ? 'Occupational Health & Safety' : '안전보건경영시스템 인증'}
+                {isEn ? 'Occupational Health & Safety' : cert1.subTitle}
               </div>
               <p className="text-xs text-slate-500 leading-relaxed">
                 {isEn 
                   ? 'Proactive hazard prevention and maintaining zero severe industrial accidents.' 
-                  : '사업장 위험 요인 선제적 예방 및 임직원 생명·안전을 최우선하는 체계 확보'}
+                  : cert1.desc}
               </p>
             </div>
-
           </div>
 
-          {/* Card 03: ISO 37001 (Refined Warm Bronze Theme) */}
+          {/* Card 03: ISO 37001 */}
           <div className="group relative bg-white rounded-3xl p-7 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            {/* Top Accent Line */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-500" />
-
-            {/* Ambient Corner Glow on Hover */}
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-amber-500/5 group-hover:bg-amber-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
-
             <div>
-              {/* Box Icon: ShieldAlert */}
               <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-amber-700 mb-5 shadow-2xs">
                 <ShieldAlert className="w-7 h-7" />
               </div>
-
-              {/* Title & Subtitle */}
               <h5 className="text-2xl font-black text-slate-900 tracking-tight mb-1.5">
-                ISO 37001
+                {cert2.code}
               </h5>
               <div className="text-sm font-bold text-amber-950 mb-2.5">
-                {isEn ? 'Anti-Bribery Management' : '부패방지경영시스템 인증'}
+                {isEn ? 'Anti-Bribery Management' : cert2.subTitle}
               </div>
               <p className="text-xs text-slate-500 leading-relaxed">
                 {isEn 
                   ? 'Strict anti-corruption policy and transparent corporate ethics framework.' 
-                  : '투명하고 청렴한 거래 규정 준수 및 비윤리적 리스크를 원천 통제하는 시스템'}
+                  : cert2.desc}
               </p>
             </div>
-
           </div>
 
-          {/* Card 04: K-ESG (Deep Charcoal Indigo Theme) */}
+          {/* Card 04: K-ESG */}
           <div className="group relative bg-white rounded-3xl p-7 border border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            {/* Top Accent Line */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-300" />
-
-            {/* Ambient Corner Glow on Hover */}
             <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors duration-500 blur-2xl pointer-events-none" />
-
             <div>
-              {/* Box Icon: Award */}
               <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-center text-indigo-700 mb-5 shadow-2xs">
                 <Award className="w-7 h-7" />
               </div>
-
-              {/* Title & Subtitle */}
               <h5 className="text-2xl font-black text-slate-900 tracking-tight mb-1.5">
-                K-ESG
+                {cert3.code}
               </h5>
               <div className="text-sm font-bold text-indigo-950 mb-2.5">
-                {isEn ? 'Korean ESG Guidelines' : '한국형 ESG 가이드라인'}
+                {isEn ? 'Korean ESG Guidelines' : cert3.subTitle}
               </div>
               <p className="text-xs text-slate-500 leading-relaxed">
                 {isEn 
                   ? 'Official compliance with government K-ESG indicators and transparent disclosures.' 
-                  : '정부 공식 K-ESG 가이드라인 충족 및 주주 가치 극대화를 위한 공시 체계 이행'}
+                  : cert3.desc}
               </p>
             </div>
-
           </div>
 
         </div>

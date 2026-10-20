@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { BusinessCdmoData } from '@/lib/businessCdmo';
 
 interface TabItem {
   id: string;
@@ -108,14 +109,33 @@ const tabData: TabItem[] = [
   }
 ];
 
-export default function CDMOTabSection() {
+export default function CDMOTabSection({ data }: { data?: BusinessCdmoData }) {
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith('/en');
   const basePath = isEnglish ? '/en' : '';
   const [activeTab, setActiveTab] = useState<number>(0);
   const [hoveredTab, setHoveredTab] = useState<number | null>(null);
 
-  const currentTab = tabData[activeTab];
+  const mergedTabs: TabItem[] = tabData.map((defTab, idx) => {
+    const customTab = data?.tabs?.[idx];
+    if (!customTab) return defTab;
+    return {
+      ...defTab,
+      badge: customTab.badge || defTab.badge,
+      cardTitle: customTab.cardTitle || defTab.cardTitle,
+      cardDesc: customTab.cardDesc || defTab.cardDesc,
+      sectionTitle: customTab.sectionTitle || defTab.sectionTitle,
+      groups: Array.isArray(customTab.groups) && customTab.groups.length > 0 ? customTab.groups : defTab.groups,
+    };
+  });
+
+  const currentTab = mergedTabs[activeTab] || mergedTabs[0];
+  const whatWeDevelopTitle = data?.whatWeDevelopTitle || 'What We Develop';
+  const whatWeDevelopDesc = data?.whatWeDevelopDesc || '다양한 의약품 개발 및 생산 경험을 바탕으로 고객의 제품 특성에 맞는 CDMO 솔루션을 제공합니다.';
+  const whyDasanTitle = data?.whyDasanTitle || 'WHY DASAN';
+  const whyDasanDesc = data?.whyDasanDesc || '개발부터 생산까지, 의약품의 가치를 완성하는 파트너';
+  const whyDasanBtnText = data?.whyDasanBtnText || (isEnglish ? 'Business Sales Inquiry' : '비즈니스 영업 문의하기');
+  const whyDasanBtnLink = data?.whyDasanBtnLink || `${basePath}/contact/inquiry/sales`;
 
   return (
     <div className="w-full pt-2 pb-0 mt-16 sm:mt-20 md:mt-24 mb-0">
@@ -123,10 +143,10 @@ export default function CDMOTabSection() {
         {/* What We Develop Section Header */}
         <div className="mb-8 text-left">
           <h3 className="text-[32px] md:text-[38px] font-black text-gray-900 tracking-tight mb-2">
-            What We Develop
+            {whatWeDevelopTitle}
           </h3>
           <p className="text-[17px] md:text-[18.5px] text-gray-600 font-medium break-keep">
-            다양한 의약품 개발 및 생산 경험을 바탕으로 고객의 제품 특성에 맞는 CDMO 솔루션을 제공합니다.
+            {whatWeDevelopDesc}
           </p>
         </div>
 
@@ -181,7 +201,7 @@ export default function CDMOTabSection() {
                     </span>
                   </div>
                   <h4 className="font-black text-[11px] sm:text-[12.5px] md:text-[14px] lg:text-[15.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
-                    1st Generic품목
+                    {mergedTabs[0]?.sectionTitle || '1st Generic품목'}
                   </h4>
                 </motion.div>
                 {/* Content Box (Below line at y=45) */}
@@ -197,10 +217,11 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.5 }}
                 >
-                  <p className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
-                    · 핵심공정 ODM품목<br />
-                    · 전공정 ODM품목
-                  </p>
+                  <div className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
+                    {(mergedTabs[0]?.groups || []).map((grp, gIdx) => (
+                      <div key={gIdx} className="truncate">· {grp.subtitle}</div>
+                    ))}
+                  </div>
                 </motion.div>
 
                 {/* Quadrant 02: Top-Right */}
@@ -226,7 +247,7 @@ export default function CDMOTabSection() {
                     </span>
                   </div>
                   <h4 className="font-black text-[11px] sm:text-[12.5px] md:text-[14px] lg:text-[15.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
-                    개량신약(염 변경)
+                    {mergedTabs[1]?.sectionTitle || '개량신약(염 변경)'}
                   </h4>
                 </motion.div>
                 {/* Content Box (Below line at y=45) */}
@@ -242,10 +263,11 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.5 }}
                 >
-                  <p className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
-                    · 핵심공정 ODM품목<br />
-                    · 전공정 ODM품목
-                  </p>
+                  <div className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
+                    {(mergedTabs[1]?.groups || []).map((grp, gIdx) => (
+                      <div key={gIdx} className="truncate">· {grp.subtitle}</div>
+                    ))}
+                  </div>
                 </motion.div>
 
                 {/* Quadrant 03: Bottom-Left */}
@@ -271,7 +293,7 @@ export default function CDMOTabSection() {
                     </span>
                   </div>
                   <h4 className="font-black text-[11px] sm:text-[12.5px] md:text-[14px] lg:text-[15.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
-                    개량신약(약물방출)
+                    {mergedTabs[2]?.sectionTitle || '개량신약(약물방출)'}
                   </h4>
                 </motion.div>
                 {/* Content Box (Below line at y=555) */}
@@ -287,10 +309,11 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.7 }}
                 >
-                  <p className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
-                    · 약물방출 조절 개량신약<br />
-                    · 고함량 개량신약
-                  </p>
+                  <div className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
+                    {(mergedTabs[2]?.groups || []).map((grp, gIdx) => (
+                      <div key={gIdx} className="truncate">· {grp.subtitle}</div>
+                    ))}
+                  </div>
                 </motion.div>
 
                 {/* Quadrant 04: Bottom-Right */}
@@ -316,7 +339,7 @@ export default function CDMOTabSection() {
                     </span>
                   </div>
                   <h4 className="font-black text-[10px] sm:text-[11.5px] md:text-[13px] lg:text-[14.5px] leading-tight text-[#64ad55] whitespace-nowrap mt-0.5">
-                    개량신약(복합제 & 기타)
+                    {mergedTabs[3]?.sectionTitle || '개량신약(복합제 & 기타)'}
                   </h4>
                 </motion.div>
                 {/* Content Box (Below line at y=555) */}
@@ -332,10 +355,11 @@ export default function CDMOTabSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 1.7 }}
                 >
-                  <p className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
-                    · 복합제제 개량신약<br />
-                    · 제형변경(기타)
-                  </p>
+                  <div className="text-[10px] sm:text-[11px] md:text-[12.5px] text-gray-600 leading-relaxed font-semibold">
+                    {(mergedTabs[3]?.groups || []).map((grp, gIdx) => (
+                      <div key={gIdx} className="truncate">· {grp.subtitle}</div>
+                    ))}
+                  </div>
                 </motion.div>
 
                 {/* SVG Connecting Lines with Framer Motion Animation */}
@@ -537,24 +561,24 @@ export default function CDMOTabSection() {
         <div className="mt-16 sm:mt-20 md:mt-24 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="text-left">
             <h3 className="text-[32px] md:text-[38px] font-black text-gray-900 tracking-tight mb-2">
-              WHY DASAN
+              {whyDasanTitle}
             </h3>
             <p className="text-[17px] md:text-[18.5px] text-gray-600 font-medium break-keep">
-              개발부터 생산까지, 의약품의 가치를 완성하는 파트너
+              {whyDasanDesc}
             </p>
           </div>
           <Link
-            href={`${basePath}/contact/inquiry/sales`}
+            href={whyDasanBtnLink.startsWith('http') || whyDasanBtnLink.startsWith('/') ? whyDasanBtnLink : `${basePath}/${whyDasanBtnLink.replace(/^\//, '')}`}
             className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border border-gray-300 text-gray-900 hover:bg-brand-green hover:text-white hover:border-brand-green text-xs sm:text-sm md:text-[14.5px] font-semibold rounded-full transition-colors duration-300 hover:shadow-green-glow group cursor-pointer shrink-0"
           >
-            <span>{isEnglish ? 'Business Sales Inquiry' : '비즈니스 영업 문의하기'}</span>
+            <span>{whyDasanBtnText}</span>
             <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
 
         {/* 4 Informational Cards with Hover Effects */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-4.5 xl:gap-5">
-          {tabData.map((tab) => {
+          {mergedTabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <div

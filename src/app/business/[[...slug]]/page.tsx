@@ -113,6 +113,27 @@ export default async function BusinessCatchAllPage({ params }: Params) {
     }
   }
     
+  let productNewsList: any[] = [];
+  if (currentPath === '/business/finished/news') {
+    try {
+      const rawNews = await query("SELECT * FROM news WHERE category = 'product' ORDER BY created_at DESC");
+      if (rawNews && rawNews.length > 0) {
+        productNewsList = rawNews.map((n: any) => ({
+          id: n.id,
+          category: n.sub_category || '신제품',
+          title: n.title,
+          date: n.created_at ? new Date(n.created_at).toISOString().slice(0, 10) : '',
+          views: n.views || 0,
+          content: n.content,
+          file_url: n.file_url,
+          file_name: n.file_name,
+        }));
+      }
+    } catch (e) {
+      console.error("Failed to query product news:", e);
+    }
+  }
+
   const renderContent = () => {
     // Dynamic Product Detail Route
     if (slug.length === 3 && slug[0] === 'finished' && slug[1] === 'search') {
@@ -131,7 +152,7 @@ export default async function BusinessCatchAllPage({ params }: Params) {
         );
 
       case '/business/finished/news': {
-        return <ProductNewsBoard isEnglish={false} />;
+        return <ProductNewsBoard isEnglish={false} initialItems={productNewsList.length > 0 ? productNewsList : undefined} />;
       }
 
       case '/business/api':

@@ -322,7 +322,7 @@ export default function LocationMapSection({ dbContent, hideBackButton = false }
       },
       {
         id: 'anhui',
-        name: lines[40] || (isEnglish ? 'Anhui Plant (China)' : '중국 안휘성 공장'),
+        name: (lines[40] && !lines[40].trim().startsWith('/') && !lines[40].trim().startsWith('http')) ? lines[40] : (isEnglish ? 'Anhui Plant (China)' : '중국 안휘성 공장'),
         subName: lines[41] || '',
         lat: parseFloat((lines[42] || '').split(',')[0]) || 32.674439,
         lng: parseFloat((lines[42] || '').split(',')[1]) || 118.916379,

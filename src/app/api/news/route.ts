@@ -53,7 +53,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { category, title, content, file_url, file_name } = await request.json();
+    const { category, sub_category, title, content, file_url, file_name } = await request.json();
 
     if (auth.session && auth.session.role === 'connect_editor') {
       if (category !== 'press' && category !== 'media') {
@@ -72,11 +72,12 @@ export async function POST(request: Request) {
     }
 
     const insertSql = `
-      INSERT INTO news (category, title, content, views, file_url, file_name)
-      VALUES (?, ?, ?, 0, ?, ?)
+      INSERT INTO news (category, sub_category, title, content, views, file_url, file_name)
+      VALUES (?, ?, ?, ?, 0, ?, ?)
     `;
     const result = await query(insertSql, [
       category,
+      sub_category || '신제품',
       title,
       content || '',
       file_url || null,
@@ -103,7 +104,7 @@ export async function PUT(request: Request) {
   }
 
   try {
-    const { id, category, title, content, views, file_url, file_name } = await request.json();
+    const { id, category, sub_category, title, content, views, file_url, file_name } = await request.json();
 
     if (auth.session && auth.session.role === 'connect_editor') {
       if (category !== 'press' && category !== 'media') {
@@ -123,11 +124,12 @@ export async function PUT(request: Request) {
 
     const updateSql = `
       UPDATE news
-      SET category = ?, title = ?, content = ?, views = ?, file_url = ?, file_name = ?
+      SET category = ?, sub_category = ?, title = ?, content = ?, views = ?, file_url = ?, file_name = ?
       WHERE id = ?
     `;
     await query(updateSql, [
       category,
+      sub_category || '신제품',
       title,
       content || '',
       views || 0,

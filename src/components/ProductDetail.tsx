@@ -21,6 +21,27 @@ const formatInsurancePrice = (val: any) => {
   return str;
 };
 
+const formatPackagingUnits = (val?: string | null): string[] => {
+  if (!val) return [];
+  const str = String(val).trim();
+  if (str.includes(',')) {
+    return str
+      .split(/[\r\n,]/)
+      .map(item => item.trim())
+      .filter(Boolean);
+  }
+  if (str.includes(' / ')) {
+    return str
+      .split(/\s+\/\s+/)
+      .map(item => item.trim())
+      .filter(Boolean);
+  }
+  return str
+    .split(/[\r\n]/)
+    .map(item => item.trim())
+    .filter(Boolean);
+};
+
 export interface ProductDetailProps {
   productId: string;
   isEnglish?: boolean;
@@ -190,9 +211,13 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
                   <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                     {isEnglish ? 'Packaging' : '포장단위'}
                   </span>
-                  <span className="text-xs sm:text-sm font-bold text-slate-800 break-keep leading-snug">
-                    {product.packaging_unit}
-                  </span>
+                  <div className="text-xs sm:text-sm font-bold text-slate-800 leading-snug flex flex-col space-y-0.5">
+                    {formatPackagingUnits(product.packaging_unit).map((unit, idx, arr) => (
+                      <span key={idx} className="break-keep">
+                        {unit}{idx < arr.length - 1 ? ',' : ''}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
