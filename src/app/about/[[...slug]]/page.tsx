@@ -485,7 +485,7 @@ export default async function AboutCatchAllPage({ params }: Params) {
                     <img 
                       src={greetingData.imageUrl || '/images/ceo_greeting.webp'} 
                       alt={greetingData.signerName ? `다산제약 ${greetingData.signerTitle} ${greetingData.signerName}` : '다산제약 대표이사 류형선'} 
-                      className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                 </div>

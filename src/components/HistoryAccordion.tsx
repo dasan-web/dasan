@@ -112,6 +112,7 @@ export default function HistoryAccordion({ timelineData, isEn = false }: History
   ];
 
   const [selectedCategory, setSelectedCategory] = useState<string>(isEn ? 'All' : '전체');
+  const [animKey, setAnimKey] = useState<number>(0);
 
   // Filtered timeline data according to active category
   const filteredTimeline = useMemo(() => {
@@ -131,9 +132,13 @@ export default function HistoryAccordion({ timelineData, isEn = false }: History
 
   const handleCategorySelect = (catId: string) => {
     setSelectedCategory(catId);
+    setAnimKey(prev => prev + 1);
     // Expand all eras on category change
     setOpenEras(timelineData.map(() => true));
   };
+
+  // Pre-calculate top-to-bottom sequential index for staggered cascade animation
+  let sequenceCounter = 0;
 
   return (
     <div className="relative w-full max-w-5xl mx-auto z-10">
@@ -161,7 +166,13 @@ export default function HistoryAccordion({ timelineData, isEn = false }: History
       {/* Timeline Section */}
       <div className="relative max-w-4xl mx-auto">
         {/* Vertical Line */}
-        <div className="absolute left-[30px] md:left-[120px] top-4 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 via-gray-200 to-transparent"></div>
+        <motion.div
+          key={`line-${selectedCategory}-${animKey}`}
+          initial={{ scaleY: 0, opacity: 0 }}
+          animate={{ scaleY: 1, opacity: 1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute left-[30px] md:left-[120px] top-4 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 via-gray-200 to-transparent origin-top"
+        />
 
         {filteredTimeline.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
@@ -170,15 +181,15 @@ export default function HistoryAccordion({ timelineData, isEn = false }: History
         ) : (
           filteredTimeline.map((era, reversedIndex) => {
             const isOpen = openEras[reversedIndex] !== false;
+            const eraDelay = sequenceCounter++ * 0.06;
 
             return (
-              <div key={`${selectedCategory}-${reversedIndex}`} className="mb-12 md:mb-14 last:mb-0 relative group">
+              <div key={`${selectedCategory}-${animKey}-${reversedIndex}`} className="mb-12 md:mb-14 last:mb-0 relative group">
                 {/* Era Header */}
                 <motion.div 
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: eraDelay, ease: [0.22, 1, 0.36, 1] }}
                   className="flex items-center mb-5 md:mb-6 cursor-pointer outline-none hover:opacity-90 transition-opacity"
                   onClick={() => toggleEra(reversedIndex)}
                 >
@@ -203,13 +214,14 @@ export default function HistoryAccordion({ timelineData, isEn = false }: History
                 >
                   <div className="overflow-hidden">
                     <div className="space-y-4 md:space-y-5 pt-1 pb-2">
-                      {era.events.map((event, eventIndex) => (
+                      {era.events.map((event, eventIndex) => {
+                        const eventDelay = sequenceCounter++ * 0.06;
+                        return (
                         <motion.div 
-                          key={`${selectedCategory}-${event.year}-${eventIndex}`}
-                          initial={{ opacity: 0, y: 40 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true, margin: "-50px" }}
-                          transition={{ duration: 0.8, delay: (eventIndex % 4) * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                          key={`${selectedCategory}-${animKey}-${event.year}-${eventIndex}`}
+                          initial={{ opacity: 0, y: -20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: eventDelay, ease: [0.22, 1, 0.36, 1] }}
                         >
                           <div className="relative flex flex-col md:flex-row items-start group/event hover:-translate-y-0.5 transition-transform duration-300">
                           
@@ -238,7 +250,8 @@ export default function HistoryAccordion({ timelineData, isEn = false }: History
                             </div>
                           </div>
                         </motion.div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
