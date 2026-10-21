@@ -89,13 +89,77 @@ export default function ProductSearch() {
 
   const [productsList, setProductsList] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'all' | 'prescription' | 'otc'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'prescription' | 'otc'>(() => {
+    const tab = searchParams?.get('tab');
+    if (tab === 'prescription' || tab === 'otc') return tab;
+    return 'all';
+  });
   const [searchMode, setSearchMode] = useState<'name' | 'efficacy'>('name');
-  const [selectedConsonant, setSelectedConsonant] = useState<string | null>(null);
+  const [selectedConsonant, setSelectedConsonant] = useState<string | null>(() => {
+    return searchParams?.get('consonant') || null;
+  });
   const [searchQuery, setSearchQuery] = useState(searchParams?.get('q') || searchParams?.get('search') || '');
   const [isClient, setIsClient] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  const [currentPage, setCurrentPage] = useState<number>(() => {
+    if (typeof window !== 'undefined') {
+      const urlPage = new URLSearchParams(window.location.search).get('page');
+      if (urlPage) {
+        const parsed = parseInt(urlPage, 10);
+        if (!isNaN(parsed) && parsed >= 1) return parsed;
+      }
+      const savedPage = sessionStorage.getItem('product_search_page');
+      if (savedPage) {
+        const parsed = parseInt(savedPage, 10);
+        if (!isNaN(parsed) && parsed >= 1) return parsed;
+      }
+    }
+    const paramPage = searchParams?.get('page');
+    if (paramPage) {
+      const parsed = parseInt(paramPage, 10);
+      if (!isNaN(parsed) && parsed >= 1) return parsed;
+    }
+    return 1;
+  });
   const itemsPerPage = 8;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('product_search_page', String(page));
+      const params = new URLSearchParams(window.location.search);
+      if (page > 1) {
+        params.set('page', String(page));
+      } else {
+        params.delete('page');
+      }
+      const qs = params.toString();
+      window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}`);
+    }
+  };
+
+  useEffect(() => {
+    const p = searchParams?.get('page');
+    if (p) {
+      const pageNum = parseInt(p, 10);
+      if (!isNaN(pageNum) && pageNum >= 1) {
+        setCurrentPage(pageNum);
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('product_search_page', String(pageNum));
+        }
+        return;
+      }
+    }
+    if (typeof window !== 'undefined') {
+      const savedPage = sessionStorage.getItem('product_search_page');
+      if (savedPage) {
+        const pageNum = parseInt(savedPage, 10);
+        if (!isNaN(pageNum) && pageNum >= 1) {
+          setCurrentPage(pageNum);
+        }
+      }
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !window.location.hash) {
@@ -181,6 +245,14 @@ export default function ProductSearch() {
     currentPage * itemsPerPage
   );
 
+  useEffect(() => {
+    if (!loading && productsList.length > 0 && totalPages > 0) {
+      if (currentPage > totalPages) {
+        handlePageChange(totalPages);
+      }
+    }
+  }, [totalPages, loading, productsList.length, currentPage]);
+
   return (
     <div className="space-y-8 animate-fade-in-up">
       {/* 1. Category Tabs (Classic Minimal Underline) */}
@@ -191,7 +263,7 @@ export default function ProductSearch() {
             setActiveTab('all');
             setSelectedConsonant(null);
             setSearchQuery('');
-            setCurrentPage(1);
+            handlePageChange(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
             activeTab === 'all'
@@ -205,7 +277,7 @@ export default function ProductSearch() {
             setActiveTab('prescription');
             setSelectedConsonant(null);
             setSearchQuery('');
-            setCurrentPage(1);
+            handlePageChange(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
             activeTab === 'prescription'
@@ -219,7 +291,7 @@ export default function ProductSearch() {
             setActiveTab('otc');
             setSelectedConsonant(null);
             setSearchQuery('');
-            setCurrentPage(1);
+            handlePageChange(1);
           }}
           className={`pb-3 transition-all cursor-pointer select-none font-bold ${
             activeTab === 'otc'
@@ -238,7 +310,7 @@ export default function ProductSearch() {
             onClick={() => {
               setSearchMode('name');
               setSearchQuery('');
-              setCurrentPage(1);
+              handlePageChange(1);
             }}
             className={`pb-1 transition-all cursor-pointer select-none ${
               searchMode === 'name' 
@@ -252,7 +324,7 @@ export default function ProductSearch() {
               setSearchMode('efficacy');
               setSelectedConsonant(null);
               setSearchQuery('');
-              setCurrentPage(1);
+              handlePageChange(1);
             }}
             className={`pb-1 transition-all cursor-pointer select-none ${
               searchMode === 'efficacy' 
@@ -271,7 +343,7 @@ export default function ProductSearch() {
                   key={con}
                   onClick={() => {
                     setSelectedConsonant(selectedConsonant === con ? null : con);
-                    setCurrentPage(1);
+                    handlePageChange(1);
                   }}
                   className={`w-7 h-7 text-xs font-semibold border rounded transition-all cursor-pointer select-none ${
                     selectedConsonant === con
@@ -293,7 +365,7 @@ export default function ProductSearch() {
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
-              setCurrentPage(1);
+              handlePageChange(1);
             }}
             placeholder={
               searchMode === 'name'
@@ -307,7 +379,7 @@ export default function ProductSearch() {
               type="button"
               onClick={() => {
                 setSearchQuery('');
-                setCurrentPage(1);
+                handlePageChange(1);
               }}
               className="absolute right-14 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
               title={isEnglish ? 'Clear' : '초기화'}
@@ -331,10 +403,19 @@ export default function ProductSearch() {
             {isEnglish ? 'Loading data...' : '데이터를 불러오는 중입니다...'}
           </div>
         ) : paginatedProducts.length > 0 ? (
-          paginatedProducts.map((product: Product) => (
+          paginatedProducts.map((product: Product) => {
+            const queryParams = new URLSearchParams();
+            if (currentPage > 1) queryParams.set('page', String(currentPage));
+            if (activeTab !== 'all') queryParams.set('tab', activeTab);
+            if (selectedConsonant) queryParams.set('consonant', selectedConsonant);
+            if (searchQuery.trim()) queryParams.set('q', searchQuery.trim());
+            const qs = queryParams.toString();
+            const detailHref = `${isEnglish ? '/en' : ''}/business/finished/search/${product.id}${qs ? `?${qs}` : ''}`;
+
+            return (
             <Link 
               key={product.id} 
-              href={isEnglish ? `/en/business/finished/search/${product.id}` : `/business/finished/search/${product.id}`}
+              href={detailHref}
               className="bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col group hover:border-gray-300 transition-colors cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-200"
             >
               {/* Product Image / Logo Fallback Container */}
@@ -378,8 +459,9 @@ export default function ProductSearch() {
                 </div>
               </div>
             </Link>
-          ))
-        ) : (
+          );
+        })
+      ) : (
           <div className="col-span-full text-center py-16 text-gray-400 text-sm">
             {isEnglish ? 'No products match your search.' : '검색 결과와 일치하는 제품이 없습니다.'}
           </div>
@@ -391,7 +473,7 @@ export default function ProductSearch() {
         <div className="flex justify-center items-center space-x-2 pt-8">
           {/* First Page Button << */}
           <button
-            onClick={() => setCurrentPage(1)}
+            onClick={() => handlePageChange(1)}
             disabled={currentPage === 1}
             className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-xs"
             title="첫 페이지"
@@ -401,7 +483,7 @@ export default function ProductSearch() {
 
           {/* Prev Page Button < */}
           <button
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
             disabled={currentPage === 1}
             className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             title="이전 페이지"
@@ -412,7 +494,7 @@ export default function ProductSearch() {
           {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
             <button
               key={page}
-              onClick={() => setCurrentPage(page)}
+              onClick={() => handlePageChange(page)}
               className={`w-8 h-8 flex items-center justify-center rounded-md text-sm font-semibold transition-colors ${
                 currentPage === page
                   ? 'bg-brand-green text-white border border-brand-green'
@@ -425,7 +507,7 @@ export default function ProductSearch() {
 
           {/* Next Page Button > */}
           <button
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
             disabled={currentPage === totalPages}
             className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             title="다음 페이지"
@@ -435,7 +517,7 @@ export default function ProductSearch() {
 
           {/* Last Page Button >> */}
           <button
-            onClick={() => setCurrentPage(totalPages)}
+            onClick={() => handlePageChange(totalPages)}
             disabled={currentPage === totalPages}
             className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-xs"
             title="마지막 페이지"

@@ -52,6 +52,22 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const handleBackToList = () => {
+    const baseUrl = isEnglish ? '/en/business/finished/search' : '/business/finished/search';
+    let qs = '';
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get('page') || sessionStorage.getItem('product_search_page');
+      if (page && parseInt(page, 10) > 1) {
+        params.set('page', page);
+      } else {
+        params.delete('page');
+      }
+      qs = params.toString();
+    }
+    router.push(`${baseUrl}${qs ? `?${qs}` : ''}`);
+  };
+
   useEffect(() => {
     if (!productId) return;
     fetch(`/api/products/${productId}`, { cache: 'no-store' })
@@ -83,7 +99,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
           {isEnglish ? 'Product not found' : '제품을 찾을 수 없습니다.'}
         </h2>
         <button 
-          onClick={() => router.back()}
+          onClick={handleBackToList}
           className="text-brand-green font-bold hover:underline cursor-pointer"
         >
           {isEnglish ? 'Go Back' : '목록으로 돌아가기'}
@@ -96,7 +112,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 animate-fade-in-up">
       {/* Back Button */}
       <button 
-        onClick={() => router.push(isEnglish ? '/en/business/finished/search' : '/business/finished/search')}
+        onClick={handleBackToList}
         className="mb-8 inline-flex items-center text-sm font-bold text-slate-500 hover:text-brand-green transition-colors group cursor-pointer"
       >
         <svg className="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,7 +190,7 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
               )}
 
               {product.appearance && (
-                <div className="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-100 flex flex-col justify-start space-y-1">
+                <div className="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-100 flex flex-col justify-start space-y-1 relative z-10 sm:w-[calc(100%+28px)]">
                   <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                     {isEnglish ? 'Appearance' : '성상'}
                   </span>
@@ -207,16 +223,28 @@ export default function ProductDetail({ productId, isEnglish = false }: ProductD
               )}
 
               {product.packaging_unit && (
-                <div className="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-100 flex flex-col justify-start space-y-1">
+                <div className="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-100 flex flex-col justify-start space-y-1 relative z-10 sm:w-[calc(100%+28px)]">
                   <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                     {isEnglish ? 'Packaging' : '포장단위'}
                   </span>
-                  <div className="text-xs sm:text-sm font-bold text-slate-800 leading-snug flex flex-col space-y-0.5">
-                    {formatPackagingUnits(product.packaging_unit).map((unit, idx, arr) => (
-                      <span key={idx} className="break-keep">
-                        {unit}{idx < arr.length - 1 ? ',' : ''}
-                      </span>
-                    ))}
+                  <div className="text-xs sm:text-sm font-bold text-slate-800 leading-snug flex flex-col space-y-1">
+                    {formatPackagingUnits(product.packaging_unit).map((unit, idx, arr) => {
+                      const match = unit.match(/^(.*?)([\(\[][\s\S]*)$/);
+                      const isLastUnit = idx === arr.length - 1;
+                      if (match && match[1].trim()) {
+                        return (
+                          <div key={idx} className="flex flex-col">
+                            <span className="break-keep">{match[1].trim()}</span>
+                            <span className="break-keep">{match[2].trim()}{!isLastUnit ? ',' : ''}</span>
+                          </div>
+                        );
+                      }
+                      return (
+                        <span key={idx} className="break-keep">
+                          {unit}{!isLastUnit ? ',' : ''}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               )}
