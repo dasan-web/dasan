@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 export default function ScrollToTop() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
-    // When the route or search parameters change, and there is no in-page hash anchor (#)
+    // When the route pathname changes, and there is no in-page hash anchor (#)
     if (typeof window !== 'undefined' && !window.location.hash) {
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       document.documentElement.scrollTop = 0;
@@ -33,7 +32,7 @@ export default function ScrollToTop() {
         clearTimeout(timeout);
       };
     }
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return null;
 }

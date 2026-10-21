@@ -470,7 +470,7 @@ export default function ProductSearch() {
 
       {/* 4. Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center space-x-2 pt-8">
+        <div className="flex justify-center items-center space-x-2 pt-2">
           {/* First Page Button << */}
           <button
             onClick={() => handlePageChange(1)}
