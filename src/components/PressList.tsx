@@ -133,6 +133,11 @@ export default function PressList({ initialNews }: PressListProps) {
                             {renderLinkedText(item.content)}
                           </div>
                         )}
+                        {item.file_url && (/\.(jpg|jpeg|png|gif|webp|svg|bmp|avif)($|\?)/i.test(item.file_url) || item.file_url.includes('/image/upload/')) && (
+                          <div className="my-4 max-w-xl rounded-xl overflow-hidden border border-gray-100 shadow-xs bg-[#f8f9fa] flex items-center justify-center p-2">
+                            <img src={item.file_url} alt={item.title} className="w-auto h-auto object-contain max-h-[500px]" />
+                          </div>
+                        )}
                         {item.file_url && (
                           <div className="mt-5 pt-4 border-t border-gray-100 flex justify-start">
                             <a

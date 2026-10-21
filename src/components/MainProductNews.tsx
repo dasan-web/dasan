@@ -13,7 +13,6 @@ import {
   FileText, 
   Calendar, 
   X, 
-  Download,
   Newspaper,
   Search
 } from 'lucide-react';
@@ -69,29 +68,29 @@ const defaultPressCards: DBNewsItem[] = [
   {
     id: 4,
     category: 'press',
-    image: '/press_exhibition.webp',
-    title: "다산제약, CPHI Worldwide 2025 참가... 글로벌 CDMO 파트너십 확대",
-    created_at: '2025-10-15',
-    content: "유럽 최대 제약 바이오 박람회 CPHI에 참가하여 다산제약의 특화된 제제 기술(DDS) 및 완제 CDMO 경쟁력을 홍보하고 글로벌 제약사들과의 파트너십 계약을 추진하였습니다.",
-    views: 310
+    image: '/ESG.jpeg',
+    title: "다산제약, ESG 인증 확보…IPO 앞두고 신뢰 다진다",
+    created_at: '2026-06-24',
+    content: "다산제약이 글로벌 수준의 ESG 경영 인증을 획득하고 기업 신뢰도를 제고하였습니다.",
+    views: 120
   },
   {
     id: 5,
     category: 'press',
-    image: '/press_factory.webp',
-    title: "다산제약 제2공장 스마트 GMP 자동화 생산설비 증설 준공",
-    created_at: '2025-08-20',
-    content: "글로벌 규격에 부합하는 최첨단 스마트 GMP 자동화 라인을 구축하여 고품질 의약품 생산 능력을 기존 대비 대폭 확충하고 안정적인 의약품 공급 기반을 마련하였습니다.",
-    views: 245
+    image: '/rd_synthesis_lab.jpg',
+    title: "다산제약, 신규 R&D 연구센터 개소로 혁신 신약 파이프라인 가속화",
+    created_at: '2026-06-18',
+    content: "다산제약이 최첨단 신약 연구센터를 공식 오픈하고 차세대 의약품 파이프라인 개발에 속도를 냅니다. 제제 기술 고도화 부문 집중 투자 예정.",
+    views: 124
   },
   {
     id: 6,
     category: 'press',
-    image: '/press_ceo.webp',
-    title: "다산제약, 혁신 신약 서방성 복합제 국내 특허 등록 완료",
-    created_at: '2025-06-12',
-    content: "독자적인 마이크로 펠렛 다층 코팅 기술을 적용한 차세대 서방형 복합 제형에 대한 국내 특허 등록을 완료함으로써 글로벌 기술 경쟁력을 입증하였습니다.",
-    views: 180
+    image: '/press_group.png',
+    title: "다산제약, 글로벌 제약사와 CDMO 협력 양해각서(MOU) 체결",
+    created_at: '2026-06-18',
+    content: "본 협약을 통해 고난도 고형제 및 개량신약 위탁개발생산(CDMO) 사업 영역을 글로벌 시장으로 본격 확장할 예정입니다.",
+    views: 98
   }
 ];
 
@@ -131,6 +130,34 @@ const formatSentenceLineBreaks = (text: string): string => {
     .trim();
 };
 
+const isImageFile = (url?: string | null): boolean => {
+  if (!url) return false;
+  return (
+    /\.(jpg|jpeg|png|gif|webp|svg|bmp|avif)($|\?)/i.test(url) ||
+    url.includes('/image/upload/') ||
+    url.startsWith('data:image/')
+  );
+};
+
+const extractFirstImageFromContent = (html?: string): string | null => {
+  if (!html) return null;
+  const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+  return match ? match[1] : null;
+};
+
+function NewsCardImage({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="relative w-full h-[300px] overflow-hidden select-none shrink-0 bg-[#f8f9fa]">
+      {/* 표시 영역 좌우 끝까지 100% 꽉 채우고(object-cover), 상단 얼굴/문구가 잘리지 않도록 상단 기준(object-top) 정렬 */}
+      <img
+        src={src}
+        alt={alt}
+        className="w-full h-full object-cover object-top"
+      />
+    </div>
+  );
+}
+
 export default function MainProductNews({ initialItems, initialPressNews }: MainProductNewsProps) {
   const pathname = usePathname();
   const isEnglish = pathname?.startsWith('/en');
@@ -163,8 +190,42 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
     }
   }, []);
 
+  // Product news & Press news dynamic state
+  const [dbPressNews, setDbPressNews] = useState<DBNewsItem[]>(initialPressNews || []);
+  const [dbProductNews, setDbProductNews] = useState<any[]>(initialItems || []);
+
+  useEffect(() => {
+    fetch('/api/news?category=press')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setDbPressNews(data);
+        }
+      })
+      .catch(err => console.error('Failed to load press news:', err));
+
+    fetch('/api/news?category=product')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setDbProductNews(data.map((n: any) => ({
+            id: n.id,
+            category: n.sub_category || '신제품',
+            title: n.title,
+            date: n.created_at ? new Date(n.created_at).toISOString().slice(0, 10) : '',
+            views: n.views || 0,
+            content: n.content,
+            file_url: n.file_url,
+            file_name: n.file_name,
+            image: (n.file_url && isImageFile(n.file_url)) ? n.file_url : (extractFirstImageFromContent(n.content) || null),
+          })));
+        }
+      })
+      .catch(err => console.error('Failed to load product news:', err));
+  }, []);
+
   // Product news data
-  const allProductItems = initialItems && initialItems.length > 0 ? initialItems : sampleNewsItems;
+  const allProductItems = dbProductNews && dbProductNews.length > 0 ? dbProductNews : (initialItems && initialItems.length > 0 ? initialItems : sampleNewsItems);
 
   const categories = [
     { label: isEnglish ? 'All' : '전체', value: '전체' },
@@ -179,21 +240,49 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
   }, [allProductItems, activeCategory]);
 
   // Press news data
+  const pressDefaultImages = [
+    '/press_exhibition.webp', // 0: 게시판 6번 (과학기술정보통신부 2026 우수 기업부설연구소 신규 지정)
+    '/press_factory.webp',    // 1: 게시판 5번 (흔한 DDS, CDMO? 류형선 대표 "정밀화 제어 기술 차별화")
+    '/press_ceo.webp',        // 2: 게시판 4번 (창립 30주년 맞는 2026년 시무식)
+    '/ESG.jpeg',              // 3: 게시판 3번 (다산제약, ESG 인증 확보…IPO 앞두고 신뢰 다진다)
+    '/rd_synthesis_lab.jpg',  // 4: 게시판 2번 (다산제약, 신규 R&D 연구센터 개소로 혁신 신약 파이프라인 가속화)
+    '/press_group.png',       // 5: 게시판 1번 (다산제약, 글로벌 제약사와 CDMO 협력 양해각서(MOU) 체결)
+  ];
+
   const pressItems = useMemo(() => {
-    const raw = initialPressNews && initialPressNews.length > 0 ? initialPressNews : defaultPressCards;
-    return raw.map((item, idx) => ({
-      id: item.id || idx + 1,
-      category: 'press',
-      title: item.title,
-      date: formatDateSafe(item.created_at || (item as any).date),
-      content: item.content,
-      views: item.views || 0,
-      file_name: item.file_name,
-      file_url: item.file_url,
-      image: item.image || (idx % 3 === 0 ? '/press_exhibition.webp' : idx % 3 === 1 ? '/press_factory.webp' : '/press_ceo.webp'),
-      isNew: idx === 0
-    }));
-  }, [initialPressNews]);
+    const raw = dbPressNews && dbPressNews.length > 0 
+      ? dbPressNews 
+      : (initialPressNews && initialPressNews.length > 0 ? initialPressNews : defaultPressCards);
+    return raw.map((item, idx) => {
+      // 관리자페이지에서 첨부한 사진(file_url)을 최우선으로 일치
+      let articleImage = '';
+      if (item.file_url && isImageFile(item.file_url)) {
+        articleImage = item.file_url;
+      } else if (item.image && isImageFile(item.image)) {
+        articleImage = item.image;
+      } else {
+        const contentImg = extractFirstImageFromContent(item.content);
+        if (contentImg) {
+          articleImage = contentImg;
+        } else {
+          articleImage = pressDefaultImages[idx % pressDefaultImages.length];
+        }
+      }
+
+      return {
+        id: item.id || idx + 1,
+        category: 'press',
+        title: item.title,
+        date: formatDateSafe(item.created_at || (item as any).date),
+        content: item.content,
+        views: item.views || 0,
+        file_name: item.file_name,
+        file_url: item.file_url,
+        image: articleImage,
+        isNew: idx === 0
+      };
+    });
+  }, [dbPressNews, initialPressNews]);
 
   // Current active items based on activeTab
   const currentItems = activeTab === 'productNews' ? filteredProductItems : pressItems;
@@ -203,24 +292,30 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
   const handlePrev = () => {
     if (total <= cardsPerPage) return;
     setDirection(-1);
-    setStartIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
+    setStartIndex((prev) => {
+      const next = prev - cardsPerPage;
+      if (next < 0) {
+        return Math.floor((total - 1) / cardsPerPage) * cardsPerPage;
+      }
+      return next;
+    });
   };
 
   const handleNext = () => {
     if (total <= cardsPerPage) return;
     setDirection(1);
-    setStartIndex((prev) => (prev + 1) % total);
+    setStartIndex((prev) => {
+      const next = prev + cardsPerPage;
+      if (next >= total) {
+        return 0;
+      }
+      return next;
+    });
   };
 
   const visibleItems = useMemo(() => {
     if (total === 0) return [];
-    const count = Math.min(cardsPerPage, total);
-    const items = [];
-    for (let i = 0; i < count; i++) {
-      const idx = (startIndex + i) % total;
-      items.push(currentItems[idx]);
-    }
-    return items;
+    return currentItems.slice(startIndex, startIndex + cardsPerPage);
   }, [currentItems, startIndex, total, cardsPerPage]);
 
   const getCategoryMeta = (category: string) => {
@@ -278,8 +373,15 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                 <div className="w-full h-1.5 bg-brand-green mt-2 rounded-full" />
               </div>
 
-              {/* Controls on Right: Arrows & View All */}
-              <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+              {/* Controls on Right: Page Indicator & View All */}
+              <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
+                {total > cardsPerPage && (
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 bg-gray-100/90 rounded-full text-xs sm:text-sm font-bold text-gray-600 select-none border border-gray-200/60 shadow-2xs">
+                    <span className="text-brand-green font-bold">{Math.floor(startIndex / cardsPerPage) + 1}</span>
+                    <span className="text-gray-400">/</span>
+                    <span>{Math.ceil(total / cardsPerPage)}</span>
+                  </div>
+                )}
 
                 {/* View All Button */}
                 <Link
@@ -361,29 +463,35 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
         {/* 3-Column Modern Wide Cards Grid with Smooth Book-like Page Slide Transition */}
         <ScrollReveal delay={0.15} y={60} duration={1.2}>
           <div className="relative">
-            {/* Left Side Floating Prev Button (Compact & Positioned cleanly outside) */}
+            {/* Left Side Floating Prev Button */}
             {total > cardsPerPage && (
               <button
                 type="button"
-                onClick={handlePrev}
-                className="absolute -left-3 sm:-left-6 md:-left-9 lg:-left-12 xl:-left-[52px] top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-brand-green hover:bg-brand-green/5 shadow-md flex items-center justify-center transition-all duration-200 cursor-pointer z-30 group"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrev();
+                }}
+                className="absolute -left-3 sm:-left-6 md:-left-9 lg:-left-12 xl:-left-[54px] top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-white hover:bg-brand-green shadow-lg flex items-center justify-center transition-all duration-200 cursor-pointer z-40 active:scale-95 group"
                 aria-label={isEnglish ? "Previous slide" : "이전"}
                 title={isEnglish ? "Previous" : "이전"}
               >
-                <ChevronLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+                <ChevronLeft className="w-4.5 h-4.5 sm:w-5 sm:h-5 transition-transform duration-200 group-hover:-translate-x-0.5" />
               </button>
             )}
 
-            {/* Right Side Floating Next Button (Compact & Positioned cleanly outside) */}
+            {/* Right Side Floating Next Button */}
             {total > cardsPerPage && (
               <button
                 type="button"
-                onClick={handleNext}
-                className="absolute -right-3 sm:-right-6 md:-right-9 lg:-right-12 xl:-right-[52px] top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-brand-green hover:bg-brand-green/5 shadow-md flex items-center justify-center transition-all duration-200 cursor-pointer z-30 group"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNext();
+                }}
+                className="absolute -right-3 sm:-right-6 md:-right-9 lg:-right-12 xl:-right-[54px] top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full bg-white border border-gray-200 text-gray-700 hover:border-brand-green hover:text-white hover:bg-brand-green shadow-lg flex items-center justify-center transition-all duration-200 cursor-pointer z-40 active:scale-95 group"
                 aria-label={isEnglish ? "Next slide" : "다음"}
                 title={isEnglish ? "Next" : "다음"}
               >
-                <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                <ChevronRight className="w-4.5 h-4.5 sm:w-5 sm:h-5 transition-transform duration-200 group-hover:translate-x-0.5" />
               </button>
             )}
 
@@ -438,18 +546,11 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                           className="relative bg-white rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group h-[420px]"
                           style={{ height: '420px', minHeight: '420px' }}
                         >
-                          {/* Upper Section: Photo fills edge-to-edge (파란색 표시부분 아이콘, 보도자료, NEW 배지 제거 완료) */}
-                          <div className="relative w-full h-[300px] overflow-hidden flex flex-col justify-between p-5 sm:p-5.5 select-none shrink-0">
-                            {/* Full Cover Photo */}
-                            <img
-                              src={(item as any).image || '/press_exhibition.webp'}
-                              alt={item.title}
-                              className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                            />
-
-                            {/* Gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none" />
-                          </div>
+                          {/* Upper Section: Photo container (가로 사진 꽉 채움 + 세로/정사각형 사진 잘림 방지 및 블러 배경 채움) */}
+                          <NewsCardImage
+                            src={(item as any).image || '/press_exhibition.webp'}
+                            alt={item.title}
+                          />
 
                           {/* Bottom Footer: 제목과 날짜가 깔끔하게 표시되는 영역 */}
                           <div className="relative z-10 h-[120px] pl-3.5 pr-6 sm:pl-4 sm:pr-8 lg:pl-5 lg:pr-10 flex flex-col justify-center items-start border-t border-gray-100 bg-[#f8f9fa] group-hover:bg-brand-green transition-colors duration-[1000ms] overflow-hidden">
@@ -561,6 +662,32 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
           </div>
         </div>
 
+        {/* Pagination Dots Indicator */}
+        {total > cardsPerPage && (
+          <div className="flex items-center justify-center gap-2 mt-7 sm:mt-8">
+            {Array.from({ length: Math.ceil(total / cardsPerPage) }).map((_, pageIdx) => {
+              const isActive = Math.floor(startIndex / cardsPerPage) === pageIdx;
+              return (
+                <button
+                  key={pageIdx}
+                  type="button"
+                  onClick={() => {
+                    setDirection(pageIdx > Math.floor(startIndex / cardsPerPage) ? 1 : -1);
+                    setStartIndex(pageIdx * cardsPerPage);
+                  }}
+                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? 'w-8 bg-brand-green shadow-xs'
+                      : 'w-2.5 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`${pageIdx + 1}페이지`}
+                  title={`${pageIdx + 1}페이지`}
+                />
+              );
+            })}
+          </div>
+        )}
+
         {/* User Requested: 뉴스 카드 하단 우측 제품 검색창 (3번째 카드 폭과 완벽히 일치하도록 그리드 정렬) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-6 sm:mt-8 md:mt-10 w-full">
           <div className="md:col-start-3 w-full">
@@ -638,11 +765,11 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
 
                 {/* Optional Image for Press Release */}
                 {selectedModalItem.image && (
-                  <div className="w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-xs border border-gray-100">
+                  <div className="w-full rounded-2xl overflow-hidden shadow-xs border border-gray-100 bg-[#f8f9fa] flex items-center justify-center p-3">
                     <img
                       src={selectedModalItem.image}
                       alt={selectedModalItem.title}
-                      className="w-full h-full object-cover"
+                      className="max-h-[480px] w-auto h-auto object-contain mx-auto"
                     />
                   </div>
                 )}
@@ -662,26 +789,6 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                     </div>
                   )}
                 </div>
-
-                {/* Attachment Link */}
-                {selectedModalItem.file_name && (
-                  <div className="pt-2 flex justify-start">
-                    <a
-                      href={selectedModalItem.file_url || '#'}
-                      download={selectedModalItem.file_name}
-                      onClick={(e) => {
-                        if (!selectedModalItem.file_url) {
-                          e.preventDefault();
-                          alert(isEnglish ? 'File download is ready.' : '첨부파일 다운로드 준비 중입니다.');
-                        }
-                      }}
-                      className="inline-flex items-center space-x-2 text-xs sm:text-sm text-brand-green bg-brand-green/10 hover:bg-brand-green/20 px-4 py-2.5 rounded-xl border border-brand-green/30 transition-colors font-bold shadow-2xs"
-                    >
-                      <Download className="w-4 h-4 text-brand-green" />
-                      <span>{selectedModalItem.file_name}</span>
-                    </a>
-                  </div>
-                )}
               </div>
             </motion.div>
           </div>
