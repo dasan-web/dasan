@@ -228,6 +228,9 @@ export default function PhilosophyGraphic() {
     <div
       ref={trackRef}
       className="relative w-full h-[260vh] -mt-2 sm:-mt-4 select-none"
+      style={{
+        marginBottom: 'max(0px, calc(min(960px, 100vw * 1.02) - (100vh - 6rem)))',
+      }}
       translate="no"
     >
       {/* Sticky Viewport Frame: Locks right under the sticky header */}
