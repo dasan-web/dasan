@@ -94,28 +94,28 @@ export default async function Home() {
     <div className="w-full bg-white flex flex-col">
       <PopupWrapper />
       {/* 1. Hero Banner Section */}
-      <section id="hero" className="relative w-full h-[90vh] md:h-[calc(100vh-80px)] overflow-hidden flex items-start pt-8 sm:pt-10 md:pt-12 lg:pt-14 bg-white">
+      <section id="hero" className="relative w-full h-[90vh] md:h-[calc(100vh-80px)] overflow-hidden flex items-start pt-8 sm:pt-10 md:pt-12 lg:pt-14 bg-white select-none">
         {/* Background DNA Helix Image - Spring Mouse Parallax & Ken Burns Zoom */}
         <HeroBackground />
 
         {/* Content Container */}
-        <div className="relative z-10 w-full px-6 md:px-16 lg:px-24">
+        <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 select-none">
           <div className="w-full text-left space-y-5 md:space-y-6">
             {/* Main Headline */}
             <div className="space-y-2 md:space-y-3">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-tight leading-tight lg:whitespace-nowrap drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-tight leading-tight lg:whitespace-nowrap drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] select-none">
                 <span className="font-paperlogy font-[800]">Global CDMO company</span><br className="md:hidden" />
                 <span className="font-paperlogy font-[900]"> through DDS.</span>
               </h1>
             </div>
 
             {/* Slogan */}
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-pretendard font-bold text-white tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-pretendard font-bold text-white tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)] select-none">
               Happy people make the healthy world.
             </h2>
 
             {/* English Paragraph Description */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/95 leading-relaxed max-w-5xl font-paperlogy font-[500] pt-2 md:pt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/95 leading-relaxed max-w-5xl font-paperlogy font-[500] pt-2 md:pt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] select-none">
               Dasan Pharmaceutical is constantly striving to research formulation and synthesis technologies and produce high-quality pharmaceuticals for the health and happiness of mankind, based on the founding philosophy of loving the people inspired by Jeong Yak-yong, Korea's greatest pragmatic scholar.
             </p>
 

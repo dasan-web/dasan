@@ -434,3 +434,71 @@ aside h4,
   border: none !important;
   outline: 1px solid transparent !important;
 }
+
+
+/* ==========================================================================
+   사용자 홈페이지 전체 텍스트 드래그 및 텍스트 선택 방지 (User-Select Protection)
+   ========================================================================== */
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 사용자 홈페이지 이미지 및 링크 드래그 방지 */
+img,
+a {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+/* 사용자 홈페이지 드래그 하이라이트 색상 투명화 */
+body ::selection {
+  background: transparent;
+}
+body ::-moz-selection {
+  background: transparent;
+}
+
+/* 사용자 홈페이지 폼 입력창(input, textarea) 및 수정 가능 영역은 텍스트 입력 및 선택 허용 */
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+input::selection,
+textarea::selection,
+[contenteditable="true"]::selection {
+  background: #008953 !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   관리자 페이지(/management)에서는 텍스트 선택, 드래그, 복사 정상 허용
+   ========================================================================== */
+body:has(.management-root),
+.management-root,
+.management-root * {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+body:has(.management-root) ::selection,
+.management-root ::selection {
+  background: #008953 !important;
+  color: #ffffff !important;
+}
+.management-root img,
+.management-root a {
+  -webkit-user-drag: auto !important;
+  user-drag: auto !important;
+}

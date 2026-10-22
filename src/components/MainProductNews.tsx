@@ -152,7 +152,7 @@ function NewsCardImage({ src, alt }: { src: string; alt: string }) {
       <img
         src={src}
         alt={alt}
-        className="w-full h-full object-cover object-top"
+        className="w-full h-full object-cover object-top block"
       />
     </div>
   );
@@ -373,16 +373,8 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                 <div className="w-full h-1.5 bg-brand-green mt-2 rounded-full" />
               </div>
 
-              {/* Controls on Right: Page Indicator & View All */}
+              {/* Controls on Right: View All */}
               <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
-                {total > cardsPerPage && (
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 bg-gray-100/90 rounded-full text-xs sm:text-sm font-bold text-gray-600 select-none border border-gray-200/60 shadow-2xs">
-                    <span className="text-brand-green font-bold">{Math.floor(startIndex / cardsPerPage) + 1}</span>
-                    <span className="text-gray-400">/</span>
-                    <span>{Math.ceil(total / cardsPerPage)}</span>
-                  </div>
-                )}
-
                 {/* View All Button */}
                 <Link
                   href={
@@ -543,7 +535,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                         <div
                           key={`${activeTab}-${item.id}-${idx}`}
                           onClick={() => setSelectedModalItem(item)}
-                          className="relative bg-white rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col justify-between cursor-pointer group h-[420px]"
+                          className="relative bg-white rounded-3xl overflow-hidden transition-all duration-300 border border-gray-200/80 hover:border-transparent hover:shadow-none shadow-xs flex flex-col cursor-pointer group h-[420px]"
                           style={{ height: '420px', minHeight: '420px' }}
                         >
                           {/* Upper Section: Photo container (가로 사진 꽉 채움 + 세로/정사각형 사진 잘림 방지 및 블러 배경 채움) */}
@@ -553,7 +545,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                           />
 
                           {/* Bottom Footer: 제목과 날짜가 깔끔하게 표시되는 영역 */}
-                          <div className="relative z-10 h-[120px] pl-3.5 pr-6 sm:pl-4 sm:pr-8 lg:pl-5 lg:pr-10 flex flex-col justify-center items-start border-t border-gray-100 bg-[#f8f9fa] group-hover:bg-brand-green transition-colors duration-[1000ms] overflow-hidden">
+                          <div className="relative -mt-px z-10 flex-1 pl-3.5 pr-6 sm:pl-4 sm:pr-8 lg:pl-5 lg:pr-10 flex flex-col justify-center items-start border-none bg-[#f8f9fa] group-hover:bg-brand-green transition-colors duration-[1000ms] overflow-hidden">
                             {/* 제목 한 줄 표시 (점점점 없이, 살짝 덜 크게) */}
                             <h3 className="text-[15px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[18.5px] font-bold text-gray-900 group-hover:text-white leading-tight tracking-tighter transition-colors duration-[1000ms] whitespace-nowrap w-full mb-4 sm:mb-5 relative z-20">
                               {item.title}
@@ -765,7 +757,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
 
                 {/* Optional Image for Press Release */}
                 {selectedModalItem.image && (
-                  <div className="w-full rounded-2xl overflow-hidden shadow-xs border border-gray-100 bg-[#f8f9fa] flex items-center justify-center p-3">
+                  <div className="w-full rounded-2xl overflow-hidden shadow-xs border border-gray-100 bg-white flex items-center justify-center p-3">
                     <img
                       src={selectedModalItem.image}
                       alt={selectedModalItem.title}
@@ -775,7 +767,7 @@ export default function MainProductNews({ initialItems, initialPressNews }: Main
                 )}
 
                 {/* Modal Content */}
-                <div className="text-xs sm:text-sm text-gray-700 leading-relaxed py-3.5 px-4.5 bg-gray-50/80 rounded-2xl border border-gray-100 font-normal">
+                <div className="text-xs sm:text-sm text-gray-700 leading-relaxed py-3.5 px-4.5 bg-white rounded-2xl border border-gray-100 font-normal">
                   {isHtml(selectedModalItem.content) ? (
                     <div
                       className="modal-rich-text text-xs sm:text-sm text-gray-700 leading-relaxed space-y-1.5 [&_h1]:!text-sm sm:[&_h1]:!text-[15px] [&_h1]:!font-bold [&_h1]:!text-gray-900 [&_h1]:!mt-1 [&_h1]:!mb-1.5 [&_h1]:!leading-snug [&_h2]:!text-xs sm:[&_h2]:!text-sm [&_h2]:!font-bold [&_h2]:!text-gray-800 [&_h2]:!mt-1 [&_h2]:!mb-1.5 [&_h2]:!leading-snug [&_h3]:!text-xs sm:[&_h3]:!text-sm [&_h3]:!font-semibold [&_h3]:!text-gray-800 [&_h3]:!mb-1 [&_p]:!text-xs sm:[&_p]:!text-sm [&_p]:!leading-relaxed [&_p]:!mb-1.5 [&_p]:!text-gray-700 [&_span]:!text-xs sm:[&_span]:!text-sm [&_span]:!bg-transparent [&_a]:!text-xs sm:[&_a]:!text-sm [&_a]:!text-brand-green [&_a]:hover:!underline [&_a]:!break-all"
