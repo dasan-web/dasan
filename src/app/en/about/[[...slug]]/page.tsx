@@ -954,12 +954,12 @@ export default async function AboutCatchAllPage({ params }: Params) {
                 <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
                   <div className="p-10 lg:p-12 flex flex-col items-center">
                      {/* Logo Display Area */}
-                     <div className="w-full max-w-5xl h-80 md:h-[500px] bg-white flex items-center justify-center rounded-[2rem] relative group mb-10">
+                     <div className="w-full max-w-5xl h-80 md:h-[500px] bg-white flex items-center justify-center rounded-[2rem] relative mb-10">
                         <Image
                           src="/clear_space_grid.png"
                           alt="Dasan Primary Logo"
                           fill
-                          className="object-contain p-4 md:p-8 drop-shadow-sm transition-transform duration-700 group-hover:scale-[1.03]"
+                          className="object-contain p-4 md:p-8 drop-shadow-sm"
                           priority
                         />
                      </div>
