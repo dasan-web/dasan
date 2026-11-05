@@ -587,7 +587,7 @@ export default function CDMOTabSection({ data }: { data?: BusinessCdmoData }) {
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="inline-block font-black text-[12.5px] sm:text-[13px] px-3.5 py-1 rounded-full tracking-wider uppercase bg-[#64ad55]/10 text-[#64ad55] transition-colors group-hover:bg-[#64ad55] group-hover:text-white">
+                    <span className="inline-block font-black text-[12.5px] sm:text-[13px] px-3.5 py-1 rounded-full tracking-wider uppercase bg-[#64ad55]/10 text-[#64ad55]">
                       {tab.badge}
                     </span>
                     <Icon
@@ -596,7 +596,7 @@ export default function CDMOTabSection({ data }: { data?: BusinessCdmoData }) {
                       className="text-[#64ad55] transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
-                  <h4 className="text-[16px] sm:text-[17px] lg:text-[15.5px] xl:text-[17px] font-bold tracking-tight leading-snug break-keep text-gray-900 mb-2.5 transition-colors group-hover:text-[#64ad55]">
+                  <h4 className="text-[16px] sm:text-[17px] lg:text-[15.5px] xl:text-[17px] font-bold tracking-tight leading-snug break-keep text-gray-900 mb-2.5">
                     {tab.cardTitle}
                   </h4>
                   {tab.cardDesc && (

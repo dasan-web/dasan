@@ -5651,7 +5651,7 @@ export default function AdminDashboardPage() {
                                     value={cdmoData.desc2}
                                     onChange={(e) => updateCdmo(prev => ({ ...prev, desc2: e.target.value }))}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl outline-none p-3 text-xs md:text-sm text-white placeholder-gray-500 min-h-[70px] resize-y focus:border-brand-green focus:bg-white/[0.07] transition-all"
-                                    placeholder="Multi-Stra® 기반의 제형 기술을 활용하여 제품 특성에 맞는 개발 및 생산 솔루션을 제공합니다."
+                                    placeholder="MUPS 기술을 바탕으로 국내 제네릭 중 최초로 탐스로신 서방 제제를 개발하였고 Multi-Stra® 기반의 제형 기술을 활용하여 국내 제네릭 최초로 페노피브레이트를 개발하는 등,\n두 가지 기술을 적용하여 제품 특성에 맞는 개발 및 생산 솔루션을 제공합니다."
                                   />
                                 </div>
                               </div>

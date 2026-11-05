@@ -37,33 +37,33 @@ export interface BusinessCdmoData {
 
 export const DEFAULT_BUSINESS_CDMO_DATA: BusinessCdmoData = {
   title: 'One-stop CDMO Solution',
-  desc1: '다산제약은 의약품 연구개발 역량과 GMP 생산 인프라를 바탕으로 제네릭 및 개량신약의 개발부터 생산까지 전 과정을 지원합니다.',
-  desc2: 'Multi-Stra® 기반의 제형 기술을 활용하여 제품 특성에 맞는 개발 및 생산 솔루션을 제공합니다.',
+  desc1: '다산제약은 의약품 연구개발 역량과 GMP 생산 인프라를 바탕으로 개량신약 및 제네릭 개발부터 생산까지 전 과정을 지원합니다.',
+  desc2: 'MUPS 기술을 바탕으로 국내 제네릭 중 최초로 탐스로신 서방 제제를 개발하였고 Multi-Stra® 기반의 제형 기술을 활용하여 국내 제네릭 최초로 페노피브레이트를 개발하는 등\n두 가지 기술을 적용하여 제품 특성에 맞는 개발 및 생산 솔루션을 제공합니다.',
   processTitle: 'CDMO PROCESS',
   steps: [
     {
       step: 'STEP 01',
-      title: '개발',
-      desc: '개량신약 및 제네릭 의약품의 제제·공정 개발을 지원합니다.'
+      title: '제품 선정과 연구개발',
+      desc: 'MUPS 기술과 Multi-Stra 기술을 활용한 제제연구 혹은 개발을 제안합니다. 다양한 사이즈를 갖춘 유동층 과립기를 활용한 제네릭 개발과 위수탁을 제안합니다.'
     },
     {
       step: 'STEP 02',
-      title: '기술이전',
+      title: '기술이전 & 스케일업 진행',
       desc: '제품 개발 기술을 고객사에 이전하여 안정적인 생산으로 연결합니다.'
     },
     {
       step: 'STEP 03',
-      title: '임상',
+      title: '임상시험을 위한 자료 작성과 임상약 제조',
       desc: '임상1상, 생동시험, 글로벌 임상까지 다양한 임상용 의약품 생산 경험을 보유하고 있습니다.'
     },
     {
       step: 'STEP 04',
-      title: '생산',
+      title: 'ODM·OEM 생산 및 공급',
       desc: '비임상물질부터 상업 생산까지 다양한 규모의 의약품 생산을 지원합니다.'
     },
     {
       step: 'STEP 05',
-      title: '품질(QA/QC)',
+      title: '제품의 품질관리와 완벽한 품질보증',
       desc: 'QA·QC 체계를 기반으로 원료부터 완제품까지 전 과정의 품질을 관리합니다.'
     }
   ],
