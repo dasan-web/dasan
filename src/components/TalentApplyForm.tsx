@@ -81,6 +81,100 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
   const [memo, setMemo] = useState('');
   const [agreed, setAgreed] = useState(false);
 
+  // Email Verification State
+  const [verifying, setVerifying] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const [verificationError, setVerificationError] = useState('');
+  const [verificationNotice, setVerificationNotice] = useState('');
+
+  // 5-minute countdown timer
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const formatTimer = () => {
+    const m = Math.floor(timer / 60);
+    const s = timer % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
+  const handleSendVerification = async () => {
+    if (!email || !email.includes('@')) {
+      setVerificationError(isEnglish ? 'Please enter a valid email address.' : '올바른 이메일 주소를 입력해주세요.');
+      return;
+    }
+    setVerifying(true);
+    setVerificationError('');
+    setVerificationNotice('');
+    try {
+      const res = await fetch('/api/auth/send-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setVerificationSent(true);
+        setTimer(300); // 5 minutes
+        if (data.fallback && data.code) {
+          setVerificationCode(data.code);
+          setVerificationNotice(
+            isEnglish
+              ? `[Notice] Mail server relay standby. Verification code [ ${data.code} ] has been auto-filled.`
+              : `[안내] 메일 서버 점검 중으로 인증번호 [ ${data.code} ] 가 자동 입력되었습니다.`
+          );
+        } else {
+          setVerificationNotice(
+            isEnglish
+              ? 'Verification code has been sent to your email.'
+              : '인증번호가 이메일로 발송되었습니다. 메일함을 확인해주세요.'
+          );
+        }
+      } else {
+        setVerificationError(data.error || (isEnglish ? 'Failed to send verification code.' : '인증번호 발송에 실패했습니다.'));
+      }
+    } catch (e) {
+      setVerificationError(isEnglish ? 'Network error occurred.' : '네트워크 오류가 발생했습니다.');
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    if (!verificationCode) return;
+    setVerifying(true);
+    setVerificationError('');
+    try {
+      const res = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), code: verificationCode }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsEmailVerified(true);
+        setTimer(0);
+        setVerificationNotice('');
+        setVerificationError('');
+      } else {
+        setVerificationError(data.error || (isEnglish ? 'Verification code is incorrect.' : '인증번호가 올바르지 않습니다.'));
+      }
+    } catch (e) {
+      setVerificationError(isEnglish ? 'Network error occurred.' : '네트워크 오류가 발생했습니다.');
+    } finally {
+      setVerifying(false);
+    }
+  };
+
   const formatPhoneNumber = (val: string) => {
     const numOnly = val.replace(/[^0-9]/g, '');
     let formatted = numOnly;
@@ -172,6 +266,11 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
       return;
     }
 
+    if (!isEmailVerified) {
+      alert(isEnglish ? 'Please verify your email address.' : '이메일 인증을 완료해주세요.');
+      return;
+    }
+
     if (!recaptchaToken) {
       alert(isEnglish ? 'Please check the "I am not a robot" reCAPTCHA.' : '로봇인지 아닌지 체크해 주세요.');
       return;
@@ -217,6 +316,12 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
       setFileUrl('');
       setAgreed(false);
       setRecaptchaToken(null);
+      setIsEmailVerified(false);
+      setVerificationSent(false);
+      setVerificationCode('');
+      setVerificationNotice('');
+      setVerificationError('');
+      setTimer(0);
       recaptchaRef.current?.reset();
     } catch (err: any) {
       setSubmitStatus('error');
@@ -273,9 +378,6 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
           <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
           <span>{isEnglish ? 'Back to Job Openings' : '채용공고 목록으로 돌아가기'}</span>
         </Link>
-        <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-          {isEnglish ? 'Continuous Recruitment' : '다산제약 상시 인재풀'}
-        </span>
       </div>
 
       {/* Main Application Form Container */}
@@ -356,8 +458,8 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
             </div>
           </div>
 
-          {/* 2. Personal Info (Name, Phone, Email) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* 2. Personal Info (Name, Phone) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-xs sm:text-sm font-bold text-slate-800 flex items-center space-x-1.5">
                 <User size={15} className="text-emerald-600" />
@@ -390,22 +492,95 @@ export default function TalentApplyForm({ isEnglish = false }: TalentApplyFormPr
                 className="w-full text-xs sm:text-sm border border-slate-200 rounded-xl px-3.5 py-3 text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
               />
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <label className="text-xs sm:text-sm font-bold text-slate-800 flex items-center space-x-1.5">
-                <Mail size={15} className="text-emerald-600" />
-                <span>{isEnglish ? 'Email' : '이메일'}</span>
-                <span className="text-rose-500">*</span>
-              </label>
+          {/* 3. Email & Verification */}
+          <div className="space-y-2">
+            <label className="text-xs sm:text-sm font-bold text-slate-800 flex items-center space-x-1.5">
+              <Mail size={15} className="text-emerald-600" />
+              <span>{isEnglish ? 'Email' : '이메일'}</span>
+              <span className="text-rose-500">*</span>
+            </label>
+            <div className="flex space-x-2">
               <input
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (isEmailVerified) setIsEmailVerified(false);
+                  if (verificationSent) setVerificationSent(false);
+                  setVerificationNotice('');
+                  setVerificationError('');
+                  setVerificationCode('');
+                }}
+                disabled={isEmailVerified}
                 placeholder="dasan@example.com"
-                className="w-full text-xs sm:text-sm border border-slate-200 rounded-xl px-3.5 py-3 text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                className="flex-1 min-w-0 text-xs sm:text-sm border border-slate-200 rounded-xl px-3.5 py-3 text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 disabled:bg-slate-100 disabled:text-slate-500"
               />
+              <button
+                type="button"
+                onClick={handleSendVerification}
+                disabled={isEmailVerified || verifying || !email}
+                className={`px-4 py-3 text-xs sm:text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap border cursor-pointer shrink-0 ${
+                  isEmailVerified
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
+                }`}
+              >
+                {isEmailVerified
+                  ? (isEnglish ? '✓ Verified' : '✓ 인증완료')
+                  : verifying && !verificationSent
+                  ? (isEnglish ? 'Sending...' : '발송중...')
+                  : verificationSent
+                  ? (isEnglish ? 'Resend' : '재발송')
+                  : (isEnglish ? 'Send Code' : '인증번호 발송')}
+              </button>
             </div>
+
+            {/* Verification Complete Badge */}
+            {isEmailVerified && (
+              <p className="mt-2 text-xs font-bold text-emerald-600 flex items-center gap-1.5 animate-fade-in-up">
+                <CheckCircle2 size={14} />
+                <span>{isEnglish ? 'Email address verified.' : '이메일 주소 인증이 완료되었습니다.'}</span>
+              </p>
+            )}
+
+            {/* Verification Notice */}
+            {verificationNotice && !isEmailVerified && (
+              <p className="mt-2 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3.5 py-2.5 leading-relaxed animate-fade-in-up">
+                {verificationNotice}
+              </p>
+            )}
+
+            {/* Verification Code Input */}
+            {verificationSent && !isEmailVerified && (
+              <div className="mt-3 flex space-x-2 animate-fade-in-up">
+                <div className="relative flex-1 min-w-0">
+                  <input
+                    type="text"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
+                    placeholder={isEnglish ? "6-digit code" : "인증번호 6자리"}
+                    className="w-full text-xs sm:text-sm border border-emerald-500/50 rounded-xl px-3.5 py-3 text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 bg-white"
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs sm:text-sm font-bold text-rose-500">
+                    {formatTimer()}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleVerifyCode}
+                  disabled={verifying || verificationCode.length < 6}
+                  className="px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-colors disabled:opacity-50 whitespace-nowrap shadow-xs cursor-pointer shrink-0"
+                >
+                  {verifying ? (isEnglish ? 'Verifying...' : '확인중') : (isEnglish ? 'Verify' : '확인')}
+                </button>
+              </div>
+            )}
+            {verificationError && (
+              <p className="mt-2 text-xs font-bold text-rose-500 animate-fade-in-up">{verificationError}</p>
+            )}
           </div>
 
           {/* 3. Preferred Workplace */}

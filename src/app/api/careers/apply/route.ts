@@ -100,16 +100,20 @@ ${memo || '내용 없음'}
           user: smtpUser,
           pass: smtpPass,
         },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 10000,
       });
 
       const fileAttachmentHtml = secureDownloadUrl
         ? renderAttachmentEmailRow(secureDownloadUrl, file_name || '이력서첨부파일', new Date(), 30)
         : '';
 
+      // 1. HR 담당자 알림 메일 발송
       await transporter.sendMail({
         from: `"다산제약 채용시스템" <${smtpUser}>`,
-        replyTo: `"${name}" <${email}>`,
-        to: 'insa@dspharm.com, jssong@dspharm.com',
+        replyTo: email ? `"${name}" <${email}>` : undefined,
+        to: ['insa@dspharm.com', 'jssong@dspharm.com'],
         subject: `[다산제약 채용] ${subject}`,
         html: `
           <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 650px; border: 1px solid #e2e8f0; padding: 24px; border-radius: 12px;">
@@ -149,8 +153,46 @@ ${memo || '내용 없음'}
           </div>
         `,
       });
+      console.log('HR notification email sent successfully to insa@dspharm.com, jssong@dspharm.com');
+
+      // 2. 지원자 본인 접수 확인 메일 발송
+      if (email && email.includes('@')) {
+        await transporter.sendMail({
+          from: `"다산제약 채용시스템" <${smtpUser}>`,
+          to: email.trim(),
+          subject: `[다산제약] 상시 인재풀 입사지원서가 정상적으로 접수되었습니다.`,
+          html: `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 650px; border: 1px solid #e2e8f0; padding: 24px; border-radius: 12px;">
+              <h2 style="color: #047857; border-bottom: 2px solid #047857; padding-bottom: 12px; margin-top: 0;">상시 인재풀 입사지원 접수 완료</h2>
+              <p style="font-size: 15px; color: #1e293b;">안녕하세요, <strong>${name}</strong>님.</p>
+              <p style="font-size: 14px; color: #475569;">
+                다산제약 상시 인재풀에 소중한 지원서를 등록해 주셔서 감사드립니다.<br/>
+                제출해주신 지원서는 인재 데이터베이스에 안전하게 보관되며, 해당 직무의 채용 소요 발생 시 최우선으로 검토하여 기재해주신 연락처로 개별 안내를 드리겠습니다.
+              </p>
+              <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
+                <tr>
+                  <td style="width: 120px; font-weight: bold; padding: 8px 0; color: #64748b;">지원 부문:</td>
+                  <td style="padding: 8px 0; font-weight: bold; color: #0f172a;">${role} (${careerType})</td>
+                </tr>
+                <tr>
+                  <td style="width: 120px; font-weight: bold; padding: 8px 0; color: #64748b;">희망 근무지:</td>
+                  <td style="padding: 8px 0; color: #0f172a;">${location}</td>
+                </tr>
+                <tr>
+                  <td style="width: 120px; font-weight: bold; padding: 8px 0; color: #64748b;">접수 일시:</td>
+                  <td style="padding: 8px 0; color: #0f172a;">${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</td>
+                </tr>
+              </table>
+              <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8;">
+                본 메일은 발신전용 메일이며 회신되지 않습니다. 채용 관련 문의는 <strong>insa@dspharm.com</strong>으로 문의해 주시기 바랍니다.
+              </div>
+            </div>
+          `,
+        });
+        console.log(`Applicant confirmation email sent successfully to ${email}`);
+      }
     } catch (emailErr) {
-      console.warn('Notification email sending failed (DB record saved):', emailErr);
+      console.error('Career application notification email sending failed:', emailErr);
     }
 
     return NextResponse.json({

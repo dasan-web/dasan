@@ -194,7 +194,7 @@ export default function TalentPoolSection({ isEnglish = false }: TalentPoolSecti
             {isEnglish ? (
               <>Innovate Together with Dasan,<br /><span className="text-emerald-600">Anytime, Anywhere.</span></>
             ) : (
-              <>다산제약과 함께 미래를 열어갈 <span className="text-emerald-600">인재를 상시 모십니다</span></>
+              <>다산제약과 함께 미래를 열어갈 <span className="text-emerald-600">인재를 상시 모집합니다.</span></>
             )}
           </h3>
 
@@ -202,7 +202,11 @@ export default function TalentPoolSection({ isEnglish = false }: TalentPoolSecti
             {isEnglish ? (
               'Dasan Pharmaceutical welcomes passionate talents across R&D, manufacturing, quality control/pharmacists, and corporate management. Register your resume in our talent pool, and we will contact you on priority as relevant job openings arise.'
             ) : (
-              '다산제약은 생산직, 연구직, 약사·품질관리, 경영·영업 등 전 직군에서 열정적인 인재를 상시 접수받고 있습니다. 본인의 역량을 등록해 주시면 해당 부문의 채용 소요 발생 시 최우선으로 검토하여 개별 연락드립니다.'
+              <>
+                다산제약은 생산직, 연구직, 약사·품질관리, 경영·영업 등 전 직군에서 열정적인 인재를 상시 접수받고 있습니다.
+                <br />
+                본인의 역량을 등록해 주시면 해당 부문의 채용 소요 발생 시 최우선으로 검토하여 개별 연락드립니다.
+              </>
             )}
           </p>
 
